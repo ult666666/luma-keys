@@ -1,0 +1,2 @@
+import {chromium} from '@playwright/test';import fs from 'node:fs/promises';
+const b=await chromium.launch({channel:'chrome',headless:true});const p=await b.newPage({viewport:{width:1024,height:1024},deviceScaleFactor:1});const svg=await fs.readFile('public/favicon.svg','utf8');await p.setContent('<style>body{margin:0;background:transparent}svg{width:1024px;height:1024px}</style>'+svg);await p.screenshot({path:'public/icon.png',omitBackground:true});await b.close();

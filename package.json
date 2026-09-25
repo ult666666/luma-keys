@@ -1,0 +1,68 @@
+{
+  "name": "luma-keys",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "A little light for your piano journey",
+  "main": "electron.cjs",
+  "scripts": {
+    "dev": "concurrently -k \"node server.mjs\" \"vite --host 127.0.0.1\"",
+    "build": "vite build",
+    "start": "electron .",
+    "test": "node --test tests/*.test.mjs",
+    "pack": "npm run build && electron-builder --mac dir --arm64"
+  },
+  "dependencies": {
+    "@tonejs/midi": "^2.0.28",
+    "express": "^5.1.0",
+    "fast-xml-parser": "^5.2.5",
+    "fflate": "^0.8.2",
+    "lucide-react": "^0.468.0",
+    "multer": "^2.0.2",
+    "opensheetmusicdisplay": "^1.9.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "agent-browser": "latest",
+    "concurrently": "^9.2.0",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.0.12",
+    "vite": "^7.1.0"
+  },
+  "build": {
+    "appId": "studio.lumakeys.desktop",
+    "productName": "Luma Keys",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "server.mjs",
+      "electron.cjs",
+      "src/music.mjs",
+      "package.json",
+      "src/export.mjs",
+      "docs/THIRD_PARTY_NOTICES.md"
+    ],
+    "extraResources": [
+      {
+        "from": "engines/Audiveris.app",
+        "to": "Audiveris.app"
+      },
+      {
+        "from": "engines/tessdata",
+        "to": "tessdata"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.music",
+      "identity": null,
+      "target": "dir",
+      "icon": "public/icon.png"
+    }
+  },
+  "author": "Luma Keys"
+}
