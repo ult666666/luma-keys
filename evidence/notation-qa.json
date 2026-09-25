@@ -15,7 +15,7 @@
       "nodes": 3414,
       "paths": 1176,
       "visibleHeight": 500,
-      "loadRenderMs": 535.7956669999999
+      "loadRenderMs": 457.1009999999999
     },
     {
       "name": "Joplin first 16 bars",
@@ -23,7 +23,7 @@
       "nodes": 2266,
       "paths": 921,
       "visibleHeight": 500,
-      "loadRenderMs": 310.43525000000045
+      "loadRenderMs": 287.18966599999976
     },
     {
       "name": "256-bar book, bars 129–144",
@@ -31,7 +31,7 @@
       "nodes": 2982,
       "paths": 1072,
       "visibleHeight": 500,
-      "loadRenderMs": 347.6633750000001
+      "loadRenderMs": 323.09200000000055
     }
   ],
   "errors": []

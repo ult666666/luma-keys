@@ -1,0 +1,336 @@
+/* Exercises, timed performance results and the level path. */
+.reader-exercise-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-top: 6px;
+  font-size: 10px;
+  color: #a3a496;
+}
+.reader-exercise-line button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 0;
+  font-size: 10px;
+  color: #c3c9b6;
+  border-bottom: 1px solid #c3c9b633;
+  border-radius: 0;
+}
+.reader-exercise-line button:hover {
+  color: #e2e6d6;
+  border-color: #e2e6d6;
+}
+.exercise-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.exercise-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #93a196;
+}
+.exercise-form select,
+.exercise-form input {
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #e1e6da;
+  background: #14181a;
+  border: 1px solid #dbd0b524;
+  border-radius: 4px;
+  padding: 9px 10px;
+}
+.exercise-level select {
+  font-size: 14px;
+  padding: 11px 12px;
+}
+.exercise-summary {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #b7bfae;
+  margin: -6px 0 0;
+}
+.exercise-summary strong {
+  color: #d4e2c4;
+  font-weight: 600;
+}
+.exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+.exercise-tempo {
+  display: flex;
+  gap: 8px;
+}
+.exercise-tempo select {
+  flex: 1;
+}
+.exercise-tempo input {
+  width: 72px;
+}
+.exercise-footer {
+  margin-top: 6px;
+}
+.results-summary {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.results-summary > div {
+  padding: 14px 10px;
+  border: 1px solid #dbd0b51a;
+  border-radius: 6px;
+  background: #171b18;
+  text-align: center;
+}
+.results-summary strong {
+  display: block;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: #e9ecdd;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.results-summary strong small {
+  font-size: 13px;
+  color: #9ba597;
+}
+.results-summary span {
+  display: block;
+  margin-top: 6px;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #93a196;
+}
+.results-note,
+.results-missed {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #b5bcaa;
+  margin: 0 0 14px;
+}
+.results-missed {
+  color: #cbb8a4;
+}
+.results-bars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.results-bar {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #dbd0b524;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #14181a;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: #dfe4d6;
+}
+.results-bar span {
+  position: relative;
+  z-index: 1;
+}
+.results-bar i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--fill, 100%);
+  background: #7f9a75;
+  opacity: 0.55;
+}
+.results-bar.shaky i {
+  background: #b39c5a;
+}
+.results-bar.trouble i {
+  background: #b06a5a;
+}
+.results-bar:hover {
+  border-color: #dbd0b566;
+}
+.results-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.results-actions .primary,
+.results-actions .secondary {
+  font-size: 11px;
+}
+.level-path {
+  margin: 0 0 34px;
+}
+.level-path-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+.level-path-heading h2 {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  margin: 8px 0 6px;
+  color: #efeadd;
+}
+.level-path-heading p {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #9fa596;
+  max-width: 560px;
+}
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.level-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 16px 14px;
+  border: 1px solid #dbd0b51c;
+  border-radius: 6px;
+  background: #1c1e1b;
+}
+.level-card.recommended {
+  border-color: #b9c7ae80;
+  box-shadow: inset 0 0 0 1px #b9c7ae30;
+}
+.level-card.cleared {
+  background: #1f2320;
+}
+.level-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.level-number {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 22px;
+  color: #b9c7ae;
+}
+.level-card em {
+  font-style: normal;
+  font-size: 8px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #cfdcc0;
+  border: 1px solid #cfdcc040;
+  border-radius: 3px;
+  padding: 3px 6px;
+}
+.level-card h3 {
+  font-size: 15px;
+  font-weight: 500;
+  color: #e8e9dd;
+}
+.level-card p {
+  flex: 1;
+  font-size: 10px;
+  line-height: 1.7;
+  color: #9ea597;
+}
+.level-card footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  color: #8f9a8c;
+}
+.level-card footer .secondary {
+  padding: 7px 10px;
+}
+.progress-panel {
+  padding: 18px 0 0;
+  border-top: 1px solid #dbd0b519;
+  margin-top: 20px;
+}
+.progress-panel .card-title {
+  margin-bottom: 14px;
+  color: #b3c1b8;
+}
+.progress-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.progress-stats > div {
+  text-align: center;
+  padding: 10px 6px;
+  border: 1px solid #dbd0b51a;
+  border-radius: 5px;
+}
+.progress-stats strong {
+  display: block;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #e9ecdd;
+}
+.progress-stats span {
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #93a196;
+}
+.progress-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  font-size: 10px;
+  color: #aab2a4;
+}
+.progress-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid #dbd0b512;
+}
+.progress-list b {
+  font-weight: 500;
+  color: #d0d6c6;
+  white-space: nowrap;
+}
+@media (max-width: 1000px) {
+  .level-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .results-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .reader-new-exercise {
+    font-size: 0;
+    gap: 0;
+    padding: 8px;
+  }
+  .exercise-grid,
+  .level-grid,
+  .progress-stats {
+    grid-template-columns: 1fr;
+  }
+  .results-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

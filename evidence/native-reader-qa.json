@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "version": "1.2.0",
+  "version": "1.3.0",
   "checks": [
     "Default 1280×800 view is a four-bar number score with readable fixed-width keys and visible Play; dashboard cards are absent",
     "Passage buttons, individual notes and manual next/previous synchronize the transport without counting fake practice hits",

@@ -21,19 +21,25 @@ export class PianoAudio {
       compressor.ratio.value = 4;
       this.master.connect(compressor);
       compressor.connect(this.ctx.destination);
+    }
+    // A failed download is retried on the next attempt rather than leaving
+    // the piano permanently silent until the app is reopened.
+    if (!this.ready)
       this.ready = Promise.all(
-        SAMPLE_MIDI.map(async (m) => {
+        SAMPLE_MIDI.filter((m) => !this.buffers.has(m)).map(async (m) => {
           const name = NAMES[m % 12] + (Math.floor(m / 12) - 1);
           const r = await fetch("/samples/" + name + ".mp3");
           if (!r.ok)
-            throw Error("Piano samples could not load. Reopen Luma Keys.");
+            throw Error("Piano samples could not load. Try Play again.");
           this.buffers.set(
             m,
             await this.ctx.decodeAudioData(await r.arrayBuffer()),
           );
         }),
-      );
-    }
+      ).catch((e) => {
+        this.ready = null;
+        throw e;
+      });
     return this.ready;
   }
   async init() {

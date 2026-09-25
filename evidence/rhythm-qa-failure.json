@@ -1,0 +1,11 @@
+{
+  "error": "locator.innerText: Timeout 12000ms exceeded.\nCall log:\n  - waiting for locator('.meter-hint')\n",
+  "diagnostic": {
+    "ticks": [],
+    "audioState": "suspended",
+    "audioTime": 0,
+    "modules": [
+      "http://127.0.0.1:5188/src/audio.js"
+    ]
+  }
+}

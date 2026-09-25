@@ -2,7 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { readPreferences, validatePreferences } from "../src/preferences.mjs";
+import {
+  readPreferences,
+  validatePreferences,
+  defaultReading,
+} from "../src/preferences.mjs";
 import { PianoAudio } from "../src/audio.js";
 import { startServer } from "../server.mjs";
 test("settings recovery retains valid fields and replaces only invalid values", () => {
@@ -32,6 +36,8 @@ test("settings recovery retains valid fields and replaces only invalid values", 
       dailyMinutes: 0,
       practiceDate: "",
     },
+    reading: defaultReading(),
+    history: [],
   });
   assert.deepEqual(result.issues, [
     "Piano volume",
@@ -76,11 +82,129 @@ test("saved settings reject invalid volumes, progress types, enum values and imp
       dailyMinutes: 0,
       practiceDate: "2024-02-29",
     },
+    reading: {
+      ...defaultReading(),
+      labels: "letters",
+      speed: 0.5,
+      mode: "perform",
+      exercise: { ...defaultReading().exercise, level: 6, fifths: -1 },
+    },
+    history: [
+      {
+        at: "2026-09-25T14:00:00.000Z",
+        title: "Sight reading · Level 6 · F major",
+        scoreId: null,
+        level: 6,
+        fifths: -1,
+        seed: 12,
+        accuracy: 87.5,
+        timing: 60,
+        notes: 24,
+        tempo: 72,
+        mode: "perform",
+        complete: true,
+        bars: 8,
+      },
+    ],
   };
   assert.deepEqual(
     validatePreferences(valid),
     valid,
     "mute, zero counters and leap dates are preserved",
+  );
+});
+test("reading settings and practice history recover field by field", () => {
+  const result = readPreferences({
+    reading: {
+      labels: "solfege",
+      speed: 3,
+      mode: "perform",
+      keyboardCollapsed: "yes",
+      exercise: { level: 40, hands: "left", bars: 8 },
+    },
+    history: [
+      {
+        at: "2026-09-25T14:00:00.000Z",
+        title: "ok",
+        accuracy: 100,
+        timing: 100,
+        notes: 8,
+        tempo: 60,
+        mode: "perform",
+        complete: true,
+        bars: 4,
+      },
+      { at: "not a date", title: "bad" },
+    ],
+  });
+  assert.equal(result.preferences.reading.labels, "solfege");
+  assert.equal(result.preferences.reading.mode, "perform");
+  assert.equal(
+    result.preferences.reading.speed,
+    0.75,
+    "invalid speed → default",
+  );
+  assert.equal(result.preferences.reading.keyboardCollapsed, false);
+  assert.deepEqual(result.preferences.reading.exercise, {
+    ...defaultReading().exercise,
+    hands: "left",
+    bars: 8,
+  });
+  assert.equal(result.preferences.history.length, 1);
+  assert.deepEqual(result.issues, ["Reading preferences", "Practice history"]);
+  const many = Array.from({ length: 450 }, (_, i) => ({
+    at: "2026-09-25T14:00:00.000Z",
+    title: String(i),
+    accuracy: 50,
+    timing: 50,
+    notes: 1,
+    tempo: 60,
+    mode: "wait",
+    complete: false,
+    bars: 1,
+  }));
+  const capped = readPreferences({ history: many });
+  assert.equal(capped.preferences.history.length, 400);
+  assert.equal(
+    capped.preferences.history.at(-1).title,
+    "449",
+    "the newest runs are kept",
+  );
+  assert.deepEqual(capped.issues, []);
+  const last = readPreferences({
+    reading: {
+      last: { scoreId: null, exercise: { level: 4, seed: 77, fifths: -1 } },
+    },
+  }).preferences.reading.last;
+  assert.deepEqual(last, {
+    scoreId: null,
+    exercise: {
+      seed: 77,
+      level: 4,
+      fifths: -1,
+      hands: "auto",
+      bars: "auto",
+      meter: "auto",
+      tempo: "auto",
+    },
+  });
+  assert.deepEqual(
+    readPreferences({ reading: { last: { scoreId: "elise" } } }).preferences
+      .reading.last,
+    { scoreId: "elise", exercise: null },
+  );
+  assert.deepEqual(
+    readPreferences({ reading: { last: { exercise: { level: 4 } } } }).issues,
+    ["Reading preferences"],
+    "an exercise without a seed cannot be reopened",
+  );
+  assert.throws(
+    () => validatePreferences({ history: "x" }),
+    /Practice history/,
+  );
+  assert.throws(
+    () => validatePreferences({ reading: { hand: "feet" } }),
+    /Reading preferences/,
   );
 });
 test("audio gain stays finite and bounded even if a caller supplies a bad volume", () => {

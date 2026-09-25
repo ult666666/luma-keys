@@ -45,12 +45,59 @@ export const SOLFEGE = [
   "Li",
   "Ti",
 ];
+// Flat keys spell their black keys as flats: B♭ in F major, not A♯.
+export const PITCHES_FLAT = [
+  "C",
+  "D♭",
+  "D",
+  "E♭",
+  "E",
+  "F",
+  "G♭",
+  "G",
+  "A♭",
+  "A",
+  "B♭",
+  "B",
+];
+export const NUMBERS_FLAT = [
+  "1",
+  "♭2",
+  "2",
+  "♭3",
+  "3",
+  "4",
+  "♭5",
+  "5",
+  "♭6",
+  "6",
+  "♭7",
+  "7",
+];
+export const SOLFEGE_FLAT = [
+  "Do",
+  "Ra",
+  "Re",
+  "Me",
+  "Mi",
+  "Fa",
+  "Se",
+  "Sol",
+  "Le",
+  "La",
+  "Te",
+  "Ti",
+];
 export const isBlack = (m) => [1, 3, 6, 8, 10].includes(((m % 12) + 12) % 12);
-export const noteName = (m) =>
-  PITCHES[((m % 12) + 12) % 12] + (Math.floor(m / 12) - 1);
-export const degree = (m, tonic = 0) => NUMBERS[(((m - tonic) % 12) + 12) % 12];
-export const solfege = (m, tonic = 0) =>
-  SOLFEGE[(((m - tonic) % 12) + 12) % 12];
+export const noteName = (m, flats = false) =>
+  (flats ? PITCHES_FLAT : PITCHES)[((m % 12) + 12) % 12] +
+  (Math.floor(m / 12) - 1);
+export const degree = (m, tonic = 0, flats = false) =>
+  (flats ? NUMBERS_FLAT : NUMBERS)[(((m - tonic) % 12) + 12) % 12];
+export const solfege = (m, tonic = 0, flats = false) =>
+  (flats ? SOLFEGE_FLAT : SOLFEGE)[(((m - tonic) % 12) + 12) % 12];
+// A score written with flats in its key signature reads with flat spellings.
+export const usesFlats = (score) => (score?.keySignature?.fifths ?? 0) < 0;
 // One bar map drives import review, transport loops and printable practice sheets.
 // Older saved scores without a map retain their original constant-meter behavior.
 export function barStart(score, bar) {

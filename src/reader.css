@@ -234,6 +234,7 @@
 .reader-controls .segmented button {
   padding: 9px 11px;
   font-size: 11px;
+  white-space: nowrap;
 }
 .reader-controls .hand-select > span {
   display: none;
@@ -342,7 +343,8 @@
     padding: 0;
   }
   .reader-controls .player-toolbar {
-    flex: 0 0 390px;
+    flex: 0 0 auto;
+    max-width: 600px;
     order: 1;
     padding: 12px 14px;
   }
@@ -456,6 +458,7 @@
   .reader-controls .segmented button {
     font-size: 10px;
     padding: 7px;
+    white-space: normal;
   }
   .reader-controls .hand-select select {
     font-size: 10px;

@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "version": "1.2.0",
+  "version": "1.3.0",
   "checks": [
     "Manual reading visits every close onset in order, including .03125-beat notes, and keeps the required-note cue accurate",
     "Repeat these bars selects the visible final bar using real pickup/meter boundaries; Start over, mode/hand changes and review/save stay inside that phrase",

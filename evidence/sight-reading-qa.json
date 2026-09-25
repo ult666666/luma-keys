@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "New exercise dialog makes a level-3 C major exercise with eight engraved bars; Another like this changes the seed",
+    "Play in time counts in, keeps the transport on the audio clock, and grades a clock-accurate run at 100% with every bar clean",
+    "A flawed run reports missed and wrong notes per bar, offers the weakest bars as a repeat, and records both runs in the saved history",
+    "The last piece, mode and speed are restored after a reload",
+    "Level path cards show run counts and start a left-hand level; F major spells B♭ and can make number 1 follow the key"
+  ],
+  "seeds": [
+    945803,
+    361907
+  ]
+}

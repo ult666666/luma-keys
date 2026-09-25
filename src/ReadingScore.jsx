@@ -20,6 +20,7 @@ export default function ReadingScore({
   beat = 0,
   tonic = 0,
   labels = "numbers",
+  flats = false,
   hand = "both",
   mode = "listen",
   onSeek,
@@ -133,10 +134,10 @@ export default function ReadingScore({
     loopRange?.last === passage.lastBar;
   const label = (m) =>
     labels === "letters"
-      ? noteName(m).replace(/-?\d+$/, "")
+      ? noteName(m, flats).replace(/-?\d+$/, "")
       : labels === "solfege"
-        ? solfege(m, tonic)
-        : degree(m, tonic);
+        ? solfege(m, tonic, flats)
+        : degree(m, tonic, flats);
   return (
     <section
       className="reading-score"
@@ -356,17 +357,17 @@ export default function ReadingScore({
                             className={`reading-note ${sounding && !holding ? "reading-current" : ""} ${holding ? "reading-holding" : ""} ${held ? "reading-continuation" : ""}`}
                             style={{ top: row * 66 }}
                             onClick={() => seek(display.seekBeat)}
-                            aria-label={`${noteName(note.midi)}, ${labels === "numbers" ? "number " : ""}${label(note.midi)}, ${held ? "remaining hold" : "hold"} ${duration} quarter-note beats${held ? ", continuing from previous passage" : ""}${holding ? ", keep holding" : ""}`}
+                            aria-label={`${noteName(note.midi, flats)}, ${labels === "numbers" ? "number " : ""}${label(note.midi)}, ${held ? "remaining hold" : "hold"} ${duration} quarter-note beats${held ? ", continuing from previous passage" : ""}${holding ? ", keep holding" : ""}`}
                             aria-current={
                               sounding && !holding ? "true" : undefined
                             }
-                            title={`${noteName(note.midi)} · ${duration} quarter-note beats${held ? " remaining · already held" : holding ? " · keep holding" : ""}`}
+                            title={`${noteName(note.midi, flats)} · ${duration} quarter-note beats${held ? " remaining · already held" : holding ? " · keep holding" : ""}`}
                           >
                             <strong>
                               {held && <i aria-hidden="true">↳</i>}
                               {label(note.midi)}
                             </strong>
-                            <span>{noteName(note.midi)}</span>
+                            <span>{noteName(note.midi, flats)}</span>
                             <small>
                               ♩ {duration}
                               {(held || holding) && (
@@ -413,9 +414,9 @@ export default function ReadingScore({
         )}
         <span>
           {labels === "numbers"
-            ? `1 = ${noteName(60 + tonic).replace(/\d+$/, "")} · Numbers are notes, not fingers`
+            ? `1 = ${noteName(60 + tonic, flats).replace(/\d+$/, "")} · Numbers are notes, not fingers`
             : labels === "solfege"
-              ? `Do = ${noteName(60 + tonic).replace(/\d+$/, "")}`
+              ? `Do = ${noteName(60 + tonic, flats).replace(/\d+$/, "")}`
               : "Letters name the keys"}
         </span>
         <span>

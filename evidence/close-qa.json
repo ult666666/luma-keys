@@ -4,18 +4,43 @@
     {
       "mode": "quit",
       "passed": true,
-      "closeMs": 162.4677499999998,
+      "closeMs": 164.59354199999962,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.0144,
+          "minutes": 0.014033333333333333,
           "sessions": 1,
-          "dailyMinutes": 0.0144,
+          "dailyMinutes": 0.014033333333333333,
           "practiceDate": "2026-09-25"
-        }
+        },
+        "reading": {
+          "labels": "numbers",
+          "tonic": 0,
+          "tonicFollow": false,
+          "countIn": false,
+          "metronome": false,
+          "keyboardCollapsed": false,
+          "readingView": "numbers",
+          "speed": 0.75,
+          "mode": "listen",
+          "hand": "both",
+          "exercise": {
+            "level": 1,
+            "fifths": "auto",
+            "hands": "auto",
+            "bars": "auto",
+            "meter": "auto",
+            "tempo": "auto"
+          },
+          "last": {
+            "scoreId": null,
+            "exercise": null
+          }
+        },
+        "history": []
       },
       "check": "Immediate exit flushes the latest visible volume change, selected theme and active session minutes",
       "audioOutput": "Muted through the isolated test webContents before playback"
@@ -23,18 +48,43 @@
     {
       "mode": "window-close",
       "passed": true,
-      "closeMs": 264.1737919999996,
+      "closeMs": 268.6452909999998,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.015716666666666667,
+          "minutes": 0.015683333333333334,
           "sessions": 1,
-          "dailyMinutes": 0.015716666666666667,
+          "dailyMinutes": 0.015683333333333334,
           "practiceDate": "2026-09-25"
-        }
+        },
+        "reading": {
+          "labels": "numbers",
+          "tonic": 0,
+          "tonicFollow": false,
+          "countIn": false,
+          "metronome": false,
+          "keyboardCollapsed": false,
+          "readingView": "numbers",
+          "speed": 0.75,
+          "mode": "listen",
+          "hand": "both",
+          "exercise": {
+            "level": 1,
+            "fifths": "auto",
+            "hands": "auto",
+            "bars": "auto",
+            "meter": "auto",
+            "tempo": "auto"
+          },
+          "last": {
+            "scoreId": null,
+            "exercise": null
+          }
+        },
+        "history": []
       },
       "check": "Immediate exit flushes the latest visible volume change, selected theme and active session minutes",
       "audioOutput": "Muted through the isolated test webContents before playback"

@@ -1,17 +1,17 @@
 {
-  "startedAt": "2026-09-25T14:01:10.086Z",
-  "recordedAt": "2026-09-25T14:01:23.816Z",
-  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-continuity-Ldu4FR",
-  "version": "1.2.0",
+  "startedAt": "2026-09-25T15:53:02.720Z",
+  "recordedAt": "2026-09-25T15:53:16.324Z",
+  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-continuity-qQMFcb",
+  "version": "1.3.0",
   "stage": "cleanup",
   "process": {
-    "pid": 83196,
+    "pid": 98356,
     "exitCode": 0,
     "signalCode": null
   },
   "page": {
     "closed": true,
-    "url": "http://127.0.0.1:59391/"
+    "url": "http://127.0.0.1:62807/"
   },
   "completed": {
     "audio": {
@@ -23,37 +23,37 @@
       ],
       "measurements": {
         "midNoteStart": {
-          "beat": 4.76625850340136,
+          "beat": 4.75733333333333,
           "sources": [
             {
-              "start": 0.5979138321995465,
+              "start": 0.8426666666666667,
               "stops": [
-                5.057913832199547
+                5.302666666666666
               ]
             }
           ]
         },
         "resume": {
-          "resumeAt": 4.76625850340136,
+          "resumeAt": 4.82133333333333,
           "voice": {
-            "start": 1.050702947845805,
+            "start": 1.3066666666666666,
             "stops": [
-              5.123278004535147
+              5.3806400000000005
             ]
           }
         },
         "loop": [
           {
-            "start": 1.18421768707483,
+            "start": 1.44,
             "stops": [
-              3.7642176870748303,
-              3.272743764172336
+              4.02,
+              3.536
             ]
           },
           {
-            "start": 3.1927437641723357,
+            "start": 3.456,
             "stops": [
-              5.772743764172335
+              6.0360000000000005
             ]
           }
         ]
@@ -72,14 +72,14 @@
         {
           "name": "Long C4 onset",
           "attacks": 1,
-          "beat": 0.0551473922902495,
+          "beat": 0.04,
           "keys": 88,
           "stable": true,
           "sounding": true,
           "records": [
             {
               "phase": "held-note-start",
-              "beat": 0.00580498866213164,
+              "beat": 0.00533333333333319,
               "node": 0,
               "retainedButton": true
             }
@@ -88,20 +88,20 @@
         {
           "name": "Short C4 onset while long C4 holds",
           "attacks": 2,
-          "beat": 1.48897959183673,
+          "beat": 1.472,
           "keys": 88,
           "stable": true,
           "sounding": true,
           "records": [
             {
               "phase": "held-note-start",
-              "beat": 0.00580498866213164,
+              "beat": 0.00533333333333319,
               "node": 0,
               "retainedButton": true
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00716553287982,
+              "beat": 1.00533333333333,
               "node": 1,
               "retainedButton": true
             }
@@ -110,20 +110,20 @@
         {
           "name": "Short note ends without another attack",
           "attacks": 2,
-          "beat": 2.42358276643991,
+          "beat": 2.40533333333333,
           "keys": 88,
           "stable": true,
           "sounding": true,
           "records": [
             {
               "phase": "held-note-start",
-              "beat": 0.00580498866213164,
+              "beat": 0.00533333333333319,
               "node": 0,
               "retainedButton": true
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00716553287982,
+              "beat": 1.00533333333333,
               "node": 1,
               "retainedButton": true
             }
@@ -132,26 +132,26 @@
         {
           "name": "Live C4 adds one attack over the held playback note",
           "attacks": 3,
-          "beat": 2.49034013605442,
+          "beat": 2.472,
           "keys": 88,
           "stable": true,
           "sounding": true,
           "records": [
             {
               "phase": "held-note-start",
-              "beat": 0.00580498866213164,
+              "beat": 0.00533333333333319,
               "node": 0,
               "retainedButton": true
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00716553287982,
+              "beat": 1.00533333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.4409977324263,
+              "beat": 2.424,
               "node": 2,
               "retainedButton": true
             }
@@ -160,26 +160,26 @@
         {
           "name": "Live release leaves held playback without a false attack",
           "attacks": 3,
-          "beat": 2.67319727891156,
+          "beat": 2.656,
           "keys": 88,
           "stable": true,
           "sounding": true,
           "records": [
             {
               "phase": "held-note-start",
-              "beat": 0.00580498866213164,
+              "beat": 0.00533333333333319,
               "node": 0,
               "retainedButton": true
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00716553287982,
+              "beat": 1.00533333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.4409977324263,
+              "beat": 2.424,
               "node": 2,
               "retainedButton": true
             }
@@ -188,26 +188,26 @@
         {
           "name": "Pause releases the key without another attack",
           "attacks": 3,
-          "beat": 2.70802721088435,
+          "beat": 2.672,
           "keys": 88,
           "stable": true,
           "sounding": false,
           "records": [
             {
               "phase": "held-note-start",
-              "beat": 0.00580498866213164,
+              "beat": 0.00533333333333319,
               "node": 0,
               "retainedButton": true
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00716553287982,
+              "beat": 1.00533333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.4409977324263,
+              "beat": 2.424,
               "node": 2,
               "retainedButton": true
             }
@@ -216,32 +216,32 @@
         {
           "name": "Starting again legitimately attacks the first C4",
           "attacks": 4,
-          "beat": 0.055147392290249,
+          "beat": 0.0373333333333337,
           "keys": 88,
           "stable": true,
           "sounding": true,
           "records": [
             {
               "phase": "held-note-start",
-              "beat": 0.00580498866213164,
+              "beat": 0.00533333333333319,
               "node": 0,
               "retainedButton": true
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00716553287982,
+              "beat": 1.00533333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.4409977324263,
+              "beat": 2.424,
               "node": 2,
               "retainedButton": true
             },
             {
               "phase": "restart",
-              "beat": 0.00580498866213119,
+              "beat": 0.00533333333333363,
               "node": 3,
               "retainedButton": true
             }
@@ -250,32 +250,32 @@
         {
           "name": "Final stop leaves exactly four real attacks",
           "attacks": 4,
-          "beat": 0.0725623582766435,
+          "beat": 0.0800000000000001,
           "keys": 88,
           "stable": true,
           "sounding": false,
           "records": [
             {
               "phase": "held-note-start",
-              "beat": 0.00580498866213164,
+              "beat": 0.00533333333333319,
               "node": 0,
               "retainedButton": true
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00716553287982,
+              "beat": 1.00533333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.4409977324263,
+              "beat": 2.424,
               "node": 2,
               "retainedButton": true
             },
             {
               "phase": "restart",
-              "beat": 0.00580498866213119,
+              "beat": 0.00533333333333363,
               "node": 3,
               "retainedButton": true
             }
@@ -312,14 +312,14 @@
               "box": {
                 "top": 82.8359375,
                 "bottom": 145.8359375,
-                "left": 106.1500473022461,
-                "right": 147.15005493164062
+                "left": 106.51448059082031,
+                "right": 147.5144805908203
               },
               "duration": {
                 "top": 135.6328125,
                 "bottom": 143.6328125,
-                "left": 119.3687973022461,
-                "right": 133.93130493164062
+                "left": 119.73323059082031,
+                "right": 134.2957305908203
               }
             },
             {
@@ -328,14 +328,14 @@
               "box": {
                 "top": 148.8359375,
                 "bottom": 211.8359375,
-                "left": 106.1500473022461,
-                "right": 147.15005493164062
+                "left": 106.51448059082031,
+                "right": 147.5144805908203
               },
               "duration": {
                 "top": 201.6328125,
                 "bottom": 209.6328125,
-                "left": 119.3687973022461,
-                "right": 133.93130493164062
+                "left": 119.73323059082031,
+                "right": 134.2957305908203
               }
             },
             {
@@ -344,14 +344,14 @@
               "box": {
                 "top": 214.8359375,
                 "bottom": 277.8359375,
-                "left": 106.1500473022461,
-                "right": 147.15005493164062
+                "left": 106.51448059082031,
+                "right": 147.5144805908203
               },
               "duration": {
                 "top": 267.6328125,
                 "bottom": 275.6328125,
-                "left": 119.3687973022461,
-                "right": 133.93130493164062
+                "left": 119.73323059082031,
+                "right": 134.2957305908203
               }
             },
             {
@@ -360,14 +360,14 @@
               "box": {
                 "top": 82.8359375,
                 "bottom": 145.8359375,
-                "left": 384.1500549316406,
-                "right": 425.1500549316406
+                "left": 384.51446533203125,
+                "right": 425.51446533203125
               },
               "duration": {
                 "top": 135.6328125,
                 "bottom": 143.6328125,
-                "left": 397.3688049316406,
-                "right": 411.9313049316406
+                "left": 397.73321533203125,
+                "right": 412.29571533203125
               }
             },
             {
@@ -376,14 +376,14 @@
               "box": {
                 "top": 299.8359375,
                 "bottom": 362.8359375,
-                "left": 106.1500473022461,
-                "right": 147.15005493164062
+                "left": 106.51448059082031,
+                "right": 147.5144805908203
               },
               "duration": {
                 "top": 352.6328125,
                 "bottom": 360.6328125,
-                "left": 119.3687973022461,
-                "right": 133.93130493164062
+                "left": 119.73323059082031,
+                "right": 134.2957305908203
               }
             }
           ]
@@ -484,8 +484,8 @@
         },
         "mobileReducedMotion": {
           "area": {
-            "top": 148.46875,
-            "bottom": 487.46875,
+            "top": 185.96875,
+            "bottom": 524.96875,
             "left": 13,
             "right": 371
           },
@@ -498,14 +498,14 @@
               "label": "G4, number 5, hold 4 quarter-note beats, keep holding",
               "hand": "right",
               "box": {
-                "top": 185.46875,
-                "bottom": 248.46875,
+                "top": 222.96875,
+                "bottom": 285.96875,
                 "left": 81,
                 "right": 122
               },
               "duration": {
-                "top": 231.765625,
-                "bottom": 247.765625,
+                "top": 269.265625,
+                "bottom": 285.265625,
                 "left": 94.21875,
                 "right": 108.78125
               }
@@ -514,14 +514,14 @@
               "label": "E4, number 3, hold 4 quarter-note beats, keep holding",
               "hand": "right",
               "box": {
-                "top": 251.46875,
-                "bottom": 314.46875,
+                "top": 288.96875,
+                "bottom": 351.96875,
                 "left": 81,
                 "right": 122
               },
               "duration": {
-                "top": 297.765625,
-                "bottom": 313.765625,
+                "top": 335.265625,
+                "bottom": 351.265625,
                 "left": 94.21875,
                 "right": 108.78125
               }
@@ -530,14 +530,14 @@
               "label": "C4, number 1, hold 4 quarter-note beats, keep holding",
               "hand": "right",
               "box": {
-                "top": 317.46875,
-                "bottom": 380.46875,
+                "top": 354.96875,
+                "bottom": 417.96875,
                 "left": 81,
                 "right": 122
               },
               "duration": {
-                "top": 363.765625,
-                "bottom": 379.765625,
+                "top": 401.265625,
+                "bottom": 417.265625,
                 "left": 94.21875,
                 "right": 108.78125
               }
@@ -546,14 +546,14 @@
               "label": "D4, number 2, hold 1 quarter-note beats",
               "hand": "right",
               "box": {
-                "top": 185.46875,
-                "bottom": 248.46875,
+                "top": 222.96875,
+                "bottom": 285.96875,
                 "left": 206,
                 "right": 247
               },
               "duration": {
-                "top": 238.265625,
-                "bottom": 246.265625,
+                "top": 275.765625,
+                "bottom": 283.765625,
                 "left": 219.21875,
                 "right": 233.78125
               }
@@ -562,14 +562,14 @@
               "label": "C3, number 1, hold 4 quarter-note beats, keep holding",
               "hand": "left",
               "box": {
-                "top": 402.46875,
-                "bottom": 465.46875,
+                "top": 439.96875,
+                "bottom": 502.96875,
                 "left": 81,
                 "right": 122
               },
               "duration": {
-                "top": 448.765625,
-                "bottom": 464.765625,
+                "top": 486.265625,
+                "bottom": 502.265625,
                 "left": 94.21875,
                 "right": 108.78125
               }
@@ -583,36 +583,21 @@
   },
   "events": [
     {
-      "at": "2026-09-25T14:01:10.858Z",
-      "elapsedMs": 773,
+      "at": "2026-09-25T15:53:03.344Z",
+      "elapsedMs": 624,
       "stage": "launch",
       "event": "launched",
-      "pid": 83196
+      "pid": 98356
     },
     {
-      "at": "2026-09-25T14:01:10.865Z",
-      "elapsedMs": 779,
+      "at": "2026-09-25T15:53:03.354Z",
+      "elapsedMs": 634,
       "stage": "initial-window",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T14:01:10.945Z",
-      "elapsedMs": 859,
-      "stage": "initial-window",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:10.942Z\",\"event\":\"window-show\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:10.946Z",
-      "elapsedMs": 860,
-      "stage": "initial-window",
-      "event": "main-console",
-      "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:10.942Z\",\"event\":\"window-show\",\"id\":1}"
-    },
-    {
-      "at": "2026-09-25T14:01:11.691Z",
-      "elapsedMs": 1605,
+      "at": "2026-09-25T15:53:04.149Z",
+      "elapsedMs": 1429,
       "stage": "initial-window",
       "event": "owned-window-focused",
       "windows": [
@@ -630,27 +615,27 @@
       ]
     },
     {
-      "at": "2026-09-25T14:01:11.693Z",
-      "elapsedMs": 1607,
+      "at": "2026-09-25T15:53:04.151Z",
+      "elapsedMs": 1431,
       "stage": "instrumentation-reload",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T14:01:11.711Z",
-      "elapsedMs": 1625,
+      "at": "2026-09-25T15:53:04.165Z",
+      "elapsedMs": 1445,
       "stage": "instrumentation-reload",
       "event": "main-frame-navigated",
-      "url": "http://127.0.0.1:59391/"
+      "url": "http://127.0.0.1:62807/"
     },
     {
-      "at": "2026-09-25T14:01:11.726Z",
-      "elapsedMs": 1640,
+      "at": "2026-09-25T15:53:04.183Z",
+      "elapsedMs": 1463,
       "stage": "resume-audio",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T14:01:11.730Z",
-      "elapsedMs": 1644,
+      "at": "2026-09-25T15:53:04.190Z",
+      "elapsedMs": 1470,
       "stage": "resume-audio",
       "event": "owned-window-focused",
       "windows": [
@@ -668,170 +653,140 @@
       ]
     },
     {
-      "at": "2026-09-25T14:01:11.967Z",
-      "elapsedMs": 1881,
+      "at": "2026-09-25T15:53:04.714Z",
+      "elapsedMs": 1994,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Import a score\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.111Z",
-      "elapsedMs": 2025,
+      "at": "2026-09-25T15:53:04.823Z",
+      "elapsedMs": 2103,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.177Z",
-      "elapsedMs": 2091,
+      "at": "2026-09-25T15:53:04.879Z",
+      "elapsedMs": 2159,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Reading settings\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.209Z",
-      "elapsedMs": 2123,
+      "at": "2026-09-25T15:53:04.930Z",
+      "elapsedMs": 2210,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Count me in\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.258Z",
-      "elapsedMs": 2172,
+      "at": "2026-09-25T15:53:04.963Z",
+      "elapsedMs": 2243,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.326Z",
-      "elapsedMs": 2240,
+      "at": "2026-09-25T15:53:05.029Z",
+      "elapsedMs": 2309,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.382Z",
-      "elapsedMs": 2296,
-      "stage": "resume-audio",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:12.381Z\",\"event\":\"window-hide\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:12.382Z",
-      "elapsedMs": 2296,
-      "stage": "resume-audio",
-      "event": "main-console",
-      "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:12.381Z\",\"event\":\"window-hide\",\"id\":1}"
-    },
-    {
-      "at": "2026-09-25T14:01:12.592Z",
-      "elapsedMs": 2506,
-      "stage": "resume-audio",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:12.591Z\",\"event\":\"window-blur\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:12.596Z",
-      "elapsedMs": 2510,
-      "stage": "resume-audio",
-      "event": "main-console",
-      "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:12.591Z\",\"event\":\"window-blur\",\"id\":1}"
-    },
-    {
-      "at": "2026-09-25T14:01:12.741Z",
-      "elapsedMs": 2655,
+      "at": "2026-09-25T15:53:05.446Z",
+      "elapsedMs": 2726,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.776Z",
-      "elapsedMs": 2690,
+      "at": "2026-09-25T15:53:05.495Z",
+      "elapsedMs": 2775,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.811Z",
-      "elapsedMs": 2725,
+      "at": "2026-09-25T15:53:05.532Z",
+      "elapsedMs": 2812,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.844Z",
-      "elapsedMs": 2758,
+      "at": "2026-09-25T15:53:05.563Z",
+      "elapsedMs": 2843,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Toggle phrase loop\"}"
     },
     {
-      "at": "2026-09-25T14:01:12.916Z",
-      "elapsedMs": 2830,
+      "at": "2026-09-25T15:53:05.629Z",
+      "elapsedMs": 2909,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.026Z",
-      "elapsedMs": 5940,
+      "at": "2026-09-25T15:53:08.730Z",
+      "elapsedMs": 6010,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.059Z",
-      "elapsedMs": 5973,
+      "at": "2026-09-25T15:53:08.779Z",
+      "elapsedMs": 6059,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Wait for me\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.092Z",
-      "elapsedMs": 6006,
+      "at": "2026-09-25T15:53:08.813Z",
+      "elapsedMs": 6093,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.103Z",
-      "elapsedMs": 6017,
+      "at": "2026-09-25T15:53:08.826Z",
+      "elapsedMs": 6107,
       "stage": "resume-audio",
       "event": "phase-passed",
       "checks": 4
     },
     {
-      "at": "2026-09-25T14:01:16.103Z",
-      "elapsedMs": 6017,
+      "at": "2026-09-25T15:53:08.827Z",
+      "elapsedMs": 6107,
       "stage": "overlap-motion",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T14:01:16.113Z",
-      "elapsedMs": 6027,
+      "at": "2026-09-25T15:53:08.830Z",
+      "elapsedMs": 6110,
       "stage": "overlap-motion",
       "event": "owned-window-focused",
       "windows": [
         {
           "id": 1,
           "visible": true,
-          "focused": false,
+          "focused": true,
           "bounds": {
             "x": 0,
             "y": 30,
@@ -842,184 +797,124 @@
       ]
     },
     {
-      "at": "2026-09-25T14:01:16.135Z",
-      "elapsedMs": 6049,
-      "stage": "overlap-motion",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:16.134Z\",\"event\":\"window-focus\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:16.135Z",
-      "elapsedMs": 6049,
-      "stage": "overlap-motion",
-      "event": "main-console",
-      "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:16.134Z\",\"event\":\"window-focus\",\"id\":1}"
-    },
-    {
-      "at": "2026-09-25T14:01:16.176Z",
-      "elapsedMs": 6090,
+      "at": "2026-09-25T15:53:08.879Z",
+      "elapsedMs": 6159,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Import a score\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.265Z",
-      "elapsedMs": 6179,
+      "at": "2026-09-25T15:53:08.981Z",
+      "elapsedMs": 6261,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.294Z",
-      "elapsedMs": 6208,
-      "stage": "overlap-motion",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:16.293Z\",\"event\":\"window-show\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:16.295Z",
-      "elapsedMs": 6209,
-      "stage": "overlap-motion",
-      "event": "main-console",
-      "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:16.293Z\",\"event\":\"window-show\",\"id\":1}"
-    },
-    {
-      "at": "2026-09-25T14:01:16.349Z",
-      "elapsedMs": 6263,
+      "at": "2026-09-25T15:53:09.029Z",
+      "elapsedMs": 6309,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Listen & follow\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.412Z",
-      "elapsedMs": 6326,
+      "at": "2026-09-25T15:53:09.078Z",
+      "elapsedMs": 6358,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Reading settings\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.461Z",
-      "elapsedMs": 6375,
+      "at": "2026-09-25T15:53:09.113Z",
+      "elapsedMs": 6393,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.495Z",
-      "elapsedMs": 6409,
+      "at": "2026-09-25T15:53:09.145Z",
+      "elapsedMs": 6426,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Number score\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.544Z",
-      "elapsedMs": 6458,
+      "at": "2026-09-25T15:53:09.179Z",
+      "elapsedMs": 6459,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Start over\"}"
     },
     {
-      "at": "2026-09-25T14:01:16.593Z",
-      "elapsedMs": 6507,
+      "at": "2026-09-25T15:53:09.212Z",
+      "elapsedMs": 6492,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T14:01:17.232Z",
-      "elapsedMs": 7146,
-      "stage": "overlap-motion",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:17.232Z\",\"event\":\"window-hide\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:17.232Z",
-      "elapsedMs": 7146,
-      "stage": "overlap-motion",
-      "event": "main-console",
-      "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:17.232Z\",\"event\":\"window-hide\",\"id\":1}"
-    },
-    {
-      "at": "2026-09-25T14:01:17.455Z",
-      "elapsedMs": 7371,
-      "stage": "overlap-motion",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:17.454Z\",\"event\":\"window-blur\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:17.458Z",
-      "elapsedMs": 7372,
-      "stage": "overlap-motion",
-      "event": "main-console",
-      "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:17.454Z\",\"event\":\"window-blur\",\"id\":1}"
-    },
-    {
-      "at": "2026-09-25T14:01:22.013Z",
-      "elapsedMs": 11927,
+      "at": "2026-09-25T15:53:14.578Z",
+      "elapsedMs": 11858,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T14:01:22.060Z",
-      "elapsedMs": 11974,
+      "at": "2026-09-25T15:53:14.612Z",
+      "elapsedMs": 11892,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Start over\"}"
     },
     {
-      "at": "2026-09-25T14:01:22.094Z",
-      "elapsedMs": 12008,
+      "at": "2026-09-25T15:53:14.645Z",
+      "elapsedMs": 11925,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T14:01:22.243Z",
-      "elapsedMs": 12157,
+      "at": "2026-09-25T15:53:14.810Z",
+      "elapsedMs": 12090,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T14:01:22.391Z",
-      "elapsedMs": 12305,
+      "at": "2026-09-25T15:53:14.960Z",
+      "elapsedMs": 12240,
       "stage": "overlap-motion",
       "event": "phase-passed",
       "checks": 3
     },
     {
-      "at": "2026-09-25T14:01:22.391Z",
-      "elapsedMs": 12305,
+      "at": "2026-09-25T15:53:14.960Z",
+      "elapsedMs": 12240,
       "stage": "chord-reading",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T14:01:22.404Z",
-      "elapsedMs": 12318,
+      "at": "2026-09-25T15:53:14.963Z",
+      "elapsedMs": 12243,
       "stage": "chord-reading",
       "event": "owned-window-focused",
       "windows": [
         {
           "id": 1,
           "visible": true,
-          "focused": false,
+          "focused": true,
           "bounds": {
             "x": 0,
             "y": 30,
@@ -1030,221 +925,190 @@
       ]
     },
     {
-      "at": "2026-09-25T14:01:22.418Z",
-      "elapsedMs": 12332,
-      "stage": "chord-reading",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:22.417Z\",\"event\":\"window-focus\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:22.418Z",
-      "elapsedMs": 12332,
-      "stage": "chord-reading",
-      "event": "main-console",
-      "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:22.417Z\",\"event\":\"window-focus\",\"id\":1}"
-    },
-    {
-      "at": "2026-09-25T14:01:22.474Z",
-      "elapsedMs": 12388,
+      "at": "2026-09-25T15:53:15.013Z",
+      "elapsedMs": 12293,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Import a score\"}"
     },
     {
-      "at": "2026-09-25T14:01:22.564Z",
-      "elapsedMs": 12478,
+      "at": "2026-09-25T15:53:15.113Z",
+      "elapsedMs": 12393,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T14:01:22.586Z",
-      "elapsedMs": 12500,
-      "stage": "chord-reading",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:22.586Z\",\"event\":\"window-show\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:22.587Z",
-      "elapsedMs": 12501,
-      "stage": "chord-reading",
-      "event": "main-console",
-      "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:22.586Z\",\"event\":\"window-show\",\"id\":1}"
-    },
-    {
-      "at": "2026-09-25T14:01:22.638Z",
-      "elapsedMs": 12552,
+      "at": "2026-09-25T15:53:15.162Z",
+      "elapsedMs": 12442,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Number score\"}"
     },
     {
-      "at": "2026-09-25T14:01:22.696Z",
-      "elapsedMs": 12610,
+      "at": "2026-09-25T15:53:15.196Z",
+      "elapsedMs": 12476,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Wait for me\"}"
     },
     {
-      "at": "2026-09-25T14:01:22.942Z",
-      "elapsedMs": 12856,
+      "at": "2026-09-25T15:53:15.411Z",
+      "elapsedMs": 12691,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T14:01:23.265Z",
-      "elapsedMs": 13179,
-      "stage": "chord-reading",
-      "event": "page-console",
-      "type": "log",
-      "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"C3 1 Do\"}"
-    },
-    {
-      "at": "2026-09-25T14:01:23.325Z",
-      "elapsedMs": 13239,
+      "at": "2026-09-25T15:53:15.889Z",
+      "elapsedMs": 13169,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T14:01:23.409Z",
-      "elapsedMs": 13323,
+      "at": "2026-09-25T15:53:16.011Z",
+      "elapsedMs": 13291,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T14:01:23.569Z",
-      "elapsedMs": 13483,
+      "at": "2026-09-25T15:53:16.232Z",
+      "elapsedMs": 13512,
       "stage": "chord-reading",
       "event": "phase-passed",
       "checks": 3
     },
     {
-      "at": "2026-09-25T14:01:23.569Z",
-      "elapsedMs": 13483,
+      "at": "2026-09-25T15:53:16.232Z",
+      "elapsedMs": 13512,
       "stage": "complete",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T14:01:23.571Z",
-      "elapsedMs": 13485,
+      "at": "2026-09-25T15:53:16.237Z",
+      "elapsedMs": 13517,
       "stage": "cleanup",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T14:01:23.573Z",
-      "elapsedMs": 13487,
+      "at": "2026-09-25T15:53:16.240Z",
+      "elapsedMs": 13520,
       "stage": "cleanup",
       "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:23.573Z\",\"event\":\"before-quit\",\"prevented\":true}\n"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.239Z\",\"event\":\"before-quit\",\"prevented\":true}\n"
     },
     {
-      "at": "2026-09-25T14:01:23.574Z",
-      "elapsedMs": 13488,
+      "at": "2026-09-25T15:53:16.243Z",
+      "elapsedMs": 13523,
+      "stage": "cleanup",
+      "event": "process-stderr",
+      "text": "Debugger ending on ws://127.0.0.1:62803/4757823e-71b0-49f7-ae22-5ef2ce42b9b9\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
+    },
+    {
+      "at": "2026-09-25T15:53:16.243Z",
+      "elapsedMs": 13523,
       "stage": "cleanup",
       "event": "main-console",
       "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:23.573Z\",\"event\":\"before-quit\",\"prevented\":true}"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.239Z\",\"event\":\"before-quit\",\"prevented\":true}"
     },
     {
-      "at": "2026-09-25T14:01:23.575Z",
-      "elapsedMs": 13489,
-      "stage": "cleanup",
-      "event": "process-stderr",
-      "text": "Debugger ending on ws://127.0.0.1:59387/08db767d-f36c-4cbe-a392-5393b5e79e07\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
-    },
-    {
-      "at": "2026-09-25T14:01:23.581Z",
-      "elapsedMs": 13495,
+      "at": "2026-09-25T15:53:16.248Z",
+      "elapsedMs": 13528,
       "stage": "cleanup",
       "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:23.580Z\",\"event\":\"before-quit\",\"prevented\":false}\n"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.247Z\",\"event\":\"before-quit\",\"prevented\":false}\n"
     },
     {
-      "at": "2026-09-25T14:01:23.581Z",
-      "elapsedMs": 13495,
+      "at": "2026-09-25T15:53:16.249Z",
+      "elapsedMs": 13529,
       "stage": "cleanup",
       "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:23.581Z\",\"event\":\"window-close\",\"id\":1,\"prevented\":false}\n"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.248Z\",\"event\":\"window-close\",\"id\":1,\"prevented\":false}\n"
     },
     {
-      "at": "2026-09-25T14:01:23.666Z",
-      "elapsedMs": 13580,
-      "stage": "cleanup",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:23.665Z\",\"event\":\"window-hide\",\"id\":1}\n"
-    },
-    {
-      "at": "2026-09-25T14:01:23.683Z",
-      "elapsedMs": 13597,
+      "at": "2026-09-25T15:53:16.257Z",
+      "elapsedMs": 13537,
       "stage": "cleanup",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"beforeunload\",\"visibility\":\"visible\"}"
     },
     {
-      "at": "2026-09-25T14:01:23.685Z",
-      "elapsedMs": 13599,
+      "at": "2026-09-25T15:53:16.257Z",
+      "elapsedMs": 13537,
       "stage": "cleanup",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"pagehide\",\"visibility\":\"visible\"}"
     },
     {
-      "at": "2026-09-25T14:01:23.685Z",
-      "elapsedMs": 13599,
+      "at": "2026-09-25T15:53:16.258Z",
+      "elapsedMs": 13538,
       "stage": "cleanup",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"visibilitychange\",\"visibility\":\"hidden\"}"
     },
     {
-      "at": "2026-09-25T14:01:23.688Z",
-      "elapsedMs": 13602,
+      "at": "2026-09-25T15:53:16.260Z",
+      "elapsedMs": 13540,
       "stage": "cleanup",
       "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:23.687Z\",\"event\":\"web-contents-destroyed\",\"id\":1}\nLUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:23.687Z\",\"event\":\"window-closed\",\"id\":1}\nLUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:23.687Z\",\"event\":\"will-quit\",\"prevented\":false}\nLUMA_NATIVE_DIAG {\"at\":\"2026-09-25T14:01:23.687Z\",\"event\":\"quit\",\"code\":0}\n"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.259Z\",\"event\":\"web-contents-destroyed\",\"id\":1}\n"
     },
     {
-      "at": "2026-09-25T14:01:23.689Z",
-      "elapsedMs": 13603,
+      "at": "2026-09-25T15:53:16.260Z",
+      "elapsedMs": 13540,
+      "stage": "cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.259Z\",\"event\":\"window-closed\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-09-25T15:53:16.260Z",
+      "elapsedMs": 13540,
+      "stage": "cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.260Z\",\"event\":\"will-quit\",\"prevented\":false}\nLUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.260Z\",\"event\":\"quit\",\"code\":0}\n"
+    },
+    {
+      "at": "2026-09-25T15:53:16.261Z",
+      "elapsedMs": 13541,
       "stage": "cleanup",
       "event": "page-close"
     },
     {
-      "at": "2026-09-25T14:01:23.790Z",
-      "elapsedMs": 13704,
+      "at": "2026-09-25T15:53:16.308Z",
+      "elapsedMs": 13588,
       "stage": "cleanup",
       "event": "process-exit",
       "code": 0,
       "signal": null
     },
     {
-      "at": "2026-09-25T14:01:23.797Z",
-      "elapsedMs": 13711,
-      "stage": "cleanup",
-      "event": "electron-application-close"
-    },
-    {
-      "at": "2026-09-25T14:01:23.797Z",
-      "elapsedMs": 13711,
+      "at": "2026-09-25T15:53:16.308Z",
+      "elapsedMs": 13588,
       "stage": "cleanup",
       "event": "browser-context-close"
     },
     {
-      "at": "2026-09-25T14:01:23.797Z",
-      "elapsedMs": 13711,
+      "at": "2026-09-25T15:53:16.309Z",
+      "elapsedMs": 13589,
+      "stage": "cleanup",
+      "event": "electron-application-close"
+    },
+    {
+      "at": "2026-09-25T15:53:16.309Z",
+      "elapsedMs": 13589,
       "stage": "cleanup",
       "event": "owned-app-close-resolved"
     }

@@ -1,0 +1,31 @@
+{
+  "error": "Expected values to be strictly equal:\n\ntrue !== false\n",
+  "evidence": {
+    "errors": [],
+    "measurements": {
+      "numericPhrase": {
+        "firstBeat": 0.5,
+        "lastOnset": 5.5,
+        "bars": [
+          2,
+          3
+        ]
+      },
+      "collapsed": {
+        "keys": 88,
+        "retained": true,
+        "allUnavailable": true
+      },
+      "rests": {
+        "count": 18,
+        "minimumWidth": 48,
+        "restOverflow": {
+          "document": false,
+          "score": true
+        }
+      }
+    },
+    "position": 0
+  },
+  "body": "lumakeys\nRead\nLibrary\nLessons\nConnect piano\nNew exercise\nImport a score\nWritten rests at every speed\n\nLuma Keys regression fixture · 2 bars · ♩ = 90\n\nNumber score\nSheet music\nFalling notes\nHow to read\nREAD FROM LEFT TO RIGHT\nBars 1–2 / 2\nGo\nHAND\n01\n02\nR\nright hand\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 0.031\nrest\n♩ 3\nrest\n♩ 4\n1\nC4\n♩ 0.031\n♯1\nC♯4\n♩ 0.031\n2\nD4\n♩ 0.031\n♯2\nD♯4\n♩ 0.031\n3\nE4\n♩ 0.031\n4\nF4\n♩ 0.031\n♯4\nF♯4\n♩ 0.031\n1\nC4\n♩ 0.031\n♯1\nC♯4\n♩ 0.031\n2\nD4\n♩ 0.031\n♯2\nD♯4\n♩ 0.031\n3\nE4\n♩ 0.031\n4\nF4\n♩ 0.031\n♯4\nF♯4\n♩ 0.031\n1\nC4\n♩ 0.031\n♯1\nC♯4\n♩ 0.031\nRepeating bars 1–2\n1 = C · Numbers are notes, not fingers\nC4 = middle C · ♩ = one quarter-note beat · spacing adapts\nPLAY NEXT\nBar 1\n1\nC4\nRH\nClick a note to start there\nKeyboard guide\nShow keyboard\nListen & follow\nWait for me\nPlay in time\nLeft Right\nBoth hands\nRight hand\nLeft hand\n0:00 / 0:05\nPractice speed\n25% · ♩ = 23\n50% · ♩ = 45\n65% · ♩ = 59\n75% · ♩ = 68\n100% · ♩ = 90\n125% · ♩ = 113\nRepeat bars\nto\nComputer keys A S D F · Space to play / pause\nYour music is ready to review."
+}

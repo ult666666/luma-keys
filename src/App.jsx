@@ -51,6 +51,12 @@ import {
   Trash2,
   HelpCircle,
   Plus,
+  Timer,
+  Dices,
+  RefreshCw,
+  Save,
+  Trophy,
+  TrendingUp,
 } from "lucide-react";
 import {
   demos,
@@ -67,6 +73,8 @@ import {
   metronomeEvents,
   countInNumber,
   meterHint,
+  usesFlats,
+  pulsePattern,
 } from "./music.mjs";
 import { piano } from "./audio.js";
 import Pet from "./Pet.jsx";
@@ -74,7 +82,19 @@ import PdfPreview from "./PdfPreview.jsx";
 import ScoreDisplay from "./ScoreDisplay.jsx";
 import ReadingScore from "./ReadingScore.jsx";
 import KeyboardGuide from "./KeyboardGuide.jsx";
+import {
+  generateExercise,
+  LEVELS,
+  EXERCISE_KEYS,
+  METERS,
+  BAR_CHOICES,
+  exerciseSummary,
+  levelFor,
+} from "./exercise.mjs";
+import { gradePerformance, levelAdvice } from "./performance.mjs";
+import { defaultReading, HISTORY_LIMIT } from "./preferences.mjs";
 import "./reader.css";
+import "./practice.css";
 const LESSONS = demos();
 const KEYS = {
   a: 60,
@@ -103,6 +123,401 @@ function resumeListening(notes, from, end, secondsPerBeat) {
   for (const { note, duration } of plan.continuations)
     piano.play(note.midi, duration * secondsPerBeat * 0.94, note.velocity);
   return plan.index;
+}
+// Perform mode counts one bar of the meter in force before the starting bar.
+// From the beginning, pickups shorten the count-in exactly as Listen does.
+function countInPlan(score, from) {
+  if (from < 1e-6) {
+    const length = countInLength(score);
+    return {
+      length,
+      events: metronomeEvents(score, -length - 1e-6, -1e-6).map((e) => ({
+        offset: e.beat + length,
+        accent: e.accent,
+        count: e.count,
+      })),
+    };
+  }
+  let at = 0;
+  const events = pulsePattern(score, measureAt(score, from)).map((p, i) => {
+    const event = { offset: at, accent: i === 0, count: i + 1 };
+    at += p;
+    return event;
+  });
+  return { length: at, events };
+}
+const snapshotOf = (p) =>
+  JSON.stringify({
+    theme: p.theme,
+    pet: p.pet,
+    stats: p.stats,
+    volume: p.volume,
+    reading: p.reading,
+    history: p.history,
+  });
+const localDay = (value) => new Date(value).toLocaleDateString("en-CA");
+export function practiceStreak(history, now = new Date()) {
+  const days = new Set(history.map((h) => localDay(h.at)));
+  let streak = 0;
+  const cursor = new Date(now);
+  if (!days.has(localDay(cursor))) cursor.setDate(cursor.getDate() - 1);
+  while (days.has(localDay(cursor))) {
+    streak++;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return streak;
+}
+export function recommendedLevel(history) {
+  let level = 1;
+  for (const entry of LEVELS)
+    if (levelAdvice(history, entry.level).ready)
+      level = Math.min(LEVELS.length, entry.level + 1);
+  return level;
+}
+const verdictFor = (result) =>
+  result.accuracy >= 0.95 && result.precision >= 0.7
+    ? "Fluent reading"
+    : result.accuracy >= 0.9
+      ? "Solid reading"
+      : result.accuracy >= 0.75
+        ? "Getting there"
+        : "Slow it down";
+const msLabel = (beats, secondsPerBeat) =>
+  `${beats > 0 ? "+" : "−"}${Math.round(Math.abs(beats) * secondsPerBeat * 1000)} ms`;
+function ExerciseModal({ options, onChange, onGenerate, close, history }) {
+  const level = levelFor(options.level);
+  const advice = levelAdvice(history, level.level);
+  const set = (key, value) => onChange({ ...options, [key]: value });
+  const numeric = (v) => (v === "auto" ? "auto" : Number(v));
+  return (
+    <Modal
+      title="A fresh exercise"
+      subtitle="New music every time. Choose a level; the rest follows the level unless you set it."
+      close={close}
+    >
+      <form
+        className="exercise-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onGenerate(options);
+        }}
+      >
+        <label className="exercise-level">
+          <span>Level</span>
+          <select
+            aria-label="Exercise level"
+            value={options.level}
+            onChange={(e) => set("level", Number(e.target.value))}
+          >
+            {LEVELS.map((l) => (
+              <option key={l.level} value={l.level}>
+                {l.level} · {l.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <p className="exercise-summary">
+          {level.summary}
+          {advice.ready && (
+            <strong>
+              {" "}
+              Your last three runs were clean; try the next level.
+            </strong>
+          )}
+        </p>
+        <div className="exercise-grid">
+          <label>
+            <span>Key</span>
+            <select
+              aria-label="Exercise key"
+              value={options.fifths}
+              onChange={(e) => set("fifths", numeric(e.target.value))}
+            >
+              <option value="auto">Level’s keys</option>
+              {EXERCISE_KEYS.map((k) => (
+                <option key={k.fifths} value={k.fifths}>
+                  {k.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Hands</span>
+            <select
+              aria-label="Exercise hands"
+              value={options.hands}
+              onChange={(e) => set("hands", e.target.value)}
+            >
+              <option value="auto">Level’s hands</option>
+              <option value="right">Right hand</option>
+              <option value="left">Left hand</option>
+              <option value="both">Both hands</option>
+            </select>
+          </label>
+          <label>
+            <span>Length</span>
+            <select
+              aria-label="Exercise length"
+              value={options.bars}
+              onChange={(e) => set("bars", numeric(e.target.value))}
+            >
+              <option value="auto">Level’s length</option>
+              {BAR_CHOICES.map((b) => (
+                <option key={b} value={b}>
+                  {b} bars
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Meter</span>
+            <select
+              aria-label="Exercise meter"
+              value={options.meter}
+              onChange={(e) => set("meter", e.target.value)}
+            >
+              <option value="auto">Level’s meters</option>
+              {Object.keys(METERS).map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Tempo ♩ =</span>
+            <span className="exercise-tempo">
+              <select
+                aria-label="Exercise tempo mode"
+                value={options.tempo === "auto" ? "auto" : "custom"}
+                onChange={(e) =>
+                  set("tempo", e.target.value === "auto" ? "auto" : level.tempo)
+                }
+              >
+                <option value="auto">Level’s tempo ({level.tempo})</option>
+                <option value="custom">Custom</option>
+              </select>
+              {options.tempo !== "auto" && (
+                <input
+                  aria-label="Exercise tempo"
+                  type="number"
+                  min="30"
+                  max="200"
+                  value={options.tempo}
+                  onChange={(e) =>
+                    set(
+                      "tempo",
+                      Math.max(
+                        30,
+                        Math.min(200, Math.round(+e.target.value) || 30),
+                      ),
+                    )
+                  }
+                />
+              )}
+            </span>
+          </label>
+        </div>
+        <div className="modal-footer exercise-footer">
+          <span>Read it once, in time. Then let a new one appear.</span>
+          <button type="submit" className="primary">
+            <Dices size={17} /> New exercise
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+}
+function ResultsModal({
+  results,
+  score,
+  flats,
+  onRepeat,
+  onAgain,
+  onNext,
+  onLevelUp,
+  close,
+}) {
+  const { result, entry, reason } = results;
+  const percent = Math.round(result.accuracy * 100);
+  const secondsPerBeat = 60 / (score.bpm * (entry.tempo / score.bpm));
+  const problems = result.bars.filter((b) => b.problems > 0);
+  return (
+    <Modal
+      title={`${percent}% · ${verdictFor(result)}`}
+      subtitle={`${score.title} · bars ${measureAt(score, results.from)}–${measureAt(score, Math.max(results.from, results.end - 1e-4))} · ♩ = ${entry.tempo}${results.hand === "both" ? "" : ` · ${results.hand} hand`}`}
+      close={close}
+    >
+      <div
+        className="results-summary"
+        role="group"
+        aria-label="Performance summary"
+      >
+        <div>
+          <strong>
+            {result.matched}
+            <small> / {result.total}</small>
+          </strong>
+          <span>notes right</span>
+        </div>
+        <div>
+          <strong>{Math.round(result.precision * 100)}%</strong>
+          <span>on time</span>
+        </div>
+        <div>
+          <strong>{result.missed}</strong>
+          <span>missed</span>
+        </div>
+        <div>
+          <strong>{result.extra}</strong>
+          <span>wrong notes</span>
+        </div>
+        <div>
+          <strong>
+            {result.matched ? msLabel(result.offset, secondsPerBeat) : "—"}
+          </strong>
+          <span>
+            {result.offset > 0.02
+              ? "tends late"
+              : result.offset < -0.02
+                ? "tends early"
+                : "steady"}
+          </span>
+        </div>
+      </div>
+      {reason !== "complete" && (
+        <p className="results-note">
+          Stopped early: {result.unreached} written note
+          {result.unreached === 1 ? " was" : "s were"} not reached. Only the
+          notes you passed are graded.
+        </p>
+      )}
+      <div className="results-bars" aria-label="Accuracy by bar">
+        {result.bars.map((bar) => (
+          <button
+            type="button"
+            key={bar.bar}
+            className={`results-bar ${bar.problems === 0 ? "clean" : bar.problems <= 1 ? "shaky" : "trouble"}`}
+            title={`Bar ${bar.bar}: ${bar.on + bar.early + bar.late} of ${bar.total} right, ${bar.missed} missed, ${bar.extra} wrong, ${bar.early} early, ${bar.late} late. Click to repeat this bar.`}
+            aria-label={`Bar ${bar.bar}, ${bar.on + bar.early + bar.late} of ${bar.total} right`}
+            onClick={() => onRepeat(bar.bar, bar.bar)}
+          >
+            <span>{bar.bar}</span>
+            <i
+              style={{
+                "--fill": `${bar.total ? ((bar.on + bar.early + bar.late) / bar.total) * 100 : 100}%`,
+              }}
+            />
+          </button>
+        ))}
+      </div>
+      {result.notes.some((n) => n.status === "missed") && (
+        <p className="results-missed">
+          Missed:{" "}
+          {result.notes
+            .filter((n) => n.status === "missed")
+            .slice(0, 12)
+            .map((n) => `${noteName(n.midi, flats)} (bar ${n.bar})`)
+            .join(", ")}
+          {result.missed > 12 ? "…" : ""}
+        </p>
+      )}
+      <div className="results-actions">
+        {result.worst && (
+          <button
+            className={problems.length ? "primary" : "secondary"}
+            onClick={() => onRepeat(result.worst.first, result.worst.last)}
+          >
+            <Repeat2 size={16} /> Repeat{" "}
+            {result.worst.first === result.worst.last
+              ? `bar ${result.worst.first}`
+              : `bars ${result.worst.first}–${result.worst.last}`}
+          </button>
+        )}
+        <button className="secondary" onClick={onAgain}>
+          <RotateCcw size={15} /> Play it again
+        </button>
+        {score.exercise && (
+          <button
+            className={result.worst ? "secondary" : "primary"}
+            onClick={onNext}
+          >
+            <Dices size={15} /> Next exercise
+          </button>
+        )}
+        {score.exercise && onLevelUp && (
+          <button className="secondary" onClick={onLevelUp}>
+            <TrendingUp size={15} /> Try level {score.exercise.level + 1}
+          </button>
+        )}
+      </div>
+    </Modal>
+  );
+}
+function LevelPath({ history, onStart, recommended }) {
+  const stats = (level) => {
+    const runs = history.filter(
+      (h) => h.level === level && h.mode === "perform",
+    );
+    if (!runs.length) return null;
+    const recent = runs.slice(-3);
+    return {
+      runs: runs.length,
+      best: Math.max(...runs.map((h) => h.accuracy)),
+      recent: Math.round(
+        recent.reduce((sum, h) => sum + h.accuracy, 0) / recent.length,
+      ),
+    };
+  };
+  return (
+    <section className="level-path" aria-label="Sight-reading path">
+      <div className="level-path-heading">
+        <div>
+          <span className="eyebrow">SIGHT-READING PATH</span>
+          <h2>Twelve levels of new music.</h2>
+          <p>
+            Each Start makes a piece nobody has played before. Read it once in
+            time; three clean runs unlock the next level.
+          </p>
+        </div>
+      </div>
+      <div className="level-grid">
+        {LEVELS.map((level) => {
+          const s = stats(level.level);
+          const ready = levelAdvice(history, level.level).ready;
+          return (
+            <article
+              key={level.level}
+              className={`level-card ${level.level === recommended ? "recommended" : ""} ${ready ? "cleared" : ""}`}
+            >
+              <header>
+                <span className="level-number">
+                  {String(level.level).padStart(2, "0")}
+                </span>
+                {level.level === recommended && <em>Recommended</em>}
+                {ready && level.level !== recommended && <em>Cleared</em>}
+              </header>
+              <h3>{level.title}</h3>
+              <p>{level.summary}</p>
+              <footer>
+                <span>
+                  {s
+                    ? `${s.runs} run${s.runs === 1 ? "" : "s"} · best ${Math.round(s.best)}% · recent ${s.recent}%`
+                    : "Not yet played"}
+                </span>
+                <button
+                  className="secondary small"
+                  onClick={() => onStart(level.level)}
+                >
+                  Start <ArrowRight size={13} />
+                </button>
+              </footer>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
 }
 async function api(url, opts) {
   const r = await fetch("/api" + url, opts);
@@ -178,6 +593,7 @@ function Modal({ title, subtitle, close, children, wide = false }) {
   );
 }
 function Review({ score, onSave, close, notify, initialBar = 1 }) {
+  const flats = usesFlats(score);
   const [notes, setNotes] = useState(() => score.notes.map((n) => ({ ...n })));
   const pageForBar = (bar, ns) => {
     const index = ns.findIndex((n) => n.beat >= barStart(score, bar) - 1e-6);
@@ -346,7 +762,8 @@ function Review({ score, onSave, close, notify, initialBar = 1 }) {
                   <tr key={n.id}>
                     <td>{n.measure}</td>
                     <td className="number-cell">
-                      {degree(n.midi)} <small>{solfege(n.midi)}</small>
+                      {degree(n.midi, 0, flats)}{" "}
+                      <small>{solfege(n.midi, 0, flats)}</small>
                     </td>
                     <td>
                       <select
@@ -356,7 +773,7 @@ function Review({ score, onSave, close, notify, initialBar = 1 }) {
                       >
                         {Array.from({ length: 88 }, (_, i) => (
                           <option key={i} value={i + 21}>
-                            {noteName(i + 21)}
+                            {noteName(i + 21, flats)}
                           </option>
                         ))}
                       </select>
@@ -396,7 +813,7 @@ function Review({ score, onSave, close, notify, initialBar = 1 }) {
                     <td>
                       <button
                         className="icon-button"
-                        aria-label={`Hear ${noteName(n.midi)}`}
+                        aria-label={`Hear ${noteName(n.midi, flats)}`}
                         onClick={async () => {
                           await piano.init();
                           piano.play(n.midi, 0.6);
@@ -523,7 +940,16 @@ export default function App() {
     [sessionMisses, setSessionMisses] = useState(0),
     [prefLoaded, setPrefLoaded] = useState(false),
     [engineReady, setEngineReady] = useState(null),
-    [sustain, setSustain] = useState(false);
+    [sustain, setSustain] = useState(false),
+    [tonicFollow, setTonicFollow] = useState(false),
+    [history, setHistory] = useState([]),
+    [exerciseOptions, setExerciseOptions] = useState(
+      () => defaultReading().exercise,
+    ),
+    [results, setResults] = useState(null),
+    [performCount, setPerformCount] = useState(0),
+    [lastScore, setLastScore] = useState(() => defaultReading().last),
+    [libraryLoaded, setLibraryLoaded] = useState(false);
   const inputRef = useRef(),
     state = useRef({}),
     transport = useRef({
@@ -548,7 +974,11 @@ export default function App() {
     preferenceTimer = useRef(),
     preferenceState = useRef(),
     reviewImport = useRef(null),
-    seenJobs = useRef(new Map());
+    seenJobs = useRef(new Map()),
+    recording = useRef(null),
+    resultsTimer = useRef(),
+    resultsToken = useRef(),
+    restored = useRef(false);
   const recognition = useRecognition(api, (jobs) => {
     let libraryChanged = false;
     for (const job of jobs) {
@@ -572,9 +1002,47 @@ export default function App() {
     (job) => !job.dismissed && job.status !== "processing",
   );
   const importing = uploading || !!activeImport;
+  const reading = useMemo(
+    () => ({
+      labels,
+      tonic,
+      tonicFollow,
+      countIn,
+      metronome,
+      keyboardCollapsed,
+      readingView,
+      speed,
+      mode,
+      hand,
+      exercise: exerciseOptions,
+      last: lastScore,
+    }),
+    [
+      labels,
+      tonic,
+      tonicFollow,
+      countIn,
+      metronome,
+      keyboardCollapsed,
+      readingView,
+      speed,
+      mode,
+      hand,
+      exerciseOptions,
+      lastScore,
+    ],
+  );
+  const preferenceSnapshot = snapshotOf({
+    theme,
+    pet,
+    stats,
+    volume,
+    reading,
+    history,
+  });
   preferenceState.current = {
     ready: prefLoaded,
-    snapshot: JSON.stringify({ theme, pet, stats, volume }),
+    snapshot: preferenceSnapshot,
   };
   const notes = useMemo(
     () => score.notes.filter((n) => hand === "both" || n.hand === hand),
@@ -629,6 +1097,8 @@ export default function App() {
     notes,
     chordGroups,
     phraseGroups,
+    phraseNotes,
+    hand,
     mode,
     speed,
     countIn,
@@ -675,6 +1145,12 @@ export default function App() {
     return write;
   }
   function applySettings({ preferences: p, issues }) {
+    // Older servers or backups may lack the reading and history fields.
+    p = {
+      ...p,
+      reading: { ...defaultReading(), ...(p.reading || {}) },
+      history: Array.isArray(p.history) ? p.history : [],
+    };
     const today = new Date().toLocaleDateString("en-CA");
     const progress = {
       ...p.stats,
@@ -682,17 +1158,32 @@ export default function App() {
       practiceDate: today,
     };
     // Hydration alone must never replace a damaged or older settings file.
-    lastPreferences.current = JSON.stringify({
+    lastPreferences.current = snapshotOf({
       theme: p.theme,
       pet: p.pet,
       stats: progress,
       volume: p.volume,
+      reading: p.reading,
+      history: p.history,
     });
     setTheme(p.theme);
     setPet(p.pet);
     setStats(progress);
     setVolume(p.volume);
     piano.setVolume(p.volume);
+    setLabels(p.reading.labels);
+    setTonic(p.reading.tonic);
+    setTonicFollow(p.reading.tonicFollow);
+    setCountIn(p.reading.countIn);
+    setMetronome(p.reading.metronome);
+    setKeyboardCollapsed(p.reading.keyboardCollapsed);
+    setReadingView(p.reading.readingView);
+    setSpeed(p.reading.speed);
+    setMode(p.reading.mode);
+    setHand(p.reading.hand);
+    setExerciseOptions(p.reading.exercise);
+    setLastScore(p.reading.last);
+    setHistory(p.history);
     setSettingsIssues(issues);
     setPrefLoaded(true);
     setSettingsLoadError("");
@@ -721,6 +1212,9 @@ export default function App() {
       })
       .catch((e) => {
         if (!cancelled) notify("Local library unavailable: " + e.message);
+      })
+      .finally(() => {
+        if (!cancelled) setLibraryLoaded(true);
       });
     api("/health")
       .then((h) => {
@@ -748,14 +1242,34 @@ export default function App() {
   }, []);
   useEffect(() => {
     if (!prefLoaded) return;
-    const snapshot = JSON.stringify({ theme, pet, stats, volume });
+    const snapshot = preferenceSnapshot;
     if (snapshot === lastPreferences.current) return;
     preferenceTimer.current = setTimeout(
       () => savePreferences(snapshot).catch(() => {}),
       500,
     );
     return () => clearTimeout(preferenceTimer.current);
-  }, [theme, pet, stats, volume, prefLoaded]);
+  }, [preferenceSnapshot, prefLoaded]);
+  useEffect(() => () => clearTimeout(resultsTimer.current), []);
+  // Reopen on the last piece or the exact last exercise, once, after both the
+  // settings and the library are known.
+  useEffect(() => {
+    if (!prefLoaded || !libraryLoaded || restored.current) return;
+    restored.current = true;
+    const last = lastScore;
+    if (!last) return;
+    try {
+      if (last.exercise) choose(generateExercise(last.exercise));
+      else if (last.scoreId) {
+        const found =
+          library.find((x) => x.id === last.scoreId) ||
+          LESSONS.find((x) => x.id === last.scoreId);
+        if (found && found.id !== LESSONS[0].id) choose(found);
+      }
+    } catch (e) {
+      notify("Could not reopen your last exercise: " + e.message);
+    }
+  }, [prefLoaded, libraryLoaded]);
   useEffect(() => {
     // Electron awaits this before closing its window or loopback server.
     const flush = async () => {
@@ -767,14 +1281,36 @@ export default function App() {
       await preferenceWrites.current;
     };
     window.lumaFlushPreferences = flush;
+    // Read-only clock for timing tests: audio time against the transport.
+    const clock = () => {
+      const t = transport.current;
+      return {
+        now: piano.ctx?.currentTime ?? null,
+        start: t.start,
+        origin: t.origin,
+        beat: t.beat,
+        playing: t.playing,
+        countingIn: !!(
+          t.countIn &&
+          piano.ctx &&
+          piano.ctx.currentTime < t.start
+        ),
+        secondsPerBeat: t.countIn?.secondsPerBeat ?? null,
+      };
+    };
+    window.lumaClock = clock;
     return () => {
       if (window.lumaFlushPreferences === flush)
         delete window.lumaFlushPreferences;
+      if (window.lumaClock === clock) delete window.lumaClock;
     };
   }, []);
   function stop({ keepInputs = false } = {}) {
     const t = transport.current;
     t.playing = false;
+    t.countIn = null;
+    recording.current = null;
+    setPerformCount(0);
     setPlaying(false);
     playRequest.current = null;
     setLoadingSound(false);
@@ -835,6 +1371,15 @@ export default function App() {
   function choose(s) {
     stop();
     setScore(s);
+    setLastScore(
+      s.exercise
+        ? {
+            scoreId: null,
+            exercise: { ...s.exercise.request, seed: s.exercise.seed },
+          }
+        : { scoreId: s.id ?? null, exercise: null },
+    );
+    if (tonicFollow) setTonic(s.tonic ?? 0);
     setBeat(0);
     transport.current.beat = 0;
     setLoop(false);
@@ -847,7 +1392,8 @@ export default function App() {
   async function start() {
     if (settingsLoading) return;
     if (transport.current.playing || playRequest.current) {
-      stop();
+      if (recording.current) finishPerformance("stopped");
+      else stop();
       return;
     }
     if (!notes.length) {
@@ -856,7 +1402,7 @@ export default function App() {
       );
       return;
     }
-    if (mode === "wait" && !phraseGroups.length) {
+    if (mode !== "listen" && !phraseGroups.length) {
       notify(
         "There are no new notes for this hand in these bars. Widen the loop or choose another hand.",
       );
@@ -892,15 +1438,44 @@ export default function App() {
         (from < barStart(score, loopA) || from >= barEnd(score, loopB))
       )
         from = barStart(score, loopA);
+      let startTime = piano.ctx.currentTime;
+      t.countIn = null;
       if (mode === "wait") {
         const next =
           practiceGroupAtOrAfter(phraseGroups, from) || phraseGroups[0];
         from = next.beat;
         t.matched = new Set();
+      } else if (mode === "perform") {
+        // A performance starts at a bar line, after one bar of count-in.
+        const phraseStart = loop ? barStart(score, loopA) : 0;
+        const phraseEnd = loop ? barEnd(score, loopB) : score.duration;
+        from = Math.max(
+          phraseStart,
+          barStart(score, measureAt(score, Math.max(from, phraseStart))),
+        );
+        if (from >= phraseEnd - 1e-6) from = phraseStart;
+        const secondsPerBeat = 60 / (score.bpm * speed);
+        const plan = countInPlan(score, from);
+        const countStart = piano.ctx.currentTime + 0.06;
+        for (const event of plan.events)
+          piano.tick(
+            event.accent,
+            countStart + event.offset * secondsPerBeat - piano.ctx.currentTime,
+          );
+        t.countIn = { start: countStart, plan, secondsPerBeat };
+        t.countShown = 0;
+        startTime = countStart + plan.length * secondsPerBeat;
+        recording.current = {
+          from,
+          end: phraseEnd,
+          secondsPerBeat,
+          notes: [],
+        };
+        setPerformCount(1);
       } else if (countIn && from === 0) from = -countInLength(score);
       t.beat = from;
       t.origin = from;
-      t.start = piano.ctx.currentTime;
+      t.start = startTime;
       t.playing = true;
       t.index =
         mode === "listen"
@@ -989,6 +1564,47 @@ export default function App() {
           last = performance.now();
         }
       }
+      if (t.playing && s.mode === "perform" && piano.ctx && t.countIn) {
+        const now = piano.ctx.currentTime;
+        const secondsPerBeat = t.countIn.secondsPerBeat;
+        const end = s.loop ? barEnd(s.score, s.loopB) : s.score.duration;
+        if (now < t.start - 1e-4) {
+          const elapsed = (now - t.countIn.start) / secondsPerBeat;
+          const count =
+            t.countIn.plan.events
+              .filter((e) => e.offset <= elapsed + 1e-6)
+              .at(-1)?.count || 1;
+          if (count !== t.countShown) {
+            t.countShown = count;
+            setPerformCount(count);
+          }
+        } else {
+          if (t.countShown) {
+            t.countShown = 0;
+            setPerformCount(0);
+          }
+          const b = t.origin + (now - t.start) / secondsPerBeat;
+          t.beat = b;
+          // The click always sounds while performing; no written notes play.
+          const tickThrough = Math.min(end - 1e-6, b + 0.08 / secondsPerBeat);
+          for (const event of metronomeEvents(
+            s.score,
+            Math.max(t.tickUntil, b - 0.1 / secondsPerBeat),
+            tickThrough,
+          ))
+            piano.tick(
+              event.accent,
+              Math.max(0, (event.beat - b) * secondsPerBeat),
+            );
+          t.tickUntil = Math.max(t.tickUntil, tickThrough);
+          // Half a beat of grace lets a slightly late final note be counted.
+          if (b >= end + 0.5) handlers.current.finishPerformance("complete");
+          else if (performance.now() - last > 30) {
+            setBeat(Math.min(b, end));
+            last = performance.now();
+          }
+        }
+      }
       frame = requestAnimationFrame(update);
     }
     frame = requestAnimationFrame(update);
@@ -1013,6 +1629,17 @@ export default function App() {
       setPressed((p) => new Set(p).add(midi));
       const s = state.current,
         t = transport.current;
+      if (t.playing && s.mode === "perform" && recording.current) {
+        // Time against the audio clock, not the last animation frame.
+        recording.current.notes.push({
+          midi,
+          beat:
+            t.origin +
+            (piano.ctx.currentTime - t.start) /
+              recording.current.secondsPerBeat,
+        });
+        return;
+      }
       if (t.playing && s.mode === "wait") {
         const group = practiceGroupAt(s.chordGroups, t.beat);
         if (!group) return;
@@ -1081,6 +1708,96 @@ export default function App() {
       return next;
     });
   }
+  function finishPerformance(reason) {
+    const rec = recording.current;
+    const s = state.current,
+      t = transport.current;
+    if (!rec) {
+      stop();
+      return;
+    }
+    const complete = reason === "complete";
+    const stoppedAt = complete ? rec.end : t.beat;
+    stop({ keepInputs: complete });
+    if (complete) {
+      t.beat = rec.end;
+      setBeat(rec.end);
+    }
+    const result = gradePerformance(
+      s.phraseNotes.filter((n) => n.beat >= rec.from - 1e-6),
+      rec.notes,
+      {
+        score: s.score,
+        start: rec.from,
+        end: rec.end,
+        stoppedAt,
+        secondsPerBeat: rec.secondsPerBeat,
+      },
+    );
+    if (!result.total) {
+      if (!complete)
+        notify(
+          "Stopped before the first note. Play after the count-in to be graded.",
+        );
+      return;
+    }
+    const exercise = s.score.exercise;
+    const entry = {
+      at: new Date().toISOString(),
+      title: String(s.score.title).slice(0, 300),
+      scoreId: /^[a-zA-Z0-9-]{1,80}$/.test(s.score.id || "")
+        ? s.score.id
+        : null,
+      level: exercise?.level ?? null,
+      fifths: exercise?.fifths ?? null,
+      seed: exercise?.seed ?? null,
+      accuracy: Math.round(result.accuracy * 1000) / 10,
+      timing: Math.round(result.precision * 1000) / 10,
+      notes: result.total,
+      tempo: Math.max(1, Math.round(s.score.bpm * s.speed)),
+      mode: "perform",
+      complete: complete && result.complete,
+      bars: Math.max(
+        1,
+        measureAt(s.score, Math.max(0, rec.end - 1e-4)) -
+          measureAt(s.score, rec.from) +
+          1,
+      ),
+    };
+    setHistory((h) => [...h, entry].slice(-HISTORY_LIMIT));
+    setStats((v) => ({ ...v, correct: v.correct + result.matched }));
+    const token = Symbol();
+    resultsToken.current = token;
+    const show = () => {
+      if (resultsToken.current !== token) return;
+      setResults({
+        result,
+        entry,
+        reason,
+        hand: s.hand,
+        from: rec.from,
+        end: rec.end,
+      });
+      setModal("results");
+    };
+    clearTimeout(resultsTimer.current);
+    // Let the last note ring for a moment before the card appears.
+    if (complete) resultsTimer.current = setTimeout(show, 700);
+    else show();
+  }
+  function startExercise(input) {
+    try {
+      const generated = generateExercise(input);
+      choose(generated);
+      setReadingView((v) => v);
+      setModal(null);
+      notify(`New exercise · ${exerciseSummary(generated.exercise)}`);
+      return generated;
+    } catch (e) {
+      notify("Could not make an exercise: " + e.message);
+      return null;
+    }
+  }
   const handlers = useRef();
   handlers.current = {
     noteOn,
@@ -1090,6 +1807,7 @@ export default function App() {
     modal,
     releaseInputSources,
     updatePedal,
+    finishPerformance,
   };
   useEffect(() => {
     if (modal) {
@@ -1262,7 +1980,7 @@ export default function App() {
       s = {
         ...s,
         id: crypto.randomUUID(),
-        source: "Edited lesson",
+        source: s.source === "Exercise" ? "Exercise" : "Edited lesson",
         createdAt: new Date().toISOString(),
       };
     const saved = await api("/scores/" + s.id, json("PUT", s));
@@ -1320,23 +2038,27 @@ export default function App() {
   const active = useMemo(
     () =>
       new Set(
-        playing && mode === "wait"
+        playing && mode !== "listen"
           ? currentNotes.map((n) => n.midi)
           : soundEvents.map((n) => n.midi),
       ),
     [playing, mode, soundEvents, currentNotes],
   );
-  const visibleNotes = (mode === "listen" ? listenNotes : phraseNotes).filter(
+  const flats = usesFlats(score);
+  const inLibrary = library.some((x) => x.id === score.id);
+  const recommended = useMemo(() => recommendedLevel(history), [history]);
+  const sheetPassage = score.measures <= 8 ? score.measures : 4;
+  const visibleNotes = (mode === "wait" ? phraseNotes : listenNotes).filter(
     (n) => n.beat + n.duration > beat - 0.25 && n.beat < beat + rollBeats + 1,
   );
   const time = (Math.max(0, beat) * 60) / score.bpm;
   const totalTime = (score.duration * 60) / score.bpm;
   const label = (m) =>
     labels === "letters"
-      ? noteName(m)
+      ? noteName(m, flats)
       : labels === "solfege"
-        ? solfege(m, tonic)
-        : degree(m, tonic);
+        ? solfege(m, tonic, flats)
+        : degree(m, tonic, flats);
   return (
     <div className={`app theme-${theme}`}>
       <main
@@ -1379,6 +2101,15 @@ export default function App() {
               <Keyboard size={14} />
               {midiStatus === "Connect keyboard" ? "Connect piano" : midiStatus}
               {sustain && " · sustain"}
+            </button>
+            <button
+              className="secondary small reader-new-exercise"
+              onClick={() => {
+                stop();
+                setModal("exercise");
+              }}
+            >
+              <Dices size={15} /> New exercise
             </button>
             <button
               className="secondary small"
@@ -1558,6 +2289,37 @@ export default function App() {
                   {score.composer} · {score.measures}{" "}
                   {score.measures === 1 ? "bar" : "bars"} · ♩ = {score.bpm}
                 </p>
+                {score.exercise && (
+                  <p className="reader-exercise-line">
+                    <span>{exerciseSummary(score.exercise)}</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        startExercise({
+                          ...score.exercise.request,
+                          seed: undefined,
+                        })
+                      }
+                    >
+                      <RefreshCw size={12} /> Another like this
+                    </button>
+                    {!inLibrary && (
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          try {
+                            await saveScore(score);
+                            notify("Kept in your library.");
+                          } catch (e) {
+                            notify(e.message);
+                          }
+                        }}
+                      >
+                        <Save size={12} /> Keep in library
+                      </button>
+                    )}
+                  </p>
+                )}
               </div>
               <div className="reader-score-actions">
                 <button
@@ -1654,6 +2416,7 @@ export default function App() {
                 beat={beat}
                 tonic={tonic}
                 labels={labels}
+                flats={flats}
                 onSeek={seekReading}
                 loopRange={loop ? { first: loopA, last: loopB } : null}
                 onRepeat={repeatBars}
@@ -1679,11 +2442,11 @@ export default function App() {
                           measureAt(score, Math.max(0, beat)),
                         ) -
                           1) /
-                          4,
+                          sheetPassage,
                       ) *
-                        4
+                        sheetPassage
                     }
-                    passageBars={4}
+                    passageBars={sheetPassage}
                     transportScore={score}
                     compact
                     beat={beat}
@@ -1731,7 +2494,7 @@ export default function App() {
                     <div key={n.id} className={n.hand}>
                       <strong>{label(n.midi)}</strong>
                       <span>
-                        {noteName(n.midi)}
+                        {noteName(n.midi, flats)}
                         <small>{n.hand === "left" ? "LH" : "RH"}</small>
                       </span>
                     </div>
@@ -1751,12 +2514,18 @@ export default function App() {
               </div>
               <span className="reader-play-status" role="status">
                 {playing
-                  ? beat < 0
-                    ? "Count in · " + countInNumber(score, beat)
-                    : mode === "wait"
-                      ? "Waiting for your notes"
-                      : "Listen and read ahead"
-                  : "Click a note to start there"}
+                  ? mode === "perform"
+                    ? performCount
+                      ? "Count in · " + performCount
+                      : "Play in time · the click keeps the pulse"
+                    : beat < 0
+                      ? "Count in · " + countInNumber(score, beat)
+                      : mode === "wait"
+                        ? "Waiting for your notes"
+                        : "Listen and read ahead"
+                  : mode === "perform"
+                    ? "Play starts a count-in from this bar"
+                    : "Click a note to start there"}
               </span>
             </div>
             <KeyboardGuide
@@ -1770,6 +2539,7 @@ export default function App() {
               pressed={pressed}
               tonic={tonic}
               labels={labels}
+              flats={flats}
               onNoteOn={noteOn}
               onNoteOff={noteOff}
               onRelease={releaseInputSources}
@@ -1845,6 +2615,16 @@ export default function App() {
                     }}
                   >
                     <Keyboard size={15} /> Wait for me
+                  </button>
+                  <button
+                    className={mode === "perform" ? "selected" : ""}
+                    title="Count-in, click, and a report card on pitch and timing"
+                    onClick={() => {
+                      restartReading();
+                      setMode("perform");
+                    }}
+                  >
+                    <Timer size={15} /> Play in time
                   </button>
                 </div>
                 <div className="hand-select">
@@ -2018,7 +2798,9 @@ export default function App() {
               <span>
                 {mode === "wait" && sessionHits > 0
                   ? `${sessionHits} notes · ${Math.round((sessionHits / (sessionHits + sessionMisses)) * 100)}% accuracy`
-                  : "Saved on this Mac"}
+                  : mode === "perform"
+                    ? "Play in time grades pitch and timing after each run"
+                    : "Saved on this Mac"}
               </span>
             </footer>
           </div>
@@ -2043,6 +2825,15 @@ export default function App() {
                 </p>
               </div>
             </section>
+            {view === "learn" && (
+              <LevelPath
+                history={history}
+                recommended={recommended}
+                onStart={(level) =>
+                  startExercise({ ...exerciseOptions, level, seed: undefined })
+                }
+              />
+            )}
             {view === "library" && (
               <div className="library-tools">
                 <label className="search">
@@ -2154,6 +2945,53 @@ export default function App() {
           </button>
         </div>
       )}
+      {modal === "exercise" && (
+        <ExerciseModal
+          options={exerciseOptions}
+          onChange={setExerciseOptions}
+          history={history}
+          onGenerate={(options) =>
+            startExercise({ ...options, seed: undefined })
+          }
+          close={() => setModal(null)}
+        />
+      )}
+      {modal === "results" && results && (
+        <ResultsModal
+          results={results}
+          score={score}
+          flats={flats}
+          close={() => setModal(null)}
+          onRepeat={(first, last) => {
+            setModal(null);
+            repeatBars(first, last);
+          }}
+          onAgain={() => {
+            setModal(null);
+            restartReading();
+          }}
+          onNext={() => {
+            setModal(null);
+            startExercise({ ...score.exercise.request, seed: undefined });
+          }}
+          onLevelUp={
+            score.exercise &&
+            score.exercise.level < LEVELS.length &&
+            levelAdvice(history, score.exercise.level).ready
+              ? () => {
+                  const level = score.exercise.level + 1;
+                  setModal(null);
+                  setExerciseOptions((o) => ({ ...o, level }));
+                  startExercise({
+                    ...score.exercise.request,
+                    level,
+                    seed: undefined,
+                  });
+                }
+              : null
+          }
+        />
+      )}
       {modal === "settings" && (
         <Modal title="Reading settings" close={() => setModal(null)}>
           <section className="practice-settings reader-settings">
@@ -2216,12 +3054,78 @@ export default function App() {
                 <i />
               </button>
             </div>
+            <div className="toggle-row">
+              <span title="Number 1 becomes the tonic of each piece’s key signature">
+                Number 1 follows the key
+              </span>
+              <button
+                className={`toggle ${tonicFollow ? "active" : ""}`}
+                role="switch"
+                aria-checked={tonicFollow}
+                aria-label="Number 1 follows the key"
+                onClick={() => {
+                  const next = !tonicFollow;
+                  setTonicFollow(next);
+                  if (next) setTonic(score.tonic ?? 0);
+                }}
+              >
+                <i />
+              </button>
+            </div>
             <p
               className="meter-hint"
               title="The metronome follows the written meter. Tempo is measured in quarter notes per minute."
             >
-              {meterHint(score, beat)}
+              {meterHint(score, beat)} · Play in time always counts in and
+              clicks.
             </p>
+          </section>
+          <section className="progress-panel" aria-label="Practice progress">
+            <div className="card-title">
+              <span>
+                <Trophy size={15} /> Progress
+              </span>
+            </div>
+            <div className="progress-stats">
+              <div>
+                <strong>{practiceStreak(history)}</strong>
+                <span>day streak</span>
+              </div>
+              <div>
+                <strong>
+                  {
+                    history.filter(
+                      (h) => localDay(h.at) === localDay(Date.now()),
+                    ).length
+                  }
+                </strong>
+                <span>runs today</span>
+              </div>
+              <div>
+                <strong>{history.length}</strong>
+                <span>graded runs</span>
+              </div>
+              <div>
+                <strong>{recommended}</strong>
+                <span>level next</span>
+              </div>
+            </div>
+            {history.length > 0 && (
+              <ul className="progress-list">
+                {history
+                  .slice(-5)
+                  .reverse()
+                  .map((h, i) => (
+                    <li key={h.at + i}>
+                      <span>{h.title}</span>
+                      <b>
+                        {Math.round(h.accuracy)}% · {Math.round(h.timing)}% on
+                        time
+                      </b>
+                    </li>
+                  ))}
+              </ul>
+            )}
           </section>
 
           <div className="reader-settings-links">

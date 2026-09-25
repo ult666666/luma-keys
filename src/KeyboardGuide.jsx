@@ -24,6 +24,7 @@ export default function KeyboardGuide({
   pressed,
   tonic,
   labels,
+  flats = false,
   onNoteOn,
   onNoteOff,
   onRelease,
@@ -75,10 +76,10 @@ export default function KeyboardGuide({
     : low;
   const label = (m) =>
     labels === "letters"
-      ? noteName(m)
+      ? noteName(m, flats)
       : labels === "solfege"
-        ? solfege(m, tonic)
-        : degree(m, tonic);
+        ? solfege(m, tonic, flats)
+        : degree(m, tonic, flats);
   const readWindow = () => {
     const el = viewport.current;
     if (el?.clientWidth)
@@ -255,7 +256,7 @@ export default function KeyboardGuide({
             aria-valuemin={0}
             aria-valuemax={Math.round(WIDTH - viewportState.width)}
             aria-valuenow={Math.round(viewportState.left)}
-            aria-valuetext={`${noteName(visible[0]?.midi || 21)} to ${noteName(visible.at(-1)?.midi || 108)}`}
+            aria-valuetext={`${noteName(visible[0]?.midi || 21, flats)} to ${noteName(visible.at(-1)?.midi || 108, flats)}`}
             onKeyDown={(e) => {
               if (["ArrowLeft", "ArrowRight"].includes(e.key)) {
                 e.preventDefault();
@@ -313,7 +314,7 @@ export default function KeyboardGuide({
                   disabled={!expanded}
                   tabIndex={expanded && k.midi === focusPitch ? 0 : -1}
                   onFocus={() => setFocusPitch(k.midi)}
-                  aria-label={`${noteName(k.midi)} ${degree(k.midi, tonic)} ${solfege(k.midi, tonic)}`}
+                  aria-label={`${noteName(k.midi, flats)} ${degree(k.midi, tonic, flats)} ${solfege(k.midi, tonic, flats)}`}
                   className={`piano-key ${k.black ? "black" : "white"} ${active.has(k.midi) || pitches.includes(k.midi) ? "lit" : ""} ${pressed.has(k.midi) ? "pressed" : ""} ${soundFrame.owners.has(k.midi) ? "sounding" : ""} ${k.midi === 60 ? "middle-c" : ""}`}
                   style={{ left: k.left + "%", width: k.width + "%" }}
                   onPointerDown={(e) => {
@@ -391,7 +392,7 @@ export default function KeyboardGuide({
                       key={keyMotion.generations.get(k.midi) || 0}
                     />
                     <span className="key-number">{label(k.midi)}</span>
-                    <small>{noteName(k.midi)}</small>
+                    <small>{noteName(k.midi, flats)}</small>
                   </span>
                 </button>
               ))}
@@ -400,8 +401,8 @@ export default function KeyboardGuide({
         </div>
         <div className="keyboard-guide-caption">
           <span>
-            1 = Do / {noteName(60 + tonic).replace("4", "")} · numbers are
-            notes, not fingers
+            1 = Do / {noteName(60 + tonic, flats).replace("4", "")} · numbers
+            are notes, not fingers
           </span>
           <span>Scroll to explore all 88 keys</span>
         </div>
