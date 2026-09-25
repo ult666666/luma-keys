@@ -1,0 +1,45 @@
+{
+  "reports": [
+    {
+      "name": "Studio loads with aligned 37-key comfort keyboard",
+      "passed": true
+    },
+    {
+      "name": "All 30 piano samples decode; playback sounds notes, advances, and pauses",
+      "passed": true
+    },
+    {
+      "name": "Wait mode holds time; wrong note does not advance; correct computer-key note advances",
+      "passed": true
+    },
+    {
+      "name": "Phrase-loop bar controls work",
+      "passed": true
+    },
+    {
+      "name": "88 keys, note labels, movable tonic, and fixed Do agree",
+      "passed": true
+    },
+    {
+      "name": "Companion and theme save across reload",
+      "passed": true
+    },
+    {
+      "name": "Real MusicXML imports, renders as sheet music, and saves review",
+      "passed": true
+    },
+    {
+      "name": "Library and search include saved imported score",
+      "passed": true
+    },
+    {
+      "name": "390px responsive screen has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript runtime errors across tested flows",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

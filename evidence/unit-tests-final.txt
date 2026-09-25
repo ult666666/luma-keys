@@ -1,0 +1,37 @@
+
+> luma-keys@1.0.0 test
+> node --test tests/*.test.mjs
+
+✔ fixed Do, chromatic notes, octaves and movable Do (1.789958ms)
+✔ 88-key layout aligns black keys between white keys (0.339875ms)
+✔ voice backup, simultaneous chords, rest, duration and left staff (10.562459ms)
+✔ ties merge sustained notes and pickup does not add empty beats (1.32025ms)
+✔ MXL container selects root music XML (5.404125ms)
+✔ invalid and empty scores fail honestly (1.888458ms)
+✔ MIDI notes retain pitch and quarter-note duration (1.853041ms)
+✔ lessons have bounded sorted notes and complete durations (0.412291ms)
+✔ fixture: pickup with a full-bar rest, two parts with different divisions, tie, chords and triplets (3.418667ms)
+✔ chord members share the onset of their voice after backup, even after a rest (1.889167ms)
+✔ tie chains across three bars become one held note; untouching ties do not merge (1.103125ms)
+✔ ties across a voice-number change and between chord members follow pitch (1.537958ms)
+✔ a transposing part reads its key in concert pitch even when <transpose> follows <key> (1.414791ms)
+✔ a pickup bar whose other staff holds a whole-bar rest still lasts only its played beats (0.5965ms)
+✔ a pickup is detected without implicit="yes"; a bar of only rests keeps its full length (0.387458ms)
+✔ a bar split around a repeat (short bar + implicit bar) is not padded with silence (1.337959ms)
+✔ notes missing <duration> are timed from their written type, dots and tuplets (1.700917ms)
+✔ written accidentals fill a missing <alter>; key signatures ignored by an exporter are flagged (0.667208ms)
+✔ unsupported notation warnings name the bars involved (0.448084ms)
+✔ bars drawn as repeat-the-bar signs without written notes are flagged (0.407542ms)
+✔ malformed MusicXML and MXL input fail with clear messages (3.473291ms)
+✔ MIDI: humanized chords line up, far-apart notes stay separate, out-of-range notes are reported (0.655084ms)
+✔ MIDI: two tracks map to hands; minor keys use the relative-major number 1; bars follow 3/4 (0.509041ms)
+Luma Keys listening on 55826
+✔ Local API imports, persists, validates, exports, and restricts foreign origins (127.302333ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 416.794375

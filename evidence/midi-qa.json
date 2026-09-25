@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "simulated": true,
+  "physicalHardwareTested": false,
+  "checks": [
+    "MIDI device binding",
+    "Note-on and note-off",
+    "Wrong note stays on current chord",
+    "Correct MIDI note advances",
+    "CC64 sustain pedal"
+  ],
+  "errors": []
+}

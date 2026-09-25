@@ -1,0 +1,184 @@
+{
+  "expected": [
+    60,
+    62,
+    64,
+    65,
+    67,
+    69,
+    71,
+    72,
+    72,
+    71,
+    69,
+    67,
+    65,
+    64,
+    62,
+    60
+  ],
+  "recognized": [
+    60,
+    62,
+    64,
+    65,
+    67,
+    69,
+    71,
+    72,
+    72,
+    71,
+    69,
+    67,
+    65,
+    64,
+    62,
+    60
+  ],
+  "notes": [
+    {
+      "id": "n0",
+      "midi": 60,
+      "beat": 0,
+      "duration": 1,
+      "hand": "right",
+      "measure": 1,
+      "velocity": 0.72
+    },
+    {
+      "id": "n1",
+      "midi": 62,
+      "beat": 1,
+      "duration": 1,
+      "hand": "right",
+      "measure": 1,
+      "velocity": 0.72
+    },
+    {
+      "id": "n2",
+      "midi": 64,
+      "beat": 2,
+      "duration": 1,
+      "hand": "right",
+      "measure": 1,
+      "velocity": 0.72
+    },
+    {
+      "id": "n3",
+      "midi": 65,
+      "beat": 3,
+      "duration": 1,
+      "hand": "right",
+      "measure": 1,
+      "velocity": 0.72
+    },
+    {
+      "id": "n4",
+      "midi": 67,
+      "beat": 4,
+      "duration": 1,
+      "hand": "right",
+      "measure": 2,
+      "velocity": 0.72
+    },
+    {
+      "id": "n5",
+      "midi": 69,
+      "beat": 5,
+      "duration": 1,
+      "hand": "right",
+      "measure": 2,
+      "velocity": 0.72
+    },
+    {
+      "id": "n6",
+      "midi": 71,
+      "beat": 6,
+      "duration": 1,
+      "hand": "right",
+      "measure": 2,
+      "velocity": 0.72
+    },
+    {
+      "id": "n7",
+      "midi": 72,
+      "beat": 7,
+      "duration": 1,
+      "hand": "right",
+      "measure": 2,
+      "velocity": 0.72
+    },
+    {
+      "id": "n8",
+      "midi": 72,
+      "beat": 8,
+      "duration": 1,
+      "hand": "right",
+      "measure": 3,
+      "velocity": 0.72
+    },
+    {
+      "id": "n9",
+      "midi": 71,
+      "beat": 9,
+      "duration": 1,
+      "hand": "right",
+      "measure": 3,
+      "velocity": 0.72
+    },
+    {
+      "id": "n10",
+      "midi": 69,
+      "beat": 10,
+      "duration": 1,
+      "hand": "right",
+      "measure": 3,
+      "velocity": 0.72
+    },
+    {
+      "id": "n11",
+      "midi": 67,
+      "beat": 11,
+      "duration": 1,
+      "hand": "right",
+      "measure": 3,
+      "velocity": 0.72
+    },
+    {
+      "id": "n12",
+      "midi": 65,
+      "beat": 12,
+      "duration": 1,
+      "hand": "right",
+      "measure": 4,
+      "velocity": 0.72
+    },
+    {
+      "id": "n13",
+      "midi": 64,
+      "beat": 13,
+      "duration": 1,
+      "hand": "right",
+      "measure": 4,
+      "velocity": 0.72
+    },
+    {
+      "id": "n14",
+      "midi": 62,
+      "beat": 14,
+      "duration": 1,
+      "hand": "right",
+      "measure": 4,
+      "velocity": 0.72
+    },
+    {
+      "id": "n15",
+      "midi": 60,
+      "beat": 15,
+      "duration": 1,
+      "hand": "right",
+      "measure": 4,
+      "velocity": 0.72
+    }
+  ]
+}

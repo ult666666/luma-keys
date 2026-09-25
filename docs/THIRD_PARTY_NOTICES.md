@@ -30,3 +30,5 @@ Traditional Twinkle, Little Star, and small beginner arrangements of Beethoven's
 Luma/Mochi vector companion artwork, icon, color themes, UI design and copy are original to this project.
 
 Tesseract English trained data 4.1.0, Apache License 2.0, bundled to make text/tempo recognition available offline. https://github.com/tesseract-ocr/tessdata/tree/4.1.0 . The compatible legacy-and-LSTM model is required by Audiveris's Tesseract-only mode.
+
+PDF.js by Mozilla and contributors (Apache License 2.0) renders the original score in the app. Its worker, character maps, standard fonts, and image-decoding WASM resources are bundled locally; associated notices are retained in public/pdfjs.

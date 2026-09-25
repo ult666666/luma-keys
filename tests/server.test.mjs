@@ -1,12 +1,84 @@
-import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs/promises';import os from 'node:os';import path from 'node:path';import {startServer} from '../server.mjs';import {demos} from '../src/music.mjs';
-test('Local API imports, persists, validates, exports, and restricts foreign origins',async()=>{const dir=await fs.mkdtemp(path.join(os.tmpdir(),'luma-test-'));const {server,port}=await startServer({port:0,dataDir:path.join(dir,'Library')});const base=`http://127.0.0.1:${port}`;try{
- let r=await fetch(base+'/api/health');assert.equal((await r.json()).ok,true);
- const form=new FormData();form.append('score',new Blob([await fs.readFile('tests/starter.musicxml')]),'starter.musicxml');r=await fetch(base+'/api/import',{method:'POST',body:form});assert.equal(r.status,200);const {score}=await r.json();assert.equal(score.notes.length,16);assert.equal((await (await fetch(base+'/api/scores')).json()).length,1);
- const updated={...score,reviewed:true};r=await fetch(base+'/api/scores/'+score.id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(updated)});assert.equal(r.status,200);assert.equal((await (await fetch(base+'/api/scores')).json())[0].reviewed,true);
- const invalid={...score,notes:[{...score.notes[0],duration:-2}]};r=await fetch(base+'/api/scores/'+score.id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(invalid)});assert.equal(r.status,400);
- r=await fetch(base+'/api/preferences',{method:'PUT',headers:{'Content-Type':'application/json',Origin:'https://malicious.example'},body:'{}'});assert.equal(r.status,403);
- r=await fetch(base+'/api/export',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({score:updated,tonic:0})});assert.equal(r.status,200);const out=await r.json();assert.ok((await fs.readFile(out.html,'utf8')).includes('C4 · Do'));assert.ok((await fs.readFile(out.backup,'utf8')).includes('notes'));
- const backup=new FormData();backup.append('score',new Blob([await fs.readFile(out.backup)]),'practice.json');r=await fetch(base+'/api/import',{method:'POST',body:backup});assert.equal(r.status,200);assert.equal((await r.json()).score.notes.length,16);
- const pdf=new FormData();pdf.append('score',new Blob(['not a pdf']),'fake.pdf');r=await fetch(base+'/api/import',{method:'POST',body:pdf});assert.equal(r.status,400);
- r=await fetch(base+'/api/scores/'+score.id,{method:'DELETE'});assert.equal(r.status,200);
- }finally{await new Promise(r=>server.close(r));await fs.rm(dir,{recursive:true,force:true});}});
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import { startServer } from "../server.mjs";
+import { demos } from "../src/music.mjs";
+test("Local API imports, persists, validates, exports, and restricts foreign origins", async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "luma-test-"));
+  const { server, port } = await startServer({
+    port: 0,
+    dataDir: path.join(dir, "Library"),
+  });
+  const base = `http://127.0.0.1:${port}`;
+  try {
+    let r = await fetch(base + "/api/health");
+    assert.equal((await r.json()).ok, true);
+    const form = new FormData();
+    form.append(
+      "score",
+      new Blob([await fs.readFile("tests/starter.musicxml")]),
+      "starter.musicxml",
+    );
+    r = await fetch(base + "/api/import", { method: "POST", body: form });
+    assert.equal(r.status, 200);
+    const { score } = await r.json();
+    assert.equal(score.notes.length, 16);
+    assert.equal((await (await fetch(base + "/api/scores")).json()).length, 1);
+    const updated = { ...score, reviewed: true };
+    r = await fetch(base + "/api/scores/" + score.id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updated),
+    });
+    assert.equal(r.status, 200);
+    assert.equal(
+      (await (await fetch(base + "/api/scores")).json())[0].reviewed,
+      true,
+    );
+    const invalid = { ...score, notes: [{ ...score.notes[0], duration: -2 }] };
+    r = await fetch(base + "/api/scores/" + score.id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(invalid),
+    });
+    assert.equal(r.status, 400);
+    r = await fetch(base + "/api/preferences", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "https://malicious.example",
+      },
+      body: "{}",
+    });
+    assert.equal(r.status, 403);
+    r = await fetch(base + "/api/export", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ score: updated, tonic: 0 }),
+    });
+    assert.equal(r.status, 200);
+    const out = await r.json();
+    assert.ok((await fs.readFile(out.html, "utf8")).includes("C4 · Do"));
+    assert.ok((await fs.readFile(out.backup, "utf8")).includes("notes"));
+    const backup = new FormData();
+    backup.append(
+      "score",
+      new Blob([await fs.readFile(out.backup)]),
+      "practice.json",
+    );
+    r = await fetch(base + "/api/import", { method: "POST", body: backup });
+    assert.equal(r.status, 200);
+    assert.equal((await r.json()).score.notes.length, 16);
+    const pdf = new FormData();
+    pdf.append("score", new Blob(["not a pdf"]), "fake.pdf");
+    r = await fetch(base + "/api/import", { method: "POST", body: pdf });
+    assert.equal(r.status, 400);
+    r = await fetch(base + "/api/scores/" + score.id, { method: "DELETE" });
+    assert.equal(r.status, 200);
+  } finally {
+    await new Promise((r) => server.close(r));
+    await fs.rm(dir, { recursive: true, force: true });
+  }
+});

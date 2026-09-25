@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "Add missing note",
+    "Remove incorrect note",
+    "Edit pitch and beat",
+    "Persist review changes",
+    "Original notation warning after edits",
+    "Export corrected numbered sheet"
+  ],
+  "errors": []
+}

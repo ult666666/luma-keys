@@ -10,7 +10,8 @@
     "build": "vite build",
     "start": "electron .",
     "test": "node --test tests/*.test.mjs",
-    "pack": "npm run build && electron-builder --mac dir --arm64"
+    "pack": "npm run build && electron-builder --mac dir --arm64",
+    "format": "prettier --write src/*.jsx src/*.js src/*.mjs src/*.css server.mjs electron.cjs scripts/*.mjs tests/*.mjs"
   },
   "dependencies": {
     "@tonejs/midi": "^2.0.28",
@@ -20,6 +21,7 @@
     "lucide-react": "^0.468.0",
     "multer": "^2.0.2",
     "opensheetmusicdisplay": "^1.9.2",
+    "pdfjs-dist": "^6.3.289",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
@@ -30,6 +32,7 @@
     "concurrently": "^9.2.0",
     "electron": "^44.4.5",
     "electron-builder": "^26.0.12",
+    "prettier": "^3.9.9",
     "vite": "^7.1.0"
   },
   "build": {

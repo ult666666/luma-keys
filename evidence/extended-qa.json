@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checkpoints": [
+    "Invalid PDF returns actionable error",
+    "Empty-hand practice cannot silently play",
+    "Bar loop wraps and continues playing",
+    "Note-off and focus loss release held keys",
+    "Guide modal supports Escape"
+  ],
+  "errors": []
+}

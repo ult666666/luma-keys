@@ -1,0 +1,16 @@
+
+> luma-keys@1.0.0 build
+> vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 1658 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                        0.46 kB │ gzip:   0.32 kB
+dist/assets/pdf.worker.min-Dswkl-cV.mjs            1,265.41 kB
+dist/assets/index-Bgeibxx4.css                        37.78 kB │ gzip:   8.95 kB
+dist/assets/index-DzDNIZDu.js                        312.84 kB │ gzip:  98.30 kB
+dist/assets/pdf-YYBQA8p7.js                          437.74 kB │ gzip: 130.66 kB
+dist/assets/opensheetmusicdisplay.min-zBKctViD.js  1,223.69 kB │ gzip: 321.47 kB
+✓ built in 3.52s

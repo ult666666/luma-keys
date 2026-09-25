@@ -50,7 +50,11 @@ npm run pack
 
 Development UI: http://127.0.0.1:5188 . Local API: port 5189. Packaged app chooses its own available loopback port. It uses an isolated renderer without Node access and rejects foreign web origins.
 
+To rebuild and refresh the Desktop app after changes, run `scripts/package-desktop.sh`.
+
 The app is a local personal build for this Apple Silicon Mac; it is not an App Store release. It includes a current Electron runtime and the local recognition engine. Do not delete Library if rebuilding the app.
 
 ## Overnight work
 An hourly Codex follow-up is scheduled through 8:00 AM Eastern on September 25, 2026. Keep this Mac plugged in, awake, and Codex running. Build status is in STATUS.md. The schedule is bounded to tonight.
+
+The original PDF viewer is built into the app and works offline. Review also supports adding a missing note or removing an incorrect one. If you edit the note timeline, the original engraving is explicitly labeled as unchanged; playback and numbered exports use your corrections. Playback pauses when the app is hidden or minimized, so it will not silently skip ahead.

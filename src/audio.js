@@ -1,13 +1,113 @@
-const SAMPLE_MIDI=[21,24,27,30,33,36,39,42,45,48,51,54,57,60,63,66,69,72,75,78,81,84,87,90,93,96,99,102,105,108];
-const NAMES=['C','Cs','D','Ds','E','F','Fs','G','Gs','A','As','B'];
+const SAMPLE_MIDI = [
+  21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75,
+  78, 81, 84, 87, 90, 93, 96, 99, 102, 105, 108,
+];
+const NAMES = ["C", "Cs", "D", "Ds", "E", "F", "Fs", "G", "Gs", "A", "As", "B"];
 export class PianoAudio {
- constructor(){this.buffers=new Map();this.voices=new Set();this.volume=.65;this.pedal=false;}
- async init(){if(!this.ctx){this.ctx=new AudioContext({latencyHint:'interactive'});this.master=this.ctx.createGain();this.master.gain.value=this.volume;const compressor=this.ctx.createDynamicsCompressor();compressor.threshold.value=-10;compressor.ratio.value=4;this.master.connect(compressor);compressor.connect(this.ctx.destination);this.ready=Promise.all(SAMPLE_MIDI.map(async m=>{const name=NAMES[m%12]+(Math.floor(m/12)-1);const r=await fetch('/samples/'+name+'.mp3');if(!r.ok)throw Error('Piano samples could not load. Reopen Luma Keys.');this.buffers.set(m,await this.ctx.decodeAudioData(await r.arrayBuffer()));}));}await this.ctx.resume();await this.ready;}
- setVolume(v){this.volume=v;if(this.master)this.master.gain.setTargetAtTime(v,this.ctx.currentTime,.04);}
- play(midi,duration=null,velocity=.72,delay=0){if(!this.ctx||!this.buffers.size)return null;const nearest=SAMPLE_MIDI.reduce((a,b)=>Math.abs(b-midi)<Math.abs(a-midi)?b:a);const source=this.ctx.createBufferSource();source.buffer=this.buffers.get(nearest);source.playbackRate.value=2**((midi-nearest)/12);const gain=this.ctx.createGain();const start=this.ctx.currentTime+delay;gain.gain.setValueAtTime(Math.max(.03,velocity)*.6,start);source.connect(gain);gain.connect(this.master);source.start(start);const voice={source,gain,midi,start,released:false};this.voices.add(voice);source.onended=()=>{this.voices.delete(voice);gain.disconnect();};if(duration!==null)this.release(voice,start+Math.max(.08,duration));return voice;}
- release(voice,time=this.ctx?.currentTime||0){if(!voice||voice.released)return;if(this.pedal&&time<=this.ctx.currentTime+.01){voice.pending=true;return;}voice.released=true;voice.gain.gain.cancelScheduledValues(time);voice.gain.gain.setTargetAtTime(0,time,.1);try{voice.source.stop(time+.7);}catch{}}
- sustain(down){this.pedal=down;if(!down)for(const v of this.voices)if(v.pending)this.release(v);}
- stop(){this.pedal=false;for(const v of this.voices){try{v.gain.gain.cancelScheduledValues(this.ctx.currentTime);v.gain.gain.setTargetAtTime(0,this.ctx.currentTime,.015);v.source.stop(this.ctx.currentTime+.08);}catch{}}this.voices.clear();}
- tick(accent=false){if(!this.ctx)return;const o=this.ctx.createOscillator(),g=this.ctx.createGain();o.frequency.value=accent?1100:740;g.gain.setValueAtTime(.1,this.ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,this.ctx.currentTime+.045);o.connect(g);g.connect(this.master);o.start();o.stop(this.ctx.currentTime+.055);}
+  constructor() {
+    this.buffers = new Map();
+    this.voices = new Set();
+    this.volume = 0.65;
+    this.pedal = false;
+  }
+  async prepare() {
+    if (!this.ctx) {
+      this.ctx = new AudioContext({ latencyHint: "interactive" });
+      this.master = this.ctx.createGain();
+      this.master.gain.value = this.volume;
+      const compressor = this.ctx.createDynamicsCompressor();
+      compressor.threshold.value = -10;
+      compressor.ratio.value = 4;
+      this.master.connect(compressor);
+      compressor.connect(this.ctx.destination);
+      this.ready = Promise.all(
+        SAMPLE_MIDI.map(async (m) => {
+          const name = NAMES[m % 12] + (Math.floor(m / 12) - 1);
+          const r = await fetch("/samples/" + name + ".mp3");
+          if (!r.ok)
+            throw Error("Piano samples could not load. Reopen Luma Keys.");
+          this.buffers.set(
+            m,
+            await this.ctx.decodeAudioData(await r.arrayBuffer()),
+          );
+        }),
+      );
+    }
+    return this.ready;
+  }
+  async init() {
+    const ready = this.prepare();
+    await this.ctx.resume();
+    await ready;
+  }
+  setVolume(v) {
+    this.volume = v;
+    if (this.master)
+      this.master.gain.setTargetAtTime(v, this.ctx.currentTime, 0.04);
+  }
+  play(midi, duration = null, velocity = 0.72, delay = 0) {
+    if (!this.ctx || !this.buffers.size) return null;
+    const nearest = SAMPLE_MIDI.reduce((a, b) =>
+      Math.abs(b - midi) < Math.abs(a - midi) ? b : a,
+    );
+    const source = this.ctx.createBufferSource();
+    source.buffer = this.buffers.get(nearest);
+    source.playbackRate.value = 2 ** ((midi - nearest) / 12);
+    const gain = this.ctx.createGain();
+    const start = this.ctx.currentTime + delay;
+    gain.gain.setValueAtTime(Math.max(0.03, velocity) * 0.6, start);
+    source.connect(gain);
+    gain.connect(this.master);
+    source.start(start);
+    const voice = { source, gain, midi, start, released: false };
+    this.voices.add(voice);
+    source.onended = () => {
+      this.voices.delete(voice);
+      gain.disconnect();
+    };
+    if (duration !== null)
+      this.release(voice, start + Math.max(0.08, duration));
+    return voice;
+  }
+  release(voice, time = this.ctx?.currentTime || 0) {
+    if (!voice || voice.released) return;
+    if (this.pedal && time <= this.ctx.currentTime + 0.01) {
+      voice.pending = true;
+      return;
+    }
+    voice.released = true;
+    voice.gain.gain.cancelScheduledValues(time);
+    voice.gain.gain.setTargetAtTime(0, time, 0.1);
+    try {
+      voice.source.stop(time + 0.7);
+    } catch {}
+  }
+  sustain(down) {
+    this.pedal = down;
+    if (!down) for (const v of this.voices) if (v.pending) this.release(v);
+  }
+  stop() {
+    this.pedal = false;
+    for (const v of this.voices) {
+      try {
+        v.gain.gain.cancelScheduledValues(this.ctx.currentTime);
+        v.gain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015);
+        v.source.stop(this.ctx.currentTime + 0.08);
+      } catch {}
+    }
+    this.voices.clear();
+  }
+  tick(accent = false) {
+    if (!this.ctx) return;
+    const o = this.ctx.createOscillator(),
+      g = this.ctx.createGain();
+    o.frequency.value = accent ? 1100 : 740;
+    g.gain.setValueAtTime(0.1, this.ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.045);
+    o.connect(g);
+    g.connect(this.master);
+    o.start();
+    o.stop(this.ctx.currentTime + 0.055);
+  }
 }
-export const piano=new PianoAudio();
+export const piano = new PianoAudio();

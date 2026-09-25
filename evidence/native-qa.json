@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checks": [
+    "Packaged app launches without terminal",
+    "Bundled local recognition engine present",
+    "Library saved on Desktop",
+    "Printable number export saved",
+    "Native audio playback advances",
+    "Actual PDF imports 16 notes in packaged app",
+    "Original PDF is available"
+  ],
+  "health": {
+    "ok": true,
+    "omr": true,
+    "dataDir": "/Users/prince/Desktop/Luma Keys/Library"
+  },
+  "errors": []
+}

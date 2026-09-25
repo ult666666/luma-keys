@@ -1,4 +1,57 @@
-import {degree,solfege,noteName,groups} from './music.mjs';
-const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function numberedSheet(score,tonic=0){const byBar=new Map();for(const g of groups(score.notes)){const bar=g.notes[0].measure||Math.floor(g.beat/(score.meter||4))+1;if(!byBar.has(bar))byBar.set(bar,[]);byBar.get(bar).push(g);}return `<!doctype html><html lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(score.title)} · Luma Keys</title><style>body{font:14px -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#23392d;background:#f6f8f2;margin:0;padding:48px;line-height:1.6}main{max-width:950px;margin:auto}.brand{letter-spacing:4px;text-transform:uppercase;font-size:11px;color:#567460}h1{font-size:36px;letter-spacing:-1px;line-height:1.2;margin:16px 0}.subtitle{color:#667c6c;margin-bottom:30px}.legend{border:1px solid #c9d8c9;padding:20px;border-radius:12px;margin:25px 0;display:flex;justify-content:space-between;gap:8px}.legend div{text-align:center}.legend b{display:block;font-size:24px}.legend small{font-size:11px}.bar{break-inside:avoid;background:#fff;border:1px solid #dce4db;border-radius:12px;margin:16px 0;padding:18px}.bar>header{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#6e8b75;margin-bottom:12px}.notes{display:flex;flex-wrap:wrap;gap:12px}.chord{display:flex;gap:6px;position:relative;padding-bottom:22px}.note{min-width:70px;text-align:center;padding:10px;background:#eff4ec;border-radius:7px}.note.left{background:#f0ebf8}.note b{font-size:28px;display:block;font-weight:500;line-height:1.3}.note span{font-size:11px;display:block}.note small{font-size:9px;color:#728775}.onset{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:9px;color:#7c9080}.help{font-size:12px;color:#637c6b}.print{background:#264b37;color:white;border:0;border-radius:6px;padding:10px 18px;font:inherit;cursor:pointer;float:right}.warning{border-left:3px solid #b4a975;padding:10px 16px;background:#f0eddf;font-size:12px}@media print{body{background:white;padding:0;font-size:12px}.print{display:none}h1{font-size:28px}.bar{box-shadow:none}.note{-webkit-print-color-adjust:exact;print-color-adjust:exact}}@media(max-width:600px){body{padding:20px}.legend{gap:3px;padding:12px}.legend small{font-size:9px}.note{min-width:55px}}</style><main><button class="print" onclick="window.print()">Print / Save PDF</button><div class="brand">luma keys · your piano practice companion</div><h1>${escape(score.title)}</h1><div class="subtitle">${escape(score.composer)} · ${score.bpm} BPM · ${score.measures} bars</div><p class="help">Numbers name notes, not fingers. The pitch label tells you the exact key: C4 is middle C; C5 is one octave higher. Notes grouped side by side at the same beat form a chord. Mint = right hand; lavender = left hand. Durations use quarter-note beats.</p><div class="legend">${[60,62,64,65,67,69,71].map(m=>`<div><b>${degree(m,tonic)}</b><small>${solfege(m,tonic)} · ${noteName(m)}</small></div>`).join('')}</div>${!score.reviewed?'<p class="warning">This imported score has not been marked reviewed. Check it against the original sheet before practicing.</p>':''}${score.warnings?.length?'<p class="help">'+score.warnings.map(escape).join('<br>')+'</p>':''}${[...byBar].map(([bar,gs])=>`<section class="bar"><header>Bar ${bar}</header><div class="notes">${gs.map(g=>`<div class="chord">${g.notes.map(n=>`<div class="note ${n.hand==='left'?'left':''}"><b>${degree(n.midi,tonic)}</b><span>${noteName(n.midi)} · ${solfege(n.midi,tonic)}</span><small>${n.duration} beat${n.duration===1?'':'s'}</small></div>`).join('')}<span class="onset">Beat ${Number((g.beat%score.meter+1).toFixed(3))}</span></div>`).join('')}</div></section>`).join('')}<p class="help">A little practice. A little magic. · Saved from Luma Keys · Number 1 = ${noteName(60+tonic)} · ${new Date().toLocaleDateString()}</p></main></html>`;}
-export function validatePractice(s){if(!s||!Array.isArray(s.notes)||!s.notes.length||s.notes.length>100000)throw Error('Practice file needs a nonempty note list.');if(!Number.isFinite(s.bpm)||s.bpm<10||s.bpm>400)throw Error('Choose a tempo between 10 and 400 BPM.');if(!Number.isFinite(s.meter)||s.meter<=0||s.meter>32)throw Error('Invalid beats per measure.');for(const n of s.notes)if(!Number.isInteger(n.midi)||n.midi<21||n.midi>108||!Number.isFinite(n.beat)||n.beat<0||!Number.isFinite(n.duration)||n.duration<=0||n.duration>10000||!['left','right'].includes(n.hand))throw Error('Practice file contains an invalid pitch, rhythm or hand.');return s;}
+import { degree, solfege, noteName, groups } from "./music.mjs";
+const escape = (s) =>
+  String(s ?? "").replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ],
+  );
+export function numberedSheet(score, tonic = 0) {
+  const byBar = new Map();
+  for (const g of groups(score.notes)) {
+    const bar =
+      g.notes[0].measure || Math.floor(g.beat / (score.meter || 4)) + 1;
+    if (!byBar.has(bar)) byBar.set(bar, []);
+    byBar.get(bar).push(g);
+  }
+  return `<!doctype html><html lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(score.title)} · Luma Keys</title><style>body{font:14px -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#23392d;background:#f6f8f2;margin:0;padding:48px;line-height:1.6}main{max-width:950px;margin:auto}.brand{letter-spacing:4px;text-transform:uppercase;font-size:11px;color:#567460}h1{font-size:36px;letter-spacing:-1px;line-height:1.2;margin:16px 0}.subtitle{color:#667c6c;margin-bottom:30px}.legend{border:1px solid #c9d8c9;padding:20px;border-radius:12px;margin:25px 0;display:flex;justify-content:space-between;gap:8px}.legend div{text-align:center}.legend b{display:block;font-size:24px}.legend small{font-size:11px}.bar{break-inside:avoid;background:#fff;border:1px solid #dce4db;border-radius:12px;margin:16px 0;padding:18px}.bar>header{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#6e8b75;margin-bottom:12px}.notes{display:flex;flex-wrap:wrap;gap:12px}.chord{display:flex;gap:6px;position:relative;padding-bottom:22px}.note{min-width:70px;text-align:center;padding:10px;background:#eff4ec;border-radius:7px}.note.left{background:#f0ebf8}.note b{font-size:28px;display:block;font-weight:500;line-height:1.3}.note span{font-size:11px;display:block}.note small{font-size:9px;color:#728775}.onset{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:9px;color:#7c9080}.help{font-size:12px;color:#637c6b}.print{background:#264b37;color:white;border:0;border-radius:6px;padding:10px 18px;font:inherit;cursor:pointer;float:right}.warning{border-left:3px solid #b4a975;padding:10px 16px;background:#f0eddf;font-size:12px}@media print{body{background:white;padding:0;font-size:12px}.print{display:none}h1{font-size:28px}.bar{box-shadow:none}.note{-webkit-print-color-adjust:exact;print-color-adjust:exact}}@media(max-width:600px){body{padding:20px}.legend{gap:3px;padding:12px}.legend small{font-size:9px}.note{min-width:55px}}</style><main><button class="print" onclick="window.print()">Print / Save PDF</button><div class="brand">luma keys · your piano practice companion</div><h1>${escape(score.title)}</h1><div class="subtitle">${escape(score.composer)} · ${score.bpm} BPM · ${score.measures} bars</div><p class="help">Numbers name notes, not fingers. The pitch label tells you the exact key: C4 is middle C; C5 is one octave higher. Notes grouped side by side at the same beat form a chord. Mint = right hand; lavender = left hand. Durations use quarter-note beats.</p><div class="legend">${[60, 62, 64, 65, 67, 69, 71].map((m) => `<div><b>${degree(m, tonic)}</b><small>${solfege(m, tonic)} · ${noteName(m)}</small></div>`).join("")}</div>${!score.reviewed ? '<p class="warning">This imported score has not been marked reviewed. Check it against the original sheet before practicing.</p>' : ""}${score.warnings?.length ? '<p class="help">' + score.warnings.map(escape).join("<br>") + "</p>" : ""}${[...byBar].map(([bar, gs]) => `<section class="bar"><header>Bar ${bar}</header><div class="notes">${gs.map((g) => `<div class="chord">${g.notes.map((n) => `<div class="note ${n.hand === "left" ? "left" : ""}"><b>${degree(n.midi, tonic)}</b><span>${noteName(n.midi)} · ${solfege(n.midi, tonic)}</span><small>${n.duration} beat${n.duration === 1 ? "" : "s"}</small></div>`).join("")}<span class="onset">Beat ${Number((g.beat - (score.measureStarts?.[bar - 1] ?? (bar - 1) * score.meter) + 1).toFixed(3))}</span></div>`).join("")}</div></section>`).join("")}<p class="help">A little practice. A little magic. · Saved from Luma Keys · Number 1 = ${noteName(60 + tonic)} · ${new Date().toLocaleDateString()}</p></main></html>`;
+}
+export function validatePractice(s) {
+  if (
+    !s ||
+    typeof s.title !== "string" ||
+    s.title.length > 500 ||
+    typeof s.composer !== "string" ||
+    (s.warnings &&
+      (!Array.isArray(s.warnings) ||
+        s.warnings.some((w) => typeof w !== "string"))) ||
+    (s.xml != null && typeof s.xml !== "string")
+  )
+    throw Error("Invalid practice file metadata.");
+  if (
+    !s ||
+    !Array.isArray(s.notes) ||
+    !s.notes.length ||
+    s.notes.length > 100000
+  )
+    throw Error("Practice file needs a nonempty note list.");
+  if (!Number.isFinite(s.bpm) || s.bpm < 10 || s.bpm > 400)
+    throw Error("Choose a tempo between 10 and 400 BPM.");
+  if (!Number.isFinite(s.meter) || s.meter <= 0 || s.meter > 32)
+    throw Error("Invalid beats per measure.");
+  for (const n of s.notes)
+    if (
+      !Number.isInteger(n.midi) ||
+      n.midi < 21 ||
+      n.midi > 108 ||
+      !Number.isFinite(n.beat) ||
+      n.beat < 0 ||
+      !Number.isFinite(n.duration) ||
+      n.duration <= 0 ||
+      n.duration > 10000 ||
+      !["left", "right"].includes(n.hand)
+    )
+      throw Error("Practice file contains an invalid pitch, rhythm or hand.");
+  return s;
+}
