@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "noteCount": 50000,
+  "importMs": 671.5967089999999,
+  "saveMs": 364.45008400000006,
+  "visibleNotes": 104,
+  "advancedBeat": 3003.8,
+  "frames": 53,
+  "maxFrameGapMs": 66.80000000000018,
+  "p95FrameGapMs": 66.70000000000027,
+  "environment": "Headless Chrome on this Mac; synthetic eight-note chords; not a guarantee for scanned full-book notation",
+  "checks": [
+    "50,000-note JSON imports and review paginates",
+    "Save review succeeds",
+    "Seek near end retains correct bar and playback",
+    "Only nearby falling notes enter the DOM",
+    "Playback remains responsive"
+  ],
+  "errors": []
+}

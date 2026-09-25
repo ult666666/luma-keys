@@ -685,7 +685,8 @@ select option {
   box-shadow:
     inset 0 1px 0 #edfff080,
     0 0 17px #a3ddba12;
-  min-height: 13px;
+  min-height: 2px;
+  overflow: hidden;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -2907,6 +2908,9 @@ td input {
 .falling-note.short small {
   display: none;
 }
+.falling-note.tiny > span {
+  display: none;
+}
 @media (max-height: 900px) and (min-width: 1001px) {
   .falling-note {
     gap: 1px;
@@ -2928,4 +2932,22 @@ td input {
   color: var(--muted);
   margin: 10px 0 0;
   line-height: 1.4;
+}
+.lesson-guide {
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.lesson-guide ol {
+  margin: 16px 0 0;
+  padding-left: 22px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.lesson-guide li {
+  padding-left: 6px;
+  margin: 8px 0;
+  color: var(--muted);
+}
+.lesson-guide li::marker {
+  color: var(--accent);
 }

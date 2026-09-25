@@ -20,6 +20,7 @@ MusicXML/MIDI exports from notation software are more reliable than scans. Unsup
 
 ## Practice controls
 - **Listen & follow:** automatic sampled-grand-piano playback and falling notes.
+- Fast passages show a closer preview; note lengths stay proportional to duration and repeated notes remain distinct.
 - **Wait for me:** the timeline stays on each onset until the expected notes are found. Chords require every displayed pitch. Accuracy counts note attempts, not rhythmic skill.
 - **Hands:** isolate left or right; imported MIDI hand assignments may need review.
 - **Loop:** repeat the selected bar range. New MIDI and MusicXML imports preserve changes in bar length. Wait mode stays inside the selected phrase; an empty phrase prompts you to choose another hand or widen the loop.
@@ -28,6 +29,8 @@ MusicXML/MIDI exports from notation software are more reliable than scans. Unsup
 - **88 keys:** expand from the readable automatic range to the full piano.
 - **Export icon:** saves a printable numbered practice HTML and reusable JSON backup to the Exports folder. Open the HTML in a browser and choose Print / Save PDF.
 - **Space:** play/pause when focus is outside an input or button. A–' play C4–F5; the black keys use W E T Y U O P.
+
+In **Little lessons**, Für Elise now includes a two-hand opening excerpt with its 3/8 pickup, rests, engraved sheet music and a three-step practice path. Start with one hand at 50%. App bar 1 is the pickup, so the left hand enters in app bar 3. The excerpt ends after the first ending without repeating. Its corrected MusicXML, printable numbered HTML and PDF are in `Practice Sheets/`.
 
 ## Files you own
 - `Library/`: imported scores, original PDFs, recognition output, and practice settings. Back this up.

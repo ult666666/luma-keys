@@ -515,6 +515,23 @@ export default function App() {
     [notes, loop, score, loopA, loopB],
   );
   const phraseGroups = useMemo(() => groups(phraseNotes), [phraseNotes]);
+  // Fast passages need a closer preview so successive notes remain distinct.
+  // Geometry uses actual duration; a large minimum block would imply a hold
+  // through rests and overlap repeated notes on the same key.
+  const rollBeats = useMemo(
+    () =>
+      Math.max(
+        1.5,
+        Math.min(
+          8,
+          score.notes.reduce(
+            (shortest, n) => Math.min(shortest, n.duration),
+            1,
+          ) * 12,
+        ),
+      ),
+    [score],
+  );
   const range = useMemo(() => {
     if (wideKeys) return [21, 108];
     const pitches = score.notes.map((n) => n.midi);
@@ -976,7 +993,7 @@ export default function App() {
     [playing, mode, phraseNotes, beat, current],
   );
   const visibleNotes = phraseNotes.filter(
-    (n) => n.beat + n.duration > beat - 0.25 && n.beat < beat + 9,
+    (n) => n.beat + n.duration > beat - 0.25 && n.beat < beat + rollBeats + 1,
   );
   const time = (Math.max(0, beat) * 60) / score.bpm;
   const totalTime = (score.duration * 60) / score.bpm;
@@ -1223,16 +1240,21 @@ export default function App() {
                             style={{ left: k.left + "%", width: k.width + "%" }}
                           />
                         ))}
-                      {Array.from({ length: 4 }, (_, i) => (
-                        <div
-                          className="beat-line"
-                          key={i}
-                          style={{
-                            bottom:
-                              (((i * 2 - (beat % 2) + 2) % 8) / 8) * 100 + "%",
-                          }}
-                        />
-                      ))}
+                      {Array.from(
+                        { length: Math.ceil(rollBeats) + 1 },
+                        (_, i) => (
+                          <div
+                            className="beat-line"
+                            key={i}
+                            style={{
+                              bottom:
+                                ((i - (((beat % 1) + 1) % 1)) / rollBeats) *
+                                  100 +
+                                "%",
+                            }}
+                          />
+                        ),
+                      )}
                       <div className="roll-caption">
                         <span className="live-dot" />{" "}
                         {playing
@@ -1252,13 +1274,13 @@ export default function App() {
                         return (
                           <div
                             key={n.id}
-                            className={`falling-note ${n.hand} ${n.duration < 0.8 ? "short" : ""} ${active.has(n.midi) && n.beat <= beat ? "hitting" : ""}`}
+                            title={`${noteName(n.midi)} · ${label(n.midi)} · ${n.duration} quarter-note beat${n.duration === 1 ? "" : "s"}`}
+                            className={`falling-note ${n.hand} ${n.duration / rollBeats < 0.1 ? "short" : ""} ${n.duration / rollBeats < 0.045 ? "tiny" : ""} ${active.has(n.midi) && n.beat <= beat ? "hitting" : ""}`}
                             style={{
                               left: `calc(${k.left}% + 2px)`,
                               width: `calc(${k.width}% - 4px)`,
-                              height:
-                                Math.max(13, (n.duration / 8) * 100) + "%",
-                              bottom: ((n.beat - beat) / 8) * 100 + "%",
+                              height: `max(2px, calc(${(n.duration / rollBeats) * 100}% - 2px))`,
+                              bottom: ((n.beat - beat) / rollBeats) * 100 + "%",
                             }}
                           >
                             <span>{label(n.midi)}</span>
@@ -1467,6 +1489,24 @@ export default function App() {
                   </div>
                 </section>
                 <div className="under-player">
+                  {score.practiceTips?.length > 0 && (
+                    <section
+                      className="lesson-guide panel"
+                      aria-label="Your practice path"
+                    >
+                      <div className="card-title">
+                        <span>
+                          <Sparkles size={15} /> YOUR PRACTICE PATH
+                        </span>
+                        <span>One small step at a time</span>
+                      </div>
+                      <ol>
+                        {score.practiceTips.map((tip, i) => (
+                          <li key={i}>{tip}</li>
+                        ))}
+                      </ol>
+                    </section>
+                  )}
                   <div className="number-guide panel">
                     <div className="card-title">
                       <span>

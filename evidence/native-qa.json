@@ -7,12 +7,16 @@
     "Printable number export saved",
     "Native audio playback advances",
     "Actual PDF imports 16 notes in packaged app",
-    "Original PDF is available"
+    "Original PDF is available",
+    "Für Elise has 53 notes and engraved two-staff notation",
+    "3/8 meter and three beginner practice steps are visible",
+    "Left-hand wait mode starts at A2 in bar 3 and advances to E3",
+    "Repeated E5 blocks are separated with no visual overlap"
   ],
   "health": {
     "ok": true,
     "omr": true,
-    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-UGV1C3/Library"
+    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-PvNKmI/Library"
   },
   "errors": []
 }

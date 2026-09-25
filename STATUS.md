@@ -1,8 +1,17 @@
 # Luma Keys — installed and verified
 
-Updated September 25, 2026, 12:26 AM America/New_York.
+Updated September 25, 2026, 1:31 AM America/New_York.
 
-## Latest overnight improvement — version 1.0.2
+## Latest overnight improvement — version 1.0.3
+- Installed and verified the new Desktop app. The personal app process was left open; reopen when convenient to load this version.
+- Corrected the built-in Für Elise opening against the public-domain Mutopia/Breitkopf & Härtel score. It now contains 53 notes across both hands, the two-sixteenth pickup, 3/8 meter, correct bass octaves and rests, and a short first ending. The former demo incorrectly flattened the rhythm and placed bass notes in the right-hand melody.
+- Added engraved two-staff notation and a three-step practice path. The pickup is app bar 1; bass enters in app bar 3. Corrected MusicXML, printable HTML, and a visually checked two-page numbered PDF are saved in Practice Sheets. This is a short excerpt played once; pedal and expressive interpretation remain simplified.
+- Fixed overlapping short falling notes. Fast passages now use a closer preview; blocks retain proportional duration and separation. Repeated E5 notes were checked for overlap in both browser and packaged app. Very small blocks suppress text while the next-note panel and keyboard retain labels.
+- **41/41 unit/API tests pass.** Lesson engraving, left-hand wait mode, numbered export, existing loop/keyboard regressions, and a synthetic 50,000-note import/review/seek/playback test pass. In the measured headless Chrome run, large-score import took about 0.67 s and review save about 0.36 s. Frame timing is recorded; this is not a guarantee of smooth full-book engraving or all hardware.
+- The packaged app passed audio, export, lesson practice and actual 16-note PDF recognition with the dev server stopped. Installed archive matches the tested release, and all 39 personal Library/Exports files remain byte-for-byte unchanged.
+- Evidence: evidence/overnight-unit-tests-1.0.3.txt, evidence/lessons-qa.json, evidence/large-score-qa.json, evidence/overnight-native-1.0.3.log, evidence/data-preservation-1.0.3.json, and native-elise screenshots. Source and interpretation details: docs/RESEARCH.md and docs/sources/fur-elise-mutopia.ly.
+
+## Previous overnight improvement — version 1.0.2
 - Installed new Desktop app; personal app remained open. Reopen when convenient to load the update.
 - Imported MusicXML and MIDI now preserve written pulse groups: 6/8 and 9/8 dotted beats, 5/8 fractional bar accents, cut time, and explicit additive groups. Metronome/count-in use the audio clock with look-ahead scheduling; Pause, Stop, and loop reset cancel queued click oscillators.
 - Pickup count-ins lead into the pickup's place in the bar. A compact meter hint shows pulses per bar. Tempo is labeled `♩ =` to distinguish quarter-note tempo from the audible compound pulse.
@@ -33,7 +42,7 @@ Updated September 25, 2026, 12:26 AM America/New_York.
 - Claude enhancement pass implemented and independently validated; report: docs/CLAUDE_REVIEW.md.
 
 ## Verification actually completed
-- **38/38 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.2.txt (earlier delivery results are preserved).
+- **41/41 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.3.txt (earlier delivery results are preserved).
 - Production build and Apple Silicon packaging pass. Desktop copy tested with the development server stopped.
 - Browser flow coverage passes: playback/pause/seek, 30 samples decoded, correct/wrong note handling, loop wrapping, labels/ranges, saved themes, import/engraving/review/library/search, and 390px responsive layout.
 - All 30 samples contain non-silent audio; on-screen keys support pointer and Enter/Space input.
@@ -46,7 +55,7 @@ Updated September 25, 2026, 12:26 AM America/New_York.
 ## Overnight follow-up
 The heartbeat `luma-keys-overnight-build-polish` is scheduled hourly through **2026-09-25 08:00 Eastern**. A temporary caffeinate process prevents idle sleep until that deadline; keep the Mac plugged in, lid open and Codex running. Do not extend the schedule. See docs/OVERNIGHT.md.
 
-Useful next checks: independent real MusicXML exports, large-score responsiveness, and beginner lesson accuracy. Changing-meter MIDI loops, compound/odd-meter click scheduling, and a constructed cross-staff fixture have been verified. Improve only where new evidence justifies a change. Keep the app usable and repackage validated changes with scripts/package-desktop.sh. Preserve all user Library and Exports data. **Never rerun scripts/prepare-starter-library.mjs**; it is guarded as an initial-delivery-only cleanup.
+Useful next checks: independent real MusicXML exports, notation rendering for longer scores, and dense-passage frame pacing in a visible native window. The 50,000-note JSON timeline and the Für Elise opening have been verified; scanned full-book engraving has not. Changing-meter MIDI loops, compound/odd-meter clicks, and a constructed cross-staff fixture also pass. Improve only where new evidence justifies a change. Keep the app usable and repackage validated changes with scripts/package-desktop.sh. Preserve all user Library and Exports data. **Never rerun scripts/prepare-starter-library.mjs**; it is guarded as an initial-delivery-only cleanup. `scripts/update-elise-assets.mjs` safely refreshes only the shipped Für Elise files in Practice Sheets.
 
 ## Known limits
 PDF recognition is not perfect; every imported scan requires review. Repeats/navigation play once in written order. Later tempo changes and score pedal/ornament markings are simplified with warnings. MIDI hand assignments and humanized-chord grouping are estimates. Fixed Do remains C=1 by default; imported tonic metadata does not change labels automatically. The app does not listen to acoustic pianos through a microphone or infer fingerings. This is a local personal Mac build, not an App Store release.

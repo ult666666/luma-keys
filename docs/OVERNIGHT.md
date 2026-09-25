@@ -12,6 +12,8 @@ Useful checks:
 - node scripts/rhythm-qa.mjs (6/8, 5/8, audio-clock timing and click cancellation)
 - node scripts/bar-map-qa.mjs (changing-meter MIDI, loops, wait mode, exports)
 - node scripts/extended-qa.mjs
+- node scripts/lessons-qa.mjs (two-hand Für Elise, engraving, short-note separation and export)
+- node scripts/large-score-qa.mjs (50,000-note import, paged review and late playback)
 - node scripts/audio-qa.mjs
 - node scripts/midi-qa.mjs (simulated MIDI, not physical hardware)
 - node scripts/pdf-qa.mjs (real optical recognition)

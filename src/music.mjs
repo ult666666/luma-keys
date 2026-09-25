@@ -1,6 +1,7 @@
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 import { unzipSync, strFromU8 } from "fflate";
 import * as midiPackage from "@tonejs/midi";
+import { eliseXML } from "./lessons.mjs";
 const Midi = midiPackage.Midi || midiPackage.default?.Midi;
 export const PITCHES = [
   "C",
@@ -1294,17 +1295,20 @@ export function demos() {
       65,
       "Meet Do, Re, Mi — one glowing key at a time.",
     ),
-    melody(
-      "elise",
-      "Für Elise · opening",
-      "Beethoven · a little challenge",
-      [
-        76, 75, 76, 75, 76, 71, 74, 72, 69, 48, 52, 57, 60, 64, 69, 71, 52, 56,
-        59, 64, 68, 71, 72,
+    {
+      ...parseMusicXML(eliseXML),
+      id: "elise",
+      title: "Für Elise · opening",
+      composer: "Beethoven · a two-hand challenge",
+      description:
+        "A short two-hand excerpt in 3/8. Learn the melody first, then add the gentle left-hand arpeggios.",
+      source: "Lesson",
+      reviewed: true,
+      practiceTips: [
+        "Start at 50% speed with Right hand and Wait for me. The opening 3 – ♯2 is E5 – D♯5, above middle C.",
+        "Try Left hand alone next: A2 – E3 – A3. These lavender notes begin in app bar 3; let the spaces between them stay quiet.",
+        "Listen to Both hands, then loop bars 3–4. The pickup is app bar 1; each full bar has three eighth-note pulses. This excerpt ends after the first ending, without a repeat.",
       ],
-      Array(24).fill(0.5),
-      66,
-      "Explore sharps and a wider range, at your own pace.",
-    ),
+    },
   ];
 }

@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checks": [
+    "Für Elise has 53 notes and engraved two-staff notation",
+    "3/8 meter and three beginner practice steps are visible",
+    "Left-hand wait mode starts at A2 in bar 3 and advances to E3",
+    "Repeated E5 blocks are separated with no visual overlap",
+    "Numbered export and JSON keep all 53 notes, hands, pickup and final bar"
+  ],
+  "errors": []
+}

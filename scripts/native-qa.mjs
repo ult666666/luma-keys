@@ -2,6 +2,7 @@ import { _electron as electron } from "@playwright/test";
 import assert from "node:assert/strict";
 import path from "node:path";
 import fs from "node:fs/promises";
+import { verifyElise } from "./lesson-checks.mjs";
 const executable =
   process.env.LUMA_APP ||
   path.resolve("release/mac-arm64/Luma Keys.app/Contents/MacOS/Luma Keys");
@@ -46,6 +47,7 @@ try {
   );
   await page.screenshot({ path: "evidence/native-app.png", fullPage: true });
   await page.getByRole("button", { name: "Pause", exact: true }).click();
+  const lessonChecks = await verifyElise(page, "native");
   await page
     .getByRole("button", { name: "Import a score", exact: true })
     .click();
@@ -74,6 +76,7 @@ try {
           "Native audio playback advances",
           "Actual PDF imports 16 notes in packaged app",
           "Original PDF is available",
+          ...lessonChecks,
         ],
         health,
         errors,

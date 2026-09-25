@@ -1,0 +1,54 @@
+
+> luma-keys@1.0.3 test
+> node --test tests/*.test.mjs
+
+✔ Für Elise excerpt follows the public-domain opening pitches and separate hands (1.973459ms)
+✔ Für Elise pickup, 3/8 bars and short first ending keep their exact boundaries (0.589125ms)
+✔ Optional practice guidance must be a bounded list of text (0.217333ms)
+✔ fixed Do, chromatic notes, octaves and movable Do (1.925292ms)
+✔ 88-key layout aligns black keys between white keys (0.351625ms)
+✔ voice backup, simultaneous chords, rest, duration and left staff (9.6225ms)
+✔ ties merge sustained notes and pickup does not add empty beats (1.237375ms)
+✔ MXL container selects root music XML (2.524584ms)
+✔ invalid and empty scores fail honestly (0.639292ms)
+✔ MIDI notes retain pitch and quarter-note duration (1.991625ms)
+✔ lessons have bounded sorted notes and complete durations (8.559666ms)
+✔ fixture: pickup with a full-bar rest, two parts with different divisions, tie, chords and triplets (2.591375ms)
+✔ chord members share the onset of their voice after backup, even after a rest (0.482333ms)
+✔ tie chains across three bars become one held note; untouching ties do not merge (0.346ms)
+✔ ties across a voice-number change and between chord members follow pitch (0.363292ms)
+✔ a transposing part reads its key in concert pitch even when <transpose> follows <key> (0.269041ms)
+✔ a pickup bar whose other staff holds a whole-bar rest still lasts only its played beats (0.268042ms)
+✔ a pickup is detected without implicit="yes"; a bar of only rests keeps its full length (0.240875ms)
+✔ a bar split around a repeat (short bar + implicit bar) is not padded with silence (0.410542ms)
+✔ notes missing <duration> are timed from their written type, dots and tuplets (0.447417ms)
+✔ written accidentals fill a missing <alter>; key signatures ignored by an exporter are flagged (0.878667ms)
+✔ unsupported notation warnings name the bars involved (0.544125ms)
+✔ bars drawn as repeat-the-bar signs without written notes are flagged (0.3475ms)
+✔ malformed MusicXML and MXL input fail with clear messages (2.825625ms)
+✔ MIDI: humanized chords line up, far-apart notes stay separate, out-of-range notes are reported (0.493416ms)
+✔ MIDI: two tracks map to hands; minor keys use the relative-major number 1; bars follow 3/4 (0.487292ms)
+✔ MIDI meter changes share bar positions with loops and numbered exports (13.930125ms)
+✔ MIDI silent bars and long held notes keep all loopable bar boundaries (0.251208ms)
+✔ MIDI partial-bar signature changes start a new bar and explain the shortening (0.297875ms)
+✔ MIDI near-simultaneous notes across a bar line never merge into one chord (0.136958ms)
+✔ MusicXML final bar uses its changed meter, including when editing past its end (0.255333ms)
+✔ bar helpers retain legacy scores; malformed imported bar maps are rejected (2.547208ms)
+✔ 6/8 and 9/8 pulse on dotted quarters; count-in speaks the pulse numbers (12.046209ms)
+✔ 5/8 keeps eighth-note pulses and accents every fractional bar boundary (0.499708ms)
+✔ cut time and explicit additive beat groups retain their written pulses (1.464ms)
+✔ MIDI preserves meter changes for fractional metronome pulses (1.784708ms)
+✔ pickup count-in completes the opening bar and does not falsely accent the pickup (0.568292ms)
+✔ successive audio scheduling windows never duplicate boundary clicks (0.779ms)
+✔ cross-staff chords retain simultaneous pitches and flag ambiguous hands (0.812708ms)
+✔ pulse metadata survives backup validation; malformed patterns are rejected (9.680584ms)
+Luma Keys listening on 52074
+✔ Local API imports, persists, validates, exports, and restricts foreign origins (106.192041ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 305.84

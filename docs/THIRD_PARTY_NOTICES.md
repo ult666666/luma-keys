@@ -26,6 +26,10 @@ React (MIT), Vite (MIT), Electron (MIT plus bundled Chromium notices), Express (
 ## Included music
 Traditional Twinkle, Little Star, and small beginner arrangements of Beethoven's Ode to Joy and Für Elise. Original scale exercises and generated practice sheets. Underlying compositions are public domain. The Schubert Ave Maria test PDF is from Audiveris's public examples and is used as a recognition test fixture.
 
+The Für Elise opening lesson (version 1.0.3 onward) is a two-hand transcription of the pickup through the first ending, played once, from **Mutopia-2015/08/18-931**, typeset by **Stelios Samelis** from **Breitkopf & Härtel, 1888**. The typesetter placed this edition in the public domain. Pitches, durations and rests are retained for this excerpt; pedal, expressive markings and repeats are simplified. Source LilyPond is retained in `docs/sources/fur-elise-mutopia.ly`.
+- Edition and licensing: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=931
+- Source: https://www.mutopiaproject.org/ftp/BeethovenLv/WoO59/fur_Elise_WoO59/fur_Elise_WoO59.ly
+
 ## Original assets
 Luma/Mochi vector companion artwork, icon, color themes, UI design and copy are original to this project.
 
