@@ -2,21 +2,26 @@ import { _electron as electron } from "@playwright/test";
 import assert from "node:assert/strict";
 import path from "node:path";
 import fs from "node:fs/promises";
-import { trackTestData } from "./qa-cleanup.mjs";
 const executable =
   process.env.LUMA_APP ||
   path.resolve("release/mac-arm64/Luma Keys.app/Contents/MacOS/Luma Keys");
+await fs.mkdir(".qa-runs", { recursive: true });
+const qaRoot = await fs.mkdtemp(path.resolve(".qa-runs/native-"));
 const app = await electron.launch({
   executablePath: executable,
   args: [],
+  env: { ...process.env, LUMA_QA_ROOT: qaRoot },
   timeout: 30000,
 });
 const errors = [];
-let cleanup;
+const consoleErrors = [];
+let page;
 try {
-  const page = await app.firstWindow();
+  page = await app.firstWindow();
   page.on("pageerror", (e) => errors.push(e.message));
-  cleanup = await trackTestData(page, new URL(page.url()).origin);
+  page.on("console", (m) => {
+    if (m.type() === "error") consoleErrors.push(m.text());
+  });
   await page
     .getByRole("heading", { name: "A little practice. A little magic." })
     .waitFor();
@@ -25,7 +30,7 @@ try {
     async () => await (await fetch("/api/health")).json(),
   );
   assert.equal(health.omr, true);
-  assert.ok(health.dataDir.endsWith("/Desktop/Luma Keys/Library"));
+  assert.equal(health.dataDir, path.join(qaRoot, "Library"));
   await page.getByRole("button", { name: "Export practice notes" }).click();
   await page
     .getByRole("status")
@@ -64,7 +69,7 @@ try {
         checks: [
           "Packaged app launches without terminal",
           "Bundled local recognition engine present",
-          "Library saved on Desktop",
+          "Separate test library and Electron instance; user's open app preserved",
           "Printable number export saved",
           "Native audio playback advances",
           "Actual PDF imports 16 notes in packaged app",
@@ -80,7 +85,27 @@ try {
   console.log(
     "PASS: native packaged app, audio, export, and full PDF recognition flow.",
   );
+} catch (error) {
+  const body = page
+    ? await page
+        .locator("body")
+        .innerText()
+        .catch(() => "unavailable")
+    : "no window";
+  if (page)
+    await page
+      .screenshot({ path: "evidence/native-qa-failure.png" })
+      .catch(() => {});
+  await fs.writeFile(
+    "evidence/native-qa-failure.json",
+    JSON.stringify(
+      { passed: false, error: error.message, errors, consoleErrors, body },
+      null,
+      2,
+    ),
+  );
+  throw error;
 } finally {
-  if (cleanup) await cleanup();
   await app.close();
+  await fs.rm(qaRoot, { recursive: true, force: true });
 }

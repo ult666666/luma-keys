@@ -1,5 +1,10 @@
 // Each UI test owns only imports made by its own page. Never remove a user's library files.
 export async function trackTestData(page, origin = "http://127.0.0.1:5189") {
+  const health = await (await fetch(origin + "/api/health")).json();
+  if (!health.dataDir.includes("/.qa-runs/"))
+    throw Error(
+      "UI tests require an isolated library. Start the server with LUMA_DATA_DIR set to an absolute .qa-runs/<run>/Library path.",
+    );
   const ids = new Set();
   const beforePrefs = await (await fetch(origin + "/api/preferences")).json();
   const response = async (r) => {

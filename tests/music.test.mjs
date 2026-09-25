@@ -10,7 +10,11 @@ import {
   unpackXML,
   demos,
   groups,
+  barStart,
+  barEnd,
+  measureAt,
 } from "../src/music.mjs";
+import { numberedSheet, validatePractice } from "../src/export.mjs";
 import { zipSync, strToU8 } from "fflate";
 import midiPackage from "@tonejs/midi";
 import { readFileSync } from "node:fs";
@@ -451,4 +455,123 @@ test("MIDI: two tracks map to hands; minor keys use the relative-major number 1;
     () => parseMIDI(new Uint8Array([1, 2, 3, 4])),
     /could not be read/,
   );
+});
+
+test("MIDI meter changes share bar positions with loops and numbered exports", () => {
+  const m = new midiPackage.Midi();
+  m.header.timeSignatures.push(
+    { ticks: 0, timeSignature: [4, 4] },
+    { ticks: 1920, timeSignature: [3, 4] },
+    { ticks: 4800, timeSignature: [5, 4] },
+  );
+  const t = m.addTrack();
+  for (const [beat, midi] of [
+    [0, 60],
+    [4, 62],
+    [7, 64],
+    [9, 65],
+    [10, 67],
+    [14, 69],
+    [15, 71],
+  ])
+    t.addNote({ midi, ticks: beat * 480, durationTicks: 480 });
+  const s = parseMIDI(m.toArray());
+  assert.deepEqual(s.measureStarts, [0, 4, 7, 10, 15]);
+  assert.deepEqual(s.measureLengths, [4, 3, 3, 5, 5]);
+  assert.deepEqual(
+    s.notes.map((n) => n.measure),
+    [1, 2, 3, 3, 4, 4, 5],
+  );
+  assert.equal(s.measures, 5);
+  assert.equal(barStart(s, 3), 7);
+  assert.equal(barEnd(s, 3), 10);
+  assert.equal(barEnd(s, 5), 20);
+  assert.equal(measureAt(s, 14.9), 4);
+  assert.equal(measureAt(s, 19.9), 5);
+  assert.equal(measureAt(s, 20), 6);
+  const html = numberedSheet(s);
+  assert.match(html, /Bar 3<\/header>.*?Beat 1<\/span>.*?Beat 3<\/span>/);
+  assert.match(html, /Bar 4<\/header>.*?Beat 1<\/span>.*?Beat 5<\/span>/);
+  assert.doesNotMatch(html, /Beat -/);
+  assert.equal(
+    validatePractice(JSON.parse(JSON.stringify(s))).measureLengths[3],
+    5,
+  );
+});
+
+test("MIDI silent bars and long held notes keep all loopable bar boundaries", () => {
+  const m = new midiPackage.Midi();
+  m.header.timeSignatures.push({ ticks: 0, timeSignature: [3, 4] });
+  m.addTrack().addNote({ midi: 60, ticks: 0, durationTicks: 480 * 8 });
+  const s = parseMIDI(m.toArray());
+  assert.deepEqual(s.measureStarts, [0, 3, 6]);
+  assert.equal(s.measures, 3);
+  assert.equal(barEnd(s, 3), 9);
+});
+
+test("MIDI partial-bar signature changes start a new bar and explain the shortening", () => {
+  const m = new midiPackage.Midi();
+  m.header.timeSignatures.push(
+    { ticks: 0, timeSignature: [4, 4] },
+    { ticks: 1200, timeSignature: [3, 4] },
+  );
+  const t = m.addTrack();
+  for (const beat of [0, 2.5, 5.5])
+    t.addNote({ midi: 60, ticks: beat * 480, durationTicks: 480 });
+  const s = parseMIDI(m.toArray());
+  assert.deepEqual(s.measureStarts, [0, 2.5, 5.5]);
+  assert.deepEqual(s.measureLengths, [2.5, 3, 3]);
+  assert.deepEqual(
+    s.notes.map((n) => n.measure),
+    [1, 2, 3],
+  );
+  assert.ok(has(s, /partway.*shortened/));
+});
+
+test("MIDI near-simultaneous notes across a bar line never merge into one chord", () => {
+  const m = new midiPackage.Midi();
+  const t = m.addTrack();
+  t.addNote({ midi: 60, ticks: 1915, durationTicks: 100 });
+  t.addNote({ midi: 64, ticks: 1925, durationTicks: 100 });
+  const s = parseMIDI(m.toArray());
+  assert.deepEqual(
+    s.notes.map((n) => n.measure),
+    [1, 2],
+  );
+  assert.equal(groups(s.notes).length, 2);
+});
+
+test("MusicXML final bar uses its changed meter, including when editing past its end", () => {
+  const s = parseMusicXML(
+    wrap(
+      `<measure><attributes><divisions>1</divisions><time><beats>3</beats><beat-type>4</beat-type></time></attributes>${note("C", 4, 3)}</measure>` +
+        `<measure><attributes><time><beats>6</beats><beat-type>4</beat-type></time></attributes>${note("D", 4, 6)}</measure>`,
+    ),
+  );
+  assert.deepEqual(s.measureStarts, [0, 3]);
+  assert.deepEqual(s.measureLengths, [3, 6]);
+  assert.equal(measureAt(s, 8.9), 2);
+  assert.equal(barEnd(s, 2), 9);
+  assert.equal(measureAt(s, 14), 3);
+  assert.equal(barStart(s, 4), 15);
+  assert.equal(barEnd(s, 3), 15);
+});
+
+test("bar helpers retain legacy scores; malformed imported bar maps are rejected", () => {
+  const s = demos()[0];
+  assert.equal(barStart(s, 3), 8);
+  assert.equal(measureAt(s, 8), 3);
+  assert.equal(barEnd(s, s.measures), s.duration);
+  for (const map of [
+    { measureStarts: [0, -1] },
+    { measureStarts: [0, 4, 3] },
+    { measureStarts: [0, "4"] },
+    { measureStarts: [0, 4], measureLengths: [3, 4] },
+    { measureStarts: [0, 4], measureLengths: [4, 0] },
+    { measureLengths: [4] },
+  ])
+    assert.throws(
+      () => validatePractice({ ...s, ...map }),
+      /bar (positions|lengths)/,
+    );
 });

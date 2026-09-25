@@ -46,6 +46,9 @@ import {
   keyboardLayout,
   groups,
   PITCHES,
+  barStart,
+  barEnd,
+  measureAt,
 } from "./music.mjs";
 import { piano } from "./audio.js";
 import Pet from "./Pet.jsx";
@@ -70,16 +73,6 @@ const KEYS = {
   p: 75,
   ";": 76,
   "'": 77,
-};
-const barStart = (s, n) => s.measureStarts?.[n - 1] ?? (n - 1) * s.meter;
-const barEnd = (s, n) =>
-  s.measureStarts?.[n] ?? (n === s.measures ? s.duration : n * s.meter);
-const measureAt = (s, b) => {
-  if (!s.measureStarts?.length) return Math.floor(Math.max(0, b) / s.meter) + 1;
-  const i = s.measureStarts.findLastIndex((x) => x <= b + 0.0001);
-  if (i === s.measureStarts.length - 1)
-    return i + 1 + Math.floor(Math.max(0, b - s.measureStarts[i]) / s.meter);
-  return Math.max(1, i + 1);
 };
 const fmt = (t) =>
   `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
@@ -220,7 +213,10 @@ function Review({ score, onSave, close, notify }) {
     try {
       const updated = {
         ...score,
-        measures: Math.max(...notes.map((n) => n.measure)),
+        measures: Math.max(
+          score.measureStarts?.length || 1,
+          ...notes.map((n) => measureAt(score, n.beat + n.duration - 1e-4)),
+        ),
         notes: notes.sort((a, b) => a.beat - b.beat || a.midi - b.midi),
         duration: Math.max(...notes.map((n) => n.beat + n.duration)),
         notationEdited:
@@ -503,6 +499,18 @@ export default function App() {
     [score, hand],
   );
   const chordGroups = useMemo(() => groups(notes), [notes]);
+  const phraseNotes = useMemo(
+    () =>
+      loop
+        ? notes.filter(
+            (n) =>
+              n.beat >= barStart(score, loopA) - 1e-6 &&
+              n.beat < barEnd(score, loopB) - 1e-6,
+          )
+        : notes,
+    [notes, loop, score, loopA, loopB],
+  );
+  const phraseGroups = useMemo(() => groups(phraseNotes), [phraseNotes]);
   const range = useMemo(() => {
     if (wideKeys) return [21, 108];
     const pitches = score.notes.map((n) => n.midi);
@@ -631,6 +639,12 @@ export default function App() {
       );
       return;
     }
+    if (!phraseGroups.length) {
+      notify(
+        "There are no new notes for this hand in these bars. Widen the loop or choose another hand.",
+      );
+      return;
+    }
     setLoadingSound(true);
     try {
       await piano.init();
@@ -644,7 +658,7 @@ export default function App() {
         from = barStart(score, loopA);
       if (mode === "wait") {
         const next =
-          chordGroups.find((g) => g.beat >= from - 0.01) || chordGroups[0];
+          phraseGroups.find((g) => g.beat >= from - 0.01) || phraseGroups[0];
         from = next.beat;
         t.matched = new Set();
       } else if (countIn && from === 0) from = -score.meter;
@@ -695,11 +709,16 @@ export default function App() {
         const tick = Math.floor(b);
         if (tick !== t.lastTick) {
           t.lastTick = tick;
-          if (s.metronome || b < 0) piano.tick(tick % s.score.meter === 0);
+          if (s.metronome || b < 0) {
+            const downbeat =
+              b < 0
+                ? tick % s.score.meter === 0
+                : Math.abs(tick - barStart(s.score, measureAt(s.score, tick))) <
+                  1e-6;
+            piano.tick(downbeat);
+          }
         }
-        const end = s.loop
-          ? Math.min(s.score.duration, barEnd(s.score, s.loopB))
-          : s.score.duration;
+        const end = s.loop ? barEnd(s.score, s.loopB) : s.score.duration;
         if (b >= end) {
           if (s.loop) {
             piano.stop();
@@ -754,7 +773,9 @@ export default function App() {
             let next = s.chordGroups[index + 1];
             if (s.loop && (!next || next.beat >= barEnd(s.score, s.loopB)))
               next = s.chordGroups.find(
-                (g) => g.beat >= barStart(s.score, s.loopA),
+                (g) =>
+                  g.beat >= barStart(s.score, s.loopA) - 1e-6 &&
+                  g.beat < barEnd(s.score, s.loopB) - 1e-6,
               );
             t.matched = new Set();
             if (next) {
@@ -928,22 +949,24 @@ export default function App() {
       notify(e.message);
     }
   }
-  const current = chordGroups.find((g) => g.beat >= Math.max(0, beat) - 0.04);
+  const current =
+    phraseGroups.find((g) => g.beat >= Math.max(0, beat) - 0.04) ||
+    (loop ? phraseGroups[0] : undefined);
   const currentNotes = current?.notes || [];
   const active = useMemo(
     () =>
       new Set(
         playing && mode === "listen"
-          ? notes
+          ? phraseNotes
               .filter((n) => n.beat <= beat && n.beat + n.duration > beat)
               .map((n) => n.midi)
           : playing && mode === "wait"
             ? currentNotes.map((n) => n.midi)
             : [],
       ),
-    [playing, mode, notes, beat, current],
+    [playing, mode, phraseNotes, beat, current],
   );
-  const visibleNotes = notes.filter(
+  const visibleNotes = phraseNotes.filter(
     (n) => n.beat + n.duration > beat - 0.25 && n.beat < beat + 9,
   );
   const time = (Math.max(0, beat) * 60) / score.bpm;

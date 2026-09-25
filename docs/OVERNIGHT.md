@@ -7,7 +7,9 @@ Continue from STATUS.md. Run focused tests after any changes; do not introduce s
 Useful checks:
 - npm test
 - npm run build
-- node scripts/browser-qa.mjs (requires npm run dev; imports test data)
+- Start a separate test library: `LUMA_DATA_DIR="$PWD/.qa-runs/ui/Library" npm run dev`
+- node scripts/browser-qa.mjs (requires the isolated development server)
+- node scripts/bar-map-qa.mjs (changing-meter MIDI, loops, wait mode, exports)
 - node scripts/extended-qa.mjs
 - node scripts/audio-qa.mjs
 - node scripts/midi-qa.mjs (simulated MIDI, not physical hardware)
@@ -15,4 +17,4 @@ Useful checks:
 - node scripts/review-qa.mjs
 - npm run pack; node scripts/native-qa.mjs (actual packaged app)
 
-Test scripts currently use the Desktop Library, so any future run must preserve existing user files and remove or archive only its own newly created test imports. All starter source PDFs and MusicXML are in tests/ and Practice Sheets/.
+UI test scripts now refuse to use the personal Desktop Library. Set LUMA_DATA_DIR to an absolute path under this project's `.qa-runs/` folder when starting the development server. Run scripts sequentially because they restore preferences in their shared test library. The native test creates its own unique `.qa-runs/native-*` directory and sets `LUMA_QA_ROOT`, which separates the library, exports, preferences, and Electron instance lock. It can run alongside the user's open app and removes only its own temporary directory afterward. Never run the old capture-preview script against an open personal app; use the isolated native harness. All starter source PDFs and MusicXML are in tests/ and Practice Sheets/.

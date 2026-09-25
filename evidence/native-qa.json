@@ -3,7 +3,7 @@
   "checks": [
     "Packaged app launches without terminal",
     "Bundled local recognition engine present",
-    "Library saved on Desktop",
+    "Separate test library and Electron instance; user's open app preserved",
     "Printable number export saved",
     "Native audio playback advances",
     "Actual PDF imports 16 notes in packaged app",
@@ -12,7 +12,7 @@
   "health": {
     "ok": true,
     "omr": true,
-    "dataDir": "/Users/prince/Desktop/Luma Keys/Library"
+    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-iyqAwa/Library"
   },
   "errors": []
 }

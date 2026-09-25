@@ -119,7 +119,9 @@ export async function startServer({
   });
   app.get("/api/original/:id", async (req, res) => {
     if (!validId(req.params.id)) return res.sendStatus(400);
-    res.sendFile(path.join(dataDir, "imports", req.params.id + ".pdf"));
+    res.sendFile(req.params.id + ".pdf", {
+      root: path.join(dataDir, "imports"),
+    });
   });
   const upload = multer({
     storage: multer.memoryStorage(),
@@ -163,25 +165,19 @@ export async function startServer({
         ext !== ".pdf" ||
         !req.file.buffer.subarray(0, 5).equals(Buffer.from("%PDF-"))
       )
-        return res
-          .status(400)
-          .json({
-            error: "Use a valid PDF, MusicXML (.xml/.mxl), or MIDI file.",
-          });
+        return res.status(400).json({
+          error: "Use a valid PDF, MusicXML (.xml/.mxl), or MIDI file.",
+        });
       if (!existsSync(engine))
-        return res
-          .status(503)
-          .json({
-            error:
-              "The local recognition engine is missing. Reinstall the desktop app, or import a MusicXML/MIDI export.",
-          });
+        return res.status(503).json({
+          error:
+            "The local recognition engine is missing. Reinstall the desktop app, or import a MusicXML/MIDI export.",
+        });
       if (activeJob)
-        return res
-          .status(409)
-          .json({
-            error:
-              "A score is already being recognized. Please let it finish first.",
-          });
+        return res.status(409).json({
+          error:
+            "A score is already being recognized. Please let it finish first.",
+        });
       const id = crypto.randomUUID();
       const input = path.join(dataDir, "imports", id + ".pdf");
       const out = path.join(dataDir, "imports", id);
@@ -313,25 +309,21 @@ export async function startServer({
   app.get("/api/jobs/:id", (req, res) => {
     const j = jobs.get(req.params.id);
     if (!j)
-      return res
-        .status(404)
-        .json({
-          error:
-            "Recognition job not found. Check your library for the finished score.",
-        });
+      return res.status(404).json({
+        error:
+          "Recognition job not found. Check your library for the finished score.",
+      });
     res.json(j);
   });
   app.use(express.static(path.join(ROOT, "dist")));
   app.use((err, req, res, next) => {
     console.error(err.message);
-    res
-      .status(400)
-      .json({
-        error:
-          err.code === "LIMIT_FILE_SIZE"
-            ? "Please use a file smaller than 30 MB."
-            : err.message || "Something went wrong.",
-      });
+    res.status(400).json({
+      error:
+        err.code === "LIMIT_FILE_SIZE"
+          ? "Please use a file smaller than 30 MB."
+          : err.message || "Something went wrong.",
+    });
   });
   return new Promise((resolve) => {
     const server = app.listen(port, "127.0.0.1", () => {

@@ -86,3 +86,8 @@ No blocking correctness defects were found in this read-through. Items 5–8 are
 The scope above covers the parser unit tests. Separate integration tests **did** exercise real PDF recognition with Audiveris: an official Schubert sample produced 277 notes, and a generated 16-note starter PDF round-tripped with all pitches and quarter-note durations matching. The PDF workflow was also tested inside the actual packaged Mac app. Evidence: `evidence/pdf-roundtrip.json`, `evidence/pdf-ui-qa.json`, `evidence/native-qa.json`, and `scripts/pdf-qa.mjs` / `scripts/native-qa.mjs`. This does not establish accuracy for arbitrary scores or notation exports.
 
 The app defaults to **C = 1 regardless of imported key metadata**. The user may choose a different tonic manually. The discussion of relative-major tonic above describes importer metadata, not an automatic change to the app's fixed-Do labels.
+
+
+## Primary-agent overnight integration follow-up — 1.0.1
+
+This follow-up was implemented and tested by Codex after the Claude pass. MIDI imports now store explicit bar starts and lengths, including meter changes, silent bars, and notes held across bar lines. MusicXML stores the final bar length too. Review, phrase loops, metronome accents on quarter-note boundaries, and numbered exports use the same map. Nearby MIDI onsets on opposite sides of a bar line remain separate. Looped practice and visual hints stay within the selected phrase, and empty selected-hand phrases give guidance. Six additional core regressions plus an end-to-end changing-meter MIDI scenario cover these changes. Earlier MIDI imports must be re-imported to gain the new map; no user scores were silently rewritten.

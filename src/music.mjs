@@ -50,6 +50,45 @@ export const noteName = (m) =>
 export const degree = (m, tonic = 0) => NUMBERS[(((m - tonic) % 12) + 12) % 12];
 export const solfege = (m, tonic = 0) =>
   SOLFEGE[(((m - tonic) % 12) + 12) % 12];
+// One bar map drives import review, transport loops and printable practice sheets.
+// Older saved scores without a map retain their original constant-meter behavior.
+export function barStart(score, bar) {
+  const i = Math.max(0, Math.floor(bar) - 1);
+  const starts = score.measureStarts;
+  if (!starts?.length) return i * (score.meter || 4);
+  if (i < starts.length) return starts[i];
+  const last = starts.length - 1;
+  return (
+    starts[last] +
+    (i - last) * (score.measureLengths?.[last] || score.meter || 4)
+  );
+}
+export function barEnd(score, bar) {
+  const i = Math.max(0, Math.floor(bar) - 1);
+  if (score.measureStarts?.[i + 1] != null) return score.measureStarts[i + 1];
+  if (score.measureLengths?.[i] != null)
+    return barStart(score, bar) + score.measureLengths[i];
+  if (!score.measureLengths?.length && bar === score.measures)
+    return Math.max(barStart(score, bar), score.duration);
+  return barStart(score, bar + 1);
+}
+export function measureAt(score, beat) {
+  const b = Math.max(0, beat);
+  const starts = score.measureStarts;
+  if (!starts?.length) return Math.floor(b / (score.meter || 4) + 1e-6) + 1;
+  // Binary search avoids scanning the whole score every animation frame.
+  let lo = 0,
+    hi = starts.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1;
+    if (starts[mid] <= b + 1e-6) lo = mid + 1;
+    else hi = mid;
+  }
+  const i = Math.max(0, lo - 1);
+  if (i < starts.length - 1) return i + 1;
+  const length = score.measureLengths?.[i] || score.meter || 4;
+  return i + 1 + Math.floor(Math.max(0, b - starts[i]) / length + 1e-6);
+}
 export function keyboardLayout(low = 48, high = 84) {
   const whites = [];
   for (let m = low; m <= high; m++) if (!isBlack(m)) whites.push(m);
@@ -660,6 +699,7 @@ export function parseMusicXML(xml, filename = "Imported score") {
   }
   // Every part shares the same bar starts, so a miscounted bar in one part cannot shift the others.
   const measureStarts = [],
+    measureLengths = [],
     overfull = [],
     underfull = [];
   let t = 0;
@@ -673,7 +713,12 @@ export function parseMusicXML(xml, filename = "Imported score") {
         Math.abs(b.extent + bars[i + 1].extent - b.nominal) < 1e-6;
     if (!b.implicit && b.extent > b.nominal + 1e-6) overfull.push(b.number);
     else if (short && !split && i < bars.length - 1) underfull.push(b.number);
-    t += b.implicit || split ? b.extent : Math.max(b.extent, b.nominal);
+    const length =
+      b.implicit || split
+        ? b.extent || b.nominal
+        : Math.max(b.extent, b.nominal);
+    measureLengths.push(round(length));
+    t += length;
   });
   if (overfull.length)
     warn(
@@ -781,7 +826,7 @@ export function parseMusicXML(xml, filename = "Imported score") {
     );
   if (new Set(bars.map((b) => b.nominal)).size > 1)
     warn(
-      "The time signature changes during the piece. Check bar numbers when setting a phrase loop.",
+      "The time signature changes during the piece. Phrase loops follow the written bar lengths.",
     );
   tempos.sort((a, b) => at(a) - at(b) || a.pi - b.pi);
   const bpm = tempos[0]?.bpm ?? 80;
@@ -810,6 +855,7 @@ export function parseMusicXML(xml, filename = "Imported score") {
     notes,
     measures: bars.length,
     measureStarts,
+    measureLengths,
     pickup: bars[0].implicit ? (measureStarts[1] ?? round(bars[0].extent)) : 0,
     keySignature: firstKey
       ? { fifths: concertFifths(firstKey), mode: firstKey.mode }
@@ -879,39 +925,26 @@ export function parseMIDI(data, filename = "MIDI score") {
     warnings.push(
       `This MIDI file has ${tracks.length} instrument tracks. They were combined, and hands were split around middle C.`,
     );
-  // Bar numbers follow the file's time signatures (4/4 when none are given).
+  // A signature event begins a new bar. Explicit boundaries also preserve silent
+  // bars, held notes spanning bars, and changes partway through a MIDI bar.
   const signatures = (midi.header.timeSignatures || [])
-    .filter((s) => s.timeSignature?.[0] > 0 && s.timeSignature?.[1] > 0)
+    .filter(
+      (s) =>
+        Number.isFinite(s.ticks) &&
+        s.ticks >= 0 &&
+        s.timeSignature?.[0] > 0 &&
+        s.timeSignature?.[1] > 0,
+    )
     .map((s) => ({
-      ticks: s.ticks,
+      beat: s.ticks / ppq,
       quarters: (s.timeSignature[0] * 4) / s.timeSignature[1],
     }))
-    .sort((a, b) => a.ticks - b.ticks);
-  if (!signatures.length || signatures[0].ticks > 0)
-    signatures.unshift({
-      ticks: 0,
-      quarters: signatures[0]?.ticks > 0 ? 4 : (signatures[0]?.quarters ?? 4),
-    });
-  let bar = 0;
-  signatures.forEach((s, i) => {
-    if (i)
-      bar +=
-        Math.round(
-          ((s.ticks - signatures[i - 1].ticks) /
-            ppq /
-            signatures[i - 1].quarters) *
-            1000,
-        ) / 1000;
-    s.bar = bar;
-  });
-  const barOf = (ticks) => {
-    const s = signatures.findLast((x) => x.ticks <= ticks) || signatures[0];
-    return Math.floor(s.bar + (ticks - s.ticks) / ppq / s.quarters + 1e-6) + 1;
-  };
-  if (new Set(signatures.map((s) => s.quarters)).size > 1)
-    warnings.push(
-      "The time signature changes during the piece. Check bar numbers when setting a phrase loop.",
-    );
+    .filter(
+      (s) => Number.isFinite(s.quarters) && s.quarters > 0 && s.quarters <= 32,
+    )
+    .sort((a, b) => a.beat - b.beat);
+  if (!signatures.length || signatures[0].beat > 0)
+    signatures.unshift({ beat: 0, quarters: 4 });
   let notes = [],
     shortened = false,
     outside = 0;
@@ -939,7 +972,7 @@ export function parseMIDI(data, filename = "MIDI score") {
           : n.midi < 60
             ? "left"
             : "right",
-        measure: barOf(n.ticks),
+        measure: 1,
       });
     }),
   );
@@ -952,13 +985,45 @@ export function parseMIDI(data, filename = "MIDI score") {
     warnings.push(
       `${outside} note${outside > 1 ? "s" : ""} outside the 88-key piano range ${outside > 1 ? "were" : "was"} left out.`,
     );
+  const duration = Math.max(...notes.map((n) => n.beat + n.duration));
+  const measureStarts = [],
+    measureLengths = [];
+  let beat = 0,
+    signature = 0,
+    shortenedBar = false;
+  while (beat < duration - 1e-6) {
+    if (measureStarts.length >= 100000)
+      throw Error(
+        "This MIDI file spans too many bars. Export a shorter passage to practice.",
+      );
+    while (signatures[signature + 1]?.beat <= beat + 1e-6) signature++;
+    let end = beat + signatures[signature].quarters;
+    const next = signatures[signature + 1]?.beat;
+    if (next != null && next < end - 1e-6) {
+      end = next;
+      shortenedBar = true;
+    }
+    measureStarts.push(round(beat));
+    measureLengths.push(round(end - beat));
+    beat = end;
+  }
+  const barMap = {
+    meter: signatures[0].quarters,
+    measureStarts,
+    measureLengths,
+  };
+  for (const n of notes) n.measure = measureAt(barMap, n.beat);
+  if (shortenedBar)
+    warnings.push(
+      "A time signature changes partway through a MIDI bar. That bar was shortened so the new signature starts a new bar.",
+    );
   // Performed MIDI rolls chords over a few milliseconds; onsets within CHORD_WINDOW of a chord's first note join it (ends stay put).
   notes.sort((a, b) => a.beat - b.beat);
   let onset = -Infinity,
     onsetBar = 1,
     snapped = false;
   for (const n of notes) {
-    if (n.beat - onset < CHORD_WINDOW) {
+    if (n.measure === onsetBar && n.beat - onset < CHORD_WINDOW) {
       if (n.beat !== onset) {
         n.duration = round(n.beat + n.duration - onset);
         n.beat = onset;
@@ -994,10 +1059,10 @@ export function parseMIDI(data, filename = "MIDI score") {
     composer: "Your music",
     bpm: Math.round(opening?.bpm || 120),
     tonic: KEY_NAMES[keySig?.key] ?? 0,
-    meter: signatures[0].quarters,
+    ...barMap,
     notes,
-    duration: Math.max(...notes.map((n) => n.beat + n.duration)),
-    measures: Math.max(...notes.map((n) => n.measure)),
+    duration,
+    measures: measureStarts.length,
     source: "MIDI",
     reviewed: false,
     warnings,

@@ -1,5 +1,16 @@
 const { app, BrowserWindow, session, dialog } = require("electron");
 const path = require("path");
+const fs = require("fs");
+// Tests get their own library, exports, preferences and Electron instance lock.
+// Normal desktop launches keep using the user's Desktop library.
+const qaRoot = process.env.LUMA_QA_ROOT;
+if (qaRoot) {
+  if (!path.isAbsolute(qaRoot))
+    throw Error("LUMA_QA_ROOT must be an absolute path.");
+  const userData = path.join(qaRoot, "Electron");
+  fs.mkdirSync(userData, { recursive: true });
+  app.setPath("userData", userData);
+}
 let win, server;
 if (!app.requestSingleInstanceLock()) {
   app.quit();
@@ -13,7 +24,9 @@ if (!app.requestSingleInstanceLock()) {
   app.whenReady().then(async () => {
     try {
       const { startServer } = await import("./server.mjs");
-      const dataDir = path.join(app.getPath("desktop"), "Luma Keys", "Library");
+      const dataDir = qaRoot
+        ? path.join(qaRoot, "Library")
+        : path.join(app.getPath("desktop"), "Luma Keys", "Library");
       const engine = app.isPackaged
         ? path.join(
             process.resourcesPath,

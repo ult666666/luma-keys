@@ -1,0 +1,43 @@
+
+> luma-keys@1.0.1 test
+> node --test tests/*.test.mjs
+
+✔ fixed Do, chromatic notes, octaves and movable Do (2.923375ms)
+✔ 88-key layout aligns black keys between white keys (0.902791ms)
+✔ voice backup, simultaneous chords, rest, duration and left staff (13.755125ms)
+✔ ties merge sustained notes and pickup does not add empty beats (0.934375ms)
+✔ MXL container selects root music XML (4.910625ms)
+✔ invalid and empty scores fail honestly (0.84775ms)
+✔ MIDI notes retain pitch and quarter-note duration (2.700625ms)
+✔ lessons have bounded sorted notes and complete durations (0.635166ms)
+✔ fixture: pickup with a full-bar rest, two parts with different divisions, tie, chords and triplets (3.659833ms)
+✔ chord members share the onset of their voice after backup, even after a rest (1.09ms)
+✔ tie chains across three bars become one held note; untouching ties do not merge (0.911334ms)
+✔ ties across a voice-number change and between chord members follow pitch (1.557833ms)
+✔ a transposing part reads its key in concert pitch even when <transpose> follows <key> (0.633958ms)
+✔ a pickup bar whose other staff holds a whole-bar rest still lasts only its played beats (1.730375ms)
+✔ a pickup is detected without implicit="yes"; a bar of only rests keeps its full length (1.34875ms)
+✔ a bar split around a repeat (short bar + implicit bar) is not padded with silence (1.628042ms)
+✔ notes missing <duration> are timed from their written type, dots and tuplets (1.631083ms)
+✔ written accidentals fill a missing <alter>; key signatures ignored by an exporter are flagged (1.222458ms)
+✔ unsupported notation warnings name the bars involved (0.668666ms)
+✔ bars drawn as repeat-the-bar signs without written notes are flagged (0.378208ms)
+✔ malformed MusicXML and MXL input fail with clear messages (4.82125ms)
+✔ MIDI: humanized chords line up, far-apart notes stay separate, out-of-range notes are reported (1.232125ms)
+✔ MIDI: two tracks map to hands; minor keys use the relative-major number 1; bars follow 3/4 (1.197125ms)
+✔ MIDI meter changes share bar positions with loops and numbered exports (22.970167ms)
+✔ MIDI silent bars and long held notes keep all loopable bar boundaries (0.374333ms)
+✔ MIDI partial-bar signature changes start a new bar and explain the shortening (0.431458ms)
+✔ MIDI near-simultaneous notes across a bar line never merge into one chord (0.192708ms)
+✔ MusicXML final bar uses its changed meter, including when editing past its end (0.332209ms)
+✔ bar helpers retain legacy scores; malformed imported bar maps are rejected (0.357417ms)
+Luma Keys listening on 64866
+✔ Local API imports, persists, validates, exports, and restricts foreign origins (163.414167ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 478.71975

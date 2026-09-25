@@ -8,7 +8,7 @@ Double-click **Luma Keys.app on your Desktop**. No account, terminal, internet c
 1. Start with **Twinkle, Little Star**. Click Play to hear the melody and watch notes meet the piano keys.
 2. Numbers name pitches: C / Do = 1, D / Re = 2, E / Mi = 3, F / Fa = 4, G / Sol = 5, A / La = 6, B / Ti = 7. They are not fingering instructions. C4 is middle C.
 3. Try 50% speed. Longer falling bars mean longer notes. Mint is the right hand; lavender is the left.
-4. Switch to **Wait for me** and press Play. Use a connected USB MIDI keyboard, click the on-screen keys, or play with A W S E D F T G Y H U J K. The melody waits for the expected pitches. Connect keyboard is at the bottom of the studio.
+4. Switch to **Wait for me** and press Play. Use a connected USB MIDI keyboard, click the on-screen keys, or play with A W S E D F T G Y H U J K. The melody waits for the expected pitches. Connect piano is at the top of the studio, with another keyboard control at the bottom.
 5. Open **Companions & moods** to choose Luma the cosmic cat or Mochi the moon bunny and a color theme.
 
 ## Bring your sheet music
@@ -22,7 +22,7 @@ MusicXML/MIDI exports from notation software are more reliable than scans. Unsup
 - **Listen & follow:** automatic sampled-grand-piano playback and falling notes.
 - **Wait for me:** the timeline stays on each onset until the expected notes are found. Chords require every displayed pitch. Accuracy counts note attempts, not rhythmic skill.
 - **Hands:** isolate left or right; imported MIDI hand assignments may need review.
-- **Loop:** repeat the selected bar range.
+- **Loop:** repeat the selected bar range. New MIDI and MusicXML imports preserve changes in bar length. Wait mode stays inside the selected phrase; an empty phrase prompts you to choose another hand or widen the loop.
 - **Speed:** 25–125% without changing pitch. Count-in and metronome are optional.
 - **Number 1 is:** C is fixed Do by default. Choosing another tonic changes number labels, not the sounding notes.
 - **88 keys:** expand from the readable automatic range to the full piano.
@@ -50,7 +50,9 @@ npm run pack
 
 Development UI: http://127.0.0.1:5188 . Local API: port 5189. Packaged app chooses its own available loopback port. It uses an isolated renderer without Node access and rejects foreign web origins.
 
-To rebuild and refresh the Desktop app after changes, run `scripts/package-desktop.sh`.
+To rebuild and refresh the Desktop app after changes, run `scripts/package-desktop.sh`. Quit and reopen the app when convenient to load an installed update.
+
+For browser tests, use `LUMA_DATA_DIR="$PWD/.qa-runs/ui/Library" npm run dev`, then run the QA scripts sequentially. They require this separate test library. `node scripts/native-qa.mjs` creates its own isolated app instance and library. See docs/OVERNIGHT.md.
 
 The app is a local personal build for this Apple Silicon Mac; it is not an App Store release. It includes a current Electron runtime and the local recognition engine. Do not delete Library if rebuilding the app.
 

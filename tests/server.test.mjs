@@ -9,12 +9,24 @@ test("Local API imports, persists, validates, exports, and restricts foreign ori
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), "luma-test-"));
   const { server, port } = await startServer({
     port: 0,
-    dataDir: path.join(dir, "Library"),
+    dataDir: path.join(dir, ".isolated", "Library"),
   });
   const base = `http://127.0.0.1:${port}`;
   try {
     let r = await fetch(base + "/api/health");
     assert.equal((await r.json()).ok, true);
+    const original = Buffer.from("%PDF-1.4\noriginal test bytes");
+    await fs.writeFile(
+      path.join(dir, ".isolated", "Library", "imports", "test-original.pdf"),
+      original,
+    );
+    r = await fetch(base + "/api/original/test-original");
+    assert.equal(
+      r.status,
+      200,
+      "Original PDFs work inside a hidden parent directory",
+    );
+    assert.deepEqual(Buffer.from(await r.arrayBuffer()), original);
     const form = new FormData();
     form.append(
       "score",

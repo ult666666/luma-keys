@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "before": {
+    "files": 39,
+    "sha256": "ade714da308afe0ab449d8243757d21b6810d4cf3eba74922fcff1bfd540808d",
+    "checkedAt": "2026-09-25T03:23:14.737Z"
+  },
+  "after": {
+    "files": 39,
+    "sha256": "ade714da308afe0ab449d8243757d21b6810d4cf3eba74922fcff1bfd540808d",
+    "checkedAt": "2026-09-25T03:29:37.959Z"
+  },
+  "installedAsarSha256": "83180acad98ccbd1ef280a9f109978bb6d7c5fb04610ef07bcf5962e1b0651ab"
+}

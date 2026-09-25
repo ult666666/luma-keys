@@ -5,6 +5,7 @@ Exports/
 engines/
 .DS_Store
 dist/
+.qa-runs/
 evidence/claude-debug.log
 evidence/claude-stream.jsonl
 evidence/claude-stderr.log
