@@ -30,3 +30,6 @@ Native QA mutes its own isolated app before playback, so overnight testing does 
 
 
 PDF lifecycle QA: `node scripts/recognition-qa.mjs` exercises reload, cancellation, retry from the original, and unobtrusive background completion against an isolated dev server. `node scripts/recognition-close-qa.mjs` tests packaged Quit, window close and SIGKILL of only its uniquely created QA app. It checks the owned engine/runner processes disappear, reopens the same QA data, and retries the retained PDF to 16 exact pitches. It never closes the personal app. Receipt and engine unit tests live in `tests/recognition.test.mjs`.
+
+
+Input QA: `node scripts/input-qa.mjs` tests a muted isolated dev instance; `node scripts/native-input-qa.mjs` uses a separate packaged app and library with mute preconfigured. Both run `scripts/input-checks.mjs`, which simulates two MIDI inputs, delays audio resume, measures source stops, and exercises focus, modifiers, loops and the final note. These tests do not establish physical MIDI hardware compatibility. Audio/rhythm dev tests resolve the UI's current Vite module URL so hot reload cannot create an unused second piano observer.

@@ -34,7 +34,9 @@ If saved settings are damaged, a separate recovery notice shows which fields use
 - **Number 1 is:** C is fixed Do by default. Choosing another tonic changes number labels, not the sounding notes.
 - **88 keys:** expand from the readable automatic range to the full piano.
 - **Export icon:** saves a printable numbered practice HTML and reusable JSON backup to the Exports folder. Open the HTML in a browser and choose Print / Save PDF.
-- **Space:** play/pause when focus is outside an input or button. A–' play C4–F5; the black keys use W E T Y U O P.
+- **Space:** play/pause when focus is outside an input or button. A–' play C4–F5; the black keys use W E T Y U O P. These note keys also work after clicking Play or moving a volume/timeline slider. Typing in a text field or dialog stays silent.
+
+Computer, onscreen and MIDI keys can be used together: releasing one input does not cut a pitch still held by another. A loop keeps live notes and sustain sounding across its boundary. The last note in **Wait for me** rings until you release it. Pause/Start over clears notes and sustain; switching away cancels pending key sounds. MIDI connection changes release only the disconnected input. MIDI input currently handles note-on/off and CC64 sustain; other controller messages are not interpreted.
 
 In **Little lessons**, Für Elise now includes a two-hand opening excerpt with its 3/8 pickup, rests, engraved sheet music and a three-step practice path. Start with one hand at 50%. App bar 1 is the pickup, so the left hand enters in app bar 3. The excerpt ends after the first ending without repeating. Its corrected MusicXML, printable numbered HTML and PDF are in `Practice Sheets/`.
 

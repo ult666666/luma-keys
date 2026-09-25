@@ -64,3 +64,14 @@ The native recognizer now runs beneath a small Node child with an IPC connection
 Receipts use ordered atomic writes. Planned score IDs are journaled before saving, so restart recovers already-saved parts and explains a partial multi-part save. A receipt precedes installation of its original PDF; the PDF itself uses a temporary file and rename. These measures cover tested process interruption, not guarantees against damaged disks or every operating-system failure.
 
 Primary references: [Node child-process lifecycle and IPC disconnect](https://nodejs.org/api/child_process.html), [Electron app quit events](https://www.electronjs.org/docs/latest/api/app#event-before-quit), [Electron RunAsNode fuse and fork behavior](https://www.electronjs.org/docs/latest/tutorial/fuses), and [ASAR handling](https://www.electronjs.org/docs/latest/tutorial/asar-archives). The packaged tests exercise the real bundled runtime and actual PDF recognition, in addition to a deterministic SIGTERM-ignoring engine fixture. Exact results are in STATUS.md and evidence.
+
+
+## Input ownership and audio startup — September 25, 2026
+
+A packaged 1.0.7 baseline reproduced five failures: computer A after clicking Play did not advance wait mode; a delayed Play resumed after Start over; pending notes became pressed after blur or simulated MIDI disconnect; and Pause left the sustain label enabled. The baseline is `evidence/input-baseline-1.0.7.json`.
+
+Input registration now keeps separate owners for computer keys, each pointer, focused-key activation, MIDI port and MIDI channel. A pitch releases when its last owner releases; removing an entry invalidates its pending sound. Async Play requests are cancelled by Stop and read current settings after audio initialization. Port refresh only detaches changed inputs, and pedals combine into the shared virtual piano's sustain state. Loop boundaries stop scheduled playback voices while retaining live voices; finishing wait mode ends the transport while the last live note can ring.
+
+The design follows the asynchronous [AudioContext resume contract](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/resume) and [W3C Web MIDI message/port definitions](https://www.w3.org/TR/webmidi/). Command transitions and changed key characters are tested with constructed events, including an omitted key-up; physical MIDI hardware is still untested. Supported MIDI input remains note-on/off and CC64, not the full controller specification.
+
+The shared browser/native harness observes actual Web Audio source-start/stop calls, not only key colors. During timing regression, a development-only harness problem was isolated: Vite had versioned the UI audio module, while the test imported an unused second instance without the query. Audio/rhythm harnesses now observe the already-loaded module. Evidence: `evidence/rhythm-hot-reload-observer-baseline.json`; final timing results are in `evidence/rhythm-qa.json`.

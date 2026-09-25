@@ -5,6 +5,7 @@ import fs from "node:fs/promises";
 import { trackTestData } from "./qa-cleanup.mjs";
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+page.setDefaultTimeout(12000);
 const errors = [],
   checks = [];
 page.on("pageerror", (e) => errors.push(e.message));
@@ -12,7 +13,14 @@ const cleanup = await trackTestData(page);
 try {
   await page.goto("http://127.0.0.1:5188");
   await page.evaluate(async () => {
-    const { piano } = await import("/src/audio.js");
+    // Vite may version the live module after a source edit. Observe that same
+    // instance instead of importing a second, unused piano without its query.
+    const loadedAudio =
+      performance
+        .getEntriesByType("resource")
+        .filter((entry) => new URL(entry.name).pathname === "/src/audio.js")
+        .at(-1)?.name || "/src/audio.js";
+    const { piano } = await import(loadedAudio);
     await piano.prepare();
     window.__piano = piano;
     window.__ticks = [];
@@ -36,13 +44,11 @@ try {
     await page
       .getByRole("button", { name: "Import a score", exact: true })
       .click();
-    await page
-      .locator("input[type=file]")
-      .setInputFiles({
-        name: `Gentle ${numerator}-8.mid`,
-        mimeType: "audio/midi",
-        buffer: Buffer.from(m.toArray()),
-      });
+    await page.locator("input[type=file]").setInputFiles({
+      name: `Gentle ${numerator}-8.mid`,
+      mimeType: "audio/midi",
+      buffer: Buffer.from(m.toArray()),
+    });
     await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
     await page.getByRole("button", { name: "Save & mark reviewed" }).click();
     await page.getByRole("dialog").waitFor({ state: "hidden" });
@@ -139,6 +145,24 @@ try {
     ),
   );
   console.log(checks.map((c) => "PASS " + c).join("\n"));
+} catch (error) {
+  const diagnostic = await page
+    .evaluate(() => ({
+      ticks: window.__ticks,
+      audioState: window.__piano?.ctx.state,
+      audioTime: window.__piano?.ctx.currentTime,
+      caption: document.querySelector(".roll-caption")?.textContent,
+      modules: performance
+        .getEntriesByType("resource")
+        .filter((r) => r.name.includes("audio.js"))
+        .map((r) => r.name),
+    }))
+    .catch(() => ({}));
+  await fs.writeFile(
+    "evidence/rhythm-qa-failure.json",
+    JSON.stringify({ error: error.message, diagnostic }, null, 2),
+  );
+  throw error;
 } finally {
   await browser.close();
   await cleanup();

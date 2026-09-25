@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { flushSync } from "react-dom";
 import { useRecognition } from "./useRecognition.js";
+import { InputNotes } from "./input-notes.mjs";
+import { bindMIDIInputs } from "./midi-input.mjs";
 import {
   Music2,
   Library,
@@ -513,9 +515,12 @@ export default function App() {
       tickUntil: -Infinity,
       matched: new Set(),
     }),
-    voices = useRef(new Map()),
-    pendingNotes = useRef(new Map()),
+    inputNotes = useRef(new InputNotes()),
+    computerNotes = useRef(new Map()),
+    pedalInputs = useRef(new Set()),
+    playRequest = useRef(null),
     midiRef = useRef(),
+    midiConnecting = useRef(false),
     toastTimer = useRef(),
     practiceStart = useRef(0),
     lastPreferences = useRef(null),
@@ -607,8 +612,10 @@ export default function App() {
     score,
     notes,
     chordGroups,
+    phraseGroups,
     mode,
     speed,
+    countIn,
     metronome,
     loop,
     loopA,
@@ -749,14 +756,21 @@ export default function App() {
         delete window.lumaFlushPreferences;
     };
   }, []);
-  function stop() {
+  function stop({ keepInputs = false } = {}) {
     const t = transport.current;
     t.playing = false;
     setPlaying(false);
-    piano.stop();
-    voices.current.clear();
-    pendingNotes.current.clear();
-    setPressed(new Set());
+    playRequest.current = null;
+    setLoadingSound(false);
+    if (keepInputs) piano.stopPlayback();
+    else {
+      piano.stop();
+      inputNotes.current.clear();
+      computerNotes.current.clear();
+      pedalInputs.current.clear();
+      setSustain(false);
+      setPressed(new Set());
+    }
     if (practiceStart.current) {
       const minutes = (Date.now() - practiceStart.current) / 60000;
       setStats((s) => ({
@@ -790,8 +804,8 @@ export default function App() {
     setView("studio");
   }
   async function start() {
-    if (loadingSound || settingsLoading) return;
-    if (playing) {
+    if (settingsLoading) return;
+    if (transport.current.playing || playRequest.current) {
       stop();
       return;
     }
@@ -807,9 +821,28 @@ export default function App() {
       );
       return;
     }
+    const request = Symbol();
+    playRequest.current = request;
     setLoadingSound(true);
     try {
       await piano.init();
+      if (
+        playRequest.current !== request ||
+        document.hidden ||
+        handlers.current.modal
+      )
+        return;
+      const {
+        score,
+        notes,
+        phraseGroups,
+        mode,
+        speed,
+        countIn,
+        loop,
+        loopA,
+        loopB,
+      } = state.current;
       const t = transport.current;
       let from = t.beat;
       if (from >= score.duration - 0.01) from = 0;
@@ -836,9 +869,13 @@ export default function App() {
       practiceStart.current = Date.now();
       setStats((s) => ({ ...s, sessions: s.sessions + 1 }));
     } catch (e) {
-      notify(e.message);
+      if (playRequest.current === request) notify(e.message);
+    } finally {
+      if (playRequest.current === request) {
+        playRequest.current = null;
+        setLoadingSound(false);
+      }
     }
-    setLoadingSound(false);
   }
   useEffect(() => {
     let frame,
@@ -888,7 +925,7 @@ export default function App() {
         t.tickUntil = tickThrough;
         if (b >= end) {
           if (s.loop) {
-            piano.stop();
+            piano.stopPlayback();
             const from = barStart(s.score, s.loopA);
             t.origin = from;
             t.start = piano.ctx.currentTime;
@@ -912,16 +949,22 @@ export default function App() {
     frame = requestAnimationFrame(update);
     return () => cancelAnimationFrame(frame);
   }, []);
-  async function noteOn(midi, velocity = 0.75) {
-    if (voices.current.has(midi) || pendingNotes.current.has(midi)) return;
-    const token = Symbol();
-    pendingNotes.current.set(midi, token);
+  async function noteOn(midi, velocity = 0.75, source = "preview") {
+    if (
+      settingsLoading ||
+      modal ||
+      document.hidden ||
+      !Number.isInteger(midi) ||
+      midi < 21 ||
+      midi > 108
+    )
+      return;
+    const entry = inputNotes.current.press(midi, source);
+    if (!entry) return;
     try {
       await piano.init();
-      if (pendingNotes.current.get(midi) !== token) return;
-      pendingNotes.current.delete(midi);
-      const voice = piano.play(midi, null, velocity);
-      voices.current.set(midi, voice);
+      if (!inputNotes.current.current(entry)) return;
+      entry.voice = piano.play(midi, null, velocity);
       setPressed((p) => new Set(p).add(midi));
       const s = state.current,
         t = transport.current;
@@ -949,7 +992,7 @@ export default function App() {
               t.beat = next.beat;
               setBeat(next.beat);
             } else {
-              stop();
+              stop({ keepInputs: true });
               t.beat = s.score.duration;
               setBeat(s.score.duration);
               notify("You played the whole piece. Luma is proud of you.");
@@ -958,49 +1001,108 @@ export default function App() {
         } else setSessionMisses((v) => v + 1);
       }
     } catch (e) {
-      pendingNotes.current.delete(midi);
-      notify(e.message);
+      if (inputNotes.current.discard(entry)) notify(e.message);
     }
   }
-  function noteOff(midi) {
-    pendingNotes.current.delete(midi);
-    const v = voices.current.get(midi);
-    if (v) piano.release(v);
-    voices.current.delete(midi);
+  function noteOff(midi, source = "preview") {
+    const entry = inputNotes.current.release(midi, source);
+    if (!entry) return;
+    piano.release(entry.voice);
     setPressed((p) => {
-      const n = new Set(p);
-      n.delete(midi);
-      return n;
+      const next = new Set(p);
+      next.delete(midi);
+      return next;
+    });
+  }
+  function updatePedal(down, source) {
+    if (down && !modal && !document.hidden) pedalInputs.current.add(source);
+    else pedalInputs.current.delete(source);
+    const downNow = pedalInputs.current.size > 0;
+    piano.sustain(downNow);
+    setSustain(downNow);
+  }
+  function releaseInputSources(prefix = "") {
+    for (const source of pedalInputs.current)
+      if (source.startsWith(prefix)) pedalInputs.current.delete(source);
+    const down = pedalInputs.current.size > 0;
+    piano.sustain(down);
+    setSustain(down);
+    const released = inputNotes.current.releaseSources((source) =>
+      source.startsWith(prefix),
+    );
+    for (const entry of released) piano.release(entry.voice);
+    if (!prefix || prefix === "computer:") computerNotes.current.clear();
+    setPressed((p) => {
+      const next = new Set(p);
+      for (const entry of released) next.delete(entry.midi);
+      return next;
     });
   }
   const handlers = useRef();
-  handlers.current = { noteOn, noteOff, start, stop, modal };
+  handlers.current = {
+    noteOn,
+    noteOff,
+    start,
+    stop,
+    modal,
+    releaseInputSources,
+    updatePedal,
+  };
+  useEffect(() => {
+    if (modal) {
+      releaseInputSources();
+      if (playRequest.current) stop();
+    }
+  }, [modal]);
   useEffect(() => {
     const down = (e) => {
+      if (e.key === "Meta" || e.metaKey) {
+        handlers.current.releaseInputSources("computer:");
+        return;
+      }
+      const target = e.target;
+      const typing =
+        /TEXTAREA|SELECT/.test(target.tagName) ||
+        (target.tagName === "INPUT" &&
+          !["range", "checkbox", "radio", "button", "submit", "reset"].includes(
+            target.type,
+          ));
       if (
         handlers.current.modal ||
-        /INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName) ||
+        typing ||
+        target.isContentEditable ||
         e.repeat ||
         e.metaKey ||
         e.ctrlKey
       )
         return;
       if (e.code === "Space") {
+        if (target.closest("button, a, input, [role=button]")) return;
         e.preventDefault();
         handlers.current.start();
       } else if (KEYS[e.key.toLowerCase()] !== undefined) {
         e.preventDefault();
-        handlers.current.noteOn(KEYS[e.key.toLowerCase()]);
+        const midi = KEYS[e.key.toLowerCase()];
+        const source = "computer:" + (e.code || e.key.toLowerCase());
+        computerNotes.current.set(e.code || e.key.toLowerCase(), midi);
+        handlers.current.noteOn(midi, 0.75, source);
       }
     };
     const up = (e) => {
-      if (KEYS[e.key.toLowerCase()] !== undefined)
-        handlers.current.noteOff(KEYS[e.key.toLowerCase()]);
+      if (e.key === "Meta") {
+        handlers.current.releaseInputSources("computer:");
+        return;
+      }
+      const key = e.code || e.key.toLowerCase();
+      const midi = computerNotes.current.get(key);
+      if (midi !== undefined) {
+        computerNotes.current.delete(key);
+        handlers.current.noteOff(midi, "computer:" + key);
+      }
     };
     const blur = () => {
-      voices.current.forEach((_, m) => handlers.current.noteOff(m));
-      piano.sustain(false);
-      setSustain(false);
+      handlers.current.releaseInputSources();
+      if (playRequest.current) handlers.current.stop();
     };
     const visibility = () => {
       if (document.hidden) handlers.current.stop();
@@ -1014,47 +1116,40 @@ export default function App() {
       window.removeEventListener("keydown", down);
       window.removeEventListener("keyup", up);
       window.removeEventListener("blur", blur);
+      midiRef.current?.dispose();
+      midiRef.current = null;
+      inputNotes.current.clear();
+      playRequest.current = null;
     };
   }, []);
   async function connectMIDI() {
+    if (midiConnecting.current) return;
+    midiConnecting.current = true;
     try {
       if (!navigator.requestMIDIAccess)
         throw Error("MIDI needs the desktop app or Chrome.");
-      const midi = await navigator.requestMIDIAccess({ sysex: false });
-      midiRef.current = midi;
-      const bind = () => {
-        voices.current.forEach((_, m) => handlers.current.noteOff(m));
-        piano.sustain(false);
-        setSustain(false);
-        const inputs = [...midi.inputs.values()];
-        setMidiStatus(
-          inputs.length
-            ? inputs.map((i) => i.name).join(", ")
-            : "No keyboard found",
-        );
-        inputs.forEach((i) => {
-          i.onmidimessage = (e) => {
-            const [status, n, v] = e.data;
-            if ((status & 240) === 144 && v > 0)
-              handlers.current.noteOn(n, v / 127);
-            if ((status & 240) === 128 || ((status & 240) === 144 && v === 0))
-              handlers.current.noteOff(n);
-            if ((status & 240) === 176 && n === 64) {
-              piano.sustain(v >= 64);
-              setSustain(v >= 64);
-            }
-          };
-        });
-      };
-      bind();
-      midi.onstatechange = bind;
+      if (midiRef.current) {
+        midiRef.current.refresh();
+        return;
+      }
+      const access = await navigator.requestMIDIAccess({ sysex: false });
+      midiRef.current = bindMIDIInputs(access, {
+        noteOn: (...args) => handlers.current.noteOn(...args),
+        noteOff: (...args) => handlers.current.noteOff(...args),
+        pedal: (...args) => handlers.current.updatePedal(...args),
+        disconnect: (prefix) => handlers.current.releaseInputSources(prefix),
+        status: (names) =>
+          setMidiStatus(names.length ? names.join(", ") : "No keyboard found"),
+      });
       notify(
-        midi.inputs.size
+        access.inputs.size
           ? "Keyboard connected. Play a note!"
           : "Plug in a USB MIDI keyboard. It will connect automatically.",
       );
     } catch (e) {
       notify("MIDI: " + e.message);
+    } finally {
+      midiConnecting.current = false;
     }
   }
   async function reviewRecognized(id) {
@@ -1498,7 +1593,10 @@ export default function App() {
                   {!score.reviewed && (
                     <button
                       className="review-banner"
-                      onClick={() => setModal("review")}
+                      onClick={() => {
+                        stop();
+                        setModal("review");
+                      }}
                     >
                       <HelpCircle size={14} /> Imported score · check the notes
                       before practicing <ArrowRight size={14} />
@@ -1616,26 +1714,42 @@ export default function App() {
                           onPointerDown={(e) => {
                             e.preventDefault();
                             e.currentTarget.setPointerCapture(e.pointerId);
-                            noteOn(k.midi);
+                            noteOn(k.midi, 0.75, "pointer:" + e.pointerId);
                           }}
-                          onPointerUp={() => noteOff(k.midi)}
-                          onPointerCancel={() => noteOff(k.midi)}
+                          onPointerUp={(e) =>
+                            noteOff(k.midi, "pointer:" + e.pointerId)
+                          }
+                          onPointerCancel={(e) =>
+                            noteOff(k.midi, "pointer:" + e.pointerId)
+                          }
+                          onLostPointerCapture={(e) =>
+                            noteOff(k.midi, "pointer:" + e.pointerId)
+                          }
                           onKeyDown={(e) => {
                             if (
                               (e.key === "Enter" || e.code === "Space") &&
                               !e.repeat
                             ) {
                               e.preventDefault();
-                              noteOn(k.midi);
+                              noteOn(
+                                k.midi,
+                                0.75,
+                                `key-button:${k.midi}:${e.code || e.key}`,
+                              );
                             }
                           }}
                           onKeyUp={(e) => {
                             if (e.key === "Enter" || e.code === "Space") {
                               e.preventDefault();
-                              noteOff(k.midi);
+                              noteOff(
+                                k.midi,
+                                `key-button:${k.midi}:${e.code || e.key}`,
+                              );
                             }
                           }}
-                          onBlur={() => noteOff(k.midi)}
+                          onBlur={() =>
+                            releaseInputSources(`key-button:${k.midi}:`)
+                          }
                         >
                           <span className="key-number">{label(k.midi)}</span>
                           <small>

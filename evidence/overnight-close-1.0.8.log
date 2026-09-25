@@ -1,0 +1,22 @@
+[
+  {
+    mode: 'quit',
+    passed: true,
+    closeMs: 190.92483300000004,
+    saved: { theme: 'rose', pet: 'cat', volume: 0, stats: [Object] },
+    check: 'Immediate exit preserves the latest theme and active session minutes'
+  },
+  {
+    mode: 'window-close',
+    passed: true,
+    closeMs: 307.704917,
+    saved: { theme: 'rose', pet: 'cat', volume: 0, stats: [Object] },
+    check: 'Immediate exit preserves the latest theme and active session minutes'
+  },
+  {
+    mode: 'failed-save',
+    passed: true,
+    check: 'A failed save offers a choice; Keep open preserves the window and retry after repair saves the pending theme',
+    dialogSelection: 'Simulated Keep open in isolated test instance'
+  }
+]

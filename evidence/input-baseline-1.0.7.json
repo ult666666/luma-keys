@@ -1,0 +1,9 @@
+{
+  "version": "1.0.7",
+  "focusedButtonBeat": 0,
+  "expectedAfterCorrectNote": 1,
+  "playedAfterCancelledStart": true,
+  "pressedAfterBlur": true,
+  "pressedAfterDisconnect": true,
+  "staleSustainAfterPause": true
+}

@@ -1,0 +1,84 @@
+
+> luma-keys@1.0.7 test
+> node --test tests/*.test.mjs
+
+✔ legacy backups normalize chronological chords and unique editable note IDs without mutating input (119.908333ms)
+✔ backup validation rejects malformed metadata and notes with actionable errors (26.288167ms)
+✔ round trips preserve real score rhythms, trailing rests and all built-in lessons (371.780375ms)
+Luma Keys listening on 62336
+Practice file contains an invalid total duration or bar count.
+Note 1 has an invalid pitch, rhythm or hand. Check the original score before importing again.
+Unexpected token 'n', "null" is not valid JSON
+✔ library recovery preserves broken files and healthy scores across import, reload and repair (149.180833ms)
+✔ Overlapping input owners hold a pitch until its last owner releases (1.143291ms)
+✔ Release, focus loss and disconnect invalidate only the pending notes they own (1.046834ms)
+✔ MIDI rebinding preserves connected notes, disconnect cleans only its port, and channels own independent notes (0.767041ms)
+✔ Malformed and unrelated MIDI messages never become note attempts (0.186917ms)
+✔ Für Elise excerpt follows the public-domain opening pitches and separate hands (69.294083ms)
+✔ Für Elise pickup, 3/8 bars and short first ending keep their exact boundaries (52.509417ms)
+✔ Optional practice guidance must be a bounded list of text (10.247417ms)
+✔ fixed Do, chromatic notes, octaves and movable Do (3.66675ms)
+✔ 88-key layout aligns black keys between white keys (0.4135ms)
+✔ voice backup, simultaneous chords, rest, duration and left staff (17.158167ms)
+✔ ties merge sustained notes and pickup does not add empty beats (4.560917ms)
+✔ MXL container selects root music XML (5.541542ms)
+✔ invalid and empty scores fail honestly (1.38275ms)
+✔ MIDI notes retain pitch and quarter-note duration (4.28075ms)
+✔ lessons have bounded sorted notes and complete durations (21.877459ms)
+✔ fixture: pickup with a full-bar rest, two parts with different divisions, tie, chords and triplets (15.374709ms)
+✔ chord members share the onset of their voice after backup, even after a rest (0.565166ms)
+✔ tie chains across three bars become one held note; untouching ties do not merge (0.418625ms)
+✔ ties across a voice-number change and between chord members follow pitch (0.357167ms)
+✔ a transposing part reads its key in concert pitch even when <transpose> follows <key> (0.290792ms)
+✔ a pickup bar whose other staff holds a whole-bar rest still lasts only its played beats (0.27325ms)
+✔ a pickup is detected without implicit="yes"; a bar of only rests keeps its full length (0.2185ms)
+✔ a bar split around a repeat (short bar + implicit bar) is not padded with silence (6.936ms)
+✔ notes missing <duration> are timed from their written type, dots and tuplets (3.722ms)
+✔ written accidentals fill a missing <alter>; key signatures ignored by an exporter are flagged (1.355709ms)
+✔ unsupported notation warnings name the bars involved (3.710458ms)
+✔ bars drawn as repeat-the-bar signs without written notes are flagged (0.418708ms)
+✔ malformed MusicXML and MXL input fail with clear messages (13.474375ms)
+✔ MIDI: humanized chords line up, far-apart notes stay separate, out-of-range notes are reported (1.263ms)
+✔ MIDI: two tracks map to hands; minor keys use the relative-major number 1; bars follow 3/4 (0.49475ms)
+✔ MIDI meter changes share bar positions with loops and numbered exports (37.878625ms)
+✔ MIDI silent bars and long held notes keep all loopable bar boundaries (0.281834ms)
+✔ MIDI partial-bar signature changes start a new bar and explain the shortening (0.305375ms)
+✔ MIDI near-simultaneous notes across a bar line never merge into one chord (0.160417ms)
+✔ MusicXML final bar uses its changed meter, including when editing past its end (0.292709ms)
+✔ bar helpers retain legacy scores; malformed imported bar maps are rejected (3.207416ms)
+✔ settings recovery retains valid fields and replaces only invalid values (36.276916ms)
+✔ saved settings reject invalid volumes, progress types, enum values and impossible dates (0.488ms)
+✔ audio gain stays finite and bounded even if a caller supplies a bad volume (0.166833ms)
+Luma Keys listening on 62326
+Invalid settings: Piano volume. Choose supported settings and nonnegative numeric progress.
+EEXIST: file already exists, mkdir '/Users/prince/Desktop/Luma Keys/.qa-runs/settings-api-JA8SYZ/Library/Settings recovery'
+✔ settings reads do not overwrite corruption; repairs preserve exact bytes and save atomically (380.981334ms)
+✔ Explicit closing rests and a final rest-only bar remain in the practice duration (20.40525ms)
+✔ Independent Bach export preserves the arpeggio's sustained lower voices and final chord (163.708708ms)
+✔ Independent two-part Joplin export retains its final rest and key-change guidance (277.073917ms)
+✔ PDF jobs reserve the engine, cancel cleanly, retry fresh, and persist completed scores (4194.967292ms)
+✔ Shutdown interrupts active recognition, preserves originals, and blocks new starts (3572.049375ms)
+✔ Incomplete and malformed receipts recover independently, with explicit missing-original failure (4.031375ms)
+✔ Recognition time limit stops the engine and reports a useful retry error (3518.279208ms)
+✔ Force-killing the parent disconnects its runner and stops a SIGTERM-ignoring engine (3547.625542ms)
+✔ Interrupted score commits recover saved parts instead of duplicating them on retry (7.23475ms)
+✔ An engine launch failure releases the slot and reports installation trouble, not scan quality (533.605083ms)
+✔ 6/8 and 9/8 pulse on dotted quarters; count-in speaks the pulse numbers (16.454375ms)
+✔ 5/8 keeps eighth-note pulses and accents every fractional bar boundary (1.721542ms)
+✔ cut time and explicit additive beat groups retain their written pulses (3.21525ms)
+✔ MIDI preserves meter changes for fractional metronome pulses (3.605542ms)
+✔ pickup count-in completes the opening bar and does not falsely accent the pickup (1.619917ms)
+✔ successive audio scheduling windows never duplicate boundary clicks (2.263583ms)
+✔ cross-staff chords retain simultaneous pitches and flag ambiguous hands (9.817708ms)
+✔ pulse metadata survives backup validation; malformed patterns are rejected (26.983875ms)
+Luma Keys listening on 62332
+Note 1 has an invalid pitch, rhythm or hand. Check the original score before importing again.
+✔ Local API imports, persists, validates, exports, and restricts foreign origins (197.671667ms)
+ℹ tests 63
+ℹ suites 0
+ℹ pass 63
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15772.730042

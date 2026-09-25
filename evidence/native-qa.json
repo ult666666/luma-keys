@@ -33,7 +33,7 @@
   "health": {
     "ok": true,
     "omr": true,
-    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-PTueKX/Library"
+    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-7LKNA2/Library"
   },
   "notationMeasurements": [
     {
@@ -42,7 +42,7 @@
       "nodes": 3414,
       "paths": 1176,
       "visibleHeight": 409,
-      "loadRenderMs": 252.26833299999998
+      "loadRenderMs": 274.1187090000021
     },
     {
       "name": "Joplin first 16 bars",
@@ -50,7 +50,7 @@
       "nodes": 2266,
       "paths": 921,
       "visibleHeight": 409,
-      "loadRenderMs": 235.82787499999904
+      "loadRenderMs": 268.74395800000275
     },
     {
       "name": "256-bar book, bars 129–144",
@@ -58,7 +58,7 @@
       "nodes": 2982,
       "paths": 1072,
       "visibleHeight": 500,
-      "loadRenderMs": 358.5741670000025
+      "loadRenderMs": 383.25866600000154
     }
   ],
   "errors": []

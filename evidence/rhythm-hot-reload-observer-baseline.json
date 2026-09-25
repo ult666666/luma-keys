@@ -1,0 +1,13 @@
+{
+  "error": "page.waitForFunction: Timeout 12000ms exceeded.",
+  "diagnostic": {
+    "ticks": [],
+    "audioState": "running",
+    "audioTime": 13.728,
+    "caption": " Follow the light. Find your flow.",
+    "modules": [
+      "http://127.0.0.1:5188/src/audio.js?t=1790332573561",
+      "http://127.0.0.1:5188/src/audio.js"
+    ]
+  }
+}

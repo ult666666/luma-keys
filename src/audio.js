@@ -61,7 +61,14 @@ export class PianoAudio {
     source.connect(gain);
     gain.connect(this.master);
     source.start(start);
-    const voice = { source, gain, midi, start, released: false };
+    const voice = {
+      source,
+      gain,
+      midi,
+      start,
+      released: false,
+      automatic: duration !== null,
+    };
     this.voices.add(voice);
     source.onended = () => {
       this.voices.delete(voice);
@@ -88,17 +95,23 @@ export class PianoAudio {
     this.pedal = down;
     if (!down) for (const v of this.voices) if (v.pending) this.release(v);
   }
+  stopVoice(voice) {
+    try {
+      voice.gain.gain.cancelScheduledValues(this.ctx.currentTime);
+      voice.gain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015);
+      voice.source.stop(this.ctx.currentTime + 0.08);
+    } catch {}
+    voice.released = true;
+    this.voices.delete(voice);
+  }
+  stopPlayback() {
+    this.stopTicks();
+    for (const voice of this.voices) if (voice.automatic) this.stopVoice(voice);
+  }
   stop() {
     this.pedal = false;
     this.stopTicks();
-    for (const v of this.voices) {
-      try {
-        v.gain.gain.cancelScheduledValues(this.ctx.currentTime);
-        v.gain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015);
-        v.source.stop(this.ctx.currentTime + 0.08);
-      } catch {}
-    }
-    this.voices.clear();
+    for (const voice of this.voices) this.stopVoice(voice);
   }
   stopTicks() {
     for (const click of this.clicks) {

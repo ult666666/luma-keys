@@ -8,7 +8,14 @@ const cleanup = await trackTestData(p);
 try {
   await p.goto("http://127.0.0.1:5188");
   const results = await p.evaluate(async () => {
-    const { piano } = await import("/src/audio.js");
+    // Vite may version the live module after a source edit. Observe that same
+    // instance instead of importing a second, unused piano without its query.
+    const loadedAudio =
+      performance
+        .getEntriesByType("resource")
+        .filter((entry) => new URL(entry.name).pathname === "/src/audio.js")
+        .at(-1)?.name || "/src/audio.js";
+    const { piano } = await import(loadedAudio);
     await piano.prepare();
     return [...piano.buffers].map(([m, b]) => {
       const data = b.getChannelData(0);
