@@ -3071,3 +3071,9 @@ td input {
     gap: 10px;
   }
 }
+
+.settings-loading {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 12px 0;
+}

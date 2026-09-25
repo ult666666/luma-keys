@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import { flushSync } from "react-dom";
 import {
   Music2,
   Library,
@@ -464,6 +465,10 @@ export default function App() {
     [score, setScore] = useState(LESSONS[0]),
     [library, setLibrary] = useState([]),
     [libraryIssues, setLibraryIssues] = useState([]),
+    [settingsIssues, setSettingsIssues] = useState([]),
+    [savingSettings, setSavingSettings] = useState(false),
+    [settingsLoading, setSettingsLoading] = useState(true),
+    [settingsLoadError, setSettingsLoadError] = useState(""),
     [beat, setBeat] = useState(0),
     [playing, setPlaying] = useState(false),
     [loadingSound, setLoadingSound] = useState(false),
@@ -510,7 +515,15 @@ export default function App() {
     pendingNotes = useRef(new Map()),
     midiRef = useRef(),
     toastTimer = useRef(),
-    practiceStart = useRef(0);
+    practiceStart = useRef(0),
+    lastPreferences = useRef(null),
+    preferenceWrites = useRef(Promise.resolve()),
+    preferenceTimer = useRef(),
+    preferenceState = useRef();
+  preferenceState.current = {
+    ready: prefLoaded,
+    snapshot: JSON.stringify({ theme, pet, stats, volume }),
+  };
   const notes = useMemo(
     () => score.notes.filter((n) => hand === "both" || n.hand === hand),
     [score, hand],
@@ -587,47 +600,128 @@ export default function App() {
     setLibraryIssues(result.issues);
     return result.scores;
   }
+  function savePreferences(snapshot) {
+    lastPreferences.current = snapshot;
+    const write = preferenceWrites.current
+      .catch(() => {})
+      .then(async () => {
+        const result = await api(
+          "/preferences",
+          json("PUT", JSON.parse(snapshot)),
+        );
+        setSettingsIssues([]);
+        if (result.recoveryFile)
+          notify(
+            "Settings saved. Your previous file is kept in Library / Settings recovery.",
+          );
+      })
+      .catch((e) => {
+        if (lastPreferences.current === snapshot)
+          lastPreferences.current = null;
+        notify("Could not save settings: " + e.message);
+        throw e;
+      });
+    preferenceWrites.current = write;
+    return write;
+  }
+  function applySettings({ preferences: p, issues }) {
+    const today = new Date().toLocaleDateString("en-CA");
+    const progress = {
+      ...p.stats,
+      dailyMinutes: p.stats.practiceDate === today ? p.stats.dailyMinutes : 0,
+      practiceDate: today,
+    };
+    // Hydration alone must never replace a damaged or older settings file.
+    lastPreferences.current = JSON.stringify({
+      theme: p.theme,
+      pet: p.pet,
+      stats: progress,
+      volume: p.volume,
+    });
+    setTheme(p.theme);
+    setPet(p.pet);
+    setStats(progress);
+    setVolume(p.volume);
+    piano.setVolume(p.volume);
+    setSettingsIssues(issues);
+    setPrefLoaded(true);
+    setSettingsLoadError("");
+  }
+  async function reloadSettings() {
+    stop();
+    setSettingsLoading(true);
+    try {
+      applySettings(await api("/settings"));
+    } catch (e) {
+      setSettingsLoadError(e.message);
+    } finally {
+      setSettingsLoading(false);
+    }
+  }
   useEffect(() => {
-    piano.prepare().catch((e) => notify(e.message));
-    Promise.all([api("/library"), api("/preferences"), api("/health")])
-      .then(([s, p, h]) => {
+    let cancelled = false;
+    piano.prepare().catch((e) => {
+      if (!cancelled) notify(e.message);
+    });
+    api("/library")
+      .then((s) => {
+        if (cancelled) return;
         setLibrary(s.scores);
         setLibraryIssues(s.issues);
-        setEngineReady(h.omr);
-        if (p.theme) setTheme(p.theme);
-        if (p.pet) setPet(p.pet);
-        if (p.stats)
-          setStats({
-            ...p.stats,
-            dailyMinutes:
-              p.stats.practiceDate === new Date().toLocaleDateString("en-CA")
-                ? p.stats.dailyMinutes || 0
-                : 0,
-            practiceDate: new Date().toLocaleDateString("en-CA"),
-          });
-        if (p.volume != null) {
-          setVolume(p.volume);
-          piano.setVolume(p.volume);
-        }
-        setPrefLoaded(true);
       })
-      .catch((e) => notify("Local library unavailable: " + e.message));
+      .catch((e) => {
+        if (!cancelled) notify("Local library unavailable: " + e.message);
+      });
+    api("/health")
+      .then((h) => {
+        if (!cancelled) setEngineReady(h.omr);
+      })
+      .catch((e) => {
+        if (!cancelled) notify("Recognition status unavailable: " + e.message);
+      });
+    api("/settings")
+      .then(({ preferences: p, issues }) => {
+        if (cancelled) return;
+        applySettings({ preferences: p, issues });
+      })
+      .catch((e) => {
+        if (!cancelled) setSettingsLoadError(e.message);
+      })
+      .finally(() => {
+        if (!cancelled) setSettingsLoading(false);
+      });
     return () => {
+      cancelled = true;
       piano.stop();
       clearTimeout(toastTimer.current);
     };
   }, []);
   useEffect(() => {
     if (!prefLoaded) return;
-    const timer = setTimeout(
-      () =>
-        api("/preferences", json("PUT", { theme, pet, stats, volume })).catch(
-          (e) => notify(e.message),
-        ),
+    const snapshot = JSON.stringify({ theme, pet, stats, volume });
+    if (snapshot === lastPreferences.current) return;
+    preferenceTimer.current = setTimeout(
+      () => savePreferences(snapshot).catch(() => {}),
       500,
     );
-    return () => clearTimeout(timer);
+    return () => clearTimeout(preferenceTimer.current);
   }, [theme, pet, stats, volume, prefLoaded]);
+  useEffect(() => {
+    // Electron awaits this before closing its window or loopback server.
+    const flush = async () => {
+      if (!preferenceState.current.ready) return;
+      flushSync(() => stop());
+      clearTimeout(preferenceTimer.current);
+      const snapshot = preferenceState.current.snapshot;
+      if (snapshot !== lastPreferences.current) await savePreferences(snapshot);
+      await preferenceWrites.current;
+    };
+    window.lumaFlushPreferences = flush;
+    return () => {
+      if (window.lumaFlushPreferences === flush)
+        delete window.lumaFlushPreferences;
+    };
+  }, []);
   function stop() {
     const t = transport.current;
     t.playing = false;
@@ -669,7 +763,7 @@ export default function App() {
     setView("studio");
   }
   async function start() {
-    if (loadingSound) return;
+    if (loadingSound || settingsLoading) return;
     if (playing) {
       stop();
       return;
@@ -1144,6 +1238,79 @@ export default function App() {
             </button>
           </div>
         </header>
+        {settingsLoading && (
+          <p className="settings-loading" role="status">
+            Loading your saved settings…
+          </p>
+        )}
+        {settingsLoadError && (
+          <section
+            className="library-recovery"
+            aria-label="Settings unavailable"
+            role="status"
+          >
+            <div>
+              <strong>Your settings file could not be opened.</strong>
+              <p>
+                Your music is available, but changes and progress are temporary.
+                Restore access to Desktop / Luma Keys / Library /
+                preferences.json, then reload your saved settings.
+              </p>
+              <details>
+                <summary>Show details</summary>
+                <p>{settingsLoadError}</p>
+              </details>
+            </div>
+            <button
+              className="secondary small"
+              disabled={settingsLoading}
+              onClick={reloadSettings}
+            >
+              Reload saved settings
+            </button>
+          </section>
+        )}
+        {settingsIssues.length > 0 && (
+          <section
+            className="library-recovery"
+            aria-label="Settings recovery"
+            role="status"
+          >
+            <div>
+              <strong>Your saved settings need a little care.</strong>
+              <p>
+                Luma kept the settings it could read and used defaults for the
+                rest. Your original file is untouched; a copy will be kept when
+                you save.
+              </p>
+              <details>
+                <summary>Settings using defaults</summary>
+                <ul>
+                  {settingsIssues.map((issue) => (
+                    <li key={issue}>{issue}</li>
+                  ))}
+                </ul>
+              </details>
+            </div>
+            <button
+              className="secondary small"
+              disabled={savingSettings}
+              onClick={async () => {
+                setSavingSettings(true);
+                try {
+                  await savePreferences(
+                    JSON.stringify({ theme, pet, stats, volume }),
+                  );
+                } catch {
+                } finally {
+                  setSavingSettings(false);
+                }
+              }}
+            >
+              {savingSettings ? "Saving…" : "Save recovered settings"}
+            </button>
+          </section>
+        )}
         {libraryIssues.length > 0 && (
           <section
             className="library-recovery"
@@ -1437,9 +1604,9 @@ export default function App() {
                           className="play-button"
                           aria-label={playing ? "Pause" : "Play"}
                           onClick={start}
-                          disabled={loadingSound}
+                          disabled={loadingSound || settingsLoading}
                         >
-                          {loadingSound ? (
+                          {loadingSound || settingsLoading ? (
                             <LoaderCircle className="spin" size={20} />
                           ) : playing ? (
                             <Pause size={20} fill="currentColor" />
@@ -1481,6 +1648,7 @@ export default function App() {
                         <button
                           className="icon-button"
                           aria-label={volume ? "Mute" : "Unmute"}
+                          disabled={settingsLoading}
                           onClick={() => {
                             const v = volume ? 0 : 0.65;
                             setVolume(v);
@@ -1495,6 +1663,7 @@ export default function App() {
                         </button>
                         <input
                           aria-label="Piano volume"
+                          disabled={settingsLoading}
                           type="range"
                           min="0"
                           max="1"
@@ -2006,6 +2175,7 @@ export default function App() {
                 className={pet === k ? "selected" : ""}
                 key={k}
                 onClick={() => setPet(k)}
+                disabled={settingsLoading}
               >
                 <Pet kind={k} happy={pet === k} />
                 <strong>
@@ -2030,6 +2200,7 @@ export default function App() {
                 key={id}
                 className={theme === id ? "selected" : ""}
                 onClick={() => setTheme(id)}
+                disabled={settingsLoading}
               >
                 <i style={{ background: color }} />
                 {name}

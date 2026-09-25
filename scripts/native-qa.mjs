@@ -5,6 +5,8 @@ import fs from "node:fs/promises";
 import { verifyElise } from "./lesson-checks.mjs";
 import { verifyNotation } from "./notation-checks.mjs";
 import { verifyBackups } from "./backup-checks.mjs";
+import { verifySettings } from "./settings-checks.mjs";
+import { verifySettingsStartup } from "./settings-startup-checks.mjs";
 const executable =
   process.env.LUMA_APP ||
   path.resolve("release/mac-arm64/Luma Keys.app/Contents/MacOS/Luma Keys");
@@ -69,6 +71,10 @@ try {
   await page.getByRole("button", { name: "Close dialog" }).click();
   const notation = await verifyNotation(page, "native-notation");
   const backups = await verifyBackups(page, "native-backup");
+  const settings = [
+    ...(await verifySettings(page, "native-settings")),
+    ...(await verifySettingsStartup(page, "native-settings-startup")),
+  ];
   assert.deepEqual(errors, []);
   await fs.writeFile(
     "evidence/native-qa.json",
@@ -86,6 +92,7 @@ try {
           ...lessonChecks,
           ...notation.checks,
           ...backups,
+          ...settings,
         ],
         health,
         notationMeasurements: notation.measurements,

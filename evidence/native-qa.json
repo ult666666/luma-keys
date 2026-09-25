@@ -22,12 +22,18 @@
     "Restored backup exports corrected notes and total duration",
     "Invalid note import shows an actionable error and retains the current piece",
     "Damaged files stay byte-for-byte intact; healthy library scores remain available",
-    "Repair and retry clears the notice and restores the score without relaunching"
+    "Repair and retry clears the notice and restores the score without relaunching",
+    "Valid preferences, mute and level persist; stale daily progress resets on screen without rewriting the file",
+    "Damaged fields use defaults while valid theme, companion and progress survive; the original file is preserved on explicit repair",
+    "Theme, companion and mute changes save; playback increments numeric session/minute totals after recovery",
+    "Null and truncated settings show recovery instead of startup errors or silent data replacement",
+    "An unreadable settings file leaves a lasting warning; restore and reload resumes saved settings without relaunching",
+    "Delayed loading disables practice and preference edits until the saved state is ready, preventing overwritten early changes"
   ],
   "health": {
     "ok": true,
     "omr": true,
-    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-qJQZFX/Library"
+    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-R5m4dR/Library"
   },
   "notationMeasurements": [
     {
@@ -36,7 +42,7 @@
       "nodes": 3414,
       "paths": 1176,
       "visibleHeight": 409,
-      "loadRenderMs": 262.26229199999943
+      "loadRenderMs": 267.43125000000146
     },
     {
       "name": "Joplin first 16 bars",
@@ -44,7 +50,7 @@
       "nodes": 2266,
       "paths": 921,
       "visibleHeight": 409,
-      "loadRenderMs": 244.63658299999952
+      "loadRenderMs": 237.86645800000042
     },
     {
       "name": "256-bar book, bars 129–144",
@@ -52,7 +58,7 @@
       "nodes": 2982,
       "paths": 1072,
       "visibleHeight": 500,
-      "loadRenderMs": 320.62474999999904
+      "loadRenderMs": 341.36062500000116
     }
   ],
   "errors": []

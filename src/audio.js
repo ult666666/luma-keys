@@ -42,9 +42,10 @@ export class PianoAudio {
     await ready;
   }
   setVolume(v) {
-    this.volume = v;
+    if (!Number.isFinite(v)) return;
+    this.volume = Math.max(0, Math.min(1, v));
     if (this.master)
-      this.master.gain.setTargetAtTime(v, this.ctx.currentTime, 0.04);
+      this.master.gain.setTargetAtTime(this.volume, this.ctx.currentTime, 0.04);
   }
   play(midi, duration = null, velocity = 0.72, delay = 0) {
     if (!this.ctx || !this.buffers.size) return null;

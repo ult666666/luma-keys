@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
 import { parseMusicXML, parseMIDI, unpackXML } from "./src/music.mjs";
 import { numberedSheet, validatePractice } from "./src/export.mjs";
+import { readPreferences, validatePreferences } from "./src/preferences.mjs";
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 export async function startServer({
   port = 5189,
@@ -95,23 +96,60 @@ export async function startServer({
     await fs.rm(scorePath(req.params.id), { force: true });
     res.json({ ok: true });
   });
-  app.get("/api/preferences", async (_, res) => {
+  const preferencesPath = path.join(dataDir, "preferences.json");
+  const readSettings = async () => {
+    let raw;
     try {
-      res.json(
-        JSON.parse(
-          await fs.readFile(path.join(dataDir, "preferences.json"), "utf8"),
-        ),
-      );
-    } catch {
-      res.json({});
+      raw = await fs.readFile(preferencesPath);
+    } catch (e) {
+      if (e.code === "ENOENT") return readPreferences({});
+      throw e;
     }
+    try {
+      return { ...readPreferences(JSON.parse(raw)), raw };
+    } catch (e) {
+      if (!(e instanceof SyntaxError)) throw e;
+      return {
+        ...readPreferences(null),
+        issues: ["Incomplete settings file"],
+        raw,
+      };
+    }
+  };
+  app.get("/api/preferences", async (_, res) =>
+    res.json((await readSettings()).preferences),
+  );
+  app.get("/api/settings", async (_, res) => {
+    const { preferences, issues } = await readSettings();
+    res.json({ preferences, issues });
   });
+  let preferenceWrites = Promise.resolve();
   app.put("/api/preferences", async (req, res) => {
-    await fs.writeFile(
-      path.join(dataDir, "preferences.json"),
-      JSON.stringify(req.body),
-    );
-    res.json({ ok: true });
+    const preferences = validatePreferences(req.body);
+    // Keep complete writes in order, and preserve damaged bytes before repair.
+    const write = preferenceWrites.then(async () => {
+      const previous = await readSettings();
+      let recoveryFile;
+      if (previous.issues.length && previous.raw !== undefined) {
+        const recoveryDir = path.join(dataDir, "Settings recovery");
+        await fs.mkdir(recoveryDir, { recursive: true });
+        recoveryFile = path.join(
+          recoveryDir,
+          "preferences-" + crypto.randomUUID() + ".json.bak",
+        );
+        await fs.writeFile(recoveryFile, previous.raw, { flag: "wx" });
+      }
+      const tmp = preferencesPath + "." + crypto.randomUUID() + ".tmp";
+      try {
+        await fs.writeFile(tmp, JSON.stringify(preferences));
+        await fs.rename(tmp, preferencesPath);
+      } finally {
+        await fs.rm(tmp, { force: true });
+      }
+      return { ok: true, ...(recoveryFile ? { recoveryFile } : {}) };
+    });
+    preferenceWrites = write.catch(() => {});
+    res.json(await write);
   });
   app.get("/api/original/:id", async (req, res) => {
     if (!validId(req.params.id)) return res.sendStatus(400);

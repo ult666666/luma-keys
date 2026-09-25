@@ -1,0 +1,24 @@
+[
+  {
+    "case": "null",
+    "errors": [],
+    "notice": [
+      "Local library unavailable: Cannot read properties of null (reading 'theme')"
+    ],
+    "originalUnchanged": true
+  },
+  {
+    "case": "invalid-volume",
+    "errors": [],
+    "notice": [
+      "Local library unavailable: Failed to execute 'setTargetAtTime' on 'AudioParam': The provided float value is non-finite."
+    ],
+    "originalUnchanged": true
+  },
+  {
+    "case": "truncated",
+    "errors": [],
+    "notice": [],
+    "originalUnchanged": false
+  }
+]

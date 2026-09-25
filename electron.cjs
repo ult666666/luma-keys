@@ -12,6 +12,45 @@ if (qaRoot) {
   app.setPath("userData", userData);
 }
 let win, server;
+let permitQuit = false;
+let pendingQuit;
+function quitAfterSaving() {
+  if (pendingQuit) return;
+  pendingQuit = (async () => {
+    let timer;
+    try {
+      if (win && !win.isDestroyed()) {
+        await Promise.race([
+          win.webContents.executeJavaScript("window.lumaFlushPreferences?.()"),
+          new Promise((_, reject) => {
+            timer = setTimeout(
+              () => reject(Error("Saving took too long.")),
+              5000,
+            );
+          }),
+        ]);
+      }
+    } catch {
+      const { response } = await dialog.showMessageBox(win, {
+        type: "warning",
+        message:
+          "Your latest settings or practice progress could not be saved.",
+        detail:
+          "Keep Luma Keys open to try again, or close without these changes.",
+        buttons: ["Keep open", "Close without saving"],
+        defaultId: 0,
+        cancelId: 0,
+      });
+      if (response !== 1) return;
+    } finally {
+      clearTimeout(timer);
+    }
+    permitQuit = true;
+    app.quit();
+  })().finally(() => {
+    pendingQuit = null;
+  });
+}
 if (!app.requestSingleInstanceLock()) {
   app.quit();
 } else {
@@ -68,6 +107,12 @@ if (!app.requestSingleInstanceLock()) {
         if (!url.startsWith(origin + "/")) e.preventDefault();
       });
       await win.loadURL(origin);
+      win.on("close", (event) => {
+        if (!permitQuit) {
+          event.preventDefault();
+          quitAfterSaving();
+        }
+      });
       win.on("closed", () => {
         win = null;
       });
@@ -77,5 +122,11 @@ if (!app.requestSingleInstanceLock()) {
     }
   });
   app.on("window-all-closed", () => app.quit());
-  app.on("before-quit", () => server?.close());
+  app.on("before-quit", (event) => {
+    if (!permitQuit && win && !win.isDestroyed()) {
+      event.preventDefault();
+      quitAfterSaving();
+    }
+  });
+  app.on("will-quit", () => server?.close());
 }

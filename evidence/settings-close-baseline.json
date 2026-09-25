@@ -1,0 +1,18 @@
+{
+  "saved": {
+    "theme": "mint",
+    "pet": "cat",
+    "volume": 0,
+    "stats": {
+      "correct": 0,
+      "minutes": 0,
+      "sessions": 1,
+      "dailyMinutes": 0,
+      "practiceDate": "2026-09-25"
+    }
+  },
+  "expectedTheme": "rose",
+  "expectedMinutes": "greater than zero",
+  "lostTheme": true,
+  "lostActiveSession": true
+}

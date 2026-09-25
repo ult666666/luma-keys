@@ -1,8 +1,20 @@
 # Luma Keys — installed and verified
 
-Updated September 25, 2026, 3:30 AM America/New_York.
+Updated September 25, 2026, 4:40 AM America/New_York.
 
-## Latest overnight improvement — version 1.0.5
+## Latest overnight improvement — version 1.0.6
+- Installed and verified the new Desktop app. The personal app remains open; reopen when convenient to load this update.
+- Reproduced invalid saved volume interrupting startup and truncated settings being silently replaced. Settings now recover each field independently: valid theme, companion, mute and progress survive; invalid values receive defaults and a clear notice. The audio engine also rejects non-finite gain values and bounds volume to 0–1.
+- Opening the app never writes settings merely because they were loaded. The first actual save of recovered values keeps the original bytes in **Library / Settings recovery**, then replaces preferences atomically. Invalid API writes and failed recovery-copy attempts leave the original untouched. Tests include invalid UTF-8 bytes, partial legacy settings, numeric-string progress and impossible dates.
+- An unreadable settings file leaves a persistent notice that progress/changes are temporary, with **Reload saved settings** once file access is restored. Music loading is independent. During initial settings loading, preference and practice controls wait so early edits cannot be overwritten.
+- Normal desktop Quit and window close now record the active session's minutes and wait for pending settings writes before closing the server. A real save failure offers **Keep open** or **Close without saving**. The former behavior lost an active session and a just-changed theme; both are reproduced in evidence/settings-close-baseline.json and fixed. Force termination/power loss cannot execute the close handler.
+- A second, read-only Claude pass reviewed the initial recovery candidate with tools/MCP disabled. Claude found three low-severity lifecycle cases; Codex addressed and tested all three. Claude did not edit files or run tests. The report distinguishes that review from subsequent Codex corrections: docs/CLAUDE_SETTINGS_REVIEW.md.
+- **52/52 unit/API tests pass**, plus browser recovery/startup and all 30 sampled-audio checks. The final packaged app passes **28 native checks**, including actual 16-note PDF recognition, original viewing, lesson/long-score review, backup recovery, saved settings, mute, numeric progress, delayed loading and unreadable-file recovery. Native playback is muted only in its isolated QA instance.
+- A separate packaged exit harness passes normal Quit, window close, and failed-save Keep open/retry. The immediate exits saved active practice minutes and the new theme; the failure-choice selection was simulated inside the isolated test instance. Evidence: evidence/close-qa.json and evidence/overnight-close-1.0.6.log.
+- Installed archive matches the tested release. All 39 personal Library/Exports files remain byte-for-byte unchanged, and the personal app was not closed. Evidence: evidence/data-preservation-1.0.6.json.
+- Other evidence: evidence/overnight-unit-tests-1.0.6.txt, evidence/settings-baseline.json, evidence/settings-qa.json, evidence/native-qa.json, evidence/overnight-native-1.0.6.log, and settings/native-settings screenshots. Harnesses: scripts/settings-qa.mjs, scripts/close-qa.mjs, tests/preferences.test.mjs.
+
+## Previous overnight improvement — version 1.0.5
 - Installed and verified the new Desktop app. The personal app remains open; reopen when convenient to load this update.
 - Reproduced two failures before changing code: a valid-looking JSON backup with missing metadata blanked the review screen, and damaged saved dates could stop the entire library API. Evidence is in evidence/backup-baseline.json and backup-baseline-failure.png.
 - Backups now validate the complete playback metadata, including total duration, bar count, display text, flags and note volume. Invalid pitches/rhythms receive an actionable error before saving. Older backups receive chronological note ordering, unique editable note IDs, default velocities/warnings, derived bar labels and enough duration to play every note. Inferred timing is flagged for review; lost silent bars cannot be reconstructed from notes alone.
@@ -65,7 +77,7 @@ Updated September 25, 2026, 3:30 AM America/New_York.
 - Claude enhancement pass implemented and independently validated; report: docs/CLAUDE_REVIEW.md.
 
 ## Verification actually completed
-- **48/48 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.5.txt (earlier delivery results are preserved).
+- **52/52 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.6.txt (earlier delivery results are preserved).
 - Production build and Apple Silicon packaging pass. Desktop copy tested with the development server stopped.
 - Browser flow coverage passes: playback/pause/seek, 30 samples decoded, correct/wrong note handling, loop wrapping, labels/ranges, saved themes, import/engraving/review/library/search, and 390px responsive layout.
 - All 30 samples contain non-silent audio; on-screen keys support pointer and Enter/Space input.
@@ -78,7 +90,7 @@ Updated September 25, 2026, 3:30 AM America/New_York.
 ## Overnight follow-up
 The heartbeat `luma-keys-overnight-build-polish` is scheduled hourly through **2026-09-25 08:00 Eastern**. A temporary caffeinate process prevents idle sleep until that deadline; keep the Mac plugged in, lid open and Codex running. Do not extend the schedule. See docs/OVERNIGHT.md.
 
-Useful next checks: malformed saved preferences (themes/progress/volume), note-review ergonomics in smaller laptop windows, and dense-passage frame pacing in a visible native window. Backup metadata and isolated corrupt-library recovery are now covered. Independent real MusicXML exports, 256-bar notation navigation, the 50,000-note JSON timeline and the Für Elise opening have been verified; arbitrary scanned full-book recognition remains unproven. Changing-meter MIDI loops, compound/odd-meter clicks, and a constructed cross-staff fixture also pass. Improve only where new evidence justifies a change. Keep the app usable and repackage validated changes with scripts/package-desktop.sh. Preserve all user Library and Exports data. **Never rerun scripts/prepare-starter-library.mjs**; it is guarded as an initial-delivery-only cleanup. `scripts/update-elise-assets.mjs` safely refreshes only the shipped Für Elise files in Practice Sheets.
+Useful next checks: progress across renderer reload/midnight, PDF recognition interrupted by closing, note-review ergonomics in smaller laptop windows, and dense-passage frame pacing in a visible native window. Malformed settings, slow startup, normal native exit and failed-save recovery are now covered. Backup metadata and isolated corrupt-library recovery are now covered. Independent real MusicXML exports, 256-bar notation navigation, the 50,000-note JSON timeline and the Für Elise opening have been verified; arbitrary scanned full-book recognition remains unproven. Changing-meter MIDI loops, compound/odd-meter clicks, and a constructed cross-staff fixture also pass. Improve only where new evidence justifies a change. Keep the app usable and repackage validated changes with scripts/package-desktop.sh. Preserve all user Library and Exports data. **Never rerun scripts/prepare-starter-library.mjs**; it is guarded as an initial-delivery-only cleanup. `scripts/update-elise-assets.mjs` safely refreshes only the shipped Für Elise files in Practice Sheets.
 
 ## Known limits
 PDF recognition is not perfect; every imported scan requires review. Repeats/navigation play once in written order. Later tempo changes and score pedal/ornament markings are simplified with warnings. MIDI hand assignments and humanized-chord grouping are estimates. Fixed Do remains C=1 by default; imported tonic metadata does not change labels automatically. The app does not listen to acoustic pianos through a microphone or infer fingerings. This is a local personal Mac build, not an App Store release.

@@ -20,6 +20,8 @@ MusicXML/MIDI exports from notation software are more reliable than scans. Unsup
 
 Older practice backups with missing timing fields are restored from their notes and flagged for review. Check silent bars and the ending against the original sheet. Invalid pitches or rhythms are rejected with a clear error. If a saved file is damaged, the rest of your library still opens: the recovery notice lists the affected files, leaves them untouched, and lets you check again after restoring a backup or reimporting your music.
 
+If saved settings are damaged, a separate recovery notice shows which fields use defaults. Valid themes, companions, mute and practice totals are retained. Opening the app leaves the original settings file untouched; the first saved change keeps an exact copy in `Library/Settings recovery/` before saving usable settings. You can also choose **Save recovered settings**. Normal desktop Quit and window close also record active practice time and finish pending saves. If the file cannot be opened, a lasting notice explains that changes are temporary and offers **Reload saved settings** after access is restored. Practice and preference controls wait until initial settings loading finishes.
+
 ## Practice controls
 - **Listen & follow:** automatic sampled-grand-piano playback and falling notes.
 - Fast passages show a closer preview; note lengths stay proportional to duration and repeated notes remain distinct.

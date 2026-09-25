@@ -1,6 +1,6 @@
 {
   "name": "luma-keys",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "private": true,
   "description": "A little light for your piano journey",
@@ -49,6 +49,7 @@
       "src/lessons.mjs",
       "package.json",
       "src/export.mjs",
+      "src/preferences.mjs",
       "docs/THIRD_PARTY_NOTICES.md"
     ],
     "extraResources": [
