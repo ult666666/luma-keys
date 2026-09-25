@@ -1,6 +1,6 @@
 {
   "name": "luma-keys",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "private": true,
   "description": "A little light for your piano journey",

@@ -14,6 +14,7 @@ Useful checks:
 - node scripts/extended-qa.mjs
 - node scripts/lessons-qa.mjs (two-hand Für Elise, engraving, short-note separation and export)
 - node scripts/large-score-qa.mjs (50,000-note import, paged review and late playback)
+- node scripts/notation-qa.mjs (independent Bach/Joplin exports, 256-bar passage navigation, closing rests and narrow windows)
 - node scripts/audio-qa.mjs
 - node scripts/midi-qa.mjs (simulated MIDI, not physical hardware)
 - node scripts/pdf-qa.mjs (real optical recognition)

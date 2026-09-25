@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import path from "node:path";
 import fs from "node:fs/promises";
 import { verifyElise } from "./lesson-checks.mjs";
+import { verifyNotation } from "./notation-checks.mjs";
 const executable =
   process.env.LUMA_APP ||
   path.resolve("release/mac-arm64/Luma Keys.app/Contents/MacOS/Luma Keys");
@@ -62,6 +63,8 @@ try {
   await page.locator('canvas[data-ready="true"]').waitFor();
   assert.ok(await page.locator("canvas").evaluate((c) => c.width > 0));
   await page.screenshot({ path: "evidence/native-pdf-import.png" });
+  await page.getByRole("button", { name: "Close dialog" }).click();
+  const notation = await verifyNotation(page, "native-notation");
   assert.deepEqual(errors, []);
   await fs.writeFile(
     "evidence/native-qa.json",
@@ -77,8 +80,10 @@ try {
           "Actual PDF imports 16 notes in packaged app",
           "Original PDF is available",
           ...lessonChecks,
+          ...notation.checks,
         ],
         health,
+        notationMeasurements: notation.measurements,
         errors,
       },
       null,

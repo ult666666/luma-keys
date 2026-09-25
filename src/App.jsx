@@ -57,6 +57,7 @@ import {
 import { piano } from "./audio.js";
 import Pet from "./Pet.jsx";
 import PdfPreview from "./PdfPreview.jsx";
+import ScoreDisplay from "./ScoreDisplay.jsx";
 const LESSONS = demos();
 const KEYS = {
   a: 60,
@@ -153,48 +154,27 @@ function Modal({ title, subtitle, close, children, wide = false }) {
     </div>
   );
 }
-function ScoreDisplay({ xml }) {
-  const ref = useRef();
-  const [error, setError] = useState("");
-  useEffect(() => {
-    let canceled = false;
-    let display;
-    (async () => {
-      try {
-        const { OpenSheetMusicDisplay } = await import("opensheetmusicdisplay");
-        if (canceled) return;
-        display = new OpenSheetMusicDisplay(ref.current, {
-          autoResize: true,
-          backend: "svg",
-          drawTitle: true,
-        });
-        await display.load(xml);
-        if (!canceled) display.render();
-      } catch {
-        if (!canceled)
-          setError(
-            "This score could not be engraved. Use the note list or original PDF to review it.",
-          );
-      }
-    })();
-    return () => {
-      canceled = true;
-      display?.clear();
-    };
-  }, [xml]);
-  return (
-    <div className="sheet-paper">
-      {error && <p>{error}</p>}
-      <div ref={ref} />
-    </div>
-  );
-}
-function Review({ score, onSave, close, notify }) {
+function Review({ score, onSave, close, notify, initialBar = 1 }) {
   const [notes, setNotes] = useState(() => score.notes.map((n) => ({ ...n })));
-  const [page, setPage] = useState(0);
+  const pageForBar = (bar, ns) => {
+    const index = ns.findIndex((n) => n.beat >= barStart(score, bar) - 1e-6);
+    return Math.floor((index < 0 ? Math.max(0, ns.length - 1) : index) / 32);
+  };
+  const [page, setPage] = useState(() => pageForBar(initialBar, score.notes));
+  const [focusBar, setFocusBar] = useState(initialBar);
+  const [barInput, setBarInput] = useState(String(initialBar));
   const [tab, setTab] = useState("notes");
   const [saving, setSaving] = useState(false);
   const pages = Math.ceil(notes.length / 32);
+  function goToBar(value) {
+    const bar = Math.max(
+      1,
+      Math.min(score.measures, Math.floor(Number(value)) || 1),
+    );
+    setFocusBar(bar);
+    setBarInput(String(bar));
+    setPage(pageForBar(bar, notes));
+  }
   function edit(id, key, v) {
     setNotes((ns) =>
       ns.map((n) =>
@@ -222,7 +202,11 @@ function Review({ score, onSave, close, notify }) {
           ...notes.map((n) => measureAt(score, n.beat + n.duration - 1e-4)),
         ),
         notes: notes.sort((a, b) => a.beat - b.beat || a.midi - b.midi),
-        duration: Math.max(...notes.map((n) => n.beat + n.duration)),
+        // Reviewing notes must not trim the written rests after the last sound.
+        duration: Math.max(
+          score.duration,
+          ...notes.map((n) => n.beat + n.duration),
+        ),
         notationEdited:
           score.notationEdited ||
           JSON.stringify(notes) !== JSON.stringify(score.notes),
@@ -278,6 +262,30 @@ function Review({ score, onSave, close, notify }) {
           </button>
         )}
       </div>
+      {tab !== "pdf" && (
+        <form
+          className="review-jump"
+          onSubmit={(e) => {
+            e.preventDefault();
+            goToBar(barInput);
+          }}
+        >
+          <label htmlFor="review-bar">Review from bar</label>
+          <input
+            id="review-bar"
+            aria-label="Review from bar"
+            type="number"
+            min="1"
+            max={score.measures}
+            value={barInput}
+            onChange={(e) => setBarInput(e.target.value)}
+          />
+          <span>of {score.measures}</span>
+          <button type="submit" className="secondary">
+            Go <ArrowRight size={14} />
+          </button>
+        </form>
+      )}
       {tab === "pdf" ? (
         <PdfPreview id={score.originalId} />
       ) : tab === "sheet" ? (
@@ -288,7 +296,11 @@ function Review({ score, onSave, close, notify }) {
               corrections are used in playback and the numbered export.
             </p>
           )}
-          <ScoreDisplay xml={score.xml} />
+          <ScoreDisplay
+            xml={score.xml}
+            startBar={focusBar}
+            onNavigate={goToBar}
+          />
         </>
       ) : (
         <>
@@ -1928,6 +1940,10 @@ export default function App() {
       {modal === "review" && (
         <Review
           score={score}
+          initialBar={Math.min(
+            score.measures,
+            measureAt(score, Math.max(0, beat)),
+          )}
           close={() => setModal(null)}
           onSave={saveScore}
           notify={notify}

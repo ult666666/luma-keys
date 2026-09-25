@@ -2951,3 +2951,69 @@ td input {
 .lesson-guide li::marker {
   color: var(--accent);
 }
+.review-jump,
+.notation-navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  margin: 12px 0;
+  color: var(--muted);
+}
+.review-jump input {
+  width: 65px;
+  padding: 7px 9px;
+  background: #11191a;
+  color: var(--accent);
+  border: 1px solid #ffffff22;
+  border-radius: 7px;
+}
+.review-jump .secondary {
+  padding: 7px 12px;
+}
+.notation-navigation {
+  justify-content: space-between;
+}
+.notation-navigation button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.notation-navigation button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.notation-help {
+  font-size: 10px;
+  color: var(--muted);
+  margin: 6px 0 12px;
+}
+.notation-loading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.notation-loading svg {
+  animation: spin 1s linear infinite;
+}
+@media (max-width: 600px) {
+  .review-jump {
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  .notation-navigation {
+    font-size: 10px;
+    gap: 6px;
+  }
+}
+.engraved-sheet {
+  min-width: 600px;
+}
+.notation-narrow-help {
+  display: none;
+}
+@media (max-width: 700px) {
+  .notation-narrow-help {
+    display: inline;
+  }
+}

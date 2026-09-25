@@ -63,3 +63,5 @@ The app is a local personal build for this Apple Silicon Mac; it is not an App S
 An hourly Codex follow-up is scheduled through 8:00 AM Eastern on September 25, 2026. Keep this Mac plugged in, awake, and Codex running. Build status is in STATUS.md. The schedule is bounded to tonight.
 
 The original PDF viewer is built into the app and works offline. Review also supports adding a missing note or removing an incorrect one. If you edit the note timeline, the original engraving is explicitly labeled as unchanged; playback and numbered exports use your corrections. Playback pauses when the app is hidden or minimized, so it will not silently skip ahead.
+
+Review opens at your current practice bar. Use **Review from bar** to jump directly to a passage in either the note table or the engraved sheet. Notation shows up to 16 bars at a time with Previous/Next controls; pickups count as app bars, so printed bar numbers can differ. On narrow windows, scroll the sheet sideways. New MusicXML/PDF imports preserve written closing rests; re-import an older score if its ending was cut short.

@@ -11,12 +11,44 @@
     "Für Elise has 53 notes and engraved two-staff notation",
     "3/8 meter and three beginner practice steps are visible",
     "Left-hand wait mode starts at A2 in bar 3 and advances to E3",
-    "Repeated E5 blocks are separated with no visual overlap"
+    "Repeated E5 blocks are separated with no visual overlap",
+    "Independent MuseScore Bach export preserves held left-hand voices; notation pages and note review reach late bars directly",
+    "Review reopens at the current practice bar, including original notation",
+    "92-bar Joplin score supports key-change and final passages, previous/next limits and mobile resize",
+    "Written final rest survives review/save and playback reaches the final bar's end",
+    "Valid MusicXML without an XML declaration renders locally; 256-bar / 4,352-note book reaches late notation and note-review passages",
+    "Invalid embedded notation gives a clear fallback; notes remain editable and the next valid score renders normally"
   ],
   "health": {
     "ok": true,
     "omr": true,
-    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-PvNKmI/Library"
+    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-qpczqr/Library"
   },
+  "notationMeasurements": [
+    {
+      "name": "Bach first 16 bars",
+      "scrollHeight": 3791,
+      "nodes": 3414,
+      "paths": 1176,
+      "visibleHeight": 409,
+      "loadRenderMs": 266.64500000000044
+    },
+    {
+      "name": "Joplin first 16 bars",
+      "scrollHeight": 1940,
+      "nodes": 2266,
+      "paths": 921,
+      "visibleHeight": 409,
+      "loadRenderMs": 240.02970800000185
+    },
+    {
+      "name": "256-bar book, bars 129–144",
+      "scrollHeight": 3287,
+      "nodes": 2982,
+      "paths": 1072,
+      "visibleHeight": 500,
+      "loadRenderMs": 318.04520799999955
+    }
+  ],
   "errors": []
 }

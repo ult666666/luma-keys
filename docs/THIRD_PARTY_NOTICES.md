@@ -30,6 +30,8 @@ The Für Elise opening lesson (version 1.0.3 onward) is a two-hand transcription
 - Edition and licensing: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=931
 - Source: https://www.mutopiaproject.org/ftp/BeethovenLv/WoO59/fur_Elise_WoO59/fur_Elise_WoO59.ly
 
+Independent Bach/Joplin MusicXML QA fixtures from OpenSheetMusicDisplay's 1.9.2 repository are retained unmodified in tests/fixtures, with provenance and hashes in its README. Underlying compositions are public domain; original source and encoding metadata remain intact. Repository license: https://github.com/opensheetmusicdisplay/opensheetmusicdisplay/blob/1.9.2/LICENSE . These fixture files are not bundled into the installed app as lessons.
+
 ## Original assets
 Luma/Mochi vector companion artwork, icon, color themes, UI design and copy are original to this project.
 

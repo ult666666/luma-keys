@@ -945,7 +945,7 @@ export function parseMusicXML(xml, filename = "Imported score") {
     })
   )
     warn(
-      "The key signature changes during the piece. Number labels follow the opening key; you can change “Number 1 is” when the key changes.",
+      "The key signature changes during the piece. Number labels keep your selected tonic until you change “Number 1 is”.",
     );
   if (new Set(bars.map((b) => b.nominal)).size > 1)
     warn(
@@ -986,7 +986,12 @@ export function parseMusicXML(xml, filename = "Imported score") {
     keySignature: firstKey
       ? { fifths: concertFifths(firstKey), mode: firstKey.mode }
       : null,
-    duration: Math.max(...notes.map((n) => n.beat + n.duration)),
+    // Include written ending rests without inventing padding for a short final bar.
+    duration: Math.max(
+      measureStarts.at(-1) +
+        Math.max(bars.at(-1).extent, bars.at(-1).restExtent),
+      ...notes.map((n) => n.beat + n.duration),
+    ),
     warnings: [...new Set(warnings)].map((w) =>
       warnBars.has(w) ? `${w} See bar ${listBars(warnBars.get(w))}.` : w,
     ),
