@@ -19,6 +19,9 @@ Useful checks:
 - node scripts/midi-qa.mjs (simulated MIDI, not physical hardware)
 - node scripts/pdf-qa.mjs (real optical recognition)
 - node scripts/review-qa.mjs
+- node scripts/backup-qa.mjs (legacy backups, invalid imports, unchanged damaged files, recovery without restarting)
 - npm run pack; node scripts/native-qa.mjs (actual packaged app)
 
 UI test scripts now refuse to use the personal Desktop Library. Set LUMA_DATA_DIR to an absolute path under this project's `.qa-runs/` folder when starting the development server. Run scripts sequentially because they restore preferences in their shared test library. The native test creates its own unique `.qa-runs/native-*` directory and sets `LUMA_QA_ROOT`, which separates the library, exports, preferences, and Electron instance lock. It can run alongside the user's open app and removes only its own temporary directory afterward. Never run the old capture-preview script against an open personal app; use the isolated native harness. All starter source PDFs and MusicXML are in tests/ and Practice Sheets/.
+
+Native QA mutes its own isolated app before playback, so overnight testing does not sound the piano. Audio decode/scheduling still runs; the personal app volume is not changed.

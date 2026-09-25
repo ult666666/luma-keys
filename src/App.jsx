@@ -463,6 +463,7 @@ export default function App() {
   const [view, setView] = useState("studio"),
     [score, setScore] = useState(LESSONS[0]),
     [library, setLibrary] = useState([]),
+    [libraryIssues, setLibraryIssues] = useState([]),
     [beat, setBeat] = useState(0),
     [playing, setPlaying] = useState(false),
     [loadingSound, setLoadingSound] = useState(false),
@@ -580,11 +581,18 @@ export default function App() {
     clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(""), 5000);
   }
+  async function refreshLibrary() {
+    const result = await api("/library");
+    setLibrary(result.scores);
+    setLibraryIssues(result.issues);
+    return result.scores;
+  }
   useEffect(() => {
     piano.prepare().catch((e) => notify(e.message));
-    Promise.all([api("/scores"), api("/preferences"), api("/health")])
+    Promise.all([api("/library"), api("/preferences"), api("/health")])
       .then(([s, p, h]) => {
-        setLibrary(s);
+        setLibrary(s.scores);
+        setLibraryIssues(s.issues);
         setEngineReady(h.omr);
         if (p.theme) setTheme(p.theme);
         if (p.pet) setPet(p.pet);
@@ -954,7 +962,7 @@ export default function App() {
           }
         }
       }
-      setLibrary(await api("/scores"));
+      await refreshLibrary();
       choose(scores[0]);
       setModal("review");
       notify("Your music is ready to review.");
@@ -972,9 +980,9 @@ export default function App() {
         source: "Edited lesson",
         createdAt: new Date().toISOString(),
       };
-    await api("/scores/" + s.id, json("PUT", s));
-    setLibrary(await api("/scores"));
-    setScore(s);
+    const saved = await api("/scores/" + s.id, json("PUT", s));
+    await refreshLibrary();
+    setScore(saved.score);
     seek(0);
   }
   async function download() {
@@ -1136,6 +1144,43 @@ export default function App() {
             </button>
           </div>
         </header>
+        {libraryIssues.length > 0 && (
+          <section
+            className="library-recovery"
+            aria-label="Library recovery"
+            role="status"
+          >
+            <div>
+              <strong>
+                {libraryIssues.length === 1
+                  ? "One saved score needs attention."
+                  : `${libraryIssues.length} saved scores need attention.`}
+              </strong>
+              <p>
+                You can keep practicing. These files could not be opened and are
+                still untouched in Desktop / Luma Keys / Library. Reimport the
+                original music or restore a complete backup.
+              </p>
+              <details>
+                <summary>Show affected files</summary>
+                <ul>
+                  {libraryIssues.map((issue) => (
+                    <li key={issue.file}>
+                      <b>{issue.file}</b>
+                      <span>{issue.reason}</span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </div>
+            <button
+              className="secondary small"
+              onClick={() => refreshLibrary().catch((e) => notify(e.message))}
+            >
+              Check library again
+            </button>
+          </section>
+        )}
         {view === "studio" ? (
           <>
             <section className="greeting">
@@ -1796,7 +1841,7 @@ export default function App() {
                           aria-label={`Remove ${s.title}`}
                           onClick={async () => {
                             await api("/scores/" + s.id, { method: "DELETE" });
-                            setLibrary(await api("/scores"));
+                            await refreshLibrary();
                             notify(
                               "Removed from your library. Original import is kept in the Library folder.",
                             );

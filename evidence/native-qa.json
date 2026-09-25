@@ -5,7 +5,7 @@
     "Bundled local recognition engine present",
     "Separate test library and Electron instance; user's open app preserved",
     "Printable number export saved",
-    "Native audio playback advances",
+    "Native audio playback advances (test-instance output muted)",
     "Actual PDF imports 16 notes in packaged app",
     "Original PDF is available",
     "Für Elise has 53 notes and engraved two-staff notation",
@@ -17,12 +17,17 @@
     "92-bar Joplin score supports key-change and final passages, previous/next limits and mobile resize",
     "Written final rest survives review/save and playback reaches the final bar's end",
     "Valid MusicXML without an XML declaration renders locally; 256-bar / 4,352-note book reaches late notation and note-review passages",
-    "Invalid embedded notation gives a clear fallback; notes remain editable and the next valid score renders normally"
+    "Invalid embedded notation gives a clear fallback; notes remain editable and the next valid score renders normally",
+    "Older backup imports, sorts chords, restores timing and supports independent note editing",
+    "Restored backup exports corrected notes and total duration",
+    "Invalid note import shows an actionable error and retains the current piece",
+    "Damaged files stay byte-for-byte intact; healthy library scores remain available",
+    "Repair and retry clears the notice and restores the score without relaunching"
   ],
   "health": {
     "ok": true,
     "omr": true,
-    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-qpczqr/Library"
+    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-qJQZFX/Library"
   },
   "notationMeasurements": [
     {
@@ -31,7 +36,7 @@
       "nodes": 3414,
       "paths": 1176,
       "visibleHeight": 409,
-      "loadRenderMs": 266.64500000000044
+      "loadRenderMs": 262.26229199999943
     },
     {
       "name": "Joplin first 16 bars",
@@ -39,7 +44,7 @@
       "nodes": 2266,
       "paths": 921,
       "visibleHeight": 409,
-      "loadRenderMs": 240.02970800000185
+      "loadRenderMs": 244.63658299999952
     },
     {
       "name": "256-bar book, bars 129–144",
@@ -47,7 +52,7 @@
       "nodes": 2982,
       "paths": 1072,
       "visibleHeight": 500,
-      "loadRenderMs": 318.04520799999955
+      "loadRenderMs": 320.62474999999904
     }
   ],
   "errors": []

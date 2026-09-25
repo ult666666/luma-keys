@@ -3017,3 +3017,57 @@ td input {
     display: inline;
   }
 }
+
+/* Recovery stays visible until the affected files can be read again. */
+.library-recovery {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 18px 22px;
+  margin: 12px 0 22px;
+  border: 1px solid #625641;
+  border-radius: 16px;
+  background: #25251e;
+  color: #ddd0ae;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.library-recovery > div {
+  flex: 1;
+  min-width: 0;
+}
+.library-recovery strong {
+  font-size: 14px;
+}
+.library-recovery p {
+  margin: 5px 0 8px;
+  max-width: 760px;
+}
+.library-recovery summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.library-recovery ul {
+  padding-left: 18px;
+  max-height: 220px;
+  overflow: auto;
+}
+.library-recovery li {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.library-recovery li span {
+  display: block;
+}
+.library-recovery > button {
+  flex-shrink: 0;
+  color: #f1e6cc;
+  border-color: #8c7954;
+  background: #383329;
+}
+@media (max-width: 750px) {
+  .library-recovery {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

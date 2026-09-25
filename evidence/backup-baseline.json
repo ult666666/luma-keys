@@ -1,0 +1,15 @@
+{
+  "missingMetadata": {
+    "accepted": true,
+    "blank": true,
+    "errors": [
+      "Cannot read properties of undefined (reading 'map')"
+    ]
+  },
+  "corruptLibrary": {
+    "status": 400,
+    "body": {
+      "error": "(b.createdAt || \"\").localeCompare is not a function"
+    }
+  }
+}

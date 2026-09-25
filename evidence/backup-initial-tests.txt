@@ -1,0 +1,58 @@
+
+> luma-keys@1.0.4 test
+> node --test tests/*.test.mjs
+
+✔ Für Elise excerpt follows the public-domain opening pitches and separate hands (5.07275ms)
+✔ Für Elise pickup, 3/8 bars and short first ending keep their exact boundaries (2.111042ms)
+✔ Optional practice guidance must be a bounded list of text (0.511625ms)
+✔ fixed Do, chromatic notes, octaves and movable Do (1.83575ms)
+✔ 88-key layout aligns black keys between white keys (0.3315ms)
+✔ voice backup, simultaneous chords, rest, duration and left staff (9.75375ms)
+✔ ties merge sustained notes and pickup does not add empty beats (1.361458ms)
+✔ MXL container selects root music XML (3.388ms)
+✔ invalid and empty scores fail honestly (0.5145ms)
+✔ MIDI notes retain pitch and quarter-note duration (2.326458ms)
+✔ lessons have bounded sorted notes and complete durations (7.970833ms)
+✔ fixture: pickup with a full-bar rest, two parts with different divisions, tie, chords and triplets (3.317417ms)
+✔ chord members share the onset of their voice after backup, even after a rest (2.404333ms)
+✔ tie chains across three bars become one held note; untouching ties do not merge (0.373958ms)
+✔ ties across a voice-number change and between chord members follow pitch (0.37225ms)
+✔ a transposing part reads its key in concert pitch even when <transpose> follows <key> (0.296458ms)
+✔ a pickup bar whose other staff holds a whole-bar rest still lasts only its played beats (0.2605ms)
+✔ a pickup is detected without implicit="yes"; a bar of only rests keeps its full length (0.230042ms)
+✔ a bar split around a repeat (short bar + implicit bar) is not padded with silence (1.154416ms)
+✔ notes missing <duration> are timed from their written type, dots and tuplets (1.463167ms)
+✔ written accidentals fill a missing <alter>; key signatures ignored by an exporter are flagged (1.722709ms)
+✔ unsupported notation warnings name the bars involved (0.610125ms)
+✔ bars drawn as repeat-the-bar signs without written notes are flagged (0.274375ms)
+✔ malformed MusicXML and MXL input fail with clear messages (5.183875ms)
+✔ MIDI: humanized chords line up, far-apart notes stay separate, out-of-range notes are reported (1.282167ms)
+✔ MIDI: two tracks map to hands; minor keys use the relative-major number 1; bars follow 3/4 (2.74975ms)
+✔ MIDI meter changes share bar positions with loops and numbered exports (19.213709ms)
+✔ MIDI silent bars and long held notes keep all loopable bar boundaries (0.269791ms)
+✔ MIDI partial-bar signature changes start a new bar and explain the shortening (0.422709ms)
+✔ MIDI near-simultaneous notes across a bar line never merge into one chord (0.186417ms)
+✔ MusicXML final bar uses its changed meter, including when editing past its end (0.305666ms)
+✔ bar helpers retain legacy scores; malformed imported bar maps are rejected (3.002417ms)
+✔ Explicit closing rests and a final rest-only bar remain in the practice duration (12.615208ms)
+✔ Independent Bach export preserves the arpeggio's sustained lower voices and final chord (68.91375ms)
+✔ Independent two-part Joplin export retains its final rest and key-change guidance (71.38425ms)
+✔ 6/8 and 9/8 pulse on dotted quarters; count-in speaks the pulse numbers (14.952125ms)
+✔ 5/8 keeps eighth-note pulses and accents every fractional bar boundary (0.518375ms)
+✔ cut time and explicit additive beat groups retain their written pulses (1.801292ms)
+✔ MIDI preserves meter changes for fractional metronome pulses (1.692708ms)
+✔ pickup count-in completes the opening bar and does not falsely accent the pickup (0.478541ms)
+✔ successive audio scheduling windows never duplicate boundary clicks (0.702041ms)
+✔ cross-staff chords retain simultaneous pitches and flag ambiguous hands (0.785458ms)
+✔ pulse metadata survives backup validation; malformed patterns are rejected (14.716292ms)
+Luma Keys listening on 55619
+Note 1 has an invalid pitch, rhythm or hand. Check the original score before importing again.
+✔ Local API imports, persists, validates, exports, and restricts foreign origins (119.315042ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 44
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 345.860833

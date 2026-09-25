@@ -18,6 +18,8 @@ PDF recognition runs on your Mac using bundled Audiveris. Printed, straight, hig
 
 MusicXML/MIDI exports from notation software are more reliable than scans. Unsupported or simplified score features are noted in the review window. Voices that move between staves are flagged: staff position does not always tell you which hand should play, so review those hand colors. Repeats and navigation may play once in written order; use the bar loop to repeat a passage. The app does not infer fingerings or listen to an acoustic piano through a microphone.
 
+Older practice backups with missing timing fields are restored from their notes and flagged for review. Check silent bars and the ending against the original sheet. Invalid pitches or rhythms are rejected with a clear error. If a saved file is damaged, the rest of your library still opens: the recovery notice lists the affected files, leaves them untouched, and lets you check again after restoring a backup or reimporting your music.
+
 ## Practice controls
 - **Listen & follow:** automatic sampled-grand-piano playback and falling notes.
 - Fast passages show a closer preview; note lengths stay proportional to duration and repeated notes remain distinct.

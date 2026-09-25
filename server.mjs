@@ -54,45 +54,41 @@ export async function startServer({
   app.get("/api/health", (_, r) =>
     r.json({ ok: true, omr: existsSync(engine), dataDir }),
   );
-  app.get("/api/scores", async (_, r) => {
+  const readLibrary = async () => {
     const files = (await fs.readdir(dataDir)).filter(
       (f) => f.endsWith(".json") && f !== "preferences.json",
     );
-    const scores = [];
-    for (const f of files) {
+    const scores = [],
+      issues = [];
+    for (const file of files) {
       try {
-        const s = JSON.parse(await fs.readFile(path.join(dataDir, f), "utf8"));
-        if (s.notes) scores.push(s);
-      } catch {}
+        const s = validatePractice(
+          JSON.parse(await fs.readFile(path.join(dataDir, file), "utf8")),
+        );
+        if (!validId(s.id) || file !== s.id + ".json")
+          throw Error("The saved score ID does not match its filename.");
+        scores.push(s);
+      } catch (e) {
+        issues.push({
+          file,
+          reason:
+            e instanceof SyntaxError
+              ? "This file is incomplete or is not valid JSON."
+              : e.message,
+        });
+      }
     }
-    r.json(
-      scores.sort((a, b) =>
-        (b.createdAt || "").localeCompare(a.createdAt || ""),
-      ),
-    );
-  });
+    scores.sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+    return { scores, issues };
+  };
+  app.get("/api/scores", async (_, r) => r.json((await readLibrary()).scores));
+  app.get("/api/library", async (_, r) => r.json(await readLibrary()));
   app.put("/api/scores/:id", async (req, res) => {
-    const s = req.body;
-    if (
-      !validId(req.params.id) ||
-      s.id !== req.params.id ||
-      !Array.isArray(s.notes) ||
-      s.notes.length > 100000 ||
-      s.notes.some(
-        (n) =>
-          !Number.isInteger(n.midi) ||
-          n.midi < 21 ||
-          n.midi > 108 ||
-          !Number.isFinite(n.beat) ||
-          n.beat < 0 ||
-          !Number.isFinite(n.duration) ||
-          n.duration <= 0,
-      )
-    )
-      return res.status(400).json({ error: "Invalid score notes." });
-    validatePractice(s);
+    if (!validId(req.params.id) || req.body?.id !== req.params.id)
+      return res.status(400).json({ error: "Invalid score ID." });
+    const s = validatePractice(req.body);
     await save(s);
-    res.json({ ok: true });
+    res.json({ ok: true, score: s });
   });
   app.delete("/api/scores/:id", async (req, res) => {
     if (!validId(req.params.id)) return res.sendStatus(400);
@@ -155,9 +151,11 @@ export async function startServer({
         return res.json({ score: s });
       }
       if ([".xml", ".musicxml", ".mxl", ".mid", ".midi"].includes(ext)) {
-        const s = [".mid", ".midi"].includes(ext)
-          ? parseMIDI(req.file.buffer, req.file.originalname)
-          : parseMusicXML(unpackXML(req.file.buffer), req.file.originalname);
+        const s = validatePractice(
+          [".mid", ".midi"].includes(ext)
+            ? parseMIDI(req.file.buffer, req.file.originalname)
+            : parseMusicXML(unpackXML(req.file.buffer), req.file.originalname),
+        );
         await save(s);
         return res.json({ score: s });
       }
@@ -271,8 +269,9 @@ export async function startServer({
               s.warnings.push(
                 "Some passages could not be fully read. Compare every bar with your original sheet; notes or markings may be missing.",
               );
-            await save(s);
-            scores.push(s);
+            const validated = validatePractice(s);
+            await save(validated);
+            scores.push(validated);
           }
           job.status = "done";
           job.scores = scores;

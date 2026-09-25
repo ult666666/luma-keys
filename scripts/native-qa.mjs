@@ -4,6 +4,7 @@ import path from "node:path";
 import fs from "node:fs/promises";
 import { verifyElise } from "./lesson-checks.mjs";
 import { verifyNotation } from "./notation-checks.mjs";
+import { verifyBackups } from "./backup-checks.mjs";
 const executable =
   process.env.LUMA_APP ||
   path.resolve("release/mac-arm64/Luma Keys.app/Contents/MacOS/Luma Keys");
@@ -38,6 +39,8 @@ try {
     .getByRole("status")
     .filter({ hasText: "Saved a printable number sheet" })
     .waitFor();
+  // Exercise the audio engine without sounding the test instance overnight.
+  await page.getByRole("button", { name: "Mute", exact: true }).click();
   await page.getByRole("switch", { name: "Count me in" }).click();
   await page.getByRole("button", { name: "Play", exact: true }).click();
   await page.getByRole("button", { name: "Pause", exact: true }).waitFor();
@@ -65,6 +68,7 @@ try {
   await page.screenshot({ path: "evidence/native-pdf-import.png" });
   await page.getByRole("button", { name: "Close dialog" }).click();
   const notation = await verifyNotation(page, "native-notation");
+  const backups = await verifyBackups(page, "native-backup");
   assert.deepEqual(errors, []);
   await fs.writeFile(
     "evidence/native-qa.json",
@@ -76,11 +80,12 @@ try {
           "Bundled local recognition engine present",
           "Separate test library and Electron instance; user's open app preserved",
           "Printable number export saved",
-          "Native audio playback advances",
+          "Native audio playback advances (test-instance output muted)",
           "Actual PDF imports 16 notes in packaged app",
           "Original PDF is available",
           ...lessonChecks,
           ...notation.checks,
+          ...backups,
         ],
         health,
         notationMeasurements: notation.measurements,

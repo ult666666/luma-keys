@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checks": [
+    "Older backup imports, sorts chords, restores timing and supports independent note editing",
+    "Restored backup exports corrected notes and total duration",
+    "Invalid note import shows an actionable error and retains the current piece",
+    "Damaged files stay byte-for-byte intact; healthy library scores remain available",
+    "Repair and retry clears the notice and restores the score without relaunching"
+  ],
+  "errors": []
+}

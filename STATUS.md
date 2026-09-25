@@ -1,8 +1,19 @@
 # Luma Keys — installed and verified
 
-Updated September 25, 2026, 2:38 AM America/New_York.
+Updated September 25, 2026, 3:30 AM America/New_York.
 
-## Latest overnight improvement — version 1.0.4
+## Latest overnight improvement — version 1.0.5
+- Installed and verified the new Desktop app. The personal app remains open; reopen when convenient to load this update.
+- Reproduced two failures before changing code: a valid-looking JSON backup with missing metadata blanked the review screen, and damaged saved dates could stop the entire library API. Evidence is in evidence/backup-baseline.json and backup-baseline-failure.png.
+- Backups now validate the complete playback metadata, including total duration, bar count, display text, flags and note volume. Invalid pitches/rhythms receive an actionable error before saving. Older backups receive chronological note ordering, unique editable note IDs, default velocities/warnings, derived bar labels and enough duration to play every note. Inferred timing is flagged for review; lost silent bars cannot be reconstructed from notes alone.
+- Every library file is checked independently. Damaged entries are omitted from the playable list while a persistent recovery notice identifies the file and reason. Healthy scores still load. The files remain untouched; **Check library again** restores entries after their files are repaired. No automatic deletion or replacement occurs.
+- All import formats and saved note reviews now use the same validation. The studio uses the canonical saved result. Valid built-in lessons and independent Bach/Joplin scores keep their notes, durations and bar counts; the existing personal starter score remains readable.
+- **48/48 unit/API tests pass.** Browser and packaged-app tests cover legacy import/edit/export, rejected null notes, damaged library files, unchanged source bytes, recovery without restarting, and a narrow-screen notice. Existing review regressions pass. The 50,000-note test still imports in about 0.71 s and saves in 0.36 s on this headless run; frame pacing remains hardware/environment dependent.
+- Packaged 1.0.5 passed actual 16-note PDF recognition/original viewing, sampled-audio timeline advancement, lessons, 256-bar notation navigation and all new recovery flows with the dev server stopped. The native QA instance now mutes its own output during overnight playback; the personal app's volume is unchanged.
+- Installed archive matches the tested release. All 39 personal Library/Exports files remain byte-for-byte unchanged. The personal app was not closed.
+- Evidence: evidence/overnight-unit-tests-1.0.5.txt, evidence/backup-qa.json, evidence/backup-compatibility.json, evidence/native-qa.json, evidence/overnight-native-1.0.5.log, evidence/data-preservation-1.0.5.json and backup/native-backup screenshots. Regression harness: scripts/backup-qa.mjs and tests/backups.test.mjs.
+
+## Previous overnight improvement — version 1.0.4
 - Installed and verified the new Desktop app. The personal app stayed open; reopen when convenient to load the update.
 - Long scores now display in passages of up to 16 bars, with Previous/Next and a **Review from bar** jump shared by the note table and engraved sheet. Review opens at the current practice bar. The displayed bar range stays in a loading state until that actual passage is drawn, preventing a stale score image after a jump.
 - Narrow windows scroll the notation sideways instead of compressing notes together. The renderer keeps the complete score context for clefs, keys and ties, and cleans up its resize observer when closed.
@@ -54,7 +65,7 @@ Updated September 25, 2026, 2:38 AM America/New_York.
 - Claude enhancement pass implemented and independently validated; report: docs/CLAUDE_REVIEW.md.
 
 ## Verification actually completed
-- **44/44 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.4.txt (earlier delivery results are preserved).
+- **48/48 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.5.txt (earlier delivery results are preserved).
 - Production build and Apple Silicon packaging pass. Desktop copy tested with the development server stopped.
 - Browser flow coverage passes: playback/pause/seek, 30 samples decoded, correct/wrong note handling, loop wrapping, labels/ranges, saved themes, import/engraving/review/library/search, and 390px responsive layout.
 - All 30 samples contain non-silent audio; on-screen keys support pointer and Enter/Space input.
@@ -67,7 +78,7 @@ Updated September 25, 2026, 2:38 AM America/New_York.
 ## Overnight follow-up
 The heartbeat `luma-keys-overnight-build-polish` is scheduled hourly through **2026-09-25 08:00 Eastern**. A temporary caffeinate process prevents idle sleep until that deadline; keep the Mac plugged in, lid open and Codex running. Do not extend the schedule. See docs/OVERNIGHT.md.
 
-Useful next checks: malformed backup metadata handling, note-review ergonomics in smaller laptop windows, and dense-passage frame pacing in a visible native window. Independent real MusicXML exports, 256-bar notation navigation, the 50,000-note JSON timeline and the Für Elise opening have been verified; arbitrary scanned full-book recognition remains unproven. Changing-meter MIDI loops, compound/odd-meter clicks, and a constructed cross-staff fixture also pass. Improve only where new evidence justifies a change. Keep the app usable and repackage validated changes with scripts/package-desktop.sh. Preserve all user Library and Exports data. **Never rerun scripts/prepare-starter-library.mjs**; it is guarded as an initial-delivery-only cleanup. `scripts/update-elise-assets.mjs` safely refreshes only the shipped Für Elise files in Practice Sheets.
+Useful next checks: malformed saved preferences (themes/progress/volume), note-review ergonomics in smaller laptop windows, and dense-passage frame pacing in a visible native window. Backup metadata and isolated corrupt-library recovery are now covered. Independent real MusicXML exports, 256-bar notation navigation, the 50,000-note JSON timeline and the Für Elise opening have been verified; arbitrary scanned full-book recognition remains unproven. Changing-meter MIDI loops, compound/odd-meter clicks, and a constructed cross-staff fixture also pass. Improve only where new evidence justifies a change. Keep the app usable and repackage validated changes with scripts/package-desktop.sh. Preserve all user Library and Exports data. **Never rerun scripts/prepare-starter-library.mjs**; it is guarded as an initial-delivery-only cleanup. `scripts/update-elise-assets.mjs` safely refreshes only the shipped Für Elise files in Practice Sheets.
 
 ## Known limits
 PDF recognition is not perfect; every imported scan requires review. Repeats/navigation play once in written order. Later tempo changes and score pedal/ornament markings are simplified with warnings. MIDI hand assignments and humanized-chord grouping are estimates. Fixed Do remains C=1 by default; imported tonic metadata does not change labels automatically. The app does not listen to acoustic pianos through a microphone or infer fingerings. This is a local personal Mac build, not an App Store release.
