@@ -1248,18 +1248,23 @@ export default function App() {
             : 0,
     );
   }
+  const soundEvents = useMemo(
+    () =>
+      playing && mode === "listen"
+        ? phraseNotes.filter(
+            (n) => n.beat <= beat && n.beat + n.duration > beat,
+          )
+        : [],
+    [playing, mode, phraseNotes, beat],
+  );
   const active = useMemo(
     () =>
       new Set(
-        playing && mode === "listen"
-          ? phraseNotes
-              .filter((n) => n.beat <= beat && n.beat + n.duration > beat)
-              .map((n) => n.midi)
-          : playing && mode === "wait"
-            ? currentNotes.map((n) => n.midi)
-            : [],
+        playing && mode === "wait"
+          ? currentNotes.map((n) => n.midi)
+          : soundEvents.map((n) => n.midi),
       ),
-    [playing, mode, phraseNotes, beat, current],
+    [playing, mode, soundEvents, current],
   );
   const visibleNotes = phraseNotes.filter(
     (n) => n.beat + n.duration > beat - 0.25 && n.beat < beat + rollBeats + 1,
@@ -1679,6 +1684,7 @@ export default function App() {
               scoreId={score.id}
               targets={currentNotes}
               active={active}
+              soundEvents={soundEvents}
               pressed={pressed}
               tonic={tonic}
               labels={labels}

@@ -12,6 +12,7 @@ export default function KeyboardGuide({
   scoreId,
   targets,
   active,
+  soundEvents = [],
   pressed,
   tonic,
   labels,
@@ -32,6 +33,13 @@ export default function KeyboardGuide({
     });
   const [viewportState, setViewportState] = useState({ left: 0, width: 900 });
   const pitches = targets.map((n) => n.midi);
+  const soundTokens = new Map();
+  for (const note of soundEvents) {
+    soundTokens.set(
+      note.midi,
+      `${soundTokens.get(note.midi) || ""}:${note.id ?? note.beat}`,
+    );
+  }
   const targetKey = pitches.join(",");
   const targetPositions = pitches
     .map((m) => positions.get(m))
@@ -226,7 +234,7 @@ export default function KeyboardGuide({
                 tabIndex={k.midi === focusPitch ? 0 : -1}
                 onFocus={() => setFocusPitch(k.midi)}
                 aria-label={`${noteName(k.midi)} ${degree(k.midi, tonic)} ${solfege(k.midi, tonic)}`}
-                className={`piano-key ${k.black ? "black" : "white"} ${active.has(k.midi) || pitches.includes(k.midi) ? "lit" : ""} ${pressed.has(k.midi) ? "pressed" : ""} ${k.midi === 60 ? "middle-c" : ""}`}
+                className={`piano-key ${k.black ? "black" : "white"} ${active.has(k.midi) || pitches.includes(k.midi) ? "lit" : ""} ${pressed.has(k.midi) ? "pressed" : ""} ${pressed.has(k.midi) || soundTokens.has(k.midi) ? "sounding" : ""} ${k.midi === 60 ? "middle-c" : ""}`}
                 style={{ left: k.left + "%", width: k.width + "%" }}
                 onPointerDown={(e) => {
                   e.preventDefault();
@@ -292,8 +300,14 @@ export default function KeyboardGuide({
                 }}
                 onBlur={() => onRelease(`key-button:${k.midi}:`)}
               >
-                <span className="key-number">{label(k.midi)}</span>
-                <small>{noteName(k.midi)}</small>
+                <span className="key-surface" aria-hidden="true">
+                  <span
+                    className="key-resonance"
+                    key={`${pressed.has(k.midi) ? "live" : ""}${soundTokens.get(k.midi) || ""}`}
+                  />
+                  <span className="key-number">{label(k.midi)}</span>
+                  <small>{noteName(k.midi)}</small>
+                </span>
               </button>
             ))}
           </div>

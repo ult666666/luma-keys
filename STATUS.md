@@ -1,8 +1,19 @@
 # Luma Keys — installed and verified
 
-Updated September 25, 2026, 7:15 AM America/New_York.
+Updated September 25, 2026, 7:25 AM America/New_York.
 
-## Latest user-directed redesign — version 1.1.0
+## Latest user-directed material and motion update — version 1.1.1
+The user requested more interesting animation and a less plastic interface. Keep the concise sight-reading direction.
+
+- Installed and reopened **/Users/prince/Desktop/Luma Keys.app**. Confirmed the new appearance in the actual personal Desktop window: warm graphite, grained ivory manuscript paper, serif score typography, restrained accents, matte ivory/ebony piano keys and simpler control surfaces. The full transport fits within the tested 1280×800 viewport.
+- A played key's inner cap depresses with a finite resonance stroke; the actual 88 buttons, fixed 42px white-key width, pointer capture and native scrollbar gutter remain stable. Contiguous repeated C4 playback notes retrigger the effect by event identity without replacing their key button. Wait-mode targets stay quiet until actual input.
+- Numbered notes receive a brief ink accent, held continuations remain steady, and passage contents enter over 260ms. Cursor position remains transport-driven. Reduced-motion changes cancel live page motion and disable decorative effects while preserving note cues, input and navigation.
+- **71 unit/API tests passed**, plus **7 material/motion groups, 9 reading groups and 12 input groups in both browser and packaged 1.1.1**. Native reading includes real starter PDF recognition, source preview, corrections, full-range chords and a 50,000-note score. Tests used isolated libraries and muted playback; no physical MIDI hardware was used.
+- The tested release and installed archive match. All **39 personal Library/Exports files remain byte-for-byte unchanged**, including after normal Quit/reopen. The prior personal window was verified idle before normal Quit; no force termination was used. The updated personal app is open. Development server and isolated QA instances are stopped.
+- Evidence: `evidence/native-material-qa.json`, `evidence/material-qa.json`, `evidence/native-reader-qa.json`, `evidence/native-input-qa.json`, `evidence/material-unit-tests.txt`, `evidence/data-preservation-1.1.1.json`. Visuals: `evidence/native-material-desktop.png`, `evidence/native-material-mobile.png`; silent animation example: `evidence/material-motion-preview.webm`.
+- This refinement does not change recognition or audio interpretation limits. The existing overnight deadline remains 8 AM Eastern; do not extend it or restore the older dashboard.
+
+## Previous user-directed redesign — version 1.1.0
 The user clarified that this should be a concise **sight-reading tool**, not a piano dashboard. This direction takes precedence over the earlier dashboard presentation. Do not restore pets, progress cards, greetings or a sidebar to the main reading workspace.
 
 - Installed **/Users/prince/Desktop/Luma Keys.app** and opened the updated app. The default is now a large, light numbered score, a compact next-note cue, a readable keyboard window and transport. Library and import stay in the top bar. Settings holds companions, themes, progress, tonic/label choices, count-in, metronome and lesson tips.
@@ -138,4 +149,4 @@ Useful next checks: progress across renderer reload/midnight, note-review ergono
 PDF recognition is not perfect; every imported scan requires review. Repeats/navigation play once in written order. Later tempo changes and score pedal/ornament markings are simplified with warnings. MIDI hand assignments and humanized-chord grouping are estimates. Fixed Do remains C=1 by default; imported tonic metadata does not change labels automatically. The app does not listen to acoustic pianos through a microphone or infer fingerings. This is a local personal Mac build, not an App Store release.
 
 ## Development state
-The development server and temporary agent-browser test sessions were stopped after verification. Native tests run in project-local .qa-runs directories and clean up their own data; no test closes the personal app. The installed 1.1.0 personal app was opened after verification; leave it open for the user. The installed app starts its own loopback server and does not depend on development servers. Source uses local Git checkpoints. Runtime state lives in Library; build files can be replaced without deleting practice data.
+The development server and temporary agent-browser test sessions were stopped after verification. Native tests run in project-local .qa-runs directories and clean up their own data; no test closes the personal app. The installed 1.1.1 personal app was reopened after verification and its new appearance was inspected; leave it open for the user. The installed app starts its own loopback server and does not depend on development servers. Source uses local Git checkpoints. Runtime state lives in Library; build files can be replaced without deleting practice data.

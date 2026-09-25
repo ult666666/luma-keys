@@ -1,9 +1,9 @@
 .keyboard-guide {
   margin-top: 16px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  border: 1px solid #35372f;
+  border-radius: 5px;
   overflow: hidden;
-  background: #171c1e;
+  background: #1b1d19;
 }
 .keyboard-guide-top {
   padding: 12px 16px 9px;
@@ -38,8 +38,8 @@
   color: #94a09b;
 }
 .keyboard-guide-controls .following {
-  color: var(--accent);
-  background: #c2f4d411;
+  color: #c4ceba;
+  background: #c3cdb60a;
 }
 .keyboard-locator {
   display: flex;
@@ -60,12 +60,12 @@
 .keyboard-locator-track i {
   position: absolute;
   height: 100%;
-  background: #ffffff16;
-  border-right: 1px solid #171c1e;
+  background: #56594f;
+  border-right: 1px solid #1b1d19;
 }
 .keyboard-locator-track i.black {
   height: 60%;
-  background: #101315;
+  background: #141611;
   z-index: 1;
 }
 .keyboard-locator-track i.target {
@@ -76,8 +76,8 @@
   position: absolute;
   top: 0;
   height: 100%;
-  border: 1px solid #baf1cc80;
-  background: #baf1cc15;
+  border: 1px solid #b8c4a96b;
+  background: #b8c4a90a;
   z-index: 3;
   border-radius: 3px;
   pointer-events: none;
@@ -93,12 +93,135 @@
   margin: 0;
   width: 100%;
   border-radius: 0;
+  background: #141610;
 }
-.keyboard-guide .piano-key.white {
-  border-radius: 0 0 5px 5px;
+.keyboard-guide .piano-keys::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: #735649;
+  box-shadow: 0 2px 3px #11140d38;
+  z-index: 4;
+  pointer-events: none;
+}
+.keyboard-guide .piano-key,
+.keyboard-guide .piano-key.white,
+.keyboard-guide .piano-key.black,
+.keyboard-guide .piano-key.white.lit,
+.keyboard-guide .piano-key.black.lit,
+.keyboard-guide .piano-key.white.pressed,
+.keyboard-guide .piano-key.black.pressed {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  transition: none;
 }
 .keyboard-guide .piano-key.black {
   height: 65%;
+}
+.keyboard-guide .key-surface {
+  position: absolute;
+  inset: 0 1px 2px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 11px;
+  overflow: hidden;
+  border: 1px solid #d2ccc0;
+  border-top: 0;
+  border-radius: 0 0 2px 2px;
+  background: #eae5d9;
+  box-shadow: inset 0 -3px 0 #c8c1b3;
+  color: #535a4b;
+  transform-origin: center top;
+  transition:
+    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 180ms ease,
+    box-shadow 120ms ease;
+  pointer-events: none;
+}
+.keyboard-guide .piano-key.black .key-surface {
+  inset: 0 0 2px;
+  padding-bottom: 9px;
+  background: #292b25;
+  border: 1px solid #151710;
+  border-top: 0;
+  box-shadow:
+    inset 0 1px 0 #3d4035,
+    inset 0 -4px 0 #13150f,
+    1px 3px 3px #10120b40;
+  color: #c4c8b9;
+}
+.keyboard-guide .key-surface::before {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 35%;
+  width: 30%;
+  height: 1px;
+  background: #557858;
+  opacity: 0;
+  pointer-events: none;
+}
+.keyboard-guide .piano-key.lit .key-surface::before {
+  opacity: 0.7;
+}
+.keyboard-guide .piano-key.lit.white .key-number {
+  color: #44654b;
+}
+.keyboard-guide .piano-key.lit.black .key-surface::before {
+  background: #c3d6b7;
+}
+.keyboard-guide .piano-key.sounding .key-surface {
+  transform: translateY(2px) scaleY(0.975);
+  background: #dce5d3;
+  box-shadow: inset 0 -1px 0 #aebba2;
+  color: #354733;
+  transition-duration: 65ms, 90ms, 65ms;
+}
+.keyboard-guide .piano-key.sounding.black .key-surface {
+  transform: translateY(2px) scaleY(0.965);
+  background: #354132;
+  box-shadow:
+    inset 0 1px 0 #475840,
+    inset 0 -2px 0 #192213,
+    0 1px 1px #10120b40;
+  color: #e0e7d6;
+}
+.keyboard-guide .key-resonance {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 35px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #688c60, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+.keyboard-guide .piano-key.black .key-resonance {
+  bottom: 26px;
+  background: linear-gradient(90deg, transparent, #c7dcb5, transparent);
+}
+.keyboard-guide .piano-key.sounding .key-resonance {
+  animation: piano-resonance 620ms cubic-bezier(0.16, 0.7, 0.28, 1) both;
+}
+@keyframes piano-resonance {
+  0% {
+    opacity: 0;
+    transform: translateY(5px) scaleX(0.45);
+  }
+  18% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-22px) scaleX(1.1);
+  }
 }
 .keyboard-guide .piano-key .key-number {
   font-size: 16px;
@@ -108,16 +231,10 @@
 }
 .keyboard-guide .piano-key small {
   font-size: 10px;
+  color: #787e6e;
 }
 .keyboard-guide .piano-key.black small {
   font-size: 8px;
-}
-.keyboard-guide .piano-key.lit.white {
-  background: linear-gradient(#d4efe0, #b8eed1);
-  box-shadow: inset 0 -3px 0 #76c99f;
-}
-.keyboard-guide .piano-key.lit.black {
-  background: linear-gradient(#365a4b, #578c70);
 }
 .keyboard-guide-caption {
   display: flex;
@@ -163,4 +280,17 @@
    Keep their hit area in a dedicated gutter below the playable surface. */
 .keyboard-strip {
   padding-bottom: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-guide .key-surface,
+  .keyboard-guide .piano-key.sounding .key-surface,
+  .keyboard-guide .piano-key.sounding.black .key-surface {
+    transform: none;
+    transition: none;
+  }
+  .keyboard-guide .piano-key.sounding .key-resonance {
+    animation: none;
+    opacity: 0;
+  }
 }

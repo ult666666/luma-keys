@@ -10,6 +10,15 @@ The user's correction was the design constraint: read music and locate notes, wi
 - Original staff notation and falling notes are secondary views. Original notation is identified separately because note corrections affect the numbered score and playback, not the source XML. Staff cursor mapping uses actual measure boundaries, including normalized pickups.
 - Label/tonic, count-in, metronome, pets, themes, progress and lesson tips are in Settings. Settings pauses practice. Import, library, connection and transport remain easy to reach.
 
+## Material and motion — 1.1.1
+The user asked for richer animation and a less plastic interface. The workspace uses warm graphite, lightly grained ivory paper, serif score typography, restrained sage accents, near-square surfaces and matte piano keys. It keeps the same concise reading hierarchy.
+
+Only a key's inner cap moves; the actual button, pointer capture and 42-pixel geometry stay fixed. Playback event IDs let contiguous repeated notes start fresh resonance strokes without recreating their button. Upcoming notes receive quiet guidance, while real playback or held input produces the short response. The numbered score has a brief ink accent and a finite passage entrance; held continuations stay steady, and the reading cursor follows the transport without added easing delay.
+
+System reduced-motion preferences disable decorative page, key and interface effects, including a preference changed during an animation. Pitch, active-note color, input and navigation remain available. Animations are finite; the reader has no continuous decorative particles or idle motion.
+
+`node scripts/material-qa.mjs` and `node scripts/native-material-qa.mjs` verify seven groups: pointer geometry/release, black-key layering/gutter, passage navigation during motion, keyboard focus/quiet targets, repeated-note identity, live reduced-motion changes and mobile layout. The desktop transport must fit below 800px. A silent demonstration is saved at `evidence/material-motion-preview.webm`.
+
 ## Reading limits
 The numbered layout is a beginner aid, not a replacement for every symbol in a printed edition. Durations are stated in quarter-note beats; no fingering is inferred. Source warnings still describe simplified repeats, pedal, ornaments or tempo changes. PDF recognition needs review. Physical MIDI hardware has not been tested on this Mac.
 

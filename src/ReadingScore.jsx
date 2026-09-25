@@ -26,6 +26,8 @@ export default function ReadingScore({
 }) {
   const root = useRef(null);
   const scroller = useRef(null);
+  const sheet = useRef(null);
+  const previousPassage = useRef(null);
   const [width, setWidth] = useState(960);
   const [jump, setJump] = useState("");
   const index = useMemo(() => indexReadingNotes(notes), [notes]);
@@ -67,6 +69,31 @@ export default function ReadingScore({
   useEffect(() => {
     if (scroller.current) scroller.current.scrollLeft = 0;
   }, [start, end]);
+  useEffect(() => {
+    const previous = previousPassage.current;
+    previousPassage.current = { score: score.id, start };
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (motion.matches || !sheet.current?.animate) return;
+    const direction =
+      previous?.score === score.id && start < previous.start ? -1 : 1;
+    // Animate the paper contents only. Keep the controls, focus and musical
+    // cursor timing intact; this runs once per passage, never per audio frame.
+    const entrance = sheet.current.animate(
+      [
+        { opacity: 0.64, transform: `translateX(${direction * 8}px)` },
+        { opacity: 1, transform: "translateX(0)" },
+      ],
+      { duration: 260, easing: "cubic-bezier(.2,.7,.2,1)" },
+    );
+    const stopMotion = () => {
+      if (motion.matches) entrance.cancel();
+    };
+    motion.addEventListener("change", stopMotion);
+    return () => {
+      entrance.cancel();
+      motion.removeEventListener("change", stopMotion);
+    };
+  }, [score.id, start, end]);
   // On a dense page follow the reading position horizontally, without moving
   // the whole application or fighting manual scroll while the cursor is visible.
   useEffect(() => {
@@ -91,6 +118,7 @@ export default function ReadingScore({
       className="reading-score"
       ref={root}
       aria-label="Sight-reading score"
+      data-labels={labels}
     >
       <header className="reading-header">
         <div className="reading-heading">
@@ -162,6 +190,7 @@ export default function ReadingScore({
       >
         <div
           className="reading-sheet"
+          ref={sheet}
           style={{ minWidth: content.spacing.width + 86 }}
         >
           <div className="reading-ruler">
@@ -250,7 +279,7 @@ export default function ReadingScore({
                           <button
                             type="button"
                             key={`${note.id || note.midi}:${note.beat}`}
-                            className={`reading-note ${sounding ? "reading-current" : ""}`}
+                            className={`reading-note ${sounding ? "reading-current" : ""} ${held ? "reading-continuation" : ""}`}
                             style={{ top: row * 66 }}
                             onClick={() => seek(display.seekBeat)}
                             aria-label={`${noteName(note.midi)}, ${labels === "numbers" ? "number " : ""}${label(note.midi)}, ${held ? "remaining hold" : "hold"} ${duration} quarter-note beats${held ? ", continuing from previous passage" : ""}`}

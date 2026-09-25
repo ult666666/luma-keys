@@ -1,0 +1,87 @@
+{
+  "passed": true,
+  "checks": [
+    "Real key attacks have finite motion on a non-interactive inner surface; the 42px pointer hit target stays fixed and key-up releases",
+    "Black keys retain their own hit targets and release state; the scrollbar gutter stays outside the playable surface",
+    "Passage entrance is finite, leaves the score frame and transport still, and preserves the intended note seek during motion",
+    "Upcoming keys stay quietly highlighted without endless attack motion; keyboard focus remains visible",
+    "Repeated listen-mode C4 notes retrigger separate resonance identities on the same key button; wait-mode targets only attack after actual input",
+    "A live reduced-motion change cancels page motion and disables later page/key effects while retaining current-note cues, correct-input advancement and note release",
+    "390px layout keeps all 88 fixed-width keys in their viewport without document-wide horizontal overflow"
+  ],
+  "errors": [],
+  "measurements": {
+    "desktop": {
+      "transportBottom": 775.421875,
+      "overflow": false
+    },
+    "keyMotion": [
+      {
+        "name": "CSSTransition",
+        "state": "running",
+        "duration": 90,
+        "finite": true
+      },
+      {
+        "name": "CSSTransition",
+        "state": "running",
+        "duration": 65,
+        "finite": true
+      },
+      {
+        "name": "CSSTransition",
+        "state": "running",
+        "duration": 65,
+        "finite": true
+      },
+      {
+        "name": "piano-resonance",
+        "state": "running",
+        "duration": 620,
+        "finite": true
+      }
+    ],
+    "keySurface": {
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "pointerEvents": "none"
+    },
+    "pageMotion": [
+      {
+        "name": "reading-ink-line",
+        "state": "running",
+        "duration": 320,
+        "finite": true
+      },
+      {
+        "name": "reading-ink-settle",
+        "state": "running",
+        "duration": 280,
+        "finite": true
+      },
+      {
+        "name": "Animation",
+        "state": "running",
+        "duration": 260,
+        "finite": true
+      }
+    ],
+    "repeatedNoteAttacks": [
+      {
+        "node": 0,
+        "beat": 0,
+        "retainedButton": true
+      },
+      {
+        "node": 1,
+        "beat": 1.05,
+        "retainedButton": true
+      }
+    ],
+    "mobile": {
+      "overflow": false,
+      "whiteWidth": 42,
+      "keys": 88
+    }
+  },
+  "audioOutput": "Piano volume set to zero; physical hardware not required"
+}
