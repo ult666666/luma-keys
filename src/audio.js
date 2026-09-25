@@ -7,6 +7,7 @@ export class PianoAudio {
   constructor() {
     this.buffers = new Map();
     this.voices = new Set();
+    this.clicks = new Set();
     this.volume = 0.65;
     this.pedal = false;
   }
@@ -88,6 +89,7 @@ export class PianoAudio {
   }
   stop() {
     this.pedal = false;
+    this.stopTicks();
     for (const v of this.voices) {
       try {
         v.gain.gain.cancelScheduledValues(this.ctx.currentTime);
@@ -97,17 +99,35 @@ export class PianoAudio {
     }
     this.voices.clear();
   }
-  tick(accent = false) {
+  stopTicks() {
+    for (const click of this.clicks) {
+      try {
+        click.gain.gain.cancelScheduledValues(this.ctx.currentTime);
+        click.gain.gain.setValueAtTime(0, this.ctx.currentTime);
+        click.source.stop();
+      } catch {}
+    }
+    this.clicks.clear();
+  }
+  tick(accent = false, delay = 0) {
     if (!this.ctx) return;
     const o = this.ctx.createOscillator(),
       g = this.ctx.createGain();
+    const start = this.ctx.currentTime + Math.max(0, delay);
     o.frequency.value = accent ? 1100 : 740;
-    g.gain.setValueAtTime(0.1, this.ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.045);
+    g.gain.setValueAtTime(0.1, start);
+    g.gain.exponentialRampToValueAtTime(0.001, start + 0.045);
     o.connect(g);
     g.connect(this.master);
-    o.start();
-    o.stop(this.ctx.currentTime + 0.055);
+    const click = { source: o, gain: g };
+    this.clicks.add(click);
+    o.onended = () => {
+      this.clicks.delete(click);
+      o.disconnect();
+      g.disconnect();
+    };
+    o.start(start);
+    o.stop(start + 0.055);
   }
 }
 export const piano = new PianoAudio();

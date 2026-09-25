@@ -89,6 +89,80 @@ export function measureAt(score, beat) {
   const length = score.measureLengths?.[i] || score.meter || 4;
   return i + 1 + Math.floor(Math.max(0, b - starts[i]) / length + 1e-6);
 }
+export function pulsePattern(score, bar = 1) {
+  const patterns = score.measurePulses;
+  if (patterns?.length)
+    return patterns[Math.min(patterns.length - 1, Math.max(0, bar - 1))];
+  if (score.meterPulses?.length) return score.meterPulses;
+  // Legacy files did not retain denominators; preserve their quarter-note pulse.
+  const meter = score.meter || 4,
+    result = [];
+  for (let b = 0; b < meter - 1e-6; b++) result.push(Math.min(1, meter - b));
+  return result;
+}
+export function countInLength(score) {
+  return score.pickup > 0 && score.pickup < score.meter
+    ? score.meter - score.pickup
+    : score.meter;
+}
+export function metronomeEvents(score, from, to) {
+  if (!(to > from)) return [];
+  const events = [];
+  const add = (beat, count, accent) => {
+    if (beat > from + 1e-7 && beat <= to + 1e-7)
+      events.push({ beat: round(beat), count, accent });
+  };
+  if (from < 0) {
+    let b = -countInLength(score);
+    pulsePattern(score).forEach((length, i) => {
+      if (b < -1e-7) add(b, i + 1, i === 0);
+      b += length;
+    });
+  }
+  if (to >= 0) {
+    const first = measureAt(score, Math.max(0, from));
+    const last = Math.min(score.measures, measureAt(score, to));
+    for (let bar = first; bar <= last; bar++) {
+      const start = barStart(score, bar),
+        end = barEnd(score, bar),
+        pattern = pulsePattern(score, bar);
+      const nominal = pattern.reduce((a, b) => a + b, 0);
+      let offset =
+          bar === 1 && score.pickup > 0
+            ? -Math.max(0, nominal - score.pickup)
+            : 0,
+        i = 0;
+      while (start + offset < end - 1e-7) {
+        if (offset >= -1e-7)
+          add(
+            start + offset,
+            (i % pattern.length) + 1,
+            i % pattern.length === 0,
+          );
+        offset += pattern[i++ % pattern.length];
+      }
+    }
+  }
+  return events;
+}
+export function countInNumber(score, beat) {
+  return (
+    metronomeEvents(
+      score,
+      -countInLength(score) - 1e-6,
+      Math.min(-1e-6, beat),
+    ).at(-1)?.count || 1
+  );
+}
+export function meterHint(score, beat = 0) {
+  const bar = Math.min(score.measures, measureAt(score, Math.max(0, beat)));
+  const signature =
+    score.measureSignatures?.[
+      Math.min(bar - 1, score.measureSignatures.length - 1)
+    ];
+  const count = pulsePattern(score, bar).length;
+  return `${signature ? signature + " · " : ""}${count} ${count === 1 ? "pulse" : "pulses"} per bar`;
+}
 export function keyboardLayout(low = 48, high = 84) {
   const whites = [];
   for (let m = low; m <= high; m++) if (!isBlack(m)) whites.push(m);
@@ -235,19 +309,43 @@ export function unpackXML(data) {
     throw Error("Score is too large. Import a shorter piece.");
   return decodeText(bytes);
 }
-function timeQuarters(time) {
-  if (one(time, "senza-misura")) return null;
-  const beats = kids(time, "beats").map(txt),
-    types = kids(time, "beat-type").map(txt);
+function meterDefinition(beats, types) {
   if (!beats.length || beats.length !== types.length) return null;
-  let q = 0;
+  let quarters = 0;
+  const pulses = [],
+    labels = [];
   for (let i = 0; i < beats.length; i++) {
-    const b = beats[i].split("+").reduce((s, x) => s + numberOf(x), 0),
-      t = numberOf(types[i]);
-    if (!(b > 0) || !(t > 0) || !Number.isFinite(b)) return null;
-    q += (b * 4) / t;
+    const parts = String(beats[i])
+      .split("+")
+      .map((x) => Number(x.trim()));
+    const denominator = Number(types[i]);
+    if (
+      !Number.isInteger(denominator) ||
+      denominator <= 0 ||
+      denominator > 256 ||
+      parts.some((x) => !Number.isInteger(x) || x <= 0 || x > 64)
+    )
+      return null;
+    const total = parts.reduce((a, b) => a + b, 0),
+      unit = 4 / denominator;
+    quarters += total * unit;
+    labels.push(parts.join("+") + "/" + denominator);
+    if (parts.length > 1 || beats.length > 1)
+      pulses.push(...parts.map((n) => n * unit));
+    else if (total >= 6 && total % 3 === 0)
+      pulses.push(...Array(total / 3).fill(3 * unit));
+    else pulses.push(...Array(total).fill(unit));
   }
-  return q;
+  return quarters > 0 && quarters <= 32 && pulses.length <= 64
+    ? { quarters, pulses, signature: labels.join(" + ") }
+    : null;
+}
+function timeDefinition(time) {
+  if (one(time, "senza-misura")) return null;
+  return meterDefinition(
+    kids(time, "beats").map(txt),
+    kids(time, "beat-type").map(txt),
+  );
 }
 const BEAT_UNITS = {
   maxima: 32,
@@ -394,6 +492,7 @@ export function parseMusicXML(xml, filename = "Imported score") {
   parts.forEach((part, pi) => {
     let divisions = null,
       quarters = 4,
+      meter = meterDefinition([4], [4]),
       transpose = 0,
       keyAlters = {},
       barRepeat = false;
@@ -463,10 +562,11 @@ export function parseMusicXML(xml, filename = "Imported score") {
           }
           const time = one(n, "time");
           if (time) {
-            const q = timeQuarters(time);
-            if (q == null)
+            meter = timeDefinition(time);
+            if (!meter)
               warn("A complex or free time signature was simplified to 4/4.");
-            quarters = q ?? 4;
+            meter ||= meterDefinition([4], [4]);
+            quarters = meter.quarters;
           }
           const key = one(n, "key");
           if (key) {
@@ -670,6 +770,15 @@ export function parseMusicXML(xml, filename = "Imported score") {
         );
       bar.extent = Math.max(bar.extent, extent);
       bar.restExtent = Math.max(bar.restExtent, restExtent);
+      if (!bar.pulses || quarters > bar.nominal) {
+        bar.pulses = meter.pulses;
+        bar.signature = meter.signature;
+      } else if (bar.signature !== meter.signature) {
+        warn(
+          "The staves use different time signatures. The metronome follows the longest bar's pulse pattern; check this passage.",
+          label,
+        );
+      }
       bar.nominal = Math.max(bar.nominal, quarters);
     });
     // Only flag a key signature as ignored when no note in the part ever carries its sharps or flats.
@@ -680,6 +789,19 @@ export function parseMusicXML(xml, filename = "Imported score") {
           b,
         );
   });
+  // A staff says where a note is drawn, not necessarily which hand plays it.
+  const voiceStaves = new Map();
+  for (const n of raw) {
+    const key = `${n.pi}:${n.voice}`;
+    if (!voiceStaves.has(key)) voiceStaves.set(key, new Set());
+    voiceStaves.get(key).add(n.staff);
+  }
+  for (const n of raw)
+    if (voiceStaves.get(`${n.pi}:${n.voice}`).size > 1)
+      warn(
+        "A musical voice moves between staves. Hand colors follow the written staves; review which hand should play these notes.",
+        bars[n.mi].number,
+      );
   if (!bars.length)
     throw Error(
       "No playable piano notes were recognized. Try a clearer scan or a MusicXML export.",
@@ -856,6 +978,9 @@ export function parseMusicXML(xml, filename = "Imported score") {
     measures: bars.length,
     measureStarts,
     measureLengths,
+    meterPulses: bars[0].pulses,
+    measurePulses: bars.map((b) => b.pulses),
+    measureSignatures: bars.map((b) => b.signature),
     pickup: bars[0].implicit ? (measureStarts[1] ?? round(bars[0].extent)) : 0,
     keySignature: firstKey
       ? { fifths: concertFifths(firstKey), mode: firstKey.mode }
@@ -937,14 +1062,14 @@ export function parseMIDI(data, filename = "MIDI score") {
     )
     .map((s) => ({
       beat: s.ticks / ppq,
-      quarters: (s.timeSignature[0] * 4) / s.timeSignature[1],
+      ...meterDefinition([s.timeSignature[0]], [s.timeSignature[1]]),
     }))
     .filter(
       (s) => Number.isFinite(s.quarters) && s.quarters > 0 && s.quarters <= 32,
     )
     .sort((a, b) => a.beat - b.beat);
   if (!signatures.length || signatures[0].beat > 0)
-    signatures.unshift({ beat: 0, quarters: 4 });
+    signatures.unshift({ beat: 0, ...meterDefinition([4], [4]) });
   let notes = [],
     shortened = false,
     outside = 0;
@@ -987,7 +1112,9 @@ export function parseMIDI(data, filename = "MIDI score") {
     );
   const duration = Math.max(...notes.map((n) => n.beat + n.duration));
   const measureStarts = [],
-    measureLengths = [];
+    measureLengths = [],
+    measurePulses = [],
+    measureSignatures = [];
   let beat = 0,
     signature = 0,
     shortenedBar = false;
@@ -1005,12 +1132,17 @@ export function parseMIDI(data, filename = "MIDI score") {
     }
     measureStarts.push(round(beat));
     measureLengths.push(round(end - beat));
+    measurePulses.push(signatures[signature].pulses);
+    measureSignatures.push(signatures[signature].signature);
     beat = end;
   }
   const barMap = {
     meter: signatures[0].quarters,
+    meterPulses: signatures[0].pulses,
     measureStarts,
     measureLengths,
+    measurePulses,
+    measureSignatures,
   };
   for (const n of notes) n.measure = measureAt(barMap, n.beat);
   if (shortenedBar)

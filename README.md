@@ -16,14 +16,14 @@ Choose **Import a score**, or drag a file into the import dialog. PDF, MusicXML 
 
 PDF recognition runs on your Mac using bundled Audiveris. Printed, straight, high-contrast scans work best. Recognition is not perfect: compare the recognized notes and the original PDF in the review window. You can change each note's pitch, octave, timing, duration, or hand. Click **Save & mark reviewed** once you have checked it. Recognition errors are shown rather than replaced with invented notes.
 
-MusicXML/MIDI exports from notation software are more reliable than scans. Unsupported or simplified score features are noted in the review window. Repeats and navigation may play once in written order; use the bar loop to repeat a passage. The app does not infer fingerings or listen to an acoustic piano through a microphone.
+MusicXML/MIDI exports from notation software are more reliable than scans. Unsupported or simplified score features are noted in the review window. Voices that move between staves are flagged: staff position does not always tell you which hand should play, so review those hand colors. Repeats and navigation may play once in written order; use the bar loop to repeat a passage. The app does not infer fingerings or listen to an acoustic piano through a microphone.
 
 ## Practice controls
 - **Listen & follow:** automatic sampled-grand-piano playback and falling notes.
 - **Wait for me:** the timeline stays on each onset until the expected notes are found. Chords require every displayed pitch. Accuracy counts note attempts, not rhythmic skill.
 - **Hands:** isolate left or right; imported MIDI hand assignments may need review.
 - **Loop:** repeat the selected bar range. New MIDI and MusicXML imports preserve changes in bar length. Wait mode stays inside the selected phrase; an empty phrase prompts you to choose another hand or widen the loop.
-- **Speed:** 25–125% without changing pitch. Count-in and metronome are optional.
+- **Speed:** 25–125% without changing pitch. `♩ =` shows quarter notes per minute. Count-in and metronome follow the written meter: for example, two dotted-quarter pulses in 6/8. A small hint shows the pulse count. Short pickup notes enter after the appropriate partial count-in.
 - **Number 1 is:** C is fixed Do by default. Choosing another tonic changes number labels, not the sounding notes.
 - **88 keys:** expand from the readable automatic range to the full piano.
 - **Export icon:** saves a printable numbered practice HTML and reusable JSON backup to the Exports folder. Open the HTML in a browser and choose Print / Save PDF.

@@ -1,8 +1,18 @@
 # Luma Keys — installed and verified
 
-Updated September 24, 2026, 11:30 PM America/New_York.
+Updated September 25, 2026, 12:26 AM America/New_York.
 
-## Latest overnight improvement — version 1.0.1
+## Latest overnight improvement — version 1.0.2
+- Installed new Desktop app; personal app remained open. Reopen when convenient to load the update.
+- Imported MusicXML and MIDI now preserve written pulse groups: 6/8 and 9/8 dotted beats, 5/8 fractional bar accents, cut time, and explicit additive groups. Metronome/count-in use the audio clock with look-ahead scheduling; Pause, Stop, and loop reset cancel queued click oscillators.
+- Pickup count-ins lead into the pickup's place in the bar. A compact meter hint shows pulses per bar. Tempo is labeled `♩ =` to distinguish quarter-note tempo from the audible compound pulse.
+- Cross-staff voices preserve pitch/timing and receive a hand-review warning. Hand choice still follows written staves until edited; it is not inferred as certain.
+- **38/38 unit/API tests pass.** Browser audio measurements confirm 6/8 clicks every 0.75 seconds at quarter-note tempo 120, correct 5/8 loop accents, and click cancellation. Changing-meter practice, all 30 piano samples, and simulated MIDI/sustain still pass.
+- Packaged 1.0.2 passed playback, export, actual 16-note PDF recognition, and original-PDF viewing with the dev server stopped. Installed archive matches tested release; all 39 Library/Exports files remain unchanged.
+- Evidence: evidence/overnight-unit-tests-1.0.2.txt, evidence/rhythm-qa.json, evidence/overnight-native-1.0.2.log, evidence/native-qa.json, evidence/data-preservation-1.0.2.json. Research references and interpretation limits are in docs/RESEARCH.md.
+- Older imported scores retain their existing timing. Re-import them to gain pulse metadata. Ungrouped odd meters use their written subdivision; a performer's preferred grouping is not inferred.
+
+## Previous overnight improvement — version 1.0.1
 - Installed and verified new Desktop app. The existing personal app process was left running; quit and reopen when convenient to load this version.
 - MIDI meter changes now produce explicit bar boundaries shared by practice loops, bar labels, review and printable exports. Held notes preserve every bar they span. MusicXML final bars also retain their actual length.
 - Wait mode stays inside the selected phrase. Empty selected-hand phrases give useful guidance; falling notes and next-note hints show only the chosen phrase.
@@ -23,7 +33,7 @@ Updated September 24, 2026, 11:30 PM America/New_York.
 - Claude enhancement pass implemented and independently validated; report: docs/CLAUDE_REVIEW.md.
 
 ## Verification actually completed
-- **30/30 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.1.txt (original 24-test delivery preserved in evidence/unit-tests-final.txt).
+- **38/38 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.2.txt (earlier delivery results are preserved).
 - Production build and Apple Silicon packaging pass. Desktop copy tested with the development server stopped.
 - Browser flow coverage passes: playback/pause/seek, 30 samples decoded, correct/wrong note handling, loop wrapping, labels/ranges, saved themes, import/engraving/review/library/search, and 390px responsive layout.
 - All 30 samples contain non-silent audio; on-screen keys support pointer and Enter/Space input.
@@ -36,7 +46,7 @@ Updated September 24, 2026, 11:30 PM America/New_York.
 ## Overnight follow-up
 The heartbeat `luma-keys-overnight-build-polish` is scheduled hourly through **2026-09-25 08:00 Eastern**. A temporary caffeinate process prevents idle sleep until that deadline; keep the Mac plugged in, lid open and Codex running. Do not extend the schedule. See docs/OVERNIGHT.md.
 
-Useful next checks: independent real MusicXML exports, cross-staff notation, odd-meter metronome subdivisions, and large-score responsiveness. Changing-meter MIDI loops have been verified. Improve only where new evidence justifies a change. Keep the app usable and repackage validated changes with scripts/package-desktop.sh. Preserve all user Library and Exports data. **Never rerun scripts/prepare-starter-library.mjs**; it is guarded as an initial-delivery-only cleanup.
+Useful next checks: independent real MusicXML exports, large-score responsiveness, and beginner lesson accuracy. Changing-meter MIDI loops, compound/odd-meter click scheduling, and a constructed cross-staff fixture have been verified. Improve only where new evidence justifies a change. Keep the app usable and repackage validated changes with scripts/package-desktop.sh. Preserve all user Library and Exports data. **Never rerun scripts/prepare-starter-library.mjs**; it is guarded as an initial-delivery-only cleanup.
 
 ## Known limits
 PDF recognition is not perfect; every imported scan requires review. Repeats/navigation play once in written order. Later tempo changes and score pedal/ornament markings are simplified with warnings. MIDI hand assignments and humanized-chord grouping are estimates. Fixed Do remains C=1 by default; imported tonic metadata does not change labels automatically. The app does not listen to acoustic pianos through a microphone or infer fingerings. This is a local personal Mac build, not an App Store release.

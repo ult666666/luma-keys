@@ -2922,3 +2922,10 @@ td input {
     font-size: 9px;
   }
 }
+
+.meter-hint {
+  font-size: 10px;
+  color: var(--muted);
+  margin: 10px 0 0;
+  line-height: 1.4;
+}

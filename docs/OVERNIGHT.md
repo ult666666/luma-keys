@@ -9,6 +9,7 @@ Useful checks:
 - npm run build
 - Start a separate test library: `LUMA_DATA_DIR="$PWD/.qa-runs/ui/Library" npm run dev`
 - node scripts/browser-qa.mjs (requires the isolated development server)
+- node scripts/rhythm-qa.mjs (6/8, 5/8, audio-clock timing and click cancellation)
 - node scripts/bar-map-qa.mjs (changing-meter MIDI, loops, wait mode, exports)
 - node scripts/extended-qa.mjs
 - node scripts/audio-qa.mjs

@@ -49,6 +49,10 @@ import {
   barStart,
   barEnd,
   measureAt,
+  countInLength,
+  metronomeEvents,
+  countInNumber,
+  meterHint,
 } from "./music.mjs";
 import { piano } from "./audio.js";
 import Pet from "./Pet.jsx";
@@ -486,7 +490,7 @@ export default function App() {
       start: 0,
       origin: 0,
       index: 0,
-      lastTick: -10,
+      tickUntil: -Infinity,
       matched: new Set(),
     }),
     voices = useRef(new Map()),
@@ -661,14 +665,14 @@ export default function App() {
           phraseGroups.find((g) => g.beat >= from - 0.01) || phraseGroups[0];
         from = next.beat;
         t.matched = new Set();
-      } else if (countIn && from === 0) from = -score.meter;
+      } else if (countIn && from === 0) from = -countInLength(score);
       t.beat = from;
       t.origin = from;
       t.start = piano.ctx.currentTime;
       t.playing = true;
       t.index = notes.findIndex((n) => n.beat >= Math.max(0, from) - 0.01);
       if (t.index < 0) t.index = notes.length;
-      t.lastTick = Math.floor(from) - 1;
+      t.tickUntil = from - 1e-6;
       setBeat(from);
       setPlaying(true);
       practiceStart.current = Date.now();
@@ -706,19 +710,24 @@ export default function App() {
               Math.max(0, (n.beat - b) * secondsPerBeat),
             );
         }
-        const tick = Math.floor(b);
-        if (tick !== t.lastTick) {
-          t.lastTick = tick;
-          if (s.metronome || b < 0) {
-            const downbeat =
-              b < 0
-                ? tick % s.score.meter === 0
-                : Math.abs(tick - barStart(s.score, measureAt(s.score, tick))) <
-                  1e-6;
-            piano.tick(downbeat);
+        const end = s.loop ? barEnd(s.score, s.loopB) : s.score.duration;
+        const tickThrough = Math.min(end - 1e-6, b + 0.08 / secondsPerBeat);
+        if (s.metronome || b < 0) {
+          // A short look-ahead schedules clicks on the audio clock, including
+          // fractional beats. Never burst missed clicks after a stalled frame.
+          for (const event of metronomeEvents(
+            s.score,
+            Math.max(t.tickUntil, b - 0.1 / secondsPerBeat),
+            tickThrough,
+          )) {
+            if (s.metronome || event.beat < 0)
+              piano.tick(
+                event.accent,
+                Math.max(0, (event.beat - b) * secondsPerBeat),
+              );
           }
         }
-        const end = s.loop ? barEnd(s.score, s.loopB) : s.score.duration;
+        t.tickUntil = tickThrough;
         if (b >= end) {
           if (s.loop) {
             piano.stop();
@@ -728,7 +737,7 @@ export default function App() {
             t.beat = from;
             t.index = s.notes.findIndex((n) => n.beat >= from - 0.01);
             if (t.index < 0) t.index = s.notes.length;
-            t.lastTick = Math.floor(from) - 1;
+            t.tickUntil = from - 1e-6;
           } else {
             stop();
             t.beat = s.score.duration;
@@ -1133,7 +1142,7 @@ export default function App() {
                       <h2>{score.title}</h2>
                       <p>
                         {score.composer} <span>·</span> {score.measures} bars{" "}
-                        <span>·</span> {score.bpm} BPM
+                        <span>·</span> ♩ = {score.bpm}
                       </p>
                     </div>
                     <button
@@ -1228,7 +1237,7 @@ export default function App() {
                         <span className="live-dot" />{" "}
                         {playing
                           ? beat < 0
-                            ? "Count in · " + Math.ceil(-beat)
+                            ? "Count in · " + countInNumber(score, beat)
                             : mode === "wait"
                               ? "Your turn · play the glowing keys"
                               : "A little closer, one note at a time"
@@ -1382,8 +1391,8 @@ export default function App() {
                           >
                             {[0.25, 0.5, 0.65, 0.75, 1, 1.25].map((x) => (
                               <option key={x} value={x}>
-                                {Math.round(x * 100)}% ·{" "}
-                                {Math.round(score.bpm * x)} BPM
+                                {Math.round(x * 100)}% · ♩ ={" "}
+                                {Math.round(score.bpm * x)}
                               </option>
                             ))}
                           </select>
@@ -1624,11 +1633,20 @@ export default function App() {
                       role="switch"
                       aria-checked={metronome}
                       aria-label="Gentle metronome"
-                      onClick={() => setMetronome((v) => !v)}
+                      onClick={() => {
+                        if (metronome) piano.stopTicks();
+                        setMetronome((v) => !v);
+                      }}
                     >
                       <i />
                     </button>
                   </div>
+                  <p
+                    className="meter-hint"
+                    title="The metronome follows the written meter. Tempo is measured in quarter notes per minute."
+                  >
+                    {meterHint(score, beat)}
+                  </p>
                 </section>
               </aside>
             </div>
@@ -1714,7 +1732,7 @@ export default function App() {
                       <p>{s.description || s.composer}</p>
                       <div className="song-meta">
                         <span>{s.notes.length} notes</span>
-                        <span>{s.bpm} BPM</span>
+                        <span>♩ = {s.bpm}</span>
                         <span>{s.measures} bars</span>
                       </div>
                       <button className="secondary" onClick={() => choose(s)}>

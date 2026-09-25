@@ -1,0 +1,118 @@
+{
+  "passed": true,
+  "checks": [
+    "6/8 count-in and playback use two pulses per bar, 0.75 s apart at quarter-note tempo 120",
+    "Clicks scheduled ahead on audio clock; pause cancels pending oscillators",
+    "5/8 loop starts at beat 2.5, clicks every eighth note, and accents each repeated bar",
+    "Stop also cancels deliberately scheduled future clicks"
+  ],
+  "compoundTicks": [
+    {
+      "at": 0.005333333333333333,
+      "accent": true,
+      "delay": 0
+    },
+    {
+      "at": 0.7553333333333333,
+      "accent": false,
+      "delay": 0.07266666666666666
+    },
+    {
+      "at": 1.5053333333333334,
+      "accent": true,
+      "delay": 0.07066666666666666
+    },
+    {
+      "at": 2.255333333333333,
+      "accent": false,
+      "delay": 0.06866666666666665
+    },
+    {
+      "at": 3.005333333333333,
+      "accent": true,
+      "delay": 0.07200000000000006
+    },
+    {
+      "at": 3.755333333333333,
+      "accent": false,
+      "delay": 0.06999999999999984
+    }
+  ],
+  "compoundIntervals": [
+    0.75,
+    0.7500000000000001,
+    0.7499999999999998,
+    0.75,
+    0.75
+  ],
+  "oddMeterTicks": [
+    {
+      "at": 3.984,
+      "accent": true,
+      "delay": 0
+    },
+    {
+      "at": 4.223333333333333,
+      "accent": false,
+      "delay": 0.0739999999999994
+    },
+    {
+      "at": 4.473333333333333,
+      "accent": false,
+      "delay": 0.0733333333333328
+    },
+    {
+      "at": 4.723333333333333,
+      "accent": false,
+      "delay": 0.07266666666666621
+    },
+    {
+      "at": 4.973333333333333,
+      "accent": false,
+      "delay": 0.07199999999999962
+    },
+    {
+      "at": 5.248,
+      "accent": true,
+      "delay": 0
+    },
+    {
+      "at": 5.498,
+      "accent": false,
+      "delay": 0.07933333333333348
+    },
+    {
+      "at": 5.748,
+      "accent": false,
+      "delay": 0.06266666666666687
+    },
+    {
+      "at": 5.998,
+      "accent": false,
+      "delay": 0.06200000000000028
+    },
+    {
+      "at": 6.248,
+      "accent": false,
+      "delay": 0.06666666666666732
+    },
+    {
+      "at": 6.517333333333333,
+      "accent": true,
+      "delay": 0
+    }
+  ],
+  "oddMeterIntervals": [
+    0.23933333333333273,
+    0.25,
+    0.25,
+    0.25,
+    0.2746666666666675,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.269333333333333
+  ],
+  "errors": []
+}
