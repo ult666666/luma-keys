@@ -21,6 +21,7 @@ export default function ReadingScore({
   tonic = 0,
   labels = "numbers",
   hand = "both",
+  mode = "listen",
   onSeek,
   onStep,
 }) {
@@ -272,6 +273,10 @@ export default function ReadingScore({
                         const sounding =
                           beat >= note.beat - 0.000001 &&
                           beat < note.beat + note.duration - 0.000001;
+                        const holding =
+                          mode === "wait" &&
+                          sounding &&
+                          beat > note.beat + 0.0001;
                         const display = readingNoteDisplay(note, start);
                         const { held } = display;
                         const duration = readingDuration(display.duration);
@@ -279,12 +284,14 @@ export default function ReadingScore({
                           <button
                             type="button"
                             key={`${note.id || note.midi}:${note.beat}`}
-                            className={`reading-note ${sounding ? "reading-current" : ""} ${held ? "reading-continuation" : ""}`}
+                            className={`reading-note ${sounding && !holding ? "reading-current" : ""} ${holding ? "reading-holding" : ""} ${held ? "reading-continuation" : ""}`}
                             style={{ top: row * 66 }}
                             onClick={() => seek(display.seekBeat)}
-                            aria-label={`${noteName(note.midi)}, ${labels === "numbers" ? "number " : ""}${label(note.midi)}, ${held ? "remaining hold" : "hold"} ${duration} quarter-note beats${held ? ", continuing from previous passage" : ""}`}
-                            aria-current={sounding ? "true" : undefined}
-                            title={`${noteName(note.midi)} · ${duration} quarter-note beats${held ? " remaining · already held" : ""}`}
+                            aria-label={`${noteName(note.midi)}, ${labels === "numbers" ? "number " : ""}${label(note.midi)}, ${held ? "remaining hold" : "hold"} ${duration} quarter-note beats${held ? ", continuing from previous passage" : ""}${holding ? ", keep holding" : ""}`}
+                            aria-current={
+                              sounding && !holding ? "true" : undefined
+                            }
+                            title={`${noteName(note.midi)} · ${duration} quarter-note beats${held ? " remaining · already held" : holding ? " · keep holding" : ""}`}
                           >
                             <strong>
                               {held && <i aria-hidden="true">↳</i>}
@@ -293,7 +300,19 @@ export default function ReadingScore({
                             <span>{noteName(note.midi)}</span>
                             <small>
                               ♩ {duration}
-                              {held && <em>remaining</em>}
+                              {(held || holding) && (
+                                <em
+                                  className={
+                                    holding ? "reading-hold-label" : undefined
+                                  }
+                                >
+                                  {holding
+                                    ? held
+                                      ? "hold · remaining"
+                                      : "hold"
+                                    : "remaining"}
+                                </em>
+                              )}
                             </small>
                           </button>
                         );

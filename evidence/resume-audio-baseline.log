@@ -1,0 +1,5 @@
+BASELINE 1.1.1 {
+  reproduced: true,
+  measurements: { midNoteStart: { beat: 4.7, sources: [] } },
+  errors: []
+} undefined

@@ -19,6 +19,15 @@ System reduced-motion preferences disable decorative page, key and interface eff
 
 `node scripts/material-qa.mjs` and `node scripts/native-material-qa.mjs` verify seven groups: pointer geometry/release, black-key layering/gutter, passage navigation during motion, keyboard focus/quiet targets, repeated-note identity, live reduced-motion changes and mobile layout. The desktop transport must fit below 800px. A silent demonstration is saved at `evidence/material-motion-preview.webm`.
 
+## Held notes and chords — 1.1.2
+In Wait mode, notes already held from an earlier beat have a quiet **hold** annotation. The current accent identifies the new onset to play. Full chord stacks and both hands expand the page naturally; complex passages may need ordinary vertical scrolling to reach the keyboard and controls. Pitch labels retain their size.
+
+Listen mode can start or resume inside a sustained note, including a phrase that begins midway through a tied note. It reattacks the piano sample for the remaining written duration, clipped to the selected phrase, using the existing articulation and release tail. It does not reconstruct the original sound's envelope or infer pedal. A carry-only phrase displays **HOLD**. Wait mode continues to ask only for new written onsets.
+
+A new audio attack advances the key's resonance generation. Ending one of several overlapping voices does not create a false attack. A new playback/loop epoch permits a real restart even when the same written note spans the whole loop. Physical input owners remain independent.
+
+The resume-audio, overlap-motion and chord-reading QA harnesses exercise these behaviors in the browser; `scripts/native-continuity-qa.mjs` runs the same 10 groups in the packaged app. Audio tests observe real sample-source start/stop scheduling with their output muted. The old 1.1.1 package's silent-resume behavior is preserved in `evidence/resume-audio-baseline.json`.
+
 ## Reading limits
 The numbered layout is a beginner aid, not a replacement for every symbol in a printed edition. Durations are stated in quarter-note beats; no fingering is inferred. Source warnings still describe simplified repeats, pedal, ornaments or tempo changes. PDF recognition needs review. Physical MIDI hardware has not been tested on this Mac.
 

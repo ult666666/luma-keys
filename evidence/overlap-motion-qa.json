@@ -1,0 +1,226 @@
+{
+  "passed": true,
+  "checks": [
+    "Overlapping C4 onsets each animate, but the short note ending does not replay the long note's attack",
+    "Live C4 input adds one attack; releasing it while playback still holds C4 adds none",
+    "Pause/start-over/play permits a new attack while all 88 piano buttons retain their original DOM identity"
+  ],
+  "errors": [],
+  "checkpoints": [
+    {
+      "name": "Long C4 onset",
+      "attacks": 1,
+      "beat": 0,
+      "keys": 88,
+      "stable": true,
+      "sounding": true,
+      "records": [
+        {
+          "phase": "held-note-start",
+          "beat": 0,
+          "node": 0,
+          "retainedButton": true
+        }
+      ]
+    },
+    {
+      "name": "Short C4 onset while long C4 holds",
+      "attacks": 2,
+      "beat": 1.45,
+      "keys": 88,
+      "stable": true,
+      "sounding": true,
+      "records": [
+        {
+          "phase": "held-note-start",
+          "beat": 0,
+          "node": 0,
+          "retainedButton": true
+        },
+        {
+          "phase": "overlapping-note-start",
+          "beat": 1,
+          "node": 1,
+          "retainedButton": true
+        }
+      ]
+    },
+    {
+      "name": "Short note ends without another attack",
+      "attacks": 2,
+      "beat": 2.4,
+      "keys": 88,
+      "stable": true,
+      "sounding": true,
+      "records": [
+        {
+          "phase": "held-note-start",
+          "beat": 0,
+          "node": 0,
+          "retainedButton": true
+        },
+        {
+          "phase": "overlapping-note-start",
+          "beat": 1,
+          "node": 1,
+          "retainedButton": true
+        }
+      ]
+    },
+    {
+      "name": "Live C4 adds one attack over the held playback note",
+      "attacks": 3,
+      "beat": 2.45,
+      "keys": 88,
+      "stable": true,
+      "sounding": true,
+      "records": [
+        {
+          "phase": "held-note-start",
+          "beat": 0,
+          "node": 0,
+          "retainedButton": true
+        },
+        {
+          "phase": "overlapping-note-start",
+          "beat": 1,
+          "node": 1,
+          "retainedButton": true
+        },
+        {
+          "phase": "live-key-start",
+          "beat": 2.4,
+          "node": 2,
+          "retainedButton": true
+        }
+      ]
+    },
+    {
+      "name": "Live release leaves held playback without a false attack",
+      "attacks": 3,
+      "beat": 2.65,
+      "keys": 88,
+      "stable": true,
+      "sounding": true,
+      "records": [
+        {
+          "phase": "held-note-start",
+          "beat": 0,
+          "node": 0,
+          "retainedButton": true
+        },
+        {
+          "phase": "overlapping-note-start",
+          "beat": 1,
+          "node": 1,
+          "retainedButton": true
+        },
+        {
+          "phase": "live-key-start",
+          "beat": 2.4,
+          "node": 2,
+          "retainedButton": true
+        }
+      ]
+    },
+    {
+      "name": "Pause releases the key without another attack",
+      "attacks": 3,
+      "beat": 2.65,
+      "keys": 88,
+      "stable": true,
+      "sounding": false,
+      "records": [
+        {
+          "phase": "held-note-start",
+          "beat": 0,
+          "node": 0,
+          "retainedButton": true
+        },
+        {
+          "phase": "overlapping-note-start",
+          "beat": 1,
+          "node": 1,
+          "retainedButton": true
+        },
+        {
+          "phase": "live-key-start",
+          "beat": 2.4,
+          "node": 2,
+          "retainedButton": true
+        }
+      ]
+    },
+    {
+      "name": "Starting again legitimately attacks the first C4",
+      "attacks": 4,
+      "beat": 0.05,
+      "keys": 88,
+      "stable": true,
+      "sounding": true,
+      "records": [
+        {
+          "phase": "held-note-start",
+          "beat": 0,
+          "node": 0,
+          "retainedButton": true
+        },
+        {
+          "phase": "overlapping-note-start",
+          "beat": 1,
+          "node": 1,
+          "retainedButton": true
+        },
+        {
+          "phase": "live-key-start",
+          "beat": 2.4,
+          "node": 2,
+          "retainedButton": true
+        },
+        {
+          "phase": "restart",
+          "beat": 0,
+          "node": 3,
+          "retainedButton": true
+        }
+      ]
+    },
+    {
+      "name": "Final stop leaves exactly four real attacks",
+      "attacks": 4,
+      "beat": 0.05,
+      "keys": 88,
+      "stable": true,
+      "sounding": false,
+      "records": [
+        {
+          "phase": "held-note-start",
+          "beat": 0,
+          "node": 0,
+          "retainedButton": true
+        },
+        {
+          "phase": "overlapping-note-start",
+          "beat": 1,
+          "node": 1,
+          "retainedButton": true
+        },
+        {
+          "phase": "live-key-start",
+          "beat": 2.4,
+          "node": 2,
+          "retainedButton": true
+        },
+        {
+          "phase": "restart",
+          "beat": 0,
+          "node": 3,
+          "retainedButton": true
+        }
+      ]
+    }
+  ],
+  "expectedAttacks": 4,
+  "audioOutput": "Piano volume set to zero",
+  "physicalHardwareTested": false
+}

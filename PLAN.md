@@ -38,3 +38,6 @@ Completed 1.1.0: installed/opened the concise sight reader after71 unit/API test
 
 ## User-directed material and motion refinement — 1.1.1
 Preserve the concise sight reader. Replace glossy, rounded dashboard styling with warm graphite and ivory manuscript surfaces, clearer typographic hierarchy, matte piano caps and restrained, finite musical motion. Respect reduced motion and keep every pointer hit target stable. Validate repeated-note animation identity, pointer/key releases, passage clicks during motion, full-range keyboard geometry, mobile layout and the packaged app. Do not extend the overnight schedule.
+
+## Final overnight continuity fixes — 1.1.2
+Applied the requested Claude review to verify complete two-hand/chord visibility, truthful held-note cues and overlap-safe motion. Independent QA found silent mid-sustain resume/loop entry; restore only remaining durations and keep live ownership independent. A full regression run exposed early terminal PDF status while its final receipt was still committing; make terminal publication and processing-slot release consistent. Validate these in isolated browser/native flows, preserve personal Library/Exports, package and finish before the original 8 AM deadline. No schedule extension.

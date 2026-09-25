@@ -127,8 +127,8 @@
   font-size: 11px !important;
 }
 .reading-scroll {
-  overflow: auto;
-  max-height: 232px;
+  overflow-x: auto;
+  overflow-y: hidden;
   overscroll-behavior-x: contain;
   scrollbar-color: #b3a78f #e5decf;
   scrollbar-width: thin;
@@ -350,6 +350,38 @@
 .reading-current > span,
 .reading-current > small {
   color: #657149;
+}
+.reading-note.reading-holding {
+  color: #77715f;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.reading-holding::before {
+  opacity: 0;
+}
+.reading-holding::after {
+  opacity: 0.6;
+  height: 1px;
+  background: #918974;
+  transform: none;
+  animation: none;
+}
+.reading-holding strong {
+  animation: none;
+}
+.reading-holding > span,
+.reading-holding > small {
+  color: #817965;
+}
+.reading-holding > span {
+  margin-top: 1px;
+}
+.reading-holding > small {
+  margin-top: 2px;
+}
+.reading-holding > small em {
+  margin-top: 1px;
 }
 .reading-rest {
   position: absolute;

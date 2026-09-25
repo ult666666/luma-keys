@@ -42,7 +42,7 @@
       }
     ],
     "keySurface": {
-      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "transform": "matrix(1, 0, 0, 0.980587, 0, 1.55304)",
       "pointerEvents": "none"
     },
     "pageMotion": [
@@ -68,7 +68,7 @@
     "repeatedNoteAttacks": [
       {
         "node": 0,
-        "beat": 0,
+        "beat": 0.05,
         "retainedButton": true
       },
       {

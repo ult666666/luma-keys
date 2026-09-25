@@ -1,0 +1,146 @@
+{
+  "version": "1.1.1",
+  "scope": "Isolated in-memory React component; no server, audio, import, personal data, or app instance used",
+  "passed": true,
+  "trace": [
+    {
+      "label": "Long note starts",
+      "eventIds": [
+        "long-a"
+      ],
+      "held": [],
+      "expectedAttack": true,
+      "animationsStarted": 1,
+      "replacedOverlay": true,
+      "sounding": true,
+      "animation": "piano-resonance",
+      "buttonCount": 88,
+      "allButtonNodesRetained": true,
+      "capTransform": "matrix(1, 0, 0, 0.975182, 0, 1.98544)"
+    },
+    {
+      "label": "Short overlapping same-pitch note starts",
+      "eventIds": [
+        "long-a",
+        "short-b"
+      ],
+      "held": [],
+      "expectedAttack": true,
+      "animationsStarted": 2,
+      "replacedOverlay": true,
+      "sounding": true,
+      "animation": "piano-resonance",
+      "buttonCount": 88,
+      "allButtonNodesRetained": true,
+      "capTransform": "matrix(1, 0, 0, 0.975, 0, 2)"
+    },
+    {
+      "label": "Short note ends; long note still sounds",
+      "eventIds": [
+        "long-a"
+      ],
+      "held": [],
+      "expectedAttack": false,
+      "animationsStarted": 2,
+      "replacedOverlay": false,
+      "sounding": true,
+      "animation": "piano-resonance",
+      "buttonCount": 88,
+      "allButtonNodesRetained": true,
+      "capTransform": "matrix(1, 0, 0, 0.975, 0, 2)"
+    },
+    {
+      "label": "Live key joins held playback note",
+      "eventIds": [
+        "long-a"
+      ],
+      "held": [
+        60
+      ],
+      "expectedAttack": true,
+      "animationsStarted": 3,
+      "replacedOverlay": true,
+      "sounding": true,
+      "animation": "piano-resonance",
+      "buttonCount": 88,
+      "allButtonNodesRetained": true,
+      "capTransform": "matrix(1, 0, 0, 0.975, 0, 2)"
+    },
+    {
+      "label": "Live key releases; playback note still sounds",
+      "eventIds": [
+        "long-a"
+      ],
+      "held": [],
+      "expectedAttack": false,
+      "animationsStarted": 3,
+      "replacedOverlay": false,
+      "sounding": true,
+      "animation": "piano-resonance",
+      "buttonCount": 88,
+      "allButtonNodesRetained": true,
+      "capTransform": "matrix(1, 0, 0, 0.975, 0, 2)"
+    },
+    {
+      "label": "All notes stop",
+      "eventIds": [],
+      "held": [],
+      "expectedAttack": false,
+      "animationsStarted": 3,
+      "replacedOverlay": false,
+      "sounding": false,
+      "animation": "none",
+      "buttonCount": 88,
+      "allButtonNodesRetained": true,
+      "capTransform": "matrix(1, 0, 0, 0.99781, 0, 0.175172)"
+    },
+    {
+      "label": "Revisit same note after silence",
+      "eventIds": [
+        "long-a"
+      ],
+      "held": [],
+      "expectedAttack": true,
+      "animationsStarted": 4,
+      "replacedOverlay": true,
+      "sounding": true,
+      "animation": "piano-resonance",
+      "buttonCount": 88,
+      "allButtonNodesRetained": true,
+      "capTransform": "matrix(1, 0, 0, 0.975, 0, 2)"
+    },
+    {
+      "label": "Consecutive same-pitch ID",
+      "eventIds": [
+        "short-b"
+      ],
+      "held": [],
+      "expectedAttack": true,
+      "animationsStarted": 5,
+      "replacedOverlay": true,
+      "sounding": true,
+      "animation": "piano-resonance",
+      "buttonCount": 88,
+      "allButtonNodesRetained": true,
+      "capTransform": "matrix(1, 0, 0, 0.975, 0, 2)"
+    },
+    {
+      "label": "New live owner with reduced motion",
+      "eventIds": [
+        "short-b"
+      ],
+      "held": [
+        60
+      ],
+      "expectedAttack": true,
+      "animationsStarted": 5,
+      "replacedOverlay": true,
+      "sounding": true,
+      "animation": "none",
+      "buttonCount": 88,
+      "allButtonNodesRetained": true,
+      "capTransform": "none"
+    }
+  ],
+  "errors": []
+}

@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "version": "1.1.1",
+  "version": "1.1.2",
   "checks": [
     "Real key attacks have finite motion on a non-interactive inner surface; the 42px pointer hit target stays fixed and key-up releases",
     "Black keys retain their own hit targets and release state; the scrollbar gutter stays outside the playable surface",
@@ -74,7 +74,7 @@
       },
       {
         "node": 1,
-        "beat": 1,
+        "beat": 1.05,
         "retainedButton": true
       }
     ],

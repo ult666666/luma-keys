@@ -198,14 +198,19 @@ export async function createRecognition({
     const finish = async (code, log = [], launchError) => {
       if (context.finishing) return;
       context.finishing = true;
+      // A terminal public status promises that Retry/another import can begin.
+      // Keep the shared job processing until both its engine ownership and
+      // final receipt write are settled; publish this snapshot atomically with
+      // releasing the slot below.
+      const result = { ...job, scoreIds: [...job.scoreIds] };
       try {
         if (context.stop) {
-          job.status = context.stop;
-          job.progress =
+          result.status = context.stop;
+          result.progress =
             context.stop === "interrupted"
               ? "Import interrupted"
               : "Recognition cancelled";
-          job.error =
+          result.error =
             context.stop === "interrupted"
               ? "The app closed before recognition finished. Your original PDF is kept; retry when you are ready."
               : "Recognition stopped. Your original PDF is kept, so you can retry at any time.";
@@ -240,36 +245,37 @@ export async function createRecognition({
               );
             scores.push(validatePractice(score));
           }
-          job.progress = "Saving your practice score…";
+          job.progress = result.progress = "Saving your practice score…";
           // Journal the intended files first; a restart can recover committed parts
           // without transcribing and duplicating music that is already saved.
-          job.plannedScoreIds = scores.map((score) => score.id);
-          await persist(job);
+          result.plannedScoreIds = scores.map((score) => score.id);
+          await persist(result);
           for (const score of scores) {
             await save(score);
-            job.scoreIds.push(score.id);
+            result.scoreIds.push(score.id);
           }
-          job.status = "done";
-          job.progress = "Ready to review";
-          delete job.plannedScoreIds;
+          result.status = "done";
+          result.progress = "Ready to review";
+          delete result.plannedScoreIds;
         }
       } catch (e) {
-        job.status = job.scoreIds.length ? "done" : "error";
-        job.progress = job.scoreIds.length
+        result.status = result.scoreIds.length ? "done" : "error";
+        result.progress = result.scoreIds.length
           ? "Saved parts are ready to review"
           : "Recognition needs your help";
-        job.error = job.scoreIds.length
+        result.error = result.scoreIds.length
           ? "Only some recognized parts could be saved. Review the saved music, then import the remaining pages again. " +
             e.message
           : e.message;
       }
-      job.updatedAt = Date.now();
+      result.updatedAt = Date.now();
       try {
-        await persist(job);
+        await persist(result);
       } catch (e) {
-        job.persistenceError =
+        result.persistenceError =
           "Import status could not be saved. Keep this window open; completed scores are still in your library.";
       } finally {
+        Object.assign(job, result);
         if (active === context) active = null;
         resolveDone();
       }

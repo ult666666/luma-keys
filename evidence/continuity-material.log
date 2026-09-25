@@ -1,0 +1,9 @@
+PASS [
+  'Real key attacks have finite motion on a non-interactive inner surface; the 42px pointer hit target stays fixed and key-up releases',
+  'Black keys retain their own hit targets and release state; the scrollbar gutter stays outside the playable surface',
+  'Passage entrance is finite, leaves the score frame and transport still, and preserves the intended note seek during motion',
+  'Upcoming keys stay quietly highlighted without endless attack motion; keyboard focus remains visible',
+  'Repeated listen-mode C4 notes retrigger separate resonance identities on the same key button; wait-mode targets only attack after actual input',
+  'A live reduced-motion change cancels page motion and disables later page/key effects while retaining current-note cues, correct-input advancement and note release',
+  '390px layout keeps all 88 fixed-width keys in their viewport without document-wide horizontal overflow'
+]

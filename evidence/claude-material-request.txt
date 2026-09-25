@@ -1,0 +1,1756 @@
+Review the following local React piano sight-reading UI changes for real defects affecting beginner musical correctness, input behavior, accessibility and motion. This is a read-only review: no tools, no editing, no tests. User wants concise sight reading, warm matte appearance and meaningful animations; do not suggest extra dashboards or new scope. Find only actionable defects with specific triggers, or say no significant issues. Distinguish definite problems from hypotheses. Pay attention to same-pitch overlapping/repeated notes, active vs upcoming cues, reduced motion changed while animations run, click targets, sustain, and rendering performance. The app's current 71 unit tests plus 28 browser/native integration groups pass. Input pressed Set means live held owners; soundEvents means notes whose interval contains current playback beat in Listen mode, empty in Wait. All 88 keys stay mounted at42px white-key width. This review need not infer standards not in these files. Return concise Markdown with severity, concrete example, and minimal fix.
+
+FILE src/KeyboardGuide.jsx
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, LocateFixed } from "lucide-react";
+import { keyboardLayout, degree, solfege, noteName } from "./music.mjs";
+import "./keyboard-guide.css";
+
+const keys = keyboardLayout(21, 108);
+const KEY_WIDTH = 42;
+const WIDTH = 52 * KEY_WIDTH;
+const positions = new Map(keys.map((k) => [k.midi, k]));
+
+export default function KeyboardGuide({
+  scoreId,
+  targets,
+  active,
+  soundEvents = [],
+  pressed,
+  tonic,
+  labels,
+  onNoteOn,
+  onNoteOff,
+  onRelease,
+  roll,
+}) {
+  const viewport = useRef();
+  const [follow, setFollow] = useState(true);
+  const [focusPitch, setFocusPitch] = useState(60);
+  const [pointerHolds, setPointerHolds] = useState(new Set());
+  const clearPointer = (id) =>
+    setPointerHolds((previous) => {
+      const next = new Set(previous);
+      next.delete(id);
+      return next;
+    });
+  const [viewportState, setViewportState] = useState({ left: 0, width: 900 });
+  const pitches = targets.map((n) => n.midi);
+  const soundTokens = new Map();
+  for (const note of soundEvents) {
+    soundTokens.set(
+      note.midi,
+      `${soundTokens.get(note.midi) || ""}:${note.id ?? note.beat}`,
+    );
+  }
+  const targetKey = pitches.join(",");
+  const targetPositions = pitches
+    .map((m) => positions.get(m))
+    .filter(Boolean)
+    .sort((a, b) => a.left - b.left);
+  const low = targetPositions.length
+    ? Math.min(
+        ...targetPositions.map((k) => ((k.left + k.width / 2) / 100) * WIDTH),
+      )
+    : WIDTH / 2;
+  const high = targetPositions.length
+    ? Math.max(
+        ...targetPositions.map((k) => ((k.left + k.width / 2) / 100) * WIDTH),
+      )
+    : low;
+  const label = (m) =>
+    labels === "letters"
+      ? noteName(m)
+      : labels === "solfege"
+        ? solfege(m, tonic)
+        : degree(m, tonic);
+  const readWindow = () => {
+    const el = viewport.current;
+    if (el) setViewportState({ left: el.scrollLeft, width: el.clientWidth });
+  };
+  const center = (force = false) => {
+    const el = viewport.current;
+    if (!el) return;
+    if (
+      force ||
+      low < el.scrollLeft + KEY_WIDTH ||
+      high > el.scrollLeft + el.clientWidth - KEY_WIDTH
+    ) {
+      el.scrollLeft = Math.max(
+        0,
+        Math.min(WIDTH - el.clientWidth, (low + high - el.clientWidth) / 2),
+      );
+      readWindow();
+    }
+  };
+  useEffect(() => {
+    const clear = () => setPointerHolds(new Set());
+    window.addEventListener("blur", clear);
+    return () => window.removeEventListener("blur", clear);
+  }, []);
+  useLayoutEffect(() => {
+    const observer = new ResizeObserver(() => {
+      readWindow();
+    });
+    observer.observe(viewport.current);
+    readWindow();
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    setFollow(true);
+    center(true);
+  }, [scoreId]);
+  useEffect(() => {
+    if (follow && pointerHolds.size === 0 && pitches.length) center();
+  }, [targetKey, follow, viewportState.width, pointerHolds.size]);
+  const visible = keys.filter(
+    (k) =>
+      ((k.left + k.width) / 100) * WIDTH > viewportState.left + 1 &&
+      (k.left / 100) * WIDTH < viewportState.left + viewportState.width - 1,
+  );
+  const offLeft = targetPositions.filter(
+    (k) => ((k.left + k.width / 2) / 100) * WIDTH < viewportState.left,
+  );
+  const offRight = targetPositions.filter(
+    (k) =>
+      ((k.left + k.width / 2) / 100) * WIDTH >
+      viewportState.left + viewportState.width,
+  );
+  const scroll = (direction) => {
+    setFollow(false);
+    viewport.current.scrollLeft += direction * 7 * KEY_WIDTH;
+    readWindow();
+  };
+  const reveal = (key) => {
+    setFollow(false);
+    viewport.current.scrollLeft =
+      ((key.left + key.width / 2) / 100) * WIDTH -
+      viewport.current.clientWidth / 2;
+    readWindow();
+  };
+  return (
+    <section className="keyboard-guide" aria-label="Keyboard guide">
+      <div className="keyboard-guide-top">
+        <span>
+          <strong>Find it on your piano</strong>
+          <small>
+            {visible.length
+              ? `${noteName(visible[0].midi)} – ${noteName(visible.at(-1).midi)}`
+              : "88-key range"}
+          </small>
+        </span>
+        <div className="keyboard-guide-controls">
+          <button
+            className={follow ? "following" : ""}
+            aria-pressed={follow}
+            onClick={() => {
+              setFollow((v) => !v);
+              if (!follow) center(true);
+            }}
+          >
+            <LocateFixed size={13} /> Follow notes
+          </button>
+          <button
+            aria-label="Lower octave"
+            disabled={viewportState.left < 1}
+            onClick={() => scroll(-1)}
+          >
+            <ChevronLeft size={17} />
+          </button>
+          <button
+            aria-label="Higher octave"
+            disabled={viewportState.left + viewportState.width >= WIDTH - 1}
+            onClick={() => scroll(1)}
+          >
+            <ChevronRight size={17} />
+          </button>
+        </div>
+      </div>
+      <div
+        className="keyboard-locator"
+        aria-label="Position on an 88-key piano"
+      >
+        <span>A0</span>
+        <div
+          className="keyboard-locator-track"
+          role="slider"
+          tabIndex={0}
+          aria-label="Keyboard range position"
+          aria-valuemin={0}
+          aria-valuemax={Math.round(WIDTH - viewportState.width)}
+          aria-valuenow={Math.round(viewportState.left)}
+          aria-valuetext={`${noteName(visible[0]?.midi || 21)} to ${noteName(visible.at(-1)?.midi || 108)}`}
+          onKeyDown={(e) => {
+            if (["ArrowLeft", "ArrowRight"].includes(e.key)) {
+              e.preventDefault();
+              e.stopPropagation();
+              scroll(e.key === "ArrowLeft" ? -1 : 1);
+            }
+          }}
+          onPointerDown={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            setFollow(false);
+            viewport.current.scrollLeft =
+              ((e.clientX - rect.left) / rect.width) * WIDTH -
+              viewport.current.clientWidth / 2;
+            readWindow();
+          }}
+        >
+          {keys.map((k) => (
+            <i
+              key={k.midi}
+              className={`${k.black ? "black" : "white"} ${pitches.includes(k.midi) ? "target" : ""}`}
+              style={{ left: k.left + "%", width: k.width + "%" }}
+            />
+          ))}
+          <b
+            style={{
+              left: (viewportState.left / WIDTH) * 100 + "%",
+              width: (viewportState.width / WIDTH) * 100 + "%",
+            }}
+          />
+        </div>
+        <span>C8</span>
+      </div>
+      {(offLeft.length > 0 || offRight.length > 0) && (
+        <div className="keyboard-offscreen" role="status">
+          {offLeft.length > 0 && (
+            <button onClick={() => reveal(offLeft[0])}>
+              ← Also play {offLeft.map((k) => noteName(k.midi)).join(" + ")}
+            </button>
+          )}
+          {offRight.length > 0 && (
+            <button onClick={() => reveal(offRight.at(-1))}>
+              Also play {offRight.map((k) => noteName(k.midi)).join(" + ")} →
+            </button>
+          )}
+        </div>
+      )}
+      <div className="keyboard-viewport" ref={viewport} onScroll={readWindow}>
+        <div className="keyboard-strip" style={{ width: WIDTH }}>
+          {roll}
+          <div className="piano-keys">
+            {keys.map((k) => (
+              <button
+                key={k.midi}
+                data-midi={k.midi}
+                tabIndex={k.midi === focusPitch ? 0 : -1}
+                onFocus={() => setFocusPitch(k.midi)}
+                aria-label={`${noteName(k.midi)} ${degree(k.midi, tonic)} ${solfege(k.midi, tonic)}`}
+                className={`piano-key ${k.black ? "black" : "white"} ${active.has(k.midi) || pitches.includes(k.midi) ? "lit" : ""} ${pressed.has(k.midi) ? "pressed" : ""} ${pressed.has(k.midi) || soundTokens.has(k.midi) ? "sounding" : ""} ${k.midi === 60 ? "middle-c" : ""}`}
+                style={{ left: k.left + "%", width: k.width + "%" }}
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  e.currentTarget.setPointerCapture(e.pointerId);
+                  setPointerHolds((previous) =>
+                    new Set(previous).add(e.pointerId),
+                  );
+                  onNoteOn(k.midi, 0.75, "pointer:" + e.pointerId);
+                }}
+                onPointerUp={(e) => {
+                  clearPointer(e.pointerId);
+                  onNoteOff(k.midi, "pointer:" + e.pointerId);
+                }}
+                onPointerCancel={(e) => {
+                  clearPointer(e.pointerId);
+                  onNoteOff(k.midi, "pointer:" + e.pointerId);
+                }}
+                onLostPointerCapture={(e) => {
+                  clearPointer(e.pointerId);
+                  onNoteOff(k.midi, "pointer:" + e.pointerId);
+                }}
+                onKeyDown={(e) => {
+                  if (
+                    ["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)
+                  ) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setFollow(false);
+                    const pitch =
+                      e.key === "Home"
+                        ? 21
+                        : e.key === "End"
+                          ? 108
+                          : Math.max(
+                              21,
+                              Math.min(
+                                108,
+                                k.midi + (e.key === "ArrowRight" ? 1 : -1),
+                              ),
+                            );
+                    viewport.current
+                      .querySelector(`[data-midi="${pitch}"]`)
+                      ?.focus();
+                    return;
+                  }
+                  if ((e.key === "Enter" || e.code === "Space") && !e.repeat) {
+                    e.preventDefault();
+                    onNoteOn(
+                      k.midi,
+                      0.75,
+                      `key-button:${k.midi}:${e.code || e.key}`,
+                    );
+                  }
+                }}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter" || e.code === "Space") {
+                    e.preventDefault();
+                    onNoteOff(
+                      k.midi,
+                      `key-button:${k.midi}:${e.code || e.key}`,
+                    );
+                  }
+                }}
+                onBlur={() => onRelease(`key-button:${k.midi}:`)}
+              >
+                <span className="key-surface" aria-hidden="true">
+                  <span
+                    className="key-resonance"
+                    key={`${pressed.has(k.midi) ? "live" : ""}${soundTokens.get(k.midi) || ""}`}
+                  />
+                  <span className="key-number">{label(k.midi)}</span>
+                  <small>{noteName(k.midi)}</small>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="keyboard-guide-caption">
+        <span>
+          1 = Do / {noteName(60 + tonic).replace("4", "")} · numbers are notes,
+          not fingers
+        </span>
+        <span>Scroll to explore all 88 keys</span>
+      </div>
+    </section>
+  );
+}
+
+FILE src/ReadingScore.jsx
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { barStart, degree, noteName, solfege } from "./music.mjs";
+import {
+  indexReadingNotes,
+  readingPassage,
+  readingNotesBetween,
+  readingGroups,
+  readingRests,
+  readingBars,
+  readingDuration,
+  readingSpacing,
+  readingNoteDisplay,
+} from "./reading.mjs";
+import "./reading.css";
+
+export default function ReadingScore({
+  score,
+  notes = score.notes,
+  beat = 0,
+  tonic = 0,
+  labels = "numbers",
+  hand = "both",
+  onSeek,
+  onStep,
+}) {
+  const root = useRef(null);
+  const scroller = useRef(null);
+  const sheet = useRef(null);
+  const previousPassage = useRef(null);
+  const [width, setWidth] = useState(960);
+  const [jump, setJump] = useState("");
+  const index = useMemo(() => indexReadingNotes(notes), [notes]);
+  const barsPerPage = width < 760 ? 2 : 4;
+  const passage = readingPassage(score, index, beat, barsPerPage);
+  const { start, end } = passage;
+  const content = useMemo(() => {
+    const hands = ["right", "left"]
+      .filter((name) => hand === "both" || hand === name)
+      .map((hand) => {
+        const visible = readingNotesBetween(index, hand, start, end);
+        return {
+          hand,
+          notes: visible,
+          groups: readingGroups(visible, start, end),
+          rests: readingRests(visible, start, end),
+        };
+      });
+    const onsets = [
+      ...new Set(hands.flatMap((h) => h.groups.map((g) => g.beat))),
+    ].sort((a, b) => a - b);
+    const spacing = readingSpacing(start, end, onsets);
+    return { hands, spacing, bars: readingBars(score, passage) };
+  }, [index, score, start, end, hand]);
+  const percent = (at) => `${content.spacing.position(at) * 100}%`;
+  const widthPercent = (from, to) =>
+    `${(content.spacing.position(to) - content.spacing.position(from)) * 100}%`;
+  const seek = (at, direction = 0) => {
+    if (onSeek) onSeek(Math.max(0, at));
+    else onStep?.(direction, Math.max(0, at));
+  };
+  useEffect(() => {
+    const observer = new ResizeObserver(([entry]) =>
+      setWidth(entry.contentRect.width),
+    );
+    if (root.current) observer.observe(root.current);
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    if (scroller.current) scroller.current.scrollLeft = 0;
+  }, [start, end]);
+  useEffect(() => {
+    const previous = previousPassage.current;
+    previousPassage.current = { score: score.id, start };
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (motion.matches || !sheet.current?.animate) return;
+    const direction =
+      previous?.score === score.id && start < previous.start ? -1 : 1;
+    // Animate the paper contents only. Keep the controls, focus and musical
+    // cursor timing intact; this runs once per passage, never per audio frame.
+    const entrance = sheet.current.animate(
+      [
+        { opacity: 0.64, transform: `translateX(${direction * 8}px)` },
+        { opacity: 1, transform: "translateX(0)" },
+      ],
+      { duration: 260, easing: "cubic-bezier(.2,.7,.2,1)" },
+    );
+    const stopMotion = () => {
+      if (motion.matches) entrance.cancel();
+    };
+    motion.addEventListener("change", stopMotion);
+    return () => {
+      entrance.cancel();
+      motion.removeEventListener("change", stopMotion);
+    };
+  }, [score.id, start, end]);
+  // On a dense page follow the reading position horizontally, without moving
+  // the whole application or fighting manual scroll while the cursor is visible.
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el || el.scrollWidth <= el.clientWidth + 2) return;
+    const x = content.spacing.position(beat) * (el.scrollWidth - 86) + 64;
+    if (x > el.scrollLeft + el.clientWidth - 70 || x < el.scrollLeft + 64)
+      el.scrollLeft = Math.max(0, x - el.clientWidth * 0.3);
+  }, [beat, content.spacing]);
+  const pageLabel =
+    passage.firstBar === passage.lastBar
+      ? `Bar ${passage.firstBar}`
+      : `Bars ${passage.firstBar}–${passage.lastBar}`;
+  const label = (m) =>
+    labels === "letters"
+      ? noteName(m).replace(/-?\d+$/, "")
+      : labels === "solfege"
+        ? solfege(m, tonic)
+        : degree(m, tonic);
+  return (
+    <section
+      className="reading-score"
+      ref={root}
+      aria-label="Sight-reading score"
+      data-labels={labels}
+    >
+      <header className="reading-header">
+        <div className="reading-heading">
+          <span className="reading-eyebrow">READ FROM LEFT TO RIGHT</span>
+          <h2>
+            {pageLabel}
+            <span> / {score.measures}</span>
+          </h2>
+        </div>
+        <div className="reading-navigation">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const bar = Number(jump);
+              if (Number.isInteger(bar) && bar >= 1 && bar <= score.measures) {
+                seek(barStart(score, bar));
+                setJump("");
+              }
+            }}
+          >
+            <label htmlFor="reading-bar-jump">Go to bar</label>
+            <input
+              id="reading-bar-jump"
+              aria-label="Go to bar"
+              type="number"
+              min="1"
+              max={score.measures}
+              placeholder="—"
+              value={jump}
+              onChange={(e) => setJump(e.target.value)}
+            />
+            <button type="submit" className="reading-jump" disabled={!jump}>
+              Go
+            </button>
+          </form>
+          <button
+            type="button"
+            aria-label="Previous passage"
+            title="Previous passage"
+            disabled={passage.previous == null}
+            onClick={() => {
+              const previous = readingPassage(
+                score,
+                index,
+                passage.previous,
+                barsPerPage,
+              );
+              seek(previous.start, -1);
+            }}
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            type="button"
+            aria-label="Next passage"
+            title="Next passage"
+            disabled={passage.next == null}
+            onClick={() => seek(passage.next, 1)}
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>
+      </header>
+      <div
+        className="reading-scroll"
+        ref={scroller}
+        tabIndex="0"
+        aria-label="Numbered score passage; scroll horizontally for dense music"
+      >
+        <div
+          className="reading-sheet"
+          ref={sheet}
+          style={{ minWidth: content.spacing.width + 86 }}
+        >
+          <div className="reading-ruler">
+            <span className="reading-gutter">HAND</span>
+            <div className="reading-time">
+              {content.bars.map((bar) => (
+                <button
+                  key={bar.bar}
+                  type="button"
+                  className="reading-bar-label"
+                  style={{
+                    left: percent(bar.start),
+                    width: widthPercent(bar.start, bar.end),
+                  }}
+                  onClick={() => seek(barStart(score, bar.bar))}
+                  aria-label={`Seek to bar ${bar.bar}`}
+                >
+                  {String(bar.bar).padStart(2, "0")}
+                  {bar.continuation ? " · continued" : ""}
+                </button>
+              ))}
+            </div>
+          </div>
+          {content.hands.map(({ hand, groups, rests }) => {
+            const depth = Math.max(1, ...groups.map((g) => g.notes.length));
+            return (
+              <div
+                className={`reading-hand reading-${hand} ${groups.length ? "" : "reading-empty"}`}
+                key={hand}
+              >
+                <div className="reading-gutter reading-hand-name">
+                  <strong>{hand === "right" ? "R" : "L"}</strong>
+                  <span>{hand} hand</span>
+                </div>
+                <div
+                  className="reading-lane"
+                  style={{
+                    height: groups.length ? Math.max(90, depth * 66 + 18) : 42,
+                  }}
+                >
+                  {content.bars.map((bar) => (
+                    <div
+                      key={bar.bar}
+                      className="reading-bar-line"
+                      style={{ left: percent(bar.start) }}
+                    />
+                  ))}
+                  {beat >= start && beat < end && (
+                    <div
+                      className="reading-cursor"
+                      style={{ left: percent(beat) }}
+                      aria-hidden="true"
+                    />
+                  )}
+                  {rests.map((rest) => (
+                    <div
+                      className="reading-rest"
+                      key={rest.beat}
+                      style={{
+                        left: percent(rest.beat),
+                        width: widthPercent(
+                          rest.beat,
+                          rest.beat + rest.duration,
+                        ),
+                      }}
+                      title={`Rest for ${readingDuration(rest.duration)} quarter-note beats`}
+                    >
+                      <span>rest</span>
+                      <i />
+                    </div>
+                  ))}
+                  {groups.map((group) => (
+                    <div
+                      className={`reading-chord ${group.held ? "reading-held" : ""}`}
+                      key={`${group.beat}:${group.held}`}
+                      style={{ left: percent(group.beat) }}
+                    >
+                      {group.notes.map((note, row) => {
+                        const sounding =
+                          beat >= note.beat - 0.000001 &&
+                          beat < note.beat + note.duration - 0.000001;
+                        const display = readingNoteDisplay(note, start);
+                        const { held } = display;
+                        const duration = readingDuration(display.duration);
+                        return (
+                          <button
+                            type="button"
+                            key={`${note.id || note.midi}:${note.beat}`}
+                            className={`reading-note ${sounding ? "reading-current" : ""} ${held ? "reading-continuation" : ""}`}
+                            style={{ top: row * 66 }}
+                            onClick={() => seek(display.seekBeat)}
+                            aria-label={`${noteName(note.midi)}, ${labels === "numbers" ? "number " : ""}${label(note.midi)}, ${held ? "remaining hold" : "hold"} ${duration} quarter-note beats${held ? ", continuing from previous passage" : ""}`}
+                            aria-current={sounding ? "true" : undefined}
+                            title={`${noteName(note.midi)} · ${duration} quarter-note beats${held ? " remaining · already held" : ""}`}
+                          >
+                            <strong>
+                              {held && <i aria-hidden="true">↳</i>}
+                              {label(note.midi)}
+                            </strong>
+                            <span>{noteName(note.midi)}</span>
+                            <small>
+                              ♩ {duration}
+                              {held && <em>remaining</em>}
+                            </small>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <footer className="reading-footer">
+        <span>
+          {labels === "numbers"
+            ? `1 = ${noteName(60 + tonic).replace(/\d+$/, "")} · Numbers are notes, not fingers`
+            : labels === "solfege"
+              ? `Do = ${noteName(60 + tonic).replace(/\d+$/, "")}`
+              : "Letters name the keys"}
+        </span>
+        <span>
+          C4 = middle C <i>·</i> ♩ = one quarter-note beat <i>·</i> spacing
+          adapts
+          {passage.detail ? " · detailed passage" : ""}
+        </span>
+      </footer>
+    </section>
+  );
+}
+
+FILE src/keyboard-guide.css
+.keyboard-guide {
+  margin-top: 16px;
+  border: 1px solid #35372f;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #1b1d19;
+}
+.keyboard-guide-top {
+  padding: 12px 16px 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.keyboard-guide-top > span {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+}
+.keyboard-guide-top small {
+  font-size: 11px;
+  color: #94a09b;
+  font-variant-numeric: tabular-nums;
+}
+.keyboard-guide-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.keyboard-guide-controls button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  font-size: 11px;
+  border-radius: 5px;
+  color: #94a09b;
+}
+.keyboard-guide-controls .following {
+  color: #c4ceba;
+  background: #c3cdb60a;
+}
+.keyboard-locator {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  padding: 0 16px 10px;
+  color: #83918a;
+  font-size: 9px;
+}
+.keyboard-locator-track {
+  height: 18px;
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 3px;
+}
+.keyboard-locator-track i {
+  position: absolute;
+  height: 100%;
+  background: #56594f;
+  border-right: 1px solid #1b1d19;
+}
+.keyboard-locator-track i.black {
+  height: 60%;
+  background: #141611;
+  z-index: 1;
+}
+.keyboard-locator-track i.target {
+  background: var(--accent);
+  z-index: 2;
+}
+.keyboard-locator-track b {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border: 1px solid #b8c4a96b;
+  background: #b8c4a90a;
+  z-index: 3;
+  border-radius: 3px;
+  pointer-events: none;
+}
+.keyboard-viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.keyboard-guide .piano-keys {
+  height: 116px;
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+  background: #141610;
+}
+.keyboard-guide .piano-keys::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: #735649;
+  box-shadow: 0 2px 3px #11140d38;
+  z-index: 4;
+  pointer-events: none;
+}
+.keyboard-guide .piano-key,
+.keyboard-guide .piano-key.white,
+.keyboard-guide .piano-key.black,
+.keyboard-guide .piano-key.white.lit,
+.keyboard-guide .piano-key.black.lit,
+.keyboard-guide .piano-key.white.pressed,
+.keyboard-guide .piano-key.black.pressed {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  transition: none;
+}
+.keyboard-guide .piano-key.black {
+  height: 65%;
+}
+.keyboard-guide .key-surface {
+  position: absolute;
+  inset: 0 1px 2px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 11px;
+  overflow: hidden;
+  border: 1px solid #d2ccc0;
+  border-top: 0;
+  border-radius: 0 0 2px 2px;
+  background: #eae5d9;
+  box-shadow: inset 0 -3px 0 #c8c1b3;
+  color: #535a4b;
+  transform-origin: center top;
+  transition:
+    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 180ms ease,
+    box-shadow 120ms ease;
+  pointer-events: none;
+}
+.keyboard-guide .piano-key.black .key-surface {
+  inset: 0 0 2px;
+  padding-bottom: 9px;
+  background: #292b25;
+  border: 1px solid #151710;
+  border-top: 0;
+  box-shadow:
+    inset 0 1px 0 #3d4035,
+    inset 0 -4px 0 #13150f,
+    1px 3px 3px #10120b40;
+  color: #c4c8b9;
+}
+.keyboard-guide .key-surface::before {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 35%;
+  width: 30%;
+  height: 1px;
+  background: #557858;
+  opacity: 0;
+  pointer-events: none;
+}
+.keyboard-guide .piano-key.lit .key-surface::before {
+  opacity: 0.7;
+}
+.keyboard-guide .piano-key.lit.white .key-number {
+  color: #44654b;
+}
+.keyboard-guide .piano-key.lit.black .key-surface::before {
+  background: #c3d6b7;
+}
+.keyboard-guide .piano-key.sounding .key-surface {
+  transform: translateY(2px) scaleY(0.975);
+  background: #dce5d3;
+  box-shadow: inset 0 -1px 0 #aebba2;
+  color: #354733;
+  transition-duration: 65ms, 90ms, 65ms;
+}
+.keyboard-guide .piano-key.sounding.black .key-surface {
+  transform: translateY(2px) scaleY(0.965);
+  background: #354132;
+  box-shadow:
+    inset 0 1px 0 #475840,
+    inset 0 -2px 0 #192213,
+    0 1px 1px #10120b40;
+  color: #e0e7d6;
+}
+.keyboard-guide .key-resonance {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 35px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #688c60, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+.keyboard-guide .piano-key.black .key-resonance {
+  bottom: 26px;
+  background: linear-gradient(90deg, transparent, #c7dcb5, transparent);
+}
+.keyboard-guide .piano-key.sounding .key-resonance {
+  animation: piano-resonance 620ms cubic-bezier(0.16, 0.7, 0.28, 1) both;
+}
+@keyframes piano-resonance {
+  0% {
+    opacity: 0;
+    transform: translateY(5px) scaleX(0.45);
+  }
+  18% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-22px) scaleX(1.1);
+  }
+}
+.keyboard-guide .piano-key .key-number {
+  font-size: 16px;
+}
+.keyboard-guide .piano-key.black .key-number {
+  font-size: 11px;
+}
+.keyboard-guide .piano-key small {
+  font-size: 10px;
+  color: #787e6e;
+}
+.keyboard-guide .piano-key.black small {
+  font-size: 8px;
+}
+.keyboard-guide-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 15px;
+  font-size: 10px;
+  color: #8e9b95;
+}
+.keyboard-offscreen {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 16px;
+  background: #bbddc510;
+  color: var(--accent);
+  font-size: 11px;
+}
+.keyboard-guide .roll {
+  height: 170px;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .keyboard-guide-top {
+    padding: 10px;
+  }
+  .keyboard-guide-top > span {
+    display: block;
+    font-size: 11px;
+  }
+  .keyboard-guide-top small {
+    display: block;
+    margin-top: 3px;
+  }
+  .keyboard-guide-caption span:last-child {
+    display: none;
+  }
+  .keyboard-guide .piano-keys {
+    height: 104px;
+  }
+}
+/* Native macOS overlay scrollbars otherwise intercept the bottom of a key.
+   Keep their hit area in a dedicated gutter below the playable surface. */
+.keyboard-strip {
+  padding-bottom: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-guide .key-surface,
+  .keyboard-guide .piano-key.sounding .key-surface,
+  .keyboard-guide .piano-key.sounding.black .key-surface {
+    transform: none;
+    transition: none;
+  }
+  .keyboard-guide .piano-key.sounding .key-resonance {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+FILE src/reading.css
+.reading-score {
+  --reading-paper: #eee9dc;
+  --reading-ink: #35342c;
+  --reading-muted: #756e60;
+  --reading-rule: #8b80632d;
+  --reading-mint: #a8b691;
+  position: relative;
+  isolation: isolate;
+  color: var(--reading-ink);
+  background: linear-gradient(
+    105deg,
+    #f4efe3 0%,
+    var(--reading-paper) 62%,
+    #e9e2d2 100%
+  );
+  border: 1px solid #d2c8b6;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow:
+    0 2px 1px #17150f38,
+    0 12px 36px #0e0d0a24;
+}
+.reading-score::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.12;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Cpath fill='%23958c76' filter='url(%23grain)' opacity='.28' d='M0 0h160v160H0z'/%3E%3C/svg%3E");
+}
+.reading-score button,
+.reading-score input {
+  font: inherit;
+}
+.reading-score button {
+  color: inherit;
+  cursor: pointer;
+  filter: none;
+}
+.reading-score button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.reading-score button:focus-visible,
+.reading-score input:focus-visible,
+.reading-scroll:focus-visible {
+  outline: 2px solid #6b7b58;
+  outline-offset: -2px;
+}
+.reading-header {
+  min-height: 55px;
+  padding: 8px 24px 7px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+}
+.reading-eyebrow {
+  display: block;
+  color: var(--reading-muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 3px;
+}
+.reading-heading h2 {
+  margin: 0;
+  color: var(--reading-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+.reading-heading h2 span {
+  font-size: 13px;
+  font-family: Manrope, sans-serif;
+  font-weight: 400;
+  color: var(--reading-muted);
+}
+.reading-navigation {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.reading-navigation > button {
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  background: transparent;
+  border: 1px solid #96896d50;
+  border-radius: 2px;
+  transition:
+    background 140ms,
+    border-color 140ms;
+}
+.reading-navigation > button:not(:disabled):hover {
+  border-color: #948369;
+  background: #8b775c10;
+}
+.reading-navigation form {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-right: 10px;
+}
+.reading-navigation label {
+  font-size: 11px;
+  color: #777263;
+}
+.reading-navigation input {
+  color: var(--reading-ink);
+  width: 48px;
+  border: 0;
+  border-bottom: 1px solid #9b8d71;
+  background: transparent;
+  border-radius: 0;
+  padding: 7px 3px 7px 7px;
+  font-size: 11px;
+}
+.reading-jump {
+  border: 0;
+  background: transparent;
+  padding: 5px 2px;
+  font-size: 11px !important;
+}
+.reading-scroll {
+  overflow: auto;
+  max-height: 232px;
+  overscroll-behavior-x: contain;
+  scrollbar-color: #b3a78f #e5decf;
+  scrollbar-width: thin;
+}
+.reading-sheet {
+  padding: 0 22px 6px 0;
+}
+.reading-ruler,
+.reading-hand {
+  display: flex;
+}
+.reading-ruler {
+  height: 26px;
+  position: sticky;
+  top: 0;
+  z-index: 7;
+  background: #eae3d5;
+  border-top: 1px solid var(--reading-rule);
+  border-bottom: 1px solid var(--reading-rule);
+}
+.reading-gutter {
+  flex: 0 0 64px;
+  width: 64px;
+  position: sticky;
+  left: 0;
+  z-index: 6;
+  background: var(--reading-paper);
+}
+.reading-ruler > .reading-gutter {
+  font-size: 8px;
+  letter-spacing: 1.3px;
+  color: var(--reading-muted);
+  display: grid;
+  place-items: center;
+}
+.reading-time {
+  flex: 1;
+  position: relative;
+}
+.reading-bar-label {
+  position: absolute;
+  height: 25px;
+  background: none;
+  border: 0;
+  border-left: 1px solid var(--reading-rule);
+  text-align: left;
+  padding-left: 9px;
+  font-size: 10px !important;
+  font-variant-numeric: tabular-nums;
+  color: #75684f !important;
+  white-space: nowrap;
+}
+.reading-hand-name {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-right: 1px solid var(--reading-rule);
+}
+.reading-hand-name strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 400;
+  font-style: italic;
+}
+.reading-hand-name span {
+  width: 40px;
+  text-align: center;
+  font-size: 8px;
+  line-height: 1;
+  color: var(--reading-muted);
+}
+.reading-lane {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.reading-left {
+  border-top: 1px solid var(--reading-rule);
+}
+.reading-left .reading-lane {
+  background: #9c927309;
+}
+.reading-bar-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--reading-rule);
+}
+.reading-cursor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #8e805d;
+  opacity: 0.65;
+  z-index: 1;
+  box-shadow: -5px 0 0 4px #b9a77f0d;
+  pointer-events: none;
+}
+.reading-cursor::before {
+  content: "";
+  position: absolute;
+  left: -3px;
+  top: 0;
+  width: 7px;
+  height: 4px;
+  background: #837354;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.reading-chord {
+  position: absolute;
+  top: 11px;
+}
+.reading-note {
+  position: absolute;
+  left: 4px;
+  width: 41px;
+  height: 63px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 1px;
+  background: transparent;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition:
+    background 120ms,
+    color 120ms;
+}
+.reading-note::before {
+  content: "";
+  position: absolute;
+  inset: 4px -1px 0;
+  z-index: -1;
+  opacity: 0;
+  background: linear-gradient(95deg, #a9b59048, #b0bc9940 60%, #c5cdae2e);
+  clip-path: polygon(2% 4%, 98% 0, 100% 94%, 3% 100%);
+  transition: opacity 120ms;
+}
+.reading-note::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  right: 10px;
+  bottom: -1px;
+  height: 2px;
+  background: #6e7a54;
+  opacity: 0;
+  transform-origin: left;
+}
+.reading-note strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.9px;
+  white-space: nowrap;
+}
+.reading-score[data-labels="solfege"] .reading-note strong {
+  font-size: 24px;
+  letter-spacing: -1px;
+}
+.reading-note strong i {
+  position: absolute;
+  left: -4px;
+  top: 1px;
+  font-size: 12px;
+  color: #797858;
+  font-style: normal;
+}
+.reading-note > span {
+  font-size: 9px;
+  color: #726a57;
+  margin-top: 3px;
+  line-height: 1;
+}
+.reading-note > small {
+  font-size: 8px;
+  color: #72674f;
+  margin-top: 5px;
+  white-space: nowrap;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.reading-note > small em {
+  display: block;
+  margin-top: 2px;
+  font-size: 7px;
+  font-style: normal;
+  line-height: 1;
+}
+.reading-note:hover {
+  border-color: transparent;
+  background: #8e846012;
+}
+.reading-note.reading-current {
+  color: #3e4c2f;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.reading-current::before,
+.reading-current::after {
+  opacity: 1;
+}
+.reading-current:not(.reading-continuation) strong {
+  animation: reading-ink-settle 280ms cubic-bezier(0.16, 0.7, 0.3, 1);
+}
+.reading-current:not(.reading-continuation)::after {
+  animation: reading-ink-line 320ms cubic-bezier(0.16, 0.7, 0.3, 1);
+}
+.reading-current > span,
+.reading-current > small {
+  color: #657149;
+}
+.reading-rest {
+  position: absolute;
+  top: 38px;
+  padding: 0 7px;
+  min-width: 1px;
+  z-index: 1;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: #80755f;
+}
+.reading-rest span {
+  position: relative;
+  font-size: 10px;
+  font-style: italic;
+  padding: 0 4px;
+  background: var(--reading-paper);
+  z-index: 1;
+  white-space: nowrap;
+}
+.reading-rest i {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 50%;
+  height: 1px;
+  background: #c8bea955;
+}
+.reading-empty .reading-rest {
+  top: 11px;
+}
+.reading-footer {
+  display: flex;
+  gap: 10px 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 24px;
+  border-top: 1px solid var(--reading-rule);
+  font-size: 9px;
+  line-height: 1.4;
+  color: #756b58;
+}
+.reading-footer i {
+  font-style: normal;
+  margin: 0 5px;
+}
+@media (max-width: 700px) {
+  .reading-header {
+    padding: 15px;
+    gap: 10px;
+  }
+  .reading-heading h2 {
+    font-size: 19px;
+  }
+  .reading-eyebrow {
+    font-size: 8px;
+    letter-spacing: 1.3px;
+  }
+  .reading-navigation label {
+    display: none;
+  }
+  .reading-navigation form {
+    margin-right: 3px;
+    gap: 3px;
+  }
+  .reading-footer {
+    padding: 11px 15px;
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reading-score *,
+  .reading-score *::before,
+  .reading-score *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+@keyframes reading-ink-settle {
+  0% {
+    transform: translateY(2px);
+    opacity: 0.55;
+  }
+  55% {
+    transform: translateY(-1px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes reading-ink-line {
+  from {
+    transform: scaleX(0.12);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+FILE src/material.css
+/* A quiet instrument: warm graphite, ivory and small engraved details. */
+.app {
+  --accent: #b9c7ae;
+  --accent-rgb: 185, 199, 174;
+  --lavender: #b9b0c5;
+  --border: #ddd3b915;
+  --muted: #9e9d92;
+  --surface: #20211e;
+  color: #e4e1d7;
+  background: #181a18;
+  background-image: radial-gradient(
+    ellipse at 50% 0,
+    #7471580d,
+    transparent 70%
+  );
+}
+.app.theme-lavender {
+  --accent: #c1b9d2;
+  --accent-rgb: 193, 185, 210;
+}
+.app.theme-rose {
+  --accent: #d3b6b6;
+  --accent-rgb: 211, 182, 182;
+}
+.app button:hover {
+  filter: none;
+}
+.reader-header {
+  border-color: #e8dfc51b;
+}
+.reader-brand > span {
+  color: #eee8d9;
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+.reader-brand > span > span {
+  color: #aaa89d;
+}
+.reader-brand small {
+  color: #999d8c;
+  border-color: #d9ceb32c;
+}
+.reader-header nav button {
+  position: relative;
+  color: #a6a79c;
+  border-radius: 0;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.reader-header nav .selected {
+  background: none;
+  color: #e6e3d7;
+}
+.reader-header nav button::after {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  height: 1px;
+  left: 12px;
+  right: 12px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+.reader-header nav .selected::after,
+.reader-header nav button:hover::after {
+  transform: scaleX(1);
+}
+.reader-main .secondary {
+  background: transparent;
+  border-color: #d8ceb32e;
+  border-radius: 4px;
+  color: #d7d5c8;
+}
+.reader-main .secondary:hover {
+  background: #d8ceb30a;
+  border-color: #d8ceb366;
+}
+.reader-header-actions > button[aria-label="Connect piano"] {
+  color: #b2b7a7;
+}
+.reader-score-heading {
+  padding: 15px 0 13px;
+}
+.reader-score-heading h1 {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+  line-height: 1.12;
+  color: #efeadd;
+}
+.reader-score-heading p {
+  color: #a3a496;
+  letter-spacing: 0.2px;
+}
+.reader-score-actions .icon-button {
+  color: #a7aa9c;
+  border-radius: 3px;
+}
+.reader-tabs {
+  gap: 25px;
+}
+.reader-tabs button {
+  border-bottom-width: 1px;
+  color: #a0a397;
+}
+.reader-tabs button[aria-selected="true"] {
+  color: #dce0ce;
+}
+.reader-help {
+  color: #a0a497;
+}
+.reader-sheet,
+.reader-sheet-empty {
+  border-radius: 4px;
+}
+.reader-sheet-empty {
+  background: #f1edde;
+  color: #666a5c;
+}
+.reader-cue {
+  border-color: #d9d0b515;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.reader-cue-label > span {
+  color: #c2c4ab;
+  letter-spacing: 1.9px;
+}
+.reader-cue-label small {
+  color: #9a9f8f;
+}
+.reader-cue .next-notes strong {
+  font-weight: 500;
+  color: #d7deca;
+}
+.reader-cue .next-notes span {
+  color: #d8d9ca;
+}
+.reader-cue .next-notes small {
+  color: #969e8c;
+  letter-spacing: 0.5px;
+}
+.reader-cue .next-notes > div {
+  animation: cue-arrive 210ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.reader-play-status {
+  color: #a1a695;
+  font-size: 10px;
+}
+.reader-controls {
+  border-radius: 4px;
+  background: #1c1e1b;
+  border: 1px solid #dbd0b51c;
+  box-shadow: inset 0 1px 0 #ede6cf05;
+}
+.reader-controls .transport-controls {
+  margin-top: 0;
+}
+.reader-controls .segmented {
+  background: transparent;
+  border: 1px solid #dcd1b71c;
+  border-radius: 3px;
+}
+.reader-controls .segmented button {
+  border-radius: 1px;
+  color: #a0a493;
+}
+.reader-controls .segmented .selected {
+  background: #d1d4bd0f;
+  box-shadow: none;
+  color: #d6dcc7;
+}
+.reader-controls .play-button {
+  border-radius: 50%;
+  background: #c5cfb6;
+  color: #293226;
+  box-shadow:
+    0 1px 0 #ecf0e04d,
+    0 2px 5px #0003;
+  width: 39px;
+  height: 39px;
+  border: 1px solid #dce1ce80;
+}
+.reader-controls .play-button:hover {
+  background: #d6ddc7;
+}
+.reader-controls .play-button > svg {
+  animation: transport-symbol 180ms ease both;
+}
+.reader-controls .icon-button {
+  color: #b3b9a7;
+  border-radius: 3px;
+}
+.reader-controls .icon-button:hover {
+  background: #e6dfc70a;
+}
+.reader-controls .icon-button.on {
+  color: #d4dfc1;
+  background: #d4dfc10b;
+}
+.reader-controls .speed-control label {
+  color: #939b88;
+  letter-spacing: 0.3px;
+}
+.reader-controls .speed-control select {
+  color: #d4d9c6;
+}
+.reader-controls .hand-select select {
+  background: transparent;
+  color: #babfac;
+  border-radius: 2px;
+}
+.reader-controls input[type="range"] {
+  border-radius: 0;
+  height: 2px;
+}
+.reader-controls input[type="range"]::-webkit-slider-thumb {
+  width: 8px;
+  height: 8px;
+  box-shadow: 0 0 0 3px #b9c7ae10;
+}
+.reader-controls .timeline > span {
+  color: #a9ae9b;
+  font-variant-numeric: tabular-nums;
+}
+.reader-footer {
+  color: #899380;
+}
+/* Music already supplies the motion. Give falling notes an ink-like trail. */
+.keyboard-guide .roll {
+  background: #171c19;
+}
+.keyboard-guide .falling-note {
+  border-radius: 2px;
+  background: linear-gradient(0deg, #becaaa, #90a586d9);
+  border-color: #d0dcc036;
+  box-shadow: inset 1px 0 0 #e6edd233;
+  color: #293829;
+}
+.keyboard-guide .falling-note.left {
+  background: linear-gradient(0deg, #c0b5ce, #998baad9);
+  color: #352d40;
+  border-color: #d4c8de36;
+}
+.keyboard-guide .falling-note.hitting {
+  filter: none;
+  box-shadow:
+    inset 0 -2px 0 #edf1d9,
+    0 0 12px #cddcba20;
+}
+.keyboard-guide .strike-line {
+  height: 1px;
+  background: #ddd7b67a;
+  box-shadow: 0 0 6px #dddfbd29;
+}
+.keyboard-guide .strike-glow {
+  background: #b9c7ae12;
+  filter: blur(10px);
+}
+.modal-backdrop {
+  background: #0d100ee0;
+  backdrop-filter: blur(5px);
+}
+.modal {
+  border-radius: 8px;
+  background: #20231f;
+  border-color: #d8cfb729;
+  box-shadow: 0 18px 70px #0006;
+}
+.modal-heading {
+  border-color: #d8cfb719;
+}
+.modal-heading h2 {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+@keyframes cue-arrive {
+  from {
+    opacity: 0.45;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes transport-symbol {
+  from {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@media (max-width: 600px) {
+  .reader-score-heading h1 {
+    font-size: 27px;
+  }
+  .reader-tabs {
+    gap: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app *,
+  .app *::before,
+  .app *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* Spend laptop height on notation and keys, not surrounding chrome. */
+@media (min-width: 950px) and (max-height: 850px) {
+  .app .reader-main {
+    padding-bottom: 8px;
+  }
+  .reader-header {
+    height: 54px;
+  }
+  .reader-score-heading {
+    padding-top: 10px;
+    padding-bottom: 8px;
+  }
+  .reader-tabs button {
+    padding-top: 4px;
+    padding-bottom: 6px;
+  }
+  .reader-cue {
+    min-height: 48px;
+  }
+  .keyboard-guide-controls button {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  .reader-footer {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}

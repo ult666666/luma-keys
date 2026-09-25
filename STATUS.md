@@ -1,8 +1,21 @@
 # Luma Keys — installed and verified
 
-Updated September 25, 2026, 7:25 AM America/New_York.
+Updated September 25, 2026, 7:44 AM America/New_York.
 
-## Latest user-directed material and motion update — version 1.1.1
+## Latest overnight verification and fixes — version 1.1.2
+Preserved the user's concise, matte sight-reading layout. Installed and reopened **/Users/prince/Desktop/Luma Keys.app** after checking the personal app was idle and using normal Quit.
+
+- **Held-note playback:** the previous package was silent when Listen started midway through a sustained note. Resume and phrase entry now start its remaining duration once, with the existing articulation/release tail, clipped to the selected ending. Carry-only phrases play each loop and show HOLD; Wait mode still asks only for new written onsets. Actual sample-source scheduling was measured in browser and native app. Baseline: `evidence/resume-audio-baseline.json`.
+- **Clearer two-hand reading:** full chord stacks expand the page naturally instead of hiding the left-hand row inside a 232px scroll region. Wait mode marks earlier sustained notes with a quiet hold annotation; only the newly required onset receives the current accent. Complex chords may require ordinary page scrolling to reach the keyboard/transport; note sizes stay readable.
+- **Truthful motion:** overlapping voice releases and live-key releases no longer replay the attack animation. New notes and playback/loop epochs do; all 88 key buttons retain stable identities. The isolated before/after trace is saved in `evidence/overlap-motion-baseline.json` and `evidence/overlap-motion-fixed.json`.
+- **Reliable PDF retry:** full regression testing exposed public terminal status appearing while the final receipt was still committing and the engine slot remained reserved. Terminal status now publishes with slot release after persistence settles. A gated-write regression reproduces the old behavior and passes after the correction; it retains engine ownership during finalization. Original failure: `evidence/recognition-publication-race-baseline.txt`.
+- **83/83 unit/API tests pass**, including new motion/resume and recognition-publication cases. **38 flow groups pass in both browser and packaged 1.1.2**: 10 continuity/chord/audio groups, 7 material groups, 9 reader groups and 12 input groups. Native PDF lifecycle also passes normal Quit, window close and forced termination of isolated QA instances, each recovering/retrying 16 exact starter notes with no orphaned engine. The development server was stopped for native testing.
+- Claude performed the requested read-only review with tools/MCP disabled. Its confirmed reading/motion findings informed the fixes; it did not edit, run tests or review the later corrections. Scope and remaining suggestions: `docs/CLAUDE_MOTION_REVIEW.md`.
+- Installed archive matches the tested release. All **39 personal Library/Exports files remain byte-for-byte unchanged**, including after reopening. The personal app is open; development/QA apps are stopped. Evidence: `evidence/data-preservation-1.1.2.json`.
+- Acceptance evidence: `evidence/continuity-unit-tests.txt`, `evidence/native-continuity-qa.json`, `evidence/native-material-qa.json`, `evidence/native-reader-qa.json`, `evidence/native-input-qa.json`, `evidence/recognition-close-qa.json`; the corresponding browser results and continuity logs are retained. Chord visuals: `evidence/native-chord-reading-held-notes.png` and `evidence/native-chord-reading-reduced-mobile.png`.
+- Known interpretation/recognition limits below remain. Physical MIDI hardware remains untested. This pass finished before the original 8 AM Eastern deadline; the schedule was not extended.
+
+## Previous user-directed material and motion update — version 1.1.1
 The user requested more interesting animation and a less plastic interface. Keep the concise sight-reading direction.
 
 - Installed and reopened **/Users/prince/Desktop/Luma Keys.app**. Confirmed the new appearance in the actual personal Desktop window: warm graphite, grained ivory manuscript paper, serif score typography, restrained accents, matte ivory/ebony piano keys and simpler control surfaces. The full transport fits within the tested 1280×800 viewport.
@@ -130,7 +143,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - Claude enhancement pass implemented and independently validated; report: docs/CLAUDE_REVIEW.md.
 
 ## Verification actually completed
-- **71/71 unit and API regression tests pass.** See evidence/reader-unit-tests.txt (earlier delivery results are preserved).
+- **83/83 unit and API regression tests pass.** See evidence/continuity-unit-tests.txt (earlier delivery results are preserved).
 - Production build and Apple Silicon packaging pass. Desktop copy tested with the development server stopped.
 - Browser flow coverage passes: playback/pause/seek, 30 samples decoded, correct/wrong note handling, loop wrapping, labels/ranges, saved themes, import/engraving/review/library/search, and 390px responsive layout.
 - All 30 samples contain non-silent audio; on-screen keys support pointer and Enter/Space input.
@@ -149,4 +162,4 @@ Useful next checks: progress across renderer reload/midnight, note-review ergono
 PDF recognition is not perfect; every imported scan requires review. Repeats/navigation play once in written order. Later tempo changes and score pedal/ornament markings are simplified with warnings. MIDI hand assignments and humanized-chord grouping are estimates. Fixed Do remains C=1 by default; imported tonic metadata does not change labels automatically. The app does not listen to acoustic pianos through a microphone or infer fingerings. This is a local personal Mac build, not an App Store release.
 
 ## Development state
-The development server and temporary agent-browser test sessions were stopped after verification. Native tests run in project-local .qa-runs directories and clean up their own data; no test closes the personal app. The installed 1.1.1 personal app was reopened after verification and its new appearance was inspected; leave it open for the user. The installed app starts its own loopback server and does not depend on development servers. Source uses local Git checkpoints. Runtime state lives in Library; build files can be replaced without deleting practice data.
+The development server and temporary agent-browser test sessions were stopped after verification. Native tests run in project-local .qa-runs directories and clean up their own data; no test closes the personal app. The installed 1.1.2 personal app was reopened after verification and its new appearance was inspected; leave it open for the user. The installed app starts its own loopback server and does not depend on development servers. Source uses local Git checkpoints. Runtime state lives in Library; build files can be replaced without deleting practice data.

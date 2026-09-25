@@ -1,0 +1,295 @@
+{
+  "passed": true,
+  "checks": [
+    "A right-hand triad and left-hand bass keep both hands' pitches and durations visible without a hidden vertical score region",
+    "Actual bass-plus-triad input advances wait mode to D4; earlier notes are marked hold, only D4 is current, and D4 input completes the phrase",
+    "Reduced-motion and 390px layouts preserve the held-versus-required note distinction, readable chord rows and horizontal containment"
+  ],
+  "errors": [],
+  "measurements": {
+    "initialChord": {
+      "area": {
+        "top": 43.828125,
+        "bottom": 382.828125,
+        "left": 41,
+        "right": 1239
+      },
+      "clientHeight": 339,
+      "scrollHeight": 339,
+      "scrollTop": 0,
+      "documentOverflow": false,
+      "notes": [
+        {
+          "label": "G4, number 5, hold 4 quarter-note beats",
+          "hand": "right",
+          "box": {
+            "top": 80.828125,
+            "bottom": 143.828125,
+            "left": 109.35824584960938,
+            "right": 150.35824584960938
+          },
+          "duration": {
+            "top": 133.625,
+            "bottom": 141.625,
+            "left": 122.56137084960938,
+            "right": 137.13949584960938
+          }
+        },
+        {
+          "label": "E4, number 3, hold 4 quarter-note beats",
+          "hand": "right",
+          "box": {
+            "top": 146.828125,
+            "bottom": 209.828125,
+            "left": 109.35824584960938,
+            "right": 150.35824584960938
+          },
+          "duration": {
+            "top": 199.625,
+            "bottom": 207.625,
+            "left": 122.56137084960938,
+            "right": 137.13949584960938
+          }
+        },
+        {
+          "label": "C4, number 1, hold 4 quarter-note beats",
+          "hand": "right",
+          "box": {
+            "top": 212.828125,
+            "bottom": 275.828125,
+            "left": 109.35824584960938,
+            "right": 150.35824584960938
+          },
+          "duration": {
+            "top": 265.625,
+            "bottom": 273.625,
+            "left": 122.56137084960938,
+            "right": 137.13949584960938
+          }
+        },
+        {
+          "label": "D4, number 2, hold 1 quarter-note beats",
+          "hand": "right",
+          "box": {
+            "top": 80.828125,
+            "bottom": 143.828125,
+            "left": 387.3582458496094,
+            "right": 428.3582458496094
+          },
+          "duration": {
+            "top": 133.625,
+            "bottom": 141.625,
+            "left": 400.5613708496094,
+            "right": 415.1394958496094
+          }
+        },
+        {
+          "label": "C3, number 1, hold 4 quarter-note beats",
+          "hand": "left",
+          "box": {
+            "top": 297.828125,
+            "bottom": 360.828125,
+            "left": 109.35824584960938,
+            "right": 150.35824584960938
+          },
+          "duration": {
+            "top": 350.625,
+            "bottom": 358.625,
+            "left": 122.56137084960938,
+            "right": 137.13949584960938
+          }
+        }
+      ]
+    },
+    "holdingChord": {
+      "area": {
+        "top": 43.828125,
+        "bottom": 382.828125,
+        "left": 41,
+        "right": 1239
+      },
+      "clientHeight": 339,
+      "scrollHeight": 339,
+      "scrollTop": 0,
+      "documentOverflow": false,
+      "notes": [
+        {
+          "label": "G4, number 5, hold 4 quarter-note beats, keep holding",
+          "hand": "right",
+          "box": {
+            "top": 80.828125,
+            "bottom": 143.828125,
+            "left": 109,
+            "right": 150
+          },
+          "duration": {
+            "top": 127.125,
+            "bottom": 143.125,
+            "left": 122.203125,
+            "right": 136.78125
+          }
+        },
+        {
+          "label": "E4, number 3, hold 4 quarter-note beats, keep holding",
+          "hand": "right",
+          "box": {
+            "top": 146.828125,
+            "bottom": 209.828125,
+            "left": 109,
+            "right": 150
+          },
+          "duration": {
+            "top": 193.125,
+            "bottom": 209.125,
+            "left": 122.203125,
+            "right": 136.78125
+          }
+        },
+        {
+          "label": "C4, number 1, hold 4 quarter-note beats, keep holding",
+          "hand": "right",
+          "box": {
+            "top": 212.828125,
+            "bottom": 275.828125,
+            "left": 109,
+            "right": 150
+          },
+          "duration": {
+            "top": 259.125,
+            "bottom": 275.125,
+            "left": 122.203125,
+            "right": 136.78125
+          }
+        },
+        {
+          "label": "D4, number 2, hold 1 quarter-note beats",
+          "hand": "right",
+          "box": {
+            "top": 80.828125,
+            "bottom": 143.828125,
+            "left": 387,
+            "right": 428
+          },
+          "duration": {
+            "top": 133.625,
+            "bottom": 141.625,
+            "left": 400.203125,
+            "right": 414.78125
+          }
+        },
+        {
+          "label": "C3, number 1, hold 4 quarter-note beats, keep holding",
+          "hand": "left",
+          "box": {
+            "top": 297.828125,
+            "bottom": 360.828125,
+            "left": 109,
+            "right": 150
+          },
+          "duration": {
+            "top": 344.125,
+            "bottom": 360.125,
+            "left": 122.203125,
+            "right": 136.78125
+          }
+        }
+      ]
+    },
+    "mobileReducedMotion": {
+      "area": {
+        "top": 133.46875,
+        "bottom": 472.46875,
+        "left": 13,
+        "right": 377
+      },
+      "clientHeight": 339,
+      "scrollHeight": 339,
+      "scrollTop": 0,
+      "documentOverflow": false,
+      "notes": [
+        {
+          "label": "G4, number 5, hold 4 quarter-note beats, keep holding",
+          "hand": "right",
+          "box": {
+            "top": 170.46875,
+            "bottom": 233.46875,
+            "left": 81,
+            "right": 122
+          },
+          "duration": {
+            "top": 216.765625,
+            "bottom": 232.765625,
+            "left": 94.203125,
+            "right": 108.78125
+          }
+        },
+        {
+          "label": "E4, number 3, hold 4 quarter-note beats, keep holding",
+          "hand": "right",
+          "box": {
+            "top": 236.46875,
+            "bottom": 299.46875,
+            "left": 81,
+            "right": 122
+          },
+          "duration": {
+            "top": 282.765625,
+            "bottom": 298.765625,
+            "left": 94.203125,
+            "right": 108.78125
+          }
+        },
+        {
+          "label": "C4, number 1, hold 4 quarter-note beats, keep holding",
+          "hand": "right",
+          "box": {
+            "top": 302.46875,
+            "bottom": 365.46875,
+            "left": 81,
+            "right": 122
+          },
+          "duration": {
+            "top": 348.765625,
+            "bottom": 364.765625,
+            "left": 94.203125,
+            "right": 108.78125
+          }
+        },
+        {
+          "label": "D4, number 2, hold 1 quarter-note beats",
+          "hand": "right",
+          "box": {
+            "top": 170.46875,
+            "bottom": 233.46875,
+            "left": 206,
+            "right": 247
+          },
+          "duration": {
+            "top": 223.265625,
+            "bottom": 231.265625,
+            "left": 219.203125,
+            "right": 233.78125
+          }
+        },
+        {
+          "label": "C3, number 1, hold 4 quarter-note beats, keep holding",
+          "hand": "left",
+          "box": {
+            "top": 387.46875,
+            "bottom": 450.46875,
+            "left": 81,
+            "right": 122
+          },
+          "duration": {
+            "top": 433.765625,
+            "bottom": 449.765625,
+            "left": 94.203125,
+            "right": 108.78125
+          }
+        }
+      ]
+    }
+  },
+  "audioOutput": "Piano volume set to zero",
+  "physicalHardwareTested": false
+}

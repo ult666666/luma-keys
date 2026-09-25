@@ -4,6 +4,11 @@ import { useRecognition } from "./useRecognition.js";
 import { InputNotes } from "./input-notes.mjs";
 import { bindMIDIInputs } from "./midi-input.mjs";
 import {
+  planListenStart,
+  listenNoteDuration,
+  listenWindowNotes,
+} from "./listen-start.mjs";
+import {
   Music2,
   Library,
   BookOpen,
@@ -88,6 +93,12 @@ const KEYS = {
 };
 const fmt = (t) =>
   `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
+function resumeListening(notes, from, end, secondsPerBeat) {
+  const plan = planListenStart(notes, from, end);
+  for (const { note, duration } of plan.continuations)
+    piano.play(note.midi, duration * secondsPerBeat * 0.94, note.velocity);
+  return plan.index;
+}
 async function api(url, opts) {
   const r = await fetch("/api" + url, opts);
   const d = await r.json();
@@ -576,6 +587,15 @@ export default function App() {
     [notes, loop, score, loopA, loopB],
   );
   const phraseGroups = useMemo(() => groups(phraseNotes), [phraseNotes]);
+  // Wait mode asks for new attacks; Listen also includes notes already held
+  // across the selected bar's start, both for sound and keyboard guidance.
+  const listenNotes = useMemo(
+    () =>
+      loop
+        ? listenWindowNotes(notes, barStart(score, loopA), barEnd(score, loopB))
+        : notes,
+    [notes, loop, score, loopA, loopB],
+  );
   // Fast passages need a closer preview so successive notes remain distinct.
   // Geometry uses actual duration; a large minimum block would imply a hold
   // through rests and overlap repeated notes on the same key.
@@ -805,7 +825,7 @@ export default function App() {
       );
       return;
     }
-    if (!phraseGroups.length) {
+    if (mode === "wait" && !phraseGroups.length) {
       notify(
         "There are no new notes for this hand in these bars. Widen the loop or choose another hand.",
       );
@@ -851,8 +871,15 @@ export default function App() {
       t.origin = from;
       t.start = piano.ctx.currentTime;
       t.playing = true;
-      t.index = notes.findIndex((n) => n.beat >= Math.max(0, from) - 0.01);
-      if (t.index < 0) t.index = notes.length;
+      t.index =
+        mode === "listen"
+          ? resumeListening(
+              notes,
+              from,
+              loop ? barEnd(score, loopB) : score.duration,
+              60 / (score.bpm * speed),
+            )
+          : notes.length;
       t.tickUntil = from - 1e-6;
       setBeat(from);
       setPlaying(true);
@@ -879,23 +906,21 @@ export default function App() {
           ((piano.ctx.currentTime - t.start) * s.score.bpm * s.speed) / 60;
         t.beat = b;
         const secondsPerBeat = 60 / (s.score.bpm * s.speed);
+        const end = s.loop ? barEnd(s.score, s.loopB) : s.score.duration;
         while (
           t.index < s.notes.length &&
           s.notes[t.index].beat <= b + 0.08 / secondsPerBeat
         ) {
           const n = s.notes[t.index++];
-          if (
-            n.beat >= b - 0.15 &&
-            (!s.loop || n.beat < barEnd(s.score, s.loopB))
-          )
+          const duration = listenNoteDuration(n, b, end);
+          if (n.beat >= b - 0.15 && n.beat < end - 1e-6 && duration > 1e-6)
             piano.play(
               n.midi,
-              n.duration * secondsPerBeat * 0.94,
+              duration * secondsPerBeat * 0.94,
               n.velocity,
               Math.max(0, (n.beat - b) * secondsPerBeat),
             );
         }
-        const end = s.loop ? barEnd(s.score, s.loopB) : s.score.duration;
         const tickThrough = Math.min(end - 1e-6, b + 0.08 / secondsPerBeat);
         if (s.metronome || b < 0) {
           // A short look-ahead schedules clicks on the audio clock, including
@@ -920,8 +945,7 @@ export default function App() {
             t.origin = from;
             t.start = piano.ctx.currentTime;
             t.beat = from;
-            t.index = s.notes.findIndex((n) => n.beat >= from - 0.01);
-            if (t.index < 0) t.index = s.notes.length;
+            t.index = resumeListening(s.notes, from, end, secondsPerBeat);
             t.tickUntil = from - 1e-6;
           } else {
             stop();
@@ -1230,7 +1254,20 @@ export default function App() {
   const current =
     phraseGroups.find((g) => g.beat >= Math.max(0, beat) - 0.04) ||
     (loop ? phraseGroups[0] : undefined);
-  const currentNotes = current?.notes || [];
+  const playbackStart = loop ? barStart(score, loopA) : 0;
+  const playbackEnd = loop ? barEnd(score, loopB) : score.duration;
+  const heldNotes = useMemo(
+    () =>
+      mode === "listen" && beat >= playbackStart && beat < playbackEnd
+        ? listenNotes.filter(
+            (n) => n.beat <= beat && n.beat + n.duration > beat,
+          )
+        : [],
+    [mode, listenNotes, beat, playbackStart, playbackEnd],
+  );
+  const currentNotes = current?.notes || heldNotes;
+  const holding = !current?.notes.length && heldNotes.length > 0;
+  const finished = beat >= playbackEnd;
   function stepReading(direction) {
     const next =
       direction > 0
@@ -1249,13 +1286,8 @@ export default function App() {
     );
   }
   const soundEvents = useMemo(
-    () =>
-      playing && mode === "listen"
-        ? phraseNotes.filter(
-            (n) => n.beat <= beat && n.beat + n.duration > beat,
-          )
-        : [],
-    [playing, mode, phraseNotes, beat],
+    () => (playing && mode === "listen" ? heldNotes : []),
+    [playing, mode, heldNotes],
   );
   const active = useMemo(
     () =>
@@ -1264,9 +1296,9 @@ export default function App() {
           ? currentNotes.map((n) => n.midi)
           : soundEvents.map((n) => n.midi),
       ),
-    [playing, mode, soundEvents, current],
+    [playing, mode, soundEvents, currentNotes],
   );
-  const visibleNotes = phraseNotes.filter(
+  const visibleNotes = (mode === "listen" ? listenNotes : phraseNotes).filter(
     (n) => n.beat + n.duration > beat - 0.25 && n.beat < beat + rollBeats + 1,
   );
   const time = (Math.max(0, beat) * 60) / score.bpm;
@@ -1587,6 +1619,7 @@ export default function App() {
             </div>
             {readingView === "numbers" && (
               <ReadingScore
+                mode={mode}
                 hand={hand}
                 score={score}
                 notes={notes}
@@ -1644,7 +1677,15 @@ export default function App() {
               ))}
             <div className="reader-cue" aria-label="Next notes">
               <div className="reader-cue-label">
-                <span>{beat >= score.duration ? "FINISHED" : "PLAY NEXT"}</span>
+                <span>
+                  {finished
+                    ? "FINISHED"
+                    : holding
+                      ? "HOLD"
+                      : currentNotes.length
+                        ? "PLAY NEXT"
+                        : "REST"}
+                </span>
                 <small>
                   Bar{" "}
                   {Math.min(
@@ -1666,7 +1707,14 @@ export default function App() {
                   ))
                 ) : (
                   <span className="reader-finished">
-                    <CheckCircle2 size={20} /> Piece complete
+                    {finished ? (
+                      <>
+                        <CheckCircle2 size={20} />{" "}
+                        {loop ? "Phrase complete" : "Piece complete"}
+                      </>
+                    ) : (
+                      "Rest — let the music breathe"
+                    )}
                   </span>
                 )}
               </div>
@@ -1685,6 +1733,7 @@ export default function App() {
               targets={currentNotes}
               active={active}
               soundEvents={soundEvents}
+              soundEpoch={transport.current.start}
               pressed={pressed}
               tonic={tonic}
               labels={labels}

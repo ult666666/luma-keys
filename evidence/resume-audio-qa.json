@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "checks": [
+    "Starting inside a written sustain schedules one sampled voice for its remaining duration and lights the same key",
+    "Pause/resume restores a mid-note sustain without replaying its full written duration",
+    "A loop containing only a carry-in sustain plays each cycle, clips its duration, shows HOLD and restarts the attack animation",
+    "Wait mode still avoids inventing new onsets in a carry-only phrase"
+  ],
+  "measurements": {
+    "midNoteStart": {
+      "beat": 4.75,
+      "sources": [
+        {
+          "start": 0.005333333333333333,
+          "stops": [
+            4.465333333333333
+          ]
+        }
+      ]
+    },
+    "resume": {
+      "resumeAt": 4.8,
+      "voice": {
+        "start": 0.4746666666666667,
+        "stops": [
+          4.54864
+        ]
+      }
+    },
+    "loop": [
+      {
+        "start": 0.64,
+        "stops": [
+          3.2199999999999998,
+          2.7306666666666666
+        ]
+      },
+      {
+        "start": 2.6506666666666665,
+        "stops": [
+          5.230666666666667
+        ]
+      }
+    ]
+  },
+  "errors": [],
+  "audio": "Actual sampled AudioBufferSourceNode start/stop scheduling measured; QA output muted"
+}

@@ -1,0 +1,19 @@
+PASS native continuity 1.1.2 {
+  checks: [
+    'Starting inside a written sustain schedules one sampled voice for its remaining duration and lights the same key',
+    'Pause/resume restores a mid-note sustain without replaying its full written duration',
+    'A loop containing only a carry-in sustain plays each cycle, clips its duration, shows HOLD and restarts the attack animation',
+    'Wait mode still avoids inventing new onsets in a carry-only phrase'
+  ],
+  measurements: {
+    midNoteStart: { beat: 4.7, sources: [Array] },
+    resume: { resumeAt: 4.8, voice: [Object] },
+    loop: [ [Object], [Object] ]
+  },
+  errors: [],
+  audio: 'Actual sampled AudioBufferSourceNode start/stop scheduling measured; QA output muted'
+} [
+  "Overlapping C4 onsets each animate, but the short note ending does not replay the long note's attack",
+  'Live C4 input adds one attack; releasing it while playback still holds C4 adds none',
+  'Pause/start-over/play permits a new attack while all 88 piano buttons retain their original DOM identity'
+]

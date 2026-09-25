@@ -60,6 +60,58 @@ const timer = setInterval(() => {
 }
 const pdf = Buffer.from("%PDF-1.4 test original");
 
+test("Terminal failure is published only after its receipt commits and the engine slot is retryable", async (t) => {
+  const f = await setup();
+  const rename = fs.rename;
+  let releaseWrite;
+  const heldWrite = new Promise((resolve) => {
+    releaseWrite = resolve;
+  });
+  let finalWriteEntered = false;
+  const intercepted = t.mock.method(fs, "rename", async (from, to) => {
+    if (
+      String(to).startsWith(f.dataDir) &&
+      path.basename(String(to)) === "job.json"
+    ) {
+      const receipt = JSON.parse(await fs.readFile(from, "utf8"));
+      if (receipt.status === "error" && !finalWriteEntered) {
+        finalWriteEntered = true;
+        await heldWrite;
+      }
+    }
+    return rename(from, to);
+  });
+  try {
+    await fs.chmod(f.options.engine, 0o644);
+    const { jobId } = await f.recognition.start("Retry after commit.pdf", pdf);
+    await until(() => finalWriteEntered);
+    assert.equal(
+      f.recognition.list().jobs[0].status,
+      "processing",
+      "A pending terminal receipt must not expose a Retry action while the slot is still reserved",
+    );
+    assert.equal((await f.recognition.detail(jobId)).status, "processing");
+    assert.throws(
+      () => f.recognition.start("No overlapping engine.pdf", pdf),
+      (e) => e.status === 409,
+    );
+    await fs.chmod(f.options.engine, 0o755);
+    await fs.writeFile(path.join(f.root, "complete"), "");
+    releaseWrite();
+    await until(() => f.recognition.list().jobs[0].status === "error");
+    await f.recognition.retry(jobId);
+    await until(() => f.recognition.list().jobs[0].status === "done");
+    assert.equal(
+      (await f.recognition.detail(jobId)).scores[0].notes.length,
+      16,
+    );
+  } finally {
+    releaseWrite();
+    intercepted.mock.restore();
+    await f.cleanup();
+  }
+});
+
 test("PDF jobs reserve the engine, cancel cleanly, retry fresh, and persist completed scores", async () => {
   const f = await setup();
   try {

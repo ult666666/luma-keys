@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, LocateFixed } from "lucide-react";
 import { keyboardLayout, degree, solfege, noteName } from "./music.mjs";
+import { advanceKeyMotion, keyMotionFrame } from "./key-motion.mjs";
 import "./keyboard-guide.css";
 
 const keys = keyboardLayout(21, 108);
@@ -13,6 +14,7 @@ export default function KeyboardGuide({
   targets,
   active,
   soundEvents = [],
+  soundEpoch = 0,
   pressed,
   tonic,
   labels,
@@ -33,13 +35,15 @@ export default function KeyboardGuide({
     });
   const [viewportState, setViewportState] = useState({ left: 0, width: 900 });
   const pitches = targets.map((n) => n.midi);
-  const soundTokens = new Map();
-  for (const note of soundEvents) {
-    soundTokens.set(
-      note.midi,
-      `${soundTokens.get(note.midi) || ""}:${note.id ?? note.beat}`,
-    );
-  }
+  const soundFrame = keyMotionFrame(soundEvents, pressed, soundEpoch);
+  const [keyMotion, setKeyMotion] = useState(() =>
+    advanceKeyMotion(null, soundFrame),
+  );
+  useLayoutEffect(() => {
+    // Update before paint: removals preserve the existing resonance element,
+    // while a newly added voice restarts its one-shot animation exactly once.
+    setKeyMotion((previous) => advanceKeyMotion(previous, soundFrame));
+  }, [soundFrame.signature]);
   const targetKey = pitches.join(",");
   const targetPositions = pitches
     .map((m) => positions.get(m))
@@ -234,7 +238,7 @@ export default function KeyboardGuide({
                 tabIndex={k.midi === focusPitch ? 0 : -1}
                 onFocus={() => setFocusPitch(k.midi)}
                 aria-label={`${noteName(k.midi)} ${degree(k.midi, tonic)} ${solfege(k.midi, tonic)}`}
-                className={`piano-key ${k.black ? "black" : "white"} ${active.has(k.midi) || pitches.includes(k.midi) ? "lit" : ""} ${pressed.has(k.midi) ? "pressed" : ""} ${pressed.has(k.midi) || soundTokens.has(k.midi) ? "sounding" : ""} ${k.midi === 60 ? "middle-c" : ""}`}
+                className={`piano-key ${k.black ? "black" : "white"} ${active.has(k.midi) || pitches.includes(k.midi) ? "lit" : ""} ${pressed.has(k.midi) ? "pressed" : ""} ${soundFrame.owners.has(k.midi) ? "sounding" : ""} ${k.midi === 60 ? "middle-c" : ""}`}
                 style={{ left: k.left + "%", width: k.width + "%" }}
                 onPointerDown={(e) => {
                   e.preventDefault();
@@ -303,7 +307,7 @@ export default function KeyboardGuide({
                 <span className="key-surface" aria-hidden="true">
                   <span
                     className="key-resonance"
-                    key={`${pressed.has(k.midi) ? "live" : ""}${soundTokens.get(k.midi) || ""}`}
+                    key={keyMotion.generations.get(k.midi) || 0}
                   />
                   <span className="key-number">{label(k.midi)}</span>
                   <small>{noteName(k.midi)}</small>
