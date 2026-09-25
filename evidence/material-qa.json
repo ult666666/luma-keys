@@ -12,7 +12,7 @@
   "errors": [],
   "measurements": {
     "desktop": {
-      "transportBottom": 775.421875,
+      "transportBottom": 727.15625,
       "overflow": false
     },
     "keyMotion": [
@@ -42,7 +42,7 @@
       }
     ],
     "keySurface": {
-      "transform": "matrix(1, 0, 0, 0.980565, 0, 1.55479)",
+      "transform": "matrix(1, 0, 0, 0.980595, 0, 1.55241)",
       "pointerEvents": "none"
     },
     "pageMotion": [
@@ -68,12 +68,12 @@
     "repeatedNoteAttacks": [
       {
         "node": 0,
-        "beat": 0.0355555555555555,
+        "beat": 0.0426666666666667,
         "retainedButton": true
       },
       {
         "node": 1,
-        "beat": 1.03822222222222,
+        "beat": 1.08088888888889,
         "retainedButton": true
       }
     ],

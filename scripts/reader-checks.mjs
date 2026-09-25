@@ -126,11 +126,11 @@ export async function verifyReader(page, prefix = "reader") {
   checks.push(
     "Wait mode advances on correct input; label/tonic changes retain the same explicit physical octave and pitch",
   );
-  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  await page.getByRole("button", { name: "Library", exact: true }).click();
   await page
-    .locator(".song-card")
+    .locator(".piece-row")
     .filter({ hasText: "Für Elise" })
-    .getByRole("button", { name: "Let’s play" })
+    .getByRole("button", { name: "Open" })
     .click();
   await expect(page.locator(".reading-note > span").first()).toHaveText("E5");
   await page.getByRole("tab", { name: "Sheet music", exact: true }).click();

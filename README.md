@@ -4,8 +4,18 @@ A focused, local sight-reading companion.
 
 Double-click **Luma Keys.app on your Desktop**. No account, terminal, internet connection, or paid API is needed for normal practice.
 
+## Find your way around
+The app has four screens in the top bar:
+
+- **Practice** is the reading workspace: the piece title, an **at a glance** row (key signature, meter, tempo, each hand's range, and anything worth a look first: eighths or sixteenths, dotted rhythms, off-beat entries, accidentals with their bars, the largest leap, chords, meter changes, pickups), a switch between Number score, Sheet music and Falling notes, the score, a control dock and the keyboard guide. The dock shows what to play next **and the notes after it**, the transport, the three practice modes, hand, speed and volume, plus a line from your companion. **New exercise** here, or the **N** key, makes a fresh piece at your saved level. On a fresh library a welcome card offers Level 1 or an import.
+- **Exercises** lists the twelve sight-reading levels with your run counts and the recommended next level. Choose a level (and, if you like, a key, hands, length, meter or tempo) and press **Start exercise**; **Start** on any row does the same for that level.
+- **Library** lists your imported scores and kept exercises with their key, length, tempo and last graded result, plus the starter pieces. **Open** loads a piece into Practice.
+- **Progress** shows your streak, a chart of recent graded runs, results per level and the recent runs themselves. **Open** on a run reopens that piece, or regenerates that exact exercise from its seed.
+
+**Import a score** and the settings gear stay in the top bar on every screen. The MIDI status pill turns on when a keyboard is connected.
+
 ## Read a piece
-1. Open a score. **Number score** shows a few bars from left to right, with separate right/left hands. C4 is middle C; C5 is one octave higher. The ♩ value under each note is its duration in quarter-note beats. Simultaneous notes are stacked; each rest also shows how long to stay silent.
+1. Open a score from Library or make one on Exercises. **Number score** shows a few bars from left to right, with separate right/left hands. C4 is middle C; C5 is one octave higher. The ♩ value under each note is its duration in quarter-note beats. Simultaneous notes are stacked; each rest also shows how long to stay silent.
 2. Numbers name pitches: C / Do = 1, D / Re = 2, E / Mi = 3, F / Fa = 4, G / Sol = 5, A / La = 6, B / Ti = 7. These are not finger numbers.
 3. Click a number to begin there. Previous/next passage and **Go to bar** move through the score; Previous/Next note let you advance at your own pace on an acoustic piano.
 4. Click Play in **Listen & follow**, choose **Wait for me** for a connected MIDI piano, onscreen keys, or computer keys A W S E D F T G Y H U J K, or **Play in time** to read at a steady pulse and be graded afterwards. Wait mode checks pitch, not rhythm. The app does not listen through a microphone.
@@ -13,14 +23,14 @@ Double-click **Luma Keys.app on your Desktop**. No account, terminal, internet c
 
 For a short practice phrase, choose **Repeat these bars** above the manuscript. To select a different range, click a bar number and then **Shift-click** its final bar, or edit the bar numbers below the player. The repeated bars are marked on the paper. Previous/Next note cycle within that phrase, and Start over returns to its first bar. Clicking a note, bar, passage or timeline position outside the repeat returns to the whole piece.
 
-**Sheet music** displays the original engraving with a position cursor when MusicXML is available. **Falling notes** is an optional alternate view. Use the Settings icon for number/solfege labels, tonic, count-in, metronome, companions and themes. Opening Settings pauses practice. Pets and progress no longer occupy the reading workspace.
+**Sheet music** displays the original engraving with a position cursor when MusicXML is available; generated exercises always have one. **Falling notes** is an optional alternate view. Use the settings gear for number/solfege labels, tonic, count-in, metronome, companions and themes. Opening Settings pauses practice.
 
 ## Practice sight reading with new music every time
-Sight reading only works on music you have never seen. **New exercise** in the top bar makes a short original piece, engraved as real sheet music and shown as a number score:
+Sight reading only works on music you have never seen. The **Exercises** screen makes short original pieces, engraved as real sheet music and shown as a number score:
 
-1. Choose a **level** (1–12). Each level adds one idea: right hand in the C position, then the left hand, skips and rests, both hands, one sharp or flat, eighth notes, hands together, wider leaps and dotted rhythms, block chords, broken chords, accidentals and syncopation in 6/8, then sixteenths over an independent bass line. Level defaults for key, hands, length, meter and tempo can each be overridden.
-2. Click **New exercise**. The title names the level and key; the line beneath it shows the meter, length, hands and tempo. **Another like this** makes a different piece with the same choices, and **Keep in library** saves the one you want to return to.
-3. Read it once, in time (below), then let the next one appear. **Lessons** shows the whole path with your run counts and the recommended next level; **Start** on any card makes an exercise at that level.
+1. Choose a **level** (1–12). Each level adds one idea: right hand in the C position, then the left hand, skips and rests, both hands, one sharp or flat, eighth notes, hands together, wider leaps and dotted rhythms, block chords, broken chords, accidentals and syncopation in 6/8, then sixteenths over an independent bass line. Level defaults for key, hands, length, meter and tempo can each be overridden in the panel.
+2. Press **Start exercise** (or **Start** on a level row). The title names the level and key; the line beneath it shows the meter, length, hands and tempo. **Another like this** makes a different piece with the same choices, **New exercise** (or **N**) makes one at your saved level, and **Keep in library** saves the one you want to return to.
+3. Read it once, in time (below), then let the next one appear. The level list shows your run counts and the recommended next level.
 
 Exercises are generated on your Mac from a seed number, so nothing is downloaded and the same seed always makes the same piece. The app reopens on the piece or exercise you were reading last. Flat keys are spelled with flats (B♭, not A♯) in the number score, keyboard, cue and exports.
 
@@ -29,9 +39,13 @@ Exercises are generated on your Mac from a seed number, so nothing is downloaded
 
 - notes right, the share played **on time**, missed notes, wrong notes, and whether you tend to run early or late (in milliseconds);
 - a strip of bars coloured by how clean each one was, with the missed notes named by bar;
+- two or three **coaching tips** drawn from the numbers (arriving late by so many milliseconds, the bar that cost the most, a leap to look at, whether to slow down or move up), with your companion looking pleased at 90% or better;
 - **Repeat bars a–b** for the weakest bars (a phrase loop is set for you), **Play it again**, **Next exercise**, and **Try level N+1** once three consecutive complete runs at a level reach 90% with at least 60% on time.
 
-A note counts when its pitch arrives within four tenths of a beat (at least 250 ms) of the written onset, and is "on time" within a tenth of a beat (at least 100 ms). Wrong pitches count against you; a passage started from the middle begins at that bar line. Each graded run is added to your practice history, which Settings summarises (day streak, runs today, graded runs, next level and the last five runs). Play in time needs a MIDI keyboard, the onscreen keys or the computer keys; it does not listen through a microphone.
+A note counts when its pitch arrives within four tenths of a beat (at least 250 ms) of the written onset, and is "on time" within a tenth of a beat (at least 100 ms). Wrong pitches count against you; a passage started from the middle begins at that bar line. Each graded run is added to your practice history on the **Progress** screen (day streak, runs today, average of the last ten, a trend chart, results per level and the recent runs, each of which can be reopened). Play in time needs a MIDI keyboard, the onscreen keys or the computer keys; it does not listen through a microphone.
+
+### Your companion
+Luma the cat or Mochi the bunny (Settings → Companions & moods) sits under the score with one short line: a greeting on a fresh library, what the current mode will do, or a reaction to your last graded run. The companion never takes room from the music and can be turned off with **Companion tips** in Settings. Each theme tints the whole app, not only the accent.
 
 ### Settings that stay
 Key labels, **Number 1 is**, count-in, metronome, the hidden keyboard guide, the music view, practice speed, mode, hand and your exercise choices are saved with your settings and restored at the next launch. **Number 1 follows the key** in Settings makes number 1 the tonic of each piece automatically (for movable-Do reading); off by default, so C stays 1.
@@ -102,4 +116,4 @@ Review opens at your current practice bar. Use **Review from bar** to jump direc
 
 Phrase-practice acceptance: `node scripts/phrase-practice-qa.mjs` checks direct bar selection, close-note Wait input, phrase navigation, counted rests and keyboard collapse. `node scripts/native-phrase-practice-qa.mjs` runs the same story in the packaged app with isolated data.
 
-Sight-reading acceptance: `node scripts/sight-reading-qa.mjs` makes exercises from the dialog and the level path, engraves them, performs a known exercise twice in Play in time (a clock-accurate clean run and a flawed run) against the app's own audio clock, checks the report card, the saved history, restored settings, flat spellings and Number 1 follows the key. `node scripts/native-sight-reading-qa.mjs` runs the same checks in the packaged app. Unit tests for the generator and the grader are in `tests/exercise.test.mjs` and `tests/performance.test.mjs`.
+Sight-reading acceptance: `node scripts/sight-reading-qa.mjs` makes exercises from the Exercises screen and the Practice button, engraves them, performs a known exercise twice in Play in time (a clock-accurate clean run and a flawed run) against the app's own audio clock, checks the report card, the saved history, restored settings, flat spellings, Number 1 follows the key, the Progress screen and the Library rows. `node scripts/native-sight-reading-qa.mjs` runs the same checks in the packaged app. Unit tests for the generator and the grader are in `tests/exercise.test.mjs` and `tests/performance.test.mjs`.

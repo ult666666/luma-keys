@@ -38,44 +38,44 @@
     "narrowControls": [
       {
         "label": "Repeat these bars",
-        "left": 172.734375,
-        "right": 203.734375,
+        "left": 169.4375,
+        "right": 200.4375,
         "width": 31
       },
       {
         "label": "Go to bar",
-        "left": 211.734375,
-        "right": 259.734375,
+        "left": 208.4375,
+        "right": 256.4375,
         "width": 48
       },
       {
         "label": "Go",
-        "left": 262.734375,
-        "right": 281,
-        "width": 18.265625
+        "left": 259.4375,
+        "right": 279,
+        "width": 19.5625
       },
       {
         "label": "Previous passage",
-        "left": 290,
-        "right": 323,
+        "left": 288,
+        "right": 321,
         "width": 33
       },
       {
         "label": "Next passage",
-        "left": 329,
-        "right": 362,
+        "left": 327,
+        "right": 360,
         "width": 33
       },
       {
         "label": "Loop start bar",
-        "left": 97.296875,
-        "right": 137.296875,
+        "left": 144.203125,
+        "right": 184.203125,
         "width": 40
       },
       {
         "label": "Loop end bar",
-        "left": 161.078125,
-        "right": 201.078125,
+        "left": 228.359375,
+        "right": 268.359375,
         "width": 40
       }
     ]

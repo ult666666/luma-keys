@@ -94,28 +94,43 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     0
   )
     await button("Mute").click();
-  const historyBefore = (await preferences()).history?.length || 0;
+  const prefsBefore = await preferences();
+  const historyBefore = prefsBefore.history?.length || 0;
+  // A pristine library greets the reader; a library with a remembered exercise
+  // or a dismissed welcome does not.
+  if (
+    historyBefore === 0 &&
+    !prefsBefore.reading?.welcomeSeen &&
+    !prefsBefore.reading?.last?.exercise
+  ) {
+    await expect(page.locator(".welcome-card")).toBeVisible();
+    await page.screenshot({ path: `evidence/${prefix}-welcome.png` });
+    await button("Dismiss welcome").click();
+    await expect(page.locator(".welcome-card")).toHaveCount(0);
+  }
 
-  // 1. A dialog makes an engraved exercise; another one is different music.
-  await button("New exercise").click();
-  const dialog = page.getByRole("dialog", { name: "A fresh exercise" });
-  await dialog
+  // 1. The Exercises screen makes an engraved exercise; Practice makes another.
+  await button("Exercises").click();
+  const panel = page.getByRole("complementary", { name: "Exercise options" });
+  await panel
     .getByRole("combobox", { name: "Exercise level" })
     .selectOption("3");
-  await dialog
-    .getByRole("combobox", { name: "Exercise key" })
-    .selectOption("0");
-  await dialog
+  await panel.getByRole("combobox", { name: "Exercise key" }).selectOption("0");
+  await panel
     .getByRole("combobox", { name: "Exercise length" })
     .selectOption("8");
-  await dialog
+  await panel
     .getByRole("combobox", { name: "Exercise meter" })
     .selectOption("4/4");
-  await dialog
-    .getByRole("button", { name: "New exercise", exact: true })
+  await expect(page.locator(".level-card.selected .level-number")).toHaveText(
+    "03",
+  );
+  await panel
+    .getByRole("button", { name: "Start exercise", exact: true })
     .click();
   await expect(title()).toHaveText("Sight reading · Level 3 · C major");
   await expect(byline()).toContainText("8 bars");
+  await expect(page.locator(".prep-chips .chip-key")).toContainText("C major");
   const firstSeed = await seedOf();
   assert.ok(firstSeed > 0);
   assert.equal(
@@ -123,6 +138,10 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     0,
     "exercises need no review",
   );
+  await expect(page.locator(".prep-chips")).toContainText("C major");
+  await expect(page.locator(".prep-chips")).toContainText("4/4");
+  await expect(page.locator(".prep-chips .chip-right")).toContainText("RH ");
+  await expect(page.locator(".next-then")).toContainText("then");
   assert.ok((await page.locator(".reading-right .reading-note").count()) >= 8);
   await expect(page.locator(".reading-heading")).toContainText("Bars 1–4 / 8");
   await page.getByRole("tab", { name: "Sheet music", exact: true }).click();
@@ -143,9 +162,29 @@ export async function verifySightReading(page, prefix = "sight-reading") {
   await expect(title()).toHaveText("Sight reading · Level 3 · C major");
   const secondSeed = await seedOf();
   assert.notEqual(firstSeed, secondSeed, "a new seed means new music");
+  await button("New exercise").click();
+  await expect(title()).toHaveText("Sight reading · Level 3 · C major");
+  assert.notEqual(
+    await seedOf(),
+    secondSeed,
+    "Practice makes a fresh piece at the saved level",
+  );
+  const layout = await page.evaluate(() => ({
+    overflow: document.documentElement.scrollWidth > innerWidth,
+    dock: document.querySelector(".control-dock").getBoundingClientRect()
+      .bottom,
+    stage: document.querySelector(".score-stage").getBoundingClientRect()
+      .height,
+  }));
+  assert.equal(layout.overflow, false, "no horizontal overflow at 1280px");
+  assert.ok(
+    layout.dock <= 800,
+    "the control dock is visible without scrolling",
+  );
+  assert.ok(layout.stage >= 200, "the score has room");
   await page.screenshot({ path: `evidence/${prefix}-exercise.png` });
   checks.push(
-    "New exercise dialog makes a level-3 C major exercise with eight engraved bars; Another like this changes the seed",
+    "The Exercises screen makes a level-3 C major exercise with eight engraved bars; Another like this and the Practice New exercise button change the seed; the dock fits a laptop screen",
   );
 
   // 2. Timed performance graded on the audio clock.
@@ -168,7 +207,7 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     .getByRole("combobox", { name: "Practice speed" })
     .selectOption("1");
   await button("Play in time").click();
-  await expect(page.locator(".reader-play-status")).toContainText("count-in");
+  await expect(page.locator(".reader-play-status")).toContainText(/count/i);
   const plan = known.notes.map((n) => ({
     beat: n.beat,
     duration: n.duration,
@@ -200,9 +239,16 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     await results.locator(".results-bar.clean").count(),
     known.measures,
   );
+  assert.ok(
+    (await results.locator(".results-tips li").count()) >= 1,
+    "coaching tips",
+  );
+  await expect(results.locator(".coach-avatar .pet")).toHaveCount(1);
+  await expect(page.locator(".modal.results-dialog")).toHaveClass(/celebrate/);
   await page.screenshot({ path: `evidence/${prefix}-results-clean.png` });
   await results.getByRole("button", { name: "Play it again" }).click();
   await expect(results).toBeHidden();
+  await expect(page.locator(".reader-play-status")).toContainText("100%");
   checks.push(
     "Play in time counts in, keeps the transport on the audio clock, and grades a clock-accurate run at 100% with every bar clean",
   );
@@ -261,6 +307,11 @@ export async function verifySightReading(page, prefix = "sight-reading") {
   await expect(title()).toHaveText(known.title, { timeout: 20000 });
   await expect(page.locator(".segmented .selected")).toHaveText(/Play in time/);
   assert.equal(
+    await page.locator(".welcome-card").count(),
+    0,
+    "the welcome stays dismissed",
+  );
+  assert.equal(
     await page.getByRole("combobox", { name: "Practice speed" }).inputValue(),
     "1",
   );
@@ -270,8 +321,8 @@ export async function verifySightReading(page, prefix = "sight-reading") {
   await button("Listen & follow").click();
   checks.push("The last piece, mode and speed are restored after a reload");
 
-  // 4. The level path starts a left-hand exercise and flat keys read as flats.
-  await button("Lessons").click();
+  // 4. The level list starts a left-hand exercise and flat keys read as flats.
+  await button("Exercises").click();
   assert.equal(await page.locator(".level-card").count(), 12);
   await expect(
     page.locator(".level-card.recommended .level-number"),
@@ -288,15 +339,15 @@ export async function verifySightReading(page, prefix = "sight-reading") {
   await expect(title()).toContainText("Level 2");
   assert.equal(await page.locator(".reading-right .reading-note").count(), 0);
   assert.ok((await page.locator(".reading-left .reading-note").count()) >= 4);
-  await button("New exercise").click();
-  await dialog
+  await button("Exercises").click();
+  await panel
     .getByRole("combobox", { name: "Exercise level" })
     .selectOption("5");
-  await dialog
+  await panel
     .getByRole("combobox", { name: "Exercise key" })
     .selectOption("-1");
-  await dialog
-    .getByRole("button", { name: "New exercise", exact: true })
+  await panel
+    .getByRole("button", { name: "Start exercise", exact: true })
     .click();
   await expect(title()).toHaveText("Sight reading · Level 5 · F major");
   await expect(
@@ -305,7 +356,6 @@ export async function verifySightReading(page, prefix = "sight-reading") {
   await expect(page.locator(".reading-footer")).toContainText("1 = C");
   await button("Reading settings").click();
   await page.getByRole("switch", { name: "Number 1 follows the key" }).click();
-  await expect(page.locator(".progress-stats")).toContainText("graded runs");
   await close();
   await expect(
     page.getByRole("button", { name: "B♭3 4 Fa", exact: true }),
@@ -317,8 +367,30 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     .getByRole("combobox", { name: "Number tonic", exact: true })
     .selectOption("0");
   await close();
+  // Progress keeps every graded run and reopens the exact exercise.
+  await button("Progress").click();
+  await expect(page.locator(".progress-stats")).toContainText("graded runs");
+  assert.ok(
+    (await page.locator(".trend-chart rect.bar").count()) >= 2,
+    "trend chart bars",
+  );
+  assert.equal(await page.locator(".level-table tbody tr").count(), 12);
+  await page.screenshot({ path: `evidence/${prefix}-progress.png` });
+  await page
+    .locator(".run-list li")
+    .first()
+    .getByRole("button", { name: "Open" })
+    .click();
+  await expect(title()).toHaveText(known.title);
+  await expect(byline()).toContainText("#5");
+  await button("Library").click();
+  await expect(page.locator(".piece-row.current")).toContainText(known.title);
+  await expect(
+    page.locator(".piece-row").filter({ hasText: "Für Elise" }),
+  ).toHaveCount(1);
+  await page.screenshot({ path: `evidence/${prefix}-library.png` });
   checks.push(
-    "Level path cards show run counts and start a left-hand level; F major spells B♭ and can make number 1 follow the key",
+    "Exercises lists twelve levels with run counts and starts a left-hand level; F major spells B♭ and can make number 1 follow the key; Progress charts every run and reopens the exact exercise; Library rows show the current piece",
   );
   assert.deepEqual(errors, []);
   return { checks, seeds: [firstSeed, secondSeed] };

@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0",
+  "version": "1.4.0",
   "passed": true,
   "audio": {
     "checks": [
@@ -10,18 +10,18 @@
     ],
     "measurements": {
       "midNoteStart": {
-        "beat": 4.75733333333333,
+        "beat": 4.71466666666667,
         "sources": [
           {
-            "start": 0.8426666666666667,
+            "start": 0.8586666666666667,
             "stops": [
-              5.302666666666666
+              5.318666666666666
             ]
           }
         ]
       },
       "resume": {
-        "resumeAt": 4.82133333333333,
+        "resumeAt": 4.78933333333333,
         "voice": {
           "start": 1.3066666666666666,
           "stops": [
@@ -31,16 +31,16 @@
       },
       "loop": [
         {
-          "start": 1.44,
+          "start": 1.4773333333333334,
           "stops": [
-            4.02,
-            3.536
+            4.057333333333333,
+            3.562666666666667
           ]
         },
         {
-          "start": 3.456,
+          "start": 3.482666666666667,
           "stops": [
-            6.0360000000000005
+            6.062666666666667
           ]
         }
       ]
@@ -59,7 +59,7 @@
       {
         "name": "Long C4 onset",
         "attacks": 1,
-        "beat": 0.04,
+        "beat": 0.0560000000000001,
         "keys": 88,
         "stable": true,
         "sounding": true,
@@ -75,7 +75,7 @@
       {
         "name": "Short C4 onset while long C4 holds",
         "attacks": 2,
-        "beat": 1.472,
+        "beat": 1.49066666666667,
         "keys": 88,
         "stable": true,
         "sounding": true,
@@ -88,7 +88,7 @@
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1.00533333333333,
+            "beat": 1.02133333333333,
             "node": 1,
             "retainedButton": true
           }
@@ -97,7 +97,7 @@
       {
         "name": "Short note ends without another attack",
         "attacks": 2,
-        "beat": 2.40533333333333,
+        "beat": 2.42133333333333,
         "keys": 88,
         "stable": true,
         "sounding": true,
@@ -110,7 +110,7 @@
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1.00533333333333,
+            "beat": 1.02133333333333,
             "node": 1,
             "retainedButton": true
           }
@@ -132,13 +132,13 @@
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1.00533333333333,
+            "beat": 1.02133333333333,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.424,
+            "beat": 2.44,
             "node": 2,
             "retainedButton": true
           }
@@ -147,7 +147,7 @@
       {
         "name": "Live release leaves held playback without a false attack",
         "attacks": 3,
-        "beat": 2.656,
+        "beat": 2.672,
         "keys": 88,
         "stable": true,
         "sounding": true,
@@ -160,13 +160,13 @@
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1.00533333333333,
+            "beat": 1.02133333333333,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.424,
+            "beat": 2.44,
             "node": 2,
             "retainedButton": true
           }
@@ -175,7 +175,7 @@
       {
         "name": "Pause releases the key without another attack",
         "attacks": 3,
-        "beat": 2.672,
+        "beat": 2.688,
         "keys": 88,
         "stable": true,
         "sounding": false,
@@ -188,13 +188,13 @@
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1.00533333333333,
+            "beat": 1.02133333333333,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.424,
+            "beat": 2.44,
             "node": 2,
             "retainedButton": true
           }
@@ -203,7 +203,7 @@
       {
         "name": "Starting again legitimately attacks the first C4",
         "attacks": 4,
-        "beat": 0.0373333333333337,
+        "beat": 0.0560000000000001,
         "keys": 88,
         "stable": true,
         "sounding": true,
@@ -216,13 +216,13 @@
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1.00533333333333,
+            "beat": 1.02133333333333,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.424,
+            "beat": 2.44,
             "node": 2,
             "retainedButton": true
           },
@@ -237,7 +237,7 @@
       {
         "name": "Final stop leaves exactly four real attacks",
         "attacks": 4,
-        "beat": 0.0800000000000001,
+        "beat": 0.0720000000000001,
         "keys": 88,
         "stable": true,
         "sounding": false,
@@ -250,13 +250,13 @@
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1.00533333333333,
+            "beat": 1.02133333333333,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.424,
+            "beat": 2.44,
             "node": 2,
             "retainedButton": true
           },
@@ -283,10 +283,10 @@
     "measurements": {
       "initialChord": {
         "area": {
-          "top": 45.8359375,
-          "bottom": 384.8359375,
-          "left": 38,
-          "right": 1236
+          "top": 350.765625,
+          "bottom": 689.765625,
+          "left": 46,
+          "right": 1228
         },
         "clientHeight": 339,
         "scrollHeight": 339,
@@ -297,90 +297,90 @@
             "label": "G4, number 5, hold 4 quarter-note beats",
             "hand": "right",
             "box": {
-              "top": 82.8359375,
-              "bottom": 145.8359375,
-              "left": 106.51448059082031,
-              "right": 147.5144805908203
+              "top": 387.765625,
+              "bottom": 450.765625,
+              "left": 114,
+              "right": 155
             },
             "duration": {
-              "top": 135.6328125,
-              "bottom": 143.6328125,
-              "left": 119.73323059082031,
-              "right": 134.2957305908203
+              "top": 440.5625,
+              "bottom": 450.5625,
+              "left": 125.3984375,
+              "right": 143.6015625
             }
           },
           {
             "label": "E4, number 3, hold 4 quarter-note beats",
             "hand": "right",
             "box": {
-              "top": 148.8359375,
-              "bottom": 211.8359375,
-              "left": 106.51448059082031,
-              "right": 147.5144805908203
+              "top": 453.765625,
+              "bottom": 516.765625,
+              "left": 114,
+              "right": 155
             },
             "duration": {
-              "top": 201.6328125,
-              "bottom": 209.6328125,
-              "left": 119.73323059082031,
-              "right": 134.2957305908203
+              "top": 506.5625,
+              "bottom": 516.5625,
+              "left": 125.3984375,
+              "right": 143.6015625
             }
           },
           {
             "label": "C4, number 1, hold 4 quarter-note beats",
             "hand": "right",
             "box": {
-              "top": 214.8359375,
-              "bottom": 277.8359375,
-              "left": 106.51448059082031,
-              "right": 147.5144805908203
+              "top": 519.765625,
+              "bottom": 582.765625,
+              "left": 114,
+              "right": 155
             },
             "duration": {
-              "top": 267.6328125,
-              "bottom": 275.6328125,
-              "left": 119.73323059082031,
-              "right": 134.2957305908203
+              "top": 572.5625,
+              "bottom": 582.5625,
+              "left": 125.3984375,
+              "right": 143.6015625
             }
           },
           {
             "label": "D4, number 2, hold 1 quarter-note beats",
             "hand": "right",
             "box": {
-              "top": 82.8359375,
-              "bottom": 145.8359375,
-              "left": 384.51446533203125,
-              "right": 425.51446533203125
+              "top": 387.765625,
+              "bottom": 450.765625,
+              "left": 388,
+              "right": 429
             },
             "duration": {
-              "top": 135.6328125,
-              "bottom": 143.6328125,
-              "left": 397.73321533203125,
-              "right": 412.29571533203125
+              "top": 440.5625,
+              "bottom": 450.5625,
+              "left": 399.3984375,
+              "right": 417.6015625
             }
           },
           {
             "label": "C3, number 1, hold 4 quarter-note beats",
             "hand": "left",
             "box": {
-              "top": 299.8359375,
-              "bottom": 362.8359375,
-              "left": 106.51448059082031,
-              "right": 147.5144805908203
+              "top": 604.765625,
+              "bottom": 667.765625,
+              "left": 114,
+              "right": 155
             },
             "duration": {
-              "top": 352.6328125,
-              "bottom": 360.6328125,
-              "left": 119.73323059082031,
-              "right": 134.2957305908203
+              "top": 657.5625,
+              "bottom": 667.5625,
+              "left": 125.3984375,
+              "right": 143.6015625
             }
           }
         ]
       },
       "holdingChord": {
         "area": {
-          "top": 45.8359375,
-          "bottom": 384.8359375,
-          "left": 38,
-          "right": 1236
+          "top": -8.734375,
+          "bottom": 330.265625,
+          "left": 46,
+          "right": 1228
         },
         "clientHeight": 339,
         "scrollHeight": 339,
@@ -391,90 +391,90 @@
             "label": "G4, number 5, hold 4 quarter-note beats, keep holding",
             "hand": "right",
             "box": {
-              "top": 82.8359375,
-              "bottom": 145.8359375,
-              "left": 106,
-              "right": 147
+              "top": 28.265625,
+              "bottom": 91.265625,
+              "left": 114,
+              "right": 155
             },
             "duration": {
-              "top": 129.1328125,
-              "bottom": 145.1328125,
-              "left": 119.21875,
-              "right": 133.78125
+              "top": 74.5625,
+              "bottom": 92.5625,
+              "left": 125.3984375,
+              "right": 143.6015625
             }
           },
           {
             "label": "E4, number 3, hold 4 quarter-note beats, keep holding",
             "hand": "right",
             "box": {
-              "top": 148.8359375,
-              "bottom": 211.8359375,
-              "left": 106,
-              "right": 147
+              "top": 94.265625,
+              "bottom": 157.265625,
+              "left": 114,
+              "right": 155
             },
             "duration": {
-              "top": 195.1328125,
-              "bottom": 211.1328125,
-              "left": 119.21875,
-              "right": 133.78125
+              "top": 140.5625,
+              "bottom": 158.5625,
+              "left": 125.3984375,
+              "right": 143.6015625
             }
           },
           {
             "label": "C4, number 1, hold 4 quarter-note beats, keep holding",
             "hand": "right",
             "box": {
-              "top": 214.8359375,
-              "bottom": 277.8359375,
-              "left": 106,
-              "right": 147
+              "top": 160.265625,
+              "bottom": 223.265625,
+              "left": 114,
+              "right": 155
             },
             "duration": {
-              "top": 261.1328125,
-              "bottom": 277.1328125,
-              "left": 119.21875,
-              "right": 133.78125
+              "top": 206.5625,
+              "bottom": 224.5625,
+              "left": 125.3984375,
+              "right": 143.6015625
             }
           },
           {
             "label": "D4, number 2, hold 1 quarter-note beats",
             "hand": "right",
             "box": {
-              "top": 82.8359375,
-              "bottom": 145.8359375,
-              "left": 384,
-              "right": 425
+              "top": 28.265625,
+              "bottom": 91.265625,
+              "left": 388,
+              "right": 429
             },
             "duration": {
-              "top": 135.6328125,
-              "bottom": 143.6328125,
-              "left": 397.21875,
-              "right": 411.78125
+              "top": 81.0625,
+              "bottom": 91.0625,
+              "left": 399.3984375,
+              "right": 417.6015625
             }
           },
           {
             "label": "C3, number 1, hold 4 quarter-note beats, keep holding",
             "hand": "left",
             "box": {
-              "top": 299.8359375,
-              "bottom": 362.8359375,
-              "left": 106,
-              "right": 147
+              "top": 245.265625,
+              "bottom": 308.265625,
+              "left": 114,
+              "right": 155
             },
             "duration": {
-              "top": 346.1328125,
-              "bottom": 362.1328125,
-              "left": 119.21875,
-              "right": 133.78125
+              "top": 291.5625,
+              "bottom": 309.5625,
+              "left": 125.3984375,
+              "right": 143.6015625
             }
           }
         ]
       },
       "mobileReducedMotion": {
         "area": {
-          "top": 185.96875,
-          "bottom": 524.96875,
-          "left": 13,
-          "right": 371
+          "top": 238.1171875,
+          "bottom": 577.1171875,
+          "left": 15,
+          "right": 369
         },
         "clientHeight": 339,
         "scrollHeight": 339,
@@ -485,80 +485,80 @@
             "label": "G4, number 5, hold 4 quarter-note beats, keep holding",
             "hand": "right",
             "box": {
-              "top": 222.96875,
-              "bottom": 285.96875,
-              "left": 81,
-              "right": 122
+              "top": 275.1171875,
+              "bottom": 338.1171875,
+              "left": 83,
+              "right": 124
             },
             "duration": {
-              "top": 269.265625,
-              "bottom": 285.265625,
-              "left": 94.21875,
-              "right": 108.78125
+              "top": 321.4140625,
+              "bottom": 339.4140625,
+              "left": 94.3984375,
+              "right": 112.6015625
             }
           },
           {
             "label": "E4, number 3, hold 4 quarter-note beats, keep holding",
             "hand": "right",
             "box": {
-              "top": 288.96875,
-              "bottom": 351.96875,
-              "left": 81,
-              "right": 122
+              "top": 341.1171875,
+              "bottom": 404.1171875,
+              "left": 83,
+              "right": 124
             },
             "duration": {
-              "top": 335.265625,
-              "bottom": 351.265625,
-              "left": 94.21875,
-              "right": 108.78125
+              "top": 387.4140625,
+              "bottom": 405.4140625,
+              "left": 94.3984375,
+              "right": 112.6015625
             }
           },
           {
             "label": "C4, number 1, hold 4 quarter-note beats, keep holding",
             "hand": "right",
             "box": {
-              "top": 354.96875,
-              "bottom": 417.96875,
-              "left": 81,
-              "right": 122
+              "top": 407.1171875,
+              "bottom": 470.1171875,
+              "left": 83,
+              "right": 124
             },
             "duration": {
-              "top": 401.265625,
-              "bottom": 417.265625,
-              "left": 94.21875,
-              "right": 108.78125
+              "top": 453.4140625,
+              "bottom": 471.4140625,
+              "left": 94.3984375,
+              "right": 112.6015625
             }
           },
           {
             "label": "D4, number 2, hold 1 quarter-note beats",
             "hand": "right",
             "box": {
-              "top": 222.96875,
-              "bottom": 285.96875,
-              "left": 206,
-              "right": 247
+              "top": 275.1171875,
+              "bottom": 338.1171875,
+              "left": 208,
+              "right": 249
             },
             "duration": {
-              "top": 275.765625,
-              "bottom": 283.765625,
-              "left": 219.21875,
-              "right": 233.78125
+              "top": 327.9140625,
+              "bottom": 337.9140625,
+              "left": 219.3984375,
+              "right": 237.6015625
             }
           },
           {
             "label": "C3, number 1, hold 4 quarter-note beats, keep holding",
             "hand": "left",
             "box": {
-              "top": 439.96875,
-              "bottom": 502.96875,
-              "left": 81,
-              "right": 122
+              "top": 492.1171875,
+              "bottom": 555.1171875,
+              "left": 83,
+              "right": 124
             },
             "duration": {
-              "top": 486.265625,
-              "bottom": 502.265625,
-              "left": 94.21875,
-              "right": 108.78125
+              "top": 538.4140625,
+              "bottom": 556.4140625,
+              "left": 94.3984375,
+              "right": 112.6015625
             }
           }
         ]

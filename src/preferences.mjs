@@ -21,6 +21,8 @@ export const defaultReading = () => ({
   hand: "both",
   exercise: { ...EXERCISE_DEFAULTS },
   last: { scoreId: null, exercise: null },
+  coach: true,
+  welcomeSeen: false,
 });
 export const HISTORY_LIMIT = 400;
 const object = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
@@ -48,6 +50,8 @@ function readReading(value) {
     speed: inList([0.25, 0.5, 0.65, 0.75, 1, 1.25]),
     mode: inList(["listen", "wait", "perform"]),
     hand: inList(["both", "right", "left"]),
+    coach: (v) => typeof v === "boolean",
+    welcomeSeen: (v) => typeof v === "boolean",
   };
   for (const [key, check] of Object.entries(rules)) {
     if (value[key] === undefined) continue;
@@ -80,6 +84,17 @@ const EXERCISE_RULES = {
   meter: autoOr(inList(["4/4", "3/4", "2/4", "6/8"])),
   tempo: autoOr(between(30, 200, true)),
 };
+// An exact exercise: its seed plus the choices that shaped it.
+export function readExerciseRef(e) {
+  if (!object(e) || !between(1, 1e9, true)(e.seed)) return null;
+  const exercise = { seed: e.seed };
+  for (const [key, check] of Object.entries(EXERCISE_RULES)) {
+    const v = e[key] === undefined ? EXERCISE_DEFAULTS[key] : e[key];
+    if (!check(v)) return null;
+    exercise[key] = v;
+  }
+  return exercise;
+}
 // The place to reopen: a library or lesson score, or an exact exercise seed.
 function readLast(value) {
   if (!object(value)) return null;
@@ -93,15 +108,8 @@ function readLast(value) {
     last.scoreId = value.scoreId;
   }
   if (value.exercise != null) {
-    const e = value.exercise;
-    if (!object(e) || !between(1, 1e9, true)(e.seed)) return null;
-    const exercise = { seed: e.seed };
-    for (const [key, check] of Object.entries(EXERCISE_RULES)) {
-      const v = e[key] === undefined ? EXERCISE_DEFAULTS[key] : e[key];
-      if (!check(v)) return null;
-      exercise[key] = v;
-    }
-    last.exercise = exercise;
+    last.exercise = readExerciseRef(value.exercise);
+    if (!last.exercise) return null;
   }
   return last;
 }
@@ -124,7 +132,8 @@ export function validHistoryEntry(entry) {
     between(1, 1000)(entry.tempo) &&
     ["perform", "wait"].includes(entry.mode) &&
     typeof entry.complete === "boolean" &&
-    between(1, 100000, true)(entry.bars)
+    between(1, 100000, true)(entry.bars) &&
+    (entry.exercise == null || readExerciseRef(entry.exercise) !== null)
   );
 }
 function readHistory(value) {
@@ -143,6 +152,7 @@ function readHistory(value) {
     mode: entry.mode,
     complete: entry.complete,
     bars: entry.bars,
+    exercise: entry.exercise == null ? null : readExerciseRef(entry.exercise),
   }));
   return {
     entries: entries.slice(-HISTORY_LIMIT),

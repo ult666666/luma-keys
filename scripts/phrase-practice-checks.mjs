@@ -344,11 +344,11 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
     await expect(button("Show keyboard guide")).toHaveCount(0);
     await page.getByRole("tab", { name: "Number score", exact: true }).click();
     await expect(body).toBeHidden();
-    await button("Lessons").click();
+    await button("Library").click();
     await page
-      .locator(".song-card")
+      .locator(".piece-row")
       .filter({ hasText: "Twinkle, Little Star" })
-      .getByRole("button", { name: /play/i })
+      .getByRole("button", { name: /^(open|reading)$/i })
       .click();
     await expect(body).toBeHidden();
     const controlledId = await button("Show keyboard guide").getAttribute(

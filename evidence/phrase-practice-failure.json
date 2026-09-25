@@ -1,0 +1,23 @@
+{
+  "error": "locator.click: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('.piece-row').filter({ hasText: 'Twinkle, Little Star' }).getByRole('button', { name: /play/i })\n",
+  "evidence": {
+    "errors": [],
+    "measurements": {
+      "numericPhrase": {
+        "firstBeat": 0.5,
+        "lastOnset": 5.5,
+        "bars": [
+          2,
+          3
+        ]
+      },
+      "collapsed": {
+        "keys": 88,
+        "retained": true,
+        "allUnavailable": true
+      }
+    },
+    "position": null
+  },
+  "body": "LumaKeys\nPractice\nExercises\nLibrary\nProgress\nConnect piano\nImport a score\nLibrary\n\n5 pieces of your own, plus the starter pieces. Everything stays on this Mac.\n\nYOUR PIECES\nPickup phrase practice\n\nA familiar melody. A lovely place to begin.\n\nPractice backup\n5 bars\n♩ = 90\n16 notes\nNot graded yet\nReading\nSight reading · Level 11 · G major\n\nLuma Keys exercise #8\n\nMusicXML\nReview needed\nG major\n8 bars\n♩ = 80\n63 notes\nNot graded yet\nOpen\nSight reading · Level 12 · D major\n\nLuma Keys exercise #2\n\nMusicXML\nReview needed\nD major\n12 bars\n♩ = 84\n99 notes\nNot graded yet\nOpen\nSight reading · Level 9 · B♭ major\n\nLuma Keys exercise #4\n\nMusicXML\nReview needed\nB♭ major\n8 bars\n♩ = 76\n79 notes\nNot graded yet\nOpen\nStart here · C major melody\n\nA verified starter PDF. Find Do, Re, Mi, and your first octave.\n\nPDF\n4 bars\n♩ = 80\n16 notes\nNot graded yet\nOpen\nSTARTER PIECES\nTwinkle, Little Star\n\nA familiar melody. A lovely place to begin.\n\nLesson\n12 bars\n♩ = 80\n42 notes\nNot graded yet\nOpen\nOde to Joy\n\nFive notes. One very joyful little achievement.\n\nLesson\n8 bars\n♩ = 88\n30 notes\nNot graded yet\nOpen\nYour first C major scale\n\nMeet Do, Re, Mi — one glowing key at a time.\n\nLesson\n4 bars\n♩ = 65\n15 notes\nNot graded yet\nOpen\nFür Elise · opening\n\nA short two-hand excerpt in 3/8. Learn the melody first, then add the gentle left-hand arpeggios.\n\nLesson\nA minor\n9 bars\n♩ = 72\n53 notes\nNot graded yet\nOpen"
+}

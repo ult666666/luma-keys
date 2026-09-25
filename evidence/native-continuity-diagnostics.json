@@ -1,17 +1,17 @@
 {
-  "startedAt": "2026-09-25T15:53:02.720Z",
-  "recordedAt": "2026-09-25T15:53:16.324Z",
-  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-continuity-qQMFcb",
-  "version": "1.3.0",
+  "startedAt": "2026-09-25T19:42:48.207Z",
+  "recordedAt": "2026-09-25T19:43:02.546Z",
+  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-continuity-BCShUU",
+  "version": "1.4.0",
   "stage": "cleanup",
   "process": {
-    "pid": 98356,
+    "pid": 7685,
     "exitCode": 0,
     "signalCode": null
   },
   "page": {
     "closed": true,
-    "url": "http://127.0.0.1:62807/"
+    "url": "http://127.0.0.1:50145/"
   },
   "completed": {
     "audio": {
@@ -23,18 +23,18 @@
       ],
       "measurements": {
         "midNoteStart": {
-          "beat": 4.75733333333333,
+          "beat": 4.71466666666667,
           "sources": [
             {
-              "start": 0.8426666666666667,
+              "start": 0.8586666666666667,
               "stops": [
-                5.302666666666666
+                5.318666666666666
               ]
             }
           ]
         },
         "resume": {
-          "resumeAt": 4.82133333333333,
+          "resumeAt": 4.78933333333333,
           "voice": {
             "start": 1.3066666666666666,
             "stops": [
@@ -44,16 +44,16 @@
         },
         "loop": [
           {
-            "start": 1.44,
+            "start": 1.4773333333333334,
             "stops": [
-              4.02,
-              3.536
+              4.057333333333333,
+              3.562666666666667
             ]
           },
           {
-            "start": 3.456,
+            "start": 3.482666666666667,
             "stops": [
-              6.0360000000000005
+              6.062666666666667
             ]
           }
         ]
@@ -72,7 +72,7 @@
         {
           "name": "Long C4 onset",
           "attacks": 1,
-          "beat": 0.04,
+          "beat": 0.0560000000000001,
           "keys": 88,
           "stable": true,
           "sounding": true,
@@ -88,7 +88,7 @@
         {
           "name": "Short C4 onset while long C4 holds",
           "attacks": 2,
-          "beat": 1.472,
+          "beat": 1.49066666666667,
           "keys": 88,
           "stable": true,
           "sounding": true,
@@ -101,7 +101,7 @@
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00533333333333,
+              "beat": 1.02133333333333,
               "node": 1,
               "retainedButton": true
             }
@@ -110,7 +110,7 @@
         {
           "name": "Short note ends without another attack",
           "attacks": 2,
-          "beat": 2.40533333333333,
+          "beat": 2.42133333333333,
           "keys": 88,
           "stable": true,
           "sounding": true,
@@ -123,7 +123,7 @@
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00533333333333,
+              "beat": 1.02133333333333,
               "node": 1,
               "retainedButton": true
             }
@@ -145,13 +145,13 @@
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00533333333333,
+              "beat": 1.02133333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.424,
+              "beat": 2.44,
               "node": 2,
               "retainedButton": true
             }
@@ -160,7 +160,7 @@
         {
           "name": "Live release leaves held playback without a false attack",
           "attacks": 3,
-          "beat": 2.656,
+          "beat": 2.672,
           "keys": 88,
           "stable": true,
           "sounding": true,
@@ -173,13 +173,13 @@
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00533333333333,
+              "beat": 1.02133333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.424,
+              "beat": 2.44,
               "node": 2,
               "retainedButton": true
             }
@@ -188,7 +188,7 @@
         {
           "name": "Pause releases the key without another attack",
           "attacks": 3,
-          "beat": 2.672,
+          "beat": 2.688,
           "keys": 88,
           "stable": true,
           "sounding": false,
@@ -201,13 +201,13 @@
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00533333333333,
+              "beat": 1.02133333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.424,
+              "beat": 2.44,
               "node": 2,
               "retainedButton": true
             }
@@ -216,7 +216,7 @@
         {
           "name": "Starting again legitimately attacks the first C4",
           "attacks": 4,
-          "beat": 0.0373333333333337,
+          "beat": 0.0560000000000001,
           "keys": 88,
           "stable": true,
           "sounding": true,
@@ -229,13 +229,13 @@
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00533333333333,
+              "beat": 1.02133333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.424,
+              "beat": 2.44,
               "node": 2,
               "retainedButton": true
             },
@@ -250,7 +250,7 @@
         {
           "name": "Final stop leaves exactly four real attacks",
           "attacks": 4,
-          "beat": 0.0800000000000001,
+          "beat": 0.0720000000000001,
           "keys": 88,
           "stable": true,
           "sounding": false,
@@ -263,13 +263,13 @@
             },
             {
               "phase": "overlapping-note-start",
-              "beat": 1.00533333333333,
+              "beat": 1.02133333333333,
               "node": 1,
               "retainedButton": true
             },
             {
               "phase": "live-key-start",
-              "beat": 2.424,
+              "beat": 2.44,
               "node": 2,
               "retainedButton": true
             },
@@ -296,10 +296,10 @@
       "measurements": {
         "initialChord": {
           "area": {
-            "top": 45.8359375,
-            "bottom": 384.8359375,
-            "left": 38,
-            "right": 1236
+            "top": 350.765625,
+            "bottom": 689.765625,
+            "left": 46,
+            "right": 1228
           },
           "clientHeight": 339,
           "scrollHeight": 339,
@@ -310,90 +310,90 @@
               "label": "G4, number 5, hold 4 quarter-note beats",
               "hand": "right",
               "box": {
-                "top": 82.8359375,
-                "bottom": 145.8359375,
-                "left": 106.51448059082031,
-                "right": 147.5144805908203
+                "top": 387.765625,
+                "bottom": 450.765625,
+                "left": 114,
+                "right": 155
               },
               "duration": {
-                "top": 135.6328125,
-                "bottom": 143.6328125,
-                "left": 119.73323059082031,
-                "right": 134.2957305908203
+                "top": 440.5625,
+                "bottom": 450.5625,
+                "left": 125.3984375,
+                "right": 143.6015625
               }
             },
             {
               "label": "E4, number 3, hold 4 quarter-note beats",
               "hand": "right",
               "box": {
-                "top": 148.8359375,
-                "bottom": 211.8359375,
-                "left": 106.51448059082031,
-                "right": 147.5144805908203
+                "top": 453.765625,
+                "bottom": 516.765625,
+                "left": 114,
+                "right": 155
               },
               "duration": {
-                "top": 201.6328125,
-                "bottom": 209.6328125,
-                "left": 119.73323059082031,
-                "right": 134.2957305908203
+                "top": 506.5625,
+                "bottom": 516.5625,
+                "left": 125.3984375,
+                "right": 143.6015625
               }
             },
             {
               "label": "C4, number 1, hold 4 quarter-note beats",
               "hand": "right",
               "box": {
-                "top": 214.8359375,
-                "bottom": 277.8359375,
-                "left": 106.51448059082031,
-                "right": 147.5144805908203
+                "top": 519.765625,
+                "bottom": 582.765625,
+                "left": 114,
+                "right": 155
               },
               "duration": {
-                "top": 267.6328125,
-                "bottom": 275.6328125,
-                "left": 119.73323059082031,
-                "right": 134.2957305908203
+                "top": 572.5625,
+                "bottom": 582.5625,
+                "left": 125.3984375,
+                "right": 143.6015625
               }
             },
             {
               "label": "D4, number 2, hold 1 quarter-note beats",
               "hand": "right",
               "box": {
-                "top": 82.8359375,
-                "bottom": 145.8359375,
-                "left": 384.51446533203125,
-                "right": 425.51446533203125
+                "top": 387.765625,
+                "bottom": 450.765625,
+                "left": 388,
+                "right": 429
               },
               "duration": {
-                "top": 135.6328125,
-                "bottom": 143.6328125,
-                "left": 397.73321533203125,
-                "right": 412.29571533203125
+                "top": 440.5625,
+                "bottom": 450.5625,
+                "left": 399.3984375,
+                "right": 417.6015625
               }
             },
             {
               "label": "C3, number 1, hold 4 quarter-note beats",
               "hand": "left",
               "box": {
-                "top": 299.8359375,
-                "bottom": 362.8359375,
-                "left": 106.51448059082031,
-                "right": 147.5144805908203
+                "top": 604.765625,
+                "bottom": 667.765625,
+                "left": 114,
+                "right": 155
               },
               "duration": {
-                "top": 352.6328125,
-                "bottom": 360.6328125,
-                "left": 119.73323059082031,
-                "right": 134.2957305908203
+                "top": 657.5625,
+                "bottom": 667.5625,
+                "left": 125.3984375,
+                "right": 143.6015625
               }
             }
           ]
         },
         "holdingChord": {
           "area": {
-            "top": 45.8359375,
-            "bottom": 384.8359375,
-            "left": 38,
-            "right": 1236
+            "top": -8.734375,
+            "bottom": 330.265625,
+            "left": 46,
+            "right": 1228
           },
           "clientHeight": 339,
           "scrollHeight": 339,
@@ -404,90 +404,90 @@
               "label": "G4, number 5, hold 4 quarter-note beats, keep holding",
               "hand": "right",
               "box": {
-                "top": 82.8359375,
-                "bottom": 145.8359375,
-                "left": 106,
-                "right": 147
+                "top": 28.265625,
+                "bottom": 91.265625,
+                "left": 114,
+                "right": 155
               },
               "duration": {
-                "top": 129.1328125,
-                "bottom": 145.1328125,
-                "left": 119.21875,
-                "right": 133.78125
+                "top": 74.5625,
+                "bottom": 92.5625,
+                "left": 125.3984375,
+                "right": 143.6015625
               }
             },
             {
               "label": "E4, number 3, hold 4 quarter-note beats, keep holding",
               "hand": "right",
               "box": {
-                "top": 148.8359375,
-                "bottom": 211.8359375,
-                "left": 106,
-                "right": 147
+                "top": 94.265625,
+                "bottom": 157.265625,
+                "left": 114,
+                "right": 155
               },
               "duration": {
-                "top": 195.1328125,
-                "bottom": 211.1328125,
-                "left": 119.21875,
-                "right": 133.78125
+                "top": 140.5625,
+                "bottom": 158.5625,
+                "left": 125.3984375,
+                "right": 143.6015625
               }
             },
             {
               "label": "C4, number 1, hold 4 quarter-note beats, keep holding",
               "hand": "right",
               "box": {
-                "top": 214.8359375,
-                "bottom": 277.8359375,
-                "left": 106,
-                "right": 147
+                "top": 160.265625,
+                "bottom": 223.265625,
+                "left": 114,
+                "right": 155
               },
               "duration": {
-                "top": 261.1328125,
-                "bottom": 277.1328125,
-                "left": 119.21875,
-                "right": 133.78125
+                "top": 206.5625,
+                "bottom": 224.5625,
+                "left": 125.3984375,
+                "right": 143.6015625
               }
             },
             {
               "label": "D4, number 2, hold 1 quarter-note beats",
               "hand": "right",
               "box": {
-                "top": 82.8359375,
-                "bottom": 145.8359375,
-                "left": 384,
-                "right": 425
+                "top": 28.265625,
+                "bottom": 91.265625,
+                "left": 388,
+                "right": 429
               },
               "duration": {
-                "top": 135.6328125,
-                "bottom": 143.6328125,
-                "left": 397.21875,
-                "right": 411.78125
+                "top": 81.0625,
+                "bottom": 91.0625,
+                "left": 399.3984375,
+                "right": 417.6015625
               }
             },
             {
               "label": "C3, number 1, hold 4 quarter-note beats, keep holding",
               "hand": "left",
               "box": {
-                "top": 299.8359375,
-                "bottom": 362.8359375,
-                "left": 106,
-                "right": 147
+                "top": 245.265625,
+                "bottom": 308.265625,
+                "left": 114,
+                "right": 155
               },
               "duration": {
-                "top": 346.1328125,
-                "bottom": 362.1328125,
-                "left": 119.21875,
-                "right": 133.78125
+                "top": 291.5625,
+                "bottom": 309.5625,
+                "left": 125.3984375,
+                "right": 143.6015625
               }
             }
           ]
         },
         "mobileReducedMotion": {
           "area": {
-            "top": 185.96875,
-            "bottom": 524.96875,
-            "left": 13,
-            "right": 371
+            "top": 238.1171875,
+            "bottom": 577.1171875,
+            "left": 15,
+            "right": 369
           },
           "clientHeight": 339,
           "scrollHeight": 339,
@@ -498,80 +498,80 @@
               "label": "G4, number 5, hold 4 quarter-note beats, keep holding",
               "hand": "right",
               "box": {
-                "top": 222.96875,
-                "bottom": 285.96875,
-                "left": 81,
-                "right": 122
+                "top": 275.1171875,
+                "bottom": 338.1171875,
+                "left": 83,
+                "right": 124
               },
               "duration": {
-                "top": 269.265625,
-                "bottom": 285.265625,
-                "left": 94.21875,
-                "right": 108.78125
+                "top": 321.4140625,
+                "bottom": 339.4140625,
+                "left": 94.3984375,
+                "right": 112.6015625
               }
             },
             {
               "label": "E4, number 3, hold 4 quarter-note beats, keep holding",
               "hand": "right",
               "box": {
-                "top": 288.96875,
-                "bottom": 351.96875,
-                "left": 81,
-                "right": 122
+                "top": 341.1171875,
+                "bottom": 404.1171875,
+                "left": 83,
+                "right": 124
               },
               "duration": {
-                "top": 335.265625,
-                "bottom": 351.265625,
-                "left": 94.21875,
-                "right": 108.78125
+                "top": 387.4140625,
+                "bottom": 405.4140625,
+                "left": 94.3984375,
+                "right": 112.6015625
               }
             },
             {
               "label": "C4, number 1, hold 4 quarter-note beats, keep holding",
               "hand": "right",
               "box": {
-                "top": 354.96875,
-                "bottom": 417.96875,
-                "left": 81,
-                "right": 122
+                "top": 407.1171875,
+                "bottom": 470.1171875,
+                "left": 83,
+                "right": 124
               },
               "duration": {
-                "top": 401.265625,
-                "bottom": 417.265625,
-                "left": 94.21875,
-                "right": 108.78125
+                "top": 453.4140625,
+                "bottom": 471.4140625,
+                "left": 94.3984375,
+                "right": 112.6015625
               }
             },
             {
               "label": "D4, number 2, hold 1 quarter-note beats",
               "hand": "right",
               "box": {
-                "top": 222.96875,
-                "bottom": 285.96875,
-                "left": 206,
-                "right": 247
+                "top": 275.1171875,
+                "bottom": 338.1171875,
+                "left": 208,
+                "right": 249
               },
               "duration": {
-                "top": 275.765625,
-                "bottom": 283.765625,
-                "left": 219.21875,
-                "right": 233.78125
+                "top": 327.9140625,
+                "bottom": 337.9140625,
+                "left": 219.3984375,
+                "right": 237.6015625
               }
             },
             {
               "label": "C3, number 1, hold 4 quarter-note beats, keep holding",
               "hand": "left",
               "box": {
-                "top": 439.96875,
-                "bottom": 502.96875,
-                "left": 81,
-                "right": 122
+                "top": 492.1171875,
+                "bottom": 555.1171875,
+                "left": 83,
+                "right": 124
               },
               "duration": {
-                "top": 486.265625,
-                "bottom": 502.265625,
-                "left": 94.21875,
-                "right": 108.78125
+                "top": 538.4140625,
+                "bottom": 556.4140625,
+                "left": 94.3984375,
+                "right": 112.6015625
               }
             }
           ]
@@ -583,21 +583,21 @@
   },
   "events": [
     {
-      "at": "2026-09-25T15:53:03.344Z",
-      "elapsedMs": 624,
+      "at": "2026-09-25T19:42:48.757Z",
+      "elapsedMs": 551,
       "stage": "launch",
       "event": "launched",
-      "pid": 98356
+      "pid": 7685
     },
     {
-      "at": "2026-09-25T15:53:03.354Z",
-      "elapsedMs": 634,
+      "at": "2026-09-25T19:42:48.764Z",
+      "elapsedMs": 557,
       "stage": "initial-window",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T15:53:04.149Z",
-      "elapsedMs": 1429,
+      "at": "2026-09-25T19:42:49.334Z",
+      "elapsedMs": 1127,
       "stage": "initial-window",
       "event": "owned-window-focused",
       "windows": [
@@ -615,27 +615,27 @@
       ]
     },
     {
-      "at": "2026-09-25T15:53:04.151Z",
-      "elapsedMs": 1431,
+      "at": "2026-09-25T19:42:49.342Z",
+      "elapsedMs": 1135,
       "stage": "instrumentation-reload",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T15:53:04.165Z",
-      "elapsedMs": 1445,
+      "at": "2026-09-25T19:42:49.376Z",
+      "elapsedMs": 1169,
       "stage": "instrumentation-reload",
       "event": "main-frame-navigated",
-      "url": "http://127.0.0.1:62807/"
+      "url": "http://127.0.0.1:50145/"
     },
     {
-      "at": "2026-09-25T15:53:04.183Z",
-      "elapsedMs": 1463,
+      "at": "2026-09-25T19:42:49.451Z",
+      "elapsedMs": 1244,
       "stage": "resume-audio",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T15:53:04.190Z",
-      "elapsedMs": 1470,
+      "at": "2026-09-25T19:42:49.453Z",
+      "elapsedMs": 1246,
       "stage": "resume-audio",
       "event": "owned-window-focused",
       "windows": [
@@ -653,133 +653,133 @@
       ]
     },
     {
-      "at": "2026-09-25T15:53:04.714Z",
-      "elapsedMs": 1994,
+      "at": "2026-09-25T19:42:49.697Z",
+      "elapsedMs": 1490,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Import a score\"}"
     },
     {
-      "at": "2026-09-25T15:53:04.823Z",
-      "elapsedMs": 2103,
+      "at": "2026-09-25T19:42:49.916Z",
+      "elapsedMs": 1709,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T15:53:04.879Z",
-      "elapsedMs": 2159,
+      "at": "2026-09-25T19:42:49.950Z",
+      "elapsedMs": 1743,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Reading settings\"}"
     },
     {
-      "at": "2026-09-25T15:53:04.930Z",
-      "elapsedMs": 2210,
+      "at": "2026-09-25T19:42:50.000Z",
+      "elapsedMs": 1793,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Count me in\"}"
     },
     {
-      "at": "2026-09-25T15:53:04.963Z",
-      "elapsedMs": 2243,
+      "at": "2026-09-25T19:42:50.252Z",
+      "elapsedMs": 2045,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T15:53:05.029Z",
-      "elapsedMs": 2309,
+      "at": "2026-09-25T19:42:50.316Z",
+      "elapsedMs": 2109,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T15:53:05.446Z",
-      "elapsedMs": 2726,
+      "at": "2026-09-25T19:42:50.732Z",
+      "elapsedMs": 2525,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T15:53:05.495Z",
-      "elapsedMs": 2775,
+      "at": "2026-09-25T19:42:50.766Z",
+      "elapsedMs": 2559,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T15:53:05.532Z",
-      "elapsedMs": 2812,
+      "at": "2026-09-25T19:42:50.818Z",
+      "elapsedMs": 2611,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T15:53:05.563Z",
-      "elapsedMs": 2843,
+      "at": "2026-09-25T19:42:50.866Z",
+      "elapsedMs": 2659,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Toggle phrase loop\"}"
     },
     {
-      "at": "2026-09-25T15:53:05.629Z",
-      "elapsedMs": 2909,
+      "at": "2026-09-25T19:42:50.934Z",
+      "elapsedMs": 2727,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T15:53:08.730Z",
-      "elapsedMs": 6010,
+      "at": "2026-09-25T19:42:54.050Z",
+      "elapsedMs": 5843,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T15:53:08.779Z",
-      "elapsedMs": 6059,
+      "at": "2026-09-25T19:42:54.084Z",
+      "elapsedMs": 5877,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Wait for me\"}"
     },
     {
-      "at": "2026-09-25T15:53:08.813Z",
-      "elapsedMs": 6093,
+      "at": "2026-09-25T19:42:54.133Z",
+      "elapsedMs": 5926,
       "stage": "resume-audio",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T15:53:08.826Z",
-      "elapsedMs": 6107,
+      "at": "2026-09-25T19:42:54.148Z",
+      "elapsedMs": 5941,
       "stage": "resume-audio",
       "event": "phase-passed",
       "checks": 4
     },
     {
-      "at": "2026-09-25T15:53:08.827Z",
-      "elapsedMs": 6107,
+      "at": "2026-09-25T19:42:54.148Z",
+      "elapsedMs": 5941,
       "stage": "overlap-motion",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T15:53:08.830Z",
-      "elapsedMs": 6110,
+      "at": "2026-09-25T19:42:54.150Z",
+      "elapsedMs": 5943,
       "stage": "overlap-motion",
       "event": "owned-window-focused",
       "windows": [
@@ -797,117 +797,117 @@
       ]
     },
     {
-      "at": "2026-09-25T15:53:08.879Z",
-      "elapsedMs": 6159,
+      "at": "2026-09-25T19:42:54.199Z",
+      "elapsedMs": 5992,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Import a score\"}"
     },
     {
-      "at": "2026-09-25T15:53:08.981Z",
-      "elapsedMs": 6261,
+      "at": "2026-09-25T19:42:54.635Z",
+      "elapsedMs": 6428,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T15:53:09.029Z",
-      "elapsedMs": 6309,
+      "at": "2026-09-25T19:42:54.682Z",
+      "elapsedMs": 6475,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Listen & follow\"}"
     },
     {
-      "at": "2026-09-25T15:53:09.078Z",
-      "elapsedMs": 6358,
+      "at": "2026-09-25T19:42:54.732Z",
+      "elapsedMs": 6525,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Reading settings\"}"
     },
     {
-      "at": "2026-09-25T15:53:09.113Z",
-      "elapsedMs": 6393,
+      "at": "2026-09-25T19:42:55.137Z",
+      "elapsedMs": 6930,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T15:53:09.145Z",
-      "elapsedMs": 6426,
+      "at": "2026-09-25T19:42:55.186Z",
+      "elapsedMs": 6979,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Number score\"}"
     },
     {
-      "at": "2026-09-25T15:53:09.179Z",
-      "elapsedMs": 6459,
+      "at": "2026-09-25T19:42:55.235Z",
+      "elapsedMs": 7028,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Start over\"}"
     },
     {
-      "at": "2026-09-25T15:53:09.212Z",
-      "elapsedMs": 6492,
+      "at": "2026-09-25T19:42:55.283Z",
+      "elapsedMs": 7076,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T15:53:14.578Z",
-      "elapsedMs": 11858,
+      "at": "2026-09-25T19:43:00.668Z",
+      "elapsedMs": 12461,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T15:53:14.612Z",
-      "elapsedMs": 11892,
+      "at": "2026-09-25T19:43:00.717Z",
+      "elapsedMs": 12510,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Start over\"}"
     },
     {
-      "at": "2026-09-25T15:53:14.645Z",
-      "elapsedMs": 11925,
+      "at": "2026-09-25T19:43:00.749Z",
+      "elapsedMs": 12542,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T15:53:14.810Z",
-      "elapsedMs": 12090,
+      "at": "2026-09-25T19:43:00.901Z",
+      "elapsedMs": 12694,
       "stage": "overlap-motion",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T15:53:14.960Z",
-      "elapsedMs": 12240,
+      "at": "2026-09-25T19:43:01.046Z",
+      "elapsedMs": 12839,
       "stage": "overlap-motion",
       "event": "phase-passed",
       "checks": 3
     },
     {
-      "at": "2026-09-25T15:53:14.960Z",
-      "elapsedMs": 12240,
+      "at": "2026-09-25T19:43:01.046Z",
+      "elapsedMs": 12839,
       "stage": "chord-reading",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T15:53:14.963Z",
-      "elapsedMs": 12243,
+      "at": "2026-09-25T19:43:01.048Z",
+      "elapsedMs": 12841,
       "stage": "chord-reading",
       "event": "owned-window-focused",
       "windows": [
@@ -925,190 +925,191 @@
       ]
     },
     {
-      "at": "2026-09-25T15:53:15.013Z",
-      "elapsedMs": 12293,
+      "at": "2026-09-25T19:43:01.099Z",
+      "elapsedMs": 12892,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Import a score\"}"
     },
     {
-      "at": "2026-09-25T15:53:15.113Z",
-      "elapsedMs": 12393,
+      "at": "2026-09-25T19:43:01.399Z",
+      "elapsedMs": 13192,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Close dialog\"}"
     },
     {
-      "at": "2026-09-25T15:53:15.162Z",
-      "elapsedMs": 12442,
+      "at": "2026-09-25T19:43:01.433Z",
+      "elapsedMs": 13226,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Number score\"}"
     },
     {
-      "at": "2026-09-25T15:53:15.196Z",
-      "elapsedMs": 12476,
+      "at": "2026-09-25T19:43:01.467Z",
+      "elapsedMs": 13260,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Wait for me\"}"
     },
     {
-      "at": "2026-09-25T15:53:15.411Z",
-      "elapsedMs": 12691,
+      "at": "2026-09-25T19:43:01.683Z",
+      "elapsedMs": 13476,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T15:53:15.889Z",
-      "elapsedMs": 13169,
+      "at": "2026-09-25T19:43:02.023Z",
+      "elapsedMs": 13816,
+      "stage": "chord-reading",
+      "event": "page-console",
+      "type": "log",
+      "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"C3 1 Do\"}"
+    },
+    {
+      "at": "2026-09-25T19:43:02.081Z",
+      "elapsedMs": 13874,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Play\"}"
     },
     {
-      "at": "2026-09-25T15:53:16.011Z",
-      "elapsedMs": 13291,
+      "at": "2026-09-25T19:43:02.164Z",
+      "elapsedMs": 13957,
       "stage": "chord-reading",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"click\",\"visibility\":\"visible\",\"label\":\"Pause\"}"
     },
     {
-      "at": "2026-09-25T15:53:16.232Z",
-      "elapsedMs": 13512,
+      "at": "2026-09-25T19:43:02.368Z",
+      "elapsedMs": 14161,
       "stage": "chord-reading",
       "event": "phase-passed",
       "checks": 3
     },
     {
-      "at": "2026-09-25T15:53:16.232Z",
-      "elapsedMs": 13512,
+      "at": "2026-09-25T19:43:02.368Z",
+      "elapsedMs": 14161,
       "stage": "complete",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T15:53:16.237Z",
-      "elapsedMs": 13517,
+      "at": "2026-09-25T19:43:02.370Z",
+      "elapsedMs": 14163,
       "stage": "cleanup",
       "event": "stage"
     },
     {
-      "at": "2026-09-25T15:53:16.240Z",
-      "elapsedMs": 13520,
+      "at": "2026-09-25T19:43:02.372Z",
+      "elapsedMs": 14165,
       "stage": "cleanup",
       "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.239Z\",\"event\":\"before-quit\",\"prevented\":true}\n"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T19:43:02.372Z\",\"event\":\"before-quit\",\"prevented\":true}\n"
     },
     {
-      "at": "2026-09-25T15:53:16.243Z",
-      "elapsedMs": 13523,
+      "at": "2026-09-25T19:43:02.374Z",
+      "elapsedMs": 14167,
       "stage": "cleanup",
       "event": "process-stderr",
-      "text": "Debugger ending on ws://127.0.0.1:62803/4757823e-71b0-49f7-ae22-5ef2ce42b9b9\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
+      "text": "Debugger ending on ws://127.0.0.1:50141/57507989-fab0-4f89-87ca-c8c7fbaf4624\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
     },
     {
-      "at": "2026-09-25T15:53:16.243Z",
-      "elapsedMs": 13523,
+      "at": "2026-09-25T19:43:02.374Z",
+      "elapsedMs": 14167,
       "stage": "cleanup",
       "event": "main-console",
       "type": "log",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.239Z\",\"event\":\"before-quit\",\"prevented\":true}"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T19:43:02.372Z\",\"event\":\"before-quit\",\"prevented\":true}"
     },
     {
-      "at": "2026-09-25T15:53:16.248Z",
-      "elapsedMs": 13528,
+      "at": "2026-09-25T19:43:02.377Z",
+      "elapsedMs": 14170,
       "stage": "cleanup",
       "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.247Z\",\"event\":\"before-quit\",\"prevented\":false}\n"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T19:43:02.377Z\",\"event\":\"before-quit\",\"prevented\":false}\n"
     },
     {
-      "at": "2026-09-25T15:53:16.249Z",
-      "elapsedMs": 13529,
+      "at": "2026-09-25T19:43:02.378Z",
+      "elapsedMs": 14171,
       "stage": "cleanup",
       "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.248Z\",\"event\":\"window-close\",\"id\":1,\"prevented\":false}\n"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T19:43:02.377Z\",\"event\":\"window-close\",\"id\":1,\"prevented\":false}\n"
     },
     {
-      "at": "2026-09-25T15:53:16.257Z",
-      "elapsedMs": 13537,
+      "at": "2026-09-25T19:43:02.481Z",
+      "elapsedMs": 14274,
       "stage": "cleanup",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"beforeunload\",\"visibility\":\"visible\"}"
     },
     {
-      "at": "2026-09-25T15:53:16.257Z",
-      "elapsedMs": 13537,
+      "at": "2026-09-25T19:43:02.481Z",
+      "elapsedMs": 14274,
       "stage": "cleanup",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"pagehide\",\"visibility\":\"visible\"}"
     },
     {
-      "at": "2026-09-25T15:53:16.258Z",
-      "elapsedMs": 13538,
+      "at": "2026-09-25T19:43:02.481Z",
+      "elapsedMs": 14274,
       "stage": "cleanup",
       "event": "page-console",
       "type": "log",
       "text": "LUMA_PAGE_DIAG {\"event\":\"visibilitychange\",\"visibility\":\"hidden\"}"
     },
     {
-      "at": "2026-09-25T15:53:16.260Z",
-      "elapsedMs": 13540,
+      "at": "2026-09-25T19:43:02.482Z",
+      "elapsedMs": 14275,
       "stage": "cleanup",
       "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.259Z\",\"event\":\"web-contents-destroyed\",\"id\":1}\n"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T19:43:02.482Z\",\"event\":\"web-contents-destroyed\",\"id\":1}\n"
     },
     {
-      "at": "2026-09-25T15:53:16.260Z",
-      "elapsedMs": 13540,
+      "at": "2026-09-25T19:43:02.483Z",
+      "elapsedMs": 14276,
       "stage": "cleanup",
       "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.259Z\",\"event\":\"window-closed\",\"id\":1}\n"
+      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T19:43:02.483Z\",\"event\":\"window-closed\",\"id\":1}\nLUMA_NATIVE_DIAG {\"at\":\"2026-09-25T19:43:02.483Z\",\"event\":\"will-quit\",\"prevented\":false}\nLUMA_NATIVE_DIAG {\"at\":\"2026-09-25T19:43:02.483Z\",\"event\":\"quit\",\"code\":0}\n"
     },
     {
-      "at": "2026-09-25T15:53:16.260Z",
-      "elapsedMs": 13540,
-      "stage": "cleanup",
-      "event": "process-stdout",
-      "text": "LUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.260Z\",\"event\":\"will-quit\",\"prevented\":false}\nLUMA_NATIVE_DIAG {\"at\":\"2026-09-25T15:53:16.260Z\",\"event\":\"quit\",\"code\":0}\n"
-    },
-    {
-      "at": "2026-09-25T15:53:16.261Z",
-      "elapsedMs": 13541,
+      "at": "2026-09-25T19:43:02.483Z",
+      "elapsedMs": 14276,
       "stage": "cleanup",
       "event": "page-close"
     },
     {
-      "at": "2026-09-25T15:53:16.308Z",
-      "elapsedMs": 13588,
+      "at": "2026-09-25T19:43:02.533Z",
+      "elapsedMs": 14326,
       "stage": "cleanup",
       "event": "process-exit",
       "code": 0,
       "signal": null
     },
     {
-      "at": "2026-09-25T15:53:16.308Z",
-      "elapsedMs": 13588,
+      "at": "2026-09-25T19:43:02.534Z",
+      "elapsedMs": 14327,
       "stage": "cleanup",
       "event": "browser-context-close"
     },
     {
-      "at": "2026-09-25T15:53:16.309Z",
-      "elapsedMs": 13589,
+      "at": "2026-09-25T19:43:02.535Z",
+      "elapsedMs": 14328,
       "stage": "cleanup",
       "event": "electron-application-close"
     },
     {
-      "at": "2026-09-25T15:53:16.309Z",
-      "elapsedMs": 13589,
+      "at": "2026-09-25T19:43:02.535Z",
+      "elapsedMs": 14328,
       "stage": "cleanup",
       "event": "owned-app-close-resolved"
     }

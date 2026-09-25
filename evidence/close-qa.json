@@ -4,16 +4,16 @@
     {
       "mode": "quit",
       "passed": true,
-      "closeMs": 164.59354199999962,
+      "closeMs": 174.44670799999994,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.014033333333333333,
+          "minutes": 0.014133333333333333,
           "sessions": 1,
-          "dailyMinutes": 0.014033333333333333,
+          "dailyMinutes": 0.014133333333333333,
           "practiceDate": "2026-09-25"
         },
         "reading": {
@@ -38,7 +38,9 @@
           "last": {
             "scoreId": null,
             "exercise": null
-          }
+          },
+          "coach": true,
+          "welcomeSeen": false
         },
         "history": []
       },
@@ -48,16 +50,16 @@
     {
       "mode": "window-close",
       "passed": true,
-      "closeMs": 268.6452909999998,
+      "closeMs": 263.6023750000004,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.015683333333333334,
+          "minutes": 0.015666666666666666,
           "sessions": 1,
-          "dailyMinutes": 0.015683333333333334,
+          "dailyMinutes": 0.015666666666666666,
           "practiceDate": "2026-09-25"
         },
         "reading": {
@@ -82,7 +84,9 @@
           "last": {
             "scoreId": null,
             "exercise": null
-          }
+          },
+          "coach": true,
+          "welcomeSeen": false
         },
         "history": []
       },

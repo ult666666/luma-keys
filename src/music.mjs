@@ -98,6 +98,15 @@ export const solfege = (m, tonic = 0, flats = false) =>
   (flats ? SOLFEGE_FLAT : SOLFEGE)[(((m - tonic) % 12) + 12) % 12];
 // A score written with flats in its key signature reads with flat spellings.
 export const usesFlats = (score) => (score?.keySignature?.fifths ?? 0) < 0;
+// "G major", "E minor" or "" when the piece carries no key signature.
+export function keyLabel(score) {
+  const key = score?.keySignature;
+  if (!key || !Number.isInteger(key.fifths)) return "";
+  const minor = /minor/i.test(key.mode || "");
+  const pitchClass = (((key.fifths * 7 + (minor ? 9 : 0)) % 12) + 12) % 12;
+  const names = key.fifths < 0 ? PITCHES_FLAT : PITCHES;
+  return `${names[pitchClass]} ${minor ? "minor" : "major"}`;
+}
 // One bar map drives import review, transport loops and printable practice sheets.
 // Older saved scores without a map retain their original constant-meter behavior.
 export function barStart(score, bar) {

@@ -412,7 +412,7 @@ export async function verifyInputs(page, prefix = "input") {
     await search.fill("asdf");
     await page.keyboard.press("a");
     assert.equal(await starts(), beforeModal);
-    await page.getByRole("button", { name: "Read", exact: true }).click();
+    await page.getByRole("button", { name: "Practice", exact: true }).click();
     await page
       .getByRole("button", { name: "Import a score", exact: true })
       .click();

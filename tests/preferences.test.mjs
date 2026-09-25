@@ -104,6 +104,15 @@ test("saved settings reject invalid volumes, progress types, enum values and imp
         mode: "perform",
         complete: true,
         bars: 8,
+        exercise: {
+          seed: 12,
+          level: 6,
+          fifths: -1,
+          hands: "auto",
+          bars: "auto",
+          meter: "auto",
+          tempo: "auto",
+        },
       },
     ],
   };
@@ -145,13 +154,49 @@ test("reading settings and practice history recover field by field", () => {
     "invalid speed → default",
   );
   assert.equal(result.preferences.reading.keyboardCollapsed, false);
+  assert.equal(result.preferences.reading.coach, true);
+  assert.equal(
+    readPreferences({ reading: { coach: false, welcomeSeen: true } })
+      .preferences.reading.welcomeSeen,
+    true,
+  );
+  assert.deepEqual(readPreferences({ reading: { coach: "yes" } }).issues, [
+    "Reading preferences",
+  ]);
   assert.deepEqual(result.preferences.reading.exercise, {
     ...defaultReading().exercise,
     hands: "left",
     bars: 8,
   });
   assert.equal(result.preferences.history.length, 1);
+  assert.equal(result.preferences.history[0].exercise, null);
   assert.deepEqual(result.issues, ["Reading preferences", "Practice history"]);
+  const run = (title, exercise) => ({
+    at: "2026-09-25T14:00:00.000Z",
+    title,
+    accuracy: 80,
+    timing: 50,
+    notes: 8,
+    tempo: 60,
+    mode: "perform",
+    complete: true,
+    bars: 4,
+    exercise,
+  });
+  const withRef = readPreferences({
+    history: [run("ref", { seed: 5, level: 2 }), run("bad ref", { level: 2 })],
+  });
+  assert.equal(withRef.preferences.history.length, 1);
+  assert.deepEqual(withRef.preferences.history[0].exercise, {
+    seed: 5,
+    level: 2,
+    fifths: "auto",
+    hands: "auto",
+    bars: "auto",
+    meter: "auto",
+    tempo: "auto",
+  });
+  assert.deepEqual(withRef.issues, ["Practice history"]);
   const many = Array.from({ length: 450 }, (_, i) => ({
     at: "2026-09-25T14:00:00.000Z",
     title: String(i),

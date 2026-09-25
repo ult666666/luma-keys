@@ -52,11 +52,11 @@ try {
   await expect(
     page.getByRole("button", { name: "Play", exact: true }),
   ).toBeEnabled();
-  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  await page.getByRole("button", { name: "Library", exact: true }).click();
   await page
-    .locator(".song-card")
+    .locator(".piece-row")
     .filter({ hasText: "Für Elise" })
-    .getByRole("button", { name: "Let’s play" })
+    .getByRole("button", { name: "Open" })
     .click();
   await page.getByRole("tab", { name: "Sheet music", exact: true }).click();
   await waitForSheet();

@@ -45,11 +45,11 @@ export async function verifyMaterials(page, prefix = "material") {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await expect(play()).toBeEnabled();
     await page.getByRole("slider", { name: "Piano volume" }).fill("0");
-    await page.getByRole("button", { name: "Lessons", exact: true }).click();
+    await page.getByRole("button", { name: "Library", exact: true }).click();
     await page
-      .locator(".song-card")
+      .locator(".piece-row")
       .filter({ hasText: "Twinkle, Little Star" })
-      .getByRole("button", { name: /play/i })
+      .getByRole("button", { name: /^(open|reading)$/i })
       .click();
     await page.getByRole("tab", { name: "Number score", exact: true }).click();
     await page

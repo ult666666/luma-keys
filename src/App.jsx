@@ -75,6 +75,7 @@ import {
   meterHint,
   usesFlats,
   pulsePattern,
+  keyLabel,
 } from "./music.mjs";
 import { piano } from "./audio.js";
 import Pet from "./Pet.jsx";
@@ -93,6 +94,11 @@ import {
 } from "./exercise.mjs";
 import { gradePerformance, levelAdvice } from "./performance.mjs";
 import { defaultReading, HISTORY_LIMIT } from "./preferences.mjs";
+import { readingPrep } from "./reading-prep.mjs";
+import { coachingTips, companionLine } from "./coaching.mjs";
+import ExercisesScreen from "./screens/ExercisesScreen.jsx";
+import LibraryScreen from "./screens/LibraryScreen.jsx";
+import ProgressScreen, { practiceStreak } from "./screens/ProgressScreen.jsx";
 import "./reader.css";
 import "./practice.css";
 const LESSONS = demos();
@@ -155,18 +161,6 @@ const snapshotOf = (p) =>
     reading: p.reading,
     history: p.history,
   });
-const localDay = (value) => new Date(value).toLocaleDateString("en-CA");
-export function practiceStreak(history, now = new Date()) {
-  const days = new Set(history.map((h) => localDay(h.at)));
-  let streak = 0;
-  const cursor = new Date(now);
-  if (!days.has(localDay(cursor))) cursor.setDate(cursor.getDate() - 1);
-  while (days.has(localDay(cursor))) {
-    streak++;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  return streak;
-}
 export function recommendedLevel(history) {
   let level = 1;
   for (const entry of LEVELS)
@@ -184,154 +178,12 @@ const verdictFor = (result) =>
         : "Slow it down";
 const msLabel = (beats, secondsPerBeat) =>
   `${beats > 0 ? "+" : "−"}${Math.round(Math.abs(beats) * secondsPerBeat * 1000)} ms`;
-function ExerciseModal({ options, onChange, onGenerate, close, history }) {
-  const level = levelFor(options.level);
-  const advice = levelAdvice(history, level.level);
-  const set = (key, value) => onChange({ ...options, [key]: value });
-  const numeric = (v) => (v === "auto" ? "auto" : Number(v));
-  return (
-    <Modal
-      title="A fresh exercise"
-      subtitle="New music every time. Choose a level; the rest follows the level unless you set it."
-      close={close}
-    >
-      <form
-        className="exercise-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          onGenerate(options);
-        }}
-      >
-        <label className="exercise-level">
-          <span>Level</span>
-          <select
-            aria-label="Exercise level"
-            value={options.level}
-            onChange={(e) => set("level", Number(e.target.value))}
-          >
-            {LEVELS.map((l) => (
-              <option key={l.level} value={l.level}>
-                {l.level} · {l.title}
-              </option>
-            ))}
-          </select>
-        </label>
-        <p className="exercise-summary">
-          {level.summary}
-          {advice.ready && (
-            <strong>
-              {" "}
-              Your last three runs were clean; try the next level.
-            </strong>
-          )}
-        </p>
-        <div className="exercise-grid">
-          <label>
-            <span>Key</span>
-            <select
-              aria-label="Exercise key"
-              value={options.fifths}
-              onChange={(e) => set("fifths", numeric(e.target.value))}
-            >
-              <option value="auto">Level’s keys</option>
-              {EXERCISE_KEYS.map((k) => (
-                <option key={k.fifths} value={k.fifths}>
-                  {k.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>Hands</span>
-            <select
-              aria-label="Exercise hands"
-              value={options.hands}
-              onChange={(e) => set("hands", e.target.value)}
-            >
-              <option value="auto">Level’s hands</option>
-              <option value="right">Right hand</option>
-              <option value="left">Left hand</option>
-              <option value="both">Both hands</option>
-            </select>
-          </label>
-          <label>
-            <span>Length</span>
-            <select
-              aria-label="Exercise length"
-              value={options.bars}
-              onChange={(e) => set("bars", numeric(e.target.value))}
-            >
-              <option value="auto">Level’s length</option>
-              {BAR_CHOICES.map((b) => (
-                <option key={b} value={b}>
-                  {b} bars
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>Meter</span>
-            <select
-              aria-label="Exercise meter"
-              value={options.meter}
-              onChange={(e) => set("meter", e.target.value)}
-            >
-              <option value="auto">Level’s meters</option>
-              {Object.keys(METERS).map((m) => (
-                <option key={m} value={m}>
-                  {m}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>Tempo ♩ =</span>
-            <span className="exercise-tempo">
-              <select
-                aria-label="Exercise tempo mode"
-                value={options.tempo === "auto" ? "auto" : "custom"}
-                onChange={(e) =>
-                  set("tempo", e.target.value === "auto" ? "auto" : level.tempo)
-                }
-              >
-                <option value="auto">Level’s tempo ({level.tempo})</option>
-                <option value="custom">Custom</option>
-              </select>
-              {options.tempo !== "auto" && (
-                <input
-                  aria-label="Exercise tempo"
-                  type="number"
-                  min="30"
-                  max="200"
-                  value={options.tempo}
-                  onChange={(e) =>
-                    set(
-                      "tempo",
-                      Math.max(
-                        30,
-                        Math.min(200, Math.round(+e.target.value) || 30),
-                      ),
-                    )
-                  }
-                />
-              )}
-            </span>
-          </label>
-        </div>
-        <div className="modal-footer exercise-footer">
-          <span>Read it once, in time. Then let a new one appear.</span>
-          <button type="submit" className="primary">
-            <Dices size={17} /> New exercise
-          </button>
-        </div>
-      </form>
-    </Modal>
-  );
-}
 function ResultsModal({
   results,
   score,
   flats,
+  pet,
+  tips = [],
   onRepeat,
   onAgain,
   onNext,
@@ -342,8 +194,11 @@ function ResultsModal({
   const percent = Math.round(result.accuracy * 100);
   const secondsPerBeat = 60 / (score.bpm * (entry.tempo / score.bpm));
   const problems = result.bars.filter((b) => b.problems > 0);
+  const happy = result.accuracy >= 0.9;
   return (
     <Modal
+      eyebrow="REPORT CARD"
+      className={`results-dialog${happy ? " celebrate" : ""}`}
       title={`${percent}% · ${verdictFor(result)}`}
       subtitle={`${score.title} · bars ${measureAt(score, results.from)}–${measureAt(score, Math.max(results.from, results.end - 1e-4))} · ♩ = ${entry.tempo}${results.hand === "both" ? "" : ` · ${results.hand} hand`}`}
       close={close}
@@ -384,6 +239,16 @@ function ResultsModal({
                 : "steady"}
           </span>
         </div>
+      </div>
+      <div className="results-coach">
+        <span className="coach-avatar" aria-hidden="true">
+          <Pet kind={pet} happy={happy} />
+        </span>
+        <ul className="results-tips" aria-label="Coaching tips">
+          {tips.map((tip) => (
+            <li key={tip}>{tip}</li>
+          ))}
+        </ul>
       </div>
       {reason !== "complete" && (
         <p className="results-note">
@@ -454,71 +319,6 @@ function ResultsModal({
     </Modal>
   );
 }
-function LevelPath({ history, onStart, recommended }) {
-  const stats = (level) => {
-    const runs = history.filter(
-      (h) => h.level === level && h.mode === "perform",
-    );
-    if (!runs.length) return null;
-    const recent = runs.slice(-3);
-    return {
-      runs: runs.length,
-      best: Math.max(...runs.map((h) => h.accuracy)),
-      recent: Math.round(
-        recent.reduce((sum, h) => sum + h.accuracy, 0) / recent.length,
-      ),
-    };
-  };
-  return (
-    <section className="level-path" aria-label="Sight-reading path">
-      <div className="level-path-heading">
-        <div>
-          <span className="eyebrow">SIGHT-READING PATH</span>
-          <h2>Twelve levels of new music.</h2>
-          <p>
-            Each Start makes a piece nobody has played before. Read it once in
-            time; three clean runs unlock the next level.
-          </p>
-        </div>
-      </div>
-      <div className="level-grid">
-        {LEVELS.map((level) => {
-          const s = stats(level.level);
-          const ready = levelAdvice(history, level.level).ready;
-          return (
-            <article
-              key={level.level}
-              className={`level-card ${level.level === recommended ? "recommended" : ""} ${ready ? "cleared" : ""}`}
-            >
-              <header>
-                <span className="level-number">
-                  {String(level.level).padStart(2, "0")}
-                </span>
-                {level.level === recommended && <em>Recommended</em>}
-                {ready && level.level !== recommended && <em>Cleared</em>}
-              </header>
-              <h3>{level.title}</h3>
-              <p>{level.summary}</p>
-              <footer>
-                <span>
-                  {s
-                    ? `${s.runs} run${s.runs === 1 ? "" : "s"} · best ${Math.round(s.best)}% · recent ${s.recent}%`
-                    : "Not yet played"}
-                </span>
-                <button
-                  className="secondary small"
-                  onClick={() => onStart(level.level)}
-                >
-                  Start <ArrowRight size={13} />
-                </button>
-              </footer>
-            </article>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
 async function api(url, opts) {
   const r = await fetch("/api" + url, opts);
   const d = await r.json();
@@ -530,7 +330,31 @@ const json = (method, body) => ({
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(body),
 });
-function Modal({ title, subtitle, close, children, wide = false }) {
+function LogoMark() {
+  return (
+    <svg
+      className="logo-mark"
+      viewBox="0 0 32 32"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect x="1" y="1" width="30" height="30" rx="9" className="logo-bg" />
+      <rect x="8" y="9" width="4" height="14" rx="1.5" className="logo-key" />
+      <rect x="14" y="9" width="4" height="14" rx="1.5" className="logo-key" />
+      <rect x="20" y="9" width="4" height="14" rx="1.5" className="logo-key" />
+      <circle cx="22" cy="8" r="3.2" className="logo-dot" />
+    </svg>
+  );
+}
+function Modal({
+  title,
+  subtitle,
+  close,
+  children,
+  wide = false,
+  eyebrow = "",
+  className = "",
+}) {
   const ref = useRef();
   useEffect(() => {
     const previous = document.activeElement;
@@ -568,14 +392,14 @@ function Modal({ title, subtitle, close, children, wide = false }) {
       <section
         ref={ref}
         tabIndex={-1}
-        className={`modal ${wide ? "wide" : ""}`}
+        className={`modal ${wide ? "wide" : ""} ${className}`}
         role="dialog"
         aria-modal="true"
         aria-label={title}
       >
         <div className="modal-heading">
           <div>
-            <span className="eyebrow">YOUR LITTLE MUSIC SPACE</span>
+            {eyebrow && <span className="eyebrow">{eyebrow}</span>}
             <h2>{title}</h2>
             {subtitle && <p>{subtitle}</p>}
           </div>
@@ -900,7 +724,7 @@ function Review({ score, onSave, close, notify, initialBar = 1 }) {
   );
 }
 export default function App() {
-  const [view, setView] = useState("studio"),
+  const [view, setView] = useState("practice"),
     [score, setScore] = useState(LESSONS[0]),
     [library, setLibrary] = useState([]),
     [libraryIssues, setLibraryIssues] = useState([]),
@@ -949,7 +773,10 @@ export default function App() {
     [results, setResults] = useState(null),
     [performCount, setPerformCount] = useState(0),
     [lastScore, setLastScore] = useState(() => defaultReading().last),
-    [libraryLoaded, setLibraryLoaded] = useState(false);
+    [libraryLoaded, setLibraryLoaded] = useState(false),
+    [coach, setCoach] = useState(true),
+    [welcomeSeen, setWelcomeSeen] = useState(false),
+    [lastResult, setLastResult] = useState(null);
   const inputRef = useRef(),
     state = useRef({}),
     transport = useRef({
@@ -1016,6 +843,8 @@ export default function App() {
       hand,
       exercise: exerciseOptions,
       last: lastScore,
+      coach,
+      welcomeSeen,
     }),
     [
       labels,
@@ -1030,6 +859,8 @@ export default function App() {
       hand,
       exerciseOptions,
       lastScore,
+      coach,
+      welcomeSeen,
     ],
   );
   const preferenceSnapshot = snapshotOf({
@@ -1183,6 +1014,8 @@ export default function App() {
     setHand(p.reading.hand);
     setExerciseOptions(p.reading.exercise);
     setLastScore(p.reading.last);
+    setCoach(p.reading.coach);
+    setWelcomeSeen(p.reading.welcomeSeen);
     setHistory(p.history);
     setSettingsIssues(issues);
     setPrefLoaded(true);
@@ -1371,6 +1204,7 @@ export default function App() {
   function choose(s) {
     stop();
     setScore(s);
+    setLastResult(null);
     setLastScore(
       s.exercise
         ? {
@@ -1387,7 +1221,7 @@ export default function App() {
     setLoopB(Math.min(4, s.measures));
     setSessionHits(0);
     setSessionMisses(0);
-    setView("studio");
+    setView("practice");
   }
   async function start() {
     if (settingsLoading) return;
@@ -1763,9 +1597,11 @@ export default function App() {
           measureAt(s.score, rec.from) +
           1,
       ),
+      exercise: exercise ? { ...exercise.request, seed: exercise.seed } : null,
     };
     setHistory((h) => [...h, entry].slice(-HISTORY_LIMIT));
     setStats((v) => ({ ...v, correct: v.correct + result.matched }));
+    setLastResult(result);
     const token = Symbol();
     resultsToken.current = token;
     const show = () => {
@@ -1785,9 +1621,18 @@ export default function App() {
     if (complete) resultsTimer.current = setTimeout(show, 700);
     else show();
   }
+  function openRun(entry) {
+    const found =
+      library.find((x) => x.id === entry.scoreId) ||
+      LESSONS.find((x) => x.id === entry.scoreId);
+    if (found) choose(found);
+    else if (entry.exercise) startExercise(entry.exercise);
+    else notify("That piece is no longer in your library.");
+  }
   function startExercise(input) {
     try {
       const generated = generateExercise(input);
+      setWelcomeSeen(true);
       choose(generated);
       setReadingView((v) => v);
       setModal(null);
@@ -1808,6 +1653,7 @@ export default function App() {
     releaseInputSources,
     updatePedal,
     finishPerformance,
+    newExercise: () => startExercise({ ...exerciseOptions, seed: undefined }),
   };
   useEffect(() => {
     if (modal) {
@@ -1841,6 +1687,9 @@ export default function App() {
         if (target.closest("button, a, input, [role=button]")) return;
         e.preventDefault();
         handlers.current.start();
+      } else if (e.key.toLowerCase() === "n") {
+        e.preventDefault();
+        handlers.current.newExercise?.();
       } else if (KEYS[e.key.toLowerCase()] !== undefined) {
         e.preventDefault();
         const midi = KEYS[e.key.toLowerCase()];
@@ -2045,6 +1894,29 @@ export default function App() {
     [playing, mode, soundEvents, currentNotes],
   );
   const flats = usesFlats(score);
+  const prep = useMemo(() => readingPrep(score, hand), [score, hand]);
+  const currentIndex = current ? phraseGroups.indexOf(current) : -1;
+  const upcoming =
+    currentIndex >= 0 &&
+    phraseGroups[currentIndex + 1] &&
+    phraseGroups[currentIndex + 1].beat < playbackEnd - 1e-6
+      ? phraseGroups[currentIndex + 1]
+      : null;
+  const petName = pet === "bunny" ? "Mochi" : "Luma";
+  const firstRun = history.length === 0 && !score.exercise;
+  const coachText = coach
+    ? companionLine({
+        name: petName,
+        result: lastResult,
+        firstRun,
+        mode,
+        playing,
+        streak: practiceStreak(history),
+      })
+    : null;
+  const showWelcome = coach && !welcomeSeen && firstRun;
+  const midiConnected =
+    midiStatus !== "Connect keyboard" && midiStatus !== "No keyboard found";
   const inLibrary = library.some((x) => x.id === score.id);
   const recommended = useMemo(() => recommendedLevel(history), [history]);
   const sheetPassage = score.measures <= 8 ? score.measures : 4;
@@ -2062,33 +1934,34 @@ export default function App() {
   return (
     <div className={`app theme-${theme}`}>
       <main
-        className="reader-main"
+        className="reader-main app-main"
         inert={modal ? true : undefined}
         aria-hidden={modal ? true : undefined}
       >
-        <header className="reader-header">
+        <header className="app-bar">
           <button
-            className="reader-brand"
-            aria-label="Luma Keys sight reading"
-            onClick={() => setView("studio")}
+            className="app-brand"
+            aria-label="Luma Keys"
+            onClick={() => setView("practice")}
           >
-            <Music2 size={22} />
+            <LogoMark />
             <span>
-              luma<span>keys</span>
+              Luma<b>Keys</b>
             </span>
-            <small>SIGHT READER</small>
           </button>
-          <nav aria-label="Main navigation">
+          <nav className="app-nav" aria-label="Main navigation">
             {[
-              ["studio", "Read"],
+              ["practice", "Practice"],
+              ["exercises", "Exercises"],
               ["library", "Library"],
-              ["learn", "Lessons"],
+              ["progress", "Progress"],
             ].map(([id, title]) => (
               <button
                 key={id}
                 className={view === id ? "selected" : ""}
+                aria-current={view === id ? "page" : undefined}
                 onClick={() => {
-                  if (id !== "studio") stop();
+                  if (id !== "practice") stop();
                   setView(id);
                 }}
               >
@@ -2096,34 +1969,41 @@ export default function App() {
               </button>
             ))}
           </nav>
-          <div className="reader-header-actions">
-            <button aria-label="Connect piano" onClick={connectMIDI}>
-              <Keyboard size={14} />
-              {midiStatus === "Connect keyboard" ? "Connect piano" : midiStatus}
-              {sustain && " · sustain"}
-            </button>
+          <div className="app-bar-actions">
             <button
-              className="secondary small reader-new-exercise"
-              onClick={() => {
-                stop();
-                setModal("exercise");
-              }}
+              className={`midi-status${midiConnected ? " connected" : ""}`}
+              aria-label="Connect piano"
+              title={
+                midiConnected
+                  ? "MIDI keyboard connected"
+                  : "Connect a USB MIDI keyboard"
+              }
+              onClick={connectMIDI}
             >
-              <Dices size={15} /> New exercise
+              <Keyboard size={14} />
+              <span>
+                {midiStatus === "Connect keyboard"
+                  ? "Connect piano"
+                  : midiStatus}
+                {sustain && " · sustain"}
+              </span>
             </button>
             <button
-              className="secondary small"
+              className="secondary small app-import"
+              aria-label="Import a score"
+              title="Import a PDF, MusicXML, MIDI or Luma JSON file"
               onClick={() => {
                 setImportError("");
                 setModal("import");
               }}
             >
-              <Upload size={15} /> Import a score
+              <Upload size={15} />
+              <span>Import a score</span>
             </button>
             <button
               className="icon-button"
               aria-label="Reading settings"
-              title="Reading settings"
+              title="Settings"
               onClick={() => {
                 stop();
                 setModal("settings");
@@ -2229,9 +2109,7 @@ export default function App() {
               onClick={async () => {
                 setSavingSettings(true);
                 try {
-                  await savePreferences(
-                    JSON.stringify({ theme, pet, stats, volume }),
-                  );
+                  await savePreferences(preferenceSnapshot);
                 } catch {
                 } finally {
                   setSavingSettings(false);
@@ -2279,19 +2157,56 @@ export default function App() {
             </button>
           </section>
         )}
-        {view === "studio" ? (
-          <div className="reader-workspace">
-            <div className="reader-score-heading">
-              <div>
-                <span className="eyebrow">YOUR MUSIC</span>
+        {view === "practice" && (
+          <section className="practice-screen" aria-label="Practice">
+            <header className="piece-header reader-score-heading">
+              <div className="piece-info">
                 <h1>{score.title}</h1>
                 <p>
                   {score.composer} · {score.measures}{" "}
-                  {score.measures === 1 ? "bar" : "bars"} · ♩ = {score.bpm}
+                  {score.measures === 1 ? "bar" : "bars"}
                 </p>
+                <ul className="prep-chips" aria-label="At a glance">
+                  {prep.key && (
+                    <li className="chip chip-key" title="Key signature">
+                      {prep.key}
+                      {prep.signatureText ? ` · ${prep.signatureText}` : ""}
+                    </li>
+                  )}
+                  {prep.signature && (
+                    <li className="chip" title="Time signature">
+                      {prep.signature}
+                    </li>
+                  )}
+                  <li className="chip" title="Quarter notes per minute">
+                    ♩ = {prep.tempo}
+                  </li>
+                  {prep.hands.right && (
+                    <li className="chip chip-right" title="Right-hand range">
+                      RH {prep.hands.right.low}–{prep.hands.right.high}
+                    </li>
+                  )}
+                  {prep.hands.left && (
+                    <li className="chip chip-left" title="Left-hand range">
+                      LH {prep.hands.left.low}–{prep.hands.left.high}
+                    </li>
+                  )}
+                  {prep.watch.map((item) => (
+                    <li
+                      className="chip chip-watch"
+                      key={item}
+                      title="Worth a look before you start"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
                 {score.exercise && (
                   <p className="reader-exercise-line">
-                    <span>{exerciseSummary(score.exercise)}</span>
+                    <span>
+                      Exercise #{score.exercise.seed} · level{" "}
+                      {score.exercise.level}
+                    </span>
                     <button
                       type="button"
                       onClick={() =>
@@ -2321,28 +2236,91 @@ export default function App() {
                   </p>
                 )}
               </div>
-              <div className="reader-score-actions">
-                <button
-                  className="icon-button"
-                  title="Review sheet and notes"
-                  aria-label="Review sheet and notes"
-                  onClick={() => {
-                    stop();
-                    setModal("review");
-                  }}
+              <div className="piece-actions">
+                <div
+                  className="reader-tabs view-switch"
+                  role="tablist"
+                  aria-label="Music view"
                 >
-                  <FileMusic size={18} />
-                </button>
-                <button
-                  className="icon-button"
-                  title="Export practice notes"
-                  aria-label="Export practice notes"
-                  onClick={download}
-                >
-                  <Download size={18} />
-                </button>
+                  {[
+                    ["numbers", "Number score"],
+                    ["sheet", "Sheet music"],
+                    ["falling", "Falling notes"],
+                  ].map(([id, title]) => (
+                    <button
+                      key={id}
+                      role="tab"
+                      aria-selected={readingView === id}
+                      tabIndex={readingView === id ? 0 : -1}
+                      onKeyDown={(e) => {
+                        if (
+                          !["ArrowLeft", "ArrowRight", "Home", "End"].includes(
+                            e.key,
+                          )
+                        )
+                          return;
+                        e.preventDefault();
+                        const tabs = ["numbers", "sheet", "falling"];
+                        const index =
+                          e.key === "Home"
+                            ? 0
+                            : e.key === "End"
+                              ? 2
+                              : (tabs.indexOf(id) +
+                                  (e.key === "ArrowRight" ? 1 : 2)) %
+                                3;
+                        setReadingView(tabs[index]);
+                        e.currentTarget.parentElement.children[index].focus();
+                      }}
+                      onClick={() => setReadingView(id)}
+                    >
+                      {title}
+                    </button>
+                  ))}
+                </div>
+                <div className="piece-buttons">
+                  <button
+                    className="secondary small"
+                    title={`A fresh exercise at level ${exerciseOptions.level} (press N)`}
+                    onClick={() =>
+                      startExercise({ ...exerciseOptions, seed: undefined })
+                    }
+                  >
+                    <Dices size={15} /> New exercise
+                  </button>
+                  <button
+                    className="icon-button"
+                    title="Review sheet and notes"
+                    aria-label="Review sheet and notes"
+                    onClick={() => {
+                      stop();
+                      setModal("review");
+                    }}
+                  >
+                    <FileMusic size={18} />
+                  </button>
+                  <button
+                    className="icon-button"
+                    title="Export practice notes"
+                    aria-label="Export practice notes"
+                    onClick={download}
+                  >
+                    <Download size={18} />
+                  </button>
+                  <button
+                    className="icon-button"
+                    title="How to read"
+                    aria-label="How to read"
+                    onClick={() => {
+                      stop();
+                      setModal("guide");
+                    }}
+                  >
+                    <HelpCircle size={18} />
+                  </button>
+                </div>
               </div>
-            </div>
+            </header>
             {!score.reviewed && (
               <button
                 className="review-banner"
@@ -2355,178 +2333,398 @@ export default function App() {
                 practicing <ArrowRight size={14} />
               </button>
             )}
-            <div className="reader-viewbar">
-              <div
-                className="reader-tabs"
-                role="tablist"
-                aria-label="Music view"
-              >
-                {[
-                  ["numbers", "Number score"],
-                  ["sheet", "Sheet music"],
-                  ["falling", "Falling notes"],
-                ].map(([id, title]) => (
-                  <button
-                    key={id}
-                    role="tab"
-                    aria-selected={readingView === id}
-                    tabIndex={readingView === id ? 0 : -1}
-                    onKeyDown={(e) => {
-                      if (
-                        !["ArrowLeft", "ArrowRight", "Home", "End"].includes(
-                          e.key,
-                        )
-                      )
-                        return;
-                      e.preventDefault();
-                      const tabs = ["numbers", "sheet", "falling"];
-                      const index =
-                        e.key === "Home"
-                          ? 0
-                          : e.key === "End"
-                            ? 2
-                            : (tabs.indexOf(id) +
-                                (e.key === "ArrowRight" ? 1 : 2)) %
-                              3;
-                      setReadingView(tabs[index]);
-                      e.currentTarget.parentElement.children[index].focus();
-                    }}
-                    onClick={() => setReadingView(id)}
-                  >
-                    {title}
-                  </button>
-                ))}
-              </div>
-              <button
-                className="reader-help"
-                onClick={() => {
-                  stop();
-                  setModal("guide");
-                }}
-              >
-                <HelpCircle size={14} /> How to read
-              </button>
-            </div>
-            {readingView === "numbers" && (
-              <ReadingScore
-                mode={mode}
-                hand={hand}
-                score={score}
-                notes={notes}
-                beat={beat}
-                tonic={tonic}
-                labels={labels}
-                flats={flats}
-                onSeek={seekReading}
-                loopRange={loop ? { first: loopA, last: loopB } : null}
-                onRepeat={repeatBars}
-                onClearRepeat={clearRepeat}
-              />
-            )}
-            {readingView === "sheet" &&
-              (score.xml ? (
-                <div className="reader-sheet">
-                  {score.xml && (
-                    <p className="reader-sheet-warning">
-                      The engraved sheet is the original import. Your
-                      corrections appear in Number score.
-                    </p>
-                  )}
-                  <ScoreDisplay
-                    xml={score.xml}
-                    startBar={
-                      1 +
-                      Math.floor(
-                        (Math.min(
-                          score.measures,
-                          measureAt(score, Math.max(0, beat)),
-                        ) -
-                          1) /
-                          sheetPassage,
-                      ) *
-                        sheetPassage
-                    }
-                    passageBars={sheetPassage}
-                    transportScore={score}
-                    compact
-                    beat={beat}
-                    onNavigate={(bar) => seekReading(barStart(score, bar))}
-                  />
-                </div>
-              ) : (
-                <div className="reader-sheet-empty">
-                  <FileMusic size={28} />
-                  <h2>No engraved sheet for this piece</h2>
-                  <p>
-                    Use the number score, or import MusicXML / a PDF for staff
-                    notation.
-                  </p>
-                  <button
-                    className="secondary"
-                    onClick={() => setReadingView("numbers")}
-                  >
-                    Read the numbers
-                  </button>
-                </div>
-              ))}
-            <div className="reader-cue" aria-label="Next notes">
-              <div className="reader-cue-label">
-                <span>
-                  {finished
-                    ? "FINISHED"
-                    : holding
-                      ? "HOLD"
-                      : currentNotes.length
-                        ? "PLAY NEXT"
-                        : "REST"}
+            {showWelcome && (
+              <section className="welcome-card" aria-label="Welcome">
+                <span className="coach-avatar large" aria-hidden="true">
+                  <Pet kind={pet} happy />
                 </span>
-                <small>
-                  Bar{" "}
-                  {Math.min(
-                    score.measures,
-                    measureAt(score, Math.max(0, beat)),
-                  )}
-                </small>
-              </div>
-              <div className="next-notes">
-                {currentNotes.length ? (
-                  currentNotes.map((n) => (
-                    <div key={n.id} className={n.hand}>
-                      <strong>{label(n.midi)}</strong>
-                      <span>
-                        {noteName(n.midi, flats)}
-                        <small>{n.hand === "left" ? "LH" : "RH"}</small>
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  <span className="reader-finished">
-                    {finished ? (
-                      <>
-                        <CheckCircle2 size={20} />{" "}
-                        {loop ? "Phrase complete" : "Piece complete"}
-                      </>
-                    ) : (
-                      "Rest — let the music breathe"
-                    )}
+                <div>
+                  <strong>Hi, I’m {petName}. Let’s read something new.</strong>
+                  <span>
+                    Level 1 is five notes in the right hand. I’ll count you in,
+                    listen, and tell you how it went.
                   </span>
+                </div>
+                <div className="welcome-actions">
+                  <button
+                    className="primary small"
+                    onClick={() =>
+                      startExercise({
+                        ...exerciseOptions,
+                        level: 1,
+                        seed: undefined,
+                      })
+                    }
+                  >
+                    <Dices size={14} /> Start Level 1
+                  </button>
+                  <button
+                    className="secondary small"
+                    onClick={() => {
+                      setImportError("");
+                      setModal("import");
+                    }}
+                  >
+                    Import my own sheet
+                  </button>
+                  <button
+                    className="icon-button"
+                    aria-label="Dismiss welcome"
+                    title="Not now"
+                    onClick={() => setWelcomeSeen(true)}
+                  >
+                    <X size={15} />
+                  </button>
+                </div>
+              </section>
+            )}
+            {readingView !== "falling" && (
+              <div className="score-stage">
+                {readingView === "numbers" && (
+                  <ReadingScore
+                    mode={mode}
+                    hand={hand}
+                    score={score}
+                    notes={notes}
+                    beat={beat}
+                    tonic={tonic}
+                    labels={labels}
+                    flats={flats}
+                    onSeek={seekReading}
+                    loopRange={loop ? { first: loopA, last: loopB } : null}
+                    onRepeat={repeatBars}
+                    onClearRepeat={clearRepeat}
+                  />
                 )}
+                {readingView === "sheet" &&
+                  (score.xml ? (
+                    <div className="reader-sheet">
+                      {score.notationEdited && (
+                        <p className="reader-sheet-warning">
+                          The engraved sheet is the original import. Your
+                          corrections appear in Number score.
+                        </p>
+                      )}
+                      <ScoreDisplay
+                        xml={score.xml}
+                        startBar={
+                          1 +
+                          Math.floor(
+                            (Math.min(
+                              score.measures,
+                              measureAt(score, Math.max(0, beat)),
+                            ) -
+                              1) /
+                              sheetPassage,
+                          ) *
+                            sheetPassage
+                        }
+                        passageBars={sheetPassage}
+                        transportScore={score}
+                        compact
+                        beat={beat}
+                        onNavigate={(bar) => seekReading(barStart(score, bar))}
+                      />
+                    </div>
+                  ) : (
+                    <div className="reader-sheet-empty">
+                      <FileMusic size={28} />
+                      <h2>No engraved sheet for this piece</h2>
+                      <p>
+                        Use the number score, or import MusicXML / a PDF for
+                        staff notation. Generated exercises always include sheet
+                        music.
+                      </p>
+                      <button
+                        className="secondary"
+                        onClick={() => setReadingView("numbers")}
+                      >
+                        Read the numbers
+                      </button>
+                    </div>
+                  ))}
               </div>
-              <span className="reader-play-status" role="status">
-                {playing
-                  ? mode === "perform"
-                    ? performCount
-                      ? "Count in · " + performCount
-                      : "Play in time · the click keeps the pulse"
-                    : beat < 0
-                      ? "Count in · " + countInNumber(score, beat)
-                      : mode === "wait"
-                        ? "Waiting for your notes"
-                        : "Listen and read ahead"
-                  : mode === "perform"
-                    ? "Play starts a count-in from this bar"
-                    : "Click a note to start there"}
-              </span>
+            )}
+            <div className="reader-controls control-dock">
+              <div className="dock-row dock-main">
+                <div className="reader-cue dock-cue" aria-label="Next notes">
+                  <div className="reader-cue-label">
+                    <span>
+                      {finished
+                        ? "FINISHED"
+                        : holding
+                          ? "HOLD"
+                          : currentNotes.length
+                            ? "PLAY NEXT"
+                            : "REST"}
+                    </span>
+                    <small>
+                      Bar{" "}
+                      {Math.min(
+                        score.measures,
+                        measureAt(score, Math.max(0, beat)),
+                      )}
+                    </small>
+                  </div>
+                  <div className="next-notes">
+                    {currentNotes.length ? (
+                      currentNotes.map((n) => (
+                        <div key={n.id} className={n.hand}>
+                          <strong>{label(n.midi)}</strong>
+                          <span>
+                            {noteName(n.midi, flats)}
+                            <small>{n.hand === "left" ? "LH" : "RH"}</small>
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <span className="reader-finished">
+                        {finished ? (
+                          <>
+                            <CheckCircle2 size={20} />{" "}
+                            {loop ? "Phrase complete" : "Piece complete"}
+                          </>
+                        ) : (
+                          "Rest — let the music breathe"
+                        )}
+                      </span>
+                    )}
+                    {upcoming && currentNotes.length > 0 && (
+                      <div className="next-then" aria-label="Then">
+                        <small>then</small>
+                        {upcoming.notes.map((n) => (
+                          <b key={n.id} className={n.hand}>
+                            {label(n.midi)}
+                            <i>{noteName(n.midi, flats)}</i>
+                          </b>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  {coach && !playing && (
+                    <span className="coach-avatar" aria-hidden="true">
+                      <Pet kind={pet} happy={lastResult?.accuracy >= 0.9} />
+                    </span>
+                  )}
+                  <span className="reader-play-status" role="status">
+                    {!playing && coachText
+                      ? coachText
+                      : playing
+                        ? mode === "perform"
+                          ? performCount
+                            ? "Count in · " + performCount
+                            : "Play in time · the click keeps the pulse"
+                          : beat < 0
+                            ? "Count in · " + countInNumber(score, beat)
+                            : mode === "wait"
+                              ? "Waiting for your notes"
+                              : "Listen and read ahead"
+                        : mode === "perform"
+                          ? "Play starts a count-in from this bar"
+                          : mode === "wait" && sessionHits > 0
+                            ? `${sessionHits} notes · ${Math.round((sessionHits / (sessionHits + sessionMisses)) * 100)}% accuracy`
+                            : "Click a note to start there"}
+                  </span>
+                </div>
+                <div className="dock-transport">
+                  <button
+                    className="icon-button"
+                    aria-label="Start over"
+                    title={loop ? "Start this phrase again" : "Start over"}
+                    onClick={restartReading}
+                  >
+                    <RotateCcw size={17} />
+                  </button>
+                  <button
+                    className="icon-button"
+                    aria-label="Previous note"
+                    title="Previous note"
+                    onClick={() => stepReading(-1)}
+                  >
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button
+                    className={`play-button${playing ? " playing" : ""}`}
+                    aria-label={playing ? "Pause" : "Play"}
+                    title={playing ? "Pause (Space)" : "Play (Space)"}
+                    onClick={start}
+                    disabled={loadingSound || settingsLoading}
+                  >
+                    {loadingSound || settingsLoading ? (
+                      <LoaderCircle className="spin" size={20} />
+                    ) : playing ? (
+                      <Pause size={20} fill="currentColor" />
+                    ) : (
+                      <Play size={20} fill="currentColor" />
+                    )}
+                  </button>
+                  <button
+                    className="icon-button"
+                    aria-label="Next note"
+                    title="Next note"
+                    onClick={() => stepReading(1)}
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                  <button
+                    className={`icon-button ${loop ? "on" : ""}`}
+                    aria-label="Toggle phrase loop"
+                    aria-pressed={loop}
+                    title={
+                      loop ? "Stop repeating these bars" : "Repeat a phrase"
+                    }
+                    onClick={() => {
+                      if (loop) clearRepeat();
+                      else repeatBars(loopA, loopB);
+                    }}
+                  >
+                    <Repeat2 size={19} />
+                  </button>
+                </div>
+                <div
+                  className="segmented"
+                  role="group"
+                  aria-label="Practice mode"
+                >
+                  <button
+                    className={mode === "listen" ? "selected" : ""}
+                    title="The piano plays; you read ahead"
+                    onClick={() => {
+                      restartReading();
+                      setMode("listen");
+                    }}
+                  >
+                    <Headphones size={14} /> Listen & follow
+                  </button>
+                  <button
+                    className={mode === "wait" ? "selected" : ""}
+                    title="The cursor waits for each correct note"
+                    onClick={() => {
+                      restartReading();
+                      setMode("wait");
+                    }}
+                  >
+                    <Keyboard size={15} /> Wait for me
+                  </button>
+                  <button
+                    className={mode === "perform" ? "selected" : ""}
+                    title="Count-in, click, and a report card on pitch and timing"
+                    onClick={() => {
+                      restartReading();
+                      setMode("perform");
+                    }}
+                  >
+                    <Timer size={15} /> Play in time
+                  </button>
+                </div>
+              </div>
+              <div className="dock-row dock-timeline">
+                <div className="timeline">
+                  <input
+                    aria-label="Song position"
+                    type="range"
+                    min="0"
+                    max={score.duration}
+                    step="any"
+                    value={Math.max(0, beat)}
+                    onChange={(e) => seekReading(+e.target.value)}
+                    style={{
+                      "--progress": `${(Math.max(0, beat) / score.duration) * 100}%`,
+                    }}
+                  />
+                  <span>
+                    {fmt(time)} <i>/</i> {fmt(totalTime)}
+                  </span>
+                </div>
+                <div className="dock-settings">
+                  <select
+                    className="dock-select"
+                    aria-label="Practice hand"
+                    value={hand}
+                    onChange={(e) => {
+                      restartReading();
+                      setHand(e.target.value);
+                    }}
+                  >
+                    <option value="both">Both hands</option>
+                    <option value="right">Right hand</option>
+                    <option value="left">Left hand</option>
+                  </select>
+                  <div className="speed-control">
+                    <label htmlFor="speed">Practice speed</label>
+                    <select
+                      id="speed"
+                      className="dock-select"
+                      value={speed}
+                      onChange={(e) => {
+                        stop();
+                        setSpeed(+e.target.value);
+                      }}
+                    >
+                      {[0.25, 0.5, 0.65, 0.75, 1, 1.25].map((x) => (
+                        <option key={x} value={x}>
+                          {Math.round(x * 100)}% · ♩ ={" "}
+                          {Math.round(score.bpm * x)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="volume">
+                    <button
+                      className="icon-button"
+                      aria-label={volume ? "Mute" : "Unmute"}
+                      disabled={settingsLoading}
+                      onClick={() => {
+                        const v = volume ? 0 : 0.65;
+                        setVolume(v);
+                        piano.setVolume(v);
+                      }}
+                    >
+                      {volume ? <Volume2 size={17} /> : <VolumeX size={17} />}
+                    </button>
+                    <input
+                      aria-label="Piano volume"
+                      disabled={settingsLoading}
+                      type="range"
+                      min="0"
+                      max="1"
+                      step=".01"
+                      value={volume}
+                      onChange={(e) => {
+                        setVolume(+e.target.value);
+                        piano.setVolume(+e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              {loop && (
+                <div className="dock-row loop-options">
+                  <Repeat2 size={14} /> Repeat bars{" "}
+                  <input
+                    aria-label="Loop start bar"
+                    type="number"
+                    min="1"
+                    max={loopB}
+                    value={loopA}
+                    onChange={(e) => {
+                      repeatBars(Math.min(loopB, +e.target.value), loopB);
+                    }}
+                  />{" "}
+                  to{" "}
+                  <input
+                    aria-label="Loop end bar"
+                    type="number"
+                    min={loopA}
+                    max={score.measures}
+                    value={loopB}
+                    onChange={(e) => {
+                      repeatBars(loopA, Math.max(loopA, +e.target.value));
+                    }}
+                  />
+                  <span>Next / previous wraps within this phrase.</span>
+                </div>
+              )}
             </div>
             <KeyboardGuide
               collapsed={keyboardCollapsed}
@@ -2575,7 +2773,7 @@ export default function App() {
                       return (
                         <div
                           key={n.id}
-                          title={`${noteName(n.midi)} · ${label(n.midi)} · ${n.duration} quarter-note beat${n.duration === 1 ? "" : "s"}`}
+                          title={`${noteName(n.midi, flats)} · ${label(n.midi)} · ${n.duration} quarter-note beat${n.duration === 1 ? "" : "s"}`}
                           className={`falling-note ${n.hand} ${n.duration / rollBeats < 0.1 ? "short" : ""} ${n.duration / rollBeats < 0.045 ? "tiny" : ""} ${active.has(n.midi) && n.beat <= beat ? "hitting" : ""}`}
                           style={{
                             left: `calc(${k.left}% + 2px)`,
@@ -2585,7 +2783,7 @@ export default function App() {
                           }}
                         >
                           <span>{label(n.midi)}</span>
-                          <small>{noteName(n.midi)}</small>
+                          <small>{noteName(n.midi, flats)}</small>
                         </div>
                       );
                     })}
@@ -2595,332 +2793,55 @@ export default function App() {
                 ) : null
               }
             />
-            <div className="reader-controls">
-              <div className="player-toolbar">
-                <div className="segmented">
-                  <button
-                    className={mode === "listen" ? "selected" : ""}
-                    onClick={() => {
-                      restartReading();
-                      setMode("listen");
-                    }}
-                  >
-                    <Headphones size={14} /> Listen & follow
-                  </button>
-                  <button
-                    className={mode === "wait" ? "selected" : ""}
-                    onClick={() => {
-                      restartReading();
-                      setMode("wait");
-                    }}
-                  >
-                    <Keyboard size={15} /> Wait for me
-                  </button>
-                  <button
-                    className={mode === "perform" ? "selected" : ""}
-                    title="Count-in, click, and a report card on pitch and timing"
-                    onClick={() => {
-                      restartReading();
-                      setMode("perform");
-                    }}
-                  >
-                    <Timer size={15} /> Play in time
-                  </button>
-                </div>
-                <div className="hand-select">
-                  <span className="dot lavender" /> Left{" "}
-                  <span className="dot mint" /> Right{" "}
-                  <select
-                    aria-label="Practice hand"
-                    value={hand}
-                    onChange={(e) => {
-                      restartReading();
-                      setHand(e.target.value);
-                    }}
-                  >
-                    <option value="both">Both hands</option>
-                    <option value="right">Right hand</option>
-                    <option value="left">Left hand</option>
-                  </select>
-                </div>
-              </div>
-              <div className="transport">
-                <div className="timeline">
-                  <input
-                    aria-label="Song position"
-                    type="range"
-                    min="0"
-                    max={score.duration}
-                    step="any"
-                    value={Math.max(0, beat)}
-                    onChange={(e) => seekReading(+e.target.value)}
-                    style={{
-                      "--progress": `${(Math.max(0, beat) / score.duration) * 100}%`,
-                    }}
-                  />
-                  <span>
-                    {fmt(time)} <i>/</i> {fmt(totalTime)}
-                  </span>
-                </div>
-                <div className="transport-controls">
-                  <div className="transport-left">
-                    <button
-                      className="icon-button"
-                      aria-label="Start over"
-                      title={loop ? "Start this phrase again" : "Start over"}
-                      onClick={restartReading}
-                    >
-                      <RotateCcw size={17} />
-                    </button>
-                    <button
-                      className="icon-button"
-                      aria-label="Previous note"
-                      title="Previous note"
-                      onClick={() => stepReading(-1)}
-                    >
-                      <ChevronLeft size={18} />
-                    </button>
-                    <button
-                      className="play-button"
-                      aria-label={playing ? "Pause" : "Play"}
-                      onClick={start}
-                      disabled={loadingSound || settingsLoading}
-                    >
-                      {loadingSound || settingsLoading ? (
-                        <LoaderCircle className="spin" size={20} />
-                      ) : playing ? (
-                        <Pause size={20} fill="currentColor" />
-                      ) : (
-                        <Play size={20} fill="currentColor" />
-                      )}
-                    </button>
-                    <button
-                      className="icon-button"
-                      aria-label="Next note"
-                      title="Next note"
-                      onClick={() => stepReading(1)}
-                    >
-                      <ChevronRight size={18} />
-                    </button>
-                    <button
-                      className={`icon-button ${loop ? "on" : ""}`}
-                      aria-label="Toggle phrase loop"
-                      aria-pressed={loop}
-                      title={
-                        loop ? "Stop repeating these bars" : "Repeat a phrase"
-                      }
-                      onClick={() => {
-                        if (loop) clearRepeat();
-                        else repeatBars(loopA, loopB);
-                      }}
-                    >
-                      <Repeat2 size={19} />
-                    </button>
-                    <span className="control-divider" />
-                    <div className="speed-control">
-                      <label htmlFor="speed">Practice speed</label>
-                      <select
-                        id="speed"
-                        value={speed}
-                        onChange={(e) => {
-                          stop();
-                          setSpeed(+e.target.value);
-                        }}
-                      >
-                        {[0.25, 0.5, 0.65, 0.75, 1, 1.25].map((x) => (
-                          <option key={x} value={x}>
-                            {Math.round(x * 100)}% · ♩ ={" "}
-                            {Math.round(score.bpm * x)}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="volume">
-                    <button
-                      className="icon-button"
-                      aria-label={volume ? "Mute" : "Unmute"}
-                      disabled={settingsLoading}
-                      onClick={() => {
-                        const v = volume ? 0 : 0.65;
-                        setVolume(v);
-                        piano.setVolume(v);
-                      }}
-                    >
-                      {volume ? <Volume2 size={17} /> : <VolumeX size={17} />}
-                    </button>
-                    <input
-                      aria-label="Piano volume"
-                      disabled={settingsLoading}
-                      type="range"
-                      min="0"
-                      max="1"
-                      step=".01"
-                      value={volume}
-                      onChange={(e) => {
-                        setVolume(+e.target.value);
-                        piano.setVolume(+e.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-                {loop && (
-                  <div className="loop-options">
-                    <Repeat2 size={14} /> Repeat bars{" "}
-                    <input
-                      aria-label="Loop start bar"
-                      type="number"
-                      min="1"
-                      max={loopB}
-                      value={loopA}
-                      onChange={(e) => {
-                        repeatBars(Math.min(loopB, +e.target.value), loopB);
-                      }}
-                    />{" "}
-                    to{" "}
-                    <input
-                      aria-label="Loop end bar"
-                      type="number"
-                      min={loopA}
-                      max={score.measures}
-                      value={loopB}
-                      onChange={(e) => {
-                        repeatBars(loopA, Math.max(loopA, +e.target.value));
-                      }}
-                    />
-                    <span>Next / previous wraps within this phrase.</span>
-                  </div>
-                )}
-              </div>
-            </div>
-            <footer className="reader-footer">
-              <span>Computer keys A S D F · Space to play / pause</span>
-              <span>
-                {mode === "wait" && sessionHits > 0
-                  ? `${sessionHits} notes · ${Math.round((sessionHits / (sessionHits + sessionMisses)) * 100)}% accuracy`
-                  : mode === "perform"
-                    ? "Play in time grades pitch and timing after each run"
-                    : "Saved on this Mac"}
-              </span>
-            </footer>
-          </div>
-        ) : (
-          <>
-            <section className="greeting">
-              <div>
-                <span className="eyebrow">
-                  {view === "library"
-                    ? "A HOME FOR YOUR MUSIC"
-                    : "EVERY PIANIST STARTS SOMEWHERE"}
-                </span>
-                <h1>
-                  {view === "library"
-                    ? "Your next favorite melody."
-                    : "Little lessons. Lovely progress."}
-                </h1>
-                <p>
-                  {view === "library"
-                    ? "Bring a sheet. Find the notes. Make it yours."
-                    : "Start small, listen closely, and let your fingers find their way."}
-                </p>
-              </div>
-            </section>
-            {view === "learn" && (
-              <LevelPath
-                history={history}
-                recommended={recommended}
-                onStart={(level) =>
-                  startExercise({ ...exerciseOptions, level, seed: undefined })
-                }
-              />
-            )}
-            {view === "library" && (
-              <div className="library-tools">
-                <label className="search">
-                  <Search size={18} />
-                  <input
-                    placeholder="Find a piece…"
-                    aria-label="Find a piece"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                  />
-                </label>
-                <button className="primary" onClick={() => setModal("import")}>
-                  <Upload size={16} /> Bring your sheet music
-                </button>
-              </div>
-            )}
-            <div className="library-grid">
-              {(view === "library" ? [...library, ...LESSONS] : LESSONS)
-                .filter(
-                  (s) =>
-                    s.title.toLowerCase().includes(query.toLowerCase()) ||
-                    view === "learn",
-                )
-                .map((s, i) => (
-                  <article className="song-card panel" key={s.id}>
-                    <div className={`song-cover cover-${i % 4}`}>
-                      <span className="song-orbit" />
-                      <Music2 size={42} />
-                      <span className="cover-number">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="cover-star">✦</span>
-                    </div>
-                    <div className="song-content">
-                      <span className="eyebrow">
-                        {s.source}{" "}
-                        {s.reviewed ? "· ready to play" : "· review needed"}
-                      </span>
-                      <h2>{s.title}</h2>
-                      <p>{s.description || s.composer}</p>
-                      <div className="song-meta">
-                        <span>{s.notes.length} notes</span>
-                        <span>♩ = {s.bpm}</span>
-                        <span>{s.measures} bars</span>
-                      </div>
-                      <button className="secondary" onClick={() => choose(s)}>
-                        Let’s play <ArrowRight size={16} />
-                      </button>
-                      {library.some((x) => x.id === s.id) && (
-                        <button
-                          className="icon-button delete-score"
-                          aria-label={`Remove ${s.title}`}
-                          onClick={async () => {
-                            await api("/scores/" + s.id, { method: "DELETE" });
-                            await refreshLibrary();
-                            notify(
-                              "Removed from your library. Original import is kept in the Library folder.",
-                            );
-                          }}
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      )}
-                    </div>
-                  </article>
-                ))}
-              {view === "library" && (
-                <button
-                  className="import-card"
-                  onClick={() => setModal("import")}
-                >
-                  <span>
-                    <Upload size={28} />
-                  </span>
-                  <h3>There’s room for your music.</h3>
-                  <p>
-                    PDF, MusicXML, or MIDI
-                    <br />
-                    Your next little adventure starts here.
-                  </p>
-                  <strong>
-                    Import a score <ArrowUpRight size={15} />
-                  </strong>
-                </button>
-              )}
-            </div>
-          </>
+            <p className="practice-hints">
+              <kbd>Space</kbd> play / pause · <kbd>N</kbd> new exercise ·{" "}
+              <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd>… play C4
+              upward · Shift-click a bar number to repeat a range
+            </p>
+          </section>
+        )}
+        {view === "exercises" && (
+          <ExercisesScreen
+            history={history}
+            options={exerciseOptions}
+            onChange={setExerciseOptions}
+            recommended={recommended}
+            onStart={(input) => startExercise(input)}
+          />
+        )}
+        {view === "library" && (
+          <LibraryScreen
+            library={library}
+            lessons={LESSONS}
+            history={history}
+            query={query}
+            onQuery={setQuery}
+            currentId={score.id}
+            onOpen={choose}
+            onImport={() => {
+              setImportError("");
+              setModal("import");
+            }}
+            onRemove={async (s) => {
+              try {
+                await api("/scores/" + s.id, { method: "DELETE" });
+                await refreshLibrary();
+                notify(
+                  "Removed from your library. Original import is kept in the Library folder.",
+                );
+              } catch (e) {
+                notify(e.message);
+              }
+            }}
+          />
+        )}
+        {view === "progress" && (
+          <ProgressScreen
+            history={history}
+            stats={stats}
+            recommended={recommended}
+            onOpenRun={openRun}
+          />
         )}
       </main>
       <input
@@ -2945,22 +2866,21 @@ export default function App() {
           </button>
         </div>
       )}
-      {modal === "exercise" && (
-        <ExerciseModal
-          options={exerciseOptions}
-          onChange={setExerciseOptions}
-          history={history}
-          onGenerate={(options) =>
-            startExercise({ ...options, seed: undefined })
-          }
-          close={() => setModal(null)}
-        />
-      )}
       {modal === "results" && results && (
         <ResultsModal
           results={results}
           score={score}
           flats={flats}
+          pet={pet}
+          tips={coachingTips(results.result, {
+            secondsPerBeat: 60 / (score.bpm * speed),
+            speed,
+            prep,
+            nextLevelReady:
+              !!score.exercise &&
+              score.exercise.level < LEVELS.length &&
+              levelAdvice(history, score.exercise.level).ready,
+          })}
           close={() => setModal(null)}
           onRepeat={(first, last) => {
             setModal(null);
@@ -2993,13 +2913,13 @@ export default function App() {
         />
       )}
       {modal === "settings" && (
-        <Modal title="Reading settings" close={() => setModal(null)}>
-          <section className="practice-settings reader-settings">
-            <div className="card-title">
-              <span>
-                <SlidersHorizontal size={15} /> Reading & sound
-              </span>
-            </div>
+        <Modal
+          title="Settings"
+          subtitle="Reading, timing and appearance. Everything is saved on this Mac."
+          close={() => setModal(null)}
+        >
+          <section className="settings-section practice-settings reader-settings">
+            <h3>Reading</h3>
             <label>
               Key labels
               <select
@@ -3028,6 +2948,27 @@ export default function App() {
               </select>
             </label>
             <div className="toggle-row">
+              <span title="Number 1 becomes the tonic of each piece’s key signature">
+                Number 1 follows the key
+              </span>
+              <button
+                className={`toggle ${tonicFollow ? "active" : ""}`}
+                role="switch"
+                aria-checked={tonicFollow}
+                aria-label="Number 1 follows the key"
+                onClick={() => {
+                  const next = !tonicFollow;
+                  setTonicFollow(next);
+                  if (next) setTonic(score.tonic ?? 0);
+                }}
+              >
+                <i />
+              </button>
+            </div>
+          </section>
+          <section className="settings-section practice-settings reader-settings">
+            <h3>Timing</h3>
+            <div className="toggle-row">
               <span>Count me in</span>
               <button
                 className={`toggle ${countIn ? "active" : ""}`}
@@ -3054,24 +2995,6 @@ export default function App() {
                 <i />
               </button>
             </div>
-            <div className="toggle-row">
-              <span title="Number 1 becomes the tonic of each piece’s key signature">
-                Number 1 follows the key
-              </span>
-              <button
-                className={`toggle ${tonicFollow ? "active" : ""}`}
-                role="switch"
-                aria-checked={tonicFollow}
-                aria-label="Number 1 follows the key"
-                onClick={() => {
-                  const next = !tonicFollow;
-                  setTonicFollow(next);
-                  if (next) setTonic(score.tonic ?? 0);
-                }}
-              >
-                <i />
-              </button>
-            </div>
             <p
               className="meter-hint"
               title="The metronome follows the written meter. Tempo is measured in quarter notes per minute."
@@ -3080,66 +3003,34 @@ export default function App() {
               clicks.
             </p>
           </section>
-          <section className="progress-panel" aria-label="Practice progress">
-            <div className="card-title">
-              <span>
-                <Trophy size={15} /> Progress
+          <section className="settings-section practice-settings reader-settings">
+            <h3>Appearance & help</h3>
+            <div className="toggle-row">
+              <span title="A small companion with a line of advice under the score">
+                Companion tips
               </span>
+              <button
+                className={`toggle ${coach ? "active" : ""}`}
+                role="switch"
+                aria-checked={coach}
+                aria-label="Companion tips"
+                onClick={() => setCoach((v) => !v)}
+              >
+                <i />
+              </button>
             </div>
-            <div className="progress-stats">
-              <div>
-                <strong>{practiceStreak(history)}</strong>
-                <span>day streak</span>
-              </div>
-              <div>
-                <strong>
-                  {
-                    history.filter(
-                      (h) => localDay(h.at) === localDay(Date.now()),
-                    ).length
-                  }
-                </strong>
-                <span>runs today</span>
-              </div>
-              <div>
-                <strong>{history.length}</strong>
-                <span>graded runs</span>
-              </div>
-              <div>
-                <strong>{recommended}</strong>
-                <span>level next</span>
-              </div>
+            <div className="reader-settings-links">
+              <button
+                className="secondary"
+                onClick={() => setModal("companion")}
+              >
+                <Sparkles size={16} /> Companions & moods
+              </button>
+              <button className="secondary" onClick={() => setModal("guide")}>
+                <HelpCircle size={16} /> Reading guide
+              </button>
             </div>
-            {history.length > 0 && (
-              <ul className="progress-list">
-                {history
-                  .slice(-5)
-                  .reverse()
-                  .map((h, i) => (
-                    <li key={h.at + i}>
-                      <span>{h.title}</span>
-                      <b>
-                        {Math.round(h.accuracy)}% · {Math.round(h.timing)}% on
-                        time
-                      </b>
-                    </li>
-                  ))}
-              </ul>
-            )}
           </section>
-
-          <div className="reader-settings-links">
-            <button className="secondary" onClick={() => setModal("companion")}>
-              <Sparkles size={16} /> Companions & moods
-            </button>
-            <button className="secondary" onClick={() => setModal("guide")}>
-              <HelpCircle size={16} /> Reading guide
-            </button>
-          </div>
-          <p className="subtle-note">
-            {Math.floor(stats.dailyMinutes || 0)} minutes today ·{" "}
-            {stats.correct} notes practiced. Progress is saved locally.
-          </p>
           {score.practiceTips?.length > 0 && (
             <details className="reader-lesson-tips">
               <summary>Tips for this piece</summary>
@@ -3154,8 +3045,8 @@ export default function App() {
       )}
       {modal === "import" && (
         <Modal
-          title="Every sheet has a song inside."
-          subtitle="Let’s find yours. Everything is processed here, on your Mac."
+          title="Import a score"
+          subtitle="PDF, MusicXML, MIDI or a Luma backup. Everything is processed here, on your Mac."
           close={() => setModal(null)}
         >
           <div
@@ -3402,8 +3293,8 @@ export default function App() {
       {modal === "guide" && (
         <Modal
           wide
-          title="You already know the first step."
-          subtitle="A small guide to finding your way around the piano."
+          title="How to read with Luma Keys"
+          subtitle="Four screens, three ways to practise, and a few shortcuts."
           close={() => setModal(null)}
         >
           <div className="guide-grid">
@@ -3414,41 +3305,44 @@ export default function App() {
                 1 = C / Do, 2 = D / Re, 3 = E / Mi, 4 = F / Fa, 5 = G / Sol, 6 =
                 A / La, 7 = B / Ti. These are{" "}
                 <strong>not finger numbers</strong>. ♯1 is the black key just
-                above C.
+                above C; in flat keys the same key reads ♭2. C4 is middle C and
+                C5 is one octave higher. Switch to Sheet music to read the same
+                bars as staff notation.
               </p>
             </article>
             <article>
               <span>02</span>
-              <h3>Find your middle C.</h3>
+              <h3>Three ways to practise.</h3>
               <p>
-                Find a group of two black keys. C is the white key immediately
-                to their left. C4 is middle C; C5 is one octave higher. Read the
-                pitch and octave below each number, such as C4 or C5.
+                <strong>Listen & follow</strong> plays the piano while the
+                cursor moves. <strong>Wait for me</strong> holds each note until
+                you play it, so chords need every shown pitch.{" "}
+                <strong>Play in time</strong> counts a bar in, keeps a click
+                going, and grades pitch and timing bar by bar afterwards. Slow
+                it down with Practice speed; nothing changes pitch.
               </p>
             </article>
             <article>
               <span>03</span>
-              <h3>Listen. Then take your turn.</h3>
+              <h3>Exercises make new music.</h3>
               <p>
-                In Number score, read left to right. Notes stacked together form
-                a chord. The ♩ value under a note tells you how long to hold it;
-                rests show the same ♩ value for how long to stay silent. In
-                Listen & follow, the highlighted position moves with the sound.
-                Try 50% speed, then switch to Wait for me. Chords need all the
-                shown notes before advancing.
+                The Exercises screen holds twelve levels. Start makes a piece
+                nobody has played before; New exercise on the Practice screen
+                (or the N key) does the same at your saved level. Another like
+                this keeps the same choices, Keep in library saves a piece you
+                like, and three clean Play in time runs unlock the next level.
               </p>
             </article>
             <article>
               <span>04</span>
               <h3>Use your real keyboard.</h3>
               <p>
-                Connect a USB MIDI keyboard and click Connect piano. The
-                keyboard guide scrolls to nearby notes; use the overview or
-                octave arrows to explore all 88 keys. For an acoustic piano, use
-                Next / Previous note at your own pace, or follow Listen &
-                follow. Hide the keyboard guide when you want more room for the
-                music. This app does not listen through the microphone. You can
-                also click keys or use A W S E D F T G Y H U J K.
+                Connect a USB MIDI keyboard with Connect piano. The keyboard
+                guide scrolls to nearby notes; use the overview or the octave
+                arrows to reach all 88 keys, or hide the guide for more room.
+                For an acoustic piano use Next / Previous note at your own pace.
+                Computer keys A W S E D F T G Y H U J K play C4 upward. The app
+                never listens through a microphone.
               </p>
             </article>
             <article>
@@ -3456,27 +3350,26 @@ export default function App() {
               <h3>A phrase at a time.</h3>
               <p>
                 Choose Repeat these bars above the score, or click a bar number
-                then Shift-click another to repeat that range. You can also type
-                the start and end bars below the player. Next / Previous and
-                Start over stay within the repeat; clicking outside it returns
-                to the whole piece. Isolate your right or left hand, slow it
-                down, and add the other hand when it feels comfortable. A few
-                unhurried minutes count.
+                and Shift-click another to repeat that range; the report card
+                can set the weakest bars for you. Isolate a hand, slow down, and
+                add the other hand when it feels comfortable. A few unhurried
+                minutes count.
               </p>
             </article>
             <article>
               <span>06</span>
-              <h3>Your music stays yours.</h3>
+              <h3>Your music and progress stay here.</h3>
               <p>
-                Scores and practice settings are saved in Desktop / Luma Keys /
-                Library. PDF recognition needs a clear scan and a review. If a
-                repeat or tempo change is simplified, you’ll see a note in the
-                review screen.
+                Library lists your imports, kept exercises and the starter
+                pieces. Progress keeps every graded run with a trend chart and
+                per-level results, and can reopen the exact exercise you played.
+                Scores and settings live in Desktop / Luma Keys / Library. PDF
+                recognition needs a clear scan and a review.
               </p>
             </article>
           </div>
           <button className="primary" onClick={() => setModal(null)}>
-            Let’s find a little rhythm <ArrowRight size={16} />
+            Back to the music <ArrowRight size={16} />
           </button>
         </Modal>
       )}

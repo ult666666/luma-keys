@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "version": "1.3.0",
+  "version": "1.4.0",
   "checks": [
     "Manual reading visits every close onset in order, including .03125-beat notes, and keeps the required-note cue accurate",
     "Repeat these bars selects the visible final bar using real pickup/meter boundaries; Start over, mode/hand changes and review/save stay inside that phrase",
@@ -39,44 +39,44 @@
     "narrowControls": [
       {
         "label": "Repeat these bars",
-        "left": 166.734375,
-        "right": 197.734375,
+        "left": 163.4375,
+        "right": 194.4375,
         "width": 31
       },
       {
         "label": "Go to bar",
-        "left": 205.734375,
-        "right": 253.734375,
+        "left": 202.4375,
+        "right": 250.4375,
         "width": 48
       },
       {
         "label": "Go",
-        "left": 256.734375,
-        "right": 275,
-        "width": 18.265625
+        "left": 253.4375,
+        "right": 273,
+        "width": 19.5625
       },
       {
         "label": "Previous passage",
-        "left": 284,
-        "right": 317,
+        "left": 282,
+        "right": 315,
         "width": 33
       },
       {
         "label": "Next passage",
-        "left": 323,
-        "right": 356,
+        "left": 321,
+        "right": 354,
         "width": 33
       },
       {
         "label": "Loop start bar",
-        "left": 97.2890625,
-        "right": 137.2890625,
+        "left": 144.1953125,
+        "right": 184.1953125,
         "width": 40
       },
       {
         "label": "Loop end bar",
-        "left": 161.0703125,
-        "right": 201.0703125,
+        "left": 228.3515625,
+        "right": 268.3515625,
         "width": 40
       }
     ]

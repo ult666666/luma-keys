@@ -11,27 +11,27 @@
   "measurements": [
     {
       "name": "Bach first 16 bars",
-      "scrollHeight": 3791,
+      "scrollHeight": 3790,
       "nodes": 3414,
       "paths": 1176,
       "visibleHeight": 500,
-      "loadRenderMs": 457.1009999999999
+      "loadRenderMs": 703.9988750000002
     },
     {
       "name": "Joplin first 16 bars",
-      "scrollHeight": 1939,
+      "scrollHeight": 1938,
       "nodes": 2266,
       "paths": 921,
       "visibleHeight": 500,
-      "loadRenderMs": 287.18966599999976
+      "loadRenderMs": 543.403292
     },
     {
       "name": "256-bar book, bars 129–144",
-      "scrollHeight": 3287,
+      "scrollHeight": 3286,
       "nodes": 2982,
       "paths": 1072,
       "visibleHeight": 500,
-      "loadRenderMs": 323.09200000000055
+      "loadRenderMs": 291.34179200000017
     }
   ],
   "errors": []

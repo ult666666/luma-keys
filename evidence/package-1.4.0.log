@@ -1,0 +1,157 @@
+
+> luma-keys@1.4.0 test
+> node --test tests/*.test.mjs
+
+✔ legacy backups normalize chronological chords and unique editable note IDs without mutating input (22.078875ms)
+✔ backup validation rejects malformed metadata and notes with actionable errors (30.113833ms)
+✔ round trips preserve real score rhythms, trailing rests and all built-in lessons (393.4935ms)
+Luma Keys listening on 49892
+Practice file contains an invalid total duration or bar count.
+Note 1 has an invalid pitch, rhythm or hand. Check the original score before importing again.
+Unexpected token 'n', "null" is not valid JSON
+✔ library recovery preserves broken files and healthy scores across import, reload and repair (174.856833ms)
+✔ the same seed and options always engrave the same exercise (5.349542ms)
+✔ every level engraves warning-free MusicXML with complete bars, separate hands and a tonic ending (686.243125ms)
+✔ step-only levels move by step or repeat, and leaps recoil (14.58025ms)
+✔ higher levels introduce eighths, accidentals, 6/8 and left-hand patterns (40.609166ms)
+✔ custom options override the level defaults and stay within supported values (2.159417ms)
+✔ flat keys are spelled with flats and re-parse identically (3.897666ms)
+✔ Overlapping input owners hold a pitch until its last owner releases (1.25875ms)
+✔ Release, focus loss and disconnect invalidate only the pending notes they own (1.302416ms)
+✔ MIDI rebinding preserves connected notes, disconnect cleans only its port, and channels own independent notes (0.523041ms)
+✔ Malformed and unrelated MIDI messages never become note attempts (0.147958ms)
+✔ ending an overlapping score voice preserves resonance on the held key (2.039ms)
+✔ live press attacks once and either live or score release preserves the other owner (0.164667ms)
+✔ consecutive same-pitch IDs and revisits after silence remain fresh attacks (0.111833ms)
+✔ a playback epoch retriggers the same carried score note without retriggering live-only keys (0.10825ms)
+✔ reordering or duplicating current owners does not invent another attack (0.137125ms)
+✔ motion history keeps at most 88 counters and discards ended identities (9.61725ms)
+✔ Für Elise excerpt follows the public-domain opening pitches and separate hands (2.108792ms)
+✔ Für Elise pickup, 3/8 bars and short first ending keep their exact boundaries (1.871375ms)
+✔ Optional practice guidance must be a bounded list of text (0.229ms)
+✔ resume inside a sustained note schedules only its remaining duration once (2.7825ms)
+✔ exact onsets and their chords stay exclusively in the ordinary scheduler (0.278125ms)
+✔ carry-only listen loops restart the hold and clip it to the loop boundary (0.419625ms)
+✔ notes ending at resume and starts at the playback end are silent (0.202917ms)
+✔ hand filtering is retained and negative count-in starts without premature sound (0.134ms)
+✔ fixed Do, chromatic notes, octaves and movable Do (2.451166ms)
+✔ 88-key layout aligns black keys between white keys (0.521083ms)
+✔ voice backup, simultaneous chords, rest, duration and left staff (14.101791ms)
+✔ ties merge sustained notes and pickup does not add empty beats (2.683125ms)
+✔ MXL container selects root music XML (5.969583ms)
+✔ invalid and empty scores fail honestly (1.206542ms)
+✔ MIDI notes retain pitch and quarter-note duration (5.140375ms)
+✔ lessons have bounded sorted notes and complete durations (24.123792ms)
+✔ fixture: pickup with a full-bar rest, two parts with different divisions, tie, chords and triplets (3.811584ms)
+✔ chord members share the onset of their voice after backup, even after a rest (1.643708ms)
+✔ tie chains across three bars become one held note; untouching ties do not merge (1.288917ms)
+✔ ties across a voice-number change and between chord members follow pitch (1.436667ms)
+✔ a transposing part reads its key in concert pitch even when <transpose> follows <key> (0.978958ms)
+✔ a pickup bar whose other staff holds a whole-bar rest still lasts only its played beats (0.935625ms)
+✔ a pickup is detected without implicit="yes"; a bar of only rests keeps its full length (1.015125ms)
+✔ a bar split around a repeat (short bar + implicit bar) is not padded with silence (3.214042ms)
+✔ notes missing <duration> are timed from their written type, dots and tuplets (0.561042ms)
+✔ written accidentals fill a missing <alter>; key signatures ignored by an exporter are flagged (1.235084ms)
+✔ unsupported notation warnings name the bars involved (0.733166ms)
+✔ bars drawn as repeat-the-bar signs without written notes are flagged (2.002708ms)
+✔ malformed MusicXML and MXL input fail with clear messages (5.277ms)
+✔ MIDI: humanized chords line up, far-apart notes stay separate, out-of-range notes are reported (1.15175ms)
+✔ MIDI: two tracks map to hands; minor keys use the relative-major number 1; bars follow 3/4 (1.603459ms)
+✔ MIDI meter changes share bar positions with loops and numbered exports (25.228875ms)
+✔ MIDI silent bars and long held notes keep all loopable bar boundaries (0.326667ms)
+✔ MIDI partial-bar signature changes start a new bar and explain the shortening (1.263791ms)
+✔ MIDI near-simultaneous notes across a bar line never merge into one chord (0.526708ms)
+✔ MusicXML final bar uses its changed meter, including when editing past its end (0.819ms)
+✔ bar helpers retain legacy scores; malformed imported bar maps are rejected (6.34325ms)
+✔ pitch and timing are graded per note with tempo-aware windows (5.693416ms)
+✔ repeated pitches take the nearest attempt and chords need every note (0.202709ms)
+✔ stopping early grades only the notes that were reached (0.179125ms)
+✔ level advice needs three complete clean runs (0.149625ms)
+✔ manual reading visits every 1/32-quarter onset in actual MusicXML and selects the same Wait target (29.491791ms)
+✔ floating-point noise matches one chord without accepting or skipping a nearby distinct attack (0.389666ms)
+✔ manual phrase traversal wraps strictly within its onsets and full-score traversal stops at endpoints (1.537667ms)
+✔ empty and carry-only phrases return bounded navigation positions (0.362541ms)
+✔ dense score searches keep every distinct onset reachable without mutating groups (14.066333ms)
+✔ settings recovery retains valid fields and replaces only invalid values (5.00375ms)
+✔ saved settings reject invalid volumes, progress types, enum values and impossible dates (2.1375ms)
+✔ reading settings and practice history recover field by field (7.063958ms)
+✔ audio gain stays finite and bounded even if a caller supplies a bad volume (0.182084ms)
+Luma Keys listening on 49888
+Invalid settings: Piano volume. Choose supported settings and nonnegative numeric progress.
+EEXIST: file already exists, mkdir '/Users/prince/Desktop/Luma Keys/.qa-runs/settings-api-ej80dk/Library/Settings recovery'
+✔ settings reads do not overwrite corruption; repairs preserve exact bytes and save atomically (273.072125ms)
+✔ a generated exercise is summarised by key, meter, range and its tricky spots (31.13625ms)
+✔ starter pieces without a key signature are read as C major and leaps are named (13.577417ms)
+✔ coaching tips name the number they come from (0.937958ms)
+✔ the companion speaks in short, situation-aware lines (0.128917ms)
+✔ nearly simultaneous floating-point onsets share one visual chord without changing source times (5.143291ms)
+✔ piecewise reading positions preserve card spacing through highly unequal durations (0.461666ms)
+✔ carried notes expose remaining duration and seek within the visible passage (0.601083ms)
+✔ reading pages follow real pickup and changing-meter boundaries (1.178583ms)
+✔ sustained notes cross pages as held notes, with truthful silent gaps per hand (6.022333ms)
+✔ overlapping voices do not become invented rests or duplicate pitch cards (0.251041ms)
+✔ dense and long scores show bounded onset passages and every segment is reachable (90.100333ms)
+✔ chords stay stacked at one onset and duration labels retain triplets and dotted notes (0.611ms)
+✔ Explicit closing rests and a final rest-only bar remain in the practice duration (24.806375ms)
+✔ Independent Bach export preserves the arpeggio's sustained lower voices and final chord (123.360917ms)
+✔ Independent two-part Joplin export retains its final rest and key-change guidance (151.993083ms)
+✔ Terminal failure is published only after its receipt commits and the engine slot is retryable (1135.076583ms)
+✔ PDF jobs reserve the engine, cancel cleanly, retry fresh, and persist completed scores (3851.865125ms)
+✔ Shutdown interrupts active recognition, preserves originals, and blocks new starts (3656.526083ms)
+✔ Incomplete and malformed receipts recover independently, with explicit missing-original failure (4.467833ms)
+✔ Recognition time limit stops the engine and reports a useful retry error (3545.379417ms)
+✔ Force-killing the parent disconnects its runner and stops a SIGTERM-ignoring engine (3584.167417ms)
+✔ Interrupted score commits recover saved parts instead of duplicating them on retry (10.45275ms)
+✔ An engine launch failure releases the slot and reports installation trouble, not scan quality (608.165042ms)
+✔ 6/8 and 9/8 pulse on dotted quarters; count-in speaks the pulse numbers (15.83075ms)
+✔ 5/8 keeps eighth-note pulses and accents every fractional bar boundary (0.573583ms)
+✔ cut time and explicit additive beat groups retain their written pulses (3.589458ms)
+✔ MIDI preserves meter changes for fractional metronome pulses (3.095125ms)
+✔ pickup count-in completes the opening bar and does not falsely accent the pickup (0.535833ms)
+✔ successive audio scheduling windows never duplicate boundary clicks (0.876625ms)
+✔ cross-staff chords retain simultaneous pitches and flag ambiguous hands (1.032292ms)
+✔ pulse metadata survives backup validation; malformed patterns are rejected (12.489458ms)
+Luma Keys listening on 49897
+Note 1 has an invalid pitch, rhythm or hand. Check the original score before importing again.
+✔ Local API imports, persists, validates, exports, and restricts foreign origins (125.8215ms)
+ℹ tests 103
+ℹ suites 0
+ℹ pass 103
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17014.829625
+
+> luma-keys@1.4.0 pack
+> npm run build && electron-builder --mac dir --arm64
+
+
+> luma-keys@1.4.0 build
+> vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 1685 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                        0.45 kB │ gzip:   0.31 kB
+dist/assets/pdf.worker.min-Dswkl-cV.mjs            1,265.41 kB
+dist/assets/index-CKkqFXaj.css                       100.45 kB │ gzip:  21.33 kB
+dist/assets/pdf-YYBQA8p7.js                          437.74 kB │ gzip: 130.66 kB
+dist/assets/index-DiY5LfqW.js                        486.87 kB │ gzip: 159.02 kB
+dist/assets/opensheetmusicdisplay.min-CQVbyTek.js  1,223.69 kB │ gzip: 321.47 kB
+✓ built in 3.17s
+  • electron-builder  version=26.15.3 os=25.5.0
+  • loaded configuration  file=package.json ("build" field)
+  • executing @electron/rebuild  electronVersion=44.4.5 arch=arm64 buildFromSource=false workspaceRoot=/Users/prince/Desktop/Luma Keys projectDir=./ appDir=./
+  • installing native dependencies  arch=arm64
+  • completed installing native dependencies
+  • packaging       platform=darwin arch=arm64 electron=44.4.5 appOutDir=release/mac-arm64
+  • downloaded      label=electron progress=100%
+  • downloaded electron zip extracted successfully  output=/Users/prince/Desktop/Luma Keys/release/mac-arm64
+  • searching for node modules  pm=npm searchDir=/Users/prince/Desktop/Luma Keys
+  • duplicate dependency references  dependencies=["mime-types@3.0.2","debug@4.4.3","http-errors@2.0.1","on-finished@2.4.1","qs@6.16.0","http-errors@2.0.1","iconv-lite@0.7.3","type-is@2.1.0","debug@4.4.3","on-finished@2.4.1","get-intrinsic@1.3.0","call-bind-apply-helpers@1.0.2","call-bind-apply-helpers@1.0.2","es-object-atoms@1.1.2","call-bound@1.0.4","get-intrinsic@1.3.0","side-channel-map@1.0.1","debug@4.4.3","debug@4.4.3","http-errors@2.0.1","mime-types@3.0.2","on-finished@2.4.1","send@1.2.1","mime-types@3.0.2"]
+  • skipped macOS code signing  reason=identity explicitly is set to null
+Updated /Users/prince/Desktop/Luma Keys.app. Restart it to use this build.
+package exit 0
