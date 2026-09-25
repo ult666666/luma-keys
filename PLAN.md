@@ -1,7 +1,7 @@
 # Luma Keys — September 24–25, 2026
 
 ## Product
-An offline-first macOS desktop piano teacher: import a score, understand each note, hear it, and practice slowly on a physical or onscreen keyboard. Calm futuristic observatory styling: midnight ink, mint and lavender light, expressive moon-cat companion, beautiful typography. All source, assets, documentation and QA evidence stay on the Desktop.
+An offline-first macOS sight-reading tool: import a score, read a few clear bars, understand pitch and octave, and practice at a chosen pace on a physical or onscreen keyboard. The main workspace is concise: numbered score, current-note cue, readable keyboard window and transport. Staff notation and falling notes are alternate views; companions, themes, progress and advanced controls live behind Settings. All source, assets, documentation and QA evidence stay on the Desktop.
 
 ## Research and decisions
 - Audiveris 5.11.0 arm64 macOS distribution includes Java; run its batch transcribe/export workflow locally. https://audiveris.github.io/audiveris/_pages/guides/advanced/cli/ and https://github.com/Audiveris/audiveris/releases/tag/5.11.0
@@ -30,3 +30,8 @@ Reproduced and repaired lost PDF jobs and orphaned Audiveris after closing. Adde
 
 ## Completed piano-input follow-up — 1.0.8
 Reproduced ignored computer keys, uncancelled audio startup and delayed notes after blur/disconnect in the previous package. Added input ownership per source/channel, independent sustain pedals, cancellable note/transport startup, computer keys from buttons/sliders and Command-key recovery. Claude's read-only review led to preserving live keys across listen loops and letting wait mode's final note ring until release. Final verification: 63 unit/API tests, 12 input scenarios in browser and native app, 28 native core checks including actual PDF recognition, 3 save/quit scenarios, and sample/rhythm regressions. Installed the matching package and verified all 39 personal files unchanged. Physical MIDI is still untested. Keep the original 8 AM Eastern deadline.
+
+## User-directed sight-reading redesign — 1.1.0
+The user clarified that the product should be a concise sight-reading tool. This supersedes the dashboard-led layout: default to a large numbered passage, keep each key readable in a scrolling 88-key viewport, and move pets/progress/advanced settings out of the main workspace. Preserve actual PDF imports, audio, MIDI and all personal files. Include manual note stepping for acoustic-piano practice, optional original staff/falling views and accurate bar/pickup/hand handling. Validate the reading flow in browser and packaged app before installing. This direct user request is separate from the bounded overnight schedule; do not extend that schedule.
+
+Completed 1.1.0: installed/opened the concise sight reader after71 unit/API tests,9 browser/native reading groups,12 browser/native input groups,3 native quit/save scenarios,3 staff-cursor groups and6 notation review groups passed. Personal39 files remain unchanged. See STATUS.md and docs/SIGHT_READER.md. Future work must preserve the user's latest concise reading direction.

@@ -1,0 +1,166 @@
+.keyboard-guide {
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #171c1e;
+}
+.keyboard-guide-top {
+  padding: 12px 16px 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.keyboard-guide-top > span {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+}
+.keyboard-guide-top small {
+  font-size: 11px;
+  color: #94a09b;
+  font-variant-numeric: tabular-nums;
+}
+.keyboard-guide-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.keyboard-guide-controls button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  font-size: 11px;
+  border-radius: 5px;
+  color: #94a09b;
+}
+.keyboard-guide-controls .following {
+  color: var(--accent);
+  background: #c2f4d411;
+}
+.keyboard-locator {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  padding: 0 16px 10px;
+  color: #83918a;
+  font-size: 9px;
+}
+.keyboard-locator-track {
+  height: 18px;
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 3px;
+}
+.keyboard-locator-track i {
+  position: absolute;
+  height: 100%;
+  background: #ffffff16;
+  border-right: 1px solid #171c1e;
+}
+.keyboard-locator-track i.black {
+  height: 60%;
+  background: #101315;
+  z-index: 1;
+}
+.keyboard-locator-track i.target {
+  background: var(--accent);
+  z-index: 2;
+}
+.keyboard-locator-track b {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border: 1px solid #baf1cc80;
+  background: #baf1cc15;
+  z-index: 3;
+  border-radius: 3px;
+  pointer-events: none;
+}
+.keyboard-viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.keyboard-guide .piano-keys {
+  height: 116px;
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+}
+.keyboard-guide .piano-key.white {
+  border-radius: 0 0 5px 5px;
+}
+.keyboard-guide .piano-key.black {
+  height: 65%;
+}
+.keyboard-guide .piano-key .key-number {
+  font-size: 16px;
+}
+.keyboard-guide .piano-key.black .key-number {
+  font-size: 11px;
+}
+.keyboard-guide .piano-key small {
+  font-size: 10px;
+}
+.keyboard-guide .piano-key.black small {
+  font-size: 8px;
+}
+.keyboard-guide .piano-key.lit.white {
+  background: linear-gradient(#d4efe0, #b8eed1);
+  box-shadow: inset 0 -3px 0 #76c99f;
+}
+.keyboard-guide .piano-key.lit.black {
+  background: linear-gradient(#365a4b, #578c70);
+}
+.keyboard-guide-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 15px;
+  font-size: 10px;
+  color: #8e9b95;
+}
+.keyboard-offscreen {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 16px;
+  background: #bbddc510;
+  color: var(--accent);
+  font-size: 11px;
+}
+.keyboard-guide .roll {
+  height: 170px;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .keyboard-guide-top {
+    padding: 10px;
+  }
+  .keyboard-guide-top > span {
+    display: block;
+    font-size: 11px;
+  }
+  .keyboard-guide-top small {
+    display: block;
+    margin-top: 3px;
+  }
+  .keyboard-guide-caption span:last-child {
+    display: none;
+  }
+  .keyboard-guide .piano-keys {
+    height: 104px;
+  }
+}
+/* Native macOS overlay scrollbars otherwise intercept the bottom of a key.
+   Keep their hit area in a dedicated gutter below the playable surface. */
+.keyboard-strip {
+  padding-bottom: 18px;
+}

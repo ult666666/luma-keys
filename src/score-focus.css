@@ -1,0 +1,44 @@
+.notation-view.notation-compact {
+  position: relative;
+}
+
+.notation-compact .notation-navigation {
+  margin: 0 0 10px;
+  font-size: 11px;
+}
+
+.notation-compact .notation-navigation button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid #ffffff16;
+  border-radius: 7px;
+}
+
+.notation-compact .sheet-paper {
+  position: relative;
+  height: 300px;
+  min-height: 0;
+  max-height: 300px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #afbdb5 #f6f8f5;
+  overscroll-behavior: contain;
+}
+
+.notation-compact .engraved-sheet {
+  min-width: 520px;
+}
+
+.notation-compact .notation-loading {
+  position: absolute;
+  left: 30px;
+  top: 57px;
+  z-index: 2;
+  margin: 0;
+  color: #51695e;
+  font-size: 12px;
+}

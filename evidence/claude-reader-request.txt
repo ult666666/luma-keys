@@ -1,0 +1,781 @@
+The user clarified this app should be a concise piano sight-reading tool, not a dashboard of pets/progress. Review this new frontend for concrete correctness bugs that could teach wrong notes or cause hidden/unplayable keys. Tools disabled; do not edit. Give at most 5 actionable findings with exact function names and proposed fixes. Do not invent issues if the behavior is intentionally described. MIDI/transport engine preexists and was tested. Number score paginates 4 bars, or2 onsmallwindow; explicit pitch/octaves and durations are key. Keyboard all88keys remainmounted but fullsize viewportscrolls. App seeks onpassages/notes and exposesmanualstepbuttons. Return concise review only.
+
+FILE src/reading.mjs
+import { barStart, barEnd, measureAt } from "./music.mjs";
+
+const EPS = 1e-6;
+const lowerBound = (list, value, read = (n) => n) => {
+  let lo = 0,
+    hi = list.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1;
+    if (read(list[mid]) < value) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+};
+
+// Construct this once per score/hand filter, not on every transport frame.
+// Identical pitches at the same onset share one visual hold of the longest
+// duration. Their sounding interval is unchanged (e.g. doubled piano voices).
+export function indexReadingNotes(notes = []) {
+  const hands = { right: [], left: [] };
+  const sorted = notes
+    .filter(
+      (n) =>
+        Number.isFinite(n.beat) &&
+        n.beat >= 0 &&
+        Number.isFinite(n.duration) &&
+        n.duration > 0 &&
+        Number.isInteger(n.midi),
+    )
+    .slice()
+    .sort((a, b) => a.beat - b.beat || b.midi - a.midi);
+  const seen = new Map();
+  for (const n of sorted) {
+    const hand = n.hand === "left" ? "left" : "right";
+    const key = `${hand}:${n.beat}:${n.midi}`;
+    const prior = seen.get(key);
+    if (prior) prior.duration = Math.max(prior.duration, n.duration);
+    else {
+      const note = { ...n, hand };
+      hands[hand].push(note);
+      seen.set(key, note);
+    }
+  }
+  for (const hand of Object.values(hands)) {
+    let max = 0;
+    hand.maxEnds = hand.map((n) => (max = Math.max(max, n.beat + n.duration)));
+  }
+  return { hands, onsets: [...new Set(sorted.map((n) => n.beat))] };
+}
+
+export function readingNotesBetween(index, hand, start, end) {
+  const notes = index.hands[hand] || [];
+  const first = lowerBound(notes.maxEnds || [], start + EPS);
+  const last = lowerBound(notes, end - EPS, (n) => n.beat);
+  return notes
+    .slice(first, last)
+    .filter((n) => n.beat + n.duration > start + EPS);
+}
+
+// Page by real measures, including pickups and changes of meter. Particularly
+// dense pages split at note onsets so even a long imported score stays bounded.
+export function readingPassage(
+  score,
+  index,
+  beat = 0,
+  barsPerPage = 4,
+  maxOnsets = 32,
+) {
+  const measures = Math.max(1, Math.floor(score.measures || 1));
+  const bar = Math.min(measures, measureAt(score, Math.max(0, beat)));
+  const firstBar = Math.floor((bar - 1) / barsPerPage) * barsPerPage + 1;
+  const lastBar = Math.min(measures, firstBar + barsPerPage - 1);
+  const pageStart = barStart(score, firstBar);
+  const pageEnd = barEnd(score, lastBar);
+  // measureAt tolerates transport rounding; step clearly inside an exclusive
+  // end boundary, including its meter-scaled fallback for old saved scores.
+  const boundaryInset = Math.max(0.0001, (score.meter || 4) * 0.000004);
+  const first = lowerBound(index.onsets, pageStart - EPS);
+  const last = lowerBound(index.onsets, pageEnd - EPS);
+  let start = pageStart,
+    end = pageEnd;
+  let detail = false;
+  if (last - first > maxOnsets) {
+    const at = Math.max(
+      first,
+      lowerBound(index.onsets, Math.max(pageStart, beat) + EPS) - 1,
+    );
+    const chunk = Math.floor((Math.min(at, last - 1) - first) / maxOnsets);
+    const chunkStart = first + chunk * maxOnsets;
+    start = chunk === 0 ? pageStart : index.onsets[chunkStart];
+    end =
+      chunkStart + maxOnsets < last
+        ? index.onsets[chunkStart + maxOnsets]
+        : pageEnd;
+    detail = true;
+  }
+  return {
+    start,
+    end,
+    firstBar: Math.min(measures, measureAt(score, start)),
+    lastBar: Math.min(
+      measures,
+      measureAt(score, Math.max(start, end - boundaryInset)),
+    ),
+    previous: start > EPS ? start - boundaryInset : null,
+    next: end < barEnd(score, measures) - EPS ? end : null,
+    detail,
+  };
+}
+
+export function readingBars(score, passage) {
+  const result = [];
+  for (let bar = passage.firstBar; bar <= passage.lastBar; bar++) {
+    result.push({
+      bar,
+      start: Math.max(passage.start, barStart(score, bar)),
+      end: Math.min(passage.end, barEnd(score, bar)),
+      continuation: barStart(score, bar) < passage.start - EPS,
+    });
+  }
+  return result;
+}
+
+export function readingGroups(notes, start, end) {
+  const byBeat = new Map();
+  const heldPitches = new Map();
+  for (const note of notes) {
+    const at = Math.max(start, note.beat);
+    if (note.beat < start - EPS) {
+      // Overlapping voices of one held pitch share a single sounding key.
+      // Keep the voice that lasts longest; never render thousands of duplicate
+      // continuations from an unusually dense imported score.
+      const held = heldPitches.get(note.midi);
+      if (held) {
+        if (note.beat + note.duration > held.note.beat + held.note.duration)
+          held.group.notes[held.index] = held.note = note;
+        continue;
+      }
+    }
+    const key = at;
+    let group = byBeat.get(key);
+    if (!group) byBeat.set(key, (group = { beat: at, held: true, notes: [] }));
+    if (note.beat >= start - EPS) group.held = false;
+    else heldPitches.set(note.midi, { group, index: group.notes.length, note });
+    group.notes.push(note);
+  }
+  return [...byBeat.values()]
+    .sort((a, b) => a.beat - b.beat || Number(b.held) - Number(a.held))
+    .map((g) => ({
+      ...g,
+      notes: g.notes.sort((a, b) => b.midi - a.midi),
+      end: Math.min(end, Math.max(...g.notes.map((n) => n.beat + n.duration))),
+    }));
+}
+
+// A rest is only shown where this entire hand is silent. This avoids inventing
+// rests between onsets when a sustained voice is still sounding.
+export function readingRests(notes, start, end) {
+  const intervals = notes
+    .map((n) => [Math.max(start, n.beat), Math.min(end, n.beat + n.duration)])
+    .filter(([a, b]) => b > a + EPS)
+    .sort((a, b) => a[0] - b[0]);
+  const result = [];
+  let cursor = start;
+  for (const [from, to] of intervals) {
+    if (from > cursor + EPS)
+      result.push({ beat: cursor, duration: from - cursor });
+    cursor = Math.max(cursor, to);
+  }
+  if (cursor < end - EPS) result.push({ beat: cursor, duration: end - cursor });
+  return result;
+}
+
+// Values are quarter-note lengths, independent of a time signature's pulse.
+export function readingDuration(duration) {
+  const fractions = [
+    [1 / 8, "⅛"],
+    [1 / 6, "⅙"],
+    [1 / 4, "¼"],
+    [1 / 3, "⅓"],
+    [1 / 2, "½"],
+    [2 / 3, "⅔"],
+    [3 / 4, "¾"],
+  ];
+  const whole = Math.floor(duration + EPS);
+  const remainder = duration - whole;
+  if (Math.abs(remainder) < EPS * 2) return String(whole);
+  const fraction = fractions.find(
+    ([value]) => Math.abs(value - remainder) < 0.00001,
+  );
+  if (fraction) return `${whole || ""}${fraction[1]}`;
+  return String(Math.round(duration * 1000) / 1000);
+}
+
+
+FILE src/ReadingScore.jsx
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { barStart, degree, noteName, solfege } from "./music.mjs";
+import {
+  indexReadingNotes,
+  readingPassage,
+  readingNotesBetween,
+  readingGroups,
+  readingRests,
+  readingBars,
+  readingDuration,
+} from "./reading.mjs";
+import "./reading.css";
+
+export default function ReadingScore({
+  score,
+  notes = score.notes,
+  beat = 0,
+  tonic = 0,
+  labels = "numbers",
+  hand = "both",
+  onSeek,
+  onStep,
+}) {
+  const root = useRef(null);
+  const scroller = useRef(null);
+  const [width, setWidth] = useState(960);
+  const [jump, setJump] = useState("");
+  const index = useMemo(() => indexReadingNotes(notes), [notes]);
+  const barsPerPage = width < 760 ? 2 : 4;
+  const passage = readingPassage(score, index, beat, barsPerPage);
+  const { start, end } = passage;
+  const content = useMemo(() => {
+    const hands = ["right", "left"]
+      .filter((name) => hand === "both" || hand === name)
+      .map((hand) => {
+        const visible = readingNotesBetween(index, hand, start, end);
+        return {
+          hand,
+          notes: visible,
+          groups: readingGroups(visible, start, end),
+          rests: readingRests(visible, start, end),
+        };
+      });
+    const onsets = [
+      ...new Set(hands.flatMap((h) => h.groups.map((g) => g.beat))),
+    ].sort((a, b) => a - b);
+    let gap = 1;
+    for (let i = 1; i < onsets.length; i++)
+      gap = Math.min(gap, onsets[i] - onsets[i - 1]);
+    // Keep pitches legible; a dense passage scrolls instead of shrinking to dots.
+    const minWidth = Math.min(
+      3600,
+      Math.max(500, ((end - start) / Math.max(0.04, gap)) * 48),
+    );
+    return { hands, minWidth, bars: readingBars(score, passage) };
+  }, [index, score, start, end, hand]);
+  const span = Math.max(0.001, end - start);
+  const percent = (at) => `${((at - start) / span) * 100}%`;
+  const seek = (at, direction = 0) => {
+    if (onSeek) onSeek(Math.max(0, at));
+    else onStep?.(direction, Math.max(0, at));
+  };
+  useEffect(() => {
+    const observer = new ResizeObserver(([entry]) =>
+      setWidth(entry.contentRect.width),
+    );
+    if (root.current) observer.observe(root.current);
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    if (scroller.current) scroller.current.scrollLeft = 0;
+  }, [start, end]);
+  // On a dense page follow the reading position horizontally, without moving
+  // the whole application or fighting manual scroll while the cursor is visible.
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el || el.scrollWidth <= el.clientWidth + 2) return;
+    const x =
+      ((Math.max(start, beat) - start) / span) * (el.scrollWidth - 64) + 64;
+    if (x > el.scrollLeft + el.clientWidth - 70 || x < el.scrollLeft + 64)
+      el.scrollLeft = Math.max(0, x - el.clientWidth * 0.3);
+  }, [beat, start, span]);
+  const pageLabel =
+    passage.firstBar === passage.lastBar
+      ? `Bar ${passage.firstBar}`
+      : `Bars ${passage.firstBar}–${passage.lastBar}`;
+  const label = (m) =>
+    labels === "letters"
+      ? noteName(m).replace(/-?\d+$/, "")
+      : labels === "solfege"
+        ? solfege(m, tonic)
+        : degree(m, tonic);
+  return (
+    <section
+      className="reading-score"
+      ref={root}
+      aria-label="Sight-reading score"
+    >
+      <header className="reading-header">
+        <div className="reading-heading">
+          <span className="reading-eyebrow">READ FROM LEFT TO RIGHT</span>
+          <h2>
+            {pageLabel}
+            <span> / {score.measures}</span>
+          </h2>
+        </div>
+        <div className="reading-navigation">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const bar = Number(jump);
+              if (Number.isInteger(bar) && bar >= 1 && bar <= score.measures) {
+                seek(barStart(score, bar));
+                setJump("");
+              }
+            }}
+          >
+            <label htmlFor="reading-bar-jump">Go to bar</label>
+            <input
+              id="reading-bar-jump"
+              aria-label="Go to bar"
+              type="number"
+              min="1"
+              max={score.measures}
+              placeholder="—"
+              value={jump}
+              onChange={(e) => setJump(e.target.value)}
+            />
+            <button type="submit" className="reading-jump" disabled={!jump}>
+              Go
+            </button>
+          </form>
+          <button
+            type="button"
+            aria-label="Previous passage"
+            title="Previous passage"
+            disabled={passage.previous == null}
+            onClick={() => {
+              const previous = readingPassage(
+                score,
+                index,
+                passage.previous,
+                barsPerPage,
+              );
+              seek(previous.start, -1);
+            }}
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            type="button"
+            aria-label="Next passage"
+            title="Next passage"
+            disabled={passage.next == null}
+            onClick={() => seek(passage.next, 1)}
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>
+      </header>
+      <div
+        className="reading-scroll"
+        ref={scroller}
+        tabIndex="0"
+        aria-label="Numbered score passage; scroll horizontally for dense music"
+      >
+        <div
+          className="reading-sheet"
+          style={{ minWidth: content.minWidth + 64 }}
+        >
+          <div className="reading-ruler">
+            <span className="reading-gutter">HAND</span>
+            <div className="reading-time">
+              {content.bars.map((bar) => (
+                <button
+                  key={bar.bar}
+                  type="button"
+                  className="reading-bar-label"
+                  style={{
+                    left: percent(bar.start),
+                    width: `${((bar.end - bar.start) / span) * 100}%`,
+                  }}
+                  onClick={() => seek(barStart(score, bar.bar))}
+                  aria-label={`Seek to bar ${bar.bar}`}
+                >
+                  {String(bar.bar).padStart(2, "0")}
+                  {bar.continuation ? " · continued" : ""}
+                </button>
+              ))}
+            </div>
+          </div>
+          {content.hands.map(({ hand, groups, rests }) => {
+            const depth = Math.max(1, ...groups.map((g) => g.notes.length));
+            return (
+              <div
+                className={`reading-hand reading-${hand} ${groups.length ? "" : "reading-empty"}`}
+                key={hand}
+              >
+                <div className="reading-gutter reading-hand-name">
+                  <strong>{hand === "right" ? "R" : "L"}</strong>
+                  <span>{hand} hand</span>
+                </div>
+                <div
+                  className="reading-lane"
+                  style={{
+                    height: groups.length ? Math.max(90, depth * 66 + 18) : 42,
+                  }}
+                >
+                  {content.bars.map((bar) => (
+                    <div
+                      key={bar.bar}
+                      className="reading-bar-line"
+                      style={{ left: percent(bar.start) }}
+                    />
+                  ))}
+                  {beat >= start && beat < end && (
+                    <div
+                      className="reading-cursor"
+                      style={{ left: percent(beat) }}
+                      aria-hidden="true"
+                    />
+                  )}
+                  {rests.map((rest) => (
+                    <div
+                      className="reading-rest"
+                      key={rest.beat}
+                      style={{
+                        left: percent(rest.beat),
+                        width: `${(rest.duration / span) * 100}%`,
+                      }}
+                      title={`Rest for ${readingDuration(rest.duration)} quarter-note beats`}
+                    >
+                      <span>rest</span>
+                      <i />
+                    </div>
+                  ))}
+                  {groups.map((group) => (
+                    <div
+                      className={`reading-chord ${group.held ? "reading-held" : ""}`}
+                      key={`${group.beat}:${group.held}`}
+                      style={{ left: percent(group.beat) }}
+                    >
+                      {group.notes.map((note, row) => {
+                        const sounding =
+                          beat >= note.beat - 0.000001 &&
+                          beat < note.beat + note.duration - 0.000001;
+                        const held = note.beat < start - 0.000001;
+                        const duration = readingDuration(note.duration);
+                        return (
+                          <button
+                            type="button"
+                            key={`${note.id || note.midi}:${note.beat}`}
+                            className={`reading-note ${sounding ? "reading-current" : ""}`}
+                            style={{ top: row * 66 }}
+                            onClick={() => seek(note.beat)}
+                            aria-label={`${noteName(note.midi)}, ${labels === "numbers" ? "number " : ""}${label(note.midi)}, hold ${duration} quarter-note beats${held ? ", continuing from previous passage" : ""}`}
+                            aria-current={sounding ? "true" : undefined}
+                            title={`${noteName(note.midi)} · ${duration} quarter-note beats${held ? " · already held" : ""}`}
+                          >
+                            <strong>
+                              {held && <i aria-hidden="true">↳</i>}
+                              {label(note.midi)}
+                            </strong>
+                            <span>{noteName(note.midi)}</span>
+                            <small>♩ {duration}</small>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <footer className="reading-footer">
+        <span>
+          {labels === "numbers"
+            ? `1 = ${noteName(60 + tonic).replace(/\d+$/, "")} · Numbers are notes, not fingers`
+            : labels === "solfege"
+              ? `Do = ${noteName(60 + tonic).replace(/\d+$/, "")}`
+              : "Letters name the keys"}
+        </span>
+        <span>
+          C4 = middle C <i>·</i> ♩ = one quarter-note beat
+          {passage.detail ? " · detailed passage" : ""}
+        </span>
+      </footer>
+    </section>
+  );
+}
+
+
+FILE src/KeyboardGuide.jsx
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, LocateFixed } from "lucide-react";
+import { keyboardLayout, degree, solfege, noteName } from "./music.mjs";
+import "./keyboard-guide.css";
+
+const keys = keyboardLayout(21, 108);
+const KEY_WIDTH = 42;
+const WIDTH = 52 * KEY_WIDTH;
+const positions = new Map(keys.map((k) => [k.midi, k]));
+
+export default function KeyboardGuide({
+  scoreId,
+  targets,
+  active,
+  pressed,
+  tonic,
+  labels,
+  onNoteOn,
+  onNoteOff,
+  onRelease,
+  roll,
+}) {
+  const viewport = useRef();
+  const [follow, setFollow] = useState(true);
+  const [focusPitch, setFocusPitch] = useState(60);
+  const [window, setWindow] = useState({ left: 0, width: 900 });
+  const pitches = targets.map((n) => n.midi);
+  const targetKey = pitches.join(",");
+  const targetPositions = pitches.map((m) => positions.get(m)).filter(Boolean);
+  const low = targetPositions.length
+    ? Math.min(
+        ...targetPositions.map((k) => ((k.left + k.width / 2) / 100) * WIDTH),
+      )
+    : WIDTH / 2;
+  const high = targetPositions.length
+    ? Math.max(
+        ...targetPositions.map((k) => ((k.left + k.width / 2) / 100) * WIDTH),
+      )
+    : low;
+  const label = (m) =>
+    labels === "letters"
+      ? noteName(m)
+      : labels === "solfege"
+        ? solfege(m, tonic)
+        : degree(m, tonic);
+  const readWindow = () => {
+    const el = viewport.current;
+    if (el) setWindow({ left: el.scrollLeft, width: el.clientWidth });
+  };
+  const center = (force = false) => {
+    const el = viewport.current;
+    if (!el) return;
+    if (
+      force ||
+      low < el.scrollLeft + KEY_WIDTH ||
+      high > el.scrollLeft + el.clientWidth - KEY_WIDTH
+    ) {
+      el.scrollLeft = Math.max(
+        0,
+        Math.min(WIDTH - el.clientWidth, (low + high - el.clientWidth) / 2),
+      );
+      readWindow();
+    }
+  };
+  useLayoutEffect(() => {
+    const observer = new ResizeObserver(() => {
+      readWindow();
+    });
+    observer.observe(viewport.current);
+    readWindow();
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    setFollow(true);
+    center(true);
+  }, [scoreId]);
+  useEffect(() => {
+    if (follow && pressed.size === 0 && pitches.length) center();
+  }, [targetKey, follow, window.width, pressed.size]);
+  const visible = keys.filter(
+    (k) =>
+      ((k.left + k.width) / 100) * WIDTH > window.left + 1 &&
+      (k.left / 100) * WIDTH < window.left + window.width - 1,
+  );
+  const offLeft = targetPositions.filter(
+    (k) => ((k.left + k.width / 2) / 100) * WIDTH < window.left,
+  );
+  const offRight = targetPositions.filter(
+    (k) => ((k.left + k.width / 2) / 100) * WIDTH > window.left + window.width,
+  );
+  const scroll = (direction) => {
+    setFollow(false);
+    viewport.current.scrollLeft += direction * 7 * KEY_WIDTH;
+    readWindow();
+  };
+  const reveal = (key) => {
+    setFollow(false);
+    viewport.current.scrollLeft =
+      ((key.left + key.width / 2) / 100) * WIDTH -
+      viewport.current.clientWidth / 2;
+    readWindow();
+  };
+  return (
+    <section className="keyboard-guide" aria-label="Keyboard guide">
+      <div className="keyboard-guide-top">
+        <span>
+          <strong>Find it on your piano</strong>
+          <small>
+            {visible.length
+              ? `${noteName(visible[0].midi)} – ${noteName(visible.at(-1).midi)}`
+              : "88-key range"}
+          </small>
+        </span>
+        <div className="keyboard-guide-controls">
+          <button
+            className={follow ? "following" : ""}
+            aria-pressed={follow}
+            onClick={() => {
+              setFollow((v) => !v);
+              if (!follow) center(true);
+            }}
+          >
+            <LocateFixed size={13} /> Follow notes
+          </button>
+          <button
+            aria-label="Lower octave"
+            disabled={window.left < 1}
+            onClick={() => scroll(-1)}
+          >
+            <ChevronLeft size={17} />
+          </button>
+          <button
+            aria-label="Higher octave"
+            disabled={window.left + window.width >= WIDTH - 1}
+            onClick={() => scroll(1)}
+          >
+            <ChevronRight size={17} />
+          </button>
+        </div>
+      </div>
+      <div
+        className="keyboard-locator"
+        aria-label="Position on an 88-key piano"
+      >
+        <span>A0</span>
+        <div
+          className="keyboard-locator-track"
+          role="slider"
+          tabIndex={0}
+          aria-label="Keyboard range position"
+          aria-valuemin={0}
+          aria-valuemax={Math.round(WIDTH - window.width)}
+          aria-valuenow={Math.round(window.left)}
+          aria-valuetext={`${noteName(visible[0]?.midi || 21)} to ${noteName(visible.at(-1)?.midi || 108)}`}
+          onKeyDown={(e) => {
+            if (["ArrowLeft", "ArrowRight"].includes(e.key)) {
+              e.preventDefault();
+              e.stopPropagation();
+              scroll(e.key === "ArrowLeft" ? -1 : 1);
+            }
+          }}
+          onPointerDown={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            setFollow(false);
+            viewport.current.scrollLeft =
+              ((e.clientX - rect.left) / rect.width) * WIDTH -
+              viewport.current.clientWidth / 2;
+            readWindow();
+          }}
+        >
+          {keys.map((k) => (
+            <i
+              key={k.midi}
+              className={`${k.black ? "black" : "white"} ${pitches.includes(k.midi) ? "target" : ""}`}
+              style={{ left: k.left + "%", width: k.width + "%" }}
+            />
+          ))}
+          <b
+            style={{
+              left: (window.left / WIDTH) * 100 + "%",
+              width: (window.width / WIDTH) * 100 + "%",
+            }}
+          />
+        </div>
+        <span>C8</span>
+      </div>
+      {(offLeft.length > 0 || offRight.length > 0) && (
+        <div className="keyboard-offscreen" role="status">
+          {offLeft.length > 0 && (
+            <button onClick={() => reveal(offLeft[0])}>
+              ← Also play {offLeft.map((k) => noteName(k.midi)).join(" + ")}
+            </button>
+          )}
+          {offRight.length > 0 && (
+            <button onClick={() => reveal(offRight.at(-1))}>
+              Also play {offRight.map((k) => noteName(k.midi)).join(" + ")} →
+            </button>
+          )}
+        </div>
+      )}
+      <div className="keyboard-viewport" ref={viewport} onScroll={readWindow}>
+        <div className="keyboard-strip" style={{ width: WIDTH }}>
+          {roll}
+          <div className="piano-keys">
+            {keys.map((k) => (
+              <button
+                key={k.midi}
+                data-midi={k.midi}
+                tabIndex={k.midi === focusPitch ? 0 : -1}
+                onFocus={() => setFocusPitch(k.midi)}
+                aria-label={`${noteName(k.midi)} ${degree(k.midi, tonic)} ${solfege(k.midi, tonic)}`}
+                className={`piano-key ${k.black ? "black" : "white"} ${active.has(k.midi) || pitches.includes(k.midi) ? "lit" : ""} ${pressed.has(k.midi) ? "pressed" : ""} ${k.midi === 60 ? "middle-c" : ""}`}
+                style={{ left: k.left + "%", width: k.width + "%" }}
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  e.currentTarget.setPointerCapture(e.pointerId);
+                  onNoteOn(k.midi, 0.75, "pointer:" + e.pointerId);
+                }}
+                onPointerUp={(e) => onNoteOff(k.midi, "pointer:" + e.pointerId)}
+                onPointerCancel={(e) =>
+                  onNoteOff(k.midi, "pointer:" + e.pointerId)
+                }
+                onLostPointerCapture={(e) =>
+                  onNoteOff(k.midi, "pointer:" + e.pointerId)
+                }
+                onKeyDown={(e) => {
+                  if (
+                    ["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)
+                  ) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setFollow(false);
+                    const pitch =
+                      e.key === "Home"
+                        ? 21
+                        : e.key === "End"
+                          ? 108
+                          : Math.max(
+                              21,
+                              Math.min(
+                                108,
+                                k.midi + (e.key === "ArrowRight" ? 1 : -1),
+                              ),
+                            );
+                    viewport.current
+                      .querySelector(`[data-midi="${pitch}"]`)
+                      ?.focus();
+                    return;
+                  }
+                  if ((e.key === "Enter" || e.code === "Space") && !e.repeat) {
+                    e.preventDefault();
+                    onNoteOn(
+                      k.midi,
+                      0.75,
+                      `key-button:${k.midi}:${e.code || e.key}`,
+                    );
+                  }
+                }}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter" || e.code === "Space") {
+                    e.preventDefault();
+                    onNoteOff(
+                      k.midi,
+                      `key-button:${k.midi}:${e.code || e.key}`,
+                    );
+                  }
+                }}
+                onBlur={() => onRelease(`key-button:${k.midi}:`)}
+              >
+                <span className="key-number">{label(k.midi)}</span>
+                <small>{noteName(k.midi)}</small>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="keyboard-guide-caption">
+        <span>
+          1 = Do / {noteName(60 + tonic).replace("4", "")} · numbers are notes,
+          not fingers
+        </span>
+        <span>Scroll to explore all 88 keys</span>
+      </div>
+    </section>
+  );
+}
+

@@ -68,6 +68,19 @@ export async function verifyInputs(page, prefix = "input") {
   page.on("pageerror", pageError);
   const play = () => page.getByRole("button", { name: "Play", exact: true });
   const pause = () => page.getByRole("button", { name: "Pause", exact: true });
+  const midiButton = () =>
+    page.getByRole("button", { name: "Connect piano", exact: true });
+  const openSettings = () =>
+    page.getByRole("button", { name: "Reading settings", exact: true }).click();
+  const closeDialog = () =>
+    page.getByRole("button", { name: "Close dialog", exact: true }).click();
+  const setCountIn = async (enabled) => {
+    await openSettings();
+    const toggle = page.getByRole("switch", { name: "Count me in" });
+    if ((await toggle.getAttribute("aria-checked")) !== String(enabled))
+      await toggle.click();
+    await closeDialog();
+  };
   const position = () =>
     page.getByRole("slider", { name: "Song position" }).inputValue();
   const pressed = (midi) =>
@@ -113,15 +126,9 @@ export async function verifyInputs(page, prefix = "input") {
     checks.push(
       "Computer notes work after clicking Play or focusing a slider; key repeat cannot skip repeated notes",
     );
-    await page
-      .getByRole("button", { name: "Connect piano", exact: true })
-      .click();
-    await page
-      .getByRole("button", { name: "QA piano A", exact: true })
-      .waitFor();
-    await page
-      .getByRole("button", { name: "Connect piano", exact: true })
-      .click();
+    await midiButton().click();
+    await expect(midiButton()).toHaveText("QA piano A");
+    await midiButton().click();
     assert.equal(await page.evaluate(() => window.__inputQA.requests), 1);
     await page.keyboard.down("a");
     await expect(pressed(60)).toHaveClass(/pressed/);
@@ -150,13 +157,9 @@ export async function verifyInputs(page, prefix = "input") {
     await send([176, 64, 127]);
     await send([176, 64, 127], "b");
     await send([176, 64, 0]);
-    await expect(
-      page.getByRole("button", { name: /QA piano A, QA piano B · sustain/ }),
-    ).toBeVisible();
+    await expect(midiButton()).toHaveText("QA piano A, QA piano B · sustain");
     await send([176, 64, 0], "b");
-    await expect(
-      page.getByRole("button", { name: "QA piano A, QA piano B", exact: true }),
-    ).toBeVisible();
+    await expect(midiButton()).toHaveText("QA piano A, QA piano B");
     await send([144, 60, 100]);
     await send([144, 60, 100], "b");
     await page.evaluate(() => {
@@ -202,7 +205,7 @@ export async function verifyInputs(page, prefix = "input") {
     await page
       .getByRole("button", { name: "Listen & follow", exact: true })
       .click();
-    await page.getByRole("switch", { name: "Count me in" }).click();
+    await setCountIn(false);
     await gate();
     const beforeCancel = await starts();
     await play().click();
@@ -232,14 +235,24 @@ export async function verifyInputs(page, prefix = "input") {
     );
     await page.getByRole("button", { name: "Start over" }).click();
     await gate();
+    const beforeSettings = await starts();
     await play().click();
     await waitGate();
+    // Opening reading settings intentionally stops playback, including a
+    // request still waiting for audio. A fresh request must use the new value.
+    await openSettings();
     await page.getByRole("switch", { name: "Count me in" }).click();
+    await closeDialog();
     await release();
+    await page.waitForTimeout(100);
+    await expect(play()).toBeEnabled();
+    assert.equal(await position(), "0");
+    assert.equal(await starts(), beforeSettings);
+    await play().click();
     await pause().waitFor();
-    await expect(page.locator(".roll-caption")).toContainText("Count in");
+    await expect(page.locator(".reader-play-status")).toContainText("Count in");
     await pause().click();
-    await page.getByRole("switch", { name: "Count me in" }).click();
+    await setCountIn(false);
     await gate();
     await play().click();
     await waitGate();
@@ -254,7 +267,7 @@ export async function verifyInputs(page, prefix = "input") {
       .getByRole("button", { name: "Listen & follow", exact: true })
       .click();
     checks.push(
-      "Audio startup reads the latest count-in setting; changing practice mode cancels the old request",
+      "Reading settings cancel pending audio; fresh Play uses the new count-in setting, and changing practice mode cancels the old request",
     );
     await page.evaluate(() => {
       const q = window.__inputQA;
@@ -266,9 +279,7 @@ export async function verifyInputs(page, prefix = "input") {
     await play().click();
     await pause().waitFor();
     await pause().click();
-    await expect(
-      page.getByRole("button", { name: "QA piano A", exact: true }),
-    ).toBeVisible();
+    await expect(midiButton()).toHaveText("QA piano A");
     checks.push(
       "Pause clears both the audio pedal and its visible sustain indicator",
     );
@@ -384,8 +395,9 @@ export async function verifyInputs(page, prefix = "input") {
     checks.push(
       "Focused piano Enter/Space owners release independently; changed Shift character still releases its original computer key",
     );
+    await openSettings();
     await page
-      .getByRole("button", { name: "A little guidance", exact: true })
+      .getByRole("button", { name: "Reading guide", exact: true })
       .click();
     const beforeModal = await starts();
     await send([144, 60, 100]);
@@ -395,14 +407,12 @@ export async function verifyInputs(page, prefix = "input") {
     await page
       .getByRole("button", { name: "Close dialog", exact: true })
       .click();
-    await page.getByRole("button", { name: /My sheet music/ }).click();
+    await page.getByRole("button", { name: "Library", exact: true }).click();
     const search = page.getByPlaceholder("Find a piece…");
     await search.fill("asdf");
     await page.keyboard.press("a");
     assert.equal(await starts(), beforeModal);
-    await page
-      .getByRole("button", { name: "Practice studio", exact: true })
-      .click();
+    await page.getByRole("button", { name: "Read", exact: true }).click();
     await page
       .getByRole("button", { name: "Import a score", exact: true })
       .click();
@@ -437,7 +447,7 @@ export async function verifyInputs(page, prefix = "input") {
     );
     assert.match(
       await page.locator(".next-notes").innerText(),
-      /Lovely finish/,
+      /Piece complete/,
     );
     await send([128, 60, 0]);
     await expect(pressed(60)).not.toHaveClass(/pressed/);

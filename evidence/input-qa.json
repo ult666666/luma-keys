@@ -6,7 +6,7 @@
     "Two MIDI ports have independent note and pedal ownership; removing one preserves the other",
     "Focus loss and MIDI disconnect cancel pending audio: no late voice or pressed key appears",
     "Stop cancels a delayed Play; an old startup cannot resume playback or cancel a newer startup",
-    "Audio startup reads the latest count-in setting; changing practice mode cancels the old request",
+    "Reading settings cancel pending audio; fresh Play uses the new count-in setting, and changing practice mode cancels the old request",
     "Pause clears both the audio pedal and its visible sustain indicator",
     "A listen-mode loop preserves held live notes and pedal audio across its boundary",
     "Command-key transitions recover missing computer key-up events without releasing a MIDI owner",

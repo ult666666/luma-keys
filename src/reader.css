@@ -1,0 +1,585 @@
+.app .reader-main {
+  margin: 0 auto;
+  padding: 0 32px 24px;
+  max-width: 1460px;
+}
+.reader-header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.reader-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0;
+  color: var(--accent);
+}
+.reader-brand > span {
+  color: #e9ede9;
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: -1.2px;
+}
+.reader-brand > span > span {
+  font-weight: 400;
+  color: #a5b2ac;
+}
+.reader-brand small {
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  border-left: 1px solid #ffffff20;
+  padding-left: 15px;
+  color: #8a9b92;
+  margin-left: 5px;
+}
+.reader-header nav {
+  display: flex;
+  gap: 8px;
+}
+.reader-header nav button {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #8f9c95;
+  border-radius: 7px;
+}
+.reader-header nav .selected {
+  background: #c2f4d40d;
+  color: var(--accent);
+}
+.reader-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.reader-workspace {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.reader-score-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px 0 22px;
+  gap: 16px;
+}
+.reader-score-heading .eyebrow {
+  font-size: 8px;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 7px;
+}
+.reader-score-heading h1 {
+  font-size: 27px;
+  line-height: 1.2;
+  font-weight: 550;
+  letter-spacing: -0.8px;
+}
+.reader-score-heading p {
+  font-size: 11px;
+  margin-top: 7px;
+  color: #8d9c93;
+}
+.reader-score-actions {
+  display: flex;
+  gap: 6px;
+}
+.reader-viewbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.reader-tabs {
+  display: flex;
+  gap: 24px;
+}
+.reader-tabs button {
+  font-size: 12px;
+  padding: 6px 0 10px;
+  color: #899990;
+  border-bottom: 2px solid transparent;
+}
+.reader-tabs button[aria-selected="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.reader-help {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #8e9d95;
+}
+.reader-sheet {
+  border-radius: 12px;
+  overflow: hidden;
+}
+.reader-sheet-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 45px;
+  background: #eeefe7;
+  color: #526356;
+  border-radius: 12px;
+}
+.reader-sheet-empty h2 {
+  font-size: 19px;
+  color: #263b2f;
+}
+.reader-sheet-empty p {
+  font-size: 12px;
+}
+.reader-sheet-warning {
+  padding: 10px 15px;
+  background: #efe6c8;
+  color: #655636;
+  font-size: 11px;
+}
+.reader-cue {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 69px;
+  border-bottom: 1px solid #ffffff0b;
+  padding: 13px 4px 8px;
+}
+.reader-cue-label {
+  min-width: 78px;
+}
+.reader-cue-label > span {
+  font-size: 8px;
+  letter-spacing: 1.7px;
+  color: var(--accent);
+  display: block;
+}
+.reader-cue-label small {
+  font-size: 10px;
+  color: #82978a;
+  margin-top: 5px;
+  display: block;
+}
+.reader-cue .next-notes {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.reader-cue .next-notes > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.reader-cue .next-notes strong {
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--accent);
+}
+.reader-cue .next-notes .left strong {
+  color: var(--lavender);
+}
+.reader-cue .next-notes span {
+  font-size: 11px;
+  margin: 0;
+  color: #cfdbd2;
+}
+.reader-cue .next-notes small {
+  display: block;
+  font-size: 8px;
+  color: #799184;
+  margin-top: 2px;
+}
+.reader-finished {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent);
+  font-size: 13px;
+}
+.reader-play-status {
+  margin-left: auto;
+  color: #8e9e93;
+  font-size: 11px;
+  text-align: right;
+}
+.reader-controls {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 16px;
+  background: #171c1e;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.reader-controls .player-toolbar {
+  padding: 12px 16px;
+  margin: 0;
+  border: 0;
+  gap: 14px;
+  flex: 1;
+}
+.reader-controls .segmented {
+  padding: 3px;
+}
+.reader-controls .segmented button {
+  padding: 9px 11px;
+  font-size: 11px;
+}
+.reader-controls .hand-select > span {
+  display: none;
+}
+.reader-controls .hand-select {
+  font-size: 0;
+  gap: 0;
+}
+.reader-controls .hand-select select {
+  font-size: 11px;
+  border: 0;
+  margin: 0;
+}
+.reader-controls .transport {
+  padding: 0 16px 12px;
+  border: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.reader-controls .transport-controls {
+  padding: 0;
+}
+.reader-controls .transport-left {
+  gap: 12px;
+}
+.reader-controls .play-button {
+  width: 42px;
+  height: 38px;
+  border-radius: 8px;
+}
+.reader-controls .speed-control label {
+  font-size: 9px;
+}
+.reader-controls .speed-control select {
+  font-size: 12px;
+}
+.reader-controls .timeline {
+  padding-top: 12px;
+  margin: 0;
+  gap: 12px;
+}
+.reader-controls .timeline span {
+  font-size: 10px;
+}
+.reader-controls .volume {
+  gap: 6px;
+}
+.reader-controls .volume input {
+  width: 76px;
+}
+.reader-controls .loop-options {
+  margin-bottom: 14px;
+  margin-top: 0;
+}
+.reader-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10px;
+  color: #71877a;
+  padding: 13px 2px;
+}
+.reader-footer button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #95ae9f;
+}
+.reader-settings {
+  padding: 0;
+  background: none;
+  border: 0;
+}
+.reader-settings .card-title {
+  margin-bottom: 20px;
+}
+.reader-settings-links {
+  display: flex;
+  gap: 10px;
+  margin: 22px 0 18px;
+}
+.reader-settings-links button {
+  font-size: 12px;
+}
+.reader-lesson-tips {
+  font-size: 12px;
+  margin-top: 20px;
+  color: #a8b5ad;
+}
+.reader-lesson-tips li {
+  margin: 10px 0;
+}
+.reader-main .review-banner {
+  margin: 0 0 14px;
+  width: 100%;
+  border-radius: 7px;
+  padding: 8px 12px;
+  justify-content: flex-start;
+  font-size: 10px;
+}
+@media (min-width: 950px) {
+  .reader-controls {
+    position: relative;
+    padding: 0;
+  }
+  .reader-controls .player-toolbar {
+    flex: 0 0 390px;
+    order: 1;
+    padding: 12px 14px;
+  }
+  .reader-controls .transport {
+    display: contents;
+  }
+  .reader-controls .transport-controls {
+    order: 0;
+    flex: 1;
+    padding: 12px 14px;
+  }
+  .reader-controls .timeline {
+    order: 2;
+    width: 100%;
+    padding: 0 16px 12px;
+  }
+  .reader-controls .loop-options {
+    order: 3;
+    width: 100%;
+    margin: 0 16px 12px;
+  }
+}
+@media (max-width: 1000px) {
+  .app .reader-main {
+    padding: 0 22px 16px;
+  }
+  .reader-brand small {
+    display: none;
+  }
+  .reader-score-heading {
+    padding: 23px 0 18px;
+  }
+  .reader-controls .hand-select {
+    display: flex;
+  }
+  .reader-controls .player-toolbar {
+    justify-content: space-between;
+  }
+}
+@media (max-width: 600px) {
+  .app .reader-main {
+    padding: 0 12px 14px;
+  }
+  .reader-header {
+    height: auto;
+    min-height: 96px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 0;
+  }
+  .reader-header nav {
+    order: 2;
+    width: 100%;
+    justify-content: center;
+  }
+  .reader-brand > span {
+    font-size: 21px;
+  }
+  .reader-header-actions {
+    gap: 5px;
+  }
+  .reader-header-actions .secondary {
+    font-size: 10px;
+    padding: 8px;
+  }
+  .reader-header nav button {
+    padding: 5px 18px;
+  }
+  .reader-score-heading {
+    padding: 20px 0 18px;
+  }
+  .reader-score-heading h1 {
+    font-size: 23px;
+  }
+  .reader-tabs {
+    gap: 18px;
+  }
+  .reader-tabs button {
+    font-size: 11px;
+  }
+  .reader-help {
+    font-size: 0;
+  }
+  .reader-cue {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .reader-cue-label {
+    min-width: 65px;
+  }
+  .reader-play-status {
+    font-size: 10px;
+  }
+  .reader-cue .next-notes {
+    gap: 10px;
+  }
+  .reader-cue .next-notes strong {
+    font-size: 24px;
+  }
+  .reader-footer {
+    flex-wrap: wrap;
+    font-size: 9px;
+  }
+  .reader-footer > span:last-child {
+    display: none;
+  }
+  .reader-controls .player-toolbar {
+    padding: 10px;
+    gap: 5px;
+  }
+  .reader-controls .segmented button {
+    font-size: 10px;
+    padding: 7px;
+  }
+  .reader-controls .hand-select select {
+    font-size: 10px;
+  }
+  .reader-controls .transport {
+    padding: 0 10px 10px;
+  }
+  .reader-settings-links {
+    flex-direction: column;
+  }
+}
+/* Keep the score, keyboard and transport together on a laptop. */
+.reader-header {
+  height: 58px;
+}
+.reader-score-heading {
+  padding: 19px 0 16px;
+}
+.reader-score-heading .eyebrow {
+  display: none;
+}
+.reader-score-heading h1 {
+  font-size: 25px;
+}
+.reader-viewbar {
+  margin-bottom: 9px;
+}
+.reader-cue {
+  min-height: 55px;
+  padding-top: 9px;
+  padding-bottom: 5px;
+}
+.keyboard-guide {
+  margin-top: 10px;
+}
+.reader-controls {
+  margin-top: 10px;
+}
+.keyboard-guide .piano-keys {
+  height: 100px;
+}
+.reader-footer {
+  padding: 10px 2px;
+}
+@media (max-width: 600px) {
+  .reader-header {
+    height: auto;
+  }
+  .reader-score-heading {
+    padding: 17px 0;
+  }
+  .reader-score-heading h1 {
+    font-size: 22px;
+  }
+}
+.reader-cue .next-notes > div {
+  flex-direction: row;
+}
+.reader-score-heading {
+  padding: 13px 0 12px;
+}
+.reader-score-heading h1 {
+  font-size: 24px;
+}
+.reader-score-heading p {
+  margin-top: 5px;
+  font-size: 10px;
+}
+.reader-cue .next-notes {
+  min-height: 0;
+}
+.reader-cue .next-notes strong {
+  font-size: 25px;
+}
+.reader-cue .next-notes span {
+  line-height: 1.2;
+}
+.reader-controls .transport-left {
+  gap: 8px;
+}
+.reader-footer {
+  padding: 7px 2px;
+  font-size: 9px;
+}
+.keyboard-guide .keyboard-guide-top {
+  padding: 9px 14px 7px;
+}
+.keyboard-guide .keyboard-locator {
+  padding-bottom: 7px;
+}
+.keyboard-guide .keyboard-guide-caption {
+  padding: 6px 14px;
+  font-size: 9px;
+}
+@media (min-width: 601px) {
+  .keyboard-guide .piano-keys {
+    height: 90px;
+  }
+}
+.reader-header-actions > button[aria-label="Connect piano"] {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: #99b1a3;
+  max-width: 180px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@media (max-width: 600px) {
+  .reader-header-actions > button[aria-label="Connect piano"] {
+    font-size: 0;
+    gap: 0;
+    padding: 6px;
+    max-width: 28px;
+  }
+}
+@media(max-width:600px) {
+  .reader-controls .transport-controls {flex-wrap:wrap;gap:8px;}
+  .reader-controls .transport-left {max-width:100%;gap:5px;flex-wrap:wrap;}
+  .reader-controls .transport-left .icon-button {width:27px;height:30px;padding:4px;}
+  .reader-controls .control-divider {display:none;}
+  .reader-controls .speed-control select {font-size:10px;max-width:105px;}
+  .reader-controls .volume {margin-left:auto;}
+  .reader-controls .volume input {width:55px;}
+}

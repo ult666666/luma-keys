@@ -62,6 +62,9 @@ import { piano } from "./audio.js";
 import Pet from "./Pet.jsx";
 import PdfPreview from "./PdfPreview.jsx";
 import ScoreDisplay from "./ScoreDisplay.jsx";
+import ReadingScore from "./ReadingScore.jsx";
+import KeyboardGuide from "./KeyboardGuide.jsx";
+import "./reader.css";
 const LESSONS = demos();
 const KEYS = {
   a: 60,
@@ -486,7 +489,7 @@ export default function App() {
     [loopB, setLoopB] = useState(4),
     [labels, setLabels] = useState("numbers"),
     [tonic, setTonic] = useState(0),
-    [wideKeys, setWideKeys] = useState(false),
+    [readingView, setReadingView] = useState("numbers"),
     [pressed, setPressed] = useState(new Set()),
     [modal, setModal] = useState(null),
     [toast, setToast] = useState(""),
@@ -590,20 +593,7 @@ export default function App() {
       ),
     [score],
   );
-  const range = useMemo(() => {
-    if (wideKeys) return [21, 108];
-    const pitches = score.notes.map((n) => n.midi);
-    const low = Math.max(
-      21,
-      Math.min(48, Math.floor(Math.min(...pitches) / 12) * 12),
-    );
-    const high = Math.min(
-      108,
-      Math.max(84, Math.ceil(Math.max(...pitches) / 12) * 12),
-    );
-    return [low, high];
-  }, [score, wideKeys]);
-  const layout = useMemo(() => keyboardLayout(...range), [range]);
+  const layout = useMemo(() => keyboardLayout(21, 108), []);
   const keyMap = useMemo(
     () => new Map(layout.map((k) => [k.midi, k])),
     [layout],
@@ -1241,6 +1231,23 @@ export default function App() {
     phraseGroups.find((g) => g.beat >= Math.max(0, beat) - 0.04) ||
     (loop ? phraseGroups[0] : undefined);
   const currentNotes = current?.notes || [];
+  function stepReading(direction) {
+    const next =
+      direction > 0
+        ? phraseGroups.find((g) => g.beat > Math.max(0, beat) + 0.04)
+        : phraseGroups.findLast((g) => g.beat < Math.max(0, beat) - 0.04);
+    seek(
+      next
+        ? next.beat
+        : direction > 0
+          ? loop
+            ? barEnd(score, loopB)
+            : score.duration
+          : loop
+            ? barStart(score, loopA)
+            : 0,
+    );
+  }
   const active = useMemo(
     () =>
       new Set(
@@ -1267,114 +1274,47 @@ export default function App() {
         : degree(m, tonic);
   return (
     <div className={`app theme-${theme}`}>
-      <div className="window-strip">
-        <span>YOUR DAILY DOSE OF MUSIC & A LITTLE MAGIC</span>
-        <span className="local-dot">Made for your piano journey</span>
-      </div>
-      <aside className="sidebar">
-        <a
-          className="brand"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            setView("studio");
-          }}
-        >
-          <div className="brand-icon">
-            <Music2 size={23} />
-            <i />
-          </div>
-          <span>
-            luma<span className="brand-light">keys</span>
-            <small>A LITTLE LIGHT. A LOT OF MUSIC.</small>
-          </span>
-        </a>
-        <div className="workspace-label">YOUR SPACE</div>
-        <nav>
-          {[
-            [Music2, "studio", "Practice studio"],
-            [Library, "library", "My sheet music"],
-            [BookOpen, "learn", "Little lessons"],
-          ].map(([Icon, id, title]) => (
-            <button
-              key={id}
-              className={view === id ? "nav-item selected" : "nav-item"}
-              onClick={() => {
-                if (id !== "studio") stop();
-                setView(id);
-              }}
-            >
-              <Icon size={19} />
-              <span>{title}</span>
-              {id === "studio" && <span className="nav-dot" />}
-              {id === "library" && <small>{library.length}</small>}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-divider" />
-        <button className="nav-item" onClick={() => setModal("companion")}>
-          <Sparkles size={19} />
-          <span>Companions & moods</span>
-        </button>
-        <button className="nav-item" onClick={() => setModal("guide")}>
-          <HelpCircle size={19} />
-          <span>A little guidance</span>
-        </button>
-        <div className="sidebar-bottom">
-          <div className="daily-card">
-            <div>
-              <span className="small-icon">
-                <Heart size={14} />
-              </span>
-              <span>Small steps, lovely progress</span>
-            </div>
-            <p>
-              {Math.floor(stats.dailyMinutes || 0)}{" "}
-              <small>/ 10 min today’s gentle goal</small>
-            </p>
-            <div className="progress-track">
-              <i
-                style={{
-                  width:
-                    Math.min(100, ((stats.dailyMinutes || 0) / 10) * 100) + "%",
-                }}
-              />
-            </div>
-            <span>No rush. You’re right on time.</span>
-          </div>
-          <button className="profile" onClick={() => setModal("companion")}>
-            <span className="avatar">P</span>
+      <main
+        className="reader-main"
+        inert={modal ? true : undefined}
+        aria-hidden={modal ? true : undefined}
+      >
+        <header className="reader-header">
+          <button
+            className="reader-brand"
+            aria-label="Luma Keys sight reading"
+            onClick={() => setView("studio")}
+          >
+            <Music2 size={22} />
             <span>
-              Your piano corner<small>Saved on this Mac</small>
+              luma<span>keys</span>
             </span>
-            <Settings2 size={16} />
+            <small>SIGHT READER</small>
           </button>
-        </div>
-      </aside>
-      <main>
-        <header className="topbar">
-          <div className="breadcrumb">
-            Your space <ChevronRight size={13} />{" "}
-            <span>
-              {view === "studio"
-                ? "Practice studio"
-                : view === "library"
-                  ? "My sheet music"
-                  : "Little lessons"}
-            </span>
-          </div>
-          <div className="top-actions">
-            <button
-              className="midi-top"
-              aria-label="Connect piano"
-              onClick={connectMIDI}
-            >
-              <Keyboard size={15} />
-              <span>Connect piano</span>
+          <nav aria-label="Main navigation">
+            {[
+              ["studio", "Read"],
+              ["library", "Library"],
+              ["learn", "Lessons"],
+            ].map(([id, title]) => (
+              <button
+                key={id}
+                className={view === id ? "selected" : ""}
+                onClick={() => {
+                  if (id !== "studio") stop();
+                  setView(id);
+                }}
+              >
+                {title}
+              </button>
+            ))}
+          </nav>
+          <div className="reader-header-actions">
+            <button aria-label="Connect piano" onClick={connectMIDI}>
+              <Keyboard size={14} />
+              {midiStatus === "Connect keyboard" ? "Connect piano" : midiStatus}
+              {sustain && " · sustain"}
             </button>
-            <span className="offline">
-              <i /> Offline & all yours
-            </span>
             <button
               className="secondary small"
               onClick={() => {
@@ -1383,6 +1323,17 @@ export default function App() {
               }}
             >
               <Upload size={15} /> Import a score
+            </button>
+            <button
+              className="icon-button"
+              aria-label="Reading settings"
+              title="Reading settings"
+              onClick={() => {
+                stop();
+                setModal("settings");
+              }}
+            >
+              <Settings2 size={19} />
             </button>
           </div>
         </header>
@@ -1533,611 +1484,458 @@ export default function App() {
           </section>
         )}
         {view === "studio" ? (
-          <>
-            <section className="greeting">
+          <div className="reader-workspace">
+            <div className="reader-score-heading">
               <div>
-                <span className="eyebrow">
-                  <span className="tiny-star">✦</span> FIND YOUR RHYTHM
-                </span>
-                <h1>
-                  A little practice.
-                  <br className="mobile-break" /> A little magic<span>.</span>
-                </h1>
+                <span className="eyebrow">YOUR MUSIC</span>
+                <h1>{score.title}</h1>
                 <p>
-                  Let the notes come to you. We’ll take it one key at a time.
+                  {score.composer} · {score.measures}{" "}
+                  {score.measures === 1 ? "bar" : "bars"} · ♩ = {score.bpm}
                 </p>
               </div>
-              <div className="greeting-badge">
-                <span>✧</span>
-                <div>
-                  YOUR NEXT SMALL WIN<small>Play a melody you love</small>
+              <div className="reader-score-actions">
+                <button
+                  className="icon-button"
+                  title="Review sheet and notes"
+                  aria-label="Review sheet and notes"
+                  onClick={() => {
+                    stop();
+                    setModal("review");
+                  }}
+                >
+                  <FileMusic size={18} />
+                </button>
+                <button
+                  className="icon-button"
+                  title="Export practice notes"
+                  aria-label="Export practice notes"
+                  onClick={download}
+                >
+                  <Download size={18} />
+                </button>
+              </div>
+            </div>
+            {!score.reviewed && (
+              <button
+                className="review-banner"
+                onClick={() => {
+                  stop();
+                  setModal("review");
+                }}
+              >
+                <HelpCircle size={14} /> Imported score · check the notes before
+                practicing <ArrowRight size={14} />
+              </button>
+            )}
+            <div className="reader-viewbar">
+              <div
+                className="reader-tabs"
+                role="tablist"
+                aria-label="Music view"
+              >
+                {[
+                  ["numbers", "Number score"],
+                  ["sheet", "Sheet music"],
+                  ["falling", "Falling notes"],
+                ].map(([id, title]) => (
+                  <button
+                    key={id}
+                    role="tab"
+                    aria-selected={readingView === id}
+                    tabIndex={readingView === id ? 0 : -1}
+                    onKeyDown={(e) => {
+                      if (
+                        !["ArrowLeft", "ArrowRight", "Home", "End"].includes(
+                          e.key,
+                        )
+                      )
+                        return;
+                      e.preventDefault();
+                      const tabs = ["numbers", "sheet", "falling"];
+                      const index =
+                        e.key === "Home"
+                          ? 0
+                          : e.key === "End"
+                            ? 2
+                            : (tabs.indexOf(id) +
+                                (e.key === "ArrowRight" ? 1 : 2)) %
+                              3;
+                      setReadingView(tabs[index]);
+                      e.currentTarget.parentElement.children[index].focus();
+                    }}
+                    onClick={() => setReadingView(id)}
+                  >
+                    {title}
+                  </button>
+                ))}
+              </div>
+              <button
+                className="reader-help"
+                onClick={() => {
+                  stop();
+                  setModal("guide");
+                }}
+              >
+                <HelpCircle size={14} /> How to read
+              </button>
+            </div>
+            {readingView === "numbers" && (
+              <ReadingScore
+                hand={hand}
+                score={score}
+                notes={notes}
+                beat={beat}
+                tonic={tonic}
+                labels={labels}
+                onSeek={seek}
+              />
+            )}
+            {readingView === "sheet" &&
+              (score.xml ? (
+                <div className="reader-sheet">
+                  {score.xml && (
+                    <p className="reader-sheet-warning">
+                      The engraved sheet is the original import. Your
+                      corrections appear in Number score.
+                    </p>
+                  )}
+                  <ScoreDisplay
+                    xml={score.xml}
+                    startBar={
+                      1 +
+                      Math.floor(
+                        (Math.min(
+                          score.measures,
+                          measureAt(score, Math.max(0, beat)),
+                        ) -
+                          1) /
+                          4,
+                      ) *
+                        4
+                    }
+                    passageBars={4}
+                    transportScore={score}
+                    compact
+                    beat={beat}
+                    onNavigate={(bar) => seek(barStart(score, bar))}
+                  />
+                </div>
+              ) : (
+                <div className="reader-sheet-empty">
+                  <FileMusic size={28} />
+                  <h2>No engraved sheet for this piece</h2>
+                  <p>
+                    Use the number score, or import MusicXML / a PDF for staff
+                    notation.
+                  </p>
+                  <button
+                    className="secondary"
+                    onClick={() => setReadingView("numbers")}
+                  >
+                    Read the numbers
+                  </button>
+                </div>
+              ))}
+            <div className="reader-cue" aria-label="Next notes">
+              <div className="reader-cue-label">
+                <span>{beat >= score.duration ? "FINISHED" : "PLAY NEXT"}</span>
+                <small>
+                  Bar{" "}
+                  {Math.min(
+                    score.measures,
+                    measureAt(score, Math.max(0, beat)),
+                  )}
+                </small>
+              </div>
+              <div className="next-notes">
+                {currentNotes.length ? (
+                  currentNotes.map((n) => (
+                    <div key={n.id} className={n.hand}>
+                      <strong>{label(n.midi)}</strong>
+                      <span>
+                        {noteName(n.midi)}
+                        <small>{n.hand === "left" ? "LH" : "RH"}</small>
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <span className="reader-finished">
+                    <CheckCircle2 size={20} /> Piece complete
+                  </span>
+                )}
+              </div>
+              <span className="reader-play-status" role="status">
+                {playing
+                  ? beat < 0
+                    ? "Count in · " + countInNumber(score, beat)
+                    : mode === "wait"
+                      ? "Waiting for your notes"
+                      : "Listen and read ahead"
+                  : "Click a note to start there"}
+              </span>
+            </div>
+            <KeyboardGuide
+              scoreId={score.id}
+              targets={currentNotes}
+              active={active}
+              pressed={pressed}
+              tonic={tonic}
+              labels={labels}
+              onNoteOn={noteOn}
+              onNoteOff={noteOff}
+              onRelease={releaseInputSources}
+              roll={
+                readingView === "falling" ? (
+                  <div className="roll" data-testid="note-roll">
+                    {layout
+                      .filter((k) => !k.black)
+                      .map((k) => (
+                        <div
+                          className="lane"
+                          key={k.midi}
+                          style={{ left: k.left + "%", width: k.width + "%" }}
+                        />
+                      ))}
+                    {Array.from(
+                      { length: Math.ceil(rollBeats) + 1 },
+                      (_, i) => (
+                        <div
+                          className="beat-line"
+                          key={i}
+                          style={{
+                            bottom:
+                              ((i - (((beat % 1) + 1) % 1)) / rollBeats) * 100 +
+                              "%",
+                          }}
+                        />
+                      ),
+                    )}
+                    {visibleNotes.map((n) => {
+                      const k = keyMap.get(n.midi);
+                      if (!k) return null;
+                      return (
+                        <div
+                          key={n.id}
+                          title={`${noteName(n.midi)} · ${label(n.midi)} · ${n.duration} quarter-note beat${n.duration === 1 ? "" : "s"}`}
+                          className={`falling-note ${n.hand} ${n.duration / rollBeats < 0.1 ? "short" : ""} ${n.duration / rollBeats < 0.045 ? "tiny" : ""} ${active.has(n.midi) && n.beat <= beat ? "hitting" : ""}`}
+                          style={{
+                            left: `calc(${k.left}% + 2px)`,
+                            width: `calc(${k.width}% - 4px)`,
+                            height: `max(2px, calc(${(n.duration / rollBeats) * 100}% - 2px))`,
+                            bottom: ((n.beat - beat) / rollBeats) * 100 + "%",
+                          }}
+                        >
+                          <span>{label(n.midi)}</span>
+                          <small>{noteName(n.midi)}</small>
+                        </div>
+                      );
+                    })}
+                    <div className="strike-line" />
+                    {active.size > 0 && <div className="strike-glow" />}
+                  </div>
+                ) : null
+              }
+            />
+            <div className="reader-controls">
+              <div className="player-toolbar">
+                <div className="segmented">
+                  <button
+                    className={mode === "listen" ? "selected" : ""}
+                    onClick={() => {
+                      seek(0);
+                      setMode("listen");
+                    }}
+                  >
+                    <Headphones size={14} /> Listen & follow
+                  </button>
+                  <button
+                    className={mode === "wait" ? "selected" : ""}
+                    onClick={() => {
+                      seek(0);
+                      setMode("wait");
+                    }}
+                  >
+                    <Keyboard size={15} /> Wait for me
+                  </button>
+                </div>
+                <div className="hand-select">
+                  <span className="dot lavender" /> Left{" "}
+                  <span className="dot mint" /> Right{" "}
+                  <select
+                    aria-label="Practice hand"
+                    value={hand}
+                    onChange={(e) => {
+                      seek(0);
+                      setHand(e.target.value);
+                    }}
+                  >
+                    <option value="both">Both hands</option>
+                    <option value="right">Right hand</option>
+                    <option value="left">Left hand</option>
+                  </select>
                 </div>
               </div>
-            </section>
-            <div className="studio-columns">
-              <div className="studio-main">
-                <section className="player panel">
-                  <div className="score-heading">
-                    <div className="score-art">
-                      <Music2 size={27} />
-                      <span>✦</span>
-                    </div>
-                    <div className="score-title">
-                      <span className="eyebrow">ON YOUR MUSIC STAND</span>
-                      <h2>{score.title}</h2>
-                      <p>
-                        {score.composer} <span>·</span> {score.measures} bars{" "}
-                        <span>·</span> ♩ = {score.bpm}
-                      </p>
-                    </div>
+              <div className="transport">
+                <div className="timeline">
+                  <input
+                    aria-label="Song position"
+                    type="range"
+                    min="0"
+                    max={score.duration}
+                    step="0.05"
+                    value={Math.max(0, beat)}
+                    onChange={(e) => seek(+e.target.value)}
+                    style={{
+                      "--progress": `${(Math.max(0, beat) / score.duration) * 100}%`,
+                    }}
+                  />
+                  <span>
+                    {fmt(time)} <i>/</i> {fmt(totalTime)}
+                  </span>
+                </div>
+                <div className="transport-controls">
+                  <div className="transport-left">
                     <button
                       className="icon-button"
-                      title="Review sheet and notes"
-                      aria-label="Review sheet and notes"
-                      onClick={() => {
-                        stop();
-                        setModal("review");
-                      }}
+                      aria-label="Start over"
+                      onClick={() => seek(0)}
                     >
-                      <FileMusic size={20} />
+                      <RotateCcw size={17} />
                     </button>
                     <button
                       className="icon-button"
-                      title="Export practice notes"
-                      aria-label="Export practice notes"
-                      onClick={download}
+                      aria-label="Previous note"
+                      title="Previous note"
+                      onClick={() => stepReading(-1)}
                     >
-                      <Download size={19} />
+                      <ChevronLeft size={18} />
                     </button>
-                  </div>
-                  {!score.reviewed && (
                     <button
-                      className="review-banner"
+                      className="play-button"
+                      aria-label={playing ? "Pause" : "Play"}
+                      onClick={start}
+                      disabled={loadingSound || settingsLoading}
+                    >
+                      {loadingSound || settingsLoading ? (
+                        <LoaderCircle className="spin" size={20} />
+                      ) : playing ? (
+                        <Pause size={20} fill="currentColor" />
+                      ) : (
+                        <Play size={20} fill="currentColor" />
+                      )}
+                    </button>
+                    <button
+                      className="icon-button"
+                      aria-label="Next note"
+                      title="Next note"
+                      onClick={() => stepReading(1)}
+                    >
+                      <ChevronRight size={18} />
+                    </button>
+                    <button
+                      className={`icon-button ${loop ? "on" : ""}`}
+                      aria-label="Toggle phrase loop"
                       onClick={() => {
                         stop();
-                        setModal("review");
+                        setLoop((v) => !v);
                       }}
                     >
-                      <HelpCircle size={14} /> Imported score · check the notes
-                      before practicing <ArrowRight size={14} />
+                      <Repeat2 size={19} />
                     </button>
-                  )}
-                  <div className="player-toolbar">
-                    <div className="segmented">
-                      <button
-                        className={mode === "listen" ? "selected" : ""}
-                        onClick={() => {
-                          seek(0);
-                          setMode("listen");
-                        }}
-                      >
-                        <Headphones size={14} /> Listen & follow
-                      </button>
-                      <button
-                        className={mode === "wait" ? "selected" : ""}
-                        onClick={() => {
-                          seek(0);
-                          setMode("wait");
-                        }}
-                      >
-                        <Keyboard size={15} /> Wait for me
-                      </button>
-                    </div>
-                    <div className="hand-select">
-                      <span className="dot lavender" /> Left{" "}
-                      <span className="dot mint" /> Right{" "}
+                    <span className="control-divider" />
+                    <div className="speed-control">
+                      <label htmlFor="speed">Practice speed</label>
                       <select
-                        aria-label="Practice hand"
-                        value={hand}
+                        id="speed"
+                        value={speed}
                         onChange={(e) => {
-                          seek(0);
-                          setHand(e.target.value);
+                          stop();
+                          setSpeed(+e.target.value);
                         }}
                       >
-                        <option value="both">Both hands</option>
-                        <option value="right">Right hand</option>
-                        <option value="left">Left hand</option>
+                        {[0.25, 0.5, 0.65, 0.75, 1, 1.25].map((x) => (
+                          <option key={x} value={x}>
+                            {Math.round(x * 100)}% · ♩ ={" "}
+                            {Math.round(score.bpm * x)}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
-                  <div className="piano-visual">
-                    <div className="roll" data-testid="note-roll">
-                      {layout
-                        .filter((k) => !k.black)
-                        .map((k) => (
-                          <div
-                            className="lane"
-                            key={k.midi}
-                            style={{ left: k.left + "%", width: k.width + "%" }}
-                          />
-                        ))}
-                      {Array.from(
-                        { length: Math.ceil(rollBeats) + 1 },
-                        (_, i) => (
-                          <div
-                            className="beat-line"
-                            key={i}
-                            style={{
-                              bottom:
-                                ((i - (((beat % 1) + 1) % 1)) / rollBeats) *
-                                  100 +
-                                "%",
-                            }}
-                          />
-                        ),
-                      )}
-                      <div className="roll-caption">
-                        <span className="live-dot" />{" "}
-                        {playing
-                          ? beat < 0
-                            ? "Count in · " + countInNumber(score, beat)
-                            : mode === "wait"
-                              ? "Your turn · play the glowing keys"
-                              : "A little closer, one note at a time"
-                          : "Follow the light. Find your flow."}
-                      </div>
-                      <div className="roll-watermark">
-                        {mode === "wait" ? "at your pace" : "breathe & play"}
-                      </div>
-                      {visibleNotes.map((n) => {
-                        const k = keyMap.get(n.midi);
-                        if (!k) return null;
-                        return (
-                          <div
-                            key={n.id}
-                            title={`${noteName(n.midi)} · ${label(n.midi)} · ${n.duration} quarter-note beat${n.duration === 1 ? "" : "s"}`}
-                            className={`falling-note ${n.hand} ${n.duration / rollBeats < 0.1 ? "short" : ""} ${n.duration / rollBeats < 0.045 ? "tiny" : ""} ${active.has(n.midi) && n.beat <= beat ? "hitting" : ""}`}
-                            style={{
-                              left: `calc(${k.left}% + 2px)`,
-                              width: `calc(${k.width}% - 4px)`,
-                              height: `max(2px, calc(${(n.duration / rollBeats) * 100}% - 2px))`,
-                              bottom: ((n.beat - beat) / rollBeats) * 100 + "%",
-                            }}
-                          >
-                            <span>{label(n.midi)}</span>
-                            <small>{noteName(n.midi)}</small>
-                          </div>
-                        );
-                      })}
-                      <div className="strike-line" />
-                      {active.size > 0 && <div className="strike-glow" />}
-                    </div>
-                    <div
-                      className={`piano-keys ${wideKeys ? "full-range" : ""}`}
-                    >
-                      {layout.map((k) => (
-                        <button
-                          key={k.midi}
-                          aria-label={`${noteName(k.midi)} ${degree(k.midi, tonic)} ${solfege(k.midi, tonic)}`}
-                          className={`piano-key ${k.black ? "black" : "white"} ${active.has(k.midi) ? "lit" : ""} ${pressed.has(k.midi) ? "pressed" : ""} ${k.midi === 60 ? "middle-c" : ""}`}
-                          style={{ left: k.left + "%", width: k.width + "%" }}
-                          onPointerDown={(e) => {
-                            e.preventDefault();
-                            e.currentTarget.setPointerCapture(e.pointerId);
-                            noteOn(k.midi, 0.75, "pointer:" + e.pointerId);
-                          }}
-                          onPointerUp={(e) =>
-                            noteOff(k.midi, "pointer:" + e.pointerId)
-                          }
-                          onPointerCancel={(e) =>
-                            noteOff(k.midi, "pointer:" + e.pointerId)
-                          }
-                          onLostPointerCapture={(e) =>
-                            noteOff(k.midi, "pointer:" + e.pointerId)
-                          }
-                          onKeyDown={(e) => {
-                            if (
-                              (e.key === "Enter" || e.code === "Space") &&
-                              !e.repeat
-                            ) {
-                              e.preventDefault();
-                              noteOn(
-                                k.midi,
-                                0.75,
-                                `key-button:${k.midi}:${e.code || e.key}`,
-                              );
-                            }
-                          }}
-                          onKeyUp={(e) => {
-                            if (e.key === "Enter" || e.code === "Space") {
-                              e.preventDefault();
-                              noteOff(
-                                k.midi,
-                                `key-button:${k.midi}:${e.code || e.key}`,
-                              );
-                            }
-                          }}
-                          onBlur={() =>
-                            releaseInputSources(`key-button:${k.midi}:`)
-                          }
-                        >
-                          <span className="key-number">{label(k.midi)}</span>
-                          <small>
-                            {k.midi % 12 === 0
-                              ? "C" + (Math.floor(k.midi / 12) - 1)
-                              : k.black
-                                ? ""
-                                : solfege(k.midi, tonic)}
-                          </small>
-                          {k.midi === 60 && <i />}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="keyboard-footer">
-                      <span>
-                        <i /> C4 = middle C{" "}
-                        <span className="quiet">
-                          · numbers name notes, not fingers
-                        </span>
-                      </span>
-                      <button onClick={() => setWideKeys((v) => !v)}>
-                        <Maximize2 size={12} />
-                        {wideKeys ? "Comfort view" : "88 keys"}
-                      </button>
-                    </div>
-                  </div>
-                  <div className="transport">
-                    <div className="timeline">
-                      <input
-                        aria-label="Song position"
-                        type="range"
-                        min="0"
-                        max={score.duration}
-                        step="0.05"
-                        value={Math.max(0, beat)}
-                        onChange={(e) => seek(+e.target.value)}
-                        style={{
-                          "--progress": `${(Math.max(0, beat) / score.duration) * 100}%`,
-                        }}
-                      />
-                      <span>
-                        {fmt(time)} <i>/</i> {fmt(totalTime)}
-                      </span>
-                    </div>
-                    <div className="transport-controls">
-                      <div className="transport-left">
-                        <button
-                          className="icon-button"
-                          aria-label="Start over"
-                          onClick={() => seek(0)}
-                        >
-                          <RotateCcw size={17} />
-                        </button>
-                        <button
-                          className="play-button"
-                          aria-label={playing ? "Pause" : "Play"}
-                          onClick={start}
-                          disabled={loadingSound || settingsLoading}
-                        >
-                          {loadingSound || settingsLoading ? (
-                            <LoaderCircle className="spin" size={20} />
-                          ) : playing ? (
-                            <Pause size={20} fill="currentColor" />
-                          ) : (
-                            <Play size={20} fill="currentColor" />
-                          )}
-                        </button>
-                        <button
-                          className={`icon-button ${loop ? "on" : ""}`}
-                          aria-label="Toggle phrase loop"
-                          onClick={() => {
-                            stop();
-                            setLoop((v) => !v);
-                          }}
-                        >
-                          <Repeat2 size={19} />
-                        </button>
-                        <span className="control-divider" />
-                        <div className="speed-control">
-                          <label htmlFor="speed">Practice speed</label>
-                          <select
-                            id="speed"
-                            value={speed}
-                            onChange={(e) => {
-                              stop();
-                              setSpeed(+e.target.value);
-                            }}
-                          >
-                            {[0.25, 0.5, 0.65, 0.75, 1, 1.25].map((x) => (
-                              <option key={x} value={x}>
-                                {Math.round(x * 100)}% · ♩ ={" "}
-                                {Math.round(score.bpm * x)}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                      <div className="volume">
-                        <button
-                          className="icon-button"
-                          aria-label={volume ? "Mute" : "Unmute"}
-                          disabled={settingsLoading}
-                          onClick={() => {
-                            const v = volume ? 0 : 0.65;
-                            setVolume(v);
-                            piano.setVolume(v);
-                          }}
-                        >
-                          {volume ? (
-                            <Volume2 size={17} />
-                          ) : (
-                            <VolumeX size={17} />
-                          )}
-                        </button>
-                        <input
-                          aria-label="Piano volume"
-                          disabled={settingsLoading}
-                          type="range"
-                          min="0"
-                          max="1"
-                          step=".01"
-                          value={volume}
-                          onChange={(e) => {
-                            setVolume(+e.target.value);
-                            piano.setVolume(+e.target.value);
-                          }}
-                        />
-                      </div>
-                    </div>
-                    {loop && (
-                      <div className="loop-options">
-                        <Repeat2 size={14} /> Repeat bars{" "}
-                        <input
-                          aria-label="Loop start bar"
-                          type="number"
-                          min="1"
-                          max={loopB}
-                          value={loopA}
-                          onChange={(e) => {
-                            stop();
-                            setLoopA(
-                              Math.max(1, Math.min(loopB, +e.target.value)),
-                            );
-                          }}
-                        />{" "}
-                        to{" "}
-                        <input
-                          aria-label="Loop end bar"
-                          type="number"
-                          min={loopA}
-                          max={score.measures}
-                          value={loopB}
-                          onChange={(e) => {
-                            stop();
-                            setLoopB(
-                              Math.min(
-                                score.measures,
-                                Math.max(loopA, +e.target.value),
-                              ),
-                            );
-                          }}
-                        />
-                        <span>Small phrases make big progress.</span>
-                      </div>
-                    )}
-                  </div>
-                </section>
-                <div className="under-player">
-                  {score.practiceTips?.length > 0 && (
-                    <section
-                      className="lesson-guide panel"
-                      aria-label="Your practice path"
-                    >
-                      <div className="card-title">
-                        <span>
-                          <Sparkles size={15} /> YOUR PRACTICE PATH
-                        </span>
-                        <span>One small step at a time</span>
-                      </div>
-                      <ol>
-                        {score.practiceTips.map((tip, i) => (
-                          <li key={i}>{tip}</li>
-                        ))}
-                      </ol>
-                    </section>
-                  )}
-                  <div className="number-guide panel">
-                    <div className="card-title">
-                      <span>
-                        <Sparkles size={15} /> A new language. Already familiar.
-                      </span>
-                      <button onClick={() => setModal("guide")}>
-                        Meet the notes <ArrowUpRight size={14} />
-                      </button>
-                    </div>
-                    <div className="number-row">
-                      {[60, 62, 64, 65, 67, 69, 71].map((m) => (
-                        <button
-                          key={m}
-                          onClick={() => {
-                            noteOn(m);
-                            setTimeout(() => noteOff(m), 550);
-                          }}
-                        >
-                          <strong>{degree(m, tonic)}</strong>
-                          <span>{solfege(m, tonic)}</span>
-                          <small>{noteName(m).replace("4", "")}</small>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <aside className="practice-side">
-                <section className="companion-card panel">
-                  <div className="companion-head">
-                    <span>
-                      <i /> YOUR PRACTICE PAL
-                    </span>
+                  <div className="volume">
                     <button
-                      onClick={() => setModal("companion")}
-                      aria-label="Customize companion"
-                    >
-                      <Settings2 size={15} />
-                    </button>
-                  </div>
-                  <Pet kind={pet} happy={playing || sessionHits > 0} />
-                  <div className="pet-name">
-                    {pet === "cat" ? "Luma" : "Mochi"}{" "}
-                    <span>LEVEL {Math.floor(stats.correct / 50) + 1}</span>
-                  </div>
-                  <p>
-                    {sessionHits > 0
-                      ? "Look at you go! Every note is a little star."
-                      : "“You don’t need to be perfect. Just a little curious.”"}
-                  </p>
-                  <div className="pet-xp">
-                    <span>Growing together</span>
-                    <span>
-                      {stats.correct % 50} / 50 <span>✦</span>
-                    </span>
-                  </div>
-                  <div className="progress-track">
-                    <i
-                      style={{ width: ((stats.correct % 50) / 50) * 100 + "%" }}
-                    />
-                  </div>
-                </section>
-                <section className="next-card panel">
-                  <div className="card-title">
-                    <span>
-                      {mode === "wait"
-                        ? "YOUR NEXT LITTLE STEP"
-                        : "COMING UP NEXT"}
-                    </span>
-                    <span className="soft-tag">
-                      Bar{" "}
-                      {Math.min(
-                        score.measures,
-                        measureAt(score, Math.max(0, beat)),
-                      )}
-                    </span>
-                  </div>
-                  <div className="next-notes">
-                    {currentNotes.length ? (
-                      currentNotes.map((n) => (
-                        <div key={n.id}>
-                          <strong>{degree(n.midi, tonic)}</strong>
-                          <span>
-                            {solfege(n.midi, tonic)} <i>·</i> {noteName(n.midi)}
-                          </span>
-                        </div>
-                      ))
-                    ) : (
-                      <div>
-                        <CheckCircle2 size={35} />
-                        <span>Lovely finish</span>
-                      </div>
-                    )}
-                  </div>
-                  <p>
-                    {mode === "wait"
-                      ? "Play the shown notes. The music waits for you."
-                      : "Watch where the glowing notes meet the keys."}
-                  </p>
-                  {mode === "wait" && (
-                    <div className="session-result">
-                      <span>{sessionHits} notes found</span>
-                      <span>
-                        {sessionHits + sessionMisses
-                          ? Math.round(
-                              (sessionHits / (sessionHits + sessionMisses)) *
-                                100,
-                            )
-                          : 0}
-                        % accuracy
-                      </span>
-                    </div>
-                  )}
-                </section>
-                <section className="practice-settings panel">
-                  <div className="card-title">
-                    <span>
-                      <SlidersHorizontal size={15} /> Make it comfortable
-                    </span>
-                  </div>
-                  <label>
-                    Key labels
-                    <select
-                      aria-label="Key labels"
-                      value={labels}
-                      onChange={(e) => setLabels(e.target.value)}
-                    >
-                      <option value="numbers">Numbers · 1 2 3</option>
-                      <option value="solfege">Solfege · Do Re Mi</option>
-                      <option value="letters">Notes · C D E</option>
-                    </select>
-                  </label>
-                  <label>
-                    Number 1 is
-                    <select
-                      aria-label="Number tonic"
-                      value={tonic}
-                      onChange={(e) => setTonic(+e.target.value)}
-                    >
-                      {PITCHES.map((p, i) => (
-                        <option key={p} value={i}>
-                          {p}
-                          {i === 0 ? " · fixed Do" : ""}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <div className="toggle-row">
-                    <span>Count me in</span>
-                    <button
-                      className={`toggle ${countIn ? "active" : ""}`}
-                      role="switch"
-                      aria-checked={countIn}
-                      aria-label="Count me in"
-                      onClick={() => setCountIn((v) => !v)}
-                    >
-                      <i />
-                    </button>
-                  </div>
-                  <div className="toggle-row">
-                    <span>Gentle metronome</span>
-                    <button
-                      className={`toggle ${metronome ? "active" : ""}`}
-                      role="switch"
-                      aria-checked={metronome}
-                      aria-label="Gentle metronome"
+                      className="icon-button"
+                      aria-label={volume ? "Mute" : "Unmute"}
+                      disabled={settingsLoading}
                       onClick={() => {
-                        if (metronome) piano.stopTicks();
-                        setMetronome((v) => !v);
+                        const v = volume ? 0 : 0.65;
+                        setVolume(v);
+                        piano.setVolume(v);
                       }}
                     >
-                      <i />
+                      {volume ? <Volume2 size={17} /> : <VolumeX size={17} />}
                     </button>
+                    <input
+                      aria-label="Piano volume"
+                      disabled={settingsLoading}
+                      type="range"
+                      min="0"
+                      max="1"
+                      step=".01"
+                      value={volume}
+                      onChange={(e) => {
+                        setVolume(+e.target.value);
+                        piano.setVolume(+e.target.value);
+                      }}
+                    />
                   </div>
-                  <p
-                    className="meter-hint"
-                    title="The metronome follows the written meter. Tempo is measured in quarter notes per minute."
-                  >
-                    {meterHint(score, beat)}
-                  </p>
-                </section>
-              </aside>
+                </div>
+                {loop && (
+                  <div className="loop-options">
+                    <Repeat2 size={14} /> Repeat bars{" "}
+                    <input
+                      aria-label="Loop start bar"
+                      type="number"
+                      min="1"
+                      max={loopB}
+                      value={loopA}
+                      onChange={(e) => {
+                        stop();
+                        setLoopA(Math.max(1, Math.min(loopB, +e.target.value)));
+                      }}
+                    />{" "}
+                    to{" "}
+                    <input
+                      aria-label="Loop end bar"
+                      type="number"
+                      min={loopA}
+                      max={score.measures}
+                      value={loopB}
+                      onChange={(e) => {
+                        stop();
+                        setLoopB(
+                          Math.min(
+                            score.measures,
+                            Math.max(loopA, +e.target.value),
+                          ),
+                        );
+                      }}
+                    />
+                    <span>Repeat the selected bars.</span>
+                  </div>
+                )}
+              </div>
             </div>
-            <footer className="studio-footer">
-              <button onClick={connectMIDI}>
-                <Keyboard size={15} />
-                {midiStatus}
-                {sustain && " · sustain"}
-                <ArrowUpRight size={13} />
-              </button>
+            <footer className="reader-footer">
+              <span>Computer keys A S D F · Space to play / pause</span>
               <span>
-                Or use your computer keys <kbd>A</kbd>
-                <kbd>S</kbd>
-                <kbd>D</kbd>
-                <kbd>F</kbd>{" "}
-                <span className="quiet">· Space to play / pause</span>
-              </span>
-              <span>
-                <Headphones size={13} /> Salamander grand piano
+                {mode === "wait" && sessionHits > 0
+                  ? `${sessionHits} notes · ${Math.round((sessionHits / (sessionHits + sessionMisses)) * 100)}% accuracy`
+                  : "Saved on this Mac"}
               </span>
             </footer>
-          </>
+          </div>
         ) : (
           <>
             <section className="greeting">
@@ -2269,6 +2067,100 @@ export default function App() {
             <X size={14} />
           </button>
         </div>
+      )}
+      {modal === "settings" && (
+        <Modal title="Reading settings" close={() => setModal(null)}>
+          <section className="practice-settings reader-settings">
+            <div className="card-title">
+              <span>
+                <SlidersHorizontal size={15} /> Reading & sound
+              </span>
+            </div>
+            <label>
+              Key labels
+              <select
+                aria-label="Key labels"
+                value={labels}
+                onChange={(e) => setLabels(e.target.value)}
+              >
+                <option value="numbers">Numbers · 1 2 3</option>
+                <option value="solfege">Solfege · Do Re Mi</option>
+                <option value="letters">Notes · C D E</option>
+              </select>
+            </label>
+            <label>
+              Number 1 is
+              <select
+                aria-label="Number tonic"
+                value={tonic}
+                onChange={(e) => setTonic(+e.target.value)}
+              >
+                {PITCHES.map((p, i) => (
+                  <option key={p} value={i}>
+                    {p}
+                    {i === 0 ? " · fixed Do" : ""}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="toggle-row">
+              <span>Count me in</span>
+              <button
+                className={`toggle ${countIn ? "active" : ""}`}
+                role="switch"
+                aria-checked={countIn}
+                aria-label="Count me in"
+                onClick={() => setCountIn((v) => !v)}
+              >
+                <i />
+              </button>
+            </div>
+            <div className="toggle-row">
+              <span>Gentle metronome</span>
+              <button
+                className={`toggle ${metronome ? "active" : ""}`}
+                role="switch"
+                aria-checked={metronome}
+                aria-label="Gentle metronome"
+                onClick={() => {
+                  if (metronome) piano.stopTicks();
+                  setMetronome((v) => !v);
+                }}
+              >
+                <i />
+              </button>
+            </div>
+            <p
+              className="meter-hint"
+              title="The metronome follows the written meter. Tempo is measured in quarter notes per minute."
+            >
+              {meterHint(score, beat)}
+            </p>
+          </section>
+
+          <div className="reader-settings-links">
+            <button className="secondary" onClick={() => setModal("companion")}>
+              <Sparkles size={16} /> Companions & moods
+            </button>
+            <button className="secondary" onClick={() => setModal("guide")}>
+              <HelpCircle size={16} /> Reading guide
+            </button>
+          </div>
+          <p className="subtle-note">
+            {Math.floor(stats.dailyMinutes || 0)} minutes today ·{" "}
+            {stats.correct} notes practiced. Progress is saved locally.
+          </p>
+          {score.practiceTips?.length > 0 && (
+            <details className="reader-lesson-tips">
+              <summary>Tips for this piece</summary>
+              <ol>
+                {score.practiceTips.map((tip, i) => (
+                  <li key={i}>{tip}</li>
+                ))}
+              </ol>
+            </details>
+          )}
+        </Modal>
       )}
       {modal === "import" && (
         <Modal
@@ -2540,28 +2432,31 @@ export default function App() {
               <h3>Find your middle C.</h3>
               <p>
                 Find a group of two black keys. C is the white key immediately
-                to their left. C4 is middle C; C5 is one octave higher. Look at
-                the pitch and octave in “Coming up next.”
+                to their left. C4 is middle C; C5 is one octave higher. Read the
+                pitch and octave below each number, such as C4 or C5.
               </p>
             </article>
             <article>
               <span>03</span>
               <h3>Listen. Then take your turn.</h3>
               <p>
-                In Listen & follow, a note sounds when its bar meets the
-                keyboard. Longer bars mean longer notes. Try 50% speed, then
-                switch to Wait for me. Chords need all the shown notes before
-                advancing.
+                In Number score, read left to right. Notes stacked together form
+                a chord. The ♩ value under a note tells you how long to hold it;
+                gaps marked rest are silent. In Listen & follow, the highlighted
+                position moves with the sound. Try 50% speed, then switch to
+                Wait for me. Chords need all the shown notes before advancing.
               </p>
             </article>
             <article>
               <span>04</span>
               <h3>Use your real keyboard.</h3>
               <p>
-                Connect a USB MIDI keyboard and click Connect keyboard. For an
-                acoustic piano, follow the lights in Listen & follow. This app
-                does not listen through the microphone. You can also click keys
-                or use A W S E D F T G Y H U J K.
+                Connect a USB MIDI keyboard and click Connect piano. The
+                keyboard guide scrolls to nearby notes; use the overview or
+                octave arrows to explore all 88 keys. For an acoustic piano,
+                follow the lights in Listen & follow. This app does not listen
+                through the microphone. You can also click keys or use A W S E D
+                F T G Y H U J K.
               </p>
             </article>
             <article>

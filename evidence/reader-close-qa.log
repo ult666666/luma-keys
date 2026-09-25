@@ -1,0 +1,24 @@
+[
+  {
+    mode: 'quit',
+    passed: true,
+    closeMs: 175.5903330000001,
+    saved: { theme: 'rose', pet: 'cat', volume: 0, stats: [Object] },
+    check: 'Immediate exit flushes the latest visible volume change, selected theme and active session minutes',
+    audioOutput: 'Muted through the isolated test webContents before playback'
+  },
+  {
+    mode: 'window-close',
+    passed: true,
+    closeMs: 275.5616250000003,
+    saved: { theme: 'rose', pet: 'cat', volume: 0, stats: [Object] },
+    check: 'Immediate exit flushes the latest visible volume change, selected theme and active session minutes',
+    audioOutput: 'Muted through the isolated test webContents before playback'
+  },
+  {
+    mode: 'failed-save',
+    passed: true,
+    check: 'A failed save offers a choice; Keep open preserves the window and retry after repair saves the pending theme',
+    dialogSelection: 'Simulated Keep open in isolated test instance'
+  }
+]

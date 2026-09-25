@@ -1,8 +1,23 @@
 # Luma Keys — installed and verified
 
-Updated September 25, 2026, 6:50 AM America/New_York.
+Updated September 25, 2026, 7:15 AM America/New_York.
 
-## Latest overnight improvement — version 1.0.8
+## Latest user-directed redesign — version 1.1.0
+The user clarified that this should be a concise **sight-reading tool**, not a piano dashboard. This direction takes precedence over the earlier dashboard presentation. Do not restore pets, progress cards, greetings or a sidebar to the main reading workspace.
+
+- Installed **/Users/prince/Desktop/Luma Keys.app** and opened the updated app. The default is now a large, light numbered score, a compact next-note cue, a readable keyboard window and transport. Library and import stay in the top bar. Settings holds companions, themes, progress, tonic/label choices, count-in, metronome and lesson tips.
+- Number score shows four bars (two in a narrow window), with separate hands, explicit pitch/octave, chords, silence and quarter-note durations. Hand selection hides the unused row. Dense passages retain readable spacing and bounded onset groups; a carried note shows its remaining duration and seeks within the current passage. Page navigation and bar jumps use real pickup/changing-meter boundaries. Manual Previous/Next note supports acoustic-piano practice without awarding fake correct-note counts.
+- All 88 keys remain reachable in a scrolling window at **42 pixels per white key**. The overview and octave arrows show location without squeezing the playable keys. Offscreen chord pitches have explicit direction buttons. Follow works through held computer/MIDI-style notes but does not move a key under an active pointer. Arrow keys move piano focus; Enter/Space plays it.
+- Optional **Sheet music** shows a compact four-bar engraving with an onset cursor; **Falling notes** remains a secondary view. Original notation is identified as unchanged by manual note corrections; Number score and playback use those corrections. Fixed OSMD implicit-pickup page boundaries, shared iterator state clearing cursor notes, stale cursor images and normalized-pickup timestamp mapping.
+- Removed the greeting, daily-goal card, pet card, separate settings/legend panels and sidebar from the reading workspace. Dialogs make the background inert. Desktop and 390px layouts were visually checked. The Play control is visible in the default 1280×800 view.
+- Native testing found macOS overlay scrollbars intercepted the bottoms of keys. A dedicated scrollbar gutter now keeps the full key surface clickable; the packaged pointer-hold scenario passes. Diagnostic evidence: evidence/resolved-native-key-scrollbar.json and .png.
+- Claude reviewed the new number-reading and keyboard code with tools/MCP disabled. Codex addressed its four findings about near-equal onsets, tight note spacing, held-note duration/seek and legato follow. Claude did not edit, run tests, or review later corrections. Report: docs/CLAUDE_READER_REVIEW.md.
+- **71/71 unit/API tests pass**, including eight reading tests. All **9 reader flow groups pass in browser and packaged 1.1.0**: navigation, labels, wait mode, original staff cursor, pointer/held-key follow, A0+C8 extremes, narrow layout, 50,000-note score, numbered export, real 16-note PDF recognition/original display and saved pitch corrections. All **12 input regressions** pass in browser and native app. **3 native quit/save scenarios** pass. **3 focused sheet-cursor groups** and **6 existing long-notation review groups** also pass.
+- The final packaged reader, input and close runs passed with development servers stopped. Installed archive matches the tested release. All **39 personal Library/Exports files remain byte-for-byte unchanged**: evidence/data-preservation-1.1.0.json. Only isolated test apps were closed; the installed personal app was opened after verification.
+- Current test entry points: scripts/reader-qa.mjs, scripts/native-reader-qa.mjs, scripts/input-qa.mjs, scripts/native-input-qa.mjs, scripts/close-qa.mjs, scripts/sheet-focus-qa.mjs and scripts/notation-qa.mjs. Some older dashboard-specific scripts retain historical selectors; do not confuse them with current reader acceptance. Evidence: reader-unit-tests.txt, reader-qa.json, native-reader-qa.json, native-input-qa.json, close-qa.json, sheet-focus-qa.json, notation-qa.json and reader-*.log. Screenshots: native-reader-desktop.png, native-reader-sheet.png, native-reader-mobile.png and native-reader-pdf-reading.png.
+- This is a beginner numbered reading aid, not automatic fingering or complete interpretation of every printed marking. PDF notes still need review. Physical MIDI hardware remains untested. The existing overnight schedule is unchanged and must end at 8 AM Eastern.
+
+## Previous overnight improvement — version 1.0.8
 - Installed and verified the Desktop update. Open **/Users/prince/Desktop/Luma Keys.app** to use it.
 - Reproduced five input failures in the previous packaged app: computer notes ignored after clicking Play, delayed Play resuming after Start over, delayed notes surviving blur or MIDI disconnect, and a stale sustain indicator after Pause. Baseline: evidence/input-baseline-1.0.7.json.
 - Piano inputs now track separate owners for computer keys, onscreen pointers/buttons, MIDI ports and MIDI channels. Releasing one input cannot release another input's held note. Harmless MIDI state changes keep held notes; reconnecting does not duplicate listeners. Separate pedals preserve sustain until all pressed pedals are released.
@@ -104,12 +119,12 @@ Updated September 25, 2026, 6:50 AM America/New_York.
 - Claude enhancement pass implemented and independently validated; report: docs/CLAUDE_REVIEW.md.
 
 ## Verification actually completed
-- **63/63 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.8.txt (earlier delivery results are preserved).
+- **71/71 unit and API regression tests pass.** See evidence/reader-unit-tests.txt (earlier delivery results are preserved).
 - Production build and Apple Silicon packaging pass. Desktop copy tested with the development server stopped.
 - Browser flow coverage passes: playback/pause/seek, 30 samples decoded, correct/wrong note handling, loop wrapping, labels/ranges, saved themes, import/engraving/review/library/search, and 390px responsive layout.
 - All 30 samples contain non-silent audio; on-screen keys support pointer and Enter/Space input.
 - Actual starter PDF → Audiveris → MusicXML round trip matched all **16 pitches and durations**. Original PDF is visibly rendered as a canvas. A more complex official Schubert example produced 277 notes and exposed recognition warnings.
-- Native app test passes: launch, local library, numbered export, audio playback, PDF recognition, original PDF display. See evidence/native-qa.json and native screenshots.
+- Current native reader, input and save/quit tests pass. See evidence/native-reader-qa.json, evidence/native-input-qa.json, evidence/close-qa.json and native-reader screenshots. Older delivery evidence is preserved in Git.
 - Simulated MIDI note-on/off and CC64 sustain pass. **No physical MIDI keyboard was connected/tested.**
 - npm audit reports **0 vulnerabilities** (evidence/dependency-audit-final.json).
 - On laptop-size windows Play and Connect piano are visible without scrolling.
@@ -123,4 +138,4 @@ Useful next checks: progress across renderer reload/midnight, note-review ergono
 PDF recognition is not perfect; every imported scan requires review. Repeats/navigation play once in written order. Later tempo changes and score pedal/ornament markings are simplified with warnings. MIDI hand assignments and humanized-chord grouping are estimates. Fixed Do remains C=1 by default; imported tonic metadata does not change labels automatically. The app does not listen to acoustic pianos through a microphone or infer fingerings. This is a local personal Mac build, not an App Store release.
 
 ## Development state
-The development server and temporary agent-browser test sessions were stopped after verification. Native tests run in project-local .qa-runs directories and clean up their own data; no test closes the personal app. No Luma Keys process was present at the final 1.0.8 check. The installed app starts its own loopback server and does not depend on development servers. Source uses local Git checkpoints. Runtime state lives in Library; build files can be replaced without deleting practice data.
+The development server and temporary agent-browser test sessions were stopped after verification. Native tests run in project-local .qa-runs directories and clean up their own data; no test closes the personal app. The installed 1.1.0 personal app was opened after verification; leave it open for the user. The installed app starts its own loopback server and does not depend on development servers. Source uses local Git checkpoints. Runtime state lives in Library; build files can be replaced without deleting practice data.

@@ -5,7 +5,8 @@
     "Review reopens at the current practice bar, including original notation",
     "92-bar Joplin score supports key-change and final passages, previous/next limits and mobile resize",
     "Written final rest survives review/save and playback reaches the final bar's end",
-    "Valid MusicXML without an XML declaration renders locally; 256-bar / 4,352-note book reaches late notation and note-review passages"
+    "Valid MusicXML without an XML declaration renders locally; 256-bar / 4,352-note book reaches late notation and note-review passages",
+    "Invalid embedded notation gives a clear fallback; notes remain editable and the next valid score renders normally"
   ],
   "measurements": [
     {
@@ -14,7 +15,7 @@
       "nodes": 3414,
       "paths": 1176,
       "visibleHeight": 500,
-      "loadRenderMs": 409.1746249999999
+      "loadRenderMs": 535.7956669999999
     },
     {
       "name": "Joplin first 16 bars",
@@ -22,7 +23,7 @@
       "nodes": 2266,
       "paths": 921,
       "visibleHeight": 500,
-      "loadRenderMs": 229.85045900000023
+      "loadRenderMs": 310.43525000000045
     },
     {
       "name": "256-bar book, bars 129–144",
@@ -30,7 +31,7 @@
       "nodes": 2982,
       "paths": 1072,
       "visibleHeight": 500,
-      "loadRenderMs": 285.1067089999997
+      "loadRenderMs": 347.6633750000001
     }
   ],
   "errors": []

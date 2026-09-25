@@ -1,0 +1,55 @@
+{
+  "error": "locator.hover: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'C4 1 Do', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <button tabindex=\"0\" data-midi=\"60\" aria-label=\"C4 1 Do\" class=\"piano-key white lit  middle-c\">…</button>\u001b[22m\n\u001b[2m  - attempting hover action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and stable\u001b[22m\n\u001b[2m      - element is visible and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"keyboard-viewport\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying hover action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and stable\u001b[22m\n\u001b[2m      - element is visible and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"keyboard-viewport\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying hover action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    28 × waiting for element to be visible and stable\u001b[22m\n\u001b[2m       - element is visible and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div class=\"keyboard-viewport\">…</div> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying hover action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+  "diagnostic": {
+    "innerWidth": 1280,
+    "innerHeight": 800,
+    "devicePixelRatio": 1,
+    "scrollX": 0,
+    "scrollY": 36.5,
+    "key": {
+      "x": 38,
+      "y": 523.390625,
+      "width": 42,
+      "height": 90,
+      "top": 523.390625,
+      "right": 80,
+      "bottom": 613.390625,
+      "left": 38
+    },
+    "viewport": {
+      "x": 38,
+      "y": 523.390625,
+      "width": 1198,
+      "height": 90,
+      "top": 523.390625,
+      "right": 1236,
+      "bottom": 613.390625,
+      "left": 38
+    },
+    "scrollLeft": 966,
+    "style": {
+      "height": "90px",
+      "bottom": "0px",
+      "top": "0px",
+      "pointerEvents": "auto"
+    },
+    "points": [
+      {
+        "y": 20,
+        "tag": "<button data-midi=\"60\" tabindex=\"0\" aria-label=\"C4 1 Do\" class=\"piano-key white lit  middle-c\" style=\"left: 44.2308%; width: 1.92308%;\"><span class=\"key-number\">1</span><small>C4</small></button>"
+      },
+      {
+        "y": 40,
+        "tag": "<span class=\"key-number\">1</span>"
+      },
+      {
+        "y": 60,
+        "tag": "<button data-midi=\"60\" tabindex=\"0\" aria-label=\"C4 1 Do\" class=\"piano-key white lit  middle-c\" style=\"left: 44.2308%; width: 1.92308%;\"><span class=\"key-number\">1</span><small>C4</small></button>"
+      },
+      {
+        "y": 78,
+        "tag": "<div class=\"keyboard-viewport\"><div class=\"keyboard-strip\" style=\"width: 2184px;\"><div class=\"piano-keys\"><button data-midi=\"21\" tabindex=\"-1\" aria-label=\"A0 6 La\" class=\"piano-key white   \" style=\"left: 0%; width: 1.92308%;\"><span class=\"key-number\">6</span><small>A0</small></button><button data-midi=\"22\" tabindex=\"-1\" aria-label=\"A♯0 ♯6 Li\" class"
+      }
+    ]
+  }
+}

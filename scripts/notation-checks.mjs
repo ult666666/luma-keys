@@ -33,7 +33,10 @@ export async function verifyNotation(page, prefix = "notation") {
     await page
       .getByRole("spinbutton", { name: "Review from bar" })
       .fill(String(bar));
-    await page.getByRole("button", { name: "Go", exact: true }).click();
+    await page
+      .getByRole("dialog", { name: "Make the music yours" })
+      .getByRole("button", { name: "Go", exact: true })
+      .click();
     if (expected) {
       await page
         .locator(".notation-navigation")

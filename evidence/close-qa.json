@@ -4,38 +4,40 @@
     {
       "mode": "quit",
       "passed": true,
-      "closeMs": 190.92483300000004,
+      "closeMs": 175.5903330000001,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.016533333333333334,
+          "minutes": 0.014733333333333333,
           "sessions": 1,
-          "dailyMinutes": 0.016533333333333334,
+          "dailyMinutes": 0.014733333333333333,
           "practiceDate": "2026-09-25"
         }
       },
-      "check": "Immediate exit preserves the latest theme and active session minutes"
+      "check": "Immediate exit flushes the latest visible volume change, selected theme and active session minutes",
+      "audioOutput": "Muted through the isolated test webContents before playback"
     },
     {
       "mode": "window-close",
       "passed": true,
-      "closeMs": 307.704917,
+      "closeMs": 275.5616250000003,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.01806666666666667,
+          "minutes": 0.016083333333333335,
           "sessions": 1,
-          "dailyMinutes": 0.01806666666666667,
+          "dailyMinutes": 0.016083333333333335,
           "practiceDate": "2026-09-25"
         }
       },
-      "check": "Immediate exit preserves the latest theme and active session minutes"
+      "check": "Immediate exit flushes the latest visible volume change, selected theme and active session minutes",
+      "audioOutput": "Muted through the isolated test webContents before playback"
     },
     {
       "mode": "failed-save",

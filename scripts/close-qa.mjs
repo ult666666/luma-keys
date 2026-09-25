@@ -12,10 +12,13 @@ for (const mode of ["quit", "window-close", "failed-save"]) {
   const folder = path.join(root, "Library");
   await fs.mkdir(folder);
   const file = path.join(folder, "preferences.json");
+  // The normal-close cases change the visible volume to zero immediately before
+  // exit. Mute the test webContents independently so this remains silent.
+  const initialVolume = mode === "failed-save" ? 0 : 0.2;
   const initial = JSON.stringify({
     theme: "mint",
     pet: "cat",
-    volume: 0,
+    volume: initialVolume,
     stats: {
       correct: 0,
       minutes: 0,
@@ -36,20 +39,22 @@ for (const mode of ["quit", "window-close", "failed-save"]) {
     const page = await app.firstWindow(),
       errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
+    await app.evaluate(({ BrowserWindow }) => {
+      BrowserWindow.getAllWindows()[0].webContents.setAudioMuted(true);
+    });
+    assert.equal(
+      await app.evaluate(({ BrowserWindow }) =>
+        BrowserWindow.getAllWindows()[0].webContents.isAudioMuted(),
+      ),
+      true,
+    );
     const play = page.getByRole("button", { name: "Play", exact: true });
     await expect(play).toBeEnabled();
     assert.equal(
       await page.getByRole("slider", { name: "Piano volume" }).inputValue(),
-      "0",
+      String(initialVolume),
     );
-    if (mode !== "failed-save") {
-      await page.getByRole("switch", { name: "Count me in" }).click();
-      await play.click();
-      await page.waitForFunction(
-        () =>
-          +document.querySelector('[aria-label="Song position"]').value > 0.8,
-      );
-    } else {
+    if (mode === "failed-save") {
       await app.evaluate(({ dialog, app }) => {
         dialog.showMessageBox = async (...args) => {
           app.qaSaveWarning = args.at(-1);
@@ -60,11 +65,33 @@ for (const mode of ["quit", "window-close", "failed-save"]) {
       await fs.mkdir(file);
     }
     await page
+      .getByRole("button", { name: "Reading settings", exact: true })
+      .click();
+    if (mode !== "failed-save")
+      await page.getByRole("switch", { name: "Count me in" }).click();
+    await page
       .getByRole("button", { name: "Companions & moods", exact: true })
       .click();
     await page
       .getByRole("button", { name: "Rose nebula", exact: true })
       .click();
+    if (mode !== "failed-save") {
+      await page
+        .getByRole("button", { name: "Close dialog", exact: true })
+        .click();
+      await play.click();
+      await page.waitForFunction(
+        () =>
+          +document.querySelector('[aria-label="Song position"]').value > 0.8,
+      );
+      await expect(
+        page.getByRole("button", { name: "Pause", exact: true }),
+      ).toBeVisible();
+      assert.equal(JSON.parse(await fs.readFile(file, "utf8")).volume, 0.2);
+      // No Settings modal here: the transport remains active until exit, and
+      // the close handler must flush this newly changed visible preference.
+      await page.getByRole("slider", { name: "Piano volume" }).fill("0");
+    }
     const requestClose = () =>
       app.evaluate(({ app, BrowserWindow }, mode) => {
         setTimeout(() => {
@@ -117,7 +144,9 @@ for (const mode of ["quit", "window-close", "failed-save"]) {
         closeMs: performance.now() - began,
         saved,
         check:
-          "Immediate exit preserves the latest theme and active session minutes",
+          "Immediate exit flushes the latest visible volume change, selected theme and active session minutes",
+        audioOutput:
+          "Muted through the isolated test webContents before playback",
       });
     }
     assert.deepEqual(errors, []);
