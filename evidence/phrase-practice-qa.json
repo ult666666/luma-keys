@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "checks": [
+    "Manual reading visits every close onset in order, including .03125-beat notes, and keeps the required-note cue accurate",
+    "Repeat these bars selects the visible final bar using real pickup/meter boundaries; Start over, mode/hand changes and review/save stay inside that phrase",
+    "Numeric phrase edits move the score and cue to the selected start; acoustic Next/Previous wrap within selected onsets without a contradictory finish cue",
+    "Shift-click extends a phrase from the last clicked bar; exploring an inside note preserves it, while outside notes or timeline seeks leave repeat mode clearly",
+    "Outside passage navigation exits the old phrase; disabling Repeat restores full-score Start over without inventing practice statistics",
+    "Live Wait for me rejects a nearby wrong onset and accepts D4 then E4 at their precise written beats without skipping either note",
+    "Hiding the keyboard preserves live computer ownership and acoustic stepping, removes hidden keys from focus, and retains all 88 button identities",
+    "Falling notes temporarily reveals the keyboard; Number score and score changes retain the user's collapsed preference, with an accessible way to restore it",
+    "Opening, interior and trailing rests show accurate beat durations; dense short rests stay legible without clipped labels or page-wide overflow",
+    "At 390px, phrase selection and manual stepping remain usable with the keyboard collapsed and no controls extending beyond the page"
+  ],
+  "errors": [],
+  "measurements": {
+    "numericPhrase": {
+      "firstBeat": 0.5,
+      "lastOnset": 5.5,
+      "bars": [
+        2,
+        3
+      ]
+    },
+    "collapsed": {
+      "keys": 88,
+      "retained": true,
+      "allUnavailable": true
+    },
+    "rests": {
+      "count": 18,
+      "minimumWidth": 48,
+      "restOverflow": {
+        "document": false,
+        "score": true
+      }
+    },
+    "narrowControls": [
+      {
+        "label": "Repeat these bars",
+        "left": 172.734375,
+        "right": 203.734375,
+        "width": 31
+      },
+      {
+        "label": "Go to bar",
+        "left": 211.734375,
+        "right": 259.734375,
+        "width": 48
+      },
+      {
+        "label": "Go",
+        "left": 262.734375,
+        "right": 281,
+        "width": 18.265625
+      },
+      {
+        "label": "Previous passage",
+        "left": 290,
+        "right": 323,
+        "width": 33
+      },
+      {
+        "label": "Next passage",
+        "left": 329,
+        "right": 362,
+        "width": 33
+      },
+      {
+        "label": "Loop start bar",
+        "left": 97.296875,
+        "right": 137.296875,
+        "width": 40
+      },
+      {
+        "label": "Loop end bar",
+        "left": 161.078125,
+        "right": 201.078125,
+        "width": 40
+      }
+    ]
+  },
+  "audioOutput": "Piano volume set to zero",
+  "physicalHardwareTested": false
+}

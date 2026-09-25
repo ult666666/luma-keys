@@ -1,0 +1,12 @@
+PASS phrase practice [
+  'Manual reading visits every close onset in order, including .03125-beat notes, and keeps the required-note cue accurate',
+  'Repeat these bars selects the visible final bar using real pickup/meter boundaries; Start over, mode/hand changes and review/save stay inside that phrase',
+  'Numeric phrase edits move the score and cue to the selected start; acoustic Next/Previous wrap within selected onsets without a contradictory finish cue',
+  'Shift-click extends a phrase from the last clicked bar; exploring an inside note preserves it, while outside notes or timeline seeks leave repeat mode clearly',
+  'Outside passage navigation exits the old phrase; disabling Repeat restores full-score Start over without inventing practice statistics',
+  'Live Wait for me rejects a nearby wrong onset and accepts D4 then E4 at their precise written beats without skipping either note',
+  'Hiding the keyboard preserves live computer ownership and acoustic stepping, removes hidden keys from focus, and retains all 88 button identities',
+  "Falling notes temporarily reveals the keyboard; Number score and score changes retain the user's collapsed preference, with an accessible way to restore it",
+  'Opening, interior and trailing rests show accurate beat durations; dense short rests stay legible without clipped labels or page-wide overflow',
+  'At 390px, phrase selection and manual stepping remain usable with the keyboard collapsed and no controls extending beyond the page'
+]

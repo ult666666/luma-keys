@@ -1,0 +1,5 @@
+PASS [
+  "A right-hand triad and left-hand bass keep both hands' pitches and durations visible without a hidden vertical score region",
+  'Actual bass-plus-triad input advances wait mode to D4; earlier notes are marked hold, only D4 is current, and D4 input completes the phrase',
+  'Reduced-motion and 390px layouts preserve the held-versus-required note distinction, readable chord rows and horizontal containment'
+]

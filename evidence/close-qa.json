@@ -4,16 +4,16 @@
     {
       "mode": "quit",
       "passed": true,
-      "closeMs": 175.5903330000001,
+      "closeMs": 162.4677499999998,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.014733333333333333,
+          "minutes": 0.0144,
           "sessions": 1,
-          "dailyMinutes": 0.014733333333333333,
+          "dailyMinutes": 0.0144,
           "practiceDate": "2026-09-25"
         }
       },
@@ -23,16 +23,16 @@
     {
       "mode": "window-close",
       "passed": true,
-      "closeMs": 275.5616250000003,
+      "closeMs": 264.1737919999996,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.016083333333333335,
+          "minutes": 0.015716666666666667,
           "sessions": 1,
-          "dailyMinutes": 0.016083333333333335,
+          "dailyMinutes": 0.015716666666666667,
           "practiceDate": "2026-09-25"
         }
       },

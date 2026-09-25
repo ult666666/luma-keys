@@ -41,6 +41,19 @@
   color: #c4ceba;
   background: #c3cdb60a;
 }
+.keyboard-guide-controls .keyboard-guide-toggle {
+  border: 1px solid #aeb5a329;
+  border-radius: 3px;
+  color: #b3bca8;
+  white-space: nowrap;
+}
+.keyboard-guide-body[hidden] {
+  display: none;
+}
+.keyboard-guide.keyboard-guide-collapsed .keyboard-guide-top {
+  min-height: 39px;
+  padding-block: 6px;
+}
 .keyboard-locator {
   display: flex;
   gap: 9px;

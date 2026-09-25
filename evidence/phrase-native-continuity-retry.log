@@ -1,0 +1,265 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.screenshot: Timeout 15000ms exceeded.
+Call log:
+[2m  - taking page screenshot[22m
+[2m  - waiting for fonts to load...[22m
+[2m  - fonts loaded[22m
+
+    at verifyOverlapMotion (/Users/prince/Desktop/Luma Keys/scripts/overlap-motion-checks.mjs:238:16)
+    at async file:///Users/prince/Desktop/Luma%20Keys/scripts/native-continuity-qa.mjs:45:7 {
+  log: [
+    '  - taking page screenshot',
+    '  - waiting for fonts to load...',
+    '  - fonts loaded'
+  ],
+  name: 'TimeoutError',
+  overlapEvidence: {
+    checkpoints: [
+      {
+        name: 'Long C4 onset',
+        attacks: 1,
+        beat: 0.0551473922902495,
+        keys: 88,
+        stable: true,
+        sounding: true,
+        records: [
+          {
+            phase: 'held-note-start',
+            beat: 0.00580498866213164,
+            node: 0,
+            retainedButton: true
+          }
+        ]
+      },
+      {
+        name: 'Short C4 onset while long C4 holds',
+        attacks: 2,
+        beat: 1.23936507936508,
+        keys: 88,
+        stable: true,
+        sounding: true,
+        records: [
+          {
+            phase: 'held-note-start',
+            beat: 0.00580498866213164,
+            node: 0,
+            retainedButton: true
+          },
+          {
+            phase: 'overlapping-note-start',
+            beat: 1.00716553287982,
+            node: 1,
+            retainedButton: true
+          }
+        ]
+      },
+      {
+        name: 'Short note ends without another attack',
+        attacks: 2,
+        beat: 2.18848072562358,
+        keys: 88,
+        stable: true,
+        sounding: true,
+        records: [
+          {
+            phase: 'held-note-start',
+            beat: 0.00580498866213164,
+            node: 0,
+            retainedButton: true
+          },
+          {
+            phase: 'overlapping-note-start',
+            beat: 1.00716553287982,
+            node: 1,
+            retainedButton: true
+          }
+        ]
+      },
+      {
+        name: 'Live C4 adds one attack over the held playback note',
+        attacks: 3,
+        beat: 2.2378231292517,
+        keys: 88,
+        stable: true,
+        sounding: true,
+        records: [
+          {
+            phase: 'held-note-start',
+            beat: 0.00580498866213164,
+            node: 0,
+            retainedButton: true
+          },
+          {
+            phase: 'overlapping-note-start',
+            beat: 1.00716553287982,
+            node: 1,
+            retainedButton: true
+          },
+          {
+            phase: 'live-key-start',
+            beat: 2.18848072562358,
+            node: 2,
+            retainedButton: true
+          }
+        ]
+      },
+      {
+        name: 'Live release leaves held playback without a false attack',
+        attacks: 3,
+        beat: 2.42358276643991,
+        keys: 88,
+        stable: true,
+        sounding: true,
+        records: [
+          {
+            phase: 'held-note-start',
+            beat: 0.00580498866213164,
+            node: 0,
+            retainedButton: true
+          },
+          {
+            phase: 'overlapping-note-start',
+            beat: 1.00716553287982,
+            node: 1,
+            retainedButton: true
+          },
+          {
+            phase: 'live-key-start',
+            beat: 2.18848072562358,
+            node: 2,
+            retainedButton: true
+          }
+        ]
+      },
+      {
+        name: 'Pause releases the key without another attack',
+        attacks: 3,
+        beat: 2.43809523809524,
+        keys: 88,
+        stable: true,
+        sounding: false,
+        records: [
+          {
+            phase: 'held-note-start',
+            beat: 0.00580498866213164,
+            node: 0,
+            retainedButton: true
+          },
+          {
+            phase: 'overlapping-note-start',
+            beat: 1.00716553287982,
+            node: 1,
+            retainedButton: true
+          },
+          {
+            phase: 'live-key-start',
+            beat: 2.18848072562358,
+            node: 2,
+            retainedButton: true
+          }
+        ]
+      },
+      {
+        name: 'Starting again legitimately attacks the first C4',
+        attacks: 4,
+        beat: 0.040634920634921,
+        keys: 88,
+        stable: true,
+        sounding: true,
+        records: [
+          {
+            phase: 'held-note-start',
+            beat: 0.00580498866213164,
+            node: 0,
+            retainedButton: true
+          },
+          {
+            phase: 'overlapping-note-start',
+            beat: 1.00716553287982,
+            node: 1,
+            retainedButton: true
+          },
+          {
+            phase: 'live-key-start',
+            beat: 2.18848072562358,
+            node: 2,
+            retainedButton: true
+          },
+          {
+            phase: 'restart',
+            beat: 0.00870748299319768,
+            node: 3,
+            retainedButton: true
+          }
+        ]
+      },
+      {
+        name: 'Final stop leaves exactly four real attacks',
+        attacks: 4,
+        beat: 0.0725623582766444,
+        keys: 88,
+        stable: true,
+        sounding: false,
+        records: [
+          {
+            phase: 'held-note-start',
+            beat: 0.00580498866213164,
+            node: 0,
+            retainedButton: true
+          },
+          {
+            phase: 'overlapping-note-start',
+            beat: 1.00716553287982,
+            node: 1,
+            retainedButton: true
+          },
+          {
+            phase: 'live-key-start',
+            beat: 2.18848072562358,
+            node: 2,
+            retainedButton: true
+          },
+          {
+            phase: 'restart',
+            beat: 0.00870748299319768,
+            node: 3,
+            retainedButton: true
+          }
+        ]
+      }
+    ],
+    errors: [],
+    records: [
+      {
+        phase: 'held-note-start',
+        beat: 0.00580498866213164,
+        node: 0,
+        retainedButton: true
+      },
+      {
+        phase: 'overlapping-note-start',
+        beat: 1.00716553287982,
+        node: 1,
+        retainedButton: true
+      },
+      {
+        phase: 'live-key-start',
+        beat: 2.18848072562358,
+        node: 2,
+        retainedButton: true
+      },
+      {
+        phase: 'restart',
+        beat: 0.00870748299319768,
+        node: 3,
+        retainedButton: true
+      }
+    ],
+    beat: 0.0725623582766444
+  }
+}
+
+Node.js v24.18.0

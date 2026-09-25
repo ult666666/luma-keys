@@ -1,8 +1,22 @@
 # Luma Keys — installed and verified
 
-Updated September 25, 2026, 7:44 AM America/New_York.
+Updated September 25, 2026, 10:04 AM America/New_York.
 
-## Latest overnight verification and fixes — version 1.1.2
+## Latest direct-user continuation — version 1.2.0
+Installed the tested **/Users/prince/Desktop/Luma Keys.app**. **Quit and reopen the existing personal app to load 1.2.0.** Native window automation returned `noWindowsAvailable` / `timeoutReached`; the old personal process was left running rather than forcibly terminated. Its local API remained healthy. This direct user request followed the overnight deadline; the expired schedule was not extended.
+
+- **Practice a small phrase directly:** Repeat these bars selects the numbered manuscript's visible whole bars. Click a bar number then Shift-click another to set a range, or edit the player's existing bar fields. Quiet marks on the paper show the repeat, with a compact stop control.
+- **Reliable acoustic stepping:** Next/Previous cycle inside the repeated phrase; Start over returns to its first bar. Changing hand/mode or saving reviewed notes retains that context. Browsing outside the phrase turns repeat off and returns to the whole piece. Manual navigation does not invent correct-note counts or sessions.
+- **Accurate close notes:** precise onset lookup fixes skipped/misidentified rapid notes, including real 128th-note MusicXML fixtures. The position slider preserves fractional beats. Actual Wait input rejects a wrong nearby pitch and advances through each required onset correctly.
+- **Counted silence:** rests show their quarter-note duration, split at actual bar boundaries. Two-line labels and bounded spacing keep short rests legible. Adaptive spacing is still a reading aid, not a rhythmic scale.
+- **Less interface when reading at a piano:** Hide keyboard guide folds it into a compact strip. Computer/MIDI ownership remains independent; hidden keys are inert and out of Tab order. The choice survives Library/Lessons navigation during the current session. Falling notes temporarily reveals the keyboard. The choice does not yet persist after quitting.
+- **88/88 unit/API tests passed. All 48 flow groups passed in browser and packaged 1.2.0:** 10 new phrase/focus/rest groups, 10 sustained-audio/overlap/chord groups, 7 material groups, 12 input groups and 9 reading groups (including real PDF recognition, correction, export and 50,000-note navigation). The packaged app also passed all 3 normal/failed-save quit scenarios. Native checks ran with the development server stopped and isolated, muted data. Physical MIDI hardware remains untested.
+- Two initial native continuity attempts were interrupted: a window closed in the first; a screenshot timed out in the second after all overlap behavior assertions had passed. Their logs are retained. Added bounded lifecycle diagnostics and focus for only the owned QA window; the final unchanged musical assertions and screenshots passed with no recorded errors and exit code 0. The earlier interruption causes were not established, and no product behavior was changed to mask them.
+- Claude was prompted for another read-only review, but its CLI returned **Not logged in** with zero model tokens. It did not review this version. Independent code review and actual flows caught and corrected lost collapse state, review/phrase mismatch and clipped rest labels. See `docs/CLAUDE_PHRASE_REVIEW.md`.
+- The installed archive matches the tested release; all **39 personal Library/Exports files remain byte-for-byte unchanged**. Evidence: `evidence/data-preservation-1.2.0.json`. Test apps and the development server are stopped; the personal process remains running on the prior loaded version until reopened.
+- Acceptance evidence: `evidence/phrase-unit-tests.txt`, `evidence/phrase-practice-qa.json`, `evidence/native-phrase-practice-qa.json`, `evidence/native-continuity-qa.json`, `evidence/native-continuity-diagnostics.json`, `evidence/native-material-qa.json`, `evidence/native-input-qa.json`, `evidence/native-reader-qa.json`, and `evidence/close-qa.json`. `phrase-*.log` retains commands/results; `resolved-phrase-collapse-failure.*` preserves the fixed first-run UI failure. New screenshots include `native-phrase-practice-selected-phrase.png`, `native-phrase-practice-score-only.png`, `native-phrase-practice-rest-durations.png`, and `native-phrase-practice-narrow-score-only.png`.
+
+## Previous overnight verification and fixes — version 1.1.2
 Preserved the user's concise, matte sight-reading layout. Installed and reopened **/Users/prince/Desktop/Luma Keys.app** after checking the personal app was idle and using normal Quit.
 
 - **Held-note playback:** the previous package was silent when Listen started midway through a sustained note. Resume and phrase entry now start its remaining duration once, with the existing articulation/release tail, clipped to the selected ending. Carry-only phrases play each loop and show HOLD; Wait mode still asks only for new written onsets. Actual sample-source scheduling was measured in browser and native app. Baseline: `evidence/resume-audio-baseline.json`.
@@ -143,7 +157,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - Claude enhancement pass implemented and independently validated; report: docs/CLAUDE_REVIEW.md.
 
 ## Verification actually completed
-- **83/83 unit and API regression tests pass.** See evidence/continuity-unit-tests.txt (earlier delivery results are preserved).
+- **88/88 unit and API regression tests pass.** See evidence/phrase-unit-tests.txt (earlier delivery results are preserved).
 - Production build and Apple Silicon packaging pass. Desktop copy tested with the development server stopped.
 - Browser flow coverage passes: playback/pause/seek, 30 samples decoded, correct/wrong note handling, loop wrapping, labels/ranges, saved themes, import/engraving/review/library/search, and 390px responsive layout.
 - All 30 samples contain non-silent audio; on-screen keys support pointer and Enter/Space input.
@@ -154,7 +168,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - On laptop-size windows Play and Connect piano are visible without scrolling.
 
 ## Overnight follow-up
-The heartbeat `luma-keys-overnight-build-polish` is scheduled hourly through **2026-09-25 08:00 Eastern**. A temporary caffeinate process prevents idle sleep until that deadline; keep the Mac plugged in, lid open and Codex running. Do not extend the schedule. See docs/OVERNIGHT.md.
+The heartbeat `luma-keys-overnight-build-polish` ended at **2026-09-25 08:00 Eastern**. Subsequent work follows direct user requests; do not extend that schedule. See docs/OVERNIGHT.md.
 
 Useful next checks: progress across renderer reload/midnight, note-review ergonomics in smaller laptop windows, and dense-passage frame pacing in a visible native window. Malformed settings, slow startup, normal native exit, failed-save recovery, PDF interruption/retry and mixed/delayed piano inputs are now covered. Backup metadata and isolated corrupt-library recovery are now covered. Independent real MusicXML exports, 256-bar notation navigation, the 50,000-note JSON timeline and the Für Elise opening have been verified; arbitrary scanned full-book recognition remains unproven. Changing-meter MIDI loops, compound/odd-meter clicks, and a constructed cross-staff fixture also pass. Improve only where new evidence justifies a change. Keep the app usable and repackage validated changes with scripts/package-desktop.sh. Preserve all user Library and Exports data. **Never rerun scripts/prepare-starter-library.mjs**; it is guarded as an initial-delivery-only cleanup. `scripts/update-elise-assets.mjs` safely refreshes only the shipped Für Elise files in Practice Sheets.
 
@@ -162,4 +176,4 @@ Useful next checks: progress across renderer reload/midnight, note-review ergono
 PDF recognition is not perfect; every imported scan requires review. Repeats/navigation play once in written order. Later tempo changes and score pedal/ornament markings are simplified with warnings. MIDI hand assignments and humanized-chord grouping are estimates. Fixed Do remains C=1 by default; imported tonic metadata does not change labels automatically. The app does not listen to acoustic pianos through a microphone or infer fingerings. This is a local personal Mac build, not an App Store release.
 
 ## Development state
-The development server and temporary agent-browser test sessions were stopped after verification. Native tests run in project-local .qa-runs directories and clean up their own data; no test closes the personal app. The installed 1.1.2 personal app was reopened after verification and its new appearance was inspected; leave it open for the user. The installed app starts its own loopback server and does not depend on development servers. Source uses local Git checkpoints. Runtime state lives in Library; build files can be replaced without deleting practice data.
+The development server and temporary agent-browser test sessions were stopped after verification. Native tests run in project-local .qa-runs directories and clean up their own data; no test closes the personal app. The 1.2.0 update is installed, but the existing personal process was left open after native window automation timed out. The user needs to quit and reopen once to load the tested update. The installed app starts its own loopback server and does not depend on development servers. Source uses local Git checkpoints. Runtime state lives in Library; build files can be replaced without deleting practice data.

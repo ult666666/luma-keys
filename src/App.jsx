@@ -9,6 +9,11 @@ import {
   listenWindowNotes,
 } from "./listen-start.mjs";
 import {
+  practiceGroupAtOrAfter,
+  practiceGroupAt,
+  stepPracticeBeat,
+} from "./practice-reading.mjs";
+import {
   Music2,
   Library,
   BookOpen,
@@ -501,6 +506,7 @@ export default function App() {
     [labels, setLabels] = useState("numbers"),
     [tonic, setTonic] = useState(0),
     [readingView, setReadingView] = useState("numbers"),
+    [keyboardCollapsed, setKeyboardCollapsed] = useState(false),
     [pressed, setPressed] = useState(new Set()),
     [modal, setModal] = useState(null),
     [toast, setToast] = useState(""),
@@ -801,6 +807,31 @@ export default function App() {
     transport.current.matched = new Set();
     setBeat(to);
   }
+  function seekReading(to) {
+    // Exploring outside a repeat returns to the whole piece. The score, cue
+    // and next Play action should all refer to the position the reader chose.
+    if (
+      loop &&
+      (to < barStart(score, loopA) - 1e-6 || to >= barEnd(score, loopB) - 1e-6)
+    )
+      setLoop(false);
+    seek(to);
+  }
+  function repeatBars(first, last) {
+    const a = Math.max(1, Math.min(score.measures, Math.trunc(first) || 1));
+    const b = Math.max(a, Math.min(score.measures, Math.trunc(last) || a));
+    setLoopA(a);
+    setLoopB(b);
+    setLoop(true);
+    seek(barStart(score, a));
+  }
+  function clearRepeat() {
+    stop();
+    setLoop(false);
+  }
+  function restartReading() {
+    seek(loop ? barStart(score, loopA) : 0);
+  }
   function choose(s) {
     stop();
     setScore(s);
@@ -855,7 +886,7 @@ export default function App() {
       } = state.current;
       const t = transport.current;
       let from = t.beat;
-      if (from >= score.duration - 0.01) from = 0;
+      if (from >= score.duration - 1e-6) from = 0;
       if (
         loop &&
         (from < barStart(score, loopA) || from >= barEnd(score, loopB))
@@ -863,7 +894,7 @@ export default function App() {
         from = barStart(score, loopA);
       if (mode === "wait") {
         const next =
-          phraseGroups.find((g) => g.beat >= from - 0.01) || phraseGroups[0];
+          practiceGroupAtOrAfter(phraseGroups, from) || phraseGroups[0];
         from = next.beat;
         t.matched = new Set();
       } else if (countIn && from === 0) from = -countInLength(score);
@@ -983,9 +1014,7 @@ export default function App() {
       const s = state.current,
         t = transport.current;
       if (t.playing && s.mode === "wait") {
-        const group = s.chordGroups.find(
-          (g) => Math.abs(g.beat - t.beat) < 0.01,
-        );
+        const group = practiceGroupAt(s.chordGroups, t.beat);
         if (!group) return;
         if (group.notes.some((n) => n.midi === midi)) {
           if (t.matched.has(midi)) return;
@@ -1239,7 +1268,13 @@ export default function App() {
     const saved = await api("/scores/" + s.id, json("PUT", s));
     await refreshLibrary();
     setScore(saved.score);
-    seek(0);
+    if (loop) {
+      const first = Math.min(loopA, saved.score.measures);
+      const last = Math.min(loopB, saved.score.measures);
+      setLoopA(first);
+      setLoopB(last);
+      seek(barStart(saved.score, first));
+    } else seek(0);
   }
   async function download() {
     try {
@@ -1251,11 +1286,12 @@ export default function App() {
       notify(e.message);
     }
   }
-  const current =
-    phraseGroups.find((g) => g.beat >= Math.max(0, beat) - 0.04) ||
-    (loop ? phraseGroups[0] : undefined);
   const playbackStart = loop ? barStart(score, loopA) : 0;
   const playbackEnd = loop ? barEnd(score, loopB) : score.duration;
+  const current =
+    beat < playbackEnd - 1e-6
+      ? practiceGroupAtOrAfter(phraseGroups, Math.max(playbackStart, beat))
+      : undefined;
   const heldNotes = useMemo(
     () =>
       mode === "listen" && beat >= playbackStart && beat < playbackEnd
@@ -1269,20 +1305,12 @@ export default function App() {
   const holding = !current?.notes.length && heldNotes.length > 0;
   const finished = beat >= playbackEnd;
   function stepReading(direction) {
-    const next =
-      direction > 0
-        ? phraseGroups.find((g) => g.beat > Math.max(0, beat) + 0.04)
-        : phraseGroups.findLast((g) => g.beat < Math.max(0, beat) - 0.04);
     seek(
-      next
-        ? next.beat
-        : direction > 0
-          ? loop
-            ? barEnd(score, loopB)
-            : score.duration
-          : loop
-            ? barStart(score, loopA)
-            : 0,
+      stepPracticeBeat(phraseGroups, beat, direction, {
+        start: playbackStart,
+        end: playbackEnd,
+        loop,
+      }),
     );
   }
   const soundEvents = useMemo(
@@ -1626,7 +1654,10 @@ export default function App() {
                 beat={beat}
                 tonic={tonic}
                 labels={labels}
-                onSeek={seek}
+                onSeek={seekReading}
+                loopRange={loop ? { first: loopA, last: loopB } : null}
+                onRepeat={repeatBars}
+                onClearRepeat={clearRepeat}
               />
             )}
             {readingView === "sheet" &&
@@ -1656,7 +1687,7 @@ export default function App() {
                     transportScore={score}
                     compact
                     beat={beat}
-                    onNavigate={(bar) => seek(barStart(score, bar))}
+                    onNavigate={(bar) => seekReading(barStart(score, bar))}
                   />
                 </div>
               ) : (
@@ -1729,6 +1760,8 @@ export default function App() {
               </span>
             </div>
             <KeyboardGuide
+              collapsed={keyboardCollapsed}
+              onCollapsedChange={setKeyboardCollapsed}
               scoreId={score.id}
               targets={currentNotes}
               active={active}
@@ -1798,7 +1831,7 @@ export default function App() {
                   <button
                     className={mode === "listen" ? "selected" : ""}
                     onClick={() => {
-                      seek(0);
+                      restartReading();
                       setMode("listen");
                     }}
                   >
@@ -1807,7 +1840,7 @@ export default function App() {
                   <button
                     className={mode === "wait" ? "selected" : ""}
                     onClick={() => {
-                      seek(0);
+                      restartReading();
                       setMode("wait");
                     }}
                   >
@@ -1821,7 +1854,7 @@ export default function App() {
                     aria-label="Practice hand"
                     value={hand}
                     onChange={(e) => {
-                      seek(0);
+                      restartReading();
                       setHand(e.target.value);
                     }}
                   >
@@ -1838,9 +1871,9 @@ export default function App() {
                     type="range"
                     min="0"
                     max={score.duration}
-                    step="0.05"
+                    step="any"
                     value={Math.max(0, beat)}
-                    onChange={(e) => seek(+e.target.value)}
+                    onChange={(e) => seekReading(+e.target.value)}
                     style={{
                       "--progress": `${(Math.max(0, beat) / score.duration) * 100}%`,
                     }}
@@ -1854,7 +1887,8 @@ export default function App() {
                     <button
                       className="icon-button"
                       aria-label="Start over"
-                      onClick={() => seek(0)}
+                      title={loop ? "Start this phrase again" : "Start over"}
+                      onClick={restartReading}
                     >
                       <RotateCcw size={17} />
                     </button>
@@ -1891,9 +1925,13 @@ export default function App() {
                     <button
                       className={`icon-button ${loop ? "on" : ""}`}
                       aria-label="Toggle phrase loop"
+                      aria-pressed={loop}
+                      title={
+                        loop ? "Stop repeating these bars" : "Repeat a phrase"
+                      }
                       onClick={() => {
-                        stop();
-                        setLoop((v) => !v);
+                        if (loop) clearRepeat();
+                        else repeatBars(loopA, loopB);
                       }}
                     >
                       <Repeat2 size={19} />
@@ -1956,8 +1994,7 @@ export default function App() {
                       max={loopB}
                       value={loopA}
                       onChange={(e) => {
-                        stop();
-                        setLoopA(Math.max(1, Math.min(loopB, +e.target.value)));
+                        repeatBars(Math.min(loopB, +e.target.value), loopB);
                       }}
                     />{" "}
                     to{" "}
@@ -1968,16 +2005,10 @@ export default function App() {
                       max={score.measures}
                       value={loopB}
                       onChange={(e) => {
-                        stop();
-                        setLoopB(
-                          Math.min(
-                            score.measures,
-                            Math.max(loopA, +e.target.value),
-                          ),
-                        );
+                        repeatBars(loopA, Math.max(loopA, +e.target.value));
                       }}
                     />
-                    <span>Repeat the selected bars.</span>
+                    <span>Next / previous wraps within this phrase.</span>
                   </div>
                 )}
               </div>
@@ -2497,9 +2528,10 @@ export default function App() {
               <p>
                 In Number score, read left to right. Notes stacked together form
                 a chord. The ♩ value under a note tells you how long to hold it;
-                gaps marked rest are silent. In Listen & follow, the highlighted
-                position moves with the sound. Try 50% speed, then switch to
-                Wait for me. Chords need all the shown notes before advancing.
+                rests show the same ♩ value for how long to stay silent. In
+                Listen & follow, the highlighted position moves with the sound.
+                Try 50% speed, then switch to Wait for me. Chords need all the
+                shown notes before advancing.
               </p>
             </article>
             <article>
@@ -2508,19 +2540,24 @@ export default function App() {
               <p>
                 Connect a USB MIDI keyboard and click Connect piano. The
                 keyboard guide scrolls to nearby notes; use the overview or
-                octave arrows to explore all 88 keys. For an acoustic piano,
-                follow the lights in Listen & follow. This app does not listen
-                through the microphone. You can also click keys or use A W S E D
-                F T G Y H U J K.
+                octave arrows to explore all 88 keys. For an acoustic piano, use
+                Next / Previous note at your own pace, or follow Listen &
+                follow. Hide the keyboard guide when you want more room for the
+                music. This app does not listen through the microphone. You can
+                also click keys or use A W S E D F T G Y H U J K.
               </p>
             </article>
             <article>
               <span>05</span>
               <h3>A phrase at a time.</h3>
               <p>
-                Use the loop button and choose a few bars. Isolate your right or
-                left hand, slow it down, and add the other hand when it feels
-                comfortable. A few unhurried minutes count.
+                Choose Repeat these bars above the score, or click a bar number
+                then Shift-click another to repeat that range. You can also type
+                the start and end bars below the player. Next / Previous and
+                Start over stay within the repeat; clicking outside it returns
+                to the whole piece. Isolate your right or left hand, slow it
+                down, and add the other hand when it feels comfortable. A few
+                unhurried minutes count.
               </p>
             </article>
             <article>

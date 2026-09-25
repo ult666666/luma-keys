@@ -1,0 +1,5 @@
+PASS [
+  "Overlapping C4 onsets each animate, but the short note ending does not replay the long note's attack",
+  'Live C4 input adds one attack; releasing it while playback still holds C4 adds none',
+  'Pause/start-over/play permits a new attack while all 88 piano buttons retain their original DOM identity'
+]

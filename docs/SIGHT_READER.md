@@ -33,3 +33,16 @@ The numbered layout is a beginner aid, not a replacement for every symbol in a p
 
 ## Verification
 `node scripts/reader-qa.mjs` and `node scripts/native-reader-qa.mjs` exercise the default layout, navigation, octave/tonic labels, wait mode, staff cursor, full-range chords, pointer versus held-key follow, mobile layout, long-score reading, numbered export and actual PDF recognition. `scripts/input-qa.mjs`, `scripts/native-input-qa.mjs` and `scripts/close-qa.mjs` retain audio-input and save/quit regressions. Test data is isolated from the personal Library and Exports folders.
+
+## Focused phrase practice — 1.2.0
+**Repeat these bars** selects the actual bars in the visible numbered passage. In dense passages, it repeats the named complete bars, not just the displayed subdivision. A click on a bar number establishes an anchor; Shift-click another bar to select an inclusive range in either direction. The player also retains numeric start/end controls for touch and keyboard users. A muted band and bar-line marks show the active range; the manuscript's repeat label includes a stop control.
+
+Selecting or editing a repeat moves to its first bar. Start over, changing hand/mode and saving reviewed notes retain that phrase context. Previous/Next note wraps only through its new onsets, supporting acoustic-piano practice without awarding fake hits or sessions. A carry-only phrase stays at its start when stepped. Clicking a note, bar, passage or timeline position outside the range stops repeating and explores the whole piece. Within-range seeking retains the phrase. This practice repeat is separate from interpreting printed repeat signs, which remains a known limitation.
+
+Close onsets use a one-millionth-quarter-note tolerance for navigation and Wait matching, instead of a tolerance large enough to skip a 128th note. The position slider preserves the actual fractional beat. Sound scheduling retains its own audio-clock look-ahead; precise navigation does not imply perfect scan recognition or rhythm assessment.
+
+Rests show their quarter-note length directly. Silence is divided at real bar boundaries (including pickups and meter changes) and given readable spacing. Two-line labels fit short silent intervals without confusing adaptive spacing with musical duration.
+
+**Hide keyboard guide** folds its controls into a compact strip. All 88 key nodes remain mounted but hidden, inert, disabled and outside Tab order. Hiding releases only onscreen pointer/button owners; computer and MIDI input remain available. The choice survives Library/Lessons navigation during this app session, while Falling notes temporarily reveals the guide. It is not yet a persisted preference across quitting the app.
+
+New acceptance entry points are `scripts/phrase-practice-qa.mjs` and `scripts/native-phrase-practice-qa.mjs`. Claude could not review this pass because its installed CLI was signed out; see `docs/CLAUDE_PHRASE_REVIEW.md` for the exact recorded limitation.

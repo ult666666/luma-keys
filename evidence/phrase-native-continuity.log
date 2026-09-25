@@ -1,0 +1,12 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.inputValue: Target page, context or browser has been closed
+    at position (/Users/prince/Desktop/Luma Keys/scripts/resume-audio-checks.mjs:41:65)
+    at async verifyResumeAudio (/Users/prince/Desktop/Luma Keys/scripts/resume-audio-checks.mjs:97:5)
+    at async file:///Users/prince/Desktop/Luma%20Keys/scripts/native-continuity-qa.mjs:42:17 {
+  log: []
+}
+
+Node.js v24.18.0

@@ -10,7 +10,7 @@
     {
       "name": "Long C4 onset",
       "attacks": 1,
-      "beat": 0,
+      "beat": 0.011609977324263,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -26,7 +26,7 @@
     {
       "name": "Short C4 onset while long C4 holds",
       "attacks": 2,
-      "beat": 1.45,
+      "beat": 1.44544217687075,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -39,7 +39,7 @@
         },
         {
           "phase": "overlapping-note-start",
-          "beat": 1,
+          "beat": 1.01297052154195,
           "node": 1,
           "retainedButton": true
         }
@@ -48,7 +48,7 @@
     {
       "name": "Short note ends without another attack",
       "attacks": 2,
-      "beat": 2.4,
+      "beat": 2.38585034013605,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -61,7 +61,7 @@
         },
         {
           "phase": "overlapping-note-start",
-          "beat": 1,
+          "beat": 1.01297052154195,
           "node": 1,
           "retainedButton": true
         }
@@ -70,7 +70,7 @@
     {
       "name": "Live C4 adds one attack over the held playback note",
       "attacks": 3,
-      "beat": 2.45,
+      "beat": 2.40907029478458,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -83,13 +83,13 @@
         },
         {
           "phase": "overlapping-note-start",
-          "beat": 1,
+          "beat": 1.01297052154195,
           "node": 1,
           "retainedButton": true
         },
         {
           "phase": "live-key-start",
-          "beat": 2.4,
+          "beat": 2.40907029478458,
           "node": 2,
           "retainedButton": true
         }
@@ -98,7 +98,7 @@
     {
       "name": "Live release leaves held playback without a false attack",
       "attacks": 3,
-      "beat": 2.65,
+      "beat": 2.59482993197279,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -111,13 +111,13 @@
         },
         {
           "phase": "overlapping-note-start",
-          "beat": 1,
+          "beat": 1.01297052154195,
           "node": 1,
           "retainedButton": true
         },
         {
           "phase": "live-key-start",
-          "beat": 2.4,
+          "beat": 2.40907029478458,
           "node": 2,
           "retainedButton": true
         }
@@ -126,7 +126,7 @@
     {
       "name": "Pause releases the key without another attack",
       "attacks": 3,
-      "beat": 2.65,
+      "beat": 2.61224489795918,
       "keys": 88,
       "stable": true,
       "sounding": false,
@@ -139,13 +139,13 @@
         },
         {
           "phase": "overlapping-note-start",
-          "beat": 1,
+          "beat": 1.01297052154195,
           "node": 1,
           "retainedButton": true
         },
         {
           "phase": "live-key-start",
-          "beat": 2.4,
+          "beat": 2.40907029478458,
           "node": 2,
           "retainedButton": true
         }
@@ -154,7 +154,7 @@
     {
       "name": "Starting again legitimately attacks the first C4",
       "attacks": 4,
-      "beat": 0.05,
+      "beat": 0.0029024943310656,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -167,19 +167,19 @@
         },
         {
           "phase": "overlapping-note-start",
-          "beat": 1,
+          "beat": 1.01297052154195,
           "node": 1,
           "retainedButton": true
         },
         {
           "phase": "live-key-start",
-          "beat": 2.4,
+          "beat": 2.40907029478458,
           "node": 2,
           "retainedButton": true
         },
         {
           "phase": "restart",
-          "beat": 0,
+          "beat": 0.0029024943310656,
           "node": 3,
           "retainedButton": true
         }
@@ -188,7 +188,7 @@
     {
       "name": "Final stop leaves exactly four real attacks",
       "attacks": 4,
-      "beat": 0.05,
+      "beat": 0.0203174603174601,
       "keys": 88,
       "stable": true,
       "sounding": false,
@@ -201,19 +201,19 @@
         },
         {
           "phase": "overlapping-note-start",
-          "beat": 1,
+          "beat": 1.01297052154195,
           "node": 1,
           "retainedButton": true
         },
         {
           "phase": "live-key-start",
-          "beat": 2.4,
+          "beat": 2.40907029478458,
           "node": 2,
           "retainedButton": true
         },
         {
           "phase": "restart",
-          "beat": 0,
+          "beat": 0.0029024943310656,
           "node": 3,
           "retainedButton": true
         }

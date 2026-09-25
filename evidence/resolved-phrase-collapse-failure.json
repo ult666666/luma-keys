@@ -1,0 +1,23 @@
+{
+  "error": "expect(locator).toBeHidden() failed\n\nLocator:  locator('.keyboard-guide-body')\nExpected: hidden\nReceived: visible\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeHidden\" locator('.keyboard-guide-body') with timeout 5000ms\n  - waiting for locator('.keyboard-guide-body')\n    14 × locator resolved to <div id=\"_r_1_\" class=\"keyboard-guide-body\">…</div>\n       - unexpected value \"visible\"\n",
+  "evidence": {
+    "errors": [],
+    "measurements": {
+      "numericPhrase": {
+        "firstBeat": 0.5,
+        "lastOnset": 5.5,
+        "bars": [
+          2,
+          3
+        ]
+      },
+      "collapsed": {
+        "keys": 88,
+        "retained": true,
+        "allUnavailable": true
+      }
+    },
+    "position": 0
+  },
+  "body": "lumakeys\nSIGHT READER\nRead\nLibrary\nLessons\nConnect piano\nImport a score\nTwinkle, Little Star\n\nTraditional · first steps · 12 bars · ♩ = 80\n\nNumber score\nSheet music\nFalling notes\nHow to read\nREAD FROM LEFT TO RIGHT\nBars 1–4 / 12\nRepeat these bars\nGo to bar\nGo\nHAND\n01\n02\n03\n04\nR\nright hand\n1\nC4\n♩ 1\n1\nC4\n♩ 1\n5\nG4\n♩ 1\n5\nG4\n♩ 1\n6\nA4\n♩ 1\n6\nA4\n♩ 1\n5\nG4\n♩ 2\n4\nF4\n♩ 1\n4\nF4\n♩ 1\n3\nE4\n♩ 1\n3\nE4\n♩ 1\n2\nD4\n♩ 1\n2\nD4\n♩ 1\n1\nC4\n♩ 2\n1 = C · Numbers are notes, not fingers\nC4 = middle C · ♩ = one quarter-note beat · spacing adapts\nPLAY NEXT\nBar 1\n1\nC4\nRH\nClick a note to start there\nFind it on your piano\nC2 – C♯6\nFollow notes\nA0\nC8\n6\nA0\n♯6\n7\nB0\n1\nC1\n♯1\n2\nD1\n♯2\n3\nE1\n4\nF1\n♯4\n5\nG1\n♯5\n6\nA1\n♯6\n7\nB1\n1\nC2\n♯1\n2\nD2\n♯2\n3\nE2\n4\nF2\n♯4\n5\nG2\n♯5\n6\nA2\n♯6\n7\nB2\n1\nC3\n♯1\n2\nD3\n♯2\n3\nE3\n4\nF3\n♯4\n5\nG3\n♯5\n6\nA3\n♯6\n7\nB3\n1\nC4\n♯1\n2\nD4\n♯2\n3\nE4\n4\nF4\n♯4\n5\nG4\n♯5\n6\nA4\n♯6\n7\nB4\n1\nC5\n♯1\n2\nD5\n♯2\n3\nE5\n4\nF5\n♯4\n5\nG5\n♯5\n6\nA5\n♯6\n7\nB5\n1\nC6\n♯1\n2\nD6\n♯2\n3\nE6\n4\nF6\n♯4\n5\nG6\n♯5\n6\nA6\n♯6\n7\nB6\n1\nC7\n♯1\n2\nD7\n♯2\n3\nE7\n4\nF7\n♯4\n5\nG7\n♯5\n6\nA7\n♯6\n7\nB7\n1\nC8\n1 = Do / C · numbers are notes, not fingers\nScroll to explore all 88 keys\nListen & follow\nWait for me\nLeft Right\nBoth hands\nRight hand\nLeft hand\n0:00 / 0:36\nPractice speed\n25% · ♩ = 20\n50% · ♩ = 40\n65% · ♩ = 52\n75% · ♩ = 60\n100% · ♩ = 80\n125% · ♩ = 100\nComputer keys A S D F · Space to play / pause\nSaved on this Mac"
+}

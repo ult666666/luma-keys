@@ -100,6 +100,20 @@
   border-color: #948369;
   background: #8b775c10;
 }
+.reading-navigation > .reading-repeat {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  width: auto;
+  padding: 0 9px;
+  margin-right: 10px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.reading-repeat[aria-pressed="true"] {
+  background: #8b99752c;
+  border-color: #78845b77;
+}
 .reading-navigation form {
   display: flex;
   align-items: center;
@@ -180,6 +194,19 @@
   font-variant-numeric: tabular-nums;
   color: #75684f !important;
   white-space: nowrap;
+}
+.reading-bar-label.reading-bar-in-loop {
+  background: #8b997521;
+  box-shadow: inset 0 -2px #818b62;
+  color: #515d39 !important;
+}
+.reading-loop-shade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: #8899750d;
+  border-inline: 1px solid #818b6240;
+  pointer-events: none;
 }
 .reading-hand-name {
   align-self: stretch;
@@ -386,7 +413,7 @@
 .reading-rest {
   position: absolute;
   top: 38px;
-  padding: 0 7px;
+  padding: 0 3px;
   min-width: 1px;
   z-index: 1;
   text-align: center;
@@ -396,12 +423,21 @@
 }
 .reading-rest span {
   position: relative;
+  display: inline-block;
   font-size: 10px;
   font-style: italic;
-  padding: 0 4px;
+  padding: 0 2px;
   background: var(--reading-paper);
   z-index: 1;
   white-space: nowrap;
+}
+.reading-rest small {
+  display: block;
+  font-size: 8px;
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+  margin-top: 1px;
 }
 .reading-rest i {
   position: absolute;
@@ -430,6 +466,25 @@
   font-style: normal;
   margin: 0 5px;
 }
+.reading-repeat-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #53603c;
+  font-weight: 600;
+}
+.reading-repeat-status button {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.reading-repeat-status button:hover {
+  background: #82916620;
+}
 @media (max-width: 700px) {
   .reading-header {
     padding: 15px;
@@ -448,6 +503,14 @@
   .reading-navigation form {
     margin-right: 3px;
     gap: 3px;
+  }
+  .reading-navigation > .reading-repeat {
+    width: 31px;
+    padding: 0;
+    margin-right: 2px;
+  }
+  .reading-repeat > span {
+    display: none;
   }
   .reading-footer {
     padding: 11px 15px;

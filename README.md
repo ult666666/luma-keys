@@ -5,11 +5,13 @@ A focused, local sight-reading companion.
 Double-click **Luma Keys.app on your Desktop**. No account, terminal, internet connection, or paid API is needed for normal practice.
 
 ## Read a piece
-1. Open a score. **Number score** shows a few bars from left to right, with separate right/left hands. C4 is middle C; C5 is one octave higher. The ♩ value under each note is its duration in quarter-note beats. Simultaneous notes are stacked and silent gaps are marked rest.
+1. Open a score. **Number score** shows a few bars from left to right, with separate right/left hands. C4 is middle C; C5 is one octave higher. The ♩ value under each note is its duration in quarter-note beats. Simultaneous notes are stacked; each rest also shows how long to stay silent.
 2. Numbers name pitches: C / Do = 1, D / Re = 2, E / Mi = 3, F / Fa = 4, G / Sol = 5, A / La = 6, B / Ti = 7. These are not finger numbers.
 3. Click a number to begin there. Previous/next passage and **Go to bar** move through the score; Previous/Next note let you advance at your own pace on an acoustic piano.
 4. Click Play in **Listen & follow**, or choose **Wait for me** for a connected MIDI piano, onscreen keys, or computer keys A W S E D F T G Y H U J K. Wait mode checks pitch, not rhythm. The app does not listen through a microphone.
-5. The keyboard keeps full-size keys in a scrolling window. **Follow notes** moves it when a target leaves view. The small overview shows your location on all 88 keys; arrows move by octave. Required pitches outside the window get explicit direction buttons.
+5. The keyboard keeps full-size keys in a scrolling window. **Follow notes** moves it when a target leaves view. The small overview shows your location on all 88 keys; arrows move by octave. Required pitches outside the window get explicit direction buttons. Use **Hide keyboard guide** to leave more room for reading at your piano. This choice stays with you while switching pieces during the current app session. Falling notes temporarily reveals the keyboard.
+
+For a short practice phrase, choose **Repeat these bars** above the manuscript. To select a different range, click a bar number and then **Shift-click** its final bar, or edit the bar numbers below the player. The repeated bars are marked on the paper. Previous/Next note cycle within that phrase, and Start over returns to its first bar. Clicking a note, bar, passage or timeline position outside the repeat returns to the whole piece.
 
 **Sheet music** displays the original engraving with a position cursor when MusicXML is available. **Falling notes** is an optional alternate view. Use the Settings icon for number/solfege labels, tonic, count-in, metronome, companions and themes. Opening Settings pauses practice. Pets and progress no longer occupy the reading workspace.
 
@@ -28,7 +30,7 @@ If saved settings are damaged, a separate recovery notice shows which fields use
 
 ## Practice controls
 - **Listen & follow:** automatic sampled-grand-piano playback with the reading position highlighted.
-- Fast passages show a closer preview; note lengths stay proportional to duration and repeated notes remain distinct.
+- **Falling notes:** fast passages show a closer preview; note lengths stay proportional to duration and repeated notes remain distinct. Number-score spacing adapts for legibility, so use the written ♩ values to count.
 - **Wait for me:** the timeline stays on each onset until the expected notes are found. Chords require every displayed pitch. Accuracy counts note attempts, not rhythmic skill.
 - **Hands:** isolate left or right; imported MIDI hand assignments may need review.
 - **Loop:** repeat the selected bar range. New MIDI and MusicXML imports preserve changes in bar length. Wait mode stays inside the selected phrase; an empty phrase prompts you to choose another hand or widen the loop.
@@ -70,8 +72,10 @@ For browser tests, use `LUMA_DATA_DIR="$PWD/.qa-runs/ui/Library" npm run dev`, t
 The app is a local personal build for this Apple Silicon Mac; it is not an App Store release. It includes a current Electron runtime and the local recognition engine. Do not delete Library if rebuilding the app.
 
 ## Overnight work
-An hourly Codex follow-up is scheduled through 8:00 AM Eastern on September 25, 2026. Keep this Mac plugged in, awake, and Codex running. Build status is in STATUS.md. The schedule is bounded to tonight.
+The overnight schedule ended at 8:00 AM Eastern on September 25, 2026. Later improvements follow direct user requests; that schedule has not been extended. Build status is in STATUS.md.
 
 The original PDF viewer is built into the app and works offline. Review also supports adding a missing note or removing an incorrect one. If you edit the note timeline, the original engraving is explicitly labeled as unchanged; playback and numbered exports use your corrections. Playback pauses when the app is hidden or minimized, so it will not silently skip ahead.
 
 Review opens at your current practice bar. Use **Review from bar** to jump directly to a passage in either the note table or the engraved sheet. Notation shows up to 16 bars at a time with Previous/Next controls; pickups count as app bars, so printed bar numbers can differ. On narrow windows, scroll the sheet sideways. New MusicXML/PDF imports preserve written closing rests; re-import an older score if its ending was cut short.
+
+Phrase-practice acceptance: `node scripts/phrase-practice-qa.mjs` checks direct bar selection, close-note Wait input, phrase navigation, counted rests and keyboard collapse. `node scripts/native-phrase-practice-qa.mjs` runs the same story in the packaged app with isolated data.

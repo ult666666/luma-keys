@@ -1,5 +1,5 @@
 {
-  "version": "1.1.2",
+  "version": "1.2.0",
   "passed": true,
   "audio": {
     "checks": [
@@ -10,37 +10,37 @@
     ],
     "measurements": {
       "midNoteStart": {
-        "beat": 4.7,
+        "beat": 4.76625850340136,
         "sources": [
           {
-            "start": 0.5973333333333334,
+            "start": 0.5979138321995465,
             "stops": [
-              5.057333333333333
+              5.057913832199547
             ]
           }
         ]
       },
       "resume": {
-        "resumeAt": 4.8,
+        "resumeAt": 4.76625850340136,
         "voice": {
-          "start": 1.0506666666666666,
+          "start": 1.050702947845805,
           "stops": [
-            5.12464
+            5.123278004535147
           ]
         }
       },
       "loop": [
         {
-          "start": 1.1626666666666667,
+          "start": 1.18421768707483,
           "stops": [
-            3.7426666666666666,
-            3.2426666666666666
+            3.7642176870748303,
+            3.272743764172336
           ]
         },
         {
-          "start": 3.1626666666666665,
+          "start": 3.1927437641723357,
           "stops": [
-            5.742666666666667
+            5.772743764172335
           ]
         }
       ]
@@ -59,14 +59,14 @@
       {
         "name": "Long C4 onset",
         "attacks": 1,
-        "beat": 0.05,
+        "beat": 0.0551473922902495,
         "keys": 88,
         "stable": true,
         "sounding": true,
         "records": [
           {
             "phase": "held-note-start",
-            "beat": 0,
+            "beat": 0.00580498866213164,
             "node": 0,
             "retainedButton": true
           }
@@ -75,20 +75,20 @@
       {
         "name": "Short C4 onset while long C4 holds",
         "attacks": 2,
-        "beat": 1.5,
+        "beat": 1.48897959183673,
         "keys": 88,
         "stable": true,
         "sounding": true,
         "records": [
           {
             "phase": "held-note-start",
-            "beat": 0,
+            "beat": 0.00580498866213164,
             "node": 0,
             "retainedButton": true
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1,
+            "beat": 1.00716553287982,
             "node": 1,
             "retainedButton": true
           }
@@ -97,20 +97,20 @@
       {
         "name": "Short note ends without another attack",
         "attacks": 2,
-        "beat": 2.4,
+        "beat": 2.42358276643991,
         "keys": 88,
         "stable": true,
         "sounding": true,
         "records": [
           {
             "phase": "held-note-start",
-            "beat": 0,
+            "beat": 0.00580498866213164,
             "node": 0,
             "retainedButton": true
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1,
+            "beat": 1.00716553287982,
             "node": 1,
             "retainedButton": true
           }
@@ -119,26 +119,26 @@
       {
         "name": "Live C4 adds one attack over the held playback note",
         "attacks": 3,
-        "beat": 2.45,
+        "beat": 2.49034013605442,
         "keys": 88,
         "stable": true,
         "sounding": true,
         "records": [
           {
             "phase": "held-note-start",
-            "beat": 0,
+            "beat": 0.00580498866213164,
             "node": 0,
             "retainedButton": true
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1,
+            "beat": 1.00716553287982,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.4,
+            "beat": 2.4409977324263,
             "node": 2,
             "retainedButton": true
           }
@@ -147,26 +147,26 @@
       {
         "name": "Live release leaves held playback without a false attack",
         "attacks": 3,
-        "beat": 2.65,
+        "beat": 2.67319727891156,
         "keys": 88,
         "stable": true,
         "sounding": true,
         "records": [
           {
             "phase": "held-note-start",
-            "beat": 0,
+            "beat": 0.00580498866213164,
             "node": 0,
             "retainedButton": true
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1,
+            "beat": 1.00716553287982,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.4,
+            "beat": 2.4409977324263,
             "node": 2,
             "retainedButton": true
           }
@@ -175,26 +175,26 @@
       {
         "name": "Pause releases the key without another attack",
         "attacks": 3,
-        "beat": 2.65,
+        "beat": 2.70802721088435,
         "keys": 88,
         "stable": true,
         "sounding": false,
         "records": [
           {
             "phase": "held-note-start",
-            "beat": 0,
+            "beat": 0.00580498866213164,
             "node": 0,
             "retainedButton": true
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1,
+            "beat": 1.00716553287982,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.4,
+            "beat": 2.4409977324263,
             "node": 2,
             "retainedButton": true
           }
@@ -203,32 +203,32 @@
       {
         "name": "Starting again legitimately attacks the first C4",
         "attacks": 4,
-        "beat": 0.05,
+        "beat": 0.055147392290249,
         "keys": 88,
         "stable": true,
         "sounding": true,
         "records": [
           {
             "phase": "held-note-start",
-            "beat": 0,
+            "beat": 0.00580498866213164,
             "node": 0,
             "retainedButton": true
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1,
+            "beat": 1.00716553287982,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.4,
+            "beat": 2.4409977324263,
             "node": 2,
             "retainedButton": true
           },
           {
             "phase": "restart",
-            "beat": 0,
+            "beat": 0.00580498866213119,
             "node": 3,
             "retainedButton": true
           }
@@ -237,32 +237,32 @@
       {
         "name": "Final stop leaves exactly four real attacks",
         "attacks": 4,
-        "beat": 0.05,
+        "beat": 0.0725623582766435,
         "keys": 88,
         "stable": true,
         "sounding": false,
         "records": [
           {
             "phase": "held-note-start",
-            "beat": 0,
+            "beat": 0.00580498866213164,
             "node": 0,
             "retainedButton": true
           },
           {
             "phase": "overlapping-note-start",
-            "beat": 1,
+            "beat": 1.00716553287982,
             "node": 1,
             "retainedButton": true
           },
           {
             "phase": "live-key-start",
-            "beat": 2.4,
+            "beat": 2.4409977324263,
             "node": 2,
             "retainedButton": true
           },
           {
             "phase": "restart",
-            "beat": 0,
+            "beat": 0.00580498866213119,
             "node": 3,
             "retainedButton": true
           }
@@ -299,14 +299,14 @@
             "box": {
               "top": 82.8359375,
               "bottom": 145.8359375,
-              "left": 106.74809265136719,
-              "right": 147.7480926513672
+              "left": 106.1500473022461,
+              "right": 147.15005493164062
             },
             "duration": {
               "top": 135.6328125,
               "bottom": 143.6328125,
-              "left": 119.96684265136719,
-              "right": 134.5293426513672
+              "left": 119.3687973022461,
+              "right": 133.93130493164062
             }
           },
           {
@@ -315,14 +315,14 @@
             "box": {
               "top": 148.8359375,
               "bottom": 211.8359375,
-              "left": 106.74809265136719,
-              "right": 147.7480926513672
+              "left": 106.1500473022461,
+              "right": 147.15005493164062
             },
             "duration": {
               "top": 201.6328125,
               "bottom": 209.6328125,
-              "left": 119.96684265136719,
-              "right": 134.5293426513672
+              "left": 119.3687973022461,
+              "right": 133.93130493164062
             }
           },
           {
@@ -331,14 +331,14 @@
             "box": {
               "top": 214.8359375,
               "bottom": 277.8359375,
-              "left": 106.74809265136719,
-              "right": 147.7480926513672
+              "left": 106.1500473022461,
+              "right": 147.15005493164062
             },
             "duration": {
               "top": 267.6328125,
               "bottom": 275.6328125,
-              "left": 119.96684265136719,
-              "right": 134.5293426513672
+              "left": 119.3687973022461,
+              "right": 133.93130493164062
             }
           },
           {
@@ -347,14 +347,14 @@
             "box": {
               "top": 82.8359375,
               "bottom": 145.8359375,
-              "left": 384.74810791015625,
-              "right": 425.74810791015625
+              "left": 384.1500549316406,
+              "right": 425.1500549316406
             },
             "duration": {
               "top": 135.6328125,
               "bottom": 143.6328125,
-              "left": 397.96685791015625,
-              "right": 412.52935791015625
+              "left": 397.3688049316406,
+              "right": 411.9313049316406
             }
           },
           {
@@ -363,14 +363,14 @@
             "box": {
               "top": 299.8359375,
               "bottom": 362.8359375,
-              "left": 106.74809265136719,
-              "right": 147.7480926513672
+              "left": 106.1500473022461,
+              "right": 147.15005493164062
             },
             "duration": {
               "top": 352.6328125,
               "bottom": 360.6328125,
-              "left": 119.96684265136719,
-              "right": 134.5293426513672
+              "left": 119.3687973022461,
+              "right": 133.93130493164062
             }
           }
         ]
@@ -471,8 +471,8 @@
       },
       "mobileReducedMotion": {
         "area": {
-          "top": 137.46875,
-          "bottom": 476.46875,
+          "top": 148.46875,
+          "bottom": 487.46875,
           "left": 13,
           "right": 371
         },
@@ -485,14 +485,14 @@
             "label": "G4, number 5, hold 4 quarter-note beats, keep holding",
             "hand": "right",
             "box": {
-              "top": 174.46875,
-              "bottom": 237.46875,
+              "top": 185.46875,
+              "bottom": 248.46875,
               "left": 81,
               "right": 122
             },
             "duration": {
-              "top": 220.765625,
-              "bottom": 236.765625,
+              "top": 231.765625,
+              "bottom": 247.765625,
               "left": 94.21875,
               "right": 108.78125
             }
@@ -501,14 +501,14 @@
             "label": "E4, number 3, hold 4 quarter-note beats, keep holding",
             "hand": "right",
             "box": {
-              "top": 240.46875,
-              "bottom": 303.46875,
+              "top": 251.46875,
+              "bottom": 314.46875,
               "left": 81,
               "right": 122
             },
             "duration": {
-              "top": 286.765625,
-              "bottom": 302.765625,
+              "top": 297.765625,
+              "bottom": 313.765625,
               "left": 94.21875,
               "right": 108.78125
             }
@@ -517,14 +517,14 @@
             "label": "C4, number 1, hold 4 quarter-note beats, keep holding",
             "hand": "right",
             "box": {
-              "top": 306.46875,
-              "bottom": 369.46875,
+              "top": 317.46875,
+              "bottom": 380.46875,
               "left": 81,
               "right": 122
             },
             "duration": {
-              "top": 352.765625,
-              "bottom": 368.765625,
+              "top": 363.765625,
+              "bottom": 379.765625,
               "left": 94.21875,
               "right": 108.78125
             }
@@ -533,14 +533,14 @@
             "label": "D4, number 2, hold 1 quarter-note beats",
             "hand": "right",
             "box": {
-              "top": 174.46875,
-              "bottom": 237.46875,
+              "top": 185.46875,
+              "bottom": 248.46875,
               "left": 206,
               "right": 247
             },
             "duration": {
-              "top": 227.265625,
-              "bottom": 235.265625,
+              "top": 238.265625,
+              "bottom": 246.265625,
               "left": 219.21875,
               "right": 233.78125
             }
@@ -549,14 +549,14 @@
             "label": "C3, number 1, hold 4 quarter-note beats, keep holding",
             "hand": "left",
             "box": {
-              "top": 391.46875,
-              "bottom": 454.46875,
+              "top": 402.46875,
+              "bottom": 465.46875,
               "left": 81,
               "right": 122
             },
             "duration": {
-              "top": 437.765625,
-              "bottom": 453.765625,
+              "top": 448.765625,
+              "bottom": 464.765625,
               "left": 94.21875,
               "right": 108.78125
             }

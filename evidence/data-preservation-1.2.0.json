@@ -1,0 +1,11 @@
+{
+  "version": "1.2.0",
+  "at": "2026-09-25T14:03:31.282251+00:00",
+  "files": 39,
+  "unchanged": true,
+  "releaseArchive": "4baa525190ae3966c02f400f07b525ab7502d9d5924d1260d7836f456a999843",
+  "installedArchive": "4baa525190ae3966c02f400f07b525ab7502d9d5924d1260d7836f456a999843",
+  "archivesMatch": true,
+  "personalAppRestarted": false,
+  "restartLimitation": "CUA native window access returned noWindowsAvailable/timeoutReached. Existing personal process was left running; quit/reopen is needed to load 1.2.0."
+}

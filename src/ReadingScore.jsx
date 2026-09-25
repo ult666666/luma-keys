@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { barStart, degree, noteName, solfege } from "./music.mjs";
+import { ChevronLeft, ChevronRight, Repeat2, X } from "lucide-react";
+import { barStart, barEnd, degree, noteName, solfege } from "./music.mjs";
 import {
   indexReadingNotes,
   readingPassage,
@@ -24,11 +24,15 @@ export default function ReadingScore({
   mode = "listen",
   onSeek,
   onStep,
+  loopRange = null,
+  onRepeat,
+  onClearRepeat,
 }) {
   const root = useRef(null);
   const scroller = useRef(null);
   const sheet = useRef(null);
   const previousPassage = useRef(null);
+  const barAnchor = useRef(null);
   const [width, setWidth] = useState(960);
   const [jump, setJump] = useState("");
   const index = useMemo(() => indexReadingNotes(notes), [notes]);
@@ -36,6 +40,7 @@ export default function ReadingScore({
   const passage = readingPassage(score, index, beat, barsPerPage);
   const { start, end } = passage;
   const content = useMemo(() => {
+    const bars = readingBars(score, passage);
     const hands = ["right", "left"]
       .filter((name) => hand === "both" || hand === name)
       .map((hand) => {
@@ -44,14 +49,24 @@ export default function ReadingScore({
           hand,
           notes: visible,
           groups: readingGroups(visible, start, end),
-          rests: readingRests(visible, start, end),
+          // Name silence per bar; a long empty hand should not appear to be
+          // one uncountable gap across the entire passage.
+          rests: bars.flatMap((bar) =>
+            readingRests(visible, bar.start, bar.end),
+          ),
         };
       });
     const onsets = [
-      ...new Set(hands.flatMap((h) => h.groups.map((g) => g.beat))),
+      ...new Set([
+        ...hands.flatMap((h) => h.groups.map((g) => g.beat)),
+        ...hands.flatMap((h) =>
+          h.rests.flatMap((r) => [r.beat, r.beat + r.duration]),
+        ),
+        ...bars.flatMap((bar) => [bar.start, bar.end]),
+      ]),
     ].sort((a, b) => a - b);
     const spacing = readingSpacing(start, end, onsets);
-    return { hands, spacing, bars: readingBars(score, passage) };
+    return { hands, spacing, bars };
   }, [index, score, start, end, hand]);
   const percent = (at) => `${content.spacing.position(at) * 100}%`;
   const widthPercent = (from, to) =>
@@ -108,6 +123,14 @@ export default function ReadingScore({
     passage.firstBar === passage.lastBar
       ? `Bar ${passage.firstBar}`
       : `Bars ${passage.firstBar}–${passage.lastBar}`;
+  const loopStart = loopRange ? barStart(score, loopRange.first) : 0;
+  const loopEnd = loopRange ? barEnd(score, loopRange.last) : 0;
+  const repeatStart = Math.max(start, loopStart);
+  const repeatEnd = Math.min(end, loopEnd);
+  const hasRepeatHere = loopRange && repeatEnd > repeatStart;
+  const repeatsThisPage =
+    loopRange?.first === passage.firstBar &&
+    loopRange?.last === passage.lastBar;
   const label = (m) =>
     labels === "letters"
       ? noteName(m).replace(/-?\d+$/, "")
@@ -130,6 +153,22 @@ export default function ReadingScore({
           </h2>
         </div>
         <div className="reading-navigation">
+          {onRepeat && (
+            <button
+              type="button"
+              className="reading-repeat"
+              aria-label="Repeat these bars"
+              aria-pressed={!!repeatsThisPage}
+              title={`Repeat bars ${passage.firstBar}–${passage.lastBar}`}
+              onClick={() => {
+                if (repeatsThisPage) onClearRepeat?.();
+                else onRepeat(passage.firstBar, passage.lastBar);
+              }}
+            >
+              <Repeat2 size={15} />
+              <span>Repeat these bars</span>
+            </button>
+          )}
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -201,13 +240,29 @@ export default function ReadingScore({
                 <button
                   key={bar.bar}
                   type="button"
-                  className="reading-bar-label"
+                  className={`reading-bar-label ${loopRange && bar.bar >= loopRange.first && bar.bar <= loopRange.last ? "reading-bar-in-loop" : ""}`}
                   style={{
                     left: percent(bar.start),
                     width: widthPercent(bar.start, bar.end),
                   }}
-                  onClick={() => seek(barStart(score, bar.bar))}
+                  onClick={(event) => {
+                    const anchor = barAnchor.current;
+                    if (
+                      event.shiftKey &&
+                      onRepeat &&
+                      anchor?.score === score.id
+                    ) {
+                      onRepeat(
+                        Math.min(anchor.bar, bar.bar),
+                        Math.max(anchor.bar, bar.bar),
+                      );
+                    } else {
+                      barAnchor.current = { score: score.id, bar: bar.bar };
+                      seek(barStart(score, bar.bar));
+                    }
+                  }}
                   aria-label={`Seek to bar ${bar.bar}`}
+                  title={`Start at bar ${bar.bar}. Shift-click another bar to repeat a range.`}
                 >
                   {String(bar.bar).padStart(2, "0")}
                   {bar.continuation ? " · continued" : ""}
@@ -232,6 +287,16 @@ export default function ReadingScore({
                     height: groups.length ? Math.max(90, depth * 66 + 18) : 42,
                   }}
                 >
+                  {hasRepeatHere && (
+                    <div
+                      className="reading-loop-shade"
+                      aria-hidden="true"
+                      style={{
+                        left: percent(repeatStart),
+                        width: widthPercent(repeatStart, repeatEnd),
+                      }}
+                    />
+                  )}
                   {content.bars.map((bar) => (
                     <div
                       key={bar.bar}
@@ -249,6 +314,7 @@ export default function ReadingScore({
                   {rests.map((rest) => (
                     <div
                       className="reading-rest"
+                      role="note"
                       key={rest.beat}
                       style={{
                         left: percent(rest.beat),
@@ -258,8 +324,11 @@ export default function ReadingScore({
                         ),
                       }}
                       title={`Rest for ${readingDuration(rest.duration)} quarter-note beats`}
+                      aria-label={`Rest for ${readingDuration(rest.duration)} quarter-note beats`}
                     >
-                      <span>rest</span>
+                      <span>
+                        rest <small>♩ {readingDuration(rest.duration)}</small>
+                      </span>
                       <i />
                     </div>
                   ))}
@@ -326,6 +395,22 @@ export default function ReadingScore({
         </div>
       </div>
       <footer className="reading-footer">
+        {loopRange && (
+          <span className="reading-repeat-status" role="status">
+            <Repeat2 size={12} /> Repeating{" "}
+            {loopRange.first === loopRange.last
+              ? `bar ${loopRange.first}`
+              : `bars ${loopRange.first}–${loopRange.last}`}
+            <button
+              type="button"
+              onClick={onClearRepeat}
+              aria-label="Stop repeating bars"
+              title="Stop repeating bars"
+            >
+              <X size={12} />
+            </button>
+          </span>
+        )}
         <span>
           {labels === "numbers"
             ? `1 = ${noteName(60 + tonic).replace(/\d+$/, "")} · Numbers are notes, not fingers`
