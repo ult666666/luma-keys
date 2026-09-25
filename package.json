@@ -1,6 +1,6 @@
 {
   "name": "luma-keys",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "private": true,
   "description": "A little light for your piano journey",
@@ -44,6 +44,8 @@
     "files": [
       "dist/**/*",
       "server.mjs",
+      "recognition-runner.cjs",
+      "src/recognition.mjs",
       "electron.cjs",
       "src/music.mjs",
       "src/lessons.mjs",

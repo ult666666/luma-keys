@@ -1,8 +1,21 @@
 # Luma Keys — installed and verified
 
-Updated September 25, 2026, 4:40 AM America/New_York.
+Updated September 25, 2026, 5:41 AM America/New_York.
 
-## Latest overnight improvement — version 1.0.6
+## Latest overnight improvement — version 1.0.7
+- Installed and verified the new Desktop app. The personal app remains open; reopen when convenient to load this update.
+- Reproduced a real PDF lifecycle failure: normal Quit left the native Audiveris process running under PID 1, and reopening returned a missing-job error. Baseline: evidence/pdf-close-baseline.json.
+- PDF imports now keep local receipts and original files. **View imports** restores live progress after a renderer reload. You can close the panel and keep practicing; background completion waits for **Review notes**. **Cancel recognition** stops the reader, **Retry recognition** uses the retained PDF, and **Dismiss** hides only the notice.
+- A small engine-owning runner stops Audiveris when the desktop disconnects, including the tested force-quit case; it escalates to SIGKILL after three seconds if SIGTERM is ignored. Normal Quit/window close await recognition shutdown after saving settings. Reopening explains interruption and offers retry. Only live child handles owned by the app are signalled; stored PIDs are never used to stop processes.
+- The single-engine slot is reserved before filesystem work; retries use separate output folders. Ordered atomic receipts fix concurrent dismiss/retry races. Planned score IDs are recorded before saving so already-committed parts can be recovered after a crash without a duplicate retry; partial saves explain how many parts survived. Originals are installed atomically after the receipt exists. A startup handshake distinguishes engine-launch failure from unreadable notation.
+- A third read-only Claude pass reviewed the initial PDF candidate. Codex addressed its lifecycle/race/logging/commit concerns and added the requested packaged and force-kill tests. Claude did not edit files or run tests, and did not review the subsequent corrections. Full report: docs/CLAUDE_PDF_REVIEW.md.
+- **59/59 unit/API tests pass.** New tests cover overlapping starts, cancel, fresh retries, concurrent dismiss/retry, malformed receipts, missing originals, timeout, engine launch failure, interrupted score commits, and SIGKILL of a harness whose native-engine fixture ignores SIGTERM.
+- The final packaged app passes **28 native integration checks** and all **3 existing settings/quit scenarios**. Separate PDF lifecycle tests pass normal Quit, window close and force quit: each leaves zero owned engine/runner processes, preserves the original PDF hash, and reopens/retries to all 16 exact starter pitches. Packaged reload/cancel/background-completion/dismiss flows also pass, with no renderer errors.
+- Installed archive matches the tested release; all **39 personal Library/Exports files remain byte-for-byte unchanged**. The personal app was not closed. Evidence: evidence/data-preservation-1.0.7.json.
+- Evidence and harnesses: evidence/recognition-close-qa.json, evidence/recognition-qa.json, evidence/overnight-unit-tests-1.0.7.txt, evidence/overnight-native-1.0.7.log, evidence/overnight-recognition-close-1.0.7.log, evidence/overnight-close-1.0.7.log, the pdf-*-recovered/native-pdf-lifecycle screenshots, tests/recognition.test.mjs and scripts/recognition-close-qa.mjs.
+- Scope: receipt recovery applies to imports started in 1.0.7 onward; old saved scores/originals remain intact. Cancelling discards that recognition attempt, so Retry starts reading again. The tests establish these interruption paths on this Mac, not a guarantee against disk damage or every system failure. PDF accuracy still requires review.
+
+## Previous overnight improvement — version 1.0.6
 - Installed and verified the new Desktop app. The personal app remains open; reopen when convenient to load this update.
 - Reproduced invalid saved volume interrupting startup and truncated settings being silently replaced. Settings now recover each field independently: valid theme, companion, mute and progress survive; invalid values receive defaults and a clear notice. The audio engine also rejects non-finite gain values and bounds volume to 0–1.
 - Opening the app never writes settings merely because they were loaded. The first actual save of recovered values keeps the original bytes in **Library / Settings recovery**, then replaces preferences atomically. Invalid API writes and failed recovery-copy attempts leave the original untouched. Tests include invalid UTF-8 bytes, partial legacy settings, numeric-string progress and impossible dates.
@@ -77,7 +90,7 @@ Updated September 25, 2026, 4:40 AM America/New_York.
 - Claude enhancement pass implemented and independently validated; report: docs/CLAUDE_REVIEW.md.
 
 ## Verification actually completed
-- **52/52 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.6.txt (earlier delivery results are preserved).
+- **59/59 unit and API regression tests pass.** See evidence/overnight-unit-tests-1.0.7.txt (earlier delivery results are preserved).
 - Production build and Apple Silicon packaging pass. Desktop copy tested with the development server stopped.
 - Browser flow coverage passes: playback/pause/seek, 30 samples decoded, correct/wrong note handling, loop wrapping, labels/ranges, saved themes, import/engraving/review/library/search, and 390px responsive layout.
 - All 30 samples contain non-silent audio; on-screen keys support pointer and Enter/Space input.

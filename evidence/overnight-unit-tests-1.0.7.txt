@@ -1,0 +1,80 @@
+
+> luma-keys@1.0.7 test
+> node --test tests/*.test.mjs
+
+✔ legacy backups normalize chronological chords and unique editable note IDs without mutating input (27.553791ms)
+✔ backup validation rejects malformed metadata and notes with actionable errors (13.520292ms)
+✔ round trips preserve real score rhythms, trailing rests and all built-in lessons (171.355834ms)
+Luma Keys listening on 59757
+Practice file contains an invalid total duration or bar count.
+Note 1 has an invalid pitch, rhythm or hand. Check the original score before importing again.
+Unexpected token 'n', "null" is not valid JSON
+✔ library recovery preserves broken files and healthy scores across import, reload and repair (101.544708ms)
+✔ Für Elise excerpt follows the public-domain opening pitches and separate hands (4.310958ms)
+✔ Für Elise pickup, 3/8 bars and short first ending keep their exact boundaries (1.213958ms)
+✔ Optional practice guidance must be a bounded list of text (0.198917ms)
+✔ fixed Do, chromatic notes, octaves and movable Do (5.496333ms)
+✔ 88-key layout aligns black keys between white keys (0.549125ms)
+✔ voice backup, simultaneous chords, rest, duration and left staff (19.552292ms)
+✔ ties merge sustained notes and pickup does not add empty beats (1.57625ms)
+✔ MXL container selects root music XML (3.647334ms)
+✔ invalid and empty scores fail honestly (0.512625ms)
+✔ MIDI notes retain pitch and quarter-note duration (3.736125ms)
+✔ lessons have bounded sorted notes and complete durations (12.003292ms)
+✔ fixture: pickup with a full-bar rest, two parts with different divisions, tie, chords and triplets (14.851125ms)
+✔ chord members share the onset of their voice after backup, even after a rest (0.623916ms)
+✔ tie chains across three bars become one held note; untouching ties do not merge (0.37075ms)
+✔ ties across a voice-number change and between chord members follow pitch (0.462708ms)
+✔ a transposing part reads its key in concert pitch even when <transpose> follows <key> (0.342542ms)
+✔ a pickup bar whose other staff holds a whole-bar rest still lasts only its played beats (0.300125ms)
+✔ a pickup is detected without implicit="yes"; a bar of only rests keeps its full length (0.249ms)
+✔ a bar split around a repeat (short bar + implicit bar) is not padded with silence (0.49025ms)
+✔ notes missing <duration> are timed from their written type, dots and tuplets (0.511708ms)
+✔ written accidentals fill a missing <alter>; key signatures ignored by an exporter are flagged (0.816583ms)
+✔ unsupported notation warnings name the bars involved (0.419208ms)
+✔ bars drawn as repeat-the-bar signs without written notes are flagged (0.288875ms)
+✔ malformed MusicXML and MXL input fail with clear messages (4.856833ms)
+✔ MIDI: humanized chords line up, far-apart notes stay separate, out-of-range notes are reported (2.690791ms)
+✔ MIDI: two tracks map to hands; minor keys use the relative-major number 1; bars follow 3/4 (1.978375ms)
+✔ MIDI meter changes share bar positions with loops and numbered exports (27.979166ms)
+✔ MIDI silent bars and long held notes keep all loopable bar boundaries (0.267959ms)
+✔ MIDI partial-bar signature changes start a new bar and explain the shortening (0.303542ms)
+✔ MIDI near-simultaneous notes across a bar line never merge into one chord (0.146875ms)
+✔ MusicXML final bar uses its changed meter, including when editing past its end (0.273375ms)
+✔ bar helpers retain legacy scores; malformed imported bar maps are rejected (2.815709ms)
+✔ settings recovery retains valid fields and replaces only invalid values (5.303667ms)
+✔ saved settings reject invalid volumes, progress types, enum values and impossible dates (0.462208ms)
+✔ audio gain stays finite and bounded even if a caller supplies a bad volume (0.158334ms)
+Luma Keys listening on 59751
+Invalid settings: Piano volume. Choose supported settings and nonnegative numeric progress.
+EEXIST: file already exists, mkdir '/Users/prince/Desktop/Luma Keys/.qa-runs/settings-api-MKDPyi/Library/Settings recovery'
+✔ settings reads do not overwrite corruption; repairs preserve exact bytes and save atomically (149.756041ms)
+✔ Explicit closing rests and a final rest-only bar remain in the practice duration (15.73625ms)
+✔ Independent Bach export preserves the arpeggio's sustained lower voices and final chord (94.593667ms)
+✔ Independent two-part Joplin export retains its final rest and key-change guidance (104.709833ms)
+✔ PDF jobs reserve the engine, cancel cleanly, retry fresh, and persist completed scores (3880.659ms)
+✔ Shutdown interrupts active recognition, preserves originals, and blocks new starts (3611.207958ms)
+✔ Incomplete and malformed receipts recover independently, with explicit missing-original failure (3.8605ms)
+✔ Recognition time limit stops the engine and reports a useful retry error (3519.875458ms)
+✔ Force-killing the parent disconnects its runner and stops a SIGTERM-ignoring engine (3533.804875ms)
+✔ Interrupted score commits recover saved parts instead of duplicating them on retry (12.493292ms)
+✔ An engine launch failure releases the slot and reports installation trouble, not scan quality (545.389708ms)
+✔ 6/8 and 9/8 pulse on dotted quarters; count-in speaks the pulse numbers (13.461958ms)
+✔ 5/8 keeps eighth-note pulses and accents every fractional bar boundary (0.728916ms)
+✔ cut time and explicit additive beat groups retain their written pulses (3.318458ms)
+✔ MIDI preserves meter changes for fractional metronome pulses (3.588875ms)
+✔ pickup count-in completes the opening bar and does not falsely accent the pickup (0.609583ms)
+✔ successive audio scheduling windows never duplicate boundary clicks (0.702583ms)
+✔ cross-staff chords retain simultaneous pitches and flag ambiguous hands (0.848291ms)
+✔ pulse metadata survives backup validation; malformed patterns are rejected (17.226625ms)
+Luma Keys listening on 59755
+Note 1 has an invalid pitch, rhythm or hand. Check the original score before importing again.
+✔ Local API imports, persists, validates, exports, and restricts foreign origins (128.402375ms)
+ℹ tests 59
+ℹ suites 0
+ℹ pass 59
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15299.965791

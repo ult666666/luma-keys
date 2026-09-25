@@ -11,7 +11,7 @@ if (qaRoot) {
   fs.mkdirSync(userData, { recursive: true });
   app.setPath("userData", userData);
 }
-let win, server;
+let win, server, shutdownRecognition;
 let permitQuit = false;
 let pendingQuit;
 function quitAfterSaving() {
@@ -45,6 +45,19 @@ function quitAfterSaving() {
     } finally {
       clearTimeout(timer);
     }
+    let shutdownTimer;
+    try {
+      await Promise.race([
+        shutdownRecognition?.(),
+        new Promise((resolve) => {
+          shutdownTimer = setTimeout(resolve, 10000);
+        }),
+      ]);
+    } finally {
+      clearTimeout(shutdownTimer);
+    }
+    // If shutdown was stalled, closing the IPC channel also stops its runner.
+
     permitQuit = true;
     app.quit();
   })().finally(() => {
@@ -80,6 +93,7 @@ if (!app.requestSingleInstanceLock()) {
         : path.join(__dirname, "engines/tessdata");
       const result = await startServer({ port: 0, dataDir, engine, tessdata });
       server = result.server;
+      shutdownRecognition = result.shutdown;
       const origin = "http://127.0.0.1:" + result.port;
       session.defaultSession.setPermissionRequestHandler((wc, permission, cb) =>
         cb(wc.getURL().startsWith(origin + "/") && permission === "midi"),

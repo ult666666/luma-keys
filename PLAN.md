@@ -23,3 +23,7 @@ An offline-first macOS desktop piano teacher: import a score, understand each no
 
 ## Limits to communicate
 Recognition quality depends on source; complex notation/repeats may need review. No microphone polyphonic transcription promised. No paid services or cloud uploads. Not a claim of universal perfect sight reading.
+
+
+## Completed interruption follow-up — 1.0.7
+Reproduced and repaired lost PDF jobs and orphaned Audiveris after closing. Added durable import receipts, reload discovery, cancel/retry/dismiss, owned-process shutdown on native quit or IPC disconnect, and interrupted-score recovery. Claude reviewed the candidate; the final package was tested for normal quit, window close, force quit, relaunch, retry, settings-save regression and main practice flows. See STATUS.md for measured results and limits. Keep the original overnight deadline; do not extend it.

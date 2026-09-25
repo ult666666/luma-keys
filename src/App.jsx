@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { flushSync } from "react-dom";
+import { useRecognition } from "./useRecognition.js";
 import {
   Music2,
   Library,
@@ -487,7 +488,8 @@ export default function App() {
     [pressed, setPressed] = useState(new Set()),
     [modal, setModal] = useState(null),
     [toast, setToast] = useState(""),
-    [importing, setImporting] = useState(false),
+    [uploading, setUploading] = useState(false),
+    [jobAction, setJobAction] = useState(""),
     [importProgress, setImportProgress] = useState(""),
     [importError, setImportError] = useState(""),
     [midiStatus, setMidiStatus] = useState("Connect keyboard"),
@@ -519,7 +521,32 @@ export default function App() {
     lastPreferences = useRef(null),
     preferenceWrites = useRef(Promise.resolve()),
     preferenceTimer = useRef(),
-    preferenceState = useRef();
+    preferenceState = useRef(),
+    reviewImport = useRef(null),
+    seenJobs = useRef(new Map());
+  const recognition = useRecognition(api, (jobs) => {
+    let libraryChanged = false;
+    for (const job of jobs) {
+      const previous = seenJobs.current.get(job.id);
+      seenJobs.current.set(job.id, job.status);
+      if (job.status === "done" && previous !== "done") libraryChanged = true;
+      if (job.id === reviewImport.current && job.status !== "processing") {
+        reviewImport.current = null;
+        if (job.status === "done") {
+          if (modal === "import") void reviewRecognized(job.id);
+          else notify("Your PDF is ready. Open imports to review the notes.");
+        }
+      }
+    }
+    if (libraryChanged) refreshLibrary().catch((e) => notify(e.message));
+  });
+  const activeImport = recognition.jobs.find(
+    (job) => job.status === "processing",
+  );
+  const pendingImports = recognition.jobs.filter(
+    (job) => !job.dismissed && job.status !== "processing",
+  );
+  const importing = uploading || !!activeImport;
   preferenceState.current = {
     ready: prefLoaded,
     snapshot: JSON.stringify({ theme, pet, stats, volume }),
@@ -1030,40 +1057,66 @@ export default function App() {
       notify("MIDI: " + e.message);
     }
   }
+  async function reviewRecognized(id) {
+    try {
+      const job = await api("/jobs/" + id);
+      if (!job.scores.length)
+        throw Error(
+          "This score is no longer in the library. Import the PDF again if you removed it.",
+        );
+      await refreshLibrary();
+      choose(job.scores[0]);
+      setModal("review");
+      await api("/jobs/" + id + "/dismiss", { method: "POST" });
+      await recognition.refresh();
+      notify(
+        job.scores.length > 1
+          ? "All recognized parts are in your library. Review each before practicing."
+          : "Your music is ready to review.",
+      );
+    } catch (e) {
+      setImportError(e.message);
+      notify(e.message);
+    }
+  }
+  async function importAction(id, action) {
+    setJobAction(id);
+    setImportError("");
+    if (action === "cancel") reviewImport.current = null;
+    try {
+      await api("/jobs/" + id + "/" + action, { method: "POST" });
+      if (action === "retry") reviewImport.current = id;
+      await recognition.refresh();
+    } catch (e) {
+      setImportError(e.message);
+    } finally {
+      setJobAction("");
+    }
+  }
   async function importFile(file) {
-    if (!file) return;
+    if (!file || importing) return;
     stop();
     setModal("import");
     setImportError("");
-    setImporting(true);
+    setUploading(true);
     setImportProgress("Bringing your music into orbit…");
     try {
       const data = new FormData();
       data.append("score", file);
       const result = await api("/import", { method: "POST", body: data });
-      let scores;
-      if (result.score) scores = [result.score];
-      else {
-        let done = false;
-        while (!done) {
-          await new Promise((r) => setTimeout(r, 1500));
-          const job = await api("/jobs/" + result.jobId);
-          setImportProgress(job.progress);
-          if (job.status === "error") throw Error(job.error);
-          if (job.status === "done") {
-            scores = job.scores;
-            done = true;
-          }
-        }
+      if (result.score) {
+        await refreshLibrary();
+        choose(result.score);
+        setModal("review");
+        notify("Your music is ready to review.");
+      } else {
+        reviewImport.current = result.jobId;
+        await recognition.refresh();
       }
-      await refreshLibrary();
-      choose(scores[0]);
-      setModal("review");
-      notify("Your music is ready to review.");
     } catch (e) {
       setImportError(e.message);
     } finally {
-      setImporting(false);
+      setUploading(false);
     }
   }
   async function saveScore(s) {
@@ -1238,6 +1291,42 @@ export default function App() {
             </button>
           </div>
         </header>
+        {(activeImport || pendingImports.length > 0) && (
+          <section
+            className="import-notice"
+            aria-label="PDF import status"
+            role="status"
+          >
+            {activeImport ? (
+              <LoaderCircle size={19} className="spin" />
+            ) : (
+              <FileMusic size={19} />
+            )}
+            <div>
+              <strong>
+                {activeImport
+                  ? `Reading ${activeImport.name}`
+                  : pendingImports[0].status === "done"
+                    ? "Your PDF is ready to review"
+                    : "A PDF import needs your attention"}
+              </strong>
+              <span>
+                {activeImport
+                  ? activeImport.progress
+                  : `${pendingImports.length} saved import${pendingImports.length === 1 ? "" : "s"} · originals kept on your Mac`}
+              </span>
+            </div>
+            <button
+              className="secondary small"
+              onClick={() => {
+                setImportError("");
+                setModal("import");
+              }}
+            >
+              View imports <ArrowUpRight size={14} />
+            </button>
+          </section>
+        )}
         {settingsLoading && (
           <p className="settings-loading" role="status">
             Loading your saved settings…
@@ -2084,13 +2173,28 @@ export default function App() {
             {importing ? (
               <>
                 <LoaderCircle size={35} className="spin" />
-                <h3>{importProgress}</h3>
+                <h3>{activeImport?.progress || importProgress}</h3>
                 <p>
-                  Reading notes, rhythm, and all the little details.
-                  <br />A PDF can take a few minutes. You can keep this window
-                  open.
+                  {activeImport?.name ||
+                    "Reading notes, rhythm, and all the little details."}
+                  <br />
+                  You can close this panel and keep practicing.
+                  <br />
+                  Quitting the app stops recognition; your PDF stays here for
+                  retry.
                 </p>
                 <div className="indeterminate" />
+                {activeImport && (
+                  <button
+                    className="secondary small"
+                    disabled={!!jobAction}
+                    onClick={() => importAction(activeImport.id, "cancel")}
+                  >
+                    {jobAction === activeImport.id
+                      ? "Stopping…"
+                      : "Cancel recognition"}
+                  </button>
+                )}
               </>
             ) : (
               <>
@@ -2113,6 +2217,92 @@ export default function App() {
             <div className="error-box" role="alert">
               {importError}
             </div>
+          )}
+          {recognition.error && (
+            <div className="error-box" role="alert">
+              Import status unavailable: {recognition.error}{" "}
+              <button className="secondary small" onClick={recognition.refresh}>
+                Check again
+              </button>
+            </div>
+          )}
+          {recognition.issues.length > 0 && (
+            <p className="import-receipt-warning">
+              Some saved import status could not be read. Originals are still in
+              Library / imports; completed music is in your library.
+            </p>
+          )}
+          {pendingImports.length > 0 && (
+            <section className="saved-imports" aria-label="Saved PDF imports">
+              <h3>
+                Your saved imports <span>{pendingImports.length}</span>
+              </h3>
+              {pendingImports.map((job) => (
+                <article
+                  className="saved-import"
+                  key={job.id}
+                  data-import-id={job.id}
+                >
+                  <div className="saved-import-icon">
+                    <FileMusic size={23} />
+                  </div>
+                  <div className="saved-import-copy">
+                    <strong>{job.name}</strong>
+                    <span className="saved-import-state">
+                      {job.status === "done"
+                        ? "Ready to review"
+                        : job.status === "interrupted"
+                          ? "Interrupted · original kept"
+                          : job.status === "cancelled"
+                            ? "Cancelled · original kept"
+                            : "Needs another look"}
+                    </span>
+                    {job.error && <p>{job.error}</p>}
+                    {job.persistenceError && (
+                      <p role="alert">{job.persistenceError}</p>
+                    )}
+                    {!job.hasOriginal && job.status !== "done" && (
+                      <p>
+                        The original PDF is missing. Choose the file again
+                        above.
+                      </p>
+                    )}
+                    <div className="saved-import-actions">
+                      {job.status === "done" ? (
+                        <button
+                          className="primary small"
+                          disabled={!!jobAction}
+                          onClick={() => reviewRecognized(job.id)}
+                        >
+                          Review notes <ArrowRight size={14} />
+                        </button>
+                      ) : (
+                        <button
+                          className="secondary small"
+                          disabled={
+                            importing || !!jobAction || !job.hasOriginal
+                          }
+                          onClick={() => importAction(job.id, "retry")}
+                        >
+                          <RotateCcw size={14} /> Retry recognition
+                        </button>
+                      )}
+                      <button
+                        className="text-button"
+                        disabled={!!jobAction}
+                        onClick={() => importAction(job.id, "dismiss")}
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              ))}
+              <p className="import-history-note">
+                Dismiss hides a notice. It keeps your original PDF and saved
+                music.
+              </p>
+            </section>
           )}
           <div className="import-tips">
             <div>

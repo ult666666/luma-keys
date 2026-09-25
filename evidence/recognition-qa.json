@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": [
+    "Reload rediscovers live recognition; cancel survives reload without invented notes",
+    "Retry uses kept original, yields 16 exact pitches, renders original PDF, and completion stays unobtrusive",
+    "Dismissing a notice preserves its PDF and completed library music after reload"
+  ],
+  "ids": [
+    "909e4e2d-50fd-4fce-9b74-cde28b1c837a",
+    "c9efbc44-018f-4722-9da4-b0b1dd65977a"
+  ],
+  "errors": []
+}

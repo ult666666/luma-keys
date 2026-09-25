@@ -3077,3 +3077,101 @@ td input {
   font-size: 12px;
   padding: 12px 0;
 }
+
+.import-notice {
+  margin: 0 34px 18px;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.import-notice > svg {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.import-notice > div {
+  flex: 1;
+  min-width: 0;
+}
+.import-notice strong,
+.import-notice span {
+  display: block;
+}
+.import-notice strong {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.import-notice span {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.saved-imports {
+  margin-top: 22px;
+}
+.saved-imports > h3 {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.saved-imports > h3 > span {
+  color: var(--accent);
+  font-size: 11px;
+}
+.saved-import {
+  display: flex;
+  gap: 13px;
+  padding: 17px;
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #ffffff03;
+}
+.saved-import-icon {
+  color: var(--accent);
+  padding-top: 2px;
+}
+.saved-import-copy {
+  min-width: 0;
+  flex: 1;
+}
+.saved-import-copy > strong {
+  display: block;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.saved-import-state {
+  display: block;
+  color: var(--accent);
+  font-size: 10px;
+  margin-top: 6px;
+  letter-spacing: 0.03em;
+}
+.saved-import-copy p,
+.import-history-note,
+.import-receipt-warning {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.saved-import-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 14px;
+}
+.saved-import-actions .text-button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 11px;
+}
+.import-history-note {
+  margin-bottom: 0;
+}
+.upload-drop .indeterminate + button {
+  margin-top: 18px;
+}

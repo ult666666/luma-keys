@@ -53,3 +53,14 @@ Test music semantics with explicit fixtures; verify actual user interactions in 
 - The [OSMD load API](https://opensheetmusicdisplay.github.io/classdoc/classes/OpenSheetMusicDisplay.html) accepts a Document. Passing a locally parsed XML Document fixes valid scores without an XML declaration being mistaken for a URL. The stress fixture deliberately omits that optional declaration. Invalid notation still falls back to editable notes and the original PDF.
 - Review starts at the current practice bar, and a bar jump moves both the note table and notation. A displayed range is not marked ready until that actual range has rendered; visual QA caught and fixed a stale-notation frame after a jump.
 - Timeline duration now includes explicit ending rests and rest-only closing bars. It does not invent extra silence for a short final bar. Review/save preserves the written ending. Re-import older MusicXML/PDF scores to obtain this corrected duration; personal saved data is not rewritten.
+
+
+## PDF lifecycle follow-up — September 25, 2026
+
+The 1.0.6 packaged baseline left its actual Audiveris process reparented to PID 1 after a normal app quit; reopening returned a missing-job error. The new local receipt records status and the retained original, while the renderer discovers jobs independently of an open dialog. Retries use new output directories so stale MXL output cannot masquerade as a successful retry.
+
+The native recognizer now runs beneath a small Node child with an IPC connection to the desktop. That child owns the engine handle, stops it on parent disconnect, and escalates from SIGTERM to SIGKILL after three seconds if needed. No stored PID is used to kill a process on restart. The desktop waits for recognition shutdown after saving preferences; a ten-second upper bound prevents a stalled reader from holding the app open indefinitely. The runner drains final logs before exiting. A startup handshake distinguishes launch failure from unreadable sheet music.
+
+Receipts use ordered atomic writes. Planned score IDs are journaled before saving, so restart recovers already-saved parts and explains a partial multi-part save. A receipt precedes installation of its original PDF; the PDF itself uses a temporary file and rename. These measures cover tested process interruption, not guarantees against damaged disks or every operating-system failure.
+
+Primary references: [Node child-process lifecycle and IPC disconnect](https://nodejs.org/api/child_process.html), [Electron app quit events](https://www.electronjs.org/docs/latest/api/app#event-before-quit), [Electron RunAsNode fuse and fork behavior](https://www.electronjs.org/docs/latest/tutorial/fuses), and [ASAR handling](https://www.electronjs.org/docs/latest/tutorial/asar-archives). The packaged tests exercise the real bundled runtime and actual PDF recognition, in addition to a deterministic SIGTERM-ignoring engine fixture. Exact results are in STATUS.md and evidence.

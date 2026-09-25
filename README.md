@@ -16,6 +16,8 @@ Choose **Import a score**, or drag a file into the import dialog. PDF, MusicXML 
 
 PDF recognition runs on your Mac using bundled Audiveris. Printed, straight, high-contrast scans work best. Recognition is not perfect: compare the recognized notes and the original PDF in the review window. You can change each note's pitch, octave, timing, duration, or hand. Click **Save & mark reviewed** once you have checked it. Recognition errors are shown rather than replaced with invented notes.
 
+A PDF can keep reading while you close the import panel and practice. **View imports** brings back progress, including after a window reload. **Cancel recognition** stops the reader and keeps the PDF. Quitting the app also stops recognition; reopen and choose **Retry recognition** to continue from the saved original. A finished background import waits for you to choose **Review notes**. **Dismiss** hides its notice without deleting your PDF or music.
+
 MusicXML/MIDI exports from notation software are more reliable than scans. Unsupported or simplified score features are noted in the review window. Voices that move between staves are flagged: staff position does not always tell you which hand should play, so review those hand colors. Repeats and navigation may play once in written order; use the bar loop to repeat a passage. The app does not infer fingerings or listen to an acoustic piano through a microphone.
 
 Older practice backups with missing timing fields are restored from their notes and flagged for review. Check silent bars and the ending against the original sheet. Invalid pitches or rhythms are rejected with a clear error. If a saved file is damaged, the rest of your library still opens: the recovery notice lists the affected files, leaves them untouched, and lets you check again after restoring a backup or reimporting your music.
@@ -40,7 +42,7 @@ In **Little lessons**, Für Elise now includes a two-hand opening excerpt with i
 - `Library/`: imported scores, original PDFs, recognition output, and practice settings. Back this up.
 - `Exports/`: printable number sheets and practice backups.
 - `Practice Sheets/`: starter sheet and sample practice resources.
-- `src/`, `public/`, `server.mjs`, `electron.cjs`: complete editable application source and assets.
+- `src/`, `public/`, `server.mjs`, `electron.cjs`, `recognition-runner.cjs`: complete editable application source and assets.
 - `docs/`: design decisions, third-party credits and Claude's enhancement report.
 - `evidence/`: test results and screenshots.
 
@@ -59,7 +61,7 @@ Development UI: http://127.0.0.1:5188 . Local API: port 5189. Packaged app choos
 
 To rebuild and refresh the Desktop app after changes, run `scripts/package-desktop.sh`. Quit and reopen the app when convenient to load an installed update.
 
-For browser tests, use `LUMA_DATA_DIR="$PWD/.qa-runs/ui/Library" npm run dev`, then run the QA scripts sequentially. They require this separate test library. `node scripts/native-qa.mjs` creates its own isolated app instance and library. See docs/OVERNIGHT.md.
+For browser tests, use `LUMA_DATA_DIR="$PWD/.qa-runs/ui/Library" npm run dev`, then run the QA scripts sequentially. They require this separate test library. `node scripts/native-qa.mjs` creates its own isolated app instance and library. `node scripts/recognition-close-qa.mjs` checks normal close, force quit, relaunch and PDF retry in isolated packaged instances. See docs/OVERNIGHT.md.
 
 The app is a local personal build for this Apple Silicon Mac; it is not an App Store release. It includes a current Electron runtime and the local recognition engine. Do not delete Library if rebuilding the app.
 

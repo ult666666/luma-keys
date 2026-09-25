@@ -1,0 +1,21 @@
+{
+  "jobId": "7a450adc-80b5-48eb-822f-c128716bc973",
+  "beforeClose": [
+    {
+      "pid": 26353,
+      "ppid": 26347
+    }
+  ],
+  "afterClose": [
+    {
+      "pid": 26353,
+      "ppid": 1
+    }
+  ],
+  "jobAfterRelaunch": {
+    "status": 404,
+    "body": {
+      "error": "Recognition job not found. Check your library for the finished score."
+    }
+  }
+}
