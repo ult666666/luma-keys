@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { expect } from "@playwright/test";
 import { demos } from "../src/music.mjs";
+import { setPianoVolume } from "./piano-volume.mjs";
 
 // The caller owns an isolated QA library and its import/preference cleanup.
 // Use real controls and actual CSS animation events, without replacing app code.
@@ -22,6 +23,10 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
     page.evaluate((name) => {
       window.__overlapMotion.phase = name;
     }, name);
+  // Since 2.4 the stage renews a key's landing per new voice and also when
+  // playback starts a new epoch, so the claims are relative: an onset adds
+  // at least one landing, a release, a pause or a held note adds none.
+  let seen = 0;
   const checkpoint = async (name, expected) => {
     const snapshot = await page.evaluate(() => {
       const trace = window.__overlapMotion;
@@ -40,11 +45,18 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
         records: trace.records.slice(),
       };
     });
-    assert.equal(
-      snapshot.attacks,
-      expected,
-      `${name}: ${JSON.stringify(snapshot.records)}`,
-    );
+    if (expected === "attack")
+      assert.ok(
+        snapshot.attacks > seen,
+        `${name}: no new landing ${JSON.stringify(snapshot.records)}`,
+      );
+    else
+      assert.equal(
+        snapshot.attacks,
+        seen,
+        `${name}: an extra landing ${JSON.stringify(snapshot.records)}`,
+      );
+    seen = snapshot.attacks;
     assert.equal(snapshot.keys, 88);
     assert.equal(
       snapshot.stable,
@@ -58,7 +70,7 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await expect(play()).toBeEnabled();
-    await page.getByRole("slider", { name: "Piano volume" }).fill("0");
+    await setPianoVolume(page);
     await page
       .getByRole("button", { name: "Import a score", exact: true })
       .click();
@@ -101,7 +113,7 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
         }),
       ),
     });
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     await page
       .getByRole("button", { name: "Close dialog", exact: true })
       .click();
@@ -109,15 +121,16 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
       .getByRole("button", { name: "Listen & follow", exact: true })
       .click();
     await page
-      .getByRole("combobox", { name: "Practice hand" })
-      .selectOption("both");
+      .getByRole("radiogroup", { name: "Practice hand" })
+      .locator(".hand-both")
+      .click();
     await page
       .getByRole("combobox", { name: "Practice speed" })
       .selectOption("1");
     await page
       .getByRole("button", { name: "Reading settings", exact: true })
       .click();
-    for (const name of ["Count me in", "Gentle metronome"]) {
+    for (const name of ["Count me in", "Metronome"]) {
       const toggle = page.getByRole("switch", { name, exact: true });
       if ((await toggle.getAttribute("aria-checked")) === "true")
         await toggle.click();
@@ -139,43 +152,47 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
         nodes = [],
         records = [];
       const trace = { buttons, records, phase: "ready" };
-      const record = (event) => {
-        if (
-          event.animationName !== "piano-resonance" ||
-          !event.target.matches(".key-resonance")
-        )
-          return;
-        let node = nodes.indexOf(event.target);
-        if (node < 0) node = nodes.push(event.target) - 1;
+      // Since 2.4 the key's attack shows as a landing element the stage adds
+      // once per new voice (keyed by the key's attack generation), and never
+      // on a release; the 1.x per-key resonance animation is gone.
+      const record = (node) => {
+        let index = nodes.indexOf(node);
+        if (index < 0) index = nodes.push(node) - 1;
         records.push({
           phase: trace.phase,
           beat: +document.querySelector('[aria-label="Song position"]').value,
-          node,
+          node: index,
           retainedButton:
             button === document.querySelector('.piano-key[data-midi="60"]'),
         });
       };
-      button.addEventListener("animationstart", record);
-      trace.cleanup = () =>
-        button.removeEventListener("animationstart", record);
+      const observer = new MutationObserver((list) => {
+        for (const m of list)
+          for (const added of m.addedNodes)
+            if (added.classList?.contains("land-splash")) record(added);
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+      trace.cleanup = () => observer.disconnect();
       window.__overlapMotion = trace;
     });
 
     await phase("held-note-start");
     await play().click();
     await pause().waitFor();
-    await expect.poll(attacks).toBe(1);
-    assert.equal((await checkpoint("Long C4 onset", 1)).sounding, true);
+    await expect.poll(attacks).toBeGreaterThan(seen);
+    assert.equal((await checkpoint("Long C4 onset", "attack")).sounding, true);
     await phase("overlapping-note-start");
-    await expect.poll(attacks).toBe(2);
+    await expect.poll(attacks).toBeGreaterThan(seen);
     assert.equal(
-      (await checkpoint("Short C4 onset while long C4 holds", 2)).sounding,
+      (await checkpoint("Short C4 onset while long C4 holds", "attack"))
+        .sounding,
       true,
     );
     await phase("short-note-release");
     await expect.poll(position).toBeGreaterThan(2.15);
     assert.equal(
-      (await checkpoint("Short note ends without another attack", 2)).sounding,
+      (await checkpoint("Short note ends without another attack", "none"))
+        .sounding,
       true,
     );
     checks.push(
@@ -185,10 +202,10 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
     await phase("live-key-start");
     await page.keyboard.down("a");
     await expect(key).toHaveClass(/pressed/);
-    await expect.poll(attacks).toBe(3);
+    await expect.poll(attacks).toBeGreaterThan(seen);
     const held = await checkpoint(
       "Live C4 adds one attack over the held playback note",
-      3,
+      "attack",
     );
     assert.ok(held.beat < 4, "Live input must overlap the long playback note");
     await phase("live-key-release");
@@ -200,7 +217,7 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
     await expect.poll(position).toBeGreaterThan(releaseBeat + 0.15);
     const released = await checkpoint(
       "Live release leaves held playback without a false attack",
-      3,
+      "none",
     );
     assert.ok(
       released.beat < 4,
@@ -214,27 +231,28 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
     await phase("pause");
     await pause().click();
     await expect(key).not.toHaveClass(/sounding|pressed/);
-    await checkpoint("Pause releases the key without another attack", 3);
+    await checkpoint("Pause releases the key without another attack", "none");
     await page.getByRole("button", { name: "Start over", exact: true }).click();
     await phase("restart");
     await play().click();
     await pause().waitFor();
-    await expect.poll(attacks).toBe(4);
+    await expect.poll(attacks).toBeGreaterThan(seen);
     const restarted = await checkpoint(
       "Starting again legitimately attacks the first C4",
-      4,
+      "attack",
     );
     assert.ok(
       restarted.beat < 1,
       "Restart attack belongs to the first long note",
     );
+    // (Every landing is a new element: no attack reuses an old one.)
     assert.equal(
       new Set(restarted.records.map((record) => record.node)).size,
-      4,
+      restarted.records.length,
     );
     assert.ok(restarted.records.every((record) => record.retainedButton));
     await pause().click();
-    await checkpoint("Final stop leaves exactly four real attacks", 4);
+    await checkpoint("Final stop leaves no further attack", "none");
     await page.screenshot({
       path: `evidence/${prefix}-verified.png`,
       fullPage: true,
@@ -247,7 +265,7 @@ export async function verifyOverlapMotion(page, prefix = "overlap-motion") {
       checks,
       errors,
       checkpoints,
-      expectedAttacks: 4,
+      expectedAttacks: "relative: onsets add landings, releases add none",
       audioOutput: "Piano volume set to zero",
       physicalHardwareTested: false,
     };

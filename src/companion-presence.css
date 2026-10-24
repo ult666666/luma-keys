@@ -1,0 +1,444 @@
+/* Chat-only movement. Nothing here reaches the playing-stage portraits. */
+.companion-presence {
+  --presence-size: 112px;
+  --presence-look-x: 0px;
+  --presence-look-y: 0px;
+  --presence-turn: 0deg;
+  position: relative;
+  display: block;
+  flex: 0 0 var(--presence-size);
+  width: var(--presence-size);
+  height: var(--presence-size);
+  padding: 0;
+  border: 0;
+  border-radius: 28%;
+  color: var(--salon-muted, #68616b);
+  background: transparent;
+  box-shadow: none;
+  isolation: isolate;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.companion-presence:disabled {
+  cursor: default;
+}
+.companion-presence:is(:hover, :active) {
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+}
+.companion-presence:focus-visible {
+  outline: 2px solid var(--salon-metal, #8d795c);
+  outline-offset: 4px;
+}
+.presence-room {
+  position: absolute;
+  inset: 14% 10% 5%;
+  border-radius: 48% 48% 28% 28%;
+  background: color-mix(in srgb, var(--salon-accent, #b8a68c) 11%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--salon-metal, #8d795c) 16%, transparent);
+  pointer-events: none;
+}
+.presence-figure {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-origin: 50% 80%;
+  pointer-events: none;
+}
+.companion-presence .presence-figure > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.companion-presence .presence-figure svg * {
+  animation: none;
+}
+.companion-presence :is(.beethoven-head, .maestro-head, .presence-pet-head) {
+  transform-origin: 90px 115px;
+}
+.companion-presence .presence-pet-head {
+  transform-origin: 89px 118px;
+}
+.companion-presence :is(.presence-pet-eyes, .beethoven-eyes, .maestro-eyes) {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.companion-presence .presence-pet-paw {
+  transform-origin: 70px 143px;
+}
+.companion-presence .presence-pet-tail {
+  transform-origin: 127px 151px;
+}
+.companion-presence .presence-pet-ear {
+  transform-origin: 66px 57px;
+}
+.companion-presence .presence-pet-ear-far {
+  transform-origin: 106px 57px;
+}
+.presence-touch-note {
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  padding: 3px 7px;
+  border: 1px solid var(--salon-border, #d8d0bf);
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  color: var(--salon-ink, #615749);
+  background: var(--salon-paper, #fbf6e9);
+  opacity: 0;
+  transform: translate(-50%, 2px);
+  pointer-events: none;
+}
+.companion-presence:is(:hover, :focus-visible) .presence-touch-note,
+.companion-presence[data-reaction="wave"] .presence-touch-note {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.presence-mood-mark {
+  position: absolute;
+  top: 12%;
+  right: 1%;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 17px;
+  padding: 0 5px;
+  border: 1px solid var(--salon-border, #d8d0bf);
+  border-radius: 8px 8px 8px 1px;
+  background: var(--salon-paper, #fbf6e9);
+  opacity: 0;
+  pointer-events: none;
+}
+.presence-mood-mark i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--salon-muted, #8e7962);
+}
+.companion-presence[data-mood="thinking"] .presence-mood-mark,
+.companion-presence[data-mood="speaking"] .presence-mood-mark {
+  opacity: 1;
+}
+.companion-presence[data-mood="speaking"] .presence-mood-mark i:nth-child(2) {
+  height: 8px;
+  border-radius: 2px;
+}
+.companion-presence[data-mood="speaking"] .presence-mood-mark i:nth-child(3) {
+  height: 5px;
+  border-radius: 2px;
+}
+.presence-listen-mark {
+  position: absolute;
+  top: 25%;
+  right: 1%;
+  width: 16%;
+  height: 16%;
+  color: var(--salon-metal, #8d795c);
+  opacity: 0;
+  pointer-events: none;
+}
+.companion-presence[data-mood="listening"] .presence-listen-mark {
+  opacity: 1;
+}
+.companion-presence[data-reaction="wave"]
+  :is(.presence-mood-mark, .presence-listen-mark) {
+  opacity: 0;
+}
+.presence-reaction-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.presence-reaction-burst i {
+  --mark-x: -4px;
+  position: absolute;
+  top: 27%;
+  left: 2%;
+  display: block;
+  width: 15%;
+  height: 15%;
+  color: #b87380;
+  opacity: 1;
+}
+.presence-reaction-burst i:nth-child(2) {
+  --mark-x: 0px;
+  top: 1%;
+  left: 53%;
+  width: 13%;
+  height: 13%;
+  color: var(--salon-metal, #8d795c);
+}
+.presence-reaction-burst i:nth-child(3) {
+  --mark-x: 4px;
+  top: 34%;
+  left: 84%;
+  width: 13%;
+  height: 13%;
+}
+.presence-reaction-burst svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .companion-presence .presence-figure {
+    transform: rotate(var(--presence-turn));
+    transition: transform 180ms ease-out;
+  }
+  .companion-presence
+    :is(
+      .presence-pupil,
+      .maestro-eyes > g > ellipse:nth-child(2),
+      .maestro-eyes > g > circle,
+      .beethoven-eyes > ellipse:nth-child(n + 3),
+      .beethoven-eyes > circle
+    ) {
+    transform: translate(var(--presence-look-x), var(--presence-look-y));
+    transition: transform 130ms ease-out;
+  }
+  .companion-presence .presence-touch-note {
+    transition:
+      opacity 140ms ease-out,
+      transform 140ms ease-out;
+  }
+  .companion-presence[data-mood="thinking"]
+    :is(.beethoven-head, .maestro-head, .presence-pet-head) {
+    transform: rotate(-5deg);
+    transition: transform 380ms ease-in-out;
+  }
+  .companion-presence[data-mood="listening"]
+    :is(.beethoven-head, .maestro-head, .presence-pet-head) {
+    transform: rotate(4deg) translateY(-1px);
+    transition: transform 280ms ease-out;
+  }
+  .companion-presence[data-mood="listening"] .presence-listen-mark {
+    animation: presence-listen 500ms ease-out 2;
+  }
+  .companion-presence[data-mood="speaking"]
+    :is(.beethoven-head, .maestro-head, .presence-pet-head) {
+    animation: presence-tell 700ms ease-in-out 3;
+  }
+  .companion-presence[data-mood="speaking"] .presence-mood-mark i {
+    animation: presence-voice 500ms ease-in-out 4;
+  }
+  .companion-presence[data-mood="thinking"] .presence-mood-mark i {
+    animation: presence-consider 800ms ease-in-out 3;
+  }
+  .companion-presence .presence-mood-mark i:nth-child(2) {
+    animation-delay: 120ms;
+  }
+  .companion-presence .presence-mood-mark i:nth-child(3) {
+    animation-delay: 240ms;
+  }
+  .companion-presence[data-blink="true"]
+    :is(.beethoven-eyes, .maestro-eyes, .presence-pet-eyes) {
+    animation: presence-blink 300ms ease-in-out 1;
+  }
+  .companion-presence[data-reaction="wave"]
+    :is(.beethoven-baton-arm, .maestro-playing-arm) {
+    animation: presence-wave 450ms ease-in-out 2;
+  }
+  .companion-presence[data-reaction="wave"] .presence-pet-paw {
+    animation: presence-paw-wave 450ms ease-in-out 2;
+  }
+  .companion-presence:is([data-reaction="wave"], [data-mood="happy"])
+    :is(.beethoven-head, .maestro-head, .presence-pet-head) {
+    animation: presence-delight 580ms ease-in-out 2;
+  }
+  .companion-presence:is([data-reaction="wave"], [data-mood="happy"])
+    .presence-pet-tail {
+    animation: presence-tail 700ms ease-in-out 2;
+  }
+  .companion-presence:is([data-reaction="wave"], [data-mood="happy"])
+    .presence-pet-ear-far {
+    animation: presence-ear 620ms ease-in-out 2;
+  }
+  .companion-presence[data-gesture="music"]
+    :is(.beethoven-baton-arm, .maestro-playing-arm, .presence-pet-paw) {
+    animation: presence-musical 480ms ease-in-out 2;
+  }
+  .companion-presence[data-gesture="music"]
+    :is(.beethoven-head, .maestro-head, .presence-pet-head) {
+    animation: presence-tell 420ms ease-in-out 3;
+  }
+  .presence-reaction-burst i {
+    animation: presence-gift 1250ms ease-out both;
+  }
+  .presence-reaction-burst i:nth-child(2) {
+    animation-delay: 70ms;
+  }
+  .presence-reaction-burst i:nth-child(3) {
+    animation-delay: 130ms;
+  }
+}
+
+@keyframes presence-gift {
+  0% {
+    opacity: 0;
+    transform: translate(0, 3px) scale(0.65) rotate(-8deg);
+  }
+  20%,
+  65% {
+    opacity: 1;
+  }
+  45% {
+    transform: translate(var(--mark-x), -2px) scale(1) rotate(4deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--mark-x), -6px) scale(0.9) rotate(0deg);
+  }
+}
+@keyframes presence-musical {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  45% {
+    transform: rotate(-9deg) translateY(1px);
+  }
+  75% {
+    transform: rotate(6deg);
+  }
+}
+@keyframes presence-listen {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes presence-blink {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  45%,
+  55% {
+    transform: scaleY(0.12);
+  }
+}
+@keyframes presence-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(19deg);
+  }
+  65% {
+    transform: rotate(-7deg);
+  }
+}
+@keyframes presence-paw-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(35deg) translateY(-2px);
+  }
+  65% {
+    transform: rotate(14deg) translateY(-2px);
+  }
+}
+@keyframes presence-delight {
+  0%,
+  100% {
+    transform: rotate(0) translateY(0);
+  }
+  35% {
+    transform: rotate(4deg) translateY(-2px);
+  }
+  70% {
+    transform: rotate(-2deg) translateY(-1px);
+  }
+}
+@keyframes presence-tell {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  40% {
+    transform: rotate(2deg) translateY(1px);
+  }
+  70% {
+    transform: rotate(-1deg);
+  }
+}
+@keyframes presence-tail {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  45% {
+    transform: rotate(-9deg);
+  }
+}
+@keyframes presence-ear {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  45% {
+    transform: rotate(8deg);
+  }
+}
+@keyframes presence-consider {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  45% {
+    opacity: 1;
+  }
+}
+@keyframes presence-voice {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  45% {
+    transform: scaleY(0.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .companion-presence,
+  .companion-presence *,
+  .companion-presence *::before,
+  .companion-presence *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .companion-presence
+    :is(
+      .presence-figure,
+      .presence-pupil,
+      .beethoven-head,
+      .maestro-head,
+      .presence-pet-head,
+      .beethoven-eyes > ellipse,
+      .beethoven-eyes > circle,
+      .maestro-eyes > g > ellipse,
+      .maestro-eyes > g > circle
+    ) {
+    transform: none;
+  }
+  .companion-presence .presence-touch-note {
+    transform: translate(-50%, 0);
+  }
+}

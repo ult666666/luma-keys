@@ -1,23 +1,41 @@
 import assert from "node:assert/strict";
 import { expect } from "@playwright/test";
+import { pianoVolume, setPianoVolume } from "./piano-volume.mjs";
+import { setLoopEnd } from "./practice-tools.mjs";
+import { connectMidi } from "./piano-input.mjs";
 
 export async function installInputHarness(page) {
   await page.addInitScript(() => {
-    const resume = AudioContext.prototype.resume,
-      create = AudioContext.prototype.createBufferSource;
+    const NativeAudioContext = AudioContext,
+      resume = NativeAudioContext.prototype.resume,
+      create = NativeAudioContext.prototype.createBufferSource;
     window.__inputQA = {
       hold: false,
       waiters: [],
+      contexts: [],
+      resumes: 0,
       starts: 0,
       requests: 0,
       sources: [],
     };
-    AudioContext.prototype.resume = function () {
-      const ready = resume.call(this);
-      if (!window.__inputQA.hold) return ready;
-      return new Promise((resolve) =>
-        window.__inputQA.waiters.push(() => ready.then(resolve)),
-      );
+    window.AudioContext = class extends NativeAudioContext {
+      constructor(...args) {
+        super(...args);
+        window.__inputQA.contexts.push(this);
+      }
+    };
+    NativeAudioContext.prototype.resume = function () {
+      window.__inputQA.resumes++;
+      if (!window.__inputQA.hold) return resume.call(this);
+      // Hold the actual context suspended, not only its return promise. The
+      // engine correctly avoids resume() when an output is already running.
+      return new Promise((resolve, reject) => {
+        window.__inputQA.waiters.push(() =>
+          Promise.resolve()
+            .then(() => resume.call(this))
+            .then(resolve, reject),
+        );
+      });
     };
     AudioContext.prototype.createBufferSource = function () {
       const source = create.call(this),
@@ -35,9 +53,30 @@ export async function installInputHarness(page) {
       };
       return source;
     };
-    window.__inputQA.release = () => {
+    window.__inputQA.gate = async () => {
+      const q = window.__inputQA;
+      if (q.waiters.length)
+        throw Error("Previous input QA audio gate is still pending");
+      const contexts = q.contexts.filter(
+        (context) => context.state !== "closed",
+      );
+      if (!contexts.length)
+        throw Error("Input QA did not capture a live audio context");
+      q.hold = true;
+      await Promise.race([
+        Promise.all(contexts.map((context) => context.suspend())),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(Error("Input QA suspend timed out")), 2000),
+        ),
+      ]);
+      if (contexts.some((context) => context.state !== "suspended"))
+        throw Error("Input QA audio gate must keep every context suspended");
+    };
+    window.__inputQA.release = async () => {
       window.__inputQA.hold = false;
-      window.__inputQA.waiters.splice(0).forEach((resolve) => resolve());
+      await Promise.all(
+        window.__inputQA.waiters.splice(0).map((resume) => resume()),
+      );
     };
     const a = {
       id: "qa-a",
@@ -94,20 +133,24 @@ export async function verifyInputs(page, prefix = "input") {
       { data, port },
     );
   const starts = () => page.evaluate(() => window.__inputQA.starts);
-  const gate = () => page.evaluate(() => (window.__inputQA.hold = true));
-  const waitGate = () =>
-    expect
+  const gate = () => page.evaluate(() => window.__inputQA.gate());
+  const waitGate = async () => {
+    await expect
       .poll(() => page.evaluate(() => window.__inputQA.waiters.length))
       .toBe(1);
+    assert.ok(
+      await page.evaluate(() =>
+        window.__inputQA.contexts
+          .filter((context) => context.state !== "closed")
+          .every((context) => context.state === "suspended"),
+      ),
+    );
+  };
   const release = () => page.evaluate(() => window.__inputQA.release());
   try {
     await expect(play()).toBeEnabled();
-    if (
-      +(await page
-        .getByRole("slider", { name: "Piano volume" })
-        .inputValue()) !== 0
-    )
-      await page.getByRole("button", { name: "Mute", exact: true }).click();
+    // (The volume lives in Practice tools since 2.39.)
+    if (+(await pianoVolume(page)) !== 0) await setPianoVolume(page, "0");
     await page
       .getByRole("button", { name: "Wait for me", exact: true })
       .click();
@@ -119,16 +162,19 @@ export async function verifyInputs(page, prefix = "input") {
     await page.waitForTimeout(50);
     assert.equal(await position(), "1");
     await page.keyboard.up("a");
-    await page.getByRole("slider", { name: "Piano volume" }).focus();
+    // (A visible slider: the piano volume sits in a closed drawer.)
+    await page.getByRole("slider", { name: "Song position" }).focus();
     await page.keyboard.press("a");
     await expect.poll(position).toBe("2");
     await pause().click();
     checks.push(
       "Computer notes work after clicking Play or focusing a slider; key repeat cannot skip repeated notes",
     );
-    await midiButton().click();
+    // (Since 2.34 Connect piano opens the piano-input dialog; choosing USB /
+    // MIDI again refreshes the inputs without a second access request.)
+    await connectMidi(page);
     await expect(midiButton()).toHaveText("QA piano A");
-    await midiButton().click();
+    await connectMidi(page);
     assert.equal(await page.evaluate(() => window.__inputQA.requests), 1);
     await page.keyboard.down("a");
     await expect(pressed(60)).toHaveClass(/pressed/);
@@ -217,21 +263,43 @@ export async function verifyInputs(page, prefix = "input") {
     assert.equal(await position(), "0");
     assert.equal(await starts(), beforeCancel);
     await gate();
+    const beforeShared = await page.evaluate(() => ({
+      resumes: window.__inputQA.resumes,
+      starts: window.__inputQA.starts,
+    }));
     await play().click();
     await waitGate();
     await page.getByRole("button", { name: "Start over" }).click();
     await play().click();
-    await expect
-      .poll(() => page.evaluate(() => window.__inputQA.waiters.length))
-      .toBe(2);
-    await page.evaluate(() => window.__inputQA.waiters.shift()());
+    // Both Play requests share the one pending context resume. Cancelling the
+    // first must neither release its notes nor cancel the newer request.
+    await waitGate();
     await page.waitForTimeout(100);
     await expect(play()).toBeDisabled();
+    assert.equal(await starts(), beforeShared.starts);
+    assert.equal(
+      await page.evaluate(() => window.__inputQA.resumes),
+      beforeShared.resumes + 1,
+    );
+    assert.equal(await page.evaluate(() => window.lumaClock().playing), false);
     await release();
     await pause().waitFor();
+    const sharedStart = await page.evaluate(() => ({
+      resumes: window.__inputQA.resumes,
+      starts: window.__inputQA.starts,
+      clock: window.lumaClock(),
+    }));
+    assert.equal(sharedStart.resumes, beforeShared.resumes + 1);
+    assert.equal(sharedStart.clock.origin, 0);
+    assert.equal(sharedStart.clock.playing, true);
+    assert.equal(
+      sharedStart.starts,
+      beforeShared.starts + 1,
+      "Only the newer Play may schedule Twinkle's single opening note",
+    );
     await pause().click();
     checks.push(
-      "Stop cancels a delayed Play; an old startup cannot resume playback or cancel a newer startup",
+      "Stop cancels a delayed Play; a newer request shares its pending resume and alone starts playback when released",
     );
     await page.getByRole("button", { name: "Start over" }).click();
     await gate();
@@ -250,7 +318,9 @@ export async function verifyInputs(page, prefix = "input") {
     assert.equal(await starts(), beforeSettings);
     await play().click();
     await pause().waitFor();
-    await expect(page.locator(".reader-play-status")).toContainText("Count in");
+    await expect(
+      page.locator(".reader-play-status, .maestro-live-status"),
+    ).toContainText("Count in");
     await pause().click();
     await setCountIn(false);
     await gate();
@@ -285,7 +355,7 @@ export async function verifyInputs(page, prefix = "input") {
     );
     await page.getByRole("button", { name: "Start over" }).click();
     await page.getByRole("button", { name: "Toggle phrase loop" }).click();
-    await page.getByRole("spinbutton", { name: "Loop end bar" }).fill("1");
+    await setLoopEnd(page, 1);
     await page
       .getByRole("combobox", { name: "Practice speed" })
       .selectOption("1.25");
@@ -413,6 +483,8 @@ export async function verifyInputs(page, prefix = "input") {
     await page.keyboard.press("a");
     assert.equal(await starts(), beforeModal);
     await page.getByRole("button", { name: "Practice", exact: true }).click();
+    // (The Library screen, with its own Import button, fades out first.)
+    await expect(search).toBeHidden();
     await page
       .getByRole("button", { name: "Import a score", exact: true })
       .click();
@@ -423,7 +495,7 @@ export async function verifyInputs(page, prefix = "input") {
         '<score-partwise version="4.0"><work><work-title>Final note check</work-title></work><part-list><score-part id="P1"><part-name>Piano</part-name></score-part></part-list><part id="P1"><measure number="1"><attributes><divisions>1</divisions><time><beats>4</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes><note><pitch><step>C</step><octave>4</octave></pitch><duration>4</duration><type>whole</type></note></measure></part></score-partwise>',
       ),
     });
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     await page
       .getByRole("button", { name: "Close dialog", exact: true })
       .click();

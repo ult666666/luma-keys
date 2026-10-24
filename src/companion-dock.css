@@ -1,0 +1,198 @@
+/* A companion beside the score: no backdrop, focus trap or disabled piano. */
+.app .companion-dock {
+  --ink: #302b30;
+  --ink-muted: #6b6470;
+  --line: var(--salon-line, #d8d4cc);
+  --line-strong: var(--salon-metal, #bcb09a);
+  position: fixed;
+  z-index: 24;
+  right: 16px;
+  top: 76px;
+  width: 352px;
+  height: min(536px, calc(100dvh - 96px));
+  max-width: calc(100vw - 24px);
+  min-height: 0;
+  border: 1px solid var(--salon-line);
+  border-radius: 20px;
+  background: var(--salon-paper, #f7f3eb);
+  color: var(--ink);
+  box-shadow:
+    0 12px 38px -22px #14141c6b,
+    0 2px 5px #14141c0a;
+  overflow: hidden;
+  isolation: isolate;
+  animation: companion-arrive 180ms ease-out;
+}
+.app .companion-dock[hidden],
+.app .companion-dock-body[hidden] {
+  display: none;
+}
+.app .companion-dock-body {
+  height: 100%;
+  min-height: 0;
+}
+.app .companion-dock.is-minimized {
+  top: auto;
+  bottom: 24px;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  border-radius: 22px;
+}
+.app .companion-pocket {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 15px 5px 7px;
+  border: 0;
+  color: var(--ink);
+  background: transparent;
+  text-align: left;
+  border-radius: inherit;
+}
+.app .companion-pocket .beethoven-avatar {
+  width: 52px;
+  height: 52px;
+}
+.app .companion-pocket span {
+  font-size: 14px;
+  font-weight: 600;
+}
+.app .companion-pocket small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+.app .companion-pocket > svg {
+  color: var(--salon-deep);
+}
+/* The chat inside the dock: conversation.css draws it; the dock only
+   makes sure every focus ring inside reads on its paper. */
+.app .companion-dock .companion-chat {
+  --lk-focus: var(--salon-deep);
+}
+
+@media (min-width: 1280px) {
+  .app.companion-docked {
+    --companion-space: 376px;
+  }
+  .app.companion-docked .reader-main.app-main {
+    width: calc(100% - var(--companion-space));
+    margin: 0;
+    overflow: visible;
+  }
+  .app.companion-docked .reader-main.app-main:has(> .practice-screen.studio) {
+    overflow: visible;
+  }
+  .app.companion-docked .app-bar {
+    width: calc(100% + var(--companion-space));
+  }
+  .app.companion-docked .piece-header.reader-score-heading {
+    flex-wrap: wrap;
+    row-gap: 9px;
+  }
+  .app.companion-docked .piece-header .piece-info {
+    flex-basis: 100%;
+  }
+  .app.companion-docked .control-dock .dock-main {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .app.companion-docked
+    .practice-screen.studio
+    > .control-dock.reader-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+  }
+  .app.companion-docked
+    .practice-screen.studio
+    > .control-dock
+    .dock-row.dock-map,
+  .app.companion-docked
+    .practice-screen.studio
+    > .control-dock
+    .dock-row.dock-main {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .app.companion-docked .library-atelier .studio-screen-header {
+    grid-template-columns: minmax(0, 1fr) 116px;
+  }
+  .app.companion-docked .library-atelier .studio-header-tools.search {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    max-width: 380px;
+  }
+  .app.companion-docked .library-atelier .studio-header-art {
+    width: 116px;
+    height: 116px;
+  }
+  .app.companion-docked .library-atelier .continue-copy {
+    padding: 20px;
+  }
+  .app.companion-docked .library-atelier .continue-copy h2 {
+    font-size: 26px;
+  }
+}
+@media (max-width: 700px) {
+  .app .companion-dock {
+    top: auto;
+    bottom: 12px;
+    right: 12px;
+    width: min(352px, calc(100vw - 24px));
+    height: min(470px, 68dvh);
+  }
+  .app .companion-dock.is-minimized {
+    bottom: 12px;
+    height: auto;
+    width: auto;
+  }
+}
+@media (max-height: 580px) {
+  .app .companion-dock {
+    top: 65px;
+    bottom: 10px;
+    height: auto;
+  }
+  .app .companion-dock .chat-welcome-figure {
+    --presence-size: 80px;
+  }
+  .app .companion-dock .chat-welcome {
+    gap: 8px;
+    padding: 8px 4px;
+  }
+  .app .companion-dock.is-minimized {
+    top: auto;
+  }
+}
+@keyframes companion-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .companion-dock {
+    animation: none;
+  }
+}
+@media (max-width: 700px) and (max-height: 580px) {
+  .app .companion-dock:not(.is-minimized) {
+    top: auto;
+    height: min(360px, 72dvh);
+  }
+}
+@media (min-width: 701px) and (max-width: 900px) {
+  .app .companion-dock:not(.is-minimized) {
+    top: 109px;
+    height: min(536px, calc(100dvh - 129px));
+  }
+}

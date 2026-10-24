@@ -1,0 +1,1431 @@
+/* The companion chat (MaestroPanel), docked beside the score.
+ * Calm neutral paper; the companion's own accent shows only on its avatar
+ * ring and, faintly, in its speech bubbles. Spacing steps: 4 / 8 / 12 / 16.
+ * Text: 15 px body (17 px with Large text), 12 px only for small metadata.
+ * The dock frame and its placement live in companion-dock.css. */
+.app .companion-chat {
+  --chat-accent: #868b92;
+  --chat-ink: var(--ink, #1e2124);
+  --chat-muted: var(--ink-muted, #5d6268);
+  --chat-surface: var(--salon-white, #fbfaf8);
+  --chat-soft: var(--salon-soft, #ebe9e5);
+  --chat-line: var(--salon-line, #dedbd5);
+  /* A control edge that keeps >= 3:1 against the paper. */
+  --chat-edge: color-mix(
+    in oklab,
+    var(--salon-line, #dedbd5) 50%,
+    var(--salon-deep, #3b4148)
+  );
+  --chat-bubble: color-mix(
+    in srgb,
+    var(--chat-accent) 9%,
+    var(--salon-white, #fbfaf8)
+  );
+  --chat-ring: color-mix(
+    in srgb,
+    var(--chat-accent) 78%,
+    var(--salon-white, #fbfaf8)
+  );
+  --chat-face-bg: color-mix(
+    in srgb,
+    var(--chat-accent) 16%,
+    var(--salon-white, #fbfaf8)
+  );
+  --chat-user: var(--salon-deep, #3b4148);
+  --chat-user-ink: #fbfaf8;
+  --chat-code: rgb(30 33 36 / 0.06);
+  --chat-text: 15px;
+  --chat-leading: 1.6;
+  --chat-meta: 12px;
+  --chat-chip: 14px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  color: var(--chat-ink);
+}
+/* Each companion's accent: a mid-tone of its own palette. */
+.app .companion-chat[data-companion="beethoven"] {
+  --chat-accent: #a9824f;
+}
+.app .companion-chat[data-companion="langlang"] {
+  --chat-accent: #4f7394;
+}
+.app .companion-chat[data-companion="mozart"] {
+  --chat-accent: #8d7090;
+}
+.app .companion-chat[data-companion="liszt"] {
+  --chat-accent: #8f4c5e;
+}
+.app .companion-chat[data-companion="cat"] {
+  --chat-accent: #6f8c66;
+}
+.app .companion-chat[data-companion="bunny"] {
+  --chat-accent: #b07a88;
+}
+.app .companion-chat[data-text-size="large"] {
+  --chat-text: 17px;
+  --chat-leading: 1.6;
+  --chat-meta: 13px;
+  --chat-chip: 15px;
+}
+.app .companion-chat .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.app .companion-chat :is(h2, h3, p) {
+  margin: 0;
+}
+
+/* ── Header: one line ──────────────────────────────────────────────────── */
+.app .companion-chat .chat-heading {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px 8px 8px 16px;
+}
+.app .companion-chat .chat-avatar {
+  position: relative;
+  z-index: 4;
+  flex: none;
+}
+.app .companion-chat .chat-header-presence {
+  --presence-size: 40px;
+  border-radius: 50%;
+  background: var(--chat-face-bg);
+  box-shadow:
+    0 0 0 2px var(--salon-paper, #f4f3f0),
+    0 0 0 3.5px var(--chat-ring);
+}
+.app .companion-chat .chat-header-presence:is(:hover, :active) {
+  background: var(--chat-face-bg);
+  box-shadow:
+    0 0 0 2px var(--salon-paper, #f4f3f0),
+    0 0 0 3.5px var(--chat-ring);
+}
+/* The face, cropped to the circle; the hello marks still float outside. */
+.app .companion-chat .chat-header-presence .presence-figure {
+  inset: auto;
+  left: -30%;
+  top: -7%;
+  width: 160%;
+  height: 160%;
+  clip-path: circle(31.25% at 50% 35.6%);
+}
+.app
+  .companion-chat
+  .chat-header-presence[data-character="cat"]
+  .presence-figure,
+.app
+  .companion-chat
+  .chat-header-presence[data-character="bunny"]
+  .presence-figure {
+  top: -12%;
+  clip-path: circle(31.25% at 50% 38.75%);
+}
+.app
+  .companion-chat
+  .chat-header-presence
+  :is(
+    .presence-room,
+    .presence-touch-note,
+    .presence-mood-mark,
+    .presence-listen-mark
+  ) {
+  display: none;
+}
+.app .companion-chat .chat-header-presence .presence-reaction-burst {
+  inset: -30%;
+}
+.app .companion-chat .chat-header-presence .presence-reaction-burst i {
+  width: 22%;
+  height: 22%;
+}
+/* Tapping the face: a short hello in a little bubble under it. */
+.app .companion-chat .chat-greeting {
+  position: absolute;
+  left: -4px;
+  top: calc(100% + 12px);
+  z-index: 4;
+  width: max-content;
+  max-width: 240px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: var(--chat-bubble);
+  color: var(--chat-ink);
+  font-size: 14px;
+  line-height: 1.45;
+  filter: drop-shadow(0 0 0.6px rgb(30 33 36 / 0.32))
+    drop-shadow(0 4px 8px rgb(30 33 36 / 0.12));
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  pointer-events: none;
+}
+.app .companion-chat .chat-greeting::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: -7px;
+  width: 14px;
+  height: 8px;
+  background: inherit;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.app .companion-chat .chat-greeting[data-visible="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.app .companion-chat .chat-identity {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: flex-start;
+  column-gap: 8px;
+  height: 24px;
+  overflow: hidden;
+}
+.app .companion-chat .chat-identity h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex: none;
+  max-width: 100%;
+  height: 24px;
+  white-space: nowrap;
+  font-size: 17px;
+  line-height: 24px;
+}
+.app .companion-chat .chat-name-zh {
+  font-size: 12px;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-status-label {
+  flex: none;
+  height: 24px;
+  font-size: var(--chat-meta);
+  line-height: 24px;
+  color: var(--chat-muted);
+  white-space: nowrap;
+}
+.app .companion-chat .chat-status-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3f7a53;
+  box-shadow: 0 0 0 2px rgb(63 122 83 / 0.16);
+}
+.app
+  .companion-chat
+  .chat-identity:is([data-status="thinking"], [data-status="writing"])
+  .chat-status-dot {
+  background: #95661f;
+  box-shadow: 0 0 0 2px rgb(149 102 31 / 0.18);
+}
+.app .companion-chat .chat-identity[data-status="checking"] .chat-status-dot {
+  background: #7b8189;
+  box-shadow: none;
+}
+.app .companion-chat .chat-identity[data-status="offline"] .chat-status-dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px #6c7178;
+}
+.app .companion-chat .chat-window-actions {
+  display: flex;
+  flex: none;
+  gap: 0;
+}
+.app .companion-chat .chat-icon-button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-icon-button:hover:not(:disabled),
+.app .companion-chat .chat-icon-button[aria-expanded="true"] {
+  background: var(--chat-soft);
+  color: var(--chat-ink);
+}
+
+/* ── Options popover ───────────────────────────────────────────────────── */
+.app .companion-chat .chat-options {
+  position: absolute;
+  z-index: 6;
+  top: 52px;
+  right: 8px;
+  width: min(304px, calc(100% - 16px));
+  max-height: calc(100% - 68px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--chat-surface);
+  box-shadow:
+    0 0 0 1px var(--chat-line),
+    0 18px 40px -18px rgb(20 22 25 / 0.45);
+}
+.app .companion-chat .chat-options-group {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--chat-line);
+}
+.app .companion-chat .chat-options-group h3 {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-options-companion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.app .companion-chat .chat-options-who {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.app .companion-chat .chat-options-who strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+.app .companion-chat .chat-options-who small {
+  font-size: 12px;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-pill-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 4px 8px 4px 12px;
+  border: 1px solid var(--chat-edge);
+  border-radius: 999px;
+  background: var(--chat-surface);
+  color: var(--chat-ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+.app .companion-chat .chat-pill-button:hover {
+  background: var(--chat-soft);
+}
+.app .companion-chat .chat-option-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 36px;
+  font-size: 14px;
+}
+.app .companion-chat .chat-language > span {
+  flex: none;
+}
+.app .companion-chat .chat-language select {
+  min-width: 0;
+  max-width: 62%;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--chat-edge);
+  border-radius: 10px;
+  background-color: var(--chat-surface);
+  color: var(--chat-ink);
+  font: inherit;
+  font-size: 14px;
+}
+.app .companion-chat .chat-text-size {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.app .companion-chat .chat-text-size::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.app .companion-chat .chat-text-size legend {
+  float: left;
+  padding: 0;
+  line-height: 36px;
+  font-size: 14px;
+}
+.app .companion-chat .chat-segmented {
+  float: right;
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 10px;
+  background: var(--chat-soft);
+}
+.app .companion-chat .chat-segmented label {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 64px;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  color: var(--chat-muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+.app .companion-chat .chat-segmented label[data-value="large"] span {
+  font-size: 16px;
+}
+.app .companion-chat .chat-segmented input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.app .companion-chat .chat-segmented label:has(input:checked) {
+  background: var(--chat-surface);
+  color: var(--chat-ink);
+  font-weight: 600;
+  box-shadow:
+    inset 0 0 0 1px var(--chat-edge),
+    0 1px 2px rgb(30 33 36 / 0.12);
+}
+.app .companion-chat .chat-segmented label:has(input:focus-visible) {
+  outline: 2px solid var(--lk-focus, var(--salon-deep));
+  outline-offset: 2px;
+}
+.app .companion-chat .chat-option-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.app .companion-chat .chat-option-check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--salon-deep);
+}
+.app .companion-chat .chat-privacy {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-privacy svg {
+  flex: none;
+  margin-top: 2px;
+}
+.app .companion-chat .chat-fineprint {
+  margin-top: -4px;
+  padding-left: 21px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--chat-muted);
+}
+
+/* ── The piece we are talking about ────────────────────────────────────── */
+.app .companion-chat .chat-context {
+  display: flex;
+  flex-shrink: 0;
+  padding: 0 16px 12px;
+  border-bottom: 1px solid var(--chat-line);
+}
+.app .companion-chat .chat-context-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 32px;
+  padding: 4px 8px 4px 12px;
+  border: 1px solid var(--chat-line);
+  border-radius: 999px;
+  background: var(--chat-surface);
+  color: var(--chat-muted);
+  font-size: 13px;
+  line-height: 1.2;
+  text-align: left;
+}
+.app .companion-chat .chat-context-chip:hover {
+  border-color: var(--chat-edge);
+  color: var(--chat-ink);
+}
+.app .companion-chat .chat-context-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--chat-ink);
+  font-weight: 600;
+}
+.app .companion-chat .chat-context-bar {
+  flex: none;
+  white-space: nowrap;
+}
+.app .companion-chat .chat-context-chip > svg {
+  flex: none;
+}
+
+/* ── Transcript ────────────────────────────────────────────────────────── */
+.app .companion-chat .chat-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.app .companion-chat .chat-transcript {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px 16px 8px 12px;
+  scrollbar-width: thin;
+  scroll-behavior: auto;
+}
+.app .companion-chat .chat-transcript:focus-visible {
+  outline: 0;
+  box-shadow: inset 0 0 0 2px var(--lk-focus, var(--salon-deep));
+}
+.app .companion-chat .chat-log {
+  margin-top: auto;
+  outline: 0;
+}
+.app .companion-chat .chat-welcome + .chat-log {
+  margin-top: 0;
+}
+.app .companion-chat .chat-loading {
+  margin: auto;
+  color: var(--chat-muted);
+  font-size: 14px;
+}
+
+/* Empty conversation: the companion waves; one warm line; a few ideas. */
+.app .companion-chat .chat-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: auto 0;
+  padding: 16px 4px;
+  text-align: center;
+}
+.app .companion-chat .chat-welcome-figure {
+  --presence-size: 112px;
+  cursor: default;
+}
+.app .companion-chat .chat-welcome-figure .presence-room {
+  inset: 12% 8% 4%;
+  border-radius: 50%;
+  border: 0;
+  background: var(--chat-face-bg);
+}
+.app .companion-chat .chat-welcome-line {
+  max-width: 28ch;
+  font-size: 18px;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+.app .companion-chat .chat-starters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.app .companion-chat .chat-number-icon {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* Messages: rounded bubbles with a small tail beside the speaker. */
+.app .companion-chat .chat-message {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  column-gap: 8px;
+  margin: 0 0 4px;
+}
+.app .companion-chat .chat-message.is-group-end {
+  margin-bottom: 12px;
+}
+.app .companion-chat .chat-message-main {
+  display: contents;
+}
+.app .companion-chat .chat-message-avatar {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+  width: 28px;
+  height: 28px;
+}
+.app .companion-chat .chat-message-main > * {
+  grid-column: 2;
+  min-width: 0;
+}
+.app .companion-chat .chat-message-user {
+  grid-template-columns: minmax(0, 1fr);
+  padding-left: 40px;
+}
+.app .companion-chat .chat-message-user .chat-message-main > * {
+  grid-column: 1;
+}
+.app .companion-chat .chat-bubble {
+  position: relative;
+  grid-row: 1;
+  justify-self: start;
+  max-width: 100%;
+  padding: 8px 12px;
+  border-radius: 18px;
+  font-size: var(--chat-text);
+  line-height: var(--chat-leading);
+  overflow-wrap: anywhere;
+}
+.app .companion-chat .chat-message-assistant .chat-bubble {
+  background: var(--chat-bubble);
+  color: var(--chat-ink);
+  /* A hairline around the bubble and its tail together. */
+  filter: drop-shadow(0 0 0.6px rgb(30 33 36 / 0.3))
+    drop-shadow(0 1px 1px rgb(30 33 36 / 0.05));
+}
+.app .companion-chat .chat-message-user .chat-bubble {
+  justify-self: end;
+  background: var(--chat-user);
+  color: var(--chat-user-ink);
+}
+.app .companion-chat .chat-message-user .chat-bubble ::selection {
+  color: var(--chat-ink);
+  background: #e6e2da;
+}
+.app .companion-chat .chat-message-assistant.is-group-end .chat-bubble {
+  border-bottom-left-radius: 4px;
+}
+.app .companion-chat .chat-message-user.is-group-end .chat-bubble {
+  border-bottom-right-radius: 4px;
+}
+.app .companion-chat .chat-message.is-group-end .chat-bubble::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  background: inherit;
+  pointer-events: none;
+}
+.app .companion-chat .chat-message-assistant.is-group-end .chat-bubble::before {
+  left: -7px;
+  clip-path: path("M18 0C17 9 13 15 0 18Q9 18.5 18 14Z");
+}
+.app .companion-chat .chat-message-user.is-group-end .chat-bubble::before {
+  right: -7px;
+  clip-path: path("M0 0C1 9 5 15 18 18Q9 18.5 0 14Z");
+}
+.app .companion-chat .chat-bubble > p {
+  white-space: pre-wrap;
+}
+/* The speaker's mini face, in a ring of its accent. */
+.app .companion-chat .chat-face {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--chat-face-bg);
+  box-shadow: 0 0 0 1.5px var(--chat-ring);
+}
+.app .companion-chat .chat-face > svg {
+  position: absolute;
+  left: -30%;
+  top: -6%;
+  width: 160%;
+  height: 160%;
+}
+.app
+  .companion-chat
+  .chat-face:is([data-character="cat"], [data-character="bunny"])
+  > svg {
+  left: -25%;
+  top: -10%;
+  width: 150%;
+  height: 150%;
+}
+.app .companion-chat .chat-options-companion .chat-face {
+  width: 36px;
+  height: 36px;
+}
+
+/* Reply content. */
+.app .companion-chat .chat-reply-copy {
+  overflow-wrap: anywhere;
+}
+.app .companion-chat .chat-reply-copy p {
+  margin: 0 0 8px;
+  white-space: pre-wrap;
+}
+.app .companion-chat .chat-reply-copy :is(ol, ul) {
+  margin: 0 0 8px;
+  padding-left: 20px;
+}
+.app .companion-chat .chat-reply-copy li {
+  margin-bottom: 4px;
+  padding-left: 2px;
+}
+.app .companion-chat .chat-reply-copy strong {
+  font-weight: 650;
+}
+.app .companion-chat .chat-reply-copy > :last-child {
+  margin-bottom: 0;
+}
+.app .companion-chat .chat-reply-copy pre.chat-code {
+  margin: 8px -4px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--chat-code);
+  font:
+    13px/1.55 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.app .companion-chat .chat-code-line {
+  display: block;
+  padding-left: var(--hang, 2ch);
+  text-indent: calc(-1 * var(--hang, 2ch));
+}
+.app .companion-chat .chat-reply-copy code.chat-inline-code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--chat-code);
+  font:
+    0.9em/1.4 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+}
+.app .companion-chat .is-streaming .chat-reply-copy > :last-child::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: var(--chat-accent);
+  animation: chat-caret 1s step-end infinite;
+}
+@keyframes chat-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Typing: three soft dots in the companion's bubble. */
+.app .companion-chat .chat-bubble.is-typing {
+  padding: 12px 16px;
+}
+.app .companion-chat .chat-typing {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 14px;
+}
+.app .companion-chat .chat-typing i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--chat-accent) 70%, var(--chat-ink));
+  opacity: 0.55;
+  animation: chat-bounce 1.2s ease-in-out infinite;
+}
+.app .companion-chat .chat-typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.app .companion-chat .chat-typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes chat-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* A practice update: a small receipt, no bubble. */
+.app .companion-chat .chat-receipt-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  max-width: 100%;
+  padding: 4px 12px 4px 8px;
+  border-radius: 999px;
+  background: var(--chat-soft);
+  color: var(--chat-ink);
+  font-size: var(--chat-text);
+  line-height: 1.45;
+}
+.app .companion-chat .chat-receipt-pill > svg {
+  flex: none;
+  color: #3f7a53;
+}
+.app .companion-chat .chat-receipt.is-group-end,
+.app .companion-chat .chat-receipt {
+  margin-bottom: 12px;
+}
+
+/* Lessons from the score. */
+.app .companion-chat .chat-lesson-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--chat-accent) 22%, transparent);
+  font-size: var(--chat-meta);
+  font-weight: 600;
+  color: var(--chat-ink);
+}
+.app .companion-chat .chat-lesson-steps,
+.app .companion-chat .chat-lesson-steps > [aria-hidden] {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 400;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-lesson-steps i {
+  width: 12px;
+  height: 4px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--chat-accent) 25%, var(--chat-line));
+}
+.app .companion-chat .chat-lesson-steps i[data-active="true"] {
+  background: var(--chat-accent);
+}
+.app .companion-chat .chat-lesson-steps i:last-of-type {
+  margin-right: 4px;
+}
+.app .companion-chat .chat-lesson-copy p {
+  margin: 0 0 8px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.app .companion-chat .chat-lesson-copy p:last-child {
+  margin-bottom: 0;
+}
+.app .companion-chat .chat-lesson-action-note {
+  display: none;
+}
+
+/* Buttons a reply offers (loop, speed, hand, open a piece …). */
+.app .companion-chat .chat-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.app .companion-chat .chat-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 40px;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--chat-line);
+  border-radius: 12px;
+  background: var(--chat-surface);
+  color: var(--chat-ink);
+  text-align: left;
+}
+.app .companion-chat .chat-action > span {
+  min-width: 0;
+}
+.app .companion-chat .chat-action strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.app .companion-chat .chat-action small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-action > svg {
+  flex: none;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-action:hover:not(:disabled) {
+  border-color: var(--chat-edge);
+  background: var(--chat-bubble);
+}
+.app .companion-chat .chat-action:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Under each reply: where it came from, a heart and copy. */
+.app .companion-chat .chat-tools {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-height: 32px;
+  margin: 2px 0 0 4px;
+}
+.app .companion-chat .chat-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 4px;
+  font-size: 12px;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-source-stopped {
+  color: var(--chat-ink);
+  font-weight: 600;
+}
+.app .companion-chat .chat-tool {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-tool:hover {
+  background: var(--chat-soft);
+  color: var(--chat-ink);
+}
+.app .companion-chat .chat-heart[aria-pressed="true"] {
+  color: #b23a56;
+}
+/* Older replies keep their tools out of the way until pointed at or
+   reached with the keyboard; the space is kept, so nothing jumps. */
+@media (hover: hover) {
+  .app .companion-chat .chat-tools[data-pinned="false"] .chat-tool {
+    opacity: 0;
+  }
+  .app
+    .companion-chat
+    .chat-message:is(:hover, :focus-within)
+    .chat-tools
+    .chat-tool {
+    opacity: 1;
+  }
+}
+
+.app .companion-chat .chat-latest {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--chat-edge);
+  border-radius: 999px;
+  background: var(--chat-surface);
+  color: var(--chat-ink);
+  font-size: 13px;
+  transform: translateX(-50%);
+  box-shadow: 0 6px 16px -8px rgb(20 22 25 / 0.4);
+}
+
+/* ── Notices (stopped, unavailable, not saved) ─────────────────────────── */
+.app .companion-chat .chat-notice {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  margin: 8px 16px 0;
+  padding: 4px 4px 4px 12px;
+  border: 1px solid var(--chat-line);
+  border-radius: 12px;
+  background: var(--chat-surface);
+  color: var(--chat-ink);
+  font-size: 14px;
+  line-height: 1.4;
+  max-height: 96px;
+  overflow-y: auto;
+}
+.app .companion-chat .chat-notice > span {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 0;
+}
+.app .companion-chat .chat-notice-quiet {
+  color: var(--chat-muted);
+}
+.app .companion-chat .chat-notice-error {
+  border-color: #b8675160;
+  background: #f5e5df;
+  color: #783b2e;
+}
+.app .companion-chat .chat-notice-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--chat-edge);
+  border-radius: 999px;
+  background: var(--chat-surface);
+  color: var(--chat-ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+.app .companion-chat .chat-notice-action:hover:not(:disabled) {
+  background: var(--chat-soft);
+}
+
+/* ── Quick asks, then the box ──────────────────────────────────────────── */
+.app .companion-chat .chat-quick {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+  padding: 8px 16px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.app .companion-chat .chat-quick::-webkit-scrollbar {
+  display: none;
+}
+/* When the chips overflow, their edges fade toward the side that scrolls. */
+@property --chat-fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --chat-fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@supports (animation-timeline: scroll()) {
+  .app .companion-chat .chat-quick {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--chat-fade-start),
+      #000 calc(100% - var(--chat-fade-end)),
+      transparent
+    );
+    animation: chat-quick-edges linear both;
+    animation-timeline: scroll(self inline);
+  }
+}
+@keyframes chat-quick-edges {
+  0% {
+    --chat-fade-start: 0px;
+    --chat-fade-end: 40px;
+  }
+  12%,
+  88% {
+    --chat-fade-start: 40px;
+    --chat-fade-end: 40px;
+  }
+  100% {
+    --chat-fade-start: 40px;
+    --chat-fade-end: 0px;
+  }
+}
+.app .companion-chat .chat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--chat-edge);
+  border-radius: 999px;
+  background: var(--chat-surface);
+  color: var(--chat-ink);
+  font-size: var(--chat-chip);
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.app .companion-chat .chat-starters .chat-chip {
+  min-height: 36px;
+  padding: 6px 14px;
+  white-space: normal;
+  text-align: left;
+}
+.app .companion-chat .chat-chip > svg,
+.app .companion-chat .chat-chip > .chat-number-icon {
+  flex: none;
+  color: color-mix(in srgb, var(--chat-accent) 70%, var(--chat-ink));
+}
+/* Waiting for a reply: still focusable and named, but clearly resting. */
+.app .companion-chat .chat-chip[aria-disabled="true"] {
+  color: var(--chat-muted);
+  border-color: var(--chat-line);
+  cursor: default;
+}
+.app .companion-chat .chat-chip[aria-disabled="true"] > svg {
+  color: inherit;
+}
+.app .companion-chat .chat-chip:hover:not(:disabled, [aria-disabled="true"]) {
+  border-color: var(--chat-ring);
+  background: var(--chat-bubble);
+}
+.app .companion-chat .chat-composer {
+  position: relative;
+  flex-shrink: 0;
+  padding: 8px 16px 22px;
+}
+.app .companion-chat .chat-composer-input {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 4px 4px 4px 16px;
+  border: 1px solid var(--chat-edge);
+  border-radius: 22px;
+  background: var(--chat-surface);
+}
+/* Focus: the edge thickens to 2 px of deep ink (>= 3:1 change). */
+.app .companion-chat .chat-composer-input:focus-within {
+  border-color: var(--lk-focus, var(--salon-deep));
+  box-shadow: 0 0 0 1px var(--lk-focus, var(--salon-deep));
+}
+.app .companion-chat .chat-composer textarea {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  max-height: 112px;
+  margin: 0;
+  padding: 9px 0;
+  border: 0;
+  resize: none;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  color: var(--chat-ink);
+  font: inherit;
+  font-size: var(--chat-text);
+  line-height: 1.5;
+}
+.app .companion-chat .chat-composer textarea::placeholder {
+  color: var(--chat-muted);
+  opacity: 1;
+}
+/* The keys, under the box, only while it is focused and empty. */
+.app .companion-chat .chat-hint {
+  position: absolute;
+  left: 32px;
+  bottom: 4px;
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--chat-muted);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.app .companion-chat .chat-composer[data-hint="on"] .chat-hint {
+  opacity: 1;
+  visibility: visible;
+}
+.app .companion-chat .chat-send {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin: 2px 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--salon-deep);
+  color: #fbfaf8;
+}
+.app .companion-chat .chat-send:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--salon-deep) 86%, #000);
+}
+.app .companion-chat .chat-send:disabled {
+  opacity: 1;
+  background: var(--chat-soft);
+  color: color-mix(in srgb, var(--chat-muted) 80%, var(--chat-soft));
+}
+.app .companion-chat .chat-send.chat-stop {
+  background: var(--chat-ink);
+}
+
+/* ── Motion (all of it optional) ───────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .app .companion-chat .chat-enter {
+    animation: chat-enter 240ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  }
+  .app .companion-chat .chat-message-user.chat-enter {
+    animation-name: chat-enter-user;
+  }
+  .app .companion-chat .chat-send[data-pop="a"] {
+    animation: chat-pop-a 380ms cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+  .app .companion-chat .chat-send[data-pop="b"] {
+    animation: chat-pop-b 380ms cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+  .app .companion-chat .chat-heart[aria-pressed="true"] svg {
+    animation: chat-heart 420ms cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+  .app .companion-chat .chat-greeting {
+    transition:
+      opacity 160ms ease-out,
+      transform 160ms ease-out,
+      visibility 0s linear 160ms;
+  }
+  .app .companion-chat .chat-greeting[data-visible="true"] {
+    transition:
+      opacity 160ms ease-out,
+      transform 220ms cubic-bezier(0.2, 1.4, 0.4, 1),
+      visibility 0s;
+  }
+  .app
+    .companion-chat
+    .chat-identity:is(
+      [data-status="thinking"],
+      [data-status="writing"],
+      [data-status="checking"]
+    )
+    .chat-status-dot {
+    animation: chat-breathe 1.6s ease-in-out infinite;
+  }
+  .app .companion-chat .chat-options {
+    animation: chat-pop-in 180ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  }
+  .app .companion-chat .chat-tools .chat-tool {
+    transition:
+      opacity 120ms ease-out,
+      background-color 120ms;
+  }
+}
+@keyframes chat-enter {
+  from {
+    opacity: 0;
+    transform: translate(-4px, 6px) scale(0.98);
+  }
+}
+@keyframes chat-enter-user {
+  from {
+    opacity: 0;
+    transform: translate(4px, 6px) scale(0.98);
+  }
+}
+@keyframes chat-pop-a {
+  30% {
+    transform: scale(0.84);
+  }
+  65% {
+    transform: scale(1.12);
+  }
+}
+@keyframes chat-pop-b {
+  30% {
+    transform: scale(0.84);
+  }
+  65% {
+    transform: scale(1.12);
+  }
+}
+@keyframes chat-heart {
+  40% {
+    transform: scale(1.35);
+  }
+}
+@keyframes chat-breathe {
+  50% {
+    opacity: 0.45;
+  }
+}
+@keyframes chat-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .companion-chat *:not(.chat-quick),
+  .app .companion-chat *::before,
+  .app .companion-chat *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  /* Still readable as "typing": three dots of rising weight. */
+  .app .companion-chat .chat-typing i {
+    opacity: 0.4;
+  }
+  .app .companion-chat .chat-typing i:nth-child(2) {
+    opacity: 0.65;
+  }
+  .app .companion-chat .chat-typing i:nth-child(3) {
+    opacity: 0.9;
+  }
+}
+
+/* ── Increased contrast and forced colours ─────────────────────────────── */
+@media (prefers-contrast: more) {
+  .app .companion-chat {
+    --chat-muted: #3f4348;
+    --chat-edge: var(--salon-deep, #3b4148);
+    --chat-line: color-mix(
+      in oklab,
+      var(--salon-line, #dedbd5) 40%,
+      var(--salon-deep, #3b4148)
+    );
+  }
+  .app .companion-chat .chat-message-assistant .chat-bubble {
+    filter: drop-shadow(0 0 0.8px rgb(30 33 36 / 0.85));
+  }
+}
+@media (forced-colors: active) {
+  .app
+    .companion-chat
+    :is(
+      .chat-bubble,
+      .chat-chip,
+      .chat-context-chip,
+      .chat-composer-input,
+      .chat-options,
+      .chat-notice,
+      .chat-receipt-pill,
+      .chat-greeting,
+      .chat-action,
+      .chat-latest,
+      .chat-pill-button,
+      .chat-notice-action,
+      .chat-segmented
+    ) {
+    border: 1px solid CanvasText;
+  }
+  .app .companion-chat .chat-bubble {
+    filter: none;
+  }
+  .app .companion-chat :is(.chat-bubble, .chat-greeting)::before {
+    display: none;
+  }
+  .app
+    .companion-chat
+    :is(.chat-status-dot, .chat-typing i, .chat-lesson-steps i) {
+    forced-color-adjust: none;
+    background: CanvasText;
+    box-shadow: none;
+  }
+  .app .companion-chat .chat-identity[data-status="offline"] .chat-status-dot {
+    background: Canvas;
+    box-shadow: inset 0 0 0 1.5px CanvasText;
+  }
+  .app .companion-chat .chat-lesson-steps i[data-active="true"] {
+    background: Highlight;
+  }
+  .app .companion-chat .chat-segmented label:has(input:checked) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .app .companion-chat .chat-heart[aria-pressed="true"] {
+    color: Highlight;
+  }
+  .app .companion-chat .chat-send:not(:disabled) {
+    border: 1px solid ButtonText;
+  }
+  .app
+    .companion-chat
+    :is(button, select, input, textarea, [tabindex]):focus-visible,
+  .app .companion-chat .chat-composer-input:focus-within,
+  .app .companion-chat .chat-segmented label:has(input:focus-visible) {
+    outline: 2px solid Highlight;
+  }
+}
+
+/* A quiet, always-reachable reset and an explicit temporary-session label. */
+.app .companion-chat .chat-session-bar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 3px 12px 3px 16px;
+  color: var(--chat-muted);
+  font-size: 12px;
+  border-bottom: 1px solid var(--chat-line);
+}
+.app .companion-chat .chat-session-bar > span,
+.app .companion-chat .chat-new {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.app .companion-chat .chat-new {
+  min-height: 40px;
+  padding: 5px 9px;
+  border: 0;
+  border-radius: 9px;
+  color: var(--chat-ink);
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.app .companion-chat .chat-new:hover { background: var(--chat-soft); }
+.app .companion-chat .chat-heading { gap: 8px; }
+.app .companion-chat .chat-tool { width: 36px; height: 36px; }
+.app .companion-chat .chat-chip { min-height: 40px; }
+.app .companion-chat .chat-context-chip { min-height: 36px; }
+@media (max-height: 580px) {
+  .app .companion-chat .chat-heading { padding-top: 6px; min-height: 52px; }
+  .app .companion-chat .chat-context { padding-bottom: 6px; }
+  .app .companion-chat .chat-session-bar { padding-block: 0; }
+  .app .companion-chat .chat-welcome-figure { display: none; }
+  .app .companion-chat .chat-welcome { padding: 8px 0; }
+}

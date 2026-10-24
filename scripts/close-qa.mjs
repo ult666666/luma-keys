@@ -2,9 +2,10 @@ import { _electron as electron, expect } from "@playwright/test";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
-const executable = path.resolve(
-  "release/mac-arm64/Luma Keys.app/Contents/MacOS/Luma Keys",
-);
+import { setPianoVolume, pianoVolume } from "./piano-volume.mjs";
+const executable =
+  process.env.LUMA_APP ||
+  path.resolve("release/mac-arm64/Luma Keys.app/Contents/MacOS/Luma Keys");
 await fs.mkdir(".qa-runs", { recursive: true });
 const results = [];
 for (const mode of ["quit", "window-close", "failed-save"]) {
@@ -50,10 +51,7 @@ for (const mode of ["quit", "window-close", "failed-save"]) {
     );
     const play = page.getByRole("button", { name: "Play", exact: true });
     await expect(play).toBeEnabled();
-    assert.equal(
-      await page.getByRole("slider", { name: "Piano volume" }).inputValue(),
-      String(initialVolume),
-    );
+    assert.equal(await pianoVolume(page), String(initialVolume));
     if (mode === "failed-save") {
       await app.evaluate(({ dialog, app }) => {
         dialog.showMessageBox = async (...args) => {
@@ -69,11 +67,10 @@ for (const mode of ["quit", "window-close", "failed-save"]) {
       .click();
     if (mode !== "failed-save")
       await page.getByRole("switch", { name: "Count me in" }).click();
+    // (Since 2.27 the palettes are a Colours group in Reading settings.)
     await page
-      .getByRole("button", { name: "Companions & moods", exact: true })
-      .click();
-    await page
-      .getByRole("button", { name: "Rose nebula", exact: true })
+      .getByRole("group", { name: "Colours", exact: true })
+      .getByRole("button", { name: /Rose/ })
       .click();
     if (mode !== "failed-save") {
       await page
@@ -90,7 +87,7 @@ for (const mode of ["quit", "window-close", "failed-save"]) {
       assert.equal(JSON.parse(await fs.readFile(file, "utf8")).volume, 0.2);
       // No Settings modal here: the transport remains active until exit, and
       // the close handler must flush this newly changed visible preference.
-      await page.getByRole("slider", { name: "Piano volume" }).fill("0");
+      await setPianoVolume(page, "0");
     }
     const requestClose = () =>
       app.evaluate(({ app, BrowserWindow }, mode) => {
@@ -158,9 +155,23 @@ for (const mode of ["quit", "window-close", "failed-save"]) {
     throw e;
   } finally {
     // This is only the unique test instance; never act on the personal app.
-    if (app && !closed)
+    if (app && !closed) {
+      const gone = app
+        .waitForEvent("close", { timeout: 10000 })
+        .catch(() => {});
       await app.evaluate(({ app }) => app.exit()).catch(() => {});
-    await fs.rm(root, { recursive: true, force: true });
+      await gone;
+    }
+    // (Retried, and never allowed to replace the story's own result: an app
+    // still flushing its cache must not turn a real failure into ENOTEMPTY.)
+    await fs
+      .rm(root, {
+        recursive: true,
+        force: true,
+        maxRetries: 10,
+        retryDelay: 200,
+      })
+      .catch((error) => console.warn("cleanup:", error.message));
   }
 }
 await fs.writeFile(

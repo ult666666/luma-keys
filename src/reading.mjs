@@ -76,10 +76,16 @@ export function readingPassage(
   beat = 0,
   barsPerPage = 4,
   maxOnsets = 32,
+  anchorBar = null,
 ) {
   const measures = Math.max(1, Math.floor(score.measures || 1));
   const bar = Math.min(measures, measureAt(score, Math.max(0, beat)));
-  const firstBar = Math.floor((bar - 1) / barsPerPage) * barsPerPage + 1;
+  // Pages start every barsPerPage bars; while playing along the reader's own
+  // bar comes first instead, so the next bars are always in view.
+  const firstBar =
+    anchorBar != null
+      ? Math.max(1, Math.min(measures, Math.floor(anchorBar)))
+      : Math.floor((bar - 1) / barsPerPage) * barsPerPage + 1;
   const lastBar = Math.min(measures, firstBar + barsPerPage - 1);
   const pageStart = barStart(score, firstBar);
   const pageEnd = barEnd(score, lastBar);
@@ -116,6 +122,7 @@ export function readingPassage(
     previous: start > EPS ? start - boundaryInset : null,
     next: end < barEnd(score, measures) - EPS ? end : null,
     detail,
+    page: firstBar,
   };
 }
 
@@ -202,7 +209,111 @@ export function readingSpacing(
       (pixels[i - 1] + fraction * (pixels[i] - pixels[i - 1])) / naturalWidth
     );
   };
-  return { width, times, position };
+  return { width, natural: naturalWidth, times, position };
+}
+
+// Everything one line of the number score draws: each hand's notes, chords
+// and rests, the bars it crosses, and one spacing shared by all of them.
+export function readingContent(score, index, passage, hand = "both") {
+  const { start, end } = passage;
+  const bars = readingBars(score, passage);
+  const hands = ["right", "left"]
+    .filter((name) => hand === "both" || hand === name)
+    .map((name) => {
+      const visible = readingNotesBetween(index, name, start, end);
+      const groups = readingGroups(visible, start, end);
+      // A duration is written where the rhythm changes or a bar begins; a run
+      // of equal notes does not repeat it on every card.
+      let previous = null;
+      for (const group of groups) {
+        const bar = measureAt(score, group.beat);
+        const rhythm = group.notes
+          .map((note) => readingNoteDisplay(note, start).duration)
+          .join();
+        group.sameRhythm =
+          !group.held &&
+          previous != null &&
+          previous.bar === bar &&
+          previous.rhythm === rhythm;
+        previous = { bar, rhythm };
+      }
+      return {
+        hand: name,
+        notes: visible,
+        groups,
+        // Name silence per bar; a long empty hand should not appear to be
+        // one uncountable gap across the entire passage.
+        rests: bars.flatMap((bar) => readingRests(visible, bar.start, bar.end)),
+      };
+    });
+  const onsets = [
+    ...new Set([
+      ...hands.flatMap((h) => h.groups.map((g) => g.beat)),
+      ...hands.flatMap((h) =>
+        h.rests.flatMap((r) => [r.beat, r.beat + r.duration]),
+      ),
+      ...bars.flatMap((bar) => [bar.start, bar.end]),
+    ]),
+  ].sort((a, b) => a - b);
+  return { hands, bars, spacing: readingSpacing(start, end, onsets) };
+}
+
+// Lines for reading a score as one continuous tape. Every line starts on a
+// bar line and takes as many bars (up to maxBars) as fit the width at
+// readable spacing, so nothing has to scroll sideways. A single bar too
+// dense for one line is divided between its onsets.
+export function readingLayout(
+  score,
+  index,
+  { width = 960, maxBars = 4, hand = "both", from = 1, to = null } = {},
+) {
+  const measures = Math.max(1, Math.floor(score.measures || 1));
+  const first = Math.min(measures, Math.max(1, Math.floor(from)));
+  const last = Math.min(measures, Math.max(first, Math.floor(to ?? measures)));
+  const inset = Math.max(0.0001, (score.meter || 4) * 0.000004);
+  const make = (start, end, detail = false) => {
+    const passage = {
+      start,
+      end,
+      firstBar: Math.min(measures, measureAt(score, start)),
+      lastBar: Math.min(measures, measureAt(score, Math.max(start, end - inset))),
+      detail,
+    };
+    return { ...passage, content: readingContent(score, index, passage, hand) };
+  };
+  const lines = [];
+  for (let bar = first; bar <= last; ) {
+    let line = null,
+      bars = Math.min(Math.max(1, Math.floor(maxBars)), last - bar + 1);
+    for (; bars >= 1; bars--) {
+      line = make(barStart(score, bar), barEnd(score, bar + bars - 1));
+      if (line.content.spacing.natural <= width) break;
+    }
+    bars = Math.max(1, bars);
+    if (line.content.spacing.natural <= width) lines.push(line);
+    else {
+      // One bar wider than the line: break it where the next onset would
+      // overflow, measuring with the bar's own spacing.
+      const { times, natural, position } = line.content.spacing;
+      let from = line.start;
+      for (let i = 1; i < times.length; i++) {
+        const span = (position(times[i]) - position(from)) * natural;
+        if (span > width && times[i - 1] > from + EPS) {
+          lines.push(make(from, times[i - 1], true));
+          from = times[i - 1];
+        }
+      }
+      lines.push(make(from, line.end, from > line.start + EPS));
+    }
+    bar += bars;
+  }
+  return lines;
+}
+
+// The line being read: the last one starting at or before the beat.
+export function readingLineAt(lines, beat) {
+  if (!lines?.length) return -1;
+  return Math.max(0, lowerBound(lines, beat + EPS, (line) => line.start) - 1);
 }
 
 export function readingNoteDisplay(note, start) {

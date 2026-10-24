@@ -38,3 +38,21 @@ export function planListenStart(notes, from, end) {
   }
   return { index: lo, continuations };
 }
+
+// Where a note's sound stops: its written end, or later when the sustain
+// pedal is down at that moment (then it rings until the pedal lifts).
+// Spans are sorted and do not overlap.
+export function soundingEnd(pedals, end) {
+  if (!pedals?.length) return end;
+  let lo = 0,
+    hi = pedals.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1;
+    if (pedals[mid].start <= end + EPS) lo = mid + 1;
+    else hi = mid;
+  }
+  const span = pedals[lo - 1];
+  return span && span.start <= end + EPS && end < span.end - EPS
+    ? span.end
+    : end;
+}

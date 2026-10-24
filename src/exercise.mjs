@@ -1,6 +1,6 @@
 // Graded sight-reading exercises. Every exercise is engraved as MusicXML so the
-// staff view, the number score and playback all read the same music. A seed
-// reproduces an exercise exactly; a new seed is a piece nobody has seen before.
+// staff view, the number score and playback all read the same music. Reusing
+// the same settings and seed reproduces the exercise exactly.
 import { parseMusicXML } from "./music.mjs";
 
 const MAJOR = [0, 2, 4, 5, 7, 9, 11];
@@ -62,7 +62,7 @@ export const LEFT_PATTERNS = ["melody", "long", "fifths", "chords", "broken"];
 export const RHYTHM_TAGS = ["eighth", "dotted", "syncopated", "sixteenth"];
 export const BAR_CHOICES = [4, 8, 12, 16];
 
-// A teacher's progression: one new idea per level, everything before it kept.
+// Levels add pitch, rhythm and coordination requirements in stages.
 export const LEVELS = [
   {
     level: 1,
@@ -81,7 +81,7 @@ export const LEVELS = [
     tempo: 60,
     left: "melody",
     tips: [
-      "Keep your eyes on the score, not your hands. Thumb rests on C4 and each finger owns one key.",
+      "Start with your right thumb on C4 and place one finger on each white key through G4.",
       "Say the numbers or letters out loud before you play the passage in time.",
     ],
   },
@@ -101,8 +101,8 @@ export const LEVELS = [
     tempo: 60,
     left: "melody",
     tips: [
-      "Little finger rests on C3, thumb on G3. Bass-clef C3 sits in the second space from the top.",
-      "Count the beats aloud; a half note in the left hand is easy to cut short.",
+      "Place your little finger on C3 and thumb on G3. C3 is the second space from the bottom of the bass staff.",
+      "Count aloud and hold each half note for two beats.",
     ],
   },
   {
@@ -122,7 +122,7 @@ export const LEVELS = [
     left: "melody",
     tips: [
       "A skip on the staff is line-to-line or space-to-space; a step alternates. Read the shape, then the note.",
-      "Rests are music too: lift the hand and keep counting through them.",
+      "Release the keys during rests and continue counting.",
     ],
   },
   {
@@ -163,7 +163,7 @@ export const LEVELS = [
     left: "long",
     tips: [
       "Check the key signature before the first note: F♯ in G major, B♭ in F major, for every octave.",
-      "Move your hand to the new five-finger position and keep it there; the eyes do the traveling.",
+      "Find the new five-finger position before starting. Check the sharpened or flattened key.",
     ],
   },
   {
@@ -183,7 +183,7 @@ export const LEVELS = [
     left: "melody",
     tips: [
       "Count “1 & 2 &”. Beamed pairs share one beat; keep the pulse steady when they arrive.",
-      "The range now reaches the octave, so the thumb will need to pass or the hand shift. Plan it as you read ahead.",
+      "Plan thumb crossings or hand shifts before playing notes outside the starting position.",
     ],
   },
   {
@@ -202,8 +202,8 @@ export const LEVELS = [
     tempo: 72,
     left: "fifths",
     tips: [
-      "The left hand alternates or holds the root and fifth: learn its shape once, then give the eyes to the melody.",
-      "If one hand stumbles, use Repeat these bars and slow down rather than stopping.",
+      "Practice the left-hand root-and-fifth pattern, then add the right-hand melody.",
+      "Use Repeat these bars to practice difficult passages at a slower speed.",
     ],
   },
   {
@@ -223,8 +223,8 @@ export const LEVELS = [
     tempo: 76,
     left: "fifths",
     tips: [
-      "A dotted quarter plus an eighth fills two beats: feel “1 (2) &”.",
-      "For leaps, look at the interval on the page, not at the keyboard; trust the hand shape.",
+      "Count “1 & 2 &”. Hold the dotted quarter through “2”, then play the eighth on the final “&”.",
+      "Identify the starting and landing notes of each leap before playing.",
     ],
   },
   {
@@ -244,15 +244,15 @@ export const LEVELS = [
     tempo: 76,
     left: "chords",
     tips: [
-      "Read a chord as one shape: bottom note plus the stack above it. Most chords move by one note between bars.",
-      "Play chords lightly so the melody sings on top.",
+      "Read each chord from the bottom note up. Compare it with the previous chord and note which keys change.",
+      "Play the left-hand chords more softly than the right-hand melody.",
     ],
   },
   {
     level: 10,
     title: "Broken chords",
     summary:
-      "Alberti bass and arpeggios under the melody. A and E♭ major arrive.",
+      "Alberti bass and arpeggios; adds A and E♭ major.",
     hands: "both",
     fifths: [3, -3, 2, -2],
     range: "wide",
@@ -265,7 +265,7 @@ export const LEVELS = [
     tempo: 80,
     left: "broken",
     tips: [
-      "Broken chords are still chords: see the triad, then let the fingers rock through it.",
+      "Identify the chord tones, then practice their written order.",
       "6/8 has two big beats per bar; count “1-2-3 4-5-6” with weight on 1 and 4.",
     ],
   },
@@ -286,8 +286,8 @@ export const LEVELS = [
     tempo: 80,
     left: "mixed",
     tips: [
-      "An accidental lasts for the rest of the bar. A sharp before a note usually leads up by a half step.",
-      "For syncopation, keep the metronome on and tap the off-beat quarter with a slight accent.",
+      "Track each accidental through the bar for the same note and octave.",
+      "Count subdivisions with the metronome to place notes between beats.",
     ],
   },
   {
@@ -309,7 +309,7 @@ export const LEVELS = [
     left: "melody",
     tips: [
       "Subdivide: “1 e & a”. Sixteenth groups belong to one beat, so read them as a unit.",
-      "Two independent lines: read the downbeats of both hands first, then fill in the motion between them.",
+      "Locate notes played together on each beat, then read the notes between beats.",
     ],
   },
 ];

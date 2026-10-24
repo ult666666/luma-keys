@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { expect } from "@playwright/test";
 import { demos, noteName } from "../src/music.mjs";
+import { setPianoVolume } from "./piano-volume.mjs";
 
 // Run serially on the caller's isolated library. The caller removes its imports
 // and restores preferences after this real-control practice flow completes.
@@ -116,7 +117,7 @@ export async function verifyChordReading(page, prefix = "chord-reading") {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await expect(play()).toBeEnabled();
-    await page.getByRole("slider", { name: "Piano volume" }).fill("0");
+    await setPianoVolume(page);
     await page
       .getByRole("button", { name: "Import a score", exact: true })
       .click();
@@ -157,14 +158,15 @@ export async function verifyChordReading(page, prefix = "chord-reading") {
         }),
       ),
     });
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     await page
       .getByRole("button", { name: "Close dialog", exact: true })
       .click();
     await page.getByRole("tab", { name: "Number score", exact: true }).click();
     await page
-      .getByRole("combobox", { name: "Practice hand" })
-      .selectOption("both");
+      .getByRole("radiogroup", { name: "Practice hand" })
+      .locator(".hand-both")
+      .click();
     await page
       .getByRole("button", { name: "Wait for me", exact: true })
       .click();
@@ -232,6 +234,14 @@ export async function verifyChordReading(page, prefix = "chord-reading") {
     assert.equal(animationCount, 0);
     await pause().click();
     await page.setViewportSize({ width: 390, height: 844 });
+    // Let the score finish re-laying out for the narrow width first.
+    await expect
+      .poll(() =>
+        page
+          .locator(".reading-scroll")
+          .evaluate((e) => e.scrollHeight - e.clientHeight),
+      )
+      .toBeLessThanOrEqual(1);
     await geometry("mobileReducedMotion", false);
     await assertHolding();
     await page.screenshot({

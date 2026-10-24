@@ -89,7 +89,11 @@ test("coaching tips name the number they come from", () => {
       secondsPerBeat: 0.5,
     },
   );
-  assert.ok(coachingTips(missed).some((t) => /Bar \d cost the most/.test(t)));
+  assert.ok(
+    coachingTips(missed).some((t) =>
+      /Bar \d: \d+ missed notes\. Repeat this bar at a slower speed/.test(t),
+    ),
+  );
   const clean = gradePerformance(
     expected,
     expected.map((n) => ({ midi: n.midi, beat: n.beat })),
@@ -114,10 +118,14 @@ test("the companion speaks in short, situation-aware lines", () => {
   assert.equal(companionLine({ playing: true }), null);
   assert.ok(
     companionLine({ firstRun: true, name: "Mochi" }).startsWith(
-      "Hi, I'm Mochi",
+      "Mochi · Start with Level 1 in Exercises.",
     ),
   );
-  assert.ok(companionLine({ mode: "perform" }).includes("count one bar in"));
+  assert.ok(
+    companionLine({ mode: "perform" }).includes(
+      "Enable Count me in for a count-in.",
+    ),
+  );
   assert.ok(
     companionLine({ result: { accuracy: 0.96, precision: 0.8 } }).includes(
       "96%",
@@ -125,7 +133,7 @@ test("the companion speaks in short, situation-aware lines", () => {
   );
   assert.ok(
     companionLine({ result: { accuracy: 0.6, precision: 0.2 } }).includes(
-      "slow it down",
+      "Lower the speed and practice one hand at a time.",
     ),
   );
   assert.ok(companionLine({ streak: 4 }).includes("4-day streak"));

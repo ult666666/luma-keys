@@ -1,0 +1,289 @@
+/* One palette control, shared by every workspace. */
+.colour-picker {
+  position: relative;
+  flex: none;
+}
+body .app .colour-picker-trigger {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+}
+.colour-current-dot {
+  position: absolute;
+  right: 3px;
+  bottom: 4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--salon-accent);
+  border: 1px solid var(--salon-chrome);
+}
+body .app .app-bar:has(.colour-picker-panel) {
+  /* Above the roaming companion (70), so it cannot cover the close button. */
+  z-index: 80;
+}
+body .app .colour-picker-panel {
+  --ink: #1e2124;
+  --ink-muted: #5d6268;
+  --lk-focus: var(--salon-deep);
+  position: absolute;
+  z-index: 45;
+  right: 0;
+  top: calc(100% + 12px);
+  width: 296px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 120px);
+  overflow-y: auto;
+  padding: 13px;
+  border: 1px solid var(--salon-line);
+  border-radius: 17px;
+  color: var(--ink);
+  background: var(--salon-white);
+  box-shadow:
+    0 16px 40px -18px #0006,
+    0 2px 6px #0000000c;
+}
+.colour-picker-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 9px;
+}
+body .app .colour-picker-heading h2 {
+  margin: 0;
+  font: 600 15px/1.4 var(--lk-font-text);
+}
+body .app .colour-picker-heading .icon-button {
+  min-height: 28px;
+  width: 28px;
+  padding: 5px;
+  color: var(--ink-muted);
+}
+.colour-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+body .app .colour-choice {
+  --ink: #1e2124;
+  --lk-focus: var(--salon-deep);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  position: relative;
+  min-height: 68px;
+  padding: 10px;
+  color: var(--ink);
+  background: var(--salon-paper);
+  border: 1px solid var(--salon-line);
+  border-radius: 11px;
+  text-align: left;
+  font: 500 11px/1.35 var(--lk-font-text);
+  box-shadow: none;
+}
+body .app .colour-choice:last-child {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  min-height: 43px;
+}
+body .app .colour-choice:hover {
+  background: var(--salon-soft);
+}
+body .app .colour-choice[aria-checked="true"] {
+  border-color: var(--salon-deep);
+  box-shadow: inset 0 0 0 1px var(--salon-deep);
+}
+.colour-choice-swatches {
+  display: flex;
+  gap: 3px;
+  flex: none;
+}
+.colour-choice-swatches i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px #00000016;
+}
+.colour-choice-swatches i:nth-child(1) {
+  background: var(--salon-deep);
+}
+.colour-choice-swatches i:nth-child(2) {
+  background: var(--salon-accent);
+}
+.colour-choice-swatches i:nth-child(3) {
+  background: var(--salon-chrome);
+}
+.colour-choice-check {
+  position: absolute;
+  right: 8px;
+  top: 9px;
+  color: var(--salon-deep);
+  visibility: hidden;
+}
+.colour-choice[aria-checked="true"] .colour-choice-check {
+  visibility: visible;
+}
+.colour-choice:last-child .colour-choice-check {
+  top: 13px;
+}
+
+/* Allow action buttons their actual width instead of squeezing the right
+   column into a mirror of the brand column. */
+@media (min-width: 701px) {
+  body .app .app-bar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  body .app .app-nav {
+    justify-self: center;
+  }
+}
+body .app .app-bar-actions > .app-import {
+  flex: none;
+  white-space: nowrap;
+}
+body .app .app-bar-actions > .midi-status {
+  flex: none;
+}
+
+/* Library can use a narrow column; give chat its own space before it would
+   cover the resume action. Practice keeps its existing compact behavior. */
+@media (min-width: 901px) and (max-width: 1279.98px) {
+  body .app.companion-docked[data-screen="library"] {
+    --companion-space: 376px;
+  }
+  body .app.companion-docked[data-screen="library"] .reader-main.app-main {
+    width: calc(100% - var(--companion-space));
+    margin: 0;
+    overflow: visible;
+  }
+  body .app.companion-docked[data-screen="library"] .app-bar {
+    width: calc(100% + var(--companion-space));
+  }
+  body
+    .app.companion-docked[data-screen="library"]
+    .companion-dock:not(.is-minimized) {
+    height: calc(100dvh - 94px);
+  }
+}
+
+@media (max-width: 1100px) {
+  body .app .app-bar-actions {
+    gap: 5px;
+  }
+}
+@media (max-width: 700px) {
+  body .app .colour-picker-panel {
+    position: fixed;
+    right: 12px;
+    top: 56px;
+  }
+  body .app .app-bar-actions {
+    gap: 3px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .colour-picker-panel {
+    animation: colour-arrive 150ms ease-out;
+  }
+  body .app .colour-choice {
+    transition:
+      background-color 140ms ease,
+      box-shadow 140ms ease;
+  }
+}
+@keyframes colour-arrive {
+  from {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* Audition the actual instrument finish, rather than guessing from dots.
+   A static miniature keeps choosing colours cheap while the piano plays. */
+body .app .colour-choice {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 7px 6px;
+  padding: 8px;
+  min-height: 91px;
+}
+body .app .colour-choice .theme-preview {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 45px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--salon-ink), var(--salon-tint));
+  border: 1px solid color-mix(in srgb, var(--salon-metal) 35%, transparent);
+}
+body .app .colour-choice .theme-preview .tp-note {
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px #ffffff66;
+}
+body .app .colour-choice .theme-preview .tp-note.right {
+  left: 60%;
+  bottom: 20px;
+  height: 20px;
+  background: #e9b45f;
+}
+body .app .colour-choice .theme-preview .tp-note.left {
+  left: 27%;
+  bottom: 14px;
+  height: 14px;
+  background: #8aaedc;
+}
+body .app .colour-choice .theme-preview .tp-note.late {
+  left: 77%;
+  bottom: 31px;
+  height: 13px;
+}
+body .app .colour-choice .theme-preview .tp-line {
+  bottom: 12px;
+  background: var(--salon-metal);
+  box-shadow: none;
+}
+body .app .colour-choice .theme-preview .tp-keys {
+  height: 11px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 7px,
+      var(--salon-chrome) 7px 9px
+    ),
+    var(--salon-paper);
+  border-radius: 0 0 4px 4px;
+}
+body .app .colour-choice .colour-choice-swatches {
+  gap: 2px;
+  align-items: center;
+}
+body .app .colour-choice .colour-choice-swatches i {
+  width: 6px;
+  height: 6px;
+}
+body .app .colour-choice > span:not([class]) {
+  padding-right: 14px;
+}
+body .app .colour-choice-check {
+  top: auto;
+  bottom: 9px;
+  right: 8px;
+}
+body .app .colour-choice:last-child {
+  grid-template-columns: 64px auto minmax(0, 1fr);
+  min-height: 53px;
+}
+body .app .colour-choice:last-child .theme-preview {
+  grid-column: auto;
+  height: 35px;
+}
+body .app .colour-choice:last-child .colour-choice-check {
+  top: auto;
+  bottom: 19px;
+}

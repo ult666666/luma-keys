@@ -1,130 +1,449 @@
-.keyboard-guide {
-  margin-top: 16px;
-  border: 1px solid #35372f;
-  border-radius: 5px;
+/* The keyboard stage: the main practice indicator. Loaded after shell.css so
+   it settles the keyboard over the older reader and dashboard rules.
+
+   Colour language, the same in every theme:
+   sage = right hand, lavender = left hand. A key tints when it is next,
+   glows from its top edge as its note approaches, fills and drains while
+   the note should be held, and flashes green / amber / rose on each press. */
+.keyboard-stage {
+  --rh: #a6dcb6;
+  --rh-rgb: 166, 220, 182;
+  --rh-ink: #173a24;
+  --lh: #c5b6ee;
+  --lh-rgb: 197, 182, 238;
+  --lh-ink: #2e2352;
+  --hit-rgb: 150, 230, 165;
+  --near-rgb: 236, 198, 104;
+  --miss-rgb: 240, 140, 122;
+  --keys-h: 150px;
+  --key-w: 42px;
+  margin: 0 0 12px;
+  border: 1px solid var(--line, #dbd0b51a);
+  border-radius: 8px;
   overflow: hidden;
-  background: #1b1d19;
+  background: #111311;
+  box-shadow:
+    0 1px 0 #ede6cf08 inset,
+    0 18px 40px -24px #000c;
 }
-.keyboard-guide-top {
-  padding: 12px 16px 9px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+.keyboard-stage .keyboard-guide-body[hidden] {
+  display: none;
 }
-.keyboard-guide-top > span {
+
+/* Header: title, hand legend, written dynamic, 88-key map and controls. */
+.keyboard-stage .keyboard-guide-top {
   display: flex;
   align-items: center;
   gap: 14px;
+  min-height: 42px;
+  padding: 6px 10px 6px 14px;
+  border-bottom: 1px solid #dbd0b514;
+  background: #161916;
+}
+.keyboard-stage.keyboard-guide-collapsed .keyboard-guide-top {
+  border-bottom: 0;
+}
+.keyboard-stage .stage-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  white-space: nowrap;
   font-size: 12px;
 }
-.keyboard-guide-top small {
+.keyboard-stage .stage-title strong {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: #b9bfae;
+}
+.keyboard-stage .stage-title small {
   font-size: 11px;
-  color: #94a09b;
+  color: #8f978c;
   font-variant-numeric: tabular-nums;
 }
-.keyboard-guide-controls {
-  display: flex;
+.keyboard-stage .stage-legend {
+  display: inline-flex;
+  gap: 10px;
+}
+.keyboard-stage .stage-legend i {
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  font-style: normal;
+  font-size: 10px;
+  color: #9aa296;
 }
-.keyboard-guide-controls button {
+.keyboard-stage .stage-legend i::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--rh);
+}
+.keyboard-stage .stage-legend i.left::before {
+  background: var(--lh);
+}
+.keyboard-stage .stage-legend em {
+  font-style: normal;
+  font-size: 10.5px;
+  color: #c9cdbd;
+  padding: 1px 7px;
+  border: 1px solid #dbd0b524;
+  border-radius: 999px;
+}
+.keyboard-stage .stage-dynamic {
+  padding: 0 0 0 12px;
+  border-left: 1px solid #dbd0b51f;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1;
+  color: #efe6cc;
+}
+.keyboard-stage .keyboard-locator {
+  flex: 1 1 200px;
+  max-width: 460px;
+  min-width: 120px;
+  margin-left: auto;
   display: flex;
+  gap: 8px;
   align-items: center;
-  gap: 6px;
-  padding: 5px 7px;
-  font-size: 11px;
-  border-radius: 5px;
-  color: #94a09b;
-}
-.keyboard-guide-controls .following {
-  color: #c4ceba;
-  background: #c3cdb60a;
-}
-.keyboard-guide-controls .keyboard-guide-toggle {
-  border: 1px solid #aeb5a329;
-  border-radius: 3px;
-  color: #b3bca8;
-  white-space: nowrap;
-}
-.keyboard-guide-body[hidden] {
-  display: none;
-}
-.keyboard-guide.keyboard-guide-collapsed .keyboard-guide-top {
-  min-height: 39px;
-  padding-block: 6px;
-}
-.keyboard-locator {
-  display: flex;
-  gap: 9px;
-  align-items: center;
-  padding: 0 16px 10px;
-  color: #83918a;
+  padding: 0;
   font-size: 9px;
+  color: #7f8a82;
 }
-.keyboard-locator-track {
-  height: 18px;
+.keyboard-stage .keyboard-locator-track {
+  height: 16px;
   flex: 1;
   position: relative;
   cursor: pointer;
   overflow: hidden;
   border-radius: 3px;
 }
-.keyboard-locator-track i {
+.keyboard-stage .keyboard-locator-track i {
   position: absolute;
   height: 100%;
-  background: #56594f;
-  border-right: 1px solid #1b1d19;
+  background: #5b5e54;
+  border-right: 1px solid #161916;
 }
-.keyboard-locator-track i.black {
+.keyboard-stage .keyboard-locator-track i.black {
   height: 60%;
-  background: #141611;
+  background: #121410;
   z-index: 1;
 }
-.keyboard-locator-track i.target {
-  background: var(--accent);
+.keyboard-stage .keyboard-locator-track i.target {
+  background: var(--rh);
   z-index: 2;
 }
-.keyboard-locator-track b {
+.keyboard-stage .keyboard-locator-track b {
   position: absolute;
   top: 0;
   height: 100%;
-  border: 1px solid #b8c4a96b;
-  background: #b8c4a90a;
+  border: 1px solid #d6dcc488;
+  background: #d6dcc410;
   z-index: 3;
   border-radius: 3px;
   pointer-events: none;
 }
-.keyboard-viewport {
+.keyboard-stage .keyboard-guide-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+.keyboard-stage.keyboard-guide-collapsed .keyboard-guide-controls {
+  margin-left: auto;
+}
+.keyboard-stage .keyboard-guide-controls button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  font-size: 11px;
+  border-radius: 5px;
+  color: #98a195;
+  white-space: nowrap;
+}
+.keyboard-stage .keyboard-guide-controls button:hover:not(:disabled) {
+  color: #dfe5d2;
+  background: #ffffff0a;
+}
+.keyboard-stage .keyboard-guide-controls .following {
+  color: #d3dcc2;
+  background: #c3cdb612;
+}
+.keyboard-stage .keyboard-guide-controls .keyboard-guide-toggle {
+  border: 1px solid #aeb5a329;
+  border-radius: 4px;
+  color: #b3bca8;
+}
+.keyboard-stage .keyboard-offscreen {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 14px;
+  background: #bbddc512;
+  color: var(--rh);
+  font-size: 11px;
+}
+.keyboard-stage .keyboard-viewport {
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-x: contain;
   scrollbar-width: thin;
 }
-.keyboard-guide .piano-keys {
-  height: 116px;
-  margin: 0;
-  width: 100%;
-  border-radius: 0;
-  background: #141610;
+/* Native macOS overlay scrollbars otherwise intercept the bottom of a key.
+   Keep their hit area in a dedicated gutter below the playable surface. */
+.keyboard-stage .keyboard-strip {
+  position: relative;
+  padding-bottom: 14px;
 }
-.keyboard-guide .piano-keys::before {
+
+/* ---------- Runway: notes fall onto their keys, bars and beats ruled ---------- */
+.keyboard-stage .roll.runway {
+  position: relative;
+  height: 150px;
+  margin: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% 120%, #2c3a2c55, transparent 60%),
+    linear-gradient(180deg, #0c0e0c 0%, #111411 65%, #161a16 100%);
+}
+.keyboard-stage .roll.runway.runway-tall {
+  height: 340px;
+}
+.keyboard-stage .runway-lanes i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid #ffffff07;
+}
+.keyboard-stage .runway-lanes i.black {
+  border-left: 0;
+  background: #00000030;
+  z-index: 1;
+}
+.keyboard-stage .runway-lanes i.octave {
+  border-left-color: #ffffff16;
+}
+.keyboard-stage .runway-lanes i em {
+  position: absolute;
+  top: 6px;
+  left: 5px;
+  font-size: 9px;
+  font-style: normal;
+  letter-spacing: 0.3px;
+  color: #ffffff30;
+}
+.keyboard-stage .runway-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0;
+  z-index: 2;
+  will-change: transform;
+}
+/* Waiting for the player: the notes step down once the chord is found. */
+.keyboard-stage.mode-wait .runway-track,
+.keyboard-stage:not(.is-playing) .runway-track {
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.keyboard-stage .beat-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #ffffff09;
+  z-index: 0;
+}
+.keyboard-stage .beat-line.bar-line {
+  background: #ffffff1d;
+}
+/* Bar numbers follow the visible left edge while the 88-key strip scrolls. */
+.keyboard-stage .beat-line span {
+  position: absolute;
+  bottom: 2px;
+  padding: 0 3px;
+  font-size: 9.5px;
+  line-height: 1.2;
+  color: #ffffff5c;
+  font-variant-numeric: tabular-nums;
+}
+.keyboard-stage .falling-note {
+  --nc: var(--rh-rgb);
+  --vel: 0.85;
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1px;
+  min-height: 3px;
+  padding: 0 0 6px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 6px;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--nc), calc(0.38 + var(--vel) * 0.3)),
+    rgba(var(--nc), calc(0.62 + var(--vel) * 0.38))
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--nc), 0.8),
+    inset 0 1px 0 #ffffff55,
+    0 0 16px rgba(var(--nc), calc(var(--vel) * 0.22));
+  color: var(--rh-ink);
+  opacity: 1;
+  filter: none;
+  font-size: 12px;
+}
+.keyboard-stage .falling-note.left {
+  --nc: var(--lh-rgb);
+  color: var(--lh-ink);
+}
+.keyboard-stage .falling-note > span {
+  display: block;
+  font-size: clamp(11px, calc(var(--key-w) * 0.36), 17px);
+  font-weight: 700;
+  line-height: 1;
+}
+.keyboard-stage .falling-note > small {
+  display: block;
+  font-size: 8.5px;
+  line-height: 1;
+  opacity: 0.72;
+}
+.keyboard-stage .falling-note.on-black > span {
+  font-size: clamp(9px, calc(var(--key-w) * 0.27), 13px);
+}
+.keyboard-stage .falling-note.on-black > small,
+.keyboard-stage .falling-note.short > small {
+  display: none;
+}
+.keyboard-stage .falling-note.short {
+  padding-bottom: 2px;
+}
+.keyboard-stage .falling-note.tiny > span {
+  display: none;
+}
+.keyboard-stage .falling-note.hitting {
+  filter: brightness(1.12);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--nc), 1),
+    inset 0 -3px 0 #ffffffa0,
+    0 0 26px rgba(var(--nc), 0.55);
+}
+/* The now line: where notes meet the keys. */
+.keyboard-stage .strike-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: 2px;
+  z-index: 5;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #efe6c8a8 6%,
+    #efe6c8a8 94%,
+    transparent
+  );
+  box-shadow: 0 0 12px #efe6c83a;
+}
+.keyboard-stage .strike-glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -12px;
+  width: auto;
+  height: 26px;
+  z-index: 4;
+  background: #d7e6c42a;
+  filter: blur(12px);
+}
+/* A verdict rises from the key into the runway. */
+.keyboard-stage .lane-spark {
+  --spark: var(--hit-rgb);
+  position: absolute;
+  bottom: 0;
+  height: 62%;
+  z-index: 6;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 4px;
+  border-radius: 8px 8px 0 0;
+  pointer-events: none;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: rgba(var(--spark), 1);
+  background: linear-gradient(
+    0deg,
+    rgba(var(--spark), 0.9),
+    rgba(var(--spark), 0.35) 45%,
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(var(--spark), 0.45);
+  opacity: 0;
+  transform-origin: 50% 100%;
+  animation: lane-spark 720ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+.keyboard-stage .lane-spark[data-kind="early"],
+.keyboard-stage .lane-spark[data-kind="late"] {
+  --spark: var(--near-rgb);
+}
+.keyboard-stage .lane-spark[data-kind="miss"] {
+  --spark: var(--miss-rgb);
+}
+@keyframes lane-spark {
+  0% {
+    opacity: 1;
+    transform: scaleY(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}
+
+/* ---------- Keys ---------- */
+.keyboard-stage .piano-keys {
+  position: relative;
+  height: var(--keys-h);
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  background: #0b0d0a;
+  touch-action: none;
+}
+.keyboard-stage .piano-keys::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
-  height: 2px;
-  background: #735649;
-  box-shadow: 0 2px 3px #11140d38;
+  height: 3px;
+  background: linear-gradient(180deg, #5c4638, #3b2c23);
+  box-shadow: 0 2px 4px #0008;
   z-index: 4;
   pointer-events: none;
 }
-.keyboard-guide .piano-key,
-.keyboard-guide .piano-key.white,
-.keyboard-guide .piano-key.black,
-.keyboard-guide .piano-key.white.lit,
-.keyboard-guide .piano-key.black.lit,
-.keyboard-guide .piano-key.white.pressed,
-.keyboard-guide .piano-key.black.pressed {
+.keyboard-stage .piano-key,
+.keyboard-stage .piano-key.white,
+.keyboard-stage .piano-key.black,
+.keyboard-stage .piano-key.white.lit,
+.keyboard-stage .piano-key.black.lit,
+.keyboard-stage .piano-key.white.pressed,
+.keyboard-stage .piano-key.black.pressed {
+  position: absolute;
+  top: 0;
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -132,178 +451,1744 @@
   box-shadow: none;
   transform: none;
   transition: none;
+  color: inherit;
 }
-.keyboard-guide .piano-key.black {
-  height: 65%;
+.keyboard-stage .piano-key {
+  --kc: 255, 255, 255;
+  --sc: var(--rh-rgb);
+  --tc: var(--rh-rgb);
+  --soon: 0;
+  --hold: 0;
+  --vel: 0.85;
+  --press: 0.75;
 }
-.keyboard-guide .key-surface {
+.keyboard-stage .piano-key.white {
+  height: 100%;
+  z-index: 1;
+}
+.keyboard-stage .piano-key.black {
+  height: 63%;
+  z-index: 2;
+}
+.keyboard-stage .piano-key[data-hand="right"],
+.keyboard-stage .piano-key[data-on="right"] {
+  --kc: var(--rh-rgb);
+}
+.keyboard-stage .piano-key[data-hand="left"],
+.keyboard-stage .piano-key[data-on="left"] {
+  --kc: var(--lh-rgb);
+}
+.keyboard-stage .piano-key[data-soon="left"] {
+  --sc: var(--lh-rgb);
+}
+.keyboard-stage .piano-key[data-then="left"] {
+  --tc: var(--lh-rgb);
+}
+.keyboard-stage .key-surface {
   position: absolute;
-  inset: 0 1px 2px 0;
+  inset: 0 1px 3px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding-bottom: 11px;
+  gap: 2px;
+  padding-bottom: 12px;
   overflow: hidden;
-  border: 1px solid #d2ccc0;
-  border-top: 0;
-  border-radius: 0 0 2px 2px;
-  background: #eae5d9;
-  box-shadow: inset 0 -3px 0 #c8c1b3;
-  color: #535a4b;
-  transform-origin: center top;
+  border: 0;
+  border-radius: 0 0 5px 5px;
+  background: linear-gradient(
+    180deg,
+    #d8d1c1 0%,
+    #eee8db 9%,
+    #f2ede2 72%,
+    #e4ddcd 100%
+  );
+  box-shadow:
+    inset 0 -5px 0 #cbc2ae,
+    inset 1px 0 0 #fffaf0b0,
+    inset -1px 0 0 #b9af9a;
+  color: #4d5446;
+  transform-origin: 50% 0;
   transition:
-    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    background-color 180ms ease,
-    box-shadow 120ms ease;
+    transform 110ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 120ms ease,
+    background-color 120ms ease;
   pointer-events: none;
 }
-.keyboard-guide .piano-key.black .key-surface {
-  inset: 0 0 2px;
+.keyboard-stage .piano-key.black .key-surface {
+  inset: 0 0 3px;
   padding-bottom: 9px;
-  background: #292b25;
-  border: 1px solid #151710;
-  border-top: 0;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(180deg, #191b17 0%, #2a2d27 78%, #1e211c 100%);
   box-shadow:
-    inset 0 1px 0 #3d4035,
-    inset 0 -4px 0 #13150f,
-    1px 3px 3px #10120b40;
-  color: #c4c8b9;
+    inset 0 -6px 0 #10120e,
+    inset 1px 0 0 #3e4237,
+    0 3px 5px #000a;
+  color: #d0d4c5;
 }
-.keyboard-guide .key-surface::before {
+/* Approach: light rises from the key's top edge as its note gets close. */
+.keyboard-stage .key-surface::before {
   content: "";
   position: absolute;
-  bottom: 5px;
-  left: 35%;
-  width: 30%;
-  height: 1px;
-  background: #557858;
+  inset: 0 0 auto;
+  height: 72%;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--sc), calc(var(--soon) * 0.95)),
+    rgba(var(--sc), calc(var(--soon) * 0.28)) 55%,
+    transparent
+  );
+  pointer-events: none;
+}
+/* Next: a steady tint and a coloured cap. On: full colour at the note's loudness. */
+.keyboard-stage .key-light {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--kc), 0.95) 0 5px,
+    rgba(var(--kc), 0.5) 5px,
+    rgba(var(--kc), 0.34)
+  );
+  opacity: 0;
+  transition: opacity 90ms ease;
+  pointer-events: none;
+}
+.keyboard-stage .piano-key.lit .key-light {
+  opacity: 0.9;
+}
+.keyboard-stage .piano-key.sounding .key-light,
+.keyboard-stage .piano-key[data-on="right"] .key-light,
+.keyboard-stage .piano-key[data-on="left"] .key-light {
+  opacity: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--kc), 1) 0 5px,
+    rgba(var(--kc), calc(0.45 + var(--vel) * 0.4)) 5px,
+    rgba(var(--kc), calc(0.3 + var(--vel) * 0.35))
+  );
+}
+/* Hold: the fill drains while the note should still be held. */
+.keyboard-stage .key-hold {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  height: calc(var(--hold) * 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(var(--kc), 0.95),
+    rgba(var(--kc), 0.55)
+  );
   opacity: 0;
   pointer-events: none;
 }
-.keyboard-guide .piano-key.lit .key-surface::before {
-  opacity: 0.7;
+.keyboard-stage .piano-key[data-on="right"] .key-hold,
+.keyboard-stage .piano-key[data-on="left"] .key-hold {
+  opacity: 1;
 }
-.keyboard-guide .piano-key.lit.white .key-number {
-  color: #44654b;
+/* Then: the chord after this one, outlined. */
+.keyboard-stage .piano-key[data-then] .key-surface::after {
+  content: "";
+  position: absolute;
+  inset: 7px 5px 9px;
+  z-index: 1;
+  border: 1.5px dashed rgba(var(--tc), 0.85);
+  border-radius: 4px;
+  pointer-events: none;
 }
-.keyboard-guide .piano-key.lit.black .key-surface::before {
-  background: #c3d6b7;
+.keyboard-stage .piano-key.black[data-then] .key-surface::after {
+  inset: 5px 3px 7px;
 }
-.keyboard-guide .piano-key.sounding .key-surface {
-  transform: translateY(2px) scaleY(0.975);
-  background: #dce5d3;
-  box-shadow: inset 0 -1px 0 #aebba2;
-  color: #354733;
-  transition-duration: 65ms, 90ms, 65ms;
-}
-.keyboard-guide .piano-key.sounding.black .key-surface {
-  transform: translateY(2px) scaleY(0.965);
-  background: #354132;
-  box-shadow:
-    inset 0 1px 0 #475840,
-    inset 0 -2px 0 #192213,
-    0 1px 1px #10120b40;
-  color: #e0e7d6;
-}
-.keyboard-guide .key-resonance {
+.keyboard-stage .key-resonance {
   position: absolute;
   left: 6px;
   right: 6px;
-  bottom: 35px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #688c60, transparent);
+  bottom: 38%;
+  z-index: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--kc), 1),
+    transparent
+  );
   opacity: 0;
   pointer-events: none;
 }
-.keyboard-guide .piano-key.black .key-resonance {
-  bottom: 26px;
-  background: linear-gradient(90deg, transparent, #c7dcb5, transparent);
-}
-.keyboard-guide .piano-key.sounding .key-resonance {
+.keyboard-stage .piano-key.sounding .key-resonance {
   animation: piano-resonance 620ms cubic-bezier(0.16, 0.7, 0.28, 1) both;
 }
 @keyframes piano-resonance {
   0% {
     opacity: 0;
-    transform: translateY(5px) scaleX(0.45);
+    transform: translateY(6px) scaleX(0.45);
   }
   18% {
-    opacity: 0.85;
+    opacity: 0.95;
   }
   100% {
     opacity: 0;
-    transform: translateY(-22px) scaleX(1.1);
+    transform: translateY(-26px) scaleX(1.1);
   }
 }
-.keyboard-guide .piano-key .key-number {
-  font-size: 16px;
+/* Your press: the key goes down, and a verdict flashes over it. */
+.keyboard-stage .piano-key.sounding .key-surface {
+  transform: translateY(2px) scaleY(0.985);
+  box-shadow:
+    inset 0 -2px 0 #b9ae98,
+    inset 1px 0 0 #fffaf080,
+    inset -1px 0 0 #b9af9a;
 }
-.keyboard-guide .piano-key.black .key-number {
-  font-size: 11px;
+.keyboard-stage .piano-key.pressed .key-surface {
+  transform: translateY(3px) scaleY(0.978);
+  box-shadow:
+    inset 0 -1px 0 #b9ae98,
+    inset 0 0 0 2px rgba(255, 255, 255, calc(0.35 + var(--press) * 0.5)),
+    inset 0 -18px 24px -18px #0006;
 }
-.keyboard-guide .piano-key small {
-  font-size: 10px;
-  color: #787e6e;
+.keyboard-stage .piano-key.black.sounding .key-surface,
+.keyboard-stage .piano-key.black.pressed .key-surface {
+  transform: translateY(2px) scaleY(0.975);
+  box-shadow:
+    inset 0 -2px 0 #10120e,
+    inset 0 0 0 2px rgba(255, 255, 255, calc(0.18 + var(--press) * 0.3)),
+    0 1px 2px #000a;
 }
-.keyboard-guide .piano-key.black small {
-  font-size: 8px;
+.keyboard-stage .key-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  --flash: var(--hit-rgb);
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    rgba(var(--flash), 1),
+    rgba(var(--flash), 0.6) 58%,
+    rgba(var(--flash), 0.35)
+  );
+  box-shadow:
+    inset 0 0 0 3px rgba(var(--flash), 1),
+    inset 0 0 14px #fff8;
+  animation: key-flash 560ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
 }
-.keyboard-guide-caption {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 8px 15px;
-  font-size: 10px;
-  color: #8e9b95;
+.keyboard-stage .key-flash[data-kind="early"],
+.keyboard-stage .key-flash[data-kind="late"] {
+  --flash: var(--near-rgb);
 }
-.keyboard-offscreen {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 6px 16px;
-  background: #bbddc510;
-  color: var(--accent);
-  font-size: 11px;
+.keyboard-stage .key-flash[data-kind="miss"] {
+  --flash: var(--miss-rgb);
 }
-.keyboard-guide .roll {
-  height: 170px;
+@keyframes key-flash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+/* Labels: the number is the note, never a finger. */
+.keyboard-stage .piano-key .key-number {
+  position: relative;
+  z-index: 3;
+  font-size: clamp(13px, calc(var(--key-w) * 0.42), 22px);
+  font-weight: 600;
+  line-height: 1;
+  color: inherit;
+}
+.keyboard-stage .piano-key.black .key-number {
+  font-size: clamp(9px, calc(var(--key-w) * 0.27), 13px);
+  font-weight: 500;
+}
+.keyboard-stage .piano-key small {
+  position: relative;
+  z-index: 3;
+  display: block;
   margin: 0;
+  font-size: clamp(8px, calc(var(--key-w) * 0.22), 11px);
+  line-height: 1;
+  color: #7c8171;
 }
-@media (max-width: 600px) {
-  .keyboard-guide-top {
-    padding: 10px;
+.keyboard-stage .piano-key.black small {
+  display: block;
+  font-size: 7.5px;
+  color: #9ea391;
+}
+.keyboard-stage .piano-key.middle-c small {
+  color: #4d5446;
+  font-weight: 700;
+}
+.keyboard-stage .piano-key.middle-c .key-surface {
+  box-shadow:
+    inset 0 -5px 0 #cbc2ae,
+    inset 0 -8px 0 #b7ab91,
+    inset 1px 0 0 #fffaf0b0,
+    inset -1px 0 0 #b9af9a;
+}
+.keyboard-stage .piano-key.lit .key-number,
+.keyboard-stage .piano-key.sounding .key-number,
+.keyboard-stage .piano-key[data-on="right"] .key-number,
+.keyboard-stage .piano-key[data-on="left"] .key-number {
+  font-weight: 800;
+  color: var(--rh-ink);
+}
+.keyboard-stage .piano-key[data-hand="left"].lit .key-number,
+.keyboard-stage .piano-key[data-hand="left"].sounding .key-number,
+.keyboard-stage .piano-key[data-on="left"] .key-number {
+  color: var(--lh-ink);
+}
+.keyboard-stage .piano-key.lit small,
+.keyboard-stage .piano-key.sounding small {
+  color: #2d3a2b;
+}
+.keyboard-stage .piano-key.black.lit .key-number,
+.keyboard-stage .piano-key.black.sounding .key-number,
+.keyboard-stage .piano-key.black[data-on="right"] .key-number,
+.keyboard-stage .piano-key.black[data-on="left"] .key-number {
+  color: #0f1a12;
+}
+.keyboard-stage .piano-key.black.lit small,
+.keyboard-stage .piano-key.black.sounding small {
+  color: #1d261c;
+}
+.keyboard-stage .piano-key:focus-visible {
+  outline: 2px solid #e8e1c6;
+  outline-offset: -4px;
+  z-index: 3;
+}
+
+/* ---------- Studio layout: score, keyboard and transport in one view ---------- */
+@media (min-width: 900px) and (min-height: 620px) {
+  /* The window is the studio: the app bar and any notices take what they
+     need and the practice screen fills exactly the rest, whatever their height. */
+  .app .reader-main.app-main:has(> .practice-screen.studio) {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    padding-bottom: 0;
+    overflow: hidden;
   }
-  .keyboard-guide-top > span {
-    display: block;
-    font-size: 11px;
+  .app .reader-main.app-main:has(> .practice-screen.studio) > * {
+    flex: none;
   }
-  .keyboard-guide-top small {
-    display: block;
-    margin-top: 3px;
+  /* Stretch to the window, never to the content: the 88-key strip is wider
+     than the window, and the keys are sized from this width. */
+  .app .reader-main.app-main > .practice-screen.studio {
+    flex: 1 1 auto;
+    align-self: stretch;
+    width: auto;
+    min-width: 0;
+    min-height: 0;
+    margin-left: 0;
+    margin-right: 0;
   }
-  .keyboard-guide-caption span:last-child {
+  .practice-screen.studio > .keyboard-stage,
+  .practice-screen.studio > .keyboard-stage .keyboard-guide-body,
+  .practice-screen.studio > .keyboard-stage .keyboard-viewport {
+    min-width: 0;
+  }
+  .practice-screen.studio {
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    padding: 14px 18px 12px;
+    overflow: hidden;
+  }
+  .practice-screen.studio > * {
+    flex: none;
+    width: 100%;
+    max-width: var(--content, 1240px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .practice-screen.studio > .piece-header {
+    padding-bottom: 10px;
+  }
+  .practice-screen.studio > .score-stage {
+    flex: 0 1 auto;
+    min-height: 150px;
+    margin-bottom: 10px;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  /* Without a runway the score takes the room (its notes grow to fill it) and
+     the keys grow too, up to a comfortable size. */
+  .practice-screen.studio
+    > .keyboard-stage:not(.has-runway):not(.keyboard-guide-collapsed) {
+    --keys-h: clamp(140px, 24vh, 230px);
+  }
+  /* The title stays on one line; the full name is in its tooltip. */
+  .practice-screen.studio > .piece-header h1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .practice-screen.studio:has(> .keyboard-stage:not(.has-runway))
+    > .score-stage {
+    flex: 1 1 auto;
+  }
+  .practice-screen.studio > .keyboard-stage {
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  /* The score keeps its natural height first; the runway takes what is left
+     and never less than a short look-ahead. Only then does the score scroll. */
+  .practice-screen.studio > .keyboard-stage.has-runway {
+    flex: 1 1 0px;
+    min-height: calc(142px + var(--keys-h));
+  }
+  .practice-screen.studio > .keyboard-stage.has-runway.stage-tall {
+    min-height: calc(258px + var(--keys-h));
+  }
+  .practice-screen.studio > .piece-header h1 {
+    font-size: 25px;
+  }
+  .practice-screen.studio > .piece-header .prep-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, #000 88%, transparent);
+  }
+  .practice-screen.studio > .piece-header .prep-chips::-webkit-scrollbar {
     display: none;
   }
-  .keyboard-guide .piano-keys {
-    height: 104px;
+  .practice-screen.studio > .keyboard-stage.has-runway .keyboard-guide-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .practice-screen.studio > .keyboard-stage.has-runway .keyboard-viewport {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .practice-screen.studio > .keyboard-stage.has-runway .keyboard-strip {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .practice-screen.studio > .keyboard-stage.has-runway .roll.runway {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 84px;
+  }
+  .practice-screen.studio > .keyboard-stage.has-runway .roll.runway-tall {
+    min-height: 200px;
+  }
+  .practice-screen.studio > .keyboard-stage .piano-keys {
+    flex: none;
+  }
+  .practice-screen.studio > .keyboard-stage {
+    --keys-h: clamp(112px, 16.5vh, 180px);
+  }
+  .practice-screen.studio > .control-dock {
+    margin-bottom: 0;
+  }
+  .practice-screen.studio > .practice-hints {
+    display: none;
+  }
+  /* Tighter chrome around the music so score and keyboard share one view. */
+  .practice-screen.studio > .welcome-card {
+    gap: 12px;
+    margin-bottom: 10px;
+    padding: 6px 12px;
+  }
+  .practice-screen.studio > .welcome-card .coach-avatar.large,
+  .practice-screen.studio > .welcome-card .coach-avatar.large .pet {
+    width: 40px;
+  }
+  .practice-screen.studio > .welcome-card strong {
+    display: inline;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+  .practice-screen.studio > .welcome-card span {
+    font-size: 12px;
+  }
+  .practice-screen.studio .reading-score .reading-header {
+    min-height: 40px;
+    padding: 4px 18px;
+  }
+  .practice-screen.studio .reading-score .reading-eyebrow {
+    display: none;
+  }
+  .practice-screen.studio .reading-score .reading-heading h2 {
+    font-size: 20px;
+  }
+  /* The number legend moves to the keyboard header; the footer stays for a repeat. */
+  .practice-screen.studio .reading-footer:not(:has(.reading-repeat-status)) {
+    display: none;
+  }
+  .practice-screen.studio .reading-footer > span:not(.reading-repeat-status) {
+    display: none;
+  }
+  .practice-screen.studio .control-dock .dock-row {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .practice-screen.studio .control-dock .next-notes strong {
+    font-size: 28px;
+  }
+  /* One row: what to play, then Luma's line beside it. */
+  .practice-screen.studio .control-dock .dock-cue.reader-cue,
+  .practice-screen.studio .control-dock .dock-cue.reader-cue:has(.coach-avatar) {
+    grid-template-columns: auto auto auto minmax(0, 1fr);
+    grid-template-areas: "label notes avatar status";
+    gap: 4px 14px;
+  }
+  /* Big chords stay on one line; the keyboard shows the rest of the chord. */
+  .practice-screen.studio .control-dock .next-notes {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    max-width: 46vw;
+    -webkit-mask-image: linear-gradient(90deg, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, #000 90%, transparent);
+  }
+  .practice-screen.studio .control-dock .next-notes > div {
+    flex: none;
+  }
+  .practice-screen.studio .control-dock .reader-play-status {
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .practice-screen.studio .control-dock .dock-transport .play-button {
+    width: 42px;
+    height: 42px;
+  }
+  .practice-screen.studio .control-dock .dock-transport .icon-button {
+    width: 32px;
+    height: 32px;
+  }
+  .practice-screen.studio .control-dock .segmented button {
+    padding: 6px 11px;
+  }
+  .practice-screen.studio .control-dock .speed-control {
+    flex-direction: row;
+    align-items: center;
+  }
+  /* The select already reads "75% · ♩ = 50"; keep its label for assistive tech. */
+  .practice-screen.studio .control-dock .speed-control label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
-/* Native macOS overlay scrollbars otherwise intercept the bottom of a key.
-   Keep their hit area in a dedicated gutter below the playable surface. */
-.keyboard-strip {
-  padding-bottom: 18px;
+/* Number score notes scale together (--ns): 0.76 beside the note runway,
+   up to 1.5 when the score has the room to itself. */
+.reading-score .reading-chord {
+  top: calc(11px * var(--ns, 1));
+}
+.reading-score .reading-note {
+  width: calc(41px * var(--ns, 1));
+  height: calc(63px * var(--ns, 1));
+}
+.reading-score .reading-note strong {
+  font-size: calc(32px * var(--ns, 1));
+  line-height: 1;
+}
+.reading-score[data-labels="solfege"] .reading-note strong {
+  font-size: calc(24px * var(--ns, 1));
+}
+.reading-score .reading-note > span {
+  margin-top: calc(3px * var(--ns, 1));
+  font-size: calc(11px * min(var(--ns, 1), 1.2));
+}
+.reading-score .reading-note > small {
+  margin-top: calc(4px * var(--ns, 1));
+  font-size: calc(10px * min(var(--ns, 1), 1.15));
+}
+@media (min-width: 900px) and (min-height: 620px) and (max-height: 860px) {
+  .practice-screen.studio > .welcome-card > div:nth-child(2) > span {
+    display: none;
+  }
+}
+
+@media (max-width: 899px), (max-height: 619px) {
+  .keyboard-stage .keyboard-guide-top {
+    flex-wrap: wrap;
+  }
+  .keyboard-stage .keyboard-locator {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+    margin-left: 0;
+  }
+}
+@media (max-width: 600px) {
+  .keyboard-stage {
+    --keys-h: 128px;
+  }
+  .keyboard-stage .stage-legend,
+  .keyboard-stage .keyboard-guide-controls button:not(.keyboard-guide-toggle) svg + * {
+    display: none;
+  }
+  .keyboard-stage .roll.runway {
+    height: 120px;
+  }
+  .keyboard-stage .roll.runway.runway-tall {
+    height: 260px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .keyboard-guide .key-surface,
-  .keyboard-guide .piano-key.sounding .key-surface,
-  .keyboard-guide .piano-key.sounding.black .key-surface {
+  .keyboard-stage .key-surface,
+  .keyboard-stage .piano-key.sounding .key-surface,
+  .keyboard-stage .piano-key.pressed .key-surface,
+  .keyboard-stage .piano-key.black.sounding .key-surface,
+  .keyboard-stage .piano-key.black.pressed .key-surface {
     transform: none;
     transition: none;
   }
-  .keyboard-guide .piano-key.sounding .key-resonance {
+  .keyboard-stage .piano-key.sounding .key-resonance {
     animation: none;
     opacity: 0;
+  }
+  .keyboard-stage .key-light {
+    transition: none;
+  }
+  .keyboard-stage .key-flash {
+    animation: none;
+    opacity: 0.85;
+  }
+  .keyboard-stage .lane-spark {
+    animation: none;
+    opacity: 0.7;
+    transform: none;
+  }
+  .keyboard-stage .runway-track {
+    transition: none !important;
+  }
+}
+
+/* ======================================================================
+   1.6 · Focused practice: only the score, the keyboard and the transport.
+   ====================================================================== */
+
+/* One quiet line of piece details; the at-a-glance list lives behind ⓘ. */
+.practice-screen .piece-header.reader-score-heading {
+  align-items: center;
+}
+.practice-screen .piece-header h1 {
+  font-size: 23px;
+}
+.practice-screen .piece-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 0;
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--ink-muted, #a3a698);
+}
+.practice-screen .piece-meta span + span::before {
+  content: "·";
+  margin: 0 8px;
+  color: var(--ink-faint, #7f8479);
+}
+.practice-screen .piece-actions {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.piece-glance {
+  position: relative;
+}
+.piece-glance .icon-button.on {
+  color: var(--ink, #e6e3d8);
+  background: #ffffff10;
+}
+.piece-glance-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  width: min(380px, 80vw);
+  padding: 12px;
+  border: 1px solid var(--line-strong, #dbd0b533);
+  border-radius: 8px;
+  background: var(--surface-2, #232622);
+  box-shadow: 0 18px 40px #000b;
+}
+.piece-glance-panel[hidden] {
+  display: none;
+}
+.practice-screen .piece-glance-panel .prep-chips,
+.practice-screen.studio > .piece-header .piece-glance-panel .prep-chips {
+  flex-wrap: wrap;
+  overflow: visible;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* The keyboard header is the "now" line: what to play, then what follows. */
+.keyboard-stage .keyboard-guide-top {
+  min-height: 50px;
+  gap: 12px;
+  padding: 5px 8px 5px 16px;
+}
+.keyboard-stage .stage-cue {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.keyboard-stage .stage-cue .reader-cue-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 44px;
+}
+.keyboard-stage .stage-cue .reader-cue-label > span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  color: #d3dbc6;
+}
+.keyboard-stage .stage-cue .reader-cue-label small {
+  font-size: 10.5px;
+  color: #8f988b;
+  font-variant-numeric: tabular-nums;
+}
+.keyboard-stage .stage-cue .next-notes {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, #000 92%, transparent);
+}
+.keyboard-stage .stage-cue .next-notes > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+.keyboard-stage .stage-cue .next-notes strong {
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--rh);
+}
+.keyboard-stage .stage-cue .next-notes .left strong {
+  color: var(--lh);
+}
+.keyboard-stage .stage-cue .next-notes span {
+  display: flex;
+  flex-direction: column;
+  font-size: 11.5px;
+  line-height: 1.15;
+  color: #cbd3c2;
+}
+.keyboard-stage .stage-cue .next-notes span small {
+  font-size: 9px;
+  color: #8f988b;
+}
+.keyboard-stage .stage-cue .next-then {
+  flex: none;
+  padding-left: 14px;
+  border-left: 1px solid #dbd0b524;
+}
+.keyboard-stage .stage-cue .next-then b {
+  font-size: 18px;
+  color: #b9c9ae;
+}
+.keyboard-stage .stage-cue .next-then b.left {
+  color: #bdb2dc;
+}
+.keyboard-stage .stage-cue .reader-finished {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: #cfd7c3;
+}
+.keyboard-stage .stage-cue .reader-play-status {
+  margin-left: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #a7b0a1;
+}
+.keyboard-stage .keyboard-guide-controls {
+  gap: 6px;
+}
+.keyboard-stage .stage-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 6px;
+  color: #8f988b;
+}
+.keyboard-stage .stage-icon.on {
+  color: #e2e9d6;
+  background: #c3cdb618;
+}
+.keyboard-stage .stage-dynamic {
+  padding: 0 6px;
+  border-left: 0;
+}
+.keyboard-stage .keyboard-guide-controls .keyboard-guide-toggle {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+}
+.keyboard-stage.keyboard-guide-collapsed .keyboard-guide-controls .keyboard-guide-toggle {
+  display: inline-flex;
+  gap: 6px;
+}
+
+/* One-row transport. */
+.control-dock .dock-row.dock-main {
+  flex-wrap: nowrap;
+  gap: 14px;
+  border-bottom: 0;
+}
+.control-dock .dock-main .timeline {
+  flex: 1 1 180px;
+  min-width: 120px;
+}
+.control-dock .dock-main .dock-settings {
+  flex: none;
+  margin-left: 0;
+}
+@media (max-width: 899px) {
+  .control-dock .dock-row.dock-main {
+    flex-wrap: wrap;
+  }
+}
+/* A narrower studio keeps the transport on one row: the modes show their
+   icons (their names stay for assistive tech and in the tooltip). */
+@media (min-width: 900px) and (max-width: 1180px) {
+  .control-dock .segmented .mode-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .control-dock .dock-row.dock-main {
+    gap: 10px;
+  }
+  .control-dock .dock-main .volume input[type="range"] {
+    width: 64px;
+  }
+}
+
+/* Quieter keys: a faint number on white keys, names only on C. A key in
+   play (next, coming, sounding, held or pressed) shows everything. */
+.keyboard-stage .piano-key .key-number,
+.keyboard-stage .piano-key small {
+  transition: opacity 120ms ease;
+}
+.keyboard-stage .piano-key.white .key-number {
+  opacity: 0.5;
+}
+.keyboard-stage .piano-key small,
+.keyboard-stage .piano-key.black .key-number {
+  opacity: 0;
+}
+.keyboard-stage .piano-key.white.c-key small {
+  opacity: 0.9;
+}
+.keyboard-stage
+  .piano-key:is(
+    .lit,
+    .sounding,
+    .pressed,
+    [data-on="right"],
+    [data-on="left"],
+    [data-soon="right"],
+    [data-soon="left"],
+    [data-then]
+  )
+  :is(.key-number, small) {
+  opacity: 1;
+}
+
+/* Count-in: the beats counted large over the runway. */
+.keyboard-stage .runway-count {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: clamp(56px, 11vh, 118px);
+  line-height: 1;
+  color: #efe6cce6;
+  text-shadow: 0 0 34px #000a;
+  animation: runway-count 560ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes runway-count {
+  0% {
+    opacity: 0;
+    transform: scale(1.22);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+}
+/* The now line pulses with the beat, strongest on the bar line. */
+.keyboard-stage .strike-line {
+  --pulse: 0;
+  height: 2px;
+  box-shadow:
+    0 0 calc(10px + var(--pulse) * 24px)
+    rgba(239, 230, 200, calc(0.22 + var(--pulse) * 0.55));
+  opacity: calc(0.78 + var(--pulse) * 0.22);
+}
+
+/* The number score in the keyboard's colours. */
+.reading-score .reading-right .reading-note strong {
+  color: #2d5f3f;
+}
+.reading-score .reading-left .reading-note strong {
+  color: #4a3c86;
+}
+.reading-score .reading-note.reading-past {
+  opacity: 0.36;
+}
+.reading-score .reading-note.reading-current {
+  border-radius: 6px;
+  background: rgba(166, 220, 182, 0.5);
+  box-shadow: 0 0 0 2px rgba(92, 160, 116, 0.55);
+}
+.reading-score .reading-left .reading-note.reading-current {
+  background: rgba(197, 182, 238, 0.55);
+  box-shadow: 0 0 0 2px rgba(124, 104, 190, 0.55);
+}
+.reading-score .reading-note.reading-current::before {
+  opacity: 0;
+}
+.reading-score .reading-note.reading-current strong {
+  font-weight: 700;
+}
+.reading-score .reading-note.reading-next:not(.reading-current) {
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1.5px rgba(92, 160, 116, 0.6);
+}
+.reading-score .reading-left .reading-note.reading-next:not(.reading-current) {
+  box-shadow: inset 0 0 0 1.5px rgba(124, 104, 190, 0.6);
+}
+.reading-score .reading-cursor {
+  width: 2px;
+  background: #3f7050;
+  opacity: 0.9;
+  box-shadow: 0 0 0 3px #a6dcb630;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-stage .runway-count {
+    animation: none;
+    opacity: 0.8;
+  }
+  .keyboard-stage .strike-line {
+    box-shadow: 0 0 10px rgba(239, 230, 200, 0.22);
+    opacity: 0.85;
+  }
+  .keyboard-stage .piano-key .key-number,
+  .keyboard-stage .piano-key small {
+    transition: none;
+  }
+}
+
+/* ---------- The number score as a tape (studio, no runway) ---------- */
+/* The score takes exactly the room left over; its lines fill it from the
+   top, the line being played first, and the next lines below it. */
+@media (min-width: 900px) and (min-height: 620px) {
+  .practice-screen.studio > .score-stage:has(> .reading-tape) {
+    flex: 1 1 0px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+}
+.score-stage > .reading-score.reading-tape {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.reading-score.reading-tape > .reading-header,
+.reading-score.reading-tape > .reading-footer {
+  flex: none;
+}
+.reading-score.reading-tape .reading-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+/* A line cut by the bottom edge fades out: there is more to come. */
+.reading-score.reading-tape .reading-scroll[data-more="true"] {
+  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 26px), transparent);
+  mask-image: linear-gradient(180deg, #000 calc(100% - 26px), transparent);
+}
+.reading-score.reading-tape .reading-sheet {
+  will-change: transform;
+}
+.reading-score.reading-tape .reading-ruler {
+  height: 22px;
+}
+.reading-score.reading-tape .reading-bar-label {
+  height: 21px;
+}
+.reading-score .reading-system + .reading-system .reading-ruler {
+  border-top-color: #8b806352;
+}
+/* The line being played carries a quiet sage edge. */
+.reading-score.reading-tape .reading-system-current .reading-ruler {
+  background: #e4dccb;
+  box-shadow: inset 3px 0 0 #6f9a78;
+}
+
+/* Slim gutter in the studio: R and L in the hands' colours are enough. */
+.reading-score.reading-slim .reading-gutter {
+  flex-basis: 40px;
+  width: 40px;
+}
+.reading-score.reading-slim .reading-ruler > .reading-gutter {
+  font-size: 0;
+}
+.reading-score.reading-slim .reading-hand-name span {
+  display: none;
+}
+.reading-score .reading-right .reading-hand-name strong {
+  color: #2d5f3f;
+}
+.reading-score .reading-left .reading-hand-name strong {
+  color: #4a3c86;
+}
+
+/* A duration is written where the rhythm changes, not on every note of a run. */
+.reading-score .reading-note.reading-same-rhythm > small {
+  visibility: hidden;
+}
+/* Small text keeps a readable floor however far the notes shrink. */
+.reading-score .reading-note > span {
+  font-size: max(9px, calc(11px * min(var(--ns, 1), 1.2)));
+}
+.reading-score .reading-note > small {
+  font-size: max(8.5px, calc(10px * min(var(--ns, 1), 1.15)));
+}
+
+/* ---------- Keys in play, stronger ---------- */
+/* Next to play: the whole key takes the hand's colour, black keys too, so
+   it reads at a glance from the corner of the eye. */
+.keyboard-stage .piano-key.lit .key-light {
+  opacity: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--kc), 1) 0 7px,
+    rgba(var(--kc), 0.82) 7px,
+    rgba(var(--kc), 0.64)
+  );
+}
+.keyboard-stage .piano-key.black.lit .key-light,
+.keyboard-stage .piano-key.black.sounding .key-light,
+.keyboard-stage .piano-key.black[data-on="right"] .key-light,
+.keyboard-stage .piano-key.black[data-on="left"] .key-light {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--kc), 1),
+    rgba(var(--kc), 0.92) 70%,
+    rgba(var(--kc), 0.8)
+  );
+}
+.keyboard-stage .piano-key.white.sounding .key-light,
+.keyboard-stage .piano-key.white[data-on="right"] .key-light,
+.keyboard-stage .piano-key.white[data-on="left"] .key-light {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--kc), 1) 0 7px,
+    rgba(var(--kc), calc(0.62 + var(--vel) * 0.36)) 7px,
+    rgba(var(--kc), calc(0.48 + var(--vel) * 0.36))
+  );
+}
+/* Then: a solid ring in the hand's ink on white keys, its colour on black. */
+.keyboard-stage .piano-key.white[data-then] .key-surface::after {
+  border: 2px solid rgba(45, 95, 63, 0.7);
+}
+.keyboard-stage .piano-key.white[data-then="left"] .key-surface::after {
+  border-color: rgba(74, 60, 134, 0.7);
+}
+.keyboard-stage .piano-key.black[data-then] .key-surface::after {
+  border: 2px solid rgba(var(--tc), 0.95);
+}
+
+/* Count-in without a runway: the beats counted beside the cue. */
+.keyboard-stage .stage-count {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 6px;
+  border-radius: 8px;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1;
+  color: #16140f;
+  background: #efe6cc;
+  animation: stage-count 480ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes stage-count {
+  0% {
+    transform: scale(1.35);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-stage .stage-count {
+    animation: none;
+  }
+  .reading-score.reading-tape .reading-sheet {
+    will-change: auto;
+  }
+}
+
+/* Phones: the app bar's two rows (brand and actions, then the screens) keep
+   their own height instead of the desktop bar's fixed 60px. */
+@media (max-width: 700px) {
+  .app-bar {
+    height: auto;
+  }
+  .app-nav button {
+    padding: 7px 4px;
+    font-size: 11px;
+  }
+}
+
+/* ==================== 1.7: the piano display first ==================== */
+@media (min-width: 900px) and (min-height: 620px) {
+  /* With the runway, the keys are the biggest thing on screen. */
+  .practice-screen.studio > .keyboard-stage.has-runway {
+    --keys-h: clamp(150px, 23vh, 250px);
+  }
+  /* Beside the runway the number score is a strip: a fixed share of the
+     height, one line, its notes scaled to fit. The runway takes the rest. */
+  .practice-screen.studio > .score-stage:has(> .reading-strip) {
+    flex: 0 1 auto;
+    height: clamp(118px, 24vh, 240px);
+    min-height: 104px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+}
+.reading-score.reading-strip .reading-header {
+  min-height: 34px;
+  padding: 2px 14px;
+}
+.reading-score.reading-strip .reading-heading h2 {
+  font-size: 16px;
+}
+.reading-score.reading-strip .reading-navigation > button {
+  width: 28px;
+  height: 28px;
+}
+.reading-score.reading-strip .reading-navigation > .reading-repeat {
+  width: auto;
+  height: 28px;
+}
+
+/* Runway: a deeper stage, notes that enter softly at the top. */
+.keyboard-stage .roll.runway {
+  background:
+    radial-gradient(120% 55% at 50% 108%, rgba(166, 220, 182, 0.09), transparent 62%),
+    linear-gradient(180deg, #080a08 0%, #0e110e 55%, #141914 100%);
+}
+.keyboard-stage .roll.runway::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 42px;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(180deg, #080a08, #080a0800);
+}
+/* Falling notes: solid, lit from their landing edge, labelled where they land. */
+.keyboard-stage .falling-note {
+  border-radius: 7px;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--nc), calc(0.34 + var(--vel) * 0.24)) 0%,
+    rgba(var(--nc), calc(0.72 + var(--vel) * 0.28)) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--nc), 0.95),
+    inset 0 -3px 0 rgba(255, 255, 255, 0.5),
+    0 3px 10px rgba(0, 0, 0, 0.35);
+  transition:
+    box-shadow 140ms ease,
+    filter 140ms ease;
+}
+.keyboard-stage .falling-note > span {
+  font-size: clamp(12px, calc(var(--key-w) * 0.4), 19px);
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+/* The chord to play next: outlined and glowing. */
+.keyboard-stage .falling-note.next {
+  filter: brightness(1.08);
+  box-shadow:
+    inset 0 0 0 2px #ffffffe6,
+    inset 0 -3px 0 #ffffffd0,
+    0 0 20px rgba(var(--nc), 0.7);
+  z-index: 3;
+}
+/* Notes struck together in one hand are tied where they land. */
+.keyboard-stage .chord-tie {
+  position: absolute;
+  z-index: 1;
+  height: 4px;
+  margin-bottom: -2px;
+  border-radius: 3px;
+  background: rgba(var(--rh-rgb), 0.5);
+  box-shadow: 0 0 10px rgba(var(--rh-rgb), 0.35);
+  pointer-events: none;
+}
+.keyboard-stage .chord-tie.left {
+  background: rgba(var(--lh-rgb), 0.5);
+  box-shadow: 0 0 10px rgba(var(--lh-rgb), 0.35);
+}
+.keyboard-stage .chord-tie.next {
+  background: rgba(255, 255, 255, 0.8);
+}
+/* Bars: a clearer rule and a numbered tab at the visible left edge. */
+.keyboard-stage .beat-line.bar-line {
+  background: #ffffff2a;
+}
+.keyboard-stage .beat-line.bar-line span {
+  bottom: 4px;
+  padding: 1px 7px;
+  border: 1px solid #ffffff24;
+  border-radius: 999px;
+  background: #0a0c0acc;
+  color: #ece6d0;
+  font-size: 10.5px;
+  font-weight: 650;
+}
+/* Where a note lands, a splash of its hand's colour rises from the key. */
+.keyboard-stage .land-splash {
+  --splash: var(--rh-rgb);
+  position: absolute;
+  bottom: 0;
+  height: 54px;
+  z-index: 6;
+  pointer-events: none;
+  background: radial-gradient(
+    55% 100% at 50% 100%,
+    rgba(var(--splash), 0.95),
+    rgba(var(--splash), 0.25) 55%,
+    transparent 72%
+  );
+  transform-origin: 50% 100%;
+  animation: land-splash 480ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+.keyboard-stage .land-splash.left {
+  --splash: var(--lh-rgb);
+}
+@keyframes land-splash {
+  0% {
+    opacity: 0.95;
+    transform: scale(1.5, 0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9, 1.15);
+  }
+}
+/* Keys: a little more depth and a warm light above the one being played. */
+.keyboard-stage .piano-key.white:not(.pressed):not(.sounding) .key-surface {
+  box-shadow:
+    inset 0 -6px 0 #cbc2ae,
+    inset 0 10px 12px -10px #00000055,
+    inset 1px 0 0 #fffaf0b0,
+    inset -1px 0 0 #b9af9a;
+}
+.keyboard-stage .piano-key.white.lit:not(.pressed):not(.sounding) .key-surface {
+  box-shadow:
+    inset 0 -6px 0 rgba(var(--kc), 0.9),
+    inset 0 10px 12px -10px #00000040,
+    inset 1px 0 0 #fffaf0b0,
+    inset -1px 0 0 #b9af9a;
+}
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-stage .land-splash {
+    display: none;
+    animation: none;
+  }
+  .keyboard-stage .falling-note {
+    transition: none;
+  }
+}
+/* A short note shows just its number, centred. */
+.keyboard-stage .falling-note.short {
+  justify-content: center;
+  padding: 0;
+}
+.keyboard-stage .falling-note.short > span {
+  font-size: clamp(11px, calc(var(--key-w) * 0.36), 16px);
+}
+/* The strip beside the runway: bare numbers, chords stacked tight. */
+@media (min-width: 900px) and (min-height: 620px) {
+  .practice-screen.studio > .score-stage:has(> .reading-strip) {
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 0;
+  }
+}
+.reading-score.reading-strip .reading-chord {
+  top: calc(5px * var(--ns, 1));
+}
+.reading-score.reading-strip .reading-note {
+  height: calc(32px * var(--ns, 1));
+  justify-content: center;
+}
+.reading-score.reading-strip .reading-note strong {
+  font-size: calc(30px * var(--ns, 1));
+}
+.reading-score.reading-strip .reading-note > span,
+.reading-score.reading-strip .reading-note > small {
+  position: absolute;
+  inset: 0 auto auto 0;
+  visibility: hidden;
+}
+.reading-score.reading-strip .reading-rest {
+  top: calc(6px * var(--ns, 1));
+}
+.reading-score.reading-strip .reading-rest span {
+  font-size: 9px;
+}
+
+/* View changes: the score and the keyboard stage glide to their new places
+   while the rest cross-fades (View Transitions; none under reduced motion). */
+.practice-screen.studio > .keyboard-stage {
+  view-transition-name: luma-stage;
+}
+.practice-screen.studio > .score-stage {
+  view-transition-name: luma-score;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+::view-transition-group(luma-stage),
+::view-transition-group(luma-score) {
+  animation-duration: 340ms;
+  animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Stepping through (Wait for me, or by hand), the cue's next notes arrive
+   with a small lift; while music moves they simply change. */
+.keyboard-stage:is(.mode-wait, :not(.is-playing)) .stage-cue .next-notes > div,
+.keyboard-stage:is(.mode-wait, :not(.is-playing)) .stage-cue .next-then b {
+  animation: cue-in 200ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+@keyframes cue-in {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-stage .stage-cue .next-notes > div,
+  .keyboard-stage .stage-cue .next-then b {
+    animation: none;
+  }
+}
+
+/* ==================== 1.8: a larger keyboard with hand positions ==================== */
+/* Bar numbers follow the camera's view. */
+.keyboard-stage .beat-line.bar-line span {
+  left: calc(var(--view-left, 0px) + 8px);
+}
+/* The strip leaves room below the keys for the hand shelf: one row per
+   hand (right above, left below), so shared keys never hide a hand. */
+.keyboard-stage .keyboard-strip {
+  padding-bottom: 4px;
+}
+.keyboard-stage .hand-shelf {
+  position: relative;
+  flex: none;
+  height: 34px;
+  margin-top: 4px;
+  z-index: 3;
+  pointer-events: none;
+}
+/* A hand's position: a capsule spanning the keys it plays now. */
+.keyboard-stage .hand-zone {
+  --hz: var(--rh-rgb);
+  position: absolute;
+  top: 1px;
+  height: 15px;
+  min-width: 30px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border-radius: 8px;
+  border: 1px solid rgba(var(--hz), 0.95);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--hz), 0.28),
+    rgba(var(--hz), 0.6) 50%,
+    rgba(var(--hz), 0.28)
+  );
+  box-shadow:
+    0 0 14px rgba(var(--hz), 0.4),
+    inset 0 1px 0 #ffffff40;
+  color: #0c120d;
+  font-size: 9.5px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  transition:
+    left 280ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    width 280ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    opacity 200ms ease;
+}
+.keyboard-stage .hand-zone.left {
+  --hz: var(--lh-rgb);
+  top: 18px;
+}
+.keyboard-stage .hand-zone svg {
+  width: 11px;
+  height: 11px;
+}
+.keyboard-stage .hand-zone.left svg {
+  transform: scaleX(-1);
+}
+.keyboard-stage .hand-zone b {
+  font-weight: 800;
+}
+.keyboard-stage .hand-zone.resting {
+  opacity: 0.45;
+}
+/* Where it jumps next: a dashed capsule, stronger as the move comes. */
+.keyboard-stage .hand-zone.ghost {
+  --soon: 0;
+  border: 1.5px dashed rgba(var(--hz), 0.95);
+  background: rgba(var(--hz), calc(0.08 + var(--soon) * 0.22));
+  box-shadow: 0 0 calc(4px + var(--soon) * 16px) rgba(var(--hz), 0.45);
+  color: rgba(var(--hz), 1);
+  opacity: calc(0.55 + var(--soon) * 0.45);
+}
+.keyboard-stage .hand-zone.ghost.left {
+  --hz: var(--lh-rgb);
+}
+/* The move itself: an arrow from the hand to its next position. */
+.keyboard-stage .hand-move {
+  --hz: var(--rh-rgb);
+  --soon: 0;
+  position: absolute;
+  top: 8px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(var(--hz), 0.9) 0 6px,
+    transparent 6px 10px
+  );
+  opacity: calc(0.45 + var(--soon) * 0.55);
+  transition:
+    left 280ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    width 280ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.keyboard-stage .hand-move.left {
+  --hz: var(--lh-rgb);
+  top: 25px;
+}
+.keyboard-stage .hand-move::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  border-left: 8px solid rgba(var(--hz), 0.95);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+.keyboard-stage .hand-move.leftward::after {
+  right: auto;
+  left: -1px;
+  border-left: 0;
+  border-right: 8px solid rgba(var(--hz), 0.95);
+}
+/* On the runway floor: where each hand's notes will land. */
+.keyboard-stage .hand-floor {
+  --hz: var(--rh-rgb);
+  position: absolute;
+  bottom: 0;
+  height: 78px;
+  z-index: 1;
+  border-radius: 10px 10px 0 0;
+  pointer-events: none;
+  background: linear-gradient(
+    0deg,
+    rgba(var(--hz), 0.22),
+    rgba(var(--hz), 0.07) 60%,
+    transparent
+  );
+  box-shadow: inset 0 -2px 0 rgba(var(--hz), 0.55);
+  transition:
+    left 280ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    width 280ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    opacity 200ms ease;
+}
+.keyboard-stage .hand-floor.left {
+  --hz: var(--lh-rgb);
+}
+.keyboard-stage .hand-floor.resting {
+  opacity: 0.4;
+}
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-stage .hand-zone,
+  .keyboard-stage .hand-move,
+  .keyboard-stage .hand-floor {
+    transition: none;
+  }
+}
+
+/* ==================== 1.8: vibrant themes ==================== */
+/* Richer, tinted darks with a glow in the theme's colour, a vivid accent,
+   and stronger hand colours (green right, violet left) in every theme. */
+.app {
+  --bg: #0b1210;
+  --surface: #111a17;
+  --surface-2: #16221e;
+  --line: #a8f5d21c;
+  --line-strong: #a8f5d236;
+  --accent: #5ff0ae;
+  --accent-rgb: 95, 240, 174;
+  --glow-rgb: 46, 204, 133;
+  --stage: #0a110e;
+  --stage-deep: #050908;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 70% 45% at 50% -8%, rgba(var(--glow-rgb), 0.17), transparent 70%),
+    radial-gradient(ellipse 45% 35% at 95% 105%, rgba(var(--glow-rgb), 0.08), transparent 70%);
+}
+.app.theme-lavender {
+  --bg: #0f0d1a;
+  --surface: #161329;
+  --surface-2: #1d1934;
+  --line: #cdbcff1e;
+  --line-strong: #cdbcff38;
+  --accent: #b39bff;
+  --accent-rgb: 179, 155, 255;
+  --glow-rgb: 124, 92, 255;
+  --stage: #0d0b17;
+  --stage-deep: #07060d;
+}
+.app.theme-rose {
+  --bg: #150b11;
+  --surface: #1f1119;
+  --surface-2: #281620;
+  --line: #ffc2d91e;
+  --line-strong: #ffc2d938;
+  --accent: #ff8db6;
+  --accent-rgb: 255, 141, 182;
+  --glow-rgb: 240, 72, 140;
+  --stage: #12090f;
+  --stage-deep: #090407;
+}
+.app .app-bar {
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+}
+.app-nav button.selected {
+  color: #0b130f;
+  box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.35);
+}
+.app .primary {
+  color: #0b130f;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 62%, white),
+    var(--accent)
+  );
+  box-shadow:
+    inset 0 1px 0 #ffffff66,
+    0 6px 20px rgba(var(--accent-rgb), 0.3);
+}
+/* The keyboard stage in the theme's colour. */
+.app .keyboard-stage {
+  --rh: #5fe39b;
+  --rh-rgb: 95, 227, 155;
+  --rh-ink: #0b3a21;
+  --lh: #a88dff;
+  --lh-rgb: 168, 141, 255;
+  --lh-ink: #23125a;
+  background: var(--stage);
+  border-color: rgba(var(--accent-rgb), 0.14);
+  box-shadow:
+    0 1px 0 rgba(var(--accent-rgb), 0.06) inset,
+    0 22px 48px -26px #000d,
+    0 0 0 1px #0000002e;
+}
+.app .keyboard-stage .roll.runway {
+  background:
+    radial-gradient(120% 55% at 50% 108%, rgba(var(--glow-rgb), 0.2), transparent 62%),
+    linear-gradient(180deg, var(--stage-deep) 0%, var(--stage) 60%, color-mix(in srgb, var(--stage) 80%, rgb(var(--glow-rgb))) 100%);
+}
+.app .keyboard-stage .roll.runway::before {
+  background: linear-gradient(180deg, var(--stage-deep), transparent);
+}
+.app .keyboard-stage .strike-line {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--accent-rgb), 0.9) 6%,
+    rgba(var(--accent-rgb), 0.9) 94%,
+    transparent
+  );
+  box-shadow: 0 0 calc(10px + var(--pulse, 0) * 26px)
+    rgba(var(--accent-rgb), calc(0.35 + var(--pulse, 0) * 0.5));
+}
+.app .keyboard-stage .strike-glow {
+  background: rgba(var(--accent-rgb), 0.22);
+}
+.app .keyboard-stage .falling-note {
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--nc), 1),
+    inset 0 -3px 0 rgba(255, 255, 255, 0.55),
+    0 3px 12px rgba(var(--nc), calc(0.18 + var(--vel) * 0.2)),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.app .keyboard-stage .falling-note.next {
+  box-shadow:
+    inset 0 0 0 2px #fff,
+    inset 0 -3px 0 #ffffffd8,
+    0 0 24px rgba(var(--nc), 0.85);
+}
+.app .keyboard-stage .stage-cue .next-then b {
+  color: #a6f0c8;
+}
+.app .keyboard-stage .stage-cue .next-then b.left {
+  color: #cbbaff;
+}
+/* The number score: stronger hand inks and fills on the paper. */
+.app .reading-score .reading-right .reading-note strong,
+.app .reading-score .reading-right .reading-hand-name strong {
+  color: #147447;
+}
+.app .reading-score .reading-left .reading-note strong,
+.app .reading-score .reading-left .reading-hand-name strong {
+  color: #5a3dcc;
+}
+.app .reading-score .reading-note.reading-current {
+  background: rgba(95, 227, 155, 0.34);
+  box-shadow: 0 0 0 2px rgba(20, 116, 71, 0.6);
+}
+.app .reading-score .reading-left .reading-note.reading-current {
+  background: rgba(168, 141, 255, 0.32);
+  box-shadow: 0 0 0 2px rgba(90, 61, 204, 0.6);
+}
+.app .reading-score .reading-note.reading-next:not(.reading-current) {
+  box-shadow: inset 0 0 0 1.5px rgba(20, 116, 71, 0.65);
+}
+.app .reading-score .reading-left .reading-note.reading-next:not(.reading-current) {
+  box-shadow: inset 0 0 0 1.5px rgba(90, 61, 204, 0.65);
+}
+.app .reading-score .reading-cursor {
+  background: #147447;
+  box-shadow: 0 0 0 3px rgba(95, 227, 155, 0.28);
+}
+.app .reading-score.reading-tape .reading-system-current .reading-ruler {
+  box-shadow: inset 3px 0 0 #2fbf77;
+}
+/* The Play button in the theme's colour. */
+.app .control-dock .dock-transport .play-button {
+  color: #0b130f;
+  border-color: color-mix(in srgb, var(--accent) 60%, white);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 55%, white),
+    var(--accent)
+  );
+  box-shadow:
+    inset 0 1px 0 #ffffff70,
+    0 4px 16px rgba(var(--accent-rgb), 0.35);
+}
+.app .control-dock .dock-transport .play-button:hover {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 40%, white),
+    color-mix(in srgb, var(--accent) 88%, white)
+  );
+}
+.app .control-dock .dock-transport .play-button.playing {
+  box-shadow:
+    inset 0 1px 0 #ffffff70,
+    0 0 0 4px rgba(var(--accent-rgb), 0.2),
+    0 0 26px rgba(var(--accent-rgb), 0.5);
+}
+.app .control-dock .segmented .selected {
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.12);
+  box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.28);
+}
+.app .view-switch.reader-tabs button[aria-selected="true"] {
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.12);
+}
+@media (min-width: 900px) and (min-height: 620px) {
+  /* The stage keeps room for the hand shelf under the keys. */
+  .practice-screen.studio > .keyboard-stage.has-runway {
+    min-height: calc(142px + var(--keys-h) + 38px);
+  }
+  .practice-screen.studio > .keyboard-stage.has-runway.stage-tall {
+    min-height: calc(258px + var(--keys-h) + 38px);
   }
 }

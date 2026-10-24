@@ -1,0 +1,117 @@
+.maestro-avatar {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  flex: none;
+  isolation: isolate;
+}
+
+.maestro-avatar .maestro-head {
+  transform-origin: 90px 118px;
+}
+.maestro-avatar .maestro-playing-arm {
+  transform-origin: 59px 132px;
+}
+.maestro-avatar .maestro-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.maestro-avatar .maestro-smiling-eyes {
+  opacity: 0;
+}
+.maestro-avatar[data-mood="celebrate"] .maestro-eyes {
+  opacity: 0;
+}
+.maestro-avatar[data-mood="celebrate"] .maestro-smiling-eyes {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .maestro-avatar[data-mood="idle"] .maestro-eyes {
+    animation: maestro-portrait-blink 2.6s ease-in-out 1;
+  }
+  .maestro-avatar[data-mood="listening"] .maestro-head {
+    animation: maestro-portrait-listen 500ms ease-out both;
+  }
+  .maestro-avatar[data-mood="listening"] .maestro-eyes {
+    animation: maestro-portrait-blink 1.8s ease-in-out 1;
+  }
+  .maestro-avatar[data-mood="conducting"] .maestro-playing-arm {
+    animation: maestro-portrait-conduct var(--beethoven-beat-duration, 1.35s)
+      ease-in-out infinite;
+  }
+  .maestro-avatar[data-mood="conducting"] .maestro-head {
+    animation: maestro-portrait-nod 650ms ease-in-out 1;
+  }
+  .maestro-avatar[data-mood="celebrate"] .maestro-playing-arm {
+    animation: maestro-portrait-greet 600ms ease-in-out 3;
+  }
+  .maestro-avatar[data-mood="celebrate"] .maestro-head {
+    animation: maestro-portrait-nod 600ms ease-in-out 2;
+  }
+}
+
+@keyframes maestro-portrait-blink {
+  0%,
+  60%,
+  68%,
+  100% {
+    transform: scaleY(1);
+  }
+  64% {
+    transform: scaleY(0.12);
+  }
+}
+@keyframes maestro-portrait-listen {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(-4deg);
+  }
+}
+@keyframes maestro-portrait-conduct {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  28% {
+    transform: rotate(12deg);
+  }
+  55% {
+    transform: rotate(-8deg);
+  }
+  72% {
+    transform: rotate(-4deg);
+  }
+}
+@keyframes maestro-portrait-nod {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  45% {
+    transform: rotate(3deg) translateY(1px);
+  }
+}
+@keyframes maestro-portrait-greet {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  42% {
+    transform: rotate(14deg);
+  }
+  70% {
+    transform: rotate(7deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .maestro-avatar,
+  .maestro-avatar * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

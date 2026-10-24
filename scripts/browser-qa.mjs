@@ -124,9 +124,9 @@ try {
   );
   await page.getByRole("combobox", { name: "Number tonic" }).selectOption("0");
   check("88 keys, note labels, movable tonic, and fixed Do agree");
-  await page.getByRole("button", { name: "Companions & moods" }).click();
+  await page.getByRole("button", { name: "Companions" }).click();
   await page.getByRole("button", { name: /Mochi · moon bunny/ }).click();
-  await page.getByRole("button", { name: "Lavender dusk" }).click();
+  await page.getByRole("button", { name: "Lavender" }).click();
   await page.getByRole("button", { name: "Close dialog" }).click();
   assert.ok(
     await page
@@ -150,7 +150,7 @@ try {
   await page
     .locator("input[type=file]")
     .setInputFiles("tests/starter.musicxml");
-  await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+  await page.getByRole("dialog", { name: "Review score" }).waitFor();
   assert.equal(await page.locator("tbody tr").count(), 16);
   await page.getByRole("button", { name: "Sheet music", exact: true }).click();
   await page.locator(".sheet-paper svg").first().waitFor();
@@ -181,8 +181,8 @@ try {
   await page
     .getByRole("button", { name: "Practice studio", exact: true })
     .click();
-  await page.getByRole("button", { name: "Companions & moods" }).click();
-  await page.getByRole("button", { name: /Luma · cosmic cat/ }).click();
+  await page.getByRole("button", { name: "Companions" }).click();
+  await page.getByRole("button", { name: /Luma · cat/ }).click();
   await page.getByRole("button", { name: "Moon garden" }).click();
   await page.getByRole("button", { name: "Close dialog" }).click();
   await page.setViewportSize({ width: 390, height: 844 });

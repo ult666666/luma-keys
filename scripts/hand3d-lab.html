@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Hand lab 3D</title>
+<style>
+  body { margin: 0; background: #11151f; color: #dde; font: 12px/1.4 -apple-system, sans-serif; }
+  #rows { display: grid; gap: 10px; padding: 10px; grid-template-columns: repeat(var(--cols, 1), max-content); align-items: start; }
+  .frame { position: relative; display: inline-block; line-height: 0; }
+  .frame b { position: absolute; left: 6px; top: 4px; z-index: 20; color: #e8e4da; background: #0008; padding: 1px 6px; border-radius: 4px; font-weight: 600; line-height: 1.5; }
+  #meta { padding: 8px 12px 0; color: #aab; }
+</style>
+</head>
+<body>
+<div id="meta"></div>
+<div id="rows"></div>
+<script type="module">
+// The 3-D hand lab: a scenario's hands at a series of beats, posed by the real
+// engine (handMotions) and rendered by src/hand3d.mjs over a 2-D keyboard
+// drawn as the app draws it, one composited picture per beat.
+//
+//   /scripts/hand3d-lab.html?s=<scenario url>&beats=0,0.5&kw=45&kh=166
+//   … &json=<urlencoded scenario> | &demo=moon (a built-in lesson, fingered)
+//   … &from=0&to=4&dt=0.5   … &speed=0.5 &frozen=1 &waiting=1 &since=0.4 &reduced=1
+//   … &top=60 (px of stage above the keys) &rail=72 (px of rail below the keys, as the
+//     app's --rail-h) or &bed=238 (keys + rail) &elev=52 (camera degrees)
+//   … &low=48&high=84 (keys shown) &cols=2 &labels=0 &debug=1 (contacts) &joints=1 (knuckle,
+//     middle and last joints) &rings=0 (no cues) &marknum=1 (the finger's number on its key mark)
+//   … the picture dissolves over the bed's lower edge by itself (&fadePx=52); &fade=14 adds the
+//     old CSS-style mask over the last 14 px
+//   … look: &key=2.3&fill=0.7&rim=0.9&env=0.35&exposure=1&toneMap=agx&skinTone=medium
+//     &shadow=0.3&contact=0.6&shadowSoft=0.3&normalScale=1.15&red=0.6&cavity=0.4&xray=0.5
+//     &maps=0 (without the baked skin detail) &debugDetail=1 (its channels: redness, cavity, nail)
+//     &rest=right:0.93 (a resting hand, dimmed) …
+//   … posture: &height=44&reach=66 (mm) &pitch=8 (°) &posture={"turnMax":0.26} (any POSTURE values)
+//   … &cam=1: each hand's side view (the posture cam) in a panel beside each picture
+//
+// window.lab3d = { frames: [{ beat, t, fingers: {left, right}, diagnostics }], view, … }
+import { keyboardLayout, isBlack, demos } from "/src/music.mjs";
+import { keyCentre, handMotions } from "/src/hand-pose.mjs";
+import { scenarioInputs, poseOptions, labGeometry } from "/scripts/hand-lab-scenario.mjs";
+import { loadHandModels, loadSkinMaps, createHands3D, POSTURE } from "/src/hand3d.mjs";
+
+const q = new URLSearchParams(location.search);
+const KW = +(q.get("kw") || 45);
+document.getElementById("rows").style.setProperty("--cols", q.get("cols") || "1");
+// (The bed: the keys and, below them, the rail the app draws — clamp(56px,
+// 8vh, 84px), 72 px in a 900 px window.)
+const geometry0 = labGeometry(KW, q.get("kh") ? +q.get("kh") : null);
+const geometry = { ...geometry0, bedHeight: q.get("bed") ? +q.get("bed") : geometry0.keysHeight + +(q.get("rail") ?? 72) };
+const KH = geometry.keysHeight;
+let BED = geometry.bedHeight;
+const TOP = q.get("top") != null ? +q.get("top") : Math.round(0.36 * KH);
+let scenario;
+if (q.get("json")) scenario = JSON.parse(q.get("json"));
+else if (q.get("demo")) {
+  const piece = demos().find((d) => d.id === q.get("demo"));
+  scenario = { id: piece.id, title: piece.title, bpm: piece.bpm, hands: [...new Set(piece.notes.map((n) => (n.hand === "left" ? "left" : "right")))], notes: piece.notes.map((n, i) => ({ id: n.id ?? `d${i}`, midi: n.midi, beat: n.beat, duration: n.duration, hand: n.hand === "left" ? "left" : "right" })) };
+} else scenario = await (await fetch(q.get("s"))).json();
+const inputs = scenarioInputs(scenario, { speed: q.get("speed") ? +q.get("speed") : undefined });
+const { notes, score, clock } = inputs;
+const flags = {
+  frozen: q.get("frozen") === "1",
+  waiting: q.get("waiting") === "1",
+  reducedMotion: q.get("reduced") === "1",
+  ahead: q.get("ahead") != null ? +q.get("ahead") : undefined,
+};
+const since = q.get("since") != null ? +q.get("since") : null;
+let beats;
+if (q.get("beats")) beats = q.get("beats").split(",").map(Number);
+else {
+  const from = +(q.get("from") || 0), to = +(q.get("to") || score.duration), dt = +(q.get("dt") || 0.5);
+  beats = []; for (let b = from; b <= to + 1e-9; b += dt) beats.push(+b.toFixed(4));
+}
+const white = (m) => !isBlack(m);
+let LOW = q.get("low") ? +q.get("low") : scenario.low ?? Math.min(...notes.map((n) => n.midi)) - 7;
+let HIGH = q.get("high") ? +q.get("high") : scenario.high ?? Math.max(...notes.map((n) => n.midi)) + 7;
+LOW = Math.max(21, LOW); HIGH = Math.min(108, HIGH);
+while (!white(LOW)) LOW--; while (!white(HIGH)) HIGH++;
+const layout = keyboardLayout(LOW, HIGH);
+const whites = layout.filter((k) => !k.black).length;
+const W = whites * KW;
+const dpr = Math.min(2, devicePixelRatio || 1);
+const stripLeft = (keyCentre(LOW) - 0.5) * KW;
+const rows = document.getElementById("rows");
+const tempoText = score.tempos?.length ? score.tempos.map((t) => Math.round(t.bpm)).join("→") : score.bpm;
+const keyBox = (k) => ({ x: (k.left / 100) * W, w: (k.width / 100) * W, h: k.black ? KH * 0.63 : KH });
+const byMidi = new Map(layout.map((k) => [k.midi, k]));
+const NAMES = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
+const ink = { right: [233, 180, 95], left: [138, 174, 220] };
+const inkDeep = { right: [151, 87, 15], left: [45, 91, 152] };
+
+const models = await loadHandModels("/models/hands/");
+// (&maps=0: without the baked skin detail.)
+const maps = q.get("maps") === "0" ? null : await loadSkinMaps("/models/hands/");
+const gl = document.createElement("canvas");
+const look = {};
+for (const name of ["key", "fill", "rim", "env", "exposure", "shadow", "contact", "shadowSoft", "roughness", "roughnessBack", "sheen", "specular", "clearcoat", "clearcoatBack", "subdivide", "ao", "mottle", "xray", "sculpt", "clearcoatRoughness", "sheenRoughness", "normalScale", "red", "cavity", "nailCoat", "fadePx", "palmShadow", "shadowSoftMax", "valley", "wristGrey", "restOpacity", "nailGlint", "nailRoughness", "nailDebug", "nails", "railShadow", "palmAo", "sss", "shadowRes", "antialias"]) if (q.get(name) != null) look[name] = +q.get(name);
+if (q.get("rings") === "0") look.cues = false;
+if (q.get("debugDetail") === "1") look.debugDetail = true;
+for (const name of ["toneMap", "keyColor", "shadowColor", "envSky", "envGround", "envKey", "sky", "ground"]) if (q.get(name) != null) look[name] = q.get(name);
+if (q.get("skinTone")) look.tone = q.get("skinTone");
+for (const name of ["skin", "palm", "knuckle", "tip", "nail"]) if (q.get(name) != null) (look.colors ??= {})[name] = q.get(name);
+for (const name of ["keyDir", "rimDir", "wrap", "shadowDir", "wristFade"]) if (q.get(name)) look[name] = q.get(name).split(",").map(Number);
+look.preserve = true;
+const posture = { ...POSTURE };
+const deg = Math.PI / 180;
+if (q.get("height")) posture.play = { ...posture.play, height: +q.get("height") / 1000 };
+if (q.get("reach")) posture.play = { ...posture.play, reach: +q.get("reach") / 1000 };
+if (q.get("pitch")) posture.pitch = +q.get("pitch") * deg;
+if (q.get("thumbWhite")) posture.thumbWhite = +q.get("thumbWhite");
+if (q.get("tipWhite")) posture.tip = { ...posture.tip, white: +q.get("tipWhite") * deg };
+// (&posture={"lowerMax":0.01,"play":{"reach":0.062}}: any posture values, metres and radians.)
+if (q.get("posture")) {
+  const extra = JSON.parse(q.get("posture"));
+  Object.assign(posture, extra, extra.play ? { play: { ...posture.play, ...extra.play } } : null);
+}
+const hands3d = createHands3D({ canvas: gl, models, maps, look, posture });
+const geomFor = (bed) => ({ keyWidth: KW, keysHeight: KH, bedHeight: bed, stripLeftPx: stripLeft, viewportWidthPx: W, topPx: TOP, dpr, elevation: q.get("elev") ? +q.get("elev") : null, keys: { low: LOW, high: HIGH } });
+// (Without &rail or &bed the rail is the app's 72 px, or what the 3-D hands
+// need to show the thumb's web if that is more — recommendedRail.)
+hands3d.setKeyboardGeometry(geomFor(BED));
+const RAIL_NEED = hands3d.recommendedRail();
+if (q.get("rail") == null && q.get("bed") == null && KH + RAIL_NEED > BED) BED = KH + RAIL_NEED;
+const H = TOP + BED;
+const view = hands3d.setKeyboardGeometry(geomFor(BED));
+document.getElementById("meta").textContent =
+  `${scenario.title || "scenario"} · ♩=${tempoText} · speed ${inputs.speed}` +
+  `${flags.waiting ? " · waiting" : flags.frozen ? " · frozen" : ""} · keys ${LOW}–${HIGH} · white key ${KW}px · keys ${KH}px · bed ${Math.round(BED)}px (rail ${Math.round(BED - KH)}, 3-D needs ${RAIL_NEED}) · camera ${view.deg.toFixed(1)}° · depth ×${view.squash.toFixed(2)}`;
+
+// The keyboard as the app draws it: the runway's navy stage, a red felt strip,
+// ivory and ebony keys (sounding keys lit in the hand's colour, the next ones
+// glowing), and the wooden rail below the keys where the palms rest.
+function drawKeys(g, beat) {
+  const stage = g.createLinearGradient(0, 0, 0, TOP);
+  stage.addColorStop(0, "#151c2b"); stage.addColorStop(1, "#1d2638");
+  g.fillStyle = stage; g.fillRect(0, 0, W, TOP);
+  g.fillStyle = "#0c0907"; g.fillRect(0, TOP, W, KH);
+  const sounding = new Map();
+  for (const n of notes) if (n.beat <= beat + 1e-9 && n.beat + n.duration > beat + 1e-9) sounding.set(n.midi, n.hand);
+  const soon = new Map();
+  for (const n of notes) if (n.beat > beat + 1e-9 && n.beat <= beat + 1) soon.set(n.midi, n.hand);
+  for (const k of layout) if (!k.black) {
+    const x = (k.left / 100) * W; const on = sounding.get(k.midi);
+    const grad = g.createLinearGradient(0, TOP, 0, TOP + KH);
+    if (on) { const c = on === "right" ? ["#f1d6a6", "#f3cf8f"] : ["#cfdcf2", "#b9cdee"]; grad.addColorStop(0, c[0]); grad.addColorStop(1, c[1]); }
+    else { grad.addColorStop(0, "#d8d1c1"); grad.addColorStop(0.09, "#eee8db"); grad.addColorStop(0.72, "#f2ede2"); grad.addColorStop(1, "#e4ddcd"); }
+    g.fillStyle = grad;
+    g.beginPath(); g.roundRect(x + 0.5, TOP, KW - 1, KH - 3, [0, 0, 5, 5]); g.fill();
+    if (!on && soon.has(k.midi)) { g.fillStyle = soon.get(k.midi) === "right" ? "#f3cf8f50" : "#b9d0ef50"; g.fillRect(x + 0.5, TOP, KW - 1, KH - 3); }
+    g.fillStyle = on ? "rgba(120,90,40,0.35)" : "#cbc2ae"; g.fillRect(x + 1.5, TOP + KH - 8, KW - 3, 4);
+    g.fillStyle = "#fffaf080"; g.fillRect(x + 0.5, TOP, 1, KH - 6);
+    g.fillStyle = "#b9af9a"; g.fillRect(x + KW - 1.5, TOP, 1, KH - 6);
+    g.fillStyle = "#6c6252"; g.font = `600 ${Math.max(9, Math.min(12, KW * 0.24))}px -apple-system, sans-serif`; g.textAlign = "center";
+    g.fillText(NAMES[k.midi % 12] + (Math.floor(k.midi / 12) - 1), x + KW / 2, TOP + KH - 15);
+    g.textAlign = "start";
+  }
+  for (const k of layout) if (k.black) {
+    const x = (k.left / 100) * W, w = (k.width / 100) * W; const on = sounding.get(k.midi);
+    const bh = KH * 0.63;
+    g.fillStyle = "rgba(0,0,0,0.42)"; g.fillRect(x + 1, TOP, w, bh + 3);
+    const grad = g.createLinearGradient(x, 0, x + w, 0);
+    if (on) { const c = on === "right" ? ["#b88438", "#d9a24a", "#b8812a"] : ["#5d7fae", "#7d9bc8", "#5d82b5"]; grad.addColorStop(0, c[0]); grad.addColorStop(0.5, c[1]); grad.addColorStop(1, c[2]); }
+    else { grad.addColorStop(0, "#161411"); grad.addColorStop(0.09, "#353029"); grad.addColorStop(0.18, "#29251f"); grad.addColorStop(0.82, soon.has(k.midi) ? "#3a3d44" : "#24201b"); grad.addColorStop(1, "#0e0c0a"); }
+    g.fillStyle = grad; g.beginPath(); g.roundRect(x, TOP, w, bh, [0, 0, 3, 3]); g.fill();
+    g.fillStyle = on ? "rgba(0,0,0,0.25)" : "#0b0908"; g.fillRect(x + 1, TOP + bh - 6, w - 2, 5);
+  }
+  // The felt strip along the fallboard.
+  const felt = g.createLinearGradient(0, TOP, 0, TOP + 5);
+  felt.addColorStop(0, "#92302c"); felt.addColorStop(0.7, "#6a1e1c"); felt.addColorStop(1, "#4d1614");
+  g.fillStyle = felt; g.fillRect(0, TOP, W, 5);
+  // The rail.
+  const rail = g.createLinearGradient(0, TOP + KH, 0, TOP + BED);
+  rail.addColorStop(0, "#3a291c"); rail.addColorStop(0.48, "#2c1f15"); rail.addColorStop(1, "#20160f");
+  g.fillStyle = rail; g.fillRect(0, TOP + KH, W, BED - KH);
+  const lip = g.createLinearGradient(0, TOP + KH, 0, TOP + KH + 10);
+  lip.addColorStop(0, "rgba(0,0,0,0.55)"); lip.addColorStop(1, "rgba(0,0,0,0)");
+  g.fillStyle = lip; g.fillRect(0, TOP + KH, W, 10);
+  g.fillStyle = "rgba(233,180,95,0.38)"; g.fillRect(0, TOP + KH, W, 1);
+}
+
+// The engine's key marks (where a finger is going, with its numeral) and the
+// rings of keys let go to the pedal, as the app draws them on its keys.
+function drawCues(c, both) {
+  for (const hand of ["left", "right"]) {
+    const pose = both[hand]?.pose;
+    if (!pose) continue;
+    const [r, gg, b] = inkDeep[hand];
+    for (const p of pose.pedal || []) {
+      const k = byMidi.get(p.midi); if (!k) continue;
+      const box = keyBox(k);
+      c.strokeStyle = `rgba(${r},${gg},${b},0.5)`; c.lineWidth = 1.25;
+      c.beginPath(); c.arc(box.x + box.w / 2, TOP + box.h * 0.82 - 7, 7, 0, Math.PI * 2); c.stroke();
+    }
+    for (const m of pose.marks || []) {
+      const k = byMidi.get(m.midi); if (!k) continue;
+      const box = keyBox(k);
+      const alpha = 0.45 + 0.55 * Math.max(0, Math.min(1, m.strength ?? 1));
+      c.strokeStyle = `rgba(${r},${gg},${b},${alpha})`; c.lineWidth = 1.5;
+      c.setLineDash(m.kind === "roll" ? [] : [1.5, 2.5]);
+      const inset = k.black ? [3, 7, 7] : [5, 9, 9];
+      c.strokeRect(box.x + inset[0], TOP + inset[1], box.w - 2 * inset[0], box.h - inset[1] - inset[2]);
+      c.setLineDash([]);
+      // (As the app with the 3-D hands: the finger's number is on its ring,
+      // not again on the key — &marknum=1 shows it.)
+      if (q.get("marknum") === "1") {
+        c.fillStyle = k.black ? `rgba(255,255,255,${alpha})` : `rgba(${r},${gg},${b},${alpha})`;
+        c.font = "700 11px -apple-system, sans-serif"; c.textAlign = "center";
+        c.fillText(String(m.finger), box.x + box.w / 2, TOP + box.h * (k.black ? 0.2 : 0.24) + 6);
+        c.textAlign = "start";
+      }
+    }
+  }
+}
+
+// The WebGL picture with the wrist dissolving into the rail (as the app's
+// CSS mask does for the hand layer): opaque over the keys, gone at the bed's
+// lower edge.
+const masked = document.createElement("canvas");
+function maskedHands(lift) {
+  masked.width = gl.width; masked.height = gl.height;
+  const m = masked.getContext("2d");
+  m.clearRect(0, 0, masked.width, masked.height);
+  m.drawImage(gl, 0, 0);
+  if (q.get("mask") !== "0" && +(q.get("fade") ?? 0) > 0) {
+    m.globalCompositeOperation = "destination-in";
+    // (One fill over the whole canvas: destination-in clears what a fill
+    // does not cover.)
+    // (The hand layer ends at the bed's lower edge, fading over the last
+    // &fade px of it; the forearm itself dissolves in 3-D past the wrist, so
+    // the hand stays whole over the keys and the rail.)
+    const span = +(q.get("fade") ?? 0);
+    const start = (TOP + BED - span) * dpr, end = (TOP + BED) * dpr;
+    const grad = m.createLinearGradient(0, 0, 0, masked.height);
+    grad.addColorStop(0, "#000");
+    grad.addColorStop(Math.min(1, start / masked.height), "#000");
+    grad.addColorStop(Math.min(1, end / masked.height), "rgba(0,0,0,0)");
+    m.fillStyle = grad; m.fillRect(0, 0, masked.width, masked.height);
+    m.globalCompositeOperation = "source-over";
+  }
+  return masked;
+}
+
+// (Compile the programs before the first picture: with parallel shader
+// compilation a first render can come out empty.)
+hands3d.setPoses(handMotions(inputs.steps, beats[0], poseOptions(inputs, geometry, flags)));
+await hands3d.warm();
+hands3d.render();
+const frames = [];
+for (const beat of beats) {
+  const extra = { ...flags, settle: (flags.frozen || flags.waiting) && since != null ? { since } : null };
+  const both = handMotions(inputs.steps, beat, poseOptions(inputs, geometry, extra));
+  hands3d.setPoses(both);
+  const out = document.createElement("canvas");
+  out.width = Math.round(W * dpr); out.height = Math.round(H * dpr);
+  out.style.width = W + "px"; out.style.height = H + "px";
+  const g = out.getContext("2d"); g.scale(dpr, dpr);
+  if (q.get("glonly") === "1") { g.fillStyle = "#808080"; g.fillRect(0, 0, W, H); }
+  else {
+    drawKeys(g, beat);
+    drawCues(g, both);
+  }
+  // (The hands, their shadows and their cues — the held keys, the
+  // footprints, the numbers — are one WebGL picture; it dissolves over the
+  // bed's lower edge itself.)
+  if (q.get("rest")) { const [hand, a] = q.get("rest").split(":"); hands3d.setOpacity({ [hand]: +(a || 0.88) }, { [hand]: 1 }); }
+  hands3d.render();
+  // The renderer keeps spare buffer rows below its visible viewport. Crop
+  // them rather than scaling them into the lab: that compressed the hands
+  // vertically and moved fingertips away from the lab's keyboard.
+  g.drawImage(maskedHands(0), 0, 0, Math.round(W * dpr), Math.round(H * dpr), 0, 0, W, H);
+  const record = { beat, t: clock.toSeconds(beat), fingers: { left: hands3d.fingers("left"), right: hands3d.fingers("right") }, diagnostics: hands3d.diagnostics() };
+  if (q.get("debug") === "1") {
+    for (const hand of ["left", "right"]) for (const f of record.fingers[hand] || []) {
+      if (f.contact) { g.fillStyle = "#f00"; g.beginPath(); g.arc(f.contact.x, f.contact.y, 2.5, 0, 7); g.fill(); }
+      g.strokeStyle = "#0f0"; g.beginPath(); g.arc(f.pad.x, f.pad.y, 3, 0, 7); g.stroke();
+    }
+  }
+  // (&joints=1: each finger's knuckle, middle and last joints — red, orange, yellow.)
+  if (q.get("joints") === "1") for (const hand of ["left", "right"]) {
+    const h = hands3d.hands[hand];
+    if (!h.solved) continue;
+    for (const f of ["index", "middle", "ring", "pinky"]) ["proximal", "intermediate", "distal"].forEach((j, n) => {
+      const p = h.solved.world.get(`${f}-finger-phalanx-${j}`).p;
+      const sp = { x: p.x * view.s - view.left, y: view.top + (p.z * view.sin - p.y * view.cos) * view.sy };
+      g.fillStyle = ["#f22", "#f90", "#ff0"][n]; g.beginPath(); g.arc(sp.x, sp.y, 2.5, 0, 7); g.fill();
+    });
+  }
+  const frame = document.createElement("div"); frame.className = "frame";
+  frame.append(out);
+  // (&cam=1: each hand's side view — the posture cam — in a panel beside the picture.)
+  if (q.get("cam") === "1") {
+    const present = ["left", "right"].filter((h) => both[h]);
+    const pw = Math.round(Math.min(300, 0.62 * H) * 1.6), ph = Math.round(H / Math.max(1, present.length)) - 4;
+    const panel = document.createElement("canvas");
+    panel.width = Math.round(pw * dpr); panel.height = Math.round(H * dpr);
+    panel.style.width = pw + "px"; panel.style.height = H + "px"; panel.style.marginLeft = "8px";
+    const pg = panel.getContext("2d"); pg.scale(dpr, dpr);
+    pg.fillStyle = "#11151f"; pg.fillRect(0, 0, pw, H);
+    present.forEach((h, n) => hands3d.postureCam(h, pg, { x: 0, y: n * (ph + 8), w: pw, h: ph }, { dpr }));
+    frame.append(panel);
+  }
+  if (q.get("labels") !== "0") {
+    const label = document.createElement("b");
+    const st = (h) => { const p = both[h]?.motion; return p ? ` · ${h[0].toUpperCase()}: ${p.fingers.map((f) => f.state[0]).join("")}` : ""; };
+    label.textContent = `beat ${beat} · ${record.t.toFixed(3)} s${st("left")}${st("right")}`;
+    frame.append(label);
+  }
+  rows.append(frame);
+  frames.push(record);
+}
+window.lab3d = { frames, scenario, KW, KH, BED, TOP, LOW, HIGH, stripLeft, view: { ...view } };
+window.hands3d = hands3d;
+// Real RAF playback for local motion QA. This lab has no audio: elapsed time
+// samples the same tempo map as practice, and is recorded with that limitation.
+window.lab3d.playback = async ({ from = 0, to = score.duration, record = true } = {}) => {
+  const canvas = rows.querySelector("canvas"), ctx = canvas.getContext("2d");
+  const samples = [], chunks = [];
+  const stream = record ? canvas.captureStream(60) : null;
+  const mimeType = "video/webm;codecs=vp9";
+  const recorder = stream ? new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 5000000 }) : null;
+  const stopped = recorder ? new Promise(resolve => { recorder.ondataavailable = e => e.data.size && chunks.push(e.data); recorder.onstop = resolve; }) : null;
+  recorder?.start();
+  const t0 = clock.toSeconds(from), t1 = clock.toSeconds(to);
+  await new Promise(resolve => {
+    let start = null, previous = null;
+    const tick = stamp => {
+      start ??= stamp;
+      const t = Math.min(t1, t0 + (stamp - start) / 1000), beat = clock.toBeat(t), began = performance.now();
+      const both = handMotions(inputs.steps, beat, poseOptions(inputs, geometry, flags));
+      const shown = Object.fromEntries(["left", "right"].map(hand => [hand, both[hand]?.motion.guidanceOnly ? null : both[hand]]));
+      hands3d.setPoses(shown); hands3d.render();
+      ctx.clearRect(0, 0, W, H); drawKeys(ctx, beat); drawCues(ctx, both);
+      ctx.drawImage(gl, 0, 0, Math.round(W * dpr), Math.round(H * dpr), 0, 0, W, H);
+      ctx.fillStyle = "#eef0f4"; ctx.font = "600 13px -apple-system,sans-serif";
+      ctx.fillText(`${scenario.title} · ${inputs.speed}× · beat ${beat.toFixed(2)}`, 12, 23);
+      const drawMs = performance.now() - began;
+      const contacts = [];
+      for (const hand of ["left", "right"]) if (shown[hand])
+        for (const f of hands3d.fingers(hand) || []) if (f.onKey) contacts.push({ hand, finger: f.finger, midi: f.midi, errorMm: f.error * 1000, contact: f.contact, bottom: f.bottom, keyX: f.keyX, keyY: f.keyY });
+      samples.push({ t, beat, dtMs: previous == null ? null : stamp - previous, drawMs, contacts, fallback: ["left", "right"].filter(hand => both[hand]?.motion.guidanceOnly) });
+      previous = stamp;
+      if (t < t1) requestAnimationFrame(tick); else resolve();
+    };
+    requestAnimationFrame(tick);
+  });
+  let video = null;
+  if (recorder) {
+    recorder.stop(); await stopped; stream.getTracks().forEach(track => track.stop());
+    video = await new Promise(resolve => { const reader = new FileReader(); reader.onload = () => resolve(reader.result.split(",")[1]); reader.readAsDataURL(new Blob(chunks, { type: mimeType })); });
+  }
+  return { samples, video, from, to, speed: inputs.speed, title: scenario.title, geometry: { KW, KH, BED, TOP, W, H, dpr } };
+};
+document.body.dataset.ready = "1";
+</script>
+</body>
+</html>

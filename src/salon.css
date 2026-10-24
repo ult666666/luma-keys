@@ -1,0 +1,1149 @@
+/* One calm, neutral palette by default: graphite surfaces, warm-grey paper
+   and a single quiet accent. A companion never recolours the app; its room
+   palettes below apply only when the reader opts in (Settings › Colours:
+   "Match my companion" or a custom theme). Teaching colours (hands, keys,
+   falling notes, the sheet cursor) are defined elsewhere and never change. */
+.app,
+.app [data-preview-room="neutral"] {
+  --salon-ink: #17191c;
+  --salon-chrome: #1f2226;
+  --salon-tint: #2a2e33;
+  --salon-paper: #f4f3f0;
+  --salon-white: #fbfaf8;
+  --salon-soft: #ebe9e5;
+  --salon-deep: #3b4148;
+  --salon-accent: #d9dcdf;
+  --salon-metal: #868b92;
+  --salon-line: #dedbd5;
+  --salon-cloth: #22252a;
+  --salon-muted: #a3a7ad;
+  /* The accent on dark surfaces (was gilt) and its quieter steps. */
+  --lk-gilt: #d9dcdf;
+  --lk-gilt-hi: #eef0f2;
+  --lk-gilt-lo: #7b8189;
+  --lk-gilt-rgb: 217, 220, 223;
+  --lk-velvet: #1c1f23;
+  --lk-deep-rgb: 59, 65, 72;
+}
+/* Neutral surfaces for the shared tokens the older sheets tint per theme. */
+.app.theme-neutral,
+.app [data-preview-room="neutral"] {
+  --bg: #17191c;
+  --surface: #1f2226;
+  --surface-2: #2a2e33;
+  --line: #eceae61c;
+  --line-strong: #eceae638;
+  --stage: #141619;
+  --stage-deep: #0e0f11;
+  --ink: #eceae6;
+  --ink-muted: #a3a7ad;
+  --ink-faint: #8d9298;
+  --muted: #a3a7ad;
+  --border: #eceae61a;
+}
+.app.theme-neutral .reading-score {
+  --reading-paper: #f7f6f2;
+}
+/* The walnut study (Beethoven), by choice only. */
+.app[data-companion-style="beethoven"],
+.app[data-companion-style="custom"].theme-walnut,
+.app [data-preview-room="beethoven"] {
+  --salon-ink: #211e1b;
+  --salon-chrome: #292420;
+  --salon-tint: #38312a;
+  --salon-paper: #f4f0e7;
+  --salon-white: #fffcf5;
+  --salon-soft: #e9e1d4;
+  --salon-deep: #785733;
+  --salon-accent: #d3bb91;
+  --salon-metal: #af946c;
+  --salon-line: #dbd1c0;
+  --salon-cloth: #322921;
+  --salon-muted: #bfb4a5;
+  --lk-gilt: #c9974f;
+  --lk-gilt-hi: #ecd09c;
+  --lk-gilt-lo: #8a6a3c;
+  --lk-gilt-rgb: 201, 151, 79;
+  --lk-velvet: #4a2e22;
+  --lk-deep-rgb: 120, 87, 51;
+}
+.app[data-companion-style="langlang"],
+.app[data-companion-style="custom"].theme-ocean,
+.app [data-preview-room="langlang"] {
+  --salon-ink: #171f29;
+  --salon-chrome: #1d2935;
+  --salon-tint: #2b3d4c;
+  --salon-paper: #edf1f2;
+  --salon-white: #fafcfb;
+  --salon-soft: #dfe7e8;
+  --salon-deep: #325d75;
+  --salon-accent: #b2ccd8;
+  --salon-metal: #a8bbc4;
+  --salon-line: #ccd9dc;
+  --salon-cloth: #21323f;
+  --salon-muted: #b0c1cb;
+  --lk-gilt: #b9c8d4;
+  --lk-gilt-hi: #eef3f7;
+  --lk-gilt-lo: #71838f;
+  --lk-gilt-rgb: 185, 200, 212;
+  --lk-velvet: #1d2f4a;
+  --lk-deep-rgb: 50, 93, 117;
+}
+.app[data-companion-style="mozart"],
+.app[data-companion-style="custom"].theme-lavender,
+.app [data-preview-room="mozart"] {
+  --salon-ink: #27212c;
+  --salon-chrome: #312836;
+  --salon-tint: #45374a;
+  --salon-paper: #f3eef3;
+  --salon-white: #fffafc;
+  --salon-soft: #e9dde8;
+  --salon-deep: #725078;
+  --salon-accent: #d6bfd8;
+  --salon-metal: #b9a5bf;
+  --salon-line: #ded0df;
+  --salon-cloth: #3a2c40;
+  --salon-muted: #c8b8cb;
+  --lk-gilt: #dcc596;
+  --lk-gilt-hi: #f2e6c8;
+  --lk-gilt-lo: #9a8456;
+  --lk-gilt-rgb: 220, 197, 150;
+  --lk-velvet: #4a3655;
+  --lk-deep-rgb: 114, 80, 120;
+}
+.app[data-companion-style="liszt"],
+.app [data-preview-room="liszt"] {
+  --salon-ink: #1d1418;
+  --salon-chrome: #271b20;
+  --salon-tint: #3a2730;
+  --salon-paper: #f4eeeb;
+  --salon-white: #fffaf6;
+  --salon-soft: #eddfdc;
+  --salon-deep: #86485a;
+  --salon-accent: #d6b5b5;
+  --salon-metal: #c2a080;
+  --salon-line: #dfcfca;
+  --salon-cloth: #5a1e2c;
+  --salon-muted: #cdb5bb;
+  --lk-gilt: #c6a46f;
+  --lk-gilt-hi: #ead2a4;
+  --lk-gilt-lo: #8a6b42;
+  --lk-gilt-rgb: 198, 164, 111;
+  --lk-velvet: #5a1e2c;
+  --lk-deep-rgb: 134, 72, 90;
+}
+.app[data-companion-style="cat"],
+.app[data-companion-style="custom"].theme-mint,
+.app [data-preview-room="cat"] {
+  --salon-ink: #202722;
+  --salon-chrome: #28312a;
+  --salon-tint: #374539;
+  --salon-paper: #f0f2e9;
+  --salon-white: #fcfdf6;
+  --salon-soft: #e3e8d8;
+  --salon-deep: #456448;
+  --salon-accent: #bdcfb0;
+  --salon-metal: #a7b28a;
+  --salon-line: #d3dcc9;
+  --salon-cloth: #2d3c2e;
+  --salon-muted: #bcc8b5;
+  --lk-gilt: #b3bf93;
+  --lk-gilt-hi: #dfe6c8;
+  --lk-gilt-lo: #727e5a;
+  --lk-gilt-rgb: 179, 191, 147;
+  --lk-velvet: #2f4433;
+  --lk-deep-rgb: 69, 100, 72;
+}
+.app[data-companion-style="bunny"],
+.app[data-companion-style="custom"].theme-rose,
+.app [data-preview-room="bunny"] {
+  --salon-ink: #2b2227;
+  --salon-chrome: #372a32;
+  --salon-tint: #4a3943;
+  --salon-paper: #f5efef;
+  --salon-white: #fffaf8;
+  --salon-soft: #efdfdf;
+  --salon-deep: #875568;
+  --salon-accent: #dfc1cc;
+  --salon-metal: #c5a5af;
+  --salon-line: #e4d0d7;
+  --salon-cloth: #42303b;
+  --salon-muted: #d0bfc5;
+  --lk-gilt: #d9aba0;
+  --lk-gilt-hi: #f3d6cd;
+  --lk-gilt-lo: #9c6e64;
+  --lk-gilt-rgb: 217, 171, 160;
+  --lk-velvet: #6b3e4c;
+  --lk-deep-rgb: 135, 85, 104;
+}
+/* The companion picker auditions companions, not colours: unless the reader
+   matched colours to their companion, the dialog stays neutral whoever is
+   previewed (CompanionSalon sets data-preview-room on it). */
+.app:not([data-colours="companion"]) .modal.salon-dialog[data-preview-room] {
+  --salon-ink: #17191c;
+  --salon-chrome: #1f2226;
+  --salon-tint: #2a2e33;
+  --salon-paper: #f4f3f0;
+  --salon-white: #fbfaf8;
+  --salon-soft: #ebe9e5;
+  --salon-deep: #3b4148;
+  --salon-accent: #d9dcdf;
+  --salon-metal: #868b92;
+  --salon-line: #dedbd5;
+  --salon-cloth: #22252a;
+  --salon-muted: #a3a7ad;
+  --lk-gilt: #d9dcdf;
+  --lk-gilt-hi: #eef0f2;
+  --lk-gilt-lo: #7b8189;
+  --lk-gilt-rgb: 217, 220, 223;
+  --lk-velvet: #1c1f23;
+  --lk-deep-rgb: 59, 65, 72;
+}
+.app {
+  --bg: var(--salon-ink);
+  --accent: var(--salon-accent);
+  background: var(--salon-ink);
+}
+.app[data-screen]:not([data-screen="practice"]) {
+  background: var(--salon-paper);
+}
+.app .app-bar {
+  background: var(--salon-chrome);
+  border-bottom-color: #f4e9d61a;
+}
+.app .app-nav .nav-indicator {
+  background: var(--salon-accent);
+  height: 1px;
+}
+.app .app-nav button {
+  letter-spacing: 0.15px;
+}
+.app .app-bar .app-nav button.selected {
+  color: var(--salon-paper);
+}
+.app .app-brand > span b,
+.app .app-bar-actions .midi-status,
+.app .app-bar-actions .icon-button {
+  color: var(--salon-muted);
+}
+.app .app-bar-actions .app-import {
+  background: var(--salon-tint);
+}
+.app .practice-screen .piece-meta {
+  color: var(--salon-muted);
+}
+.app
+  .practice-screen
+  .piece-actions
+  .view-switch.reader-tabs
+  button[aria-selected="true"] {
+  background: var(--salon-tint);
+}
+.app .maestro-launcher {
+  border-color: color-mix(in srgb, var(--salon-metal) 35%, transparent);
+  background: none;
+}
+.app .maestro-launcher:hover {
+  background: var(--salon-tint);
+  border-color: var(--salon-metal);
+}
+.app .maestro-launcher .salon-pet {
+  width: 33px;
+  height: 33px;
+}
+.app .control-dock {
+  background: var(--salon-chrome);
+}
+.app .play-button {
+  color: var(--salon-ink);
+  background: var(--salon-accent);
+  border-color: var(--salon-accent);
+  box-shadow: 0 1px 0 #fff4 inset;
+}
+.app .keyboard-stage {
+  border-color: color-mix(in srgb, var(--salon-metal) 32%, transparent);
+}
+.app .keyboard-stage .keyboard-guide-top {
+  background: var(--salon-ink);
+}
+.app .maestro-stage-cue {
+  color: #eceae6;
+}
+.app .maestro-stage-cue small {
+  color: var(--salon-muted);
+}
+.app :is(.screen, .modal) {
+  --bg: var(--salon-paper);
+  --surface: var(--salon-white);
+  --surface-2: var(--salon-soft);
+  --accent: var(--salon-deep);
+  --ink: #1e2124;
+  --ink-muted: #5d6268;
+  --ink-faint: #61666c;
+  --muted: #5d6268;
+  --line: var(--salon-line);
+  --line-strong: var(--salon-metal);
+  --card-bg: var(--salon-white);
+  --border: var(--salon-line);
+}
+.app .modal {
+  background: var(--salon-paper);
+  border-color: var(--salon-line);
+  box-shadow: 0 28px 100px #0005;
+}
+.app .screen-header h1 {
+  letter-spacing: -1.1px;
+}
+.app .screen-eyebrow {
+  color: var(--salon-deep);
+  letter-spacing: 2.5px;
+  font-size: 9px;
+}
+.app .studio-screen-header {
+  border-bottom: 1px solid var(--salon-line);
+  padding-bottom: 22px;
+  margin-bottom: 24px;
+}
+.app
+  :is(
+    .continue-card,
+    .piece-card,
+    .exercise-summary,
+    .level-card,
+    .progress-card,
+    .empty-state
+  ) {
+  background: var(--salon-white);
+  border-color: var(--salon-line);
+}
+.app :is(.level-card.selected, .level-card.recommended) {
+  background: var(--salon-soft);
+}
+.app .piece-cover {
+  background: var(--salon-soft);
+}
+.app :is(.screen, .modal) .secondary:hover:not(:disabled) {
+  background: var(--salon-soft);
+}
+.app :is(.screen, .modal) :is(input, select) {
+  background-color: var(--salon-white);
+}
+.app :is(.screen, .modal) ::selection {
+  background: var(--salon-soft);
+  color: #1e2124;
+}
+.app .maestro-eyebrow,
+.app .maestro-written-tip {
+  color: var(--salon-deep);
+}
+.app .maestro-portrait::before {
+  background: var(--salon-soft);
+  border-radius: 48% 48% 8px 8px;
+  transform: none;
+  inset: 0;
+}
+.app .maestro-shortcuts button {
+  color: var(--salon-deep);
+  background: var(--salon-soft);
+  border-color: var(--salon-line);
+}
+.app .maestro-shortcuts button:hover {
+  background: var(--salon-white);
+  border-color: var(--salon-metal);
+}
+.app .maestro-input-row,
+.app .maestro-action {
+  background: var(--salon-white);
+  border-color: var(--salon-line);
+}
+.app .maestro-input-row:focus-within {
+  border-color: var(--salon-deep);
+  outline-color: color-mix(in srgb, var(--salon-deep) 20%, transparent);
+}
+.app .maestro-action:hover {
+  background: var(--salon-soft);
+  border-color: var(--salon-metal);
+}
+.app .maestro-action strong {
+  color: #2b2f34;
+}
+.app .maestro-action small {
+  color: #5d6268;
+}
+.app .maestro-input-row > svg {
+  color: var(--salon-deep);
+}
+.app .maestro-input-row input::placeholder {
+  color: #646a70;
+}
+.maestro-room-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: -1px 0 18px;
+}
+.maestro-room-bar > span {
+  color: var(--ink-muted);
+  font-size: 8px;
+  letter-spacing: 1.65px;
+}
+.app .maestro-room-bar button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 0 5px 8px;
+  color: var(--accent);
+  font-size: 10px;
+  background: none;
+  border: 0;
+}
+.app .maestro-room-bar button:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Compact companion picker. Preview colours are local until Choose. */
+.app .modal.salon-dialog {
+  width: 740px;
+  max-width: 100%;
+  max-height: min(720px, calc(100dvh - 48px));
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 22px;
+}
+.app .salon-dialog .modal-heading {
+  flex: 0 0 auto;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  margin-bottom: 18px;
+}
+.app .salon-dialog .modal-heading h2 {
+  font-size: 27px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+.companion-salon {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.companion-salon {
+  --preview-ink: #352c24;
+  --preview-paper: #ebe0cf;
+  --preview-metal: #b6a084;
+}
+.companion-salon[data-preview="langlang"] {
+  --preview-ink: #223343;
+  --preview-paper: #dce6ec;
+  --preview-metal: #a0b9ca;
+}
+.companion-salon[data-preview="mozart"] {
+  --preview-ink: #403048;
+  --preview-paper: #f0e5f0;
+  --preview-metal: #c1aac7;
+}
+.companion-salon[data-preview="liszt"] {
+  --preview-ink: #412631;
+  --preview-paper: #eee0d8;
+  --preview-metal: #c2a084;
+}
+.companion-salon[data-preview="cat"] {
+  --preview-ink: #304030;
+  --preview-paper: #e9ecd8;
+  --preview-metal: #a5b18c;
+}
+.companion-salon[data-preview="bunny"] {
+  --preview-ink: #48363f;
+  --preview-paper: #f2e2e5;
+  --preview-metal: #c7a7b6;
+}
+
+/* Neutral (and custom) colours: the picker's portrait card is quiet paper
+   whoever is auditioned, and the room palette swatches, which only apply
+   after "Match my companion", step back. */
+.app:not([data-colours="companion"]) .companion-salon[data-preview] {
+  --preview-ink: #2b2f34;
+  --preview-paper: #eeece8;
+  --preview-metal: #b9bcc0;
+}
+.app:not([data-colours="companion"])
+  .companion-salon
+  :is(.salon-room-title h3, .salon-room-strip, .salon-room-swatch) {
+  display: none;
+}
+/* The cards' per-companion wash and outline (inline --choice-* custom
+   properties) give way to the neutral accent. */
+.app:not([data-colours="companion"]) .salon-choice:hover {
+  border-color: var(--salon-metal);
+  background: var(--salon-white);
+}
+.app:not([data-colours="companion"]) .salon-choice.selected {
+  border-color: var(--salon-deep);
+  box-shadow: 0 0 0 1px var(--salon-deep) inset;
+  background: var(--salon-soft);
+}
+.app:not([data-colours="companion"]) .salon-choice-portrait::before {
+  background: color-mix(in srgb, var(--salon-metal) 16%, transparent);
+}
+
+.salon-gallery {
+  display: grid;
+  grid-template-columns: 218px minmax(0, 1fr);
+  gap: 18px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+  padding: 3px;
+}
+.salon-room-preview {
+  color: var(--preview-ink);
+  background: var(--preview-paper);
+  border: 1px solid color-mix(in srgb, var(--preview-metal) 55%, transparent);
+  padding: 15px 14px 16px;
+  border-radius: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.salon-portrait-stage {
+  height: 203px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.salon-arch {
+  position: absolute;
+  inset: 5px 10px 23px;
+  border: 1px solid color-mix(in srgb, var(--preview-ink) 15%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--preview-metal) 20%,
+    var(--preview-paper)
+  );
+  border-radius: 88px 88px 12px 12px;
+  overflow: hidden;
+}
+.salon-arch::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid color-mix(in srgb, var(--preview-ink) 9%, transparent);
+  border-radius: inherit;
+}
+.salon-arch i {
+  position: absolute;
+  width: 1px;
+  background: color-mix(in srgb, var(--preview-ink) 9%, transparent);
+  inset: 0 auto 0 32%;
+}
+.salon-arch i:nth-child(2) {
+  left: 68%;
+}
+.salon-arch i:nth-child(3) {
+  inset: 47% 0 auto;
+  width: auto;
+  height: 1px;
+}
+.app .salon-greeting.companion-presence {
+  --presence-size: 166px;
+  --salon-paper: var(--preview-paper);
+  --salon-ink: var(--preview-ink);
+  --salon-metal: var(--preview-ink);
+  --salon-deep: var(--preview-ink);
+  --salon-border: var(--preview-metal);
+  --salon-accent: var(--preview-metal);
+  --salon-muted: var(--preview-ink);
+  z-index: 2;
+  margin-top: -15px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.salon-greeting .presence-room {
+  display: none;
+}
+.salon-greeting .presence-touch-note {
+  opacity: 1;
+  bottom: -21px;
+  border-radius: 20px;
+  font-size: 10px;
+  padding: 4px 10px;
+  background: color-mix(in srgb, var(--preview-paper) 55%, #fffdf8);
+}
+.salon-mini-keys {
+  position: absolute;
+  display: flex;
+  left: 8px;
+  right: 8px;
+  bottom: 24px;
+  height: 12px;
+  border: 1px solid color-mix(in srgb, var(--preview-ink) 45%, transparent);
+  border-radius: 0 0 3px 3px;
+  background: #fffcf6;
+}
+.salon-mini-keys i {
+  flex: 1;
+  border-right: 1px solid
+    color-mix(in srgb, var(--preview-ink) 25%, transparent);
+  position: relative;
+}
+.salon-mini-keys i:last-child {
+  border: 0;
+}
+.salon-mini-keys i:nth-child(7n + 1)::after,
+.salon-mini-keys i:nth-child(7n + 2)::after,
+.salon-mini-keys i:nth-child(7n + 4)::after,
+.salon-mini-keys i:nth-child(7n + 5)::after,
+.salon-mini-keys i:nth-child(7n + 6)::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  width: 4px;
+  height: 7px;
+  background: var(--preview-ink);
+  z-index: 1;
+}
+.salon-room-title {
+  text-align: center;
+  margin-top: 8px;
+}
+.salon-room-title > span {
+  font-size: 10px;
+  opacity: 0.75;
+}
+.app .salon-room-title h3 {
+  color: var(--preview-ink);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  margin: 4px 0 8px;
+}
+.salon-room-swatch {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.salon-room-swatch > i {
+  width: 13px;
+  height: 13px;
+  border: 1px solid #7773;
+  border-radius: 50%;
+}
+.salon-cast {
+  min-width: 0;
+  display: flex;
+}
+.salon-choices {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+.app .salon-choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  min-height: 146px;
+  padding: 14px 5px 10px;
+  background: var(--salon-white);
+  border: 1px solid var(--salon-line);
+  border-radius: 13px;
+  color: var(--salon-ink);
+  transition:
+    background-color 160ms,
+    border-color 160ms;
+}
+.app .salon-choice:hover {
+  border-color: var(--choice-colour);
+  background: color-mix(in srgb, var(--choice-wash) 11%, var(--salon-white));
+}
+.app .salon-choice.selected {
+  border-color: var(--choice-colour);
+  box-shadow: 0 0 0 1px var(--choice-colour) inset;
+  background: color-mix(in srgb, var(--choice-wash) 18%, var(--salon-white));
+}
+.app .salon-choice:focus-visible {
+  outline: 2px solid var(--salon-deep);
+  outline-offset: 2px;
+}
+.salon-choice-portrait {
+  display: block;
+  position: relative;
+  width: 78px;
+  height: 78px;
+  margin-bottom: 5px;
+  transition: transform 180ms ease;
+}
+.salon-choice-portrait::before {
+  content: "";
+  position: absolute;
+  inset: 12px 4px 0;
+  border-radius: 50% 50% 35% 35%;
+  background: color-mix(in srgb, var(--choice-wash) 20%, transparent);
+}
+.salon-choice-portrait > .beethoven-avatar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.salon-choice:hover .salon-choice-portrait {
+  transform: translateY(-2px) rotate(-2deg);
+}
+.salon-choice strong {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.salon-choice small {
+  font-size: 10px;
+  margin-top: 2px;
+  color: var(--ink-muted);
+}
+.salon-choice-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  color: var(--salon-ink);
+}
+.salon-choice.selected .salon-choice-check {
+  background: var(--salon-paper);
+  border-radius: 50%;
+}
+.app .salon-choice.selected :is(small, .salon-choice-current) {
+  color: #4b5056;
+}
+.salon-choice-current {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  font-size: 8px;
+  color: var(--ink-muted);
+}
+.salon-choice-colours {
+  display: flex;
+  gap: 3px;
+  margin-top: 7px;
+}
+.salon-choice-colours i {
+  width: 10px;
+  height: 3px;
+  border-radius: 2px;
+  border: 1px solid #7772;
+}
+.salon-footer {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 17px;
+  padding-top: 16px;
+  border-top: 1px solid var(--salon-line);
+}
+.salon-sound-choice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.app .salon-sound-choice input {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  accent-color: var(--salon-deep);
+}
+.salon-sound-choice > svg {
+  color: var(--ink-muted);
+}
+.salon-sound-choice small {
+  display: block;
+  margin-top: 3px;
+  font-size: 10px;
+  color: var(--ink-muted);
+}
+.app .salon-enter {
+  min-width: 162px;
+  gap: 14px;
+  min-height: 43px;
+  border-radius: 11px;
+  font-size: 12px;
+}
+@media (max-width: 600px) {
+  .app .modal.salon-dialog {
+    padding: 18px;
+    max-height: calc(100dvh - 24px);
+    border-radius: 18px;
+  }
+  .app .salon-dialog .modal-heading {
+    margin-bottom: 14px;
+  }
+  .app .salon-dialog .modal-heading h2 {
+    font-size: 24px;
+  }
+  .salon-gallery {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .salon-room-preview {
+    display: grid;
+    grid-template-columns: 108px minmax(0, 1fr);
+    gap: 12px;
+    padding: 9px 12px;
+  }
+  .salon-portrait-stage {
+    height: 124px;
+  }
+  .salon-arch {
+    inset: 0 4px 18px;
+  }
+  .app .salon-greeting.companion-presence {
+    --presence-size: 105px;
+    margin-top: -13px;
+  }
+  .salon-greeting .presence-touch-note {
+    bottom: -18px;
+    padding: 3px 8px;
+    font-size: 9px;
+  }
+  .salon-mini-keys {
+    bottom: 19px;
+    left: 0;
+    right: 0;
+    height: 9px;
+  }
+  .salon-mini-keys i::after {
+    height: 5px;
+  }
+  .salon-room-title {
+    margin: 0;
+    align-self: center;
+  }
+  .salon-choices {
+    gap: 7px;
+  }
+  .app .salon-choice {
+    min-height: 130px;
+    padding: 14px 3px 9px;
+  }
+  .salon-choice-portrait {
+    width: 65px;
+    height: 65px;
+  }
+  .salon-choice strong {
+    font-size: 11px;
+  }
+  .salon-choice-current {
+    font-size: 7px;
+    left: 5px;
+    top: 6px;
+  }
+  .salon-choice-check {
+    right: 4px;
+    top: 4px;
+  }
+  .salon-footer {
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 13px;
+    padding-top: 12px;
+  }
+  .app .salon-enter {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .salon-choice,
+  .salon-choice-portrait {
+    transition: none;
+  }
+  .salon-choice:hover .salon-choice-portrait {
+    transform: none;
+  }
+}
+
+/* Decorative print on the library, exercise and journal headers. */
+.app .salon-scene {
+  width: 190px;
+  max-width: 100%;
+}
+.salon-scene-frame {
+  position: relative;
+  height: 132px;
+  display: grid;
+  place-items: center;
+  border-bottom: 1px solid var(--salon-metal);
+}
+.salon-scene-window {
+  position: absolute;
+  inset: 2px 32px 0;
+  border: 1px solid var(--salon-line);
+  border-radius: 70px 70px 0 0;
+  background: var(--salon-soft);
+}
+.salon-scene-window::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--salon-line);
+  border-radius: 60px 60px 0 0;
+}
+.app .salon-scene .beethoven-avatar {
+  position: relative;
+  width: 125px;
+  height: 125px;
+  z-index: 1;
+}
+.salon-scene-keys {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 150px;
+  height: 10px;
+  z-index: 2;
+  border-top: 2px solid var(--salon-metal);
+}
+.salon-scene-keys i {
+  flex: 1;
+  border-right: 1px solid var(--salon-line);
+  background: var(--salon-white);
+}
+.salon-scene-caption {
+  display: block;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 11px;
+  color: var(--salon-deep);
+  margin-top: 8px;
+}
+@media (max-width: 700px) {
+  .maestro-room-bar > span {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+}
+
+.app .salon-colour-note {
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  margin: 0 0 14px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.app .salon-colour-note button {
+  font-size: 11px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app,
+  .app .app-bar,
+  .app .control-dock {
+    transition: background-color 240ms ease;
+  }
+}
+
+/* Keep room colours consistent across the collection and practice journal. */
+.app .screen .search,
+.app .screen .search:focus-within {
+  background: var(--salon-white);
+  border-color: var(--salon-metal);
+}
+.app .screen .search:focus-within {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--salon-deep) 12%, transparent);
+}
+.app .screen .search input::placeholder {
+  color: var(--ink-muted);
+}
+.app .screen .section-title {
+  color: var(--salon-deep);
+}
+.app .screen .section-title > span {
+  color: var(--salon-deep);
+  background: var(--salon-soft);
+}
+.app .screen .continue-card {
+  background: var(--salon-soft);
+  border-color: var(--salon-line);
+}
+.app .screen .continue-art {
+  background: var(--salon-white);
+  border-color: var(--salon-line);
+  box-shadow: 5px 5px 0
+    color-mix(in srgb, var(--salon-metal) 26%, var(--salon-soft));
+}
+.app .screen .piece-row.piece-card:hover {
+  background: var(--salon-white);
+  border-color: var(--salon-metal);
+}
+.app .screen .piece-row.piece-card.current {
+  border-color: var(--salon-metal);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--salon-metal) 25%, transparent);
+}
+.app .screen .piece-card:nth-child(n) .piece-cover {
+  background: var(--salon-soft);
+  border-color: var(--salon-line);
+}
+.app .screen .piece-card:nth-child(3n + 2) .piece-cover {
+  background: color-mix(in srgb, var(--salon-soft) 55%, var(--salon-white));
+}
+.app .screen .piece-card:nth-child(3n + 3) .piece-cover {
+  background: color-mix(in srgb, var(--salon-metal) 18%, var(--salon-white));
+}
+.app .screen .piece-cover-icon {
+  background: var(--salon-white);
+  color: var(--salon-deep);
+}
+.app .screen .piece-now {
+  background: var(--salon-deep);
+}
+.app .screen .piece-outline .ribbon.right {
+  fill: var(--salon-deep);
+  opacity: 0.58;
+}
+.app .screen .piece-outline .ribbon.left {
+  fill: var(--salon-metal);
+  opacity: 0.8;
+}
+.app .screen .piece-card .piece-tags span {
+  background: var(--salon-soft);
+  color: var(--ink-muted);
+}
+.app .screen .coverage-bar {
+  background: var(--salon-line);
+}
+.app .screen .coverage-bar b {
+  background: var(--salon-white);
+}
+.app .screen .empty-state {
+  background: var(--salon-white);
+  border-color: var(--salon-metal);
+}
+.app .screen .empty-state > span {
+  background: var(--salon-soft);
+}
+.app .screen .level-card.selected {
+  background: var(--salon-soft);
+  border-color: var(--salon-metal);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--salon-metal) 30%, transparent);
+}
+.app .screen .level-card:nth-child(n) .level-number {
+  background: var(--salon-soft);
+  color: var(--salon-deep);
+}
+.app .screen .level-card:is(.selected, .recommended) .level-number {
+  background: var(--salon-deep);
+  color: #fffdf8;
+}
+.app .screen .level-chips em,
+.app .screen .level-meta em {
+  background: color-mix(in srgb, var(--salon-soft) 75%, var(--salon-white));
+  color: var(--salon-deep);
+}
+.app .screen .level-bar {
+  background: var(--salon-line);
+}
+.app .screen .exercise-panel {
+  background: var(--salon-white);
+  border-color: var(--salon-line);
+  border-top-color: var(--salon-metal);
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--salon-metal) 12%, transparent);
+}
+.app .screen .exercise-form :is(input, select) {
+  background-color: var(--salon-white);
+}
+.app .screen .hero-tile:nth-child(n) {
+  background: var(--salon-white);
+  border-color: var(--salon-line);
+}
+.app .screen .hero-tile.hero-today {
+  background: var(--salon-soft);
+  border-color: var(--salon-line);
+}
+.app .screen .hero-tile > svg {
+  color: var(--salon-deep);
+}
+.app :is(.screen, .modal) .ring-track {
+  stroke: var(--salon-line);
+}
+.app .screen .day-bar {
+  background: var(--salon-soft);
+}
+.app .screen .day-bar i,
+.app .screen .day-column.met .day-bar i {
+  background: var(--salon-deep);
+}
+.app .screen .heatmap i.lv0 {
+  background: var(--salon-soft);
+}
+.app .screen .heatmap-grid i.future {
+  box-shadow: inset 0 0 0 1px var(--salon-line);
+}
+.app .screen .piece-progress-map {
+  background: var(--salon-soft);
+}
+.app .screen .piece-progress > li {
+  border-bottom-color: var(--salon-line);
+}
+.app .screen .piece-progress > li:hover {
+  background: var(--salon-soft);
+}
+.app .screen .time-bar {
+  background: var(--salon-line);
+}
+.app .screen .time-bar::after {
+  background: var(--salon-metal);
+}
+.app .screen .stat-tiles.progress-stats > div {
+  background: var(--salon-white);
+}
+.app .screen .trend-chart .grid {
+  stroke: var(--salon-line);
+}
+/* The accuracy line is data, not a hand: the quiet accent, not --lh-rgb. */
+.app .screen .trend-chart .line {
+  stroke: var(--salon-deep);
+}
+.app .screen .trend-chart .dot {
+  fill: var(--salon-deep);
+}
+
+/* Settings › Colours: Neutral, Match my companion, then the five themes. */
+.app .modal .theme-previews.room-previews.colour-previews {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.app .modal .settings-caption.colour-caption {
+  display: block;
+  margin: -4px 0 12px;
+}
+@media (max-width: 700px) {
+  .app .modal .theme-previews.room-previews.colour-previews {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

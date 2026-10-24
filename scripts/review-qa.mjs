@@ -2,6 +2,7 @@ import { trackTestData } from "./qa-cleanup.mjs";
 import { chromium } from "@playwright/test";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
+import { openReview } from "./practice-tools.mjs";
 const b = await chromium.launch({ channel: "chrome", headless: true });
 const p = await b.newPage();
 const errors = [];
@@ -11,7 +12,7 @@ try {
   await p.goto("http://127.0.0.1:5188");
   await p.getByRole("button", { name: "Import a score", exact: true }).click();
   await p.locator("input[type=file]").setInputFiles("tests/starter.musicxml");
-  await p.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+  await p.getByRole("dialog", { name: "Review score" }).waitFor();
   await p.getByRole("button", { name: "Add a missing note" }).click();
   assert.equal(await p.locator("tbody tr").count(), 17);
   const pitch = p.locator('select[aria-label^="Pitch"]').last();
@@ -22,7 +23,7 @@ try {
   assert.equal(await p.locator("tbody tr").count(), 16);
   await p.getByRole("button", { name: "Save & mark reviewed" }).click();
   await p.getByRole("dialog").waitFor({ state: "hidden" });
-  await p.getByRole("button", { name: "Review sheet and notes" }).click();
+  await openReview(page);
   assert.equal(
     await p.locator('select[aria-label^="Pitch"]').last().inputValue(),
     "72",

@@ -193,3 +193,11 @@ test("library recovery preserves broken files and healthy scores across import, 
     await fs.rm(root, { recursive: true, force: true });
   }
 });
+
+test('practice backups preserve validated score fingering and explicit overrides', () => {
+  const score = structuredClone(demos()[0]);
+  Object.assign(score.notes[0], { finger: 3, fingerOverride: 2, fingeringSource: 'score', handSource: 'staff' });
+  const restored = validatePractice(JSON.parse(JSON.stringify(score)));
+  assert.deepEqual(restored.notes[0], score.notes[0]);
+  assert.throws(() => validatePractice({ ...score, notes: [{ ...score.notes[0], fingerOverride: 6 }] }), /invalid fingering/);
+});

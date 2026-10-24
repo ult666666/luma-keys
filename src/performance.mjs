@@ -25,7 +25,10 @@ export function gradePerformance(
     secondsPerBeat = 0.5,
   } = {},
 ) {
-  const windows = timingWindows(secondsPerBeat);
+  // A number, or the beat length in force at a beat when the tempo changes.
+  const beatSeconds =
+    typeof secondsPerBeat === "function" ? secondsPerBeat : () => secondsPerBeat;
+  const windowsAt = (beat) => timingWindows(beatSeconds(beat));
   const reached = Math.min(end, stoppedAt);
   const notes = expected
     .filter((n) => n.beat >= start - EPS && n.beat < end - EPS)
@@ -50,7 +53,7 @@ export function gradePerformance(
     for (const attempt of attempts)
       if (attempt.midi === note.midi) {
         const dt = attempt.beat - note.beat;
-        if (Math.abs(dt) <= windows.accept + EPS)
+        if (Math.abs(dt) <= windowsAt(note.beat).accept + EPS)
           pairs.push({ note, attempt, dt });
       }
   }
@@ -62,7 +65,7 @@ export function gradePerformance(
     pair.attempt.matched = true;
     pair.note.dt = pair.dt;
     pair.note.status =
-      Math.abs(pair.dt) <= windows.onTime + EPS
+      Math.abs(pair.dt) <= windowsAt(pair.note.beat).onTime + EPS
         ? "on"
         : pair.dt < 0
           ? "early"
@@ -72,8 +75,8 @@ export function gradePerformance(
     .filter(
       (a) =>
         !a.matched &&
-        a.beat >= start - windows.accept &&
-        a.beat <= reached + windows.accept,
+        a.beat >= start - windowsAt(start).accept &&
+        a.beat <= reached + windowsAt(reached).accept,
     )
     .map((a) => ({
       midi: a.midi,
@@ -143,7 +146,8 @@ export function gradePerformance(
       ? offsets.reduce((a, b) => a + b, 0) / offsets.length
       : 0,
     complete: stoppedAt >= end - EPS,
-    windows,
+    // The windows where the graded passage starts (they follow the tempo).
+    windows: windowsAt(start),
     notes,
     extras,
     bars: summary,

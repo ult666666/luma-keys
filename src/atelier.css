@@ -1,0 +1,1197 @@
+/* Quiet refinements around the instrument. Room colours come from salon.css;
+   piano geometry, playback controls and all chat styles remain separate. */
+.app .app-bar :is(button, a):focus-visible {
+  outline: 2px solid var(--salon-accent);
+  outline-offset: 3px;
+}
+.app .app-bar .app-nav button {
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.app .app-bar .app-nav button.selected {
+  font-weight: 650;
+}
+
+.app :is(.library-screen, .exercises-screen, .progress-screen) {
+  padding-top: 30px;
+  padding-bottom: 48px;
+  font-variant-numeric: tabular-nums;
+}
+.app .screen .studio-screen-header {
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: 16px 28px;
+  padding-bottom: 22px;
+  margin-bottom: 24px;
+}
+.app .screen .screen-header h1 {
+  font-size: 40px;
+  line-height: 1.12;
+  letter-spacing: -0.75px;
+}
+.app .screen .screen-header p {
+  font-size: 13px;
+  line-height: 1.55;
+  margin-top: 8px;
+  color: var(--ink-muted);
+}
+.app .screen :is(.screen-eyebrow, .section-title) {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 1.5px;
+}
+.app .screen .studio-header-art {
+  width: 180px;
+  justify-self: end;
+  align-self: center;
+}
+.app .screen .studio-header-art .salon-scene {
+  width: 180px;
+}
+.app .screen .studio-header-art .salon-scene-frame {
+  height: 112px;
+}
+.app .screen .studio-header-art .salon-scene .beethoven-avatar {
+  width: 110px;
+  height: 110px;
+}
+.app .screen .studio-header-art .salon-scene-caption {
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.2px;
+  line-height: 1.4;
+  margin-top: 7px;
+  color: var(--ink-muted);
+}
+.app .screen .studio-header-art .salon-scene-keys {
+  width: 144px;
+}
+
+/* The portrait shares the title/search space instead of adding a whole row. */
+.app .library-screen .studio-heading {
+  grid-column: 1;
+  grid-row: 1;
+}
+.app .library-screen .studio-header-art {
+  grid-column: 2;
+  grid-row: 1 / 3;
+}
+.app .library-screen .studio-header-tools.search {
+  grid-column: 1;
+  grid-row: 2;
+  width: min(100%, 380px);
+  margin: 0;
+}
+.app .screen .search {
+  min-height: 42px;
+  padding: 10px 13px;
+  border-radius: 7px;
+}
+.app .screen .search input {
+  font-size: 13px;
+}
+.app .screen .search:focus-within {
+  box-shadow: none;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.app .screen .search input:focus-visible {
+  outline: none;
+}
+
+/* A compact score jacket keeps the resume action, title and progress together. */
+.app .library-screen .continue-card {
+  grid-template-columns: 174px minmax(0, 1fr);
+  gap: 25px;
+  padding: 22px;
+  border-radius: 10px;
+  box-shadow: none;
+}
+.app .library-screen .continue-art {
+  height: 130px;
+  padding: 16px 13px 23px;
+  border-radius: 5px;
+  box-shadow: none;
+  align-self: center;
+}
+.app .library-screen .continue-copy h2 {
+  font-size: 27px;
+  line-height: 1.16;
+  letter-spacing: -0.45px;
+  overflow-wrap: anywhere;
+}
+.app .library-screen .continue-copy > p {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+.app .library-screen .continue-stats {
+  gap: 9px 24px;
+  margin: 14px 0 16px;
+}
+.app .library-screen .continue-stats dt {
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+.app .library-screen .continue-stats dd {
+  margin-top: 2px;
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+.app .library-screen .continue-actions {
+  gap: 9px;
+  margin-top: 13px;
+}
+.app .library-screen .continue-actions button {
+  min-height: 38px;
+  font-size: 12px;
+}
+.app .library-screen .piece-list.piece-grid {
+  gap: 18px;
+}
+.app .screen .piece-row.piece-card {
+  border-radius: 9px;
+  box-shadow: none;
+  transition: border-color 160ms ease;
+}
+.app .screen .piece-row.piece-card:focus-within {
+  border-color: var(--accent);
+}
+.app .library-screen .piece-cover {
+  height: 64px;
+  padding: 11px 14px 7px;
+}
+.app .library-screen .piece-now {
+  top: 10px;
+  right: 10px;
+  font-size: 8px;
+  letter-spacing: 0.7px;
+  padding: 3px 6px;
+}
+.app .library-screen .piece-card .piece-main {
+  padding: 15px 16px 5px;
+}
+.app .library-screen .piece-card .piece-main h3 {
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+.app .library-screen .piece-card .piece-composer {
+  font-size: 12px;
+  margin-top: 4px;
+}
+.app .library-screen .piece-card .piece-description {
+  font-size: 12px;
+  line-height: 1.55;
+  margin-top: 7px;
+  color: var(--ink-muted);
+}
+.app .library-screen .piece-card .piece-tags {
+  column-gap: 8px;
+  row-gap: 3px;
+  margin-top: 9px;
+  align-items: baseline;
+}
+.app .library-screen .piece-card .piece-tags span:not(.tag-warn) {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ink-muted);
+  font-size: 11px;
+  line-height: 1.65;
+}
+.app
+  .library-screen
+  .piece-card
+  .piece-tags
+  span
+  + span:not(.tag-warn)::before {
+  content: "·";
+  padding-right: 8px;
+  color: var(--ink-muted);
+}
+.app .library-screen .piece-card .piece-tags .tag-warn {
+  font-size: 10px;
+  line-height: 1.5;
+  padding: 1px 5px;
+}
+.app .library-screen .piece-card .piece-history {
+  padding: 9px 16px 0;
+  gap: 5px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.app .library-screen .piece-card .piece-row-actions {
+  padding: 12px 16px 15px;
+}
+.app .library-screen .piece-card .piece-row-actions button {
+  min-height: 36px;
+}
+
+/* Lesson details and practice records use the same readable text hierarchy. */
+.app .exercises-screen .level-card {
+  padding: 17px;
+  border-radius: 9px;
+  box-shadow: none;
+}
+.app .exercises-screen .level-card:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--salon-metal);
+}
+.app .exercises-screen .level-card.selected {
+  box-shadow: none;
+  border-color: var(--accent);
+}
+.app .exercises-screen .level-copy strong {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.app .exercises-screen .level-copy small {
+  font-size: 12px;
+  line-height: 1.55;
+  margin-top: 4px;
+}
+.app .exercises-screen .level-chips {
+  gap: 4px 6px;
+}
+.app .exercises-screen .level-chips em {
+  font-size: 10px;
+  line-height: 1.4;
+  padding: 2px 5px;
+}
+.app .exercises-screen .exercise-panel {
+  padding: 22px;
+  border-width: 1px;
+  border-radius: 9px;
+  box-shadow: none;
+}
+.app .exercises-screen .exercise-panel h2 {
+  font-size: 27px;
+  line-height: 1.2;
+  letter-spacing: -0.35px;
+}
+.app .exercises-screen .exercise-summary {
+  font-size: 13px;
+  line-height: 1.65;
+}
+.app .exercises-screen .exercise-form label > span {
+  font-size: 11px;
+  letter-spacing: 0;
+}
+.app .progress-screen :is(.hero-tile, .progress-panel-card) {
+  border-radius: 9px;
+  box-shadow: none;
+}
+.app .progress-screen .hero-tile {
+  padding: 19px;
+}
+.app .progress-screen .hero-tile > strong {
+  font-size: 28px;
+  font-weight: 550;
+  line-height: 1.15;
+}
+.app .progress-screen :is(.panel-empty, .progress-footnote) {
+  font-size: 12px;
+  line-height: 1.65;
+}
+.app .progress-screen .panel-heading {
+  gap: 12px;
+}
+.app .progress-screen .piece-progress-title strong {
+  line-height: 1.4;
+}
+.app .progress-screen .piece-progress-title small {
+  line-height: 1.55;
+}
+
+@media (max-width: 899px) {
+  .app :is(.library-screen, .exercises-screen, .progress-screen) {
+    padding-top: 22px;
+  }
+  .app .screen .studio-screen-header {
+    grid-template-columns: minmax(0, 1fr) 146px;
+    column-gap: 20px;
+  }
+  .app .screen .studio-header-art,
+  .app .screen .studio-header-art .salon-scene {
+    width: 146px;
+  }
+  .app .library-screen .continue-card {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px;
+  }
+}
+@media (max-width: 700px) {
+  .app .screen .studio-screen-header {
+    grid-template-columns: minmax(0, 1fr) 100px;
+    column-gap: 14px;
+    row-gap: 14px;
+    padding-bottom: 19px;
+    margin-bottom: 20px;
+  }
+  .app .screen .screen-header h1 {
+    font-size: 32px;
+  }
+  .app .screen .studio-header-art,
+  .app .screen .studio-header-art .salon-scene {
+    width: 100px;
+  }
+  .app .screen .studio-header-art .salon-scene-frame {
+    height: 84px;
+  }
+  .app .screen .studio-header-art .salon-scene .beethoven-avatar {
+    width: 82px;
+    height: 82px;
+  }
+  .app .screen .studio-header-art .salon-scene-window {
+    inset-inline: 8px;
+  }
+  .app .screen .studio-header-art .salon-scene-keys {
+    width: 96px;
+    height: 7px;
+  }
+  .app .screen .studio-header-art .salon-scene-caption {
+    font-size: 9px;
+  }
+  .app .library-screen .studio-header-art {
+    grid-row: 1;
+  }
+  .app .library-screen .studio-header-tools.search {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  .app .library-screen .continue-copy h2 {
+    font-size: 25px;
+  }
+  .app .library-screen .continue-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px 18px;
+  }
+  .app .library-screen .continue-actions button {
+    min-height: 40px;
+  }
+  .app .library-screen .piece-list.piece-grid {
+    gap: 14px;
+  }
+  .app .exercises-screen .exercise-panel {
+    padding: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .screen .piece-row.piece-card {
+    transition: none;
+  }
+}
+
+/* ── Screens track · SCR-2: one companion per screen ──
+   The header arch is the roaming companion's seat (contract C4). The seat box
+   is the figure's size and its bottom edge is the floor: the keyboard plinth
+   in the salon scenes, the arch's sill in the Library portrait. While the
+   companion is on (C3) the painted stand-ins step aside; with it off, nothing
+   changes. */
+.app .studio-header-art {
+  position: relative;
+}
+.app .studio-header-art .studio-companion {
+  position: relative;
+}
+.app .studio-header-art .buddy-seat {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  width: 96px;
+  height: 96px;
+  translate: -50% 0;
+  pointer-events: none;
+}
+/* Salon frame: the keys are 10 px tall at the frame's foot. */
+.app .studio-header-art .salon-scene-frame > .buddy-seat {
+  bottom: 10px;
+  width: 96px;
+  height: 96px;
+}
+/* Cat and bunny scenes: the drawn floor sits at 157 of 180 units, the pet
+   stands at about 37 % across. */
+.app .studio-header-art .studio-companion > .buddy-seat {
+  left: 37%;
+  bottom: 12.8%;
+  width: auto;
+  height: 74%;
+  aspect-ratio: 1;
+}
+/* Library portrait: the arch's sill is 5 px above the portrait's foot. */
+.app .studio-header-art .library-companion-portrait > .buddy-seat {
+  bottom: 5px;
+  width: 104px;
+  height: 104px;
+}
+html[data-buddy="on"]
+  .app
+  .studio-header-art
+  :is(
+    .salon-scene-frame > .maestro-avatar,
+    .studio-figure,
+    .library-companion-portrait .companion-presence
+  ) {
+  opacity: 0;
+  visibility: hidden;
+}
+/* While the companion is elsewhere (a side rail, tucked away), its empty
+   header frame is hidden too, so no vacant ring is left behind. */
+html[data-buddy="on"]:not([data-buddy-at="header"])
+  .app
+  .studio-header-art
+  :is(.salon-scene-frame, .library-companion-orbit) {
+  opacity: 0;
+}
+html[data-buddy-at="header"]
+  .app
+  .studio-header-art
+  :is(.salon-scene-frame, .library-companion-orbit) {
+  box-shadow: 0 0 0 6px
+    color-mix(in srgb, var(--salon-accent, var(--accent)) 30%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-buddy="on"]
+    .app
+    .studio-header-art
+    :is(
+      .salon-scene-frame > .maestro-avatar,
+      .studio-figure,
+      .library-companion-portrait .companion-presence
+    ) {
+    transition:
+      opacity var(--t-base, 240ms) var(--ease-settle, ease),
+      visibility 0s linear var(--t-base, 240ms);
+  }
+  html[data-buddy-at="header"]
+    .app
+    .studio-header-art
+    :is(.salon-scene-frame, .library-companion-orbit) {
+    transition: box-shadow var(--t-panel, 360ms) var(--ease-settle, ease);
+  }
+}
+@media (max-width: 700px) {
+  /* The salon frame shrinks to 84 px with 7 px keys. */
+  .app .studio-header-art .salon-scene-frame > .buddy-seat {
+    bottom: 7px;
+    width: 72px;
+    height: 72px;
+  }
+}
+@media (max-width: 640px) {
+  .app .studio-header-art .library-companion-portrait > .buddy-seat {
+    bottom: 2px;
+    width: 82px;
+    height: 82px;
+  }
+}
+
+/* ── Screens track · SCR-5 · Progress as a practice journal ───────────────
+ * Today hero (ring · headline + week dots · streak), a quiet two-week chart
+ * (no tracks for empty days, gilt goal line), a 12-week calendar with a
+ * 6-month toggle, and a once-a-day stamp. Motion only in no-preference. */
+.app .progress-screen .hero-tile.journal-hero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 28px;
+  min-height: 0;
+  padding: 22px 30px;
+  border-radius: var(--lk-r-card, 14px);
+}
+.app .journal-hero .ring .ring-track {
+  stroke: color-mix(in srgb, var(--salon-line, #dbd1c0) 80%, transparent);
+}
+.app .journal-hero .ring .ring-fill {
+  stroke: var(--salon-deep, var(--accent));
+}
+.app .journal-hero .ring.gilt .ring-fill {
+  stroke: var(--lk-gilt-lo, #8a6a3c);
+}
+.app .journal-hero .ring.gilt {
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--lk-gilt, #c9974f);
+}
+.app .journal-hero .ring-center {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  line-height: 1;
+}
+.app .journal-hero .ring-center b {
+  font: 600 32px/1 var(--lk-font-display, "DM Serif Display", Georgia, serif);
+  font-synthesis: none;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--salon-ink, var(--ink));
+}
+.app .journal-hero .ring-center small {
+  font: 500 12px/1 var(--lk-font-text, inherit);
+  color: var(--ink-muted);
+}
+.app .journal-hero > .journal-hero-copy {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  min-width: 0;
+}
+.app .journal-hero-copy h2 {
+  margin: 0;
+  font: 600 26px/1.15 var(--lk-font-display, "DM Serif Display", Georgia, serif);
+  font-synthesis: none;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--salon-ink, var(--ink));
+}
+.app .journal-hero-week {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+.app .journal-hero > .journal-streak {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 96px;
+  padding-left: 26px;
+  border-left: 1px solid var(--lk-hairline-paper, var(--salon-line, #dbd1c0));
+  color: var(--salon-deep, var(--accent));
+}
+.app .journal-streak > svg {
+  transform-origin: 50% 85%;
+}
+.app .progress-screen .journal-streak > strong {
+  margin: 4px 0 0;
+  font: 600 34px/1 var(--lk-font-display, "DM Serif Display", Georgia, serif);
+  font-variant-numeric: lining-nums;
+  color: var(--salon-ink, var(--ink));
+}
+.app .journal-streak > span {
+  font-size: 12px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+/* Week dots (ui.jsx WeekDots), shared with Settings. */
+.app .lk-week-dots {
+  display: inline-flex;
+  gap: 10px;
+}
+.app .lk-week-day {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+}
+.app .lk-week-day > i {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--salon-line, #dbd1c0);
+}
+.app .lk-week-day.practised > i {
+  background: linear-gradient(90deg, var(--salon-deep, var(--accent)) 50%, transparent 50%);
+  box-shadow: inset 0 0 0 1px var(--salon-deep, var(--accent));
+}
+.app .lk-week-day.met > i {
+  background: var(--salon-deep, var(--accent));
+  box-shadow: none;
+}
+.app .lk-week-day.today > i {
+  box-shadow: inset 0 0 0 1.5px var(--salon-deep, var(--accent));
+}
+.app .lk-week-day.today:is(.met, .practised) > i {
+  outline: 1.5px solid var(--salon-deep, var(--accent));
+  outline-offset: 2px;
+}
+.app .lk-week-day.future > i {
+  opacity: 0.55;
+}
+.app .lk-week-day > small {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink-muted);
+}
+.app .lk-week-day.today > small {
+  color: var(--salon-deep, var(--accent));
+  font-weight: 800;
+}
+
+/* Two weeks: bars only where there was practice; a dot holds empty days. */
+.app .journal-days {
+  display: grid;
+  gap: 8px;
+  padding-top: 6px;
+}
+.app .journal-days .jd-plot,
+.app .journal-days .jd-labels {
+  display: grid;
+  grid-template-columns: repeat(var(--days, 14), minmax(0, 1fr));
+  gap: 8px;
+  padding-right: 46px;
+}
+.app .journal-days .jd-plot {
+  position: relative;
+  height: 132px;
+  padding-top: 16px;
+}
+.app .jd-col {
+  position: relative;
+  min-width: 0;
+}
+.app .jd-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: min(100%, 26px);
+  height: calc(var(--h, 0) * 100%);
+  min-height: 4px;
+  margin-inline: auto;
+  border-radius: 6px 6px 0 0;
+  background: var(--salon-deep, var(--accent));
+  box-shadow: inset 0 2px 0 var(--lk-gilt, #c9974f);
+}
+.app .jd-dot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  margin-inline: auto;
+  border-radius: 50%;
+  background: var(--salon-line, #dbd1c0);
+}
+.app .jd-star {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--h, 0) * 100% + 3px);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  color: var(--lk-gilt-lo, #8a6a3c);
+}
+.app .jd-goal {
+  position: absolute;
+  left: 0;
+  right: 46px;
+  bottom: calc(var(--goal-share, 0) * (100% - 16px));
+  z-index: 1;
+  height: 0;
+  border-top: 1px solid var(--lk-gilt-lo, #8a6a3c);
+  pointer-events: none;
+}
+.app .jd-goal > small {
+  position: absolute;
+  left: calc(100% + 6px);
+  top: -7px;
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ink-muted);
+}
+.app .journal-days .jd-labels small {
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--ink-muted);
+}
+.app .journal-days .jd-labels small.today {
+  font-weight: 800;
+  color: var(--salon-ink, var(--ink));
+}
+.app .days-legend .swatch.goal {
+  height: 0;
+  border-top: 1px solid var(--lk-gilt-lo, #8a6a3c);
+  background: none;
+}
+
+/* Calendar: twelve weeks of 16 px squares; six months on request. */
+.app .journal-heat {
+  display: grid;
+  gap: 6px;
+  justify-content: start;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.app .journal-heat .jh-months,
+.app .journal-heat .jh-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--weeks, 12), minmax(0, 16px));
+  gap: 3px;
+}
+.app .journal-heat .jh-grid {
+  grid-template-rows: repeat(7, auto);
+  grid-auto-flow: column;
+}
+.app .jh-months span {
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--ink-muted);
+}
+.app .jh-grid i,
+.app .jh-legend i {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  font-style: normal;
+}
+.app .jh-grid i.lv0,
+.app .jh-legend i.lv0 {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--salon-line, #dbd1c0) 70%, transparent);
+}
+.app .journal-heat i.lv1 {
+  background: var(--salon-soft, #e9e1d4);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--salon-deep, #785733) 18%, transparent);
+}
+.app .journal-heat i.lv2 {
+  background: color-mix(in oklab, var(--salon-deep, #785733) 38%, var(--salon-soft, #e9e1d4));
+}
+.app .journal-heat i.lv3 {
+  background: color-mix(in oklab, var(--salon-deep, #785733) 68%, var(--salon-soft, #e9e1d4));
+}
+.app .journal-heat i.lv4 {
+  background: var(--salon-deep, #785733);
+}
+.app .journal-heat i.met::after {
+  content: "✦";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  line-height: 1;
+  color: var(--salon-white, #fffcf5);
+}
+.app .jh-grid i.today {
+  outline: 1px solid var(--lk-gilt, #c9974f);
+  outline-offset: 1px;
+}
+.app .jh-grid i.future {
+  background: transparent;
+  box-shadow: none;
+}
+.app .jh-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+}
+.app .jh-toggle {
+  min-height: 0;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--salon-deep, var(--accent));
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.app .jh-toggle:hover {
+  text-decoration-color: currentColor;
+}
+.app .jh-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+.app .jh-legend i {
+  width: 12px;
+}
+.app .jh-legend i.met::after {
+  font-size: 7px;
+}
+
+/* Graded runs: the "show more" step and the first-run card. */
+.app .progress-screen .run-more {
+  margin-top: 10px;
+}
+.app .progress-screen .journal-total {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 6px;
+  font-weight: 600;
+  color: var(--salon-ink, var(--ink));
+}
+.app .progress-screen .journal-total svg {
+  color: var(--salon-deep, var(--accent));
+}
+
+@media (max-width: 900px) {
+  .app .progress-screen .hero-tile.journal-hero {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 18px 22px;
+    padding: 20px;
+  }
+  .app .journal-hero > .journal-streak {
+    grid-column: 1 / -1;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    justify-items: start;
+    gap: 10px;
+    padding: 14px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--lk-hairline-paper, var(--salon-line, #dbd1c0));
+  }
+  .app .journal-streak > svg {
+    width: 28px;
+    height: 28px;
+  }
+  .app .progress-screen .journal-streak > strong {
+    margin: 0;
+    font-size: 26px;
+  }
+}
+@media (max-width: 560px) {
+  .app .progress-screen .hero-tile.journal-hero {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+  .app .journal-hero > .journal-hero-copy {
+    justify-items: center;
+  }
+  .app .journal-hero-copy h2 {
+    font-size: 22px;
+  }
+  .app .journal-days .jd-plot,
+  .app .journal-days .jd-labels {
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .app .jd-bar {
+    animation: journal-bar-grow var(--t-scene, 480ms) var(--ease-settle, cubic-bezier(.22, 1, .36, 1)) both;
+    animation-delay: calc(var(--i, 0) * 30ms);
+  }
+  .app .jd-star {
+    animation: journal-fade var(--t-base, 240ms) var(--ease-settle, ease) both;
+    animation-delay: calc(var(--i, 0) * 30ms + var(--t-scene, 480ms));
+  }
+  .app .journal-streak.alight > svg {
+    animation: journal-flicker 600ms var(--ease-move, cubic-bezier(.65, 0, .35, 1)) 300ms 3;
+  }
+  .app .jh-grid i.today.stamp {
+    animation: journal-stamp 320ms var(--ease-give, cubic-bezier(.34, 1.36, .64, 1)) 400ms both;
+  }
+  .app .journal-hero .ring.gilt {
+    transition: box-shadow var(--t-panel, 360ms) var(--ease-settle, ease);
+  }
+}
+@keyframes journal-bar-grow {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0); }
+}
+@keyframes journal-fade {
+  from { opacity: 0; }
+}
+@keyframes journal-flicker {
+  0%, 100% { transform: none; }
+  30% { transform: scale(1.06) rotate(-2deg); }
+  65% { transform: scale(1.04) rotate(2deg); }
+}
+@keyframes journal-stamp {
+  from { transform: scale(1.4) rotate(-8deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+/* ── Screens track · SCR-7 · Exercises as a staircase ──────────────────────
+ * One column of compact rows joined by a line through 36 px seals; the
+ * selected row opens in place; the panel's Start is the only Start. */
+.app .exercises-screen .level-list.level-stairs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.app .level-stairs > .level-step {
+  --seal-x: 32px;
+  --seal-y: 32px;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 0fr;
+  border-radius: 12px;
+}
+/* The line through the seals: the half above and the half below each seal. */
+.app .level-stairs > .level-step::before,
+.app .level-stairs > .level-step::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--seal-x) - 1px);
+  width: 2px;
+  background: var(--salon-line, #dbd1c0);
+  pointer-events: none;
+}
+.app .level-stairs > .level-step::before {
+  top: 0;
+  height: var(--seal-y);
+}
+.app .level-stairs > .level-step::after {
+  top: var(--seal-y);
+  bottom: 0;
+}
+.app .level-stairs > .level-step:first-child::before,
+.app .level-stairs > .level-step:last-child::after {
+  display: none;
+}
+.app .level-stairs > .level-step.cleared::before,
+.app .level-stairs > .level-step:has(+ .level-step.cleared)::after {
+  background: var(--salon-deep, var(--accent));
+}
+.app .level-stairs .level-select {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 64px;
+  padding: 10px 16px 10px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  box-shadow: none;
+  text-align: left;
+  color: var(--salon-ink, var(--ink));
+  cursor: pointer;
+}
+.app .level-stairs .level-select:hover {
+  background: color-mix(in srgb, var(--salon-white, #fffcf5) 70%, transparent);
+}
+.app .level-stairs > .level-step.selected {
+  background: var(--salon-white, #fffcf5);
+  box-shadow: inset 0 0 0 1px var(--salon-deep, var(--accent)), var(--lk-shadow-1, 0 6px 14px -10px rgb(40 20 10 / .35));
+}
+.app .level-stairs > .level-step.selected .level-select:hover {
+  background: none;
+}
+.app .level-stairs .level-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.app .level-stairs .level-seal {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--salon-white, #fffcf5);
+  box-shadow:
+    inset 0 0 0 1px var(--lk-hairline-paper, var(--salon-line, #dbd1c0)),
+    inset 0 0 0 3px var(--salon-white, #fffcf5),
+    inset 0 0 0 4px var(--salon-line, #dbd1c0);
+  font: 400 17px/1 var(--lk-font-display, "DM Serif Display", Georgia, serif);
+  font-variant-numeric: lining-nums;
+  color: var(--salon-deep, var(--accent));
+}
+.app .level-stairs > .level-step:is(.cleared, .recommended) .level-seal {
+  background: var(--salon-deep, var(--accent));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--salon-ink, #211e1b) 25%, transparent),
+    inset 0 0 0 3px var(--salon-deep, var(--accent)),
+    inset 0 0 0 4px color-mix(in srgb, var(--salon-white, #fffcf5) 45%, transparent);
+  color: var(--salon-white, #fffcf5);
+}
+.app .exercises-screen .level-stairs .level-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.app .exercises-screen .level-stairs .level-copy strong {
+  font-size: 17px;
+  line-height: 1.2;
+  color: var(--salon-ink, var(--ink));
+}
+.app .exercises-screen .level-stairs .level-copy small {
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ink-muted);
+}
+.app .level-stairs .level-reco {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: italic 400 13px/1 var(--lk-font-display, "DM Serif Display", Georgia, serif);
+  color: var(--salon-deep, var(--accent));
+  white-space: nowrap;
+}
+.app .level-stairs .level-reco::before {
+  content: "";
+  width: 18px;
+  height: 5px;
+  background: currentColor;
+  -webkit-mask: var(--lk-fleuron) center / contain no-repeat;
+  mask: var(--lk-fleuron) center / contain no-repeat;
+}
+.app .level-stairs .level-best {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* "Ahead" rows read quieter without dropping the small line below AA:
+   the seal and title soften, the 12 px detail keeps --ink-muted. */
+.app .level-stairs > .level-step.ahead:not(.selected) .level-seal {
+  opacity: 0.7;
+}
+.app .exercises-screen .level-stairs > .level-step.ahead:not(.selected) .level-copy strong {
+  color: color-mix(in oklab, var(--salon-ink, #211e1b) 72%, var(--salon-paper, #f4f0e7));
+}
+.app .level-stairs .level-more {
+  min-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+.app .level-stairs > .level-step.selected {
+  grid-template-rows: auto 1fr;
+}
+.app .level-stairs > .level-step.selected .level-more {
+  visibility: visible;
+}
+.app .level-stairs .level-more > div {
+  display: grid;
+  gap: 6px;
+  padding: 0 18px 14px calc(14px + 36px + 16px);
+}
+.app .level-stairs .level-more p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--salon-ink, var(--ink));
+}
+.app .level-stairs .level-runs {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--salon-deep, var(--accent));
+  font-variant-numeric: tabular-nums;
+}
+
+/* The panel: segmented Hands and Length, selects for the rest. */
+.app .exercises-screen .exercise-choice {
+  display: grid;
+  gap: 6px;
+}
+.app .exercises-screen .exercise-choice > span {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.app .lk-segmented {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--salon-soft, #e9e1d4);
+  box-shadow: inset 0 0 0 1px var(--salon-line, #dbd1c0);
+}
+.app .lk-segmented > button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 30px;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  box-shadow: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--salon-ink, var(--ink));
+  white-space: nowrap;
+  cursor: pointer;
+}
+.app .lk-segmented > button:hover {
+  background: color-mix(in srgb, var(--salon-white, #fffcf5) 60%, transparent);
+}
+.app .lk-segmented > button[aria-pressed="true"] {
+  background: var(--salon-white, #fffcf5);
+  box-shadow: inset 0 0 0 1px var(--salon-deep, var(--accent)), 0 1px 2px rgb(40 20 10 / .12);
+  color: var(--salon-deep, var(--accent));
+}
+/* Review: "C, G, F… major (level)" and "4/4 · 3/4 · 2/4 (level)" were cut
+   off in half-width selects (the panel is 240–280 px). One field a row. */
+.app .exercises-screen .exercise-panel .exercise-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+.app .exercises-screen .exercise-tips {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--salon-soft, #e9e1d4);
+}
+.app .exercises-screen .exercise-tips ol {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font: italic 400 14px/1.5 var(--lk-font-display, "DM Serif Display", Georgia, serif);
+  color: var(--salon-ink, var(--ink));
+}
+.app .exercises-screen .exercise-tips li + li {
+  margin-top: 6px;
+}
+/* The section label in its soft panel was --ink-faint at 4.0:1; it takes the
+   room's deep ink like the other section labels on paper (≥ 4.6:1 on soft). */
+.app .exercises-screen .exercise-tips > h3 {
+  color: var(--salon-deep, var(--ink-muted));
+}
+@media (max-width: 899px) {
+  .app .level-stairs .level-best {
+    display: none;
+  }
+}
+@media (max-width: 440px) {
+  .app .level-stairs .level-select {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+  .app .level-stairs .level-reco {
+    grid-column: 2;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app .level-stairs > .level-step {
+    transition:
+      grid-template-rows 260ms var(--ease-settle, cubic-bezier(.22, 1, .36, 1)),
+      background-color var(--t-quick, 160ms) ease,
+      box-shadow var(--t-quick, 160ms) ease;
+  }
+  .app .level-stairs .level-more {
+    transition: visibility 0s linear 260ms;
+  }
+  .app .level-stairs > .level-step.selected .level-more {
+    transition: visibility 0s;
+  }
+}

@@ -92,7 +92,7 @@ for (const mode of ["quit", "window-close", "force-quit"]) {
     await page.screenshot({ path: `evidence/pdf-${mode}-recovered.png` });
     await card.getByRole("button", { name: "Retry recognition" }).click();
     await page
-      .getByRole("dialog", { name: "Make the music yours" })
+      .getByRole("dialog", { name: "Review score" })
       .waitFor({ timeout: 120000 });
     assert.equal(await page.locator("tbody tr").count(), 16);
     const detail = await page.evaluate(

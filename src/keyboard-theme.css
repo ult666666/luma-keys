@@ -1,0 +1,273 @@
+/* Instrument finishes follow the active salon palette. App resolves companion
+   style versus a manual colour choice; the keyboard inherits that decision.
+   Teaching colours, geometry, input surfaces and hand animation stay separate. */
+.app .keyboard-stage {
+  --keyboard-case: color-mix(in srgb, var(--salon-chrome) 76%, #080a0b);
+  --keyboard-depth: color-mix(in srgb, var(--salon-ink) 58%, #030507);
+  --keyboard-rail: color-mix(in srgb, var(--salon-cloth) 78%, #151619);
+  --keyboard-metal: var(--salon-metal);
+  --keyboard-line: color-mix(in srgb, var(--salon-metal) 32%, transparent);
+  --keyboard-text: var(--salon-paper);
+  --keyboard-muted: var(--salon-muted);
+  --keyboard-white: color-mix(in srgb, var(--salon-paper) 74%, #faf8f0);
+  --keyboard-white-top: var(--salon-white);
+  --keyboard-white-edge: color-mix(in srgb, var(--salon-line) 76%, #9b9589);
+  --keyboard-white-ink: color-mix(in srgb, var(--salon-ink) 78%, #42413e);
+  --keyboard-white-caption: color-mix(in srgb, var(--salon-ink) 64%, #65625d);
+  --keyboard-black: color-mix(in srgb, var(--salon-chrome) 63%, #111315);
+  --keyboard-black-edge: color-mix(in srgb, var(--salon-tint) 70%, #55545a);
+  --keyboard-felt: color-mix(in srgb, var(--salon-deep) 78%, #31282a);
+  --cream: var(--keyboard-text);
+  --stage: var(--keyboard-case);
+  --stage-deep: var(--keyboard-depth);
+  background: var(--keyboard-case);
+  border-color: var(--keyboard-line);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--keyboard-metal) 14%, transparent),
+    0 18px 38px -28px #000c,
+    0 0 0 1px #00000038;
+}
+
+.app .keyboard-stage .keyboard-guide-top {
+  background: var(--keyboard-case);
+  border-bottom-color: var(--keyboard-line);
+}
+.app .keyboard-stage .stage-cue .reader-cue-label > span,
+.app .keyboard-stage .stage-cue .next-notes span,
+.app .keyboard-stage .stage-dynamic,
+.app .keyboard-stage .hand-guide-caption b {
+  color: var(--keyboard-text);
+}
+.app .keyboard-stage .stage-cue .reader-cue-label small,
+.app .keyboard-stage .stage-cue .next-notes span small,
+.app .keyboard-stage .hand-guide-caption,
+.app .keyboard-stage .stage-title small,
+.app .keyboard-stage .stage-legend i,
+.app .keyboard-stage .keyboard-guide-controls button {
+  color: var(--keyboard-muted);
+}
+.app .keyboard-stage .stage-cue .next-then {
+  border-left-color: var(--keyboard-line);
+}
+.app .keyboard-stage .keyboard-guide-controls button:hover:not(:disabled),
+.app .keyboard-stage .keyboard-guide-controls .following,
+.app .keyboard-stage .stage-icon.on {
+  color: var(--keyboard-text);
+  background: color-mix(in srgb, var(--salon-accent) 13%, transparent);
+  border-color: color-mix(in srgb, var(--keyboard-metal) 50%, transparent);
+}
+.app .keyboard-stage .keyboard-guide-controls .keyboard-guide-toggle {
+  color: var(--keyboard-muted);
+  border-color: var(--keyboard-line);
+}
+.app .keyboard-stage .keyboard-offscreen {
+  background: color-mix(in srgb, var(--salon-accent) 8%, var(--keyboard-case));
+  color: var(--keyboard-text);
+}
+.app .keyboard-stage .keyboard-viewport {
+  scrollbar-color: var(--keyboard-metal) var(--keyboard-case);
+}
+
+/* A quiet dark runway leaves the honey/blue note cues distinct in every room. */
+.app .keyboard-stage .roll.runway {
+  background:
+    radial-gradient(
+      80% 44% at 50% 104%,
+      color-mix(in srgb, var(--salon-tint) 62%, transparent),
+      transparent 76%
+    ),
+    linear-gradient(180deg, var(--keyboard-depth), var(--keyboard-case));
+}
+.app .keyboard-stage .roll.runway::before {
+  background: linear-gradient(180deg, var(--keyboard-depth), transparent);
+}
+.app .keyboard-stage .runway-lanes i {
+  border-left-color: color-mix(in srgb, var(--keyboard-text) 4%, transparent);
+}
+.app .keyboard-stage .runway-lanes i.octave {
+  border-left-color: color-mix(in srgb, var(--keyboard-metal) 22%, transparent);
+}
+.app .keyboard-stage .runway-lanes i em {
+  color: color-mix(in srgb, var(--keyboard-muted) 75%, transparent);
+}
+.app .keyboard-stage .beat-line {
+  background: color-mix(in srgb, var(--keyboard-text) 5%, transparent);
+}
+.app .keyboard-stage .beat-line.bar-line {
+  background: color-mix(in srgb, var(--keyboard-text) 15%, transparent);
+}
+.app .keyboard-stage .beat-line.bar-line span {
+  color: var(--keyboard-text);
+  background: var(--keyboard-depth);
+  border-color: var(--keyboard-line);
+}
+.app .keyboard-stage .dyn-mark {
+  color: var(--keyboard-text);
+}
+.app .keyboard-stage .dyn-hairpin polyline {
+  stroke: var(--keyboard-muted);
+}
+.app .keyboard-stage .strike-line {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--keyboard-metal) 5%,
+    var(--keyboard-text) 50%,
+    var(--keyboard-metal) 95%,
+    transparent
+  );
+  box-shadow: none;
+}
+.app .keyboard-stage .strike-pulse {
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--salon-accent) 40%, transparent),
+    transparent
+  );
+}
+.app .keyboard-stage .strike-glow {
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--salon-accent) 18%, transparent),
+    transparent
+  );
+}
+
+/* Porcelain or ivory key faces catch light at their cut edges. All state
+   overlays retain their original hand colours and timing. */
+.app .keyboard-stage .piano-keys {
+  background: var(--keyboard-depth);
+}
+.app .keyboard-stage .piano-keys::before {
+  background: linear-gradient(
+    180deg,
+    var(--keyboard-felt),
+    color-mix(in srgb, var(--keyboard-felt) 68%, #101114)
+  );
+  box-shadow: 0 2px 3px #0008;
+}
+.app .keyboard-stage .piano-key.white .key-surface {
+  background: linear-gradient(
+    90deg,
+    var(--keyboard-white-edge),
+    var(--keyboard-white-top) 7%,
+    var(--keyboard-white) 88%,
+    var(--keyboard-white-edge)
+  );
+  color: var(--keyboard-white-ink);
+}
+.app
+  .keyboard-stage
+  .piano-key.white:not(.pressed):not(.sounding)
+  .key-surface {
+  box-shadow:
+    inset 0 -5px 0 var(--keyboard-white-edge),
+    inset 1px 0 0 var(--keyboard-white-top),
+    inset -1px 0 0 color-mix(in srgb, var(--keyboard-white-edge) 82%, #6c6961);
+}
+.app
+  .keyboard-stage
+  .piano-key.white.lit:not(.pressed):not(.sounding)
+  .key-surface {
+  box-shadow:
+    inset 0 -6px 0 rgba(var(--kc), 0.9),
+    inset 1px 0 0 var(--keyboard-white-top),
+    inset -1px 0 0 var(--keyboard-white-edge);
+}
+.app .keyboard-stage .piano-key.white.sounding .key-surface {
+  box-shadow:
+    inset 0 -2px 0 var(--keyboard-white-edge),
+    inset 1px 0 0 var(--keyboard-white-top),
+    inset -1px 0 0 var(--keyboard-white-edge);
+}
+.app .keyboard-stage .piano-key.white.pressed .key-surface {
+  box-shadow:
+    inset 0 -1px 0 var(--keyboard-white-edge),
+    inset 0 0 0 2px rgba(255, 255, 255, calc(0.35 + var(--press) * 0.5));
+}
+.app .keyboard-stage .piano-key.black .key-surface {
+  background: linear-gradient(
+    90deg,
+    var(--keyboard-depth),
+    var(--keyboard-black-edge) 9%,
+    var(--keyboard-black) 18%,
+    var(--keyboard-black) 82%,
+    var(--keyboard-depth)
+  );
+  color: var(--keyboard-text);
+  box-shadow:
+    inset 0 -6px 0 var(--keyboard-depth),
+    inset 1px 0 0 var(--keyboard-black-edge),
+    0 3px 0 #0007;
+}
+.app .keyboard-stage .piano-key.black.sounding .key-surface,
+.app .keyboard-stage .piano-key.black.pressed .key-surface {
+  box-shadow:
+    inset 0 -2px 0 var(--keyboard-depth),
+    inset 0 0 0 2px rgba(255, 255, 255, calc(0.18 + var(--press) * 0.3)),
+    0 1px 0 #0008;
+}
+.app .keyboard-stage .piano-key.white small {
+  color: var(--keyboard-white-caption);
+}
+.app .keyboard-stage .piano-key.black small {
+  color: var(--keyboard-muted);
+}
+.app .keyboard-stage .piano-key.middle-c small {
+  color: var(--keyboard-white-ink);
+}
+.app .keyboard-stage .piano-key.middle-c small::before {
+  color: var(--salon-deep);
+}
+/* The hand overlay can make a black key light: its caption must turn dark. */
+.app
+  .keyboard-stage
+  .piano-key:is(.lit, .sounding, [data-on="left"], [data-on="right"])
+  small {
+  color: #302b24;
+}
+
+.app .keyboard-stage .key-rail {
+  border-top-color: color-mix(in srgb, var(--keyboard-metal) 45%, transparent);
+  background:
+    linear-gradient(180deg, #0006, transparent 9px),
+    linear-gradient(180deg, var(--keyboard-rail), var(--keyboard-case));
+}
+.app .keyboard-stage .hand-coach {
+  color: var(--keyboard-text);
+  background: var(--keyboard-case);
+  border-top-color: var(--keyboard-line);
+}
+.app .keyboard-stage .coach-action,
+.app .keyboard-stage .coach-rest,
+.app .keyboard-stage .coach-finger-name,
+.app .keyboard-stage .coach-unassigned,
+.app .keyboard-stage .finger-help-button {
+  color: var(--keyboard-muted);
+}
+.app .keyboard-stage .coach-note[data-phase="hold"] .coach-action {
+  color: var(--coach);
+}
+.app .keyboard-stage .finger-help-button:hover {
+  color: var(--keyboard-text);
+  background: color-mix(in srgb, var(--salon-accent) 10%, transparent);
+}
+/* Inactive pitch numbers remain quiet but readable against every key finish. */
+.app
+  .keyboard-stage
+  .piano-key.white:not(
+    :is(
+      .lit,
+      .pressed,
+      .sounding,
+      [data-on="left"],
+      [data-on="right"],
+      [data-soon="left"],
+      [data-soon="right"],
+      [data-then="left"],
+      [data-then="right"]
+    )
+  )
+  .key-number {
+  opacity: 0.72;
+}

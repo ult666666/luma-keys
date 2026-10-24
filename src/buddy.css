@@ -1,0 +1,1097 @@
+/* The roaming companion. CompanionBuddy.jsx positions `.buddy` with one
+ * transform (translate + scale, origin bottom centre) and writes data-*
+ * attributes for its face and pose; everything here is its body language.
+ * Nothing in this file animates a filter, and every travelling or looping
+ * animation sits inside prefers-reduced-motion: no-preference. */
+.buddy {
+  --buddy-ink: var(--salon-ink, #211e1b);
+  --buddy-paper: var(--salon-white, #fffcf5);
+  --buddy-accent: var(--salon-deep, #785733);
+  --burst-r: 44px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 70;
+  width: 78px;
+  height: 78px;
+  pointer-events: none;
+  will-change: transform;
+  transform-origin: 50% 100%;
+  transform: translate3d(calc(100vw + 20px), 40vh, 0);
+  transition: opacity var(--t-base, 240ms) var(--ease-settle, ease);
+}
+.buddy.tucked {
+  opacity: 0;
+  visibility: hidden;
+}
+.buddy-body {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 92%;
+  transform: rotate(var(--tilt, 0deg));
+}
+.buddy-hit {
+  all: unset;
+  position: absolute;
+  inset: 0;
+  display: block;
+  cursor: pointer;
+  pointer-events: auto;
+  border-radius: 50%;
+  touch-action: none;
+  transform-origin: 50% 92%;
+  -webkit-tap-highlight-color: transparent;
+}
+.buddy.held .buddy-hit {
+  cursor: grabbing;
+}
+/* Focus (ART-9's one ring, from --lk-focus): the companion is not inside a
+ * paper .screen or .modal, so it sets the token from where it stands. On the
+ * lacquer practice header, the cue seat and beside a dialog (the dark
+ * backdrop) it is the room's gilt-hi (≥ 9.9:1 on chrome); on the paper
+ * screens (header arch, edge rail) it is the deep ink (≥ 5.2:1 on paper).
+ * A 2 px band in the opposite material fills the offset, so the ring keeps
+ * its contrast whatever passes behind it. */
+.buddy {
+  --lk-focus: var(--lk-gilt-hi, #ead2a4);
+  --buddy-focus-gap: var(--salon-chrome, #292420);
+}
+.buddy:is([data-rail='header'], [data-rail='edge']) {
+  --lk-focus: var(--salon-deep, #785733);
+  --buddy-focus-gap: var(--salon-white, #fffcf5);
+}
+/* (0,3,0) so design.css's older `.app :focus-visible` accent ring (0,2,0,
+ * later in the cascade) does not repaint it. */
+.buddy .buddy-hit:focus-visible {
+  outline: 2px solid var(--lk-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--buddy-focus-gap);
+}
+.buddy-hit > svg,
+.buddy-hit > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.22));
+}
+.buddy-hit > .bf {
+  filter: none;
+  pointer-events: none;
+  overflow: visible;
+}
+.buddy-shadow {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: -2px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.28), transparent);
+  filter: none;
+  transition: opacity var(--t-quick, 160ms) ease;
+}
+.buddy:is([data-rail="gap"], [data-rail="header"]) .buddy-shadow {
+  box-shadow: 0 1px 0 var(--lk-hairline, #c6a46f4d);
+}
+.buddy:is(.held, .flying, .peek, [data-rail="cue"]) .buddy-shadow {
+  opacity: 0;
+}
+
+/* ---------------------------------------------------- the calling card */
+.buddy-bubble {
+  position: absolute;
+  box-sizing: border-box;
+  scale: calc(1 / var(--bubble-s, 1));
+  transform-origin: 0 0;
+  padding: 10px 13px;
+  border-radius: 12px;
+  background:
+    var(--lk-grain, none),
+    linear-gradient(180deg, var(--salon-white, #fffcf5), var(--salon-paper, #f4f0e7));
+  background-size: 180px, auto;
+  color: var(--salon-ink, #211e1b);
+  font: 500 12.5px/1.45 var(--lk-font-text, Manrope, -apple-system, sans-serif);
+  text-wrap: pretty;
+  box-shadow:
+    0 0 0 1px var(--lk-hairline-paper, #dbd1c0),
+    inset 0 0 0 3px var(--salon-white, #fffcf5),
+    inset 0 0 0 4px rgba(var(--lk-gilt-rgb, 198, 164, 111), 0.28),
+    0 12px 28px -10px rgb(0 0 0 / 0.35);
+  pointer-events: none;
+}
+.buddy-bubble::before {
+  content: attr(data-name);
+  display: block;
+  margin-bottom: 2px;
+  font: italic 400 12px/1 var(--lk-font-display, "DM Serif Display", Georgia, serif);
+  color: var(--salon-deep, #785733);
+}
+.buddy-bubble[data-side="left"] {
+  border-radius: 12px 12px 4px 12px;
+}
+.buddy-bubble[data-side="right"] {
+  border-radius: 12px 12px 12px 4px;
+}
+.buddy-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--salon-ink, #211e1b) 68%, transparent);
+}
+
+/* News the budget held back: a one-shot halo; the next poke says it. */
+.buddy-hit::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1px var(--lk-hairline, #c6a46f66),
+    0 0 18px rgba(var(--lk-gilt-rgb, 198, 164, 111), 0.25);
+  opacity: 0;
+  pointer-events: none;
+}
+.buddy.has-news .buddy-hit::before {
+  opacity: 1;
+  transition: opacity 1.6s var(--ease-settle, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+/* ------------------------------------------------------------- the face */
+.app .buddy .maestro-avatar .maestro-eyes,
+.app .buddy .beethoven-avatar .beethoven-eyes,
+.app .buddy .maestro-avatar :is(.maestro-head, .maestro-playing-arm),
+.app .buddy .beethoven-avatar :is(.beethoven-head, .beethoven-baton-arm) {
+  animation: none;
+}
+.app
+  .buddy
+  :is(
+    .presence-pupil,
+    .maestro-eyes > g > ellipse:nth-child(2),
+    .maestro-eyes > g > circle,
+    .beethoven-eyes > ellipse:nth-child(n + 3),
+    .beethoven-eyes > circle
+  ) {
+  transform: translate(calc(var(--gx, 0) * 2.2px), calc(var(--gy, 0) * 1.6px));
+  transition: transform 90ms ease-out;
+}
+.app .buddy[data-eyes="wide"] :is(.maestro-eyes > g, .beethoven-eyes, .presence-pet-eyes > g) {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(1.16);
+}
+.app .buddy .bf-lid {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  transform: scaleY(0);
+  transition: transform 55ms ease-in;
+}
+.app .buddy[data-blink="1"] .bf-lid,
+.app .buddy:is([data-eyes="sleep"], [data-eyes="happy"]) .bf-lid,
+.app .buddy[data-eyes="wink"] .bf-lid.l {
+  transform: scaleY(1);
+}
+.app .buddy[data-eyes="half"] .bf-lid {
+  transform: scaleY(0.55);
+}
+.app .buddy :is(.bf-lash, .bf-arc, .bf-sparkle, .bf-hearts, .bf-dizzy, .bf-mouth-o, .bf-blush, .bf-marks > *, .bf-stars) {
+  opacity: 0;
+}
+.app .buddy[data-eyes="sleep"] .bf-lash,
+.app .buddy[data-blink="1"]:not([data-eyes="happy"]) .bf-lash,
+.app .buddy[data-eyes="happy"] .bf-arc,
+.app .buddy[data-eyes="wink"] .bf-eye.l .bf-arc,
+.app .buddy[data-eyes="sparkle"] .bf-sparkle,
+.app .buddy[data-eyes="heart"] .bf-hearts,
+.app .buddy[data-eyes="dizzy"] .bf-dizzy,
+.app .buddy[data-mouth="o"] .bf-mouth-o,
+.app .buddy[data-fx~="blush"] .bf-blush,
+.app .buddy[data-fx~="bang"] .bf-m-bang,
+.app .buddy[data-fx~="ask"] .bf-m-ask,
+.app .buddy[data-fx~="sigh"] .bf-m-sigh,
+.app .buddy[data-fx~="sweat"] .bf-m-sweat,
+.app .buddy[data-fx~="note"] .bf-m-note,
+.app .buddy[data-pose="scribble"] .bf-m-note,
+.app .buddy[data-pose="purr"] .bf-m-purr,
+.app .buddy[data-character="beethoven"][data-face="grumpy"] .bf-m-anger {
+  opacity: 1;
+}
+.app .buddy .bf-blush,
+.app .buddy .bf-marks > * {
+  transition: opacity var(--t-quick, 160ms) ease;
+}
+.app .buddy :is(.maestro-head, .beethoven-head, .presence-pet-head, .bf-head) {
+  transform-box: view-box;
+}
+.app .buddy .presence-pet-head {
+  transform-origin: 89px 118px;
+}
+.app .buddy .bf-head {
+  transform-origin: var(--bf-ox, 90px) var(--bf-oy, 118px);
+}
+.app .buddy .presence-pet-paw {
+  transform-box: view-box;
+  transform-origin: 70px 143px;
+}
+.app .buddy .presence-pet-tail {
+  transform-box: view-box;
+  transform-origin: 127px 151px;
+}
+.app .buddy .presence-pet-ear {
+  transform-box: view-box;
+  transform-origin: 66px 57px;
+}
+.app .buddy .presence-pet-ear-far {
+  transform-origin: 106px 57px;
+}
+.app .buddy .maestro-score-arm,
+.app .buddy .beethoven-score-arm {
+  transform-box: view-box;
+  transform-origin: 119px 129px;
+}
+
+/* Asleep: eyes shut, head down, z's rising. */
+.buddy-zzz {
+  position: absolute;
+  right: 6px;
+  top: -8px;
+  color: var(--buddy-accent);
+  font-weight: 800;
+  pointer-events: none;
+  display: none;
+}
+.buddy.asleep .buddy-zzz {
+  display: block;
+}
+.buddy-zzz i {
+  position: absolute;
+  font-style: normal;
+  opacity: 0;
+}
+.buddy.asleep .buddy-body {
+  rotate: 6deg;
+  translate: 0 3px;
+}
+
+/* Held and tossed. */
+.buddy.held .buddy-body {
+  rotate: clamp(-25deg, var(--vx-tilt, 0deg), 25deg);
+  scale: 1 1.05;
+}
+.buddy.flying .buddy-body {
+  rotate: var(--spin, 0deg);
+}
+.buddy.dizzy .bf-stars {
+  opacity: 1;
+}
+
+/* Bunny ears back while petted. */
+.app .buddy[data-pose="earsback"] .presence-pet-ear:not(.presence-pet-ear-far) {
+  rotate: -24deg;
+}
+.app .buddy[data-pose="earsback"] .presence-pet-ear-far {
+  rotate: 24deg;
+}
+
+/* ---------------------------------------------------------- particles */
+.buddy-burst {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.buddy-burst i {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 8px;
+  color: var(--buddy-accent);
+  opacity: 0;
+}
+.buddy-burst.confetti i {
+  width: 6px;
+  height: 10px;
+  border-radius: 2px;
+  background: hsl(calc(var(--i) * 47deg) 62% 62%);
+}
+.buddy-burst.sparkles i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lk-gilt-hi, #ffd76a);
+  box-shadow: 0 0 6px var(--lk-gilt, #e7c25a);
+}
+.buddy-burst.hearts i {
+  color: #e2607a;
+}
+
+/* --------------------------------------------------------------- menu */
+.buddy-menu {
+  position: fixed;
+  z-index: 90;
+  min-width: 226px;
+  max-width: 280px;
+  padding: 6px;
+  border-radius: 12px;
+  background: var(--salon-white, #fffcf5);
+  color: var(--salon-ink, #211e1b);
+  box-shadow:
+    0 0 0 1px var(--lk-hairline-paper, var(--salon-line, #dbd1c0)),
+    var(--lk-shadow-2, 0 18px 40px -28px rgb(20 10 5 / 0.55)),
+    0 10px 30px -12px rgb(0 0 0 / 0.3);
+  font: 500 13px/1.3 var(--lk-font-text, Manrope, -apple-system, sans-serif);
+}
+.buddy-menu-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 10px 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--salon-line, #dbd1c0);
+}
+.buddy-menu-head strong {
+  font: italic 400 15px/1.1 var(--lk-font-display, "DM Serif Display", Georgia, serif);
+  color: var(--salon-deep, #785733);
+}
+.buddy-menu-hearts {
+  display: inline-flex;
+  gap: 2px;
+  color: color-mix(in srgb, var(--salon-ink, #211e1b) 30%, transparent);
+}
+.buddy-menu-hearts .on {
+  color: #c4536a;
+  fill: currentColor;
+}
+.buddy-menu-item {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.buddy-menu-item > span {
+  flex: 1;
+  display: grid;
+}
+.buddy-menu-item small {
+  font-size: 11px;
+  color: color-mix(in srgb, var(--salon-ink, #211e1b) 66%, transparent);
+}
+.buddy-menu-item:is(:hover, :focus-visible) {
+  background: var(--salon-soft, #e9e1d4);
+}
+.buddy-menu .buddy-menu-item:focus-visible {
+  outline: 2px solid var(--salon-deep, #785733);
+  outline-offset: -2px;
+}
+.buddy-menu-item.is-disabled {
+  cursor: default;
+  color: color-mix(in srgb, var(--salon-ink, #211e1b) 62%, transparent);
+}
+.buddy-menu-item.is-disabled:hover {
+  background: none;
+}
+.buddy-menu-check {
+  color: var(--salon-deep, #785733);
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------- motion */
+@media (prefers-reduced-motion: no-preference) {
+  .buddy-body {
+    animation: buddy-arrive 620ms var(--ease-spring, cubic-bezier(0.3, 1.5, 0.5, 1)) backwards;
+  }
+  .buddy-bubble {
+    animation: buddy-say var(--t-base, 240ms) var(--ease-give, cubic-bezier(0.34, 1.36, 0.64, 1)) backwards;
+  }
+  .buddy:not(.still, .dancing, .held, .flying) .buddy-hit > * {
+    animation: buddy-breathe 3.6s ease-in-out infinite;
+  }
+  .buddy.walking:not(.dancing) .buddy-hit {
+    animation: buddy-waddle 360ms ease-in-out infinite;
+  }
+  .buddy.asleep .buddy-hit > * {
+    animation: buddy-snooze 4.2s ease-in-out infinite;
+  }
+  .buddy.asleep .buddy-body {
+    transition:
+      rotate 600ms var(--ease-settle, ease),
+      translate 600ms var(--ease-settle, ease);
+  }
+  .buddy.asleep .buddy-zzz i {
+    animation: buddy-z 3s ease-in infinite;
+  }
+  .buddy.asleep .buddy-zzz i:nth-child(2) {
+    animation-delay: 1s;
+  }
+  .buddy.asleep .buddy-zzz i:nth-child(3) {
+    animation-delay: 2s;
+  }
+  .buddy-burst i {
+    animation: buddy-fly 1.2s var(--ease-tail, cubic-bezier(0.16, 0.7, 0.28, 1)) both;
+    animation-delay: calc(var(--i) * 18ms);
+  }
+  .buddy.dizzy .bf-stars path {
+    transform-box: view-box;
+    transform-origin: 90px 70px;
+    animation: buddy-orbit 600ms linear 2;
+    animation-delay: calc(var(--i) * -200ms);
+  }
+  .buddy.held .buddy-hit :is(.maestro-playing-arm, .beethoven-baton-arm, .presence-pet-paw, .presence-pet-tail) {
+    animation: buddy-dangle 1s ease-in-out infinite;
+  }
+
+  /* Poses: one-shot, set as data-pose by the companion's brain. */
+  .buddy[data-pose="hop"] .buddy-hit {
+    animation: buddy-hop 520ms var(--ease-give, cubic-bezier(0.34, 1.36, 0.64, 1));
+  }
+  .buddy[data-pose="hop-sm"] .buddy-hit {
+    animation: buddy-hop-sm 240ms var(--ease-give, cubic-bezier(0.34, 1.36, 0.64, 1));
+  }
+  .buddy[data-pose="spin"] .buddy-hit {
+    animation: buddy-spin 520ms var(--ease-give, cubic-bezier(0.34, 1.36, 0.64, 1));
+  }
+  .buddy[data-pose="wiggle"] .buddy-hit {
+    animation: buddy-wiggle 90ms ease-in-out 6 alternate;
+  }
+  .buddy[data-pose="boop"] .buddy-hit {
+    animation: buddy-boop 400ms var(--ease-give, ease);
+  }
+  .buddy[data-pose="land"] .buddy-hit {
+    animation: buddy-land 450ms ease-out;
+  }
+  .buddy[data-pose="cheer"] .buddy-hit {
+    animation: buddy-cheer 700ms cubic-bezier(0.3, 1.6, 0.5, 1) 3;
+  }
+  .buddy[data-pose="cheer2"] .buddy-hit {
+    animation: buddy-cheer 700ms cubic-bezier(0.3, 1.6, 0.5, 1) 2;
+  }
+  .buddy[data-pose="doublehop"] .buddy-hit,
+  .buddy[data-pose="hopfix"] .buddy-hit {
+    animation: buddy-hop-sm 300ms var(--ease-give, ease) 2;
+  }
+  .buddy[data-pose="purr"] .buddy-hit {
+    animation: buddy-purr 120ms ease-in-out infinite alternate;
+  }
+  .buddy:is([data-pose="giggle"]) .buddy-hit {
+    animation: buddy-giggle 100ms ease-in-out 3 alternate;
+  }
+  .buddy[data-pose="micronod"] .buddy-hit {
+    animation: buddy-micronod 80ms ease-out;
+  }
+  .buddy:is([data-pose="wave"], [data-pose="bigwave"]) :is(.maestro-playing-arm, .beethoven-baton-arm, .presence-pet-paw) {
+    animation: buddy-wave 220ms ease-in-out 3 alternate;
+  }
+  .buddy[data-pose="bigwave"] .buddy-hit {
+    animation: buddy-hop-sm 300ms ease 1;
+  }
+  .buddy:is([data-pose="nod"], [data-pose="squint"]) :is(.maestro-head, .beethoven-head, .presence-pet-head, .bf-head) {
+    animation: buddy-nod 320ms ease-in-out;
+  }
+  .buddy[data-pose="squint"] :is(.maestro-head, .beethoven-head, .presence-pet-head, .bf-head) {
+    animation-duration: 1400ms;
+  }
+  .buddy[data-pose="gasp"] :is(.maestro-head, .beethoven-head, .presence-pet-head, .bf-head) {
+    animation: buddy-gasp 450ms ease-out;
+  }
+  .buddy[data-pose="hairtoss"] :is(.maestro-head, .bf-head) {
+    animation: buddy-hairtoss 500ms cubic-bezier(0.2, 1.6, 0.4, 1);
+  }
+  .buddy[data-pose="scribble"] :is(.maestro-score-arm, .beethoven-score-arm) {
+    animation: buddy-scribble 90ms ease-in-out 4 alternate;
+  }
+  .buddy[data-pose="huff"] .buddy-hit {
+    animation: buddy-huff 700ms ease-out;
+  }
+  .buddy[data-pose="flourish"] :is(.maestro-playing-arm, .beethoven-baton-arm) {
+    animation: buddy-flourish 900ms var(--ease-give, ease);
+  }
+  .buddy[data-pose="swoon"] :is(.maestro-playing-arm, .beethoven-baton-arm) {
+    animation: buddy-swoon 1300ms ease-in-out;
+  }
+  .buddy[data-pose="airpiano"] :is(.maestro-playing-arm, .beethoven-baton-arm) {
+    animation: buddy-airpiano 100ms linear 10 alternate;
+  }
+  .buddy[data-pose="hum"] .buddy-hit {
+    animation: buddy-sway 500ms ease-in-out 3 alternate;
+  }
+  .buddy[data-pose="groom"] .presence-pet-paw {
+    animation: buddy-groom 1300ms ease-in-out;
+  }
+  .buddy[data-pose="tailswish"] .presence-pet-tail {
+    animation: buddy-tail 400ms ease-in-out 3 alternate;
+  }
+  .buddy[data-pose="knock"] .presence-pet-paw {
+    animation: buddy-wave 220ms ease-in-out 2 alternate;
+  }
+  .buddy[data-pose="knock"] .bf-m-note {
+    opacity: 1;
+    animation: buddy-note-fall 1100ms cubic-bezier(0.5, 0, 0.9, 0.5) both;
+  }
+  .buddy[data-pose="eartwitch"] .presence-pet-ear:not(.presence-pet-ear-far) {
+    animation: buddy-ear 120ms ease-in-out 2 alternate;
+  }
+  .buddy[data-pose="eartwitch"] .presence-pet-ear-far {
+    animation: buddy-ear-far 120ms ease-in-out 200ms 2 alternate;
+  }
+  .buddy[data-pose="fargaze"] .bf-head {
+    --gx: 0.8;
+  }
+  .app .buddy[data-pose="earsback"] .presence-pet-ear {
+    transition: rotate 200ms var(--ease-settle, ease);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buddy-body,
+  .buddy-bubble {
+    animation: buddy-fade 160ms ease both;
+  }
+  .buddy-burst {
+    display: none;
+  }
+  .buddy.asleep .buddy-zzz i {
+    opacity: 0.7;
+    position: static;
+  }
+  .app .buddy .bf-lid {
+    transition: none;
+  }
+  .buddy-menu {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .buddy-menu {
+    animation: buddy-menu-in var(--t-quick, 160ms) var(--ease-settle, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+  }
+}
+
+@keyframes buddy-arrive {
+  0% {
+    transform: translateY(-26px) scale(0.86, 1.1) rotate(var(--tilt, 0deg));
+  }
+  55% {
+    transform: translateY(2px) scale(1.08, 0.92) rotate(var(--tilt, 0deg));
+  }
+  100% {
+    transform: rotate(var(--tilt, 0deg));
+  }
+}
+@keyframes buddy-say {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.92);
+  }
+}
+@keyframes buddy-menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+@keyframes buddy-breathe {
+  0%,
+  100% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1.02 0.985;
+  }
+}
+@keyframes buddy-waddle {
+  0%,
+  100% {
+    transform: rotate(-5deg) translateY(0);
+  }
+  50% {
+    transform: rotate(5deg) translateY(-4px);
+  }
+}
+@keyframes buddy-hop {
+  0%,
+  100% {
+    transform: none;
+  }
+  35% {
+    transform: translateY(-14px) scale(0.96, 1.05);
+  }
+  70% {
+    transform: translateY(0) scale(1.08, 0.92);
+  }
+}
+@keyframes buddy-hop-sm {
+  0%,
+  100% {
+    transform: none;
+  }
+  45% {
+    transform: translateY(-6px);
+  }
+}
+/* A pirouette about the upright axis: a full turn in the plane would swing
+ * its feet below the ledge it stands on (the practice header sits right on
+ * the score), a turn about the vertical axis stays inside its own box. */
+@keyframes buddy-spin {
+  to {
+    transform: perspective(240px) rotateY(360deg);
+  }
+}
+@keyframes buddy-wiggle {
+  from {
+    transform: rotate(-8deg);
+  }
+  to {
+    transform: rotate(8deg);
+  }
+}
+@keyframes buddy-boop {
+  0%,
+  100% {
+    transform: none;
+  }
+  30% {
+    transform: scale(1.06, 0.9);
+  }
+}
+@keyframes buddy-land {
+  0% {
+    transform: scale(1.12, 0.84);
+  }
+  40% {
+    transform: scale(0.96, 1.05);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes buddy-cheer {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(-18px) scale(1.06, 0.96) rotate(-6deg);
+  }
+  70% {
+    transform: translateY(0) scale(1.08, 0.9);
+  }
+}
+@keyframes buddy-purr {
+  from {
+    transform: translateX(-0.4px);
+  }
+  to {
+    transform: translateX(0.4px);
+  }
+}
+@keyframes buddy-giggle {
+  from {
+    transform: translateY(0) rotate(-2deg);
+  }
+  to {
+    transform: translateY(-2px) rotate(2deg);
+  }
+}
+@keyframes buddy-micronod {
+  50% {
+    transform: translateY(1.5px);
+  }
+}
+@keyframes buddy-wave {
+  from {
+    rotate: -4deg;
+  }
+  to {
+    rotate: -22deg;
+  }
+}
+@keyframes buddy-nod {
+  50% {
+    rotate: 4deg;
+    translate: 0 1px;
+  }
+}
+@keyframes buddy-gasp {
+  40% {
+    rotate: -3deg;
+    translate: 0 -1px;
+  }
+}
+@keyframes buddy-hairtoss {
+  40% {
+    rotate: -8deg;
+  }
+  75% {
+    rotate: 4deg;
+  }
+}
+@keyframes buddy-scribble {
+  from {
+    rotate: -4deg;
+  }
+  to {
+    rotate: 4deg;
+  }
+}
+@keyframes buddy-huff {
+  30% {
+    transform: scale(1.04, 0.97);
+  }
+}
+@keyframes buddy-flourish {
+  35% {
+    rotate: -40deg;
+  }
+  75% {
+    rotate: 20deg;
+  }
+}
+@keyframes buddy-swoon {
+  25%,
+  75% {
+    rotate: -60deg;
+  }
+}
+@keyframes buddy-airpiano {
+  from {
+    rotate: -4deg;
+  }
+  to {
+    rotate: 4deg;
+  }
+}
+@keyframes buddy-sway {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3deg);
+  }
+}
+@keyframes buddy-groom {
+  20%,
+  80% {
+    rotate: -38deg;
+  }
+}
+@keyframes buddy-tail {
+  from {
+    rotate: -10deg;
+  }
+  to {
+    rotate: 10deg;
+  }
+}
+@keyframes buddy-ear {
+  to {
+    rotate: -8deg;
+  }
+}
+@keyframes buddy-ear-far {
+  to {
+    rotate: 8deg;
+  }
+}
+@keyframes buddy-note-fall {
+  0% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(120px) rotate(40deg);
+  }
+}
+@keyframes buddy-dangle {
+  0%,
+  100% {
+    rotate: -8deg;
+  }
+  50% {
+    rotate: 8deg;
+  }
+}
+@keyframes buddy-orbit {
+  from {
+    rotate: 0deg;
+    translate: 18px 0;
+  }
+  to {
+    rotate: 360deg;
+    translate: 18px 0;
+  }
+}
+@keyframes buddy-snooze {
+  0%,
+  100% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1.03 0.97;
+  }
+}
+@keyframes buddy-z {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(14px, -30px) scale(1.2);
+  }
+}
+@keyframes buddy-fly {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--a, 0deg)) translateX(0) scale(0.4);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a, 0deg)) translateX(var(--burst-r, 44px)) rotate(calc(-1 * var(--a, 0deg))) scale(1);
+  }
+}
+@keyframes buddy-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------ arrivals and partings */
+/* Petals when it lands in the header arch, dust when it lands anywhere,
+ * a hand-over when the companion changes, a bow at the end of a piece and
+ * the treat it is given. All of it travels only without reduced motion;
+ * under reduce the states still change. */
+.buddy-petals,
+.buddy-treat {
+  position: absolute;
+  pointer-events: none;
+}
+.buddy-petals {
+  left: 10%;
+  right: 10%;
+  top: -6px;
+  height: 0;
+}
+.buddy-petals i {
+  position: absolute;
+  top: 0;
+  width: 9px;
+  height: 7px;
+  border-radius: 70% 0 70% 0;
+  background: linear-gradient(135deg, rgba(var(--lk-gilt-rgb, 198, 164, 111), 0.95), color-mix(in srgb, var(--salon-deep, #785733) 55%, #f3c7c7));
+  opacity: 0;
+}
+.buddy-petals i:nth-child(1) {
+  left: 8%;
+}
+.buddy-petals i:nth-child(2) {
+  left: 48%;
+}
+.buddy-petals i:nth-child(3) {
+  left: 84%;
+}
+.buddy-treat {
+  left: calc(50% - 8px);
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  scale: calc(1 / var(--buddy-scale, 1));
+  opacity: 0;
+}
+.buddy-treat svg {
+  display: block;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.25));
+}
+.buddy-treat.pop {
+  top: -18px;
+  opacity: 1;
+}
+.buddy-treat.feed {
+  opacity: 1;
+}
+.buddy.swap-out .buddy-hit {
+  opacity: 0;
+}
+.buddy-shadow::before,
+.buddy-shadow::after {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--salon-line, #dbd1c0) 80%, transparent);
+  opacity: 0;
+}
+.buddy-shadow::before {
+  left: -6px;
+}
+.buddy-shadow::after {
+  right: -6px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .buddy.petals .buddy-petals i {
+    animation: buddy-petal 900ms var(--ease-tail, cubic-bezier(0.16, 0.7, 0.28, 1)) both;
+  }
+  .buddy.petals .buddy-petals i:nth-child(2) {
+    animation-delay: 90ms;
+    --petal-x: -6px;
+  }
+  .buddy.petals .buddy-petals i:nth-child(3) {
+    animation-delay: 170ms;
+    --petal-x: 8px;
+  }
+  .buddy[data-pose="land"] .buddy-shadow::before,
+  .buddy[data-pose="land"] .buddy-shadow::after {
+    animation: buddy-dust 380ms var(--ease-settle, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+  .buddy[data-pose="land"] .buddy-shadow::before {
+    --dust-x: -10px;
+  }
+  .buddy[data-pose="land"] .buddy-shadow::after {
+    --dust-x: 10px;
+  }
+  .buddy.swap-out .buddy-hit {
+    animation: buddy-swap-out 240ms var(--ease-exit, cubic-bezier(0.4, 0, 1, 1)) both;
+  }
+  .buddy.swap-in .buddy-hit {
+    animation: buddy-swap-in 380ms var(--ease-give, cubic-bezier(0.34, 1.36, 0.64, 1)) both;
+  }
+  .buddy[data-pose="bow"] .buddy-hit {
+    animation: buddy-bow 1160ms var(--ease-move, cubic-bezier(0.65, 0, 0.35, 1));
+  }
+  .buddy[data-pose="sway"] .buddy-hit {
+    animation: buddy-sway 1000ms ease-in-out 4 alternate;
+  }
+  .buddy-treat.pop {
+    animation: buddy-treat-pop 1300ms var(--ease-settle, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+  .buddy-treat.feed {
+    animation: buddy-treat-feed 600ms var(--ease-move, cubic-bezier(0.65, 0, 0.35, 1)) both;
+  }
+  .buddy-treat.feed svg {
+    animation: buddy-treat-eat 840ms steps(3, end) 600ms both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .buddy-treat.pop,
+  .buddy-petals {
+    display: none;
+  }
+  .buddy-treat.feed {
+    top: calc(56% - 8px);
+  }
+}
+
+@keyframes buddy-petal {
+  0% {
+    opacity: 0;
+    transform: translate(0, -6px) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--petal-x, 4px), 40px) rotate(220deg);
+  }
+}
+@keyframes buddy-dust {
+  0% {
+    opacity: 0.9;
+    transform: translateX(0) scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dust-x, 8px), -4px) scale(1.4);
+  }
+}
+@keyframes buddy-swap-out {
+  to {
+    opacity: 0;
+    transform: translateX(var(--swap-dx, 140px));
+  }
+}
+@keyframes buddy-swap-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--swap-dx, 140px)) translateY(-14px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0) translateY(-10px);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes buddy-bow {
+  0%,
+  100% {
+    transform: none;
+  }
+  33%,
+  69% {
+    transform: translateY(7px) rotate(10deg);
+  }
+}
+@keyframes buddy-treat-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.6);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.15);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.9);
+  }
+}
+/* From above the head to the mouth (about 56 % down the face). */
+@keyframes buddy-treat-feed {
+  from {
+    top: -30px;
+    transform: translateX(14px) rotate(-30deg);
+  }
+  to {
+    top: calc(56% - 8px);
+    transform: none;
+  }
+}
+@keyframes buddy-treat-eat {
+  from {
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 100%);
+  }
+}

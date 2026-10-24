@@ -1,0 +1,397 @@
+.app .maestro-launcher {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 7px;
+  min-height: 38px;
+  padding: 2px 10px 2px 2px;
+  border: 1px solid #b8cbb22e;
+  border-radius: 7px;
+  background: #ffffff06;
+  color: #e8e9de;
+  font-size: 12px;
+  font-weight: 550;
+}
+.app .maestro-launcher:hover {
+  background: #ffffff0e;
+  border-color: #b8cbb270;
+}
+.app .maestro-launcher .beethoven-avatar {
+  width: 33px;
+  height: 33px;
+}
+.app .maestro-launcher:disabled {
+  opacity: 0.5;
+}
+.app .maestro-stage-cue {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  flex: 0 1 255px;
+  min-width: 0;
+  max-width: 255px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  text-align: left;
+  color: #e8d9be;
+}
+.app .maestro-stage-cue .beethoven-avatar {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+}
+.app .maestro-stage-cue > span {
+  min-width: 0;
+}
+.app .maestro-stage-cue strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.app .maestro-stage-cue small {
+  display: block;
+  font-size: 9px;
+  color: #b6a990;
+  margin-top: 3px;
+}
+.app .maestro-stage-cue:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.app .modal.maestro-dialog {
+  width: 680px;
+  padding: 25px 28px 20px;
+}
+.app .maestro-dialog .modal-heading {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+}
+.app .maestro-dialog .modal-heading h2 {
+  font-size: 30px;
+}
+.app .maestro-dialog .modal-heading p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.app .maestro-intro {
+  display: grid;
+  grid-template-columns: 106px minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 20px;
+}
+.app .maestro-portrait {
+  position: relative;
+  width: 106px;
+  align-self: center;
+}
+.app .maestro-portrait::before {
+  content: "";
+  position: absolute;
+  inset: 7% -2% 0;
+  border-radius: 44% 48% 39% 42%;
+  background: #e8e7d8;
+  transform: rotate(-7deg);
+}
+.app .maestro-portrait .beethoven-avatar {
+  position: relative;
+  display: block;
+  width: 106px;
+  height: 106px;
+}
+.app .maestro-eyebrow {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  font-weight: 650;
+  text-transform: uppercase;
+  color: #697860;
+  margin-bottom: 5px;
+}
+.app .maestro-stand {
+  min-width: 0;
+}
+.app .maestro-stand h3 {
+  font-size: 17px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.app .maestro-stand > p {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin: 6px 0 0;
+}
+.app .maestro-written-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-top: 10px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: #53624c;
+}
+.app .maestro-written-tip > svg {
+  flex: 0 0 14px;
+  margin-top: 2px;
+}
+.app .maestro-ask > label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+.app .maestro-input-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #fffef9;
+  border: 1px solid #adbda4;
+  border-radius: 9px;
+  padding: 6px 7px 6px 12px;
+}
+.app .maestro-input-row:focus-within {
+  outline: 2px solid #4c70532e;
+  outline-offset: 2px;
+  border-color: #52704a;
+}
+.app .maestro-input-row > svg {
+  color: #687a60;
+  flex-shrink: 0;
+}
+.app .modal .maestro-input-row input {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 8px 0;
+  font: inherit;
+  font-size: 12px;
+}
+.app .modal .maestro-input-row input:focus-visible {
+  outline: none;
+}
+.app .maestro-input-row input::placeholder {
+  color: #798573;
+}
+.app .modal .maestro-input-row button {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  padding: 0;
+  border-radius: 6px;
+}
+.app .maestro-local {
+  display: block;
+  margin: 7px 0 0;
+  font-size: 10px;
+  color: var(--ink-muted);
+}
+.app .maestro-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 15px 0 17px;
+}
+.app .maestro-shortcuts button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 9px;
+  border: 1px solid #d5ddcd;
+  background: #eff1e8;
+  border-radius: 5px;
+  color: #42543d;
+  font-size: 10.5px;
+}
+.app .maestro-shortcuts button:hover {
+  border-color: #92a782;
+  background: #e5ecdd;
+}
+.app .maestro-recents,
+.app .maestro-answer {
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+.app .maestro-recents h4 {
+  font-size: 11px;
+  font-weight: 650;
+  margin: 0 0 9px;
+}
+.app .maestro-recents > p,
+.app .maestro-answer > p {
+  font-size: 12px;
+  color: var(--ink-muted);
+  line-height: 1.65;
+  margin: 8px 0 13px;
+}
+.app .maestro-question {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 8px;
+}
+.app .maestro-question > span {
+  color: var(--ink-muted);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+.app .maestro-question strong {
+  font-size: 12px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.app .maestro-action-list {
+  display: grid;
+  gap: 7px;
+}
+.app .maestro-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  border: 1px solid #d7dfce;
+  border-radius: 8px;
+  padding: 11px 13px;
+  background: #fffdf7;
+  text-align: left;
+  margin-bottom: 6px;
+}
+.app .maestro-action:hover {
+  background: #edf1e5;
+  border-color: #9baf8d;
+}
+.app .maestro-action > span {
+  min-width: 0;
+}
+.app .maestro-action strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #303d2c;
+  overflow-wrap: anywhere;
+}
+.app .maestro-action small {
+  display: block;
+  color: #697462;
+  font-size: 10.5px;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+.app .maestro-action > svg {
+  flex-shrink: 0;
+  color: #627858;
+}
+.app .maestro-clear,
+.app .maestro-inline {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  font-size: 11px;
+  padding: 0;
+}
+.app .maestro-clear {
+  margin-top: 8px;
+}
+.app .maestro-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 15px;
+}
+.app .maestro-footer label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+.app .maestro-footer input {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+}
+.app .maestro-footer .secondary {
+  font-size: 11px;
+  padding: 9px 11px;
+}
+@media (max-width: 1400px) {
+  .app .maestro-launcher > span {
+    display: none;
+  }
+  .app .maestro-launcher {
+    padding: 2px;
+  }
+}
+@media (max-width: 1100px) {
+  .app .maestro-stage-cue {
+    flex-basis: 40px;
+    max-width: 40px;
+  }
+  .app .maestro-stage-cue > span {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .app .maestro-stage-cue {
+    display: none;
+  }
+  .app .modal.maestro-dialog {
+    padding: 20px 18px;
+  }
+  .app .maestro-intro {
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .app .maestro-portrait,
+  .app .maestro-portrait .beethoven-avatar {
+    width: 78px;
+    height: 78px;
+  }
+  .app .maestro-stand h3 {
+    font-size: 15px;
+  }
+  .app .maestro-written-tip {
+    font-size: 10px;
+  }
+  .app .maestro-footer .secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .maestro-panel * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.maestro-live-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

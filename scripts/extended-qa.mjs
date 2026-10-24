@@ -29,16 +29,18 @@ try {
   checkpoints.push("Invalid PDF returns actionable error");
   await page.getByRole("button", { name: "Close dialog" }).click();
   await page
-    .getByRole("combobox", { name: "Practice hand" })
-    .selectOption("left");
+    .getByRole("radiogroup", { name: "Practice hand" })
+    .locator(".hand-left")
+    .click();
   await page.getByRole("button", { name: "Play", exact: true }).click();
   await page
     .getByRole("status")
     .filter({ hasText: "There are no notes for this hand" })
     .waitFor();
   await page
-    .getByRole("combobox", { name: "Practice hand" })
-    .selectOption("both");
+    .getByRole("radiogroup", { name: "Practice hand" })
+    .locator(".hand-both")
+    .click();
   checkpoints.push("Empty-hand practice cannot silently play");
   await page.getByRole("switch", { name: "Count me in" }).click();
   await page.getByRole("button", { name: "Play", exact: true }).click();

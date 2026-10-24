@@ -49,7 +49,7 @@ try {
       mimeType: "audio/midi",
       buffer: Buffer.from(m.toArray()),
     });
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     await page.getByRole("button", { name: "Save & mark reviewed" }).click();
     await page.getByRole("dialog").waitFor({ state: "hidden" });
     await page
@@ -62,7 +62,7 @@ try {
     await page.locator(".meter-hint").innerText(),
     "6/8 · 2 pulses per bar",
   );
-  await page.getByRole("switch", { name: "Gentle metronome" }).click();
+  await page.getByRole("switch", { name: "Metronome" }).click();
   await page.getByRole("button", { name: "Play", exact: true }).click();
   await page.getByRole("button", { name: "Pause", exact: true }).waitFor();
   await page.getByText("Count in · 1", { exact: false }).waitFor();

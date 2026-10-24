@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import { chromium, expect } from "@playwright/test";
 import { trackTestData } from "./qa-cleanup.mjs";
 import { barStart, demos } from "../src/music.mjs";
+import { openFromLibrary } from "./library-open.mjs";
 
 const browser = await chromium.launch({
   channel: "chrome",
@@ -52,15 +53,11 @@ try {
   await expect(
     page.getByRole("button", { name: "Play", exact: true }),
   ).toBeEnabled();
-  await page.getByRole("button", { name: "Library", exact: true }).click();
-  await page
-    .locator(".piece-row")
-    .filter({ hasText: "Für Elise" })
-    .getByRole("button", { name: "Open" })
-    .click();
+  await openFromLibrary(page, "Für Elise");
   await page.getByRole("tab", { name: "Sheet music", exact: true }).click();
   await waitForSheet();
-  assert.deepEqual(await measureIds(), [0, 1, 2, 3]);
+  // A desktop window engraves eight source measures at a time.
+  assert.deepEqual(await measureIds(), [0, 1, 2, 3, 4, 5, 6, 7]);
   const originalSVG = await page
     .locator(".engraved-sheet svg")
     .first()
@@ -75,7 +72,7 @@ try {
     .not.toBe(initialCursor.x);
   assert.equal(await originalSVG.evaluate((svg) => svg.isConnected), true);
   checks.push(
-    "Für Elise pickup shows exactly four source measures and moves the cursor without replacing the engraving",
+    "Für Elise pickup shows exactly eight source measures and moves the cursor without replacing the engraving",
   );
 
   await page
@@ -84,25 +81,31 @@ try {
   await waitForSheet();
   const elise = demos().find((score) => score.title.includes("Für Elise"));
   await expect(page.getByRole("slider", { name: "Song position" })).toHaveValue(
-    String(barStart(elise, 5)),
+    String(barStart(elise, 9)),
   );
-  assert.deepEqual(await measureIds(), [4, 5, 6, 7]);
-  await cursorInMeasure(4);
+  assert.deepEqual(await measureIds(), [8]);
+  await cursorInMeasure(8);
   await nextNote();
-  await cursorInMeasure(4);
+  await cursorInMeasure(8);
   await page.screenshot({ path: "evidence/sheet-focus-elise.png" });
+  assert.equal(
+    await page
+      .getByRole("button", { name: "Next sheet passage", exact: true })
+      .isDisabled(),
+    true,
+  );
+  await page
+    .getByRole("button", { name: "Previous sheet passage", exact: true })
+    .click();
+  await waitForSheet();
+  assert.deepEqual(await measureIds(), [0, 1, 2, 3, 4, 5, 6, 7]);
+  await cursorInMeasure(0);
   await page
     .getByRole("button", { name: "Next sheet passage", exact: true })
     .click();
   await waitForSheet();
   assert.deepEqual(await measureIds(), [8]);
   await cursorInMeasure(8);
-  await page
-    .getByRole("button", { name: "Previous sheet passage", exact: true })
-    .click();
-  await waitForSheet();
-  assert.deepEqual(await measureIds(), [4, 5, 6, 7]);
-  await cursorInMeasure(4);
   checks.push(
     "Forward, final, and backward passages keep the cursor on the correct written measure, including implicit pickups",
   );
@@ -115,7 +118,7 @@ try {
     mimeType: "application/xml",
     buffer: await fs.readFile("tests/fixtures/pickup-two-parts.musicxml"),
   });
-  await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+  await page.getByRole("dialog", { name: "Review score" }).waitFor();
   await page.getByRole("button", { name: "Close dialog", exact: true }).click();
   await page.getByRole("tab", { name: "Sheet music", exact: true }).click();
   await waitForSheet();

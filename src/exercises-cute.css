@@ -1,0 +1,513 @@
+/* Exercises: a compact lesson shelf and one editable practice card. */
+body .app .exercises-screen.exercise-workspace {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding: 22px 32px 36px;
+}
+body .app .exercise-workspace .exercise-header {
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 68px;
+  margin: 0 0 18px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid var(--salon-line);
+}
+body .app .exercise-workspace .screen-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--salon-deep);
+}
+body .app .exercise-workspace .exercise-header h1 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.1;
+}
+body .app .exercise-workspace .exercise-header p {
+  margin: 7px 0 0;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+body .app .exercise-workspace .exercise-desk {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 336px;
+  align-items: start;
+  gap: 24px;
+}
+body .app .exercise-workspace .exercise-curriculum {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+body .app .exercise-workspace .exercise-stage > h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 9px;
+  color: var(--salon-deep);
+  font: 600 12px/1.4 var(--lk-font-text, sans-serif);
+}
+body .app .exercise-workspace .exercise-stage > h2 small {
+  font-size: 11px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+body .app .exercise-workspace .exercise-level-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+body .app .exercise-workspace .exercise-level-grid > li {
+  min-width: 0;
+}
+body .app .exercise-workspace .exercise-level {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  min-height: 92px;
+  padding: 13px 12px;
+  text-align: left;
+  border: 1px solid var(--salon-line);
+  border-radius: 13px;
+  background: var(--salon-white);
+  box-shadow: 0 1px 2px rgb(30 20 10 / 0.025);
+  color: var(--salon-ink);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+body .app .exercise-workspace .exercise-level:hover {
+  border-color: color-mix(in srgb, var(--salon-deep) 55%, var(--salon-line));
+  background: color-mix(in srgb, var(--salon-soft) 28%, var(--salon-white));
+}
+body .app .exercise-workspace .exercise-level[aria-pressed="true"] {
+  border-color: var(--salon-deep);
+  background: color-mix(in srgb, var(--salon-soft) 72%, var(--salon-white));
+  box-shadow: inset 0 0 0 1px var(--salon-deep);
+}
+body .app .exercise-workspace .exercise-level-number {
+  display: grid;
+  place-items: center;
+  flex: 0 0 29px;
+  height: 31px;
+  border-radius: 10px;
+  background: var(--salon-soft);
+  color: var(--salon-deep);
+  font: 500 15px/1 var(--lk-font-display, Georgia, serif);
+}
+body
+  .app
+  .exercise-workspace
+  .exercise-level[aria-pressed="true"]
+  .exercise-level-number {
+  color: var(--salon-white);
+  background: var(--salon-deep);
+}
+body .app .exercise-workspace .exercise-level-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+body .app .exercise-workspace .exercise-level-copy > strong {
+  font: 500 17px/1.22 var(--lk-font-display, Georgia, serif);
+  overflow-wrap: anywhere;
+}
+body .app .exercise-workspace .exercise-level-copy > small {
+  color: var(--salon-deep);
+  font-size: 11px;
+}
+body .app .exercise-workspace .exercise-level-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--salon-deep);
+  font-size: 11px;
+  font-weight: 600;
+}
+body .app .exercise-workspace .exercise-setup {
+  position: static;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--salon-line);
+  border-radius: 18px;
+  background: var(--salon-white);
+  box-shadow: 0 3px 12px rgb(30 20 10 / 0.035);
+}
+body .app .exercise-workspace .exercise-detail-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: var(--salon-deep);
+  font-size: 11px;
+  font-weight: 600;
+}
+body .app .exercise-workspace .exercise-detail-cleared {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+body .app .exercise-workspace .exercise-setup h2 {
+  color: var(--salon-ink);
+  margin: 0 0 7px;
+  font: 500 24px/1.15 var(--lk-font-display, Georgia, serif);
+}
+body .app .exercise-workspace .exercise-summary {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--salon-deep);
+}
+body .app .exercise-workspace .exercise-motif {
+  height: 62px;
+  margin-top: 11px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--salon-soft) 50%, var(--salon-white));
+  overflow: hidden;
+}
+.exercise-motif > svg {
+  width: 100%;
+  height: 100%;
+}
+.exercise-motif-staff {
+  color: var(--salon-deep);
+  opacity: 0.24;
+}
+.exercise-motif-notes {
+  color: var(--salon-deep);
+}
+.exercise-motif-phrase {
+  color: var(--salon-metal);
+}
+.exercise-motif-piano > rect {
+  fill: var(--salon-white);
+  stroke: var(--salon-metal);
+  stroke-width: 0.8;
+}
+.exercise-motif-piano > path {
+  stroke: var(--salon-metal);
+  stroke-width: 0.8;
+}
+.exercise-motif-piano > .exercise-motif-black {
+  fill: var(--salon-deep);
+  stroke: none;
+}
+body .app .exercise-workspace .exercise-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 8px;
+  margin: 10px 0 16px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--salon-deep);
+}
+body .app .exercise-workspace .exercise-form {
+  display: grid;
+  gap: 13px;
+  margin: 0;
+}
+body .app .exercise-workspace .exercise-choice > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--salon-ink);
+}
+body .app .exercise-workspace .exercise-choice > span small {
+  color: var(--salon-deep);
+  font-size: 11px;
+  font-weight: 400;
+}
+body .app .exercise-workspace .lk-segmented {
+  border: 0;
+  border-radius: 10px;
+}
+body .app .exercise-workspace .lk-segmented > button {
+  min-height: 34px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+body
+  .app
+  .exercise-workspace
+  :is(.exercise-customize, .exercise-guide)
+  > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 30px;
+  cursor: pointer;
+  color: var(--salon-deep);
+  font-size: 11px;
+  font-weight: 600;
+  list-style: none;
+}
+body
+  .app
+  .exercise-workspace
+  :is(.exercise-customize, .exercise-guide)
+  > summary::-webkit-details-marker {
+  display: none;
+}
+body
+  .app
+  .exercise-workspace
+  :is(.exercise-customize, .exercise-guide)
+  > summary
+  > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+body .app .exercise-workspace .exercise-customize > summary small {
+  font-size: 11px;
+  font-weight: 400;
+}
+body
+  .app
+  .exercise-workspace
+  :is(.exercise-customize, .exercise-guide)
+  > summary
+  > svg {
+  transition: transform 150ms;
+}
+body
+  .app
+  .exercise-workspace
+  :is(.exercise-customize, .exercise-guide)[open]
+  > summary
+  > svg {
+  transform: rotate(180deg);
+}
+body .app .exercise-workspace .exercise-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 7px;
+}
+body .app .exercise-workspace .exercise-grid label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+body .app .exercise-workspace .exercise-grid label > span {
+  font-size: 11px;
+  color: var(--salon-deep);
+}
+body .app .exercise-workspace .exercise-grid :is(select, input) {
+  width: 100%;
+  min-width: 0;
+  min-height: 35px;
+  padding: 7px 9px;
+  border: 1px solid var(--salon-line);
+  border-radius: 8px;
+  font-size: 11px;
+  background-color: var(--salon-white);
+  color: var(--salon-ink);
+}
+body .app .exercise-workspace .exercise-tempo {
+  display: flex;
+  gap: 8px;
+}
+body .app .exercise-workspace .exercise-tempo input {
+  width: 78px;
+  flex: 0 0 78px;
+}
+body .app .exercise-workspace .exercise-settings-summary {
+  display: grid;
+  gap: 4px;
+  margin: -4px 0 0;
+  padding: 10px 0;
+  border-block: 1px solid var(--salon-line);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--salon-ink);
+}
+body .app .exercise-workspace .exercise-settings-summary strong {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--salon-deep);
+}
+body .app .exercise-workspace .exercise-settings-summary small {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+body .app .exercise-workspace .exercise-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 5px;
+  padding: 0 2px;
+  min-height: 24px;
+  margin-top: -7px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--salon-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 11px;
+}
+body .app .exercise-workspace .exercise-start {
+  margin: 0;
+  min-height: 42px;
+  border-radius: 11px;
+  background: var(--salon-deep);
+  color: var(--salon-white);
+  border: 1px solid var(--salon-deep);
+  box-shadow: 0 2px 3px rgb(30 20 10 / 0.07);
+  font-size: 12px;
+}
+body .app .exercise-workspace .exercise-guide {
+  margin-top: 10px;
+  border-top: 1px solid var(--salon-line);
+  padding-top: 7px;
+}
+body .app .exercise-workspace .exercise-guide ol {
+  padding-left: 17px;
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--salon-ink);
+}
+body .app .exercise-workspace .exercise-guide li + li {
+  margin-top: 7px;
+}
+body
+  .app
+  .exercise-workspace
+  :is(button, select, input, summary):focus-visible {
+  outline: 2px solid var(--salon-deep);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .exercise-selected-lesson {
+    animation: exercise-lesson-in 160ms ease-out;
+  }
+  @keyframes exercise-lesson-in {
+    from {
+      opacity: 0.5;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+@container exercise-desk (max-width: 850px) {
+  body .app .exercise-workspace .exercise-desk {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 18px;
+  }
+  body .app .exercise-workspace .exercise-level-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body .app .exercise-workspace .exercise-level {
+    min-height: 73px;
+  }
+  body .app .exercise-workspace .exercise-setup {
+    padding: 16px;
+  }
+}
+@container exercise-desk (max-width: 620px) {
+  body .app .exercise-workspace .exercise-header {
+    min-height: 65px;
+    margin-bottom: 14px;
+  }
+  body .app .exercise-workspace .exercise-header h1 {
+    font-size: 28px;
+  }
+  body .app .exercise-workspace .exercise-desk {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  body .app .exercise-workspace .exercise-setup {
+    grid-row: 1;
+  }
+  body .app .exercise-workspace .exercise-level-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  body .app .exercise-workspace .exercise-level {
+    padding: 12px 9px;
+    gap: 7px;
+    min-height: 102px;
+  }
+  body .app .exercise-workspace .exercise-level-copy > strong {
+    font-size: 15px;
+  }
+  body .app .exercise-workspace .exercise-level-number {
+    flex-basis: 24px;
+    height: 28px;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+  body .app .exercise-workspace .exercise-stage > h2 {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body .app .exercise-workspace,
+  body .app .exercise-workspace * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Reflow against the space the page actually has, including an open chat. */
+body .app .exercises-screen.exercise-workspace {
+  container: exercise-desk / inline-size;
+}
+body .app .exercise-workspace .exercise-curriculum {
+  grid-area: 1 / 1;
+}
+body .app .exercise-workspace .exercise-setup {
+  grid-area: 1 / 2;
+}
+body .app .exercise-workspace .exercise-focus-label {
+  font-weight: 600;
+}
+@container exercise-desk (max-width: 620px) {
+  body .app .exercise-workspace .exercise-setup {
+    grid-area: 1 / 1;
+  }
+  body .app .exercise-workspace .exercise-curriculum {
+    grid-area: 2 / 1;
+  }
+}
+@media (min-width: 701px) and (max-width: 1279px) {
+  body .app.companion-docked[data-screen="exercises"] .reader-main.app-main {
+    width: calc(100% - 376px);
+    margin: 0;
+  }
+  body .app.companion-docked[data-screen="exercises"] .app-bar {
+    width: calc(100% + 376px);
+  }
+}
+@media (max-width: 700px) {
+  body .app .exercises-screen.exercise-workspace {
+    padding: 16px 16px 28px;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 900px) {
+  body .app .exercises-screen.exercise-workspace {
+    padding-inline: 22px;
+  }
+}

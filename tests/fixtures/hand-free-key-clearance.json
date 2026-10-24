@@ -1,0 +1,224 @@
+{
+  "origin": {
+    "source": ".qa-runs/hand-atelier-2.29/sunny-opening.json",
+    "piece": "晴天 (Sunny Day)",
+    "beat": 5.9,
+    "method": "handMotions(scenarioInputs(score,{speed:0.6}).steps,5.9,poseOptions(inputs,geometry,{frozen:true,waiting:false,settle:{since:0.5}})).left.motion",
+    "observedBeforeGuard": "At key width 38 px and key height 171 px, the free left index pad was roughly 11 mm below a black key after spread and collision adjustments. The held thumb contact remained accurate."
+  },
+  "geometry": {
+    "keyWidth": 38,
+    "keysHeight": 171,
+    "bedHeight": 355,
+    "stripLeftPx": 0,
+    "viewportWidthPx": 1402,
+    "topPx": 230,
+    "dpr": 1,
+    "elevation": 78,
+    "minKeyLen": 0.07
+  },
+  "posture": {
+    "palmLength": 0.9,
+    "idleCurve": [
+      [
+        0.08726646259971647,
+        0.03490658503988659
+      ],
+      [
+        0.3141592653589793,
+        0.06981317007977318
+      ],
+      [
+        0.20943951023931956,
+        0.05235987755982989
+      ],
+      [
+        0.10471975511965978,
+        0.03490658503988659
+      ]
+    ]
+  },
+  "template": {
+    "subdivide": 2,
+    "sculpt": 0.55
+  },
+  "hand": "left",
+  "motion": {
+    "hand": "left",
+    "dir": -1,
+    "t": 8.93939393939394,
+    "beat": 5.9,
+    "centre": 16.08888888888888,
+    "palm": {
+      "x": 16.08888888888888,
+      "spread": 1.4,
+      "fan": 1.216,
+      "forward": 0.14285714285714285,
+      "lift": 0,
+      "roll": -1,
+      "relax": 0,
+      "rest": false,
+      "crowd": 0,
+      "zTop": false,
+      "topRaise": 0,
+      "bob": 0,
+      "moving": false,
+      "tau": 0,
+      "flying": false,
+      "speed": 9.973333333333448
+    },
+    "fingers": [
+      {
+        "finger": 1,
+        "x": 20.5,
+        "state": "down",
+        "exact": false,
+        "lift": 0,
+        "curl": 0,
+        "extend": 1,
+        "press": 0.7,
+        "number": 1,
+        "under": 0,
+        "tuck": 0,
+        "arc": 0,
+        "black": 0,
+        "inward": 0,
+        "midi": 55,
+        "descent": 0,
+        "aimTau": 0,
+        "since": null,
+        "heldFor": 0.6060606060606055,
+        "releaseIn": 0.19151515151514964,
+        "yieldX": 0,
+        "contact": 133.38000000000002,
+        "target": null
+      },
+      {
+        "finger": 2,
+        "x": 17.978888888888882,
+        "state": "up",
+        "exact": false,
+        "lift": 0.15,
+        "curl": 1,
+        "extend": 0,
+        "press": 0,
+        "number": 0,
+        "under": 0,
+        "tuck": 0,
+        "arc": 0,
+        "black": 0,
+        "inward": 0,
+        "midi": null,
+        "descent": 0,
+        "aimTau": 0,
+        "since": 0.5660606060606064,
+        "heldFor": null,
+        "releaseIn": null,
+        "yieldX": 0,
+        "contact": 116.28000000000002,
+        "target": null
+      },
+      {
+        "finger": 3,
+        "x": 16.71888888888888,
+        "state": "up",
+        "exact": false,
+        "lift": 0.15,
+        "curl": 1,
+        "extend": 0,
+        "press": 0,
+        "number": 0,
+        "under": 0,
+        "tuck": 0,
+        "arc": 0,
+        "black": 0,
+        "inward": 0,
+        "midi": null,
+        "descent": 0,
+        "aimTau": 0,
+        "since": 3.5963636363636367,
+        "heldFor": null,
+        "releaseIn": null,
+        "yieldX": 0,
+        "contact": 116.28000000000002,
+        "target": null
+      },
+      {
+        "finger": 4,
+        "x": 15.046671803957548,
+        "state": "ready",
+        "exact": false,
+        "lift": 0.6,
+        "curl": 0.4503772200915548,
+        "extend": 0.5496227799084452,
+        "press": 0,
+        "number": 1,
+        "under": 0,
+        "tuck": 0,
+        "arc": 0,
+        "black": 0,
+        "inward": 0.07851753998692074,
+        "midi": null,
+        "descent": 0,
+        "aimTau": 0.5265151515151552,
+        "since": 4.7327272727272724,
+        "heldFor": null,
+        "releaseIn": null,
+        "yieldX": 0,
+        "contact": 114.48980008829822,
+        "target": {
+          "x": 13.499999999999998,
+          "midi": 43,
+          "black": 0,
+          "inward": 0.14285714285714285,
+          "alpha": 1,
+          "contact": 113.02285714285716
+        }
+      },
+      {
+        "finger": 5,
+        "x": 14.198888888888881,
+        "state": "ready",
+        "exact": false,
+        "lift": 0.15,
+        "curl": 1,
+        "extend": 0,
+        "press": 0,
+        "number": 1,
+        "under": 0,
+        "tuck": 0,
+        "arc": 0,
+        "black": 0,
+        "inward": 0,
+        "midi": null,
+        "descent": 0,
+        "aimTau": 0,
+        "since": 2.081212121212121,
+        "heldFor": null,
+        "releaseIn": null,
+        "yieldX": 0,
+        "contact": 135.28000000000003,
+        "target": {
+          "x": 13,
+          "midi": 42,
+          "black": 1,
+          "inward": 0,
+          "alpha": 1,
+          "contact": 94.43
+        }
+      }
+    ],
+    "forced": false,
+    "forcedFinger": false
+  },
+  "expected": {
+    "heldContactToleranceMm": 0.5,
+    "nonHeldKeybedClearanceMinMm": -0.5,
+    "clearanceDefinition": "pad.height + fingers[index].dip; test free pads whose centre.z is less than view.keyLen",
+    "previouslyCollidingFingers": [
+      2,
+      3,
+      5
+    ]
+  }
+}

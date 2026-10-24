@@ -1,0 +1,148 @@
+/* Trouble spots (2.40): where a piece keeps tripping you. Warm marks on the
+   piece maps, drill chips in the Tools drawer, Library and Progress. The
+   colour is one warm coral in both the dark dock and the light screens;
+   text always takes the surrounding ink. */
+.app {
+  --lk-trouble-rgb: 226, 104, 84;
+}
+.app .spot-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.app .spot-marks i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 2px;
+  background: rgba(
+    var(--lk-trouble-rgb),
+    calc(0.14 + 0.3 * var(--trouble, 0.5))
+  );
+  box-shadow: inset 0 2px 0 rgba(var(--lk-trouble-rgb), 0.95);
+}
+.app .piece-map-tip em {
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgb(var(--lk-trouble-rgb));
+}
+/* The Tools drawer. */
+.app .trouble-spots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.app .trouble-spots-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-basis: 100%;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.app .trouble-spots-label svg {
+  color: rgb(var(--lk-trouble-rgb));
+}
+.app .control-dock .passage-chip.trouble {
+  border-color: rgba(var(--lk-trouble-rgb), 0.5);
+  background: rgba(var(--lk-trouble-rgb), 0.09);
+}
+.app .control-dock .passage-chip.trouble button:first-child {
+  gap: 7px;
+  color: var(--ink);
+}
+.app .control-dock .passage-chip.trouble button small {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+.app .control-dock .passage-chip.trouble.current {
+  border-color: rgba(var(--lk-trouble-rgb), 0.95);
+  background: rgba(var(--lk-trouble-rgb), 0.18);
+}
+.app .trouble-spots .trouble-hint {
+  flex-basis: 100%;
+  margin-left: 0;
+}
+/* The Library's continue card. */
+.app .continue-spots > span {
+  color: rgb(var(--lk-trouble-rgb));
+}
+.app .library-atelier .continue-stage .continue-spots button,
+.app .continue-spots button {
+  color: inherit;
+  border-color: rgba(var(--lk-trouble-rgb), 0.5);
+  background: rgba(var(--lk-trouble-rgb), 0.1);
+}
+.app .library-atelier .continue-stage .continue-spots button:hover,
+.app .continue-spots button:hover {
+  background: rgba(var(--lk-trouble-rgb), 0.2);
+}
+.app .continue-spots button svg {
+  color: rgb(var(--lk-trouble-rgb));
+}
+/* Progress piece cards. */
+.app .progress-piece-spots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 5px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink-muted);
+}
+.app .progress-piece-spots > svg {
+  color: rgb(var(--lk-trouble-rgb));
+}
+.app .progress-piece-spots button {
+  min-height: 22px;
+  padding: 1px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  border: 1px solid rgba(var(--lk-trouble-rgb), 0.5);
+  border-radius: 999px;
+  background: rgba(var(--lk-trouble-rgb), 0.1);
+}
+.app .progress-piece-spots button:hover {
+  filter: none;
+  background: rgba(var(--lk-trouble-rgb), 0.2);
+}
+.app .progress-piece-spots small {
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+.app .piece-progress-map {
+  position: relative;
+}
+.app .piece-progress-map .piece-progress-spots {
+  top: 0;
+  bottom: auto;
+  height: 28px;
+}
+/* The report card. */
+.app .results-spot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: -4px 0 8px;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+.app .results-spot svg {
+  color: rgb(var(--lk-trouble-rgb));
+}
+@media (forced-colors: active) {
+  .app .spot-marks i {
+    background: Highlight;
+    box-shadow: none;
+  }
+}

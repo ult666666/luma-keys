@@ -1,0 +1,177 @@
+/* 2.23 motion layer: screens arrive, cards settle in, controls respond to
+ * touch. Everything is finite, and all of it switches off under reduced
+ * motion. Timings and curves come from the shared tokens in feedback.css
+ * (MOT-1, §1.7). */
+@media (prefers-reduced-motion: no-preference) {
+  /* One entrance per screen change (MOT-8): where View Transitions exist
+   * the slide toward the chosen tab is the entrance, so the screen itself
+   * does not also rise. The header stagger below stays. */
+  @supports not (view-transition-name: none) {
+    .app .screen,
+    .app .practice-screen {
+      animation: motion-screen-in var(--t-scene) var(--ease-settle) backwards;
+    }
+  }
+  .app .screen-header > * {
+    animation: motion-rise var(--t-scene) var(--ease-settle) backwards;
+  }
+  .app .screen-header > :nth-child(2) { animation-delay: calc(var(--stagger) * 1.5); }
+  .app .screen-header > :nth-child(3) { animation-delay: calc(var(--stagger) * 3); }
+  .app .screen .continue-card {
+    animation: motion-rise var(--t-scene) var(--ease-settle) calc(var(--stagger) * 2) backwards;
+  }
+  .app .screen .piece-card {
+    animation: motion-card var(--t-scene) var(--ease-give) backwards;
+  }
+  .app .screen .piece-card:nth-child(1) { animation-delay: calc(var(--stagger) * 3); }
+  .app .screen .piece-card:nth-child(2) { animation-delay: calc(var(--stagger) * 4); }
+  .app .screen .piece-card:nth-child(3) { animation-delay: calc(var(--stagger) * 5); }
+  .app .screen .piece-card:nth-child(4) { animation-delay: calc(var(--stagger) * 6); }
+  .app .screen .piece-card:nth-child(5) { animation-delay: calc(var(--stagger) * 7); }
+  .app .screen .piece-card:nth-child(n + 6) { animation-delay: calc(var(--stagger) * 8); }
+  .app .screen .piece-card .piece-cover img,
+  .app .screen .continue-card img {
+    transition: transform calc(var(--t-scene) * 1.25) var(--ease-settle);
+  }
+  .app .screen .piece-card:hover .piece-cover img,
+  .app .screen .continue-card:hover img {
+    transform: scale(1.035);
+  }
+  .app .progress-screen > :not(.screen-header),
+  .app .exercises-screen > :not(.screen-header) {
+    animation: motion-rise var(--t-scene) var(--ease-settle) backwards;
+  }
+  .app .progress-screen > :nth-child(2),
+  .app .exercises-screen > :nth-child(2) { animation-delay: calc(var(--stagger) * 2); }
+  .app .progress-screen > :nth-child(3),
+  .app .exercises-screen > :nth-child(3) { animation-delay: calc(var(--stagger) * 4); }
+  .app .progress-screen > :nth-child(n + 4),
+  .app .exercises-screen > :nth-child(n + 4) { animation-delay: calc(var(--stagger) * 6); }
+
+  /* The measured nav marker also moves when snapshots are unavailable. */
+  .app .app-bar .app-nav .nav-indicator {
+    transition:
+      transform 280ms var(--ease-settle),
+      width 280ms var(--ease-settle),
+      opacity var(--t-quick) var(--ease-settle);
+  }
+
+  /* Controls answer the press. Play has its own press and transitions
+   * (cute.css, MOT-4). */
+  .app :is(.app-bar, .screen, .modal, .dock-row, .reader-cue, .transport-tools)
+    button:not(:disabled):not(.play-button) {
+    transition:
+      transform var(--t-quick) var(--ease-give),
+      background-color var(--t-quick) var(--ease-settle),
+      color var(--t-quick) var(--ease-settle),
+      box-shadow var(--t-base) var(--ease-settle),
+      border-color var(--t-quick) var(--ease-settle);
+  }
+  .app :is(.app-bar, .screen, .modal, .dock-row, .reader-cue, .transport-tools)
+    button:not(:disabled):not(.play-button):active {
+    transform: scale(0.975);
+  }
+  .app .app-nav button.selected svg {
+    animation: motion-pop var(--t-scene) var(--ease-spring) both;
+  }
+  .app .app-nav button svg {
+    transition: transform var(--t-base) var(--ease-settle);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .app .app-nav button:hover svg {
+      transform: translateY(-1px);
+    }
+  }
+
+  /* Play's ring: it breathes once per beat during the count-in only, and
+   * rests as a faint still ring while the music plays (MOT-4). */
+  .app[data-transport="count"] .play-button::after {
+    animation: motion-pulse var(--beat-s, 0.8s) var(--ease-tail) infinite;
+  }
+
+  /* Snappier dialogs (MOT-8): 300 ms sections, 30 ms apart, done by
+   * ~400 ms while the dialog's own pop-in plays. */
+  .app .modal .settings-section {
+    animation: motion-rise calc(var(--t-base) * 1.25) var(--ease-settle) backwards;
+  }
+  .app .modal .settings-section:nth-of-type(2) { animation-delay: calc(var(--stagger) * 0.75); }
+  .app .modal .settings-section:nth-of-type(3) { animation-delay: calc(var(--stagger) * 1.5); }
+  .app .modal .settings-section:nth-of-type(n + 4) { animation-delay: calc(var(--stagger) * 2.25); }
+  /* MOT-10: the toggle glide lives in transitions.css only; the report
+   * bars animate once through the report card's own staggers (SCR-4). */
+}
+
+/* MOT-8 · Where View Transitions exist, the screen's slide is its only
+ * entrance: shell.css's older screen-in is switched off too. */
+@supports (view-transition-name: none) {
+  .app .screen,
+  .app .practice-screen {
+    animation: none;
+  }
+}
+
+/* The transition runner finishes finite CSS entrances before taking its
+ * snapshot. That leaves only one surface entrance during navigation, while
+ * first load and filtering keep these small CSS arrivals. */
+@media (prefers-reduced-motion: reduce) {
+  .app .app-bar .app-nav .nav-indicator,
+  .app .app-nav button svg {
+    transition: none;
+  }
+}
+
+/* The Play ring itself (static paint lives here so the count-in pulse and
+ * the still playing ring share one element). */
+.app .play-button {
+  position: relative;
+}
+.app .play-button::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--lk-gilt, var(--accent));
+  opacity: 0;
+  pointer-events: none;
+}
+.app[data-transport="playing"] .play-button::after,
+.app:not([data-transport]) .play-button.playing::after {
+  opacity: 0.35;
+}
+
+@keyframes motion-screen-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes motion-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes motion-card {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+}
+@keyframes motion-pop {
+  0% {
+    transform: scale(0.6) rotate(-12deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes motion-pulse {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}

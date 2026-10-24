@@ -1,0 +1,468 @@
+/* Luma Keys motion and feedback layer (motion track, MOT-*).
+ * One shared motion vocabulary (§1.7), the stage verdict leaves, the Play
+ * button's press/ring/loading arc and all toast motion and placement.
+ * Loaded after transitions.css and before opulent.css. Every travelling or
+ * looping animation sits inside prefers-reduced-motion: no-preference. */
+
+/* MOT-1 · Motion tokens (contract C10). */
+:root {
+  /* Durations. Exits are faster than entries. */
+  --t-tap: 90ms;
+  --t-quick: 160ms;
+  --t-base: 240ms;
+  --t-panel: 360ms;
+  --t-exit: 200ms;
+  --t-scene: 480ms;
+  --t-bloom: 620ms;
+  --t-ceremony: 1200ms;
+  --stagger: 40ms; /* cap at 8 steps */
+
+  /* Curves. */
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1); /* default enter */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-give: cubic-bezier(0.34, 1.36, 0.64, 1); /* small overshoot */
+  --ease-key: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-tail: cubic-bezier(0.16, 0.7, 0.28, 1);
+  /* Companion and celebrations only. */
+  --ease-spring: linear(0, 0.3 8%, 0.92 22%, 1.06 32%, 1.015 46%, 0.995 62%, 1);
+
+  /* Seconds per beat; PRA-1 overrides it on .practice-screen (C2). */
+  --beat-s: 0.8s;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --stagger: 0ms;
+  }
+}
+
+/* MOT-1 · Shared loader: <span className="luma-loader" role="img"
+ * aria-label="Loading"><i/><i/><i/></span> — three notes hop on a line. */
+.app .luma-loader {
+  display: inline-flex;
+  gap: 4px;
+  align-items: flex-end;
+  height: 14px;
+  padding-bottom: 2px;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  color: var(--salon-deep, currentColor);
+}
+.app .luma-loader i {
+  width: 7px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  rotate: -20deg;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app .luma-loader i {
+    animation: loader-hop 1.2s var(--ease-move) infinite;
+  }
+  .app .luma-loader i:nth-child(2) {
+    animation-delay: 120ms;
+  }
+  .app .luma-loader i:nth-child(3) {
+    animation-delay: 240ms;
+  }
+}
+@keyframes loader-hop {
+  30% {
+    translate: 0 -6px;
+  }
+  60% {
+    translate: 0 0;
+  }
+}
+
+/* MOT-3 · Verdicts that read on any hand colour.
+ * A verdict is light and shape, never hue: a correct note blooms ivory on
+ * the key and raises a short pillar (<= 28 px) above the strike line; early
+ * and late draw a hollow ring; a wrong note washes rose from the bottom of
+ * the key and the keys to play brighten once. Alpha gradients and opacity
+ * only — no mix-blend-mode, no filter (§1.7, decision 8). */
+.app .keyboard-stage {
+  --v-light: 255 248 230;
+  --v-miss: 201 124 116;
+}
+.app .keyboard-stage .key-flash {
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 2px rgb(var(--v-light) / 0.9);
+  background: radial-gradient(
+    120% 70% at 50% 0%,
+    rgb(var(--v-light) / 0.85),
+    rgb(var(--v-light) / 0.25) 55%,
+    transparent 80%
+  );
+}
+.app .keyboard-stage .key-flash:is([data-kind="early"], [data-kind="late"]) {
+  background: none;
+  box-shadow: inset 0 0 0 2px rgb(var(--v-light) / 0.7);
+}
+.app .keyboard-stage .key-flash[data-kind="miss"] {
+  box-shadow: none;
+  /* From 40 % at .7: at the spec's 55 % / .6 the wash under a sounding
+   * (white-lit) wrong key measured only ~#e6c4c0 at its foot and read as
+   * a plain press. */
+  background: linear-gradient(180deg, transparent 40%, rgb(var(--v-miss) / 0.7));
+}
+/* A pitch no hand was asked for lands in a quiet neutral, not the RH
+ * amber. (Its opacity belongs to the landing keyframes, so the splash is
+ * dimmed through the colour: about ivory at half strength on the dark
+ * runway.) */
+.app .keyboard-stage .land-splash.free {
+  --splash: 168, 162, 150;
+}
+/* Rendered for hits only (KeyboardGuide K4); overrides the old hide. */
+.app .keyboard-stage .lane-spark {
+  display: block;
+  height: 28px;
+  padding: 0;
+  font-size: 0;
+  box-shadow: none;
+  transform-origin: 50% 100%;
+  background: linear-gradient(0deg, rgb(var(--v-light) / 0.8), transparent);
+}
+/* .key-light is already absolutely positioned. */
+.app .keyboard-stage .piano-key .key-light::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app .keyboard-stage .key-flash {
+    animation: v-bloom var(--t-bloom) var(--ease-tail) both;
+  }
+  .app .keyboard-stage .key-flash[data-kind="miss"] {
+    animation: v-miss 420ms var(--ease-settle) both;
+  }
+  .app .keyboard-stage .lane-spark {
+    animation: v-pillar 520ms var(--ease-tail) both;
+  }
+  .app .keyboard-stage[data-nudge="a"] .piano-key.lit .key-light::after {
+    animation: v-nudge-a 560ms var(--ease-give) 1;
+  }
+  .app .keyboard-stage[data-nudge="b"] .piano-key.lit .key-light::after {
+    animation: v-nudge-b 560ms var(--ease-give) 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .keyboard-stage :is(.key-flash, .lane-spark) {
+    animation: v-fade 300ms linear both;
+  }
+}
+@keyframes v-bloom {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  30% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+@keyframes v-miss {
+  0% { opacity: 0; }
+  15% { opacity: 1; translate: -1.5px 0; }
+  35% { translate: 1.5px 0; }
+  55% { translate: 0 0; }
+  100% { opacity: 0; }
+}
+@keyframes v-pillar {
+  0% { opacity: 0; transform: scaleY(0.3); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: scaleY(1); }
+}
+/* Two identical keyframes so a new miss restarts the brighten. */
+@keyframes v-nudge-a {
+  40% { opacity: 0.4; }
+}
+@keyframes v-nudge-b {
+  40% { opacity: 0.4; }
+}
+@keyframes v-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* MOT-4 · Play loads gracefully (contract C8). The glyph stays and dims;
+ * a gilt quarter-arc turns around it. The press and the beat ring live in
+ * cute.css and motion.css. */
+.app .play-button[data-loading] svg {
+  opacity: 0.5;
+  /* material.css's glyph-swap keyframe fills forwards at opacity 1. */
+  animation: none;
+}
+.app .play-button[data-loading]::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: conic-gradient(var(--lk-gilt-hi, var(--accent)) 0 0.25turn, transparent 0.25turn);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px));
+  mask: radial-gradient(closest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app .play-button[data-loading]::before {
+    animation: lk-spin 900ms linear infinite;
+  }
+}
+@keyframes lk-spin {
+  to { rotate: 1turn; }
+}
+
+/* MOT-5 · Notices arrive softly, in the right place. One entrance only: no
+ * View Transition, no keyframes — a short opacity/translate transition from
+ * @starting-style. On Practice the toast sits in the header gap (top
+ * centre) as lacquer; elsewhere it is ivory at the bottom centre. The
+ * centring transform stays in design.css; `translate` composes with it. */
+body .app .toast {
+  animation: none;
+  /* Both surfaces below are opaque: style.css's 18 px backdrop blur only
+   * cost compositing work (over the stage too). */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transition:
+    opacity var(--t-panel) var(--ease-settle),
+    translate var(--t-panel) var(--ease-give);
+}
+@starting-style {
+  body .app .toast {
+    opacity: 0;
+    translate: 0 10px;
+  }
+}
+body .app[data-screen="practice"] .toast {
+  /* Shares the header gap with the companion (buddy.css z 70): it stands
+   * clear of its resting spot below, and stays above it if they meet. */
+  z-index: 75;
+  top: 68px;
+  bottom: auto;
+  background: color-mix(in srgb, var(--salon-chrome) 92%, #000);
+  color: #f3ebdd;
+  border: 1px solid rgba(var(--lk-gilt-rgb, 200, 170, 120), 0.35);
+  box-shadow: 0 14px 34px -14px rgb(0 0 0 / 0.6);
+}
+@starting-style {
+  body .app[data-screen="practice"] .toast {
+    translate: 0 -10px;
+  }
+}
+/* In the header gap the toast tucks in beside the view switch (CSS anchor
+ * positioning), so on narrow windows it never lands on Numbers / Sheet.
+ * Without the anchor it stays top-centre. */
+@supports (anchor-name: --a) {
+  body .app[data-screen="practice"] .practice-screen > .piece-header .piece-actions {
+    anchor-name: --lk-toast-beside;
+  }
+  /* Right-aligned beside the switch; on a narrow window it wraps rather
+   * than running off the left edge. */
+  body .app[data-screen="practice"]:has(.practice-screen > .piece-header .piece-actions) .toast {
+    top: calc(anchor(--lk-toast-beside top, 74px) - 6px);
+    right: calc(anchor(--lk-toast-beside left, 50%) + 14px);
+    left: 18px;
+    width: fit-content;
+    margin-left: auto;
+    transform: none;
+    max-width: min(420px, calc(100vw - 48px));
+  }
+  /* The companion rests in the same gap, about 100–160 px left of the
+   * switch. The notice stands clear of it instead of covering it, and may
+   * cover the title meta on a narrow window. Keyed on the companion being
+   * on (C3), not on its seat: data-buddy-at is unset while it hops back
+   * from the cue after a pause, which is exactly when "Paused at bar N"
+   * appears, and the notice must not jump sideways once it lands. */
+  html:not([data-buddy="off"])
+    body
+    .app[data-screen="practice"]:has(.practice-screen > .piece-header .piece-actions)
+    .toast {
+    right: calc(anchor(--lk-toast-beside left, 50%) + 172px);
+  }
+}
+body .app:not([data-screen="practice"]) .toast {
+  background: var(--salon-white);
+  color: var(--salon-ink);
+  border: 1px solid var(--salon-line);
+  box-shadow: var(--lk-shadow-2, 0 18px 40px -28px rgb(0 0 0 / 0.5));
+}
+/* Icon and dismiss read on either surface (studio.css paints them green). */
+body .app[data-screen="practice"] .toast > svg {
+  color: var(--lk-gilt-hi, #ecd09c);
+}
+body .app[data-screen="practice"] .toast > button:not(.toast-action) {
+  color: rgb(243 235 221 / 0.78);
+  background: rgb(255 255 255 / 0.08);
+}
+body .app:not([data-screen="practice"]) .toast > svg {
+  color: var(--salon-deep, currentColor);
+}
+body .app:not([data-screen="practice"]) .toast > button:not(.toast-action) {
+  color: var(--salon-deep, currentColor);
+  background: color-mix(in srgb, var(--salon-soft, #e9e1d4) 70%, transparent);
+}
+body .app .toast[data-tone="success"] > svg {
+  color: var(--lk-gilt, var(--accent));
+}
+/* Gilt is ornament only on ivory; a success icon there takes --good. */
+body .app:not([data-screen="practice"]) .toast[data-tone="success"] > svg {
+  color: color-mix(in oklab, #4d7a5c 55%, var(--salon-deep, #785733));
+}
+body .app:not([data-screen="practice"]) .toast[data-tone="error"] > svg {
+  color: color-mix(in oklab, #a64637 75%, var(--salon-deep, #785733));
+}
+body .app .toast[data-tone="error"] {
+  border-left: 3px solid #c97c74;
+}
+body .app .toast .toast-action {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  min-width: 0;
+  margin-left: 4px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font: 600 12px/1 var(--lk-font-text, inherit);
+  color: inherit;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+@media (prefers-reduced-motion: reduce) {
+  body .app .toast {
+    transition: none;
+  }
+}
+
+/* MOT-2 · The NEXT strip never fades from empty. keyboard-guide.css's
+ * cue-in (opacity 0 → 1) runs on every step in Wait and while idle; here
+ * the strip only nudges up 3 px, and outside Wait it is still while the
+ * music plays. (change-nudge is defined in transitions.css.) */
+.app .keyboard-stage .stage-cue :is(.next-notes > div, .next-then b) {
+  animation: change-nudge var(--t-quick) var(--ease-settle) backwards;
+}
+.app[data-transport="playing"]:not([data-mode="wait"]) .keyboard-stage .stage-cue :is(.next-notes > div, .next-then b),
+.app .keyboard-stage.is-playing:not(.mode-wait) .stage-cue :is(.next-notes > div, .next-then b) {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .keyboard-stage .stage-cue :is(.next-notes > div, .next-then b) {
+    animation: none;
+  }
+}
+
+/* MOT-6 · A count-in you can see coming. The numeral is gilt and lands
+ * once per beat (its scale-in lasts .85 of a beat at any tempo, C2); dots
+ * under it fill 1 → N (C7 countBeats) and the first chord's keys tap on
+ * each beat. The numeral carries the scale so the dots stay put. */
+.app .keyboard-stage .runway-count {
+  align-content: center;
+  justify-items: center;
+  color: color-mix(in srgb, var(--lk-gilt, var(--accent)) 80%, #fff);
+  animation: none;
+}
+.app .keyboard-stage .runway-count .count-num {
+  display: block;
+  font: inherit;
+  color: inherit;
+}
+.app .keyboard-stage .count-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+}
+.app .keyboard-stage .count-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff33;
+  transition:
+    background-color var(--t-quick, 160ms) var(--ease-settle, ease-out),
+    scale var(--t-quick, 160ms) var(--ease-give, ease-out);
+}
+.app .keyboard-stage .count-dots i.on {
+  background: var(--lk-gilt, var(--accent));
+  scale: 1.25;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app .keyboard-stage .runway-count .count-num {
+    animation: count-num-in calc(var(--beat-s, 0.8s) * 0.85) var(--ease-tail, ease-out) both;
+  }
+  .app .keyboard-stage .count-dots i.now {
+    animation: count-dot-in var(--t-quick, 160ms) var(--ease-give, ease-out) both;
+  }
+  .app .keyboard-stage[data-count-parity="a"] .piano-key.lit .key-light::after {
+    animation: count-tap-a calc(var(--beat-s, 0.8s) * 0.6) var(--ease-tail, ease-out);
+  }
+  .app .keyboard-stage[data-count-parity="b"] .piano-key.lit .key-light::after {
+    animation: count-tap-b calc(var(--beat-s, 0.8s) * 0.6) var(--ease-tail, ease-out);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .keyboard-stage .count-dots i {
+    transition: none;
+  }
+}
+@keyframes count-dot-in {
+  from { scale: 0.4; }
+}
+/* keyboard-guide.css's runway-count settles at .6 opacity, which turned
+ * the gilt numeral a muddy khaki for most of each beat; this one lands
+ * and stays clear. */
+@keyframes count-num-in {
+  0% { opacity: 0; transform: scale(1.22); }
+  25% { opacity: 1; }
+  100% { opacity: 0.94; transform: scale(1); }
+}
+/* Two identical keyframes so each beat restarts the tap. */
+@keyframes count-tap-a {
+  40% { opacity: 0.35; }
+}
+@keyframes count-tap-b {
+  40% { opacity: 0.35; }
+}
+
+/* MOT-7 · A clean-bar glint (C7 chime). One short band of light runs along
+ * the strike line when a bar ends with a right note and nothing wrong; App
+ * spaces them >= 2 s apart and never sends one in Listen. Transform and
+ * opacity only: no sound, no blur filter. */
+/* The felt strip covers everything below the line, so the light sits on
+ * the line and glows up from it (12 px, inside the T1 band), brightest at
+ * its centre. */
+.app .keyboard-stage .strike-chime {
+  position: absolute;
+  top: -12px;
+  bottom: 0;
+  left: 0;
+  width: 20%;
+  pointer-events: none;
+  background: radial-gradient(
+    50% 100% at 50% 100%,
+    rgb(255 244 214 / 0.95),
+    rgb(255 244 214 / 0.4) 45%,
+    transparent 100%
+  );
+  opacity: 0;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app .keyboard-stage .strike-chime {
+    animation: strike-chime 640ms var(--ease-move, ease-in-out) both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .keyboard-stage .strike-chime {
+    width: 100%;
+    animation: v-fade 400ms linear both;
+  }
+}
+/* Travel runs the whole line (-100% → 500% of a 20%-wide band); the light
+ * holds full strength across the visible middle and fades only at the
+ * end, instead of being half gone by the time it is on screen. */
+@keyframes strike-chime {
+  from { transform: translateX(-100%); opacity: 0.6; }
+  15% { opacity: 1; }
+  72% { opacity: 1; }
+  to { transform: translateX(500%); opacity: 0; }
+}

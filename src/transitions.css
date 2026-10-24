@@ -1,0 +1,338 @@
+/* Coordinated app transitions: one entrance for each surface change.
+ * View Transitions (App.jsx withTransition) carry screens, panels, the
+ * chat, selected pills and theme changes; CSS carries drawers and
+ * changing text. Notices (toasts) never use a View Transition:
+ * feedback.css eases them in (MOT-5).
+ * Timings and curves are the shared tokens from feedback.css (MOT-1).
+ * Nothing here runs under reduced motion. */
+
+/* Named pieces that animate on their own. */
+.app .app-bar {
+  view-transition-name: luma-bar;
+}
+.app .app-bar .nav-indicator {
+  view-transition-name: luma-navigation;
+}
+.modal-backdrop {
+  view-transition-name: luma-backdrop;
+}
+.modal-backdrop > .modal,
+.modal-backdrop > section {
+  view-transition-name: luma-modal;
+}
+.app .companion-dock {
+  view-transition-name: luma-chat;
+}
+.app [aria-label="Practice mode"] button.selected {
+  view-transition-name: luma-mode-pill;
+}
+.app .view-switch button[aria-selected="true"] {
+  view-transition-name: luma-view-pill;
+}
+
+::view-transition-group(*) {
+  animation-duration: var(--t-panel);
+  animation-timing-function: var(--ease-settle);
+}
+/* Chrome stays in place. The indicator is captured separately so it glides
+ * between its measured old and new positions without fading the whole bar. */
+::view-transition-group(luma-bar) {
+  animation: none;
+  z-index: 5;
+}
+::view-transition-old(luma-bar) {
+  display: none;
+}
+::view-transition-new(luma-bar) {
+  animation: none;
+}
+::view-transition-group(luma-navigation) {
+  animation-duration: 280ms;
+  animation-timing-function: var(--ease-settle);
+  z-index: 6;
+}
+::view-transition-old(luma-navigation) {
+  display: none;
+}
+::view-transition-new(luma-navigation) {
+  animation: none;
+}
+html[data-vt^="nav"] .app .app-bar .app-nav .nav-indicator {
+  transition: none;
+}
+/* Snapshot layers are visual only: a second navigation click must reach the
+ * live button and interrupt the first transition rather than disappear. */
+::view-transition {
+  pointer-events: none;
+}
+
+/* Screens slide toward the chosen tab. */
+html[data-vt="nav-forward"]::view-transition-old(root) {
+  animation: vt-out-left 160ms var(--ease-exit) both;
+}
+html[data-vt="nav-forward"]::view-transition-new(root) {
+  animation: vt-in-right 280ms var(--ease-settle) both;
+}
+html[data-vt="nav-back"]::view-transition-old(root) {
+  animation: vt-out-right 160ms var(--ease-exit) both;
+}
+html[data-vt="nav-back"]::view-transition-new(root) {
+  animation: vt-in-left 280ms var(--ease-settle) both;
+}
+
+/* The stage and score leave with their screen instead of fading in place. */
+html[data-vt^="nav"]::view-transition-group(luma-stage),
+html[data-vt^="nav"]::view-transition-group(luma-score) {
+  animation: none;
+}
+html[data-vt="nav-forward"]::view-transition-old(luma-stage),
+html[data-vt="nav-forward"]::view-transition-old(luma-score) {
+  animation: vt-out-left 160ms var(--ease-exit) both;
+}
+html[data-vt="nav-back"]::view-transition-old(luma-stage),
+html[data-vt="nav-back"]::view-transition-old(luma-score) {
+  animation: vt-out-right 160ms var(--ease-exit) both;
+}
+html[data-vt="nav-forward"]::view-transition-new(luma-stage),
+html[data-vt="nav-forward"]::view-transition-new(luma-score) {
+  animation: vt-in-right 280ms var(--ease-settle) both;
+}
+html[data-vt="nav-back"]::view-transition-new(luma-stage),
+html[data-vt="nav-back"]::view-transition-new(luma-score) {
+  animation: vt-in-left 280ms var(--ease-settle) both;
+}
+
+/* Changes that touch one part keep the rest of the page live and still,
+ * so falling notes never ghost while a panel animates. */
+html:is([data-vt="modal"], [data-vt="chat"], [data-vt="choice"])::view-transition-old(root) {
+  animation: none;
+  display: none;
+}
+html:is([data-vt="modal"], [data-vt="chat"], [data-vt="choice"])::view-transition-new(root) {
+  animation: none;
+}
+
+html:is([data-vt="modal"], [data-vt="chat"], [data-vt="choice"])::view-transition-old(luma-stage),
+html:is([data-vt="modal"], [data-vt="chat"], [data-vt="choice"])::view-transition-old(luma-score) {
+  display: none;
+}
+html:is([data-vt="modal"], [data-vt="chat"], [data-vt="choice"])::view-transition-new(luma-stage),
+html:is([data-vt="modal"], [data-vt="chat"], [data-vt="choice"])::view-transition-new(luma-score) {
+  animation: none;
+}
+
+/* Panels and pills leave the stage and score in the page itself,
+ * so they dim under a backdrop and keep moving while the change plays. */
+html:is([data-vt="modal"], [data-vt="choice"]) .practice-screen.studio > .keyboard-stage,
+html:is([data-vt="modal"], [data-vt="choice"]) .practice-screen.studio > .score-stage {
+  view-transition-name: none;
+}
+
+/* The transition runner finishes modal-in before capture, so this is the
+ * only dialog entrance. Without View Transitions the CSS entrance remains. */
+/* Panels pop up from slightly below and settle; closing reverses. */
+::view-transition-new(luma-modal):only-child {
+  animation: vt-pop-in var(--t-panel) var(--ease-give) both;
+}
+::view-transition-old(luma-modal):only-child {
+  animation: vt-pop-out var(--t-exit) var(--ease-exit) both;
+}
+::view-transition-new(luma-backdrop):only-child {
+  animation: vt-fade-in var(--t-base) var(--ease-settle) both;
+}
+::view-transition-old(luma-backdrop):only-child {
+  animation: vt-fade-out var(--t-exit) var(--ease-exit) both;
+}
+/* The chat slides in from the side and back out. */
+::view-transition-new(luma-chat):only-child {
+  animation: vt-slide-in-side var(--t-panel) var(--ease-give) both;
+}
+::view-transition-old(luma-chat):only-child {
+  animation: vt-slide-out-side var(--t-exit) var(--ease-exit) both;
+}
+/* A selected pill slides to its new option. */
+::view-transition-group(luma-mode-pill),
+::view-transition-group(luma-view-pill) {
+  animation-duration: var(--t-panel);
+  animation-timing-function: var(--ease-give);
+}
+::view-transition-old(luma-mode-pill),
+::view-transition-old(luma-view-pill) {
+  animation: vt-fade-out var(--t-quick) var(--ease-exit) both;
+}
+::view-transition-new(luma-view-pill),
+::view-transition-new(luma-mode-pill) {
+  animation: vt-fade-in var(--t-base) var(--ease-settle) both;
+}
+
+/* MOT-9 · A theme change washes in like colour. The new room spreads in a
+ * circle from the chosen button (SCR-8 sets --wipe-x / --wipe-y in px on
+ * <html>, contract C11; without them it opens from the centre) over the
+ * old one, which stays still beneath. For this one change the whole window
+ * is a single picture, so the bar, dialog, chat and pills wash with it. The
+ * reduce block below and withTransition's playback bail-out turn it off. */
+html[data-vt="theme"] .app .app-bar,
+html[data-vt="theme"] .app .app-bar .nav-indicator,
+html[data-vt="theme"] .modal-backdrop,
+html[data-vt="theme"] .modal-backdrop > .modal,
+html[data-vt="theme"] .modal-backdrop > section,
+html[data-vt="theme"] .app .companion-dock,
+html[data-vt="theme"] .app [aria-label="Practice mode"] button.selected,
+html[data-vt="theme"] .app .view-switch button[aria-selected="true"],
+html[data-vt="theme"] .practice-screen.studio > .keyboard-stage,
+html[data-vt="theme"] .practice-screen.studio > .score-stage {
+  view-transition-name: none;
+}
+html[data-vt="theme"]::view-transition-old(root) {
+  animation: none;
+}
+html[data-vt="theme"]::view-transition-new(root) {
+  animation: theme-wipe calc(var(--t-scene) + 80ms) var(--ease-move) both;
+}
+
+/* Drawers (Practice tools, Score tools) open and close smoothly. */
+.app .practice-tools-panel {
+  transition:
+    opacity var(--t-base) var(--ease-settle),
+    transform var(--t-base) var(--ease-give),
+    display var(--t-base) allow-discrete,
+    overlay var(--t-base) allow-discrete;
+  opacity: 1;
+  transform: none;
+  transform-origin: top right;
+}
+.app .practice-tools-panel[hidden] {
+  display: none;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+}
+@starting-style {
+  .app .practice-tools-panel:not([hidden]) {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+}
+.app .control-dock .transport-tools .practice-tools-panel {
+  transform-origin: bottom right;
+}
+.app .control-dock .transport-tools .practice-tools-panel[hidden] {
+  transform: translateY(6px) scale(0.97);
+}
+@starting-style {
+  .app .control-dock .transport-tools .practice-tools-panel:not([hidden]) {
+    transform: translateY(6px) scale(0.97);
+  }
+}
+.app .practice-tools-trigger svg:last-child {
+  transition: transform var(--t-base) var(--ease-give);
+}
+.app .practice-tools-trigger[aria-expanded="true"] svg:last-child {
+  transform: rotate(180deg);
+}
+
+/* Text that changes as the music moves eases in each time. */
+.app .coach-note,
+.app .coach-rest,
+.app .maestro-live-status,
+.app .reader-play-status,
+.app .maestro-stage-cue strong,
+.app .resume-chip,
+.app .transport-loop-range,
+.app .tool-active {
+  animation: change-in var(--t-base) var(--ease-settle) backwards;
+}
+/* MOT-2: the NEXT strip never fades. Fast chords (16ths at 76 bpm last
+ * ~197 ms) would otherwise keep it mid-fade; it only nudges up 3 px, and
+ * while the music plays (outside Wait) nothing in the strip animates. */
+.app .next-notes > div,
+.app .next-then b {
+  animation: change-nudge var(--t-quick) var(--ease-settle) backwards;
+}
+.app[data-transport="playing"]:not([data-mode="wait"])
+  :is(.next-notes > div, .next-then b, .coach-note, .coach-rest, .maestro-live-status, .reader-play-status, .maestro-stage-cue strong),
+.app .keyboard-stage.is-playing:not(.mode-wait)
+  :is(.next-notes > div, .next-then b, .coach-note, .coach-rest, .maestro-live-status, .reader-play-status, .maestro-stage-cue strong) {
+  animation: none;
+}
+/* Toggles, checks and switches glide rather than jump. */
+.app .toggle,
+.app .toggle i {
+  transition:
+    background-color var(--t-base) var(--ease-settle),
+    transform var(--t-panel) var(--ease-give);
+}
+/* Selected options settle with a little give. */
+.app :is(.segmented, .view-switch, .room-options, .theme-grid) button {
+  transition:
+    background-color var(--t-base) var(--ease-settle),
+    color var(--t-base) var(--ease-settle),
+    box-shadow var(--t-base) var(--ease-settle),
+    transform var(--t-base) var(--ease-give);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app .practice-tools-panel,
+  .app .practice-tools-trigger svg:last-child,
+  .app .toggle,
+  .app .toggle i {
+    transition: none;
+  }
+  .app .next-notes > div,
+  .app .next-then b,
+  .app .coach-note,
+  .app .coach-rest,
+  .app .maestro-live-status,
+  .app .reader-play-status,
+  .app .maestro-stage-cue strong,
+  .app .resume-chip,
+  .app .transport-loop-range,
+  .app .tool-active {
+    animation: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+@keyframes vt-out-left {
+  to { opacity: 0; transform: translateX(-12px); }
+}
+@keyframes vt-out-right {
+  to { opacity: 0; transform: translateX(12px); }
+}
+@keyframes vt-in-right {
+  from { opacity: 0; transform: translateX(22px); }
+}
+@keyframes vt-in-left {
+  from { opacity: 0; transform: translateX(-22px); }
+}
+@keyframes vt-pop-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+@keyframes vt-pop-out {
+  to { opacity: 0; transform: translateY(8px) scale(0.985); }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-slide-in-side {
+  from { opacity: 0; transform: translateX(20px); }
+}
+@keyframes vt-slide-out-side {
+  to { opacity: 0; transform: translateX(20px); }
+}
+@keyframes theme-wipe {
+  from { clip-path: circle(0 at var(--wipe-x, 50%) var(--wipe-y, 50%)); }
+  to { clip-path: circle(150vmax at var(--wipe-x, 50%) var(--wipe-y, 50%)); }
+}
+@keyframes change-in {
+  from { opacity: 0; transform: translateY(5px); }
+}
+@keyframes change-nudge {
+  from { transform: translateY(3px); }
+}

@@ -3,6 +3,7 @@ import midiPackage from "@tonejs/midi";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import { trackTestData } from "./qa-cleanup.mjs";
+import { clickInPieceTools } from "./practice-tools.mjs";
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const errors = [],
@@ -38,7 +39,7 @@ try {
     mimeType: "audio/midi",
     buffer: Buffer.from(midi.toArray()),
   });
-  await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+  await page.getByRole("dialog", { name: "Review score" }).waitFor();
   assert.equal(await page.locator("tbody tr").count(), 8);
   await page.getByRole("button", { name: "Save & mark reviewed" }).click();
   await page.getByRole("dialog").waitFor({ state: "hidden" });
@@ -69,8 +70,9 @@ try {
   checks.push("Wait mode starts at beat 7 and wraps 7 → 9 → 7 within bar 3");
   await page.getByRole("button", { name: "Pause", exact: true }).click();
   await page
-    .getByRole("combobox", { name: "Practice hand" })
-    .selectOption("left");
+    .getByRole("radiogroup", { name: "Practice hand" })
+    .locator(".hand-left")
+    .click();
   await page.getByRole("button", { name: "Play", exact: true }).click();
   await page
     .getByRole("status")
@@ -84,8 +86,9 @@ try {
     "Empty left-hand phrase gives guidance instead of jumping outside the loop",
   );
   await page
-    .getByRole("combobox", { name: "Practice hand" })
-    .selectOption("both");
+    .getByRole("radiogroup", { name: "Practice hand" })
+    .locator(".hand-both")
+    .click();
   await page
     .getByRole("button", { name: "Listen & follow", exact: true })
     .click();
@@ -125,7 +128,7 @@ try {
   const exported = page.waitForResponse(
     (r) => r.url().endsWith("/api/export") && r.request().method() === "POST",
   );
-  await page.getByRole("button", { name: "Export practice notes" }).click();
+  await clickInPieceTools(page, "Export practice notes");
   const out = await (await exported).json();
   const html = await fs.readFile(out.html, "utf8");
   assert.match(html, /Bar 3<\/header>.*?Beat 1<\/span>.*?Beat 3<\/span>/);

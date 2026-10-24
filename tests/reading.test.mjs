@@ -10,6 +10,9 @@ import {
   readingDuration,
   readingSpacing,
   readingNoteDisplay,
+  readingContent,
+  readingLayout,
+  readingLineAt,
 } from "../src/reading.mjs";
 
 const note = (beat, duration, midi = 60, hand = "right") => ({
@@ -223,5 +226,92 @@ test("chords stay stacked at one onset and duration labels retain triplets and d
       readingPassage(score, indexReadingNotes([]), 47, 2).end,
     ],
     [16, 48],
+  );
+});
+
+test("the tape layout breaks lines on bar lines, fits the width and covers every bar", () => {
+  // Bars 1-4 quarter notes, bars 5-8 sixteenths: the dense bars need more room.
+  const notes = [];
+  for (let bar = 0; bar < 8; bar++) {
+    const step = bar < 4 ? 1 : 0.25;
+    for (let at = 0; at < 4; at += step)
+      notes.push(note(bar * 4 + at, step, 60 + (Math.round(at * 4) % 5), "right"));
+  }
+  const piece = { meter: 4, measures: 8, duration: 32 };
+  const index = indexReadingNotes(notes);
+  const width = 900;
+  const lines = readingLayout(piece, index, { width, maxBars: 4 });
+  assert.equal(lines[0].start, 0);
+  assert.equal(lines.at(-1).end, 32);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (i) assert.equal(line.start, lines[i - 1].end, "lines are contiguous");
+    assert.equal(line.start % 4, 0, "every line starts on a bar line");
+    assert.ok(line.lastBar - line.firstBar + 1 <= 4, "at most maxBars bars");
+    assert.ok(
+      line.content.spacing.natural <= width,
+      `line ${line.firstBar}-${line.lastBar} fits the width`,
+    );
+  }
+  assert.deepEqual(
+    lines.map((line) => [line.firstBar, line.lastBar]),
+    [
+      [1, 4],
+      [5, 5],
+      [6, 6],
+      [7, 7],
+      [8, 8],
+    ],
+    "sparse bars share a line; a bar of sixteenths takes a line of its own",
+  );
+  assert.equal(readingLineAt(lines, 0), 0);
+  assert.equal(readingLineAt(lines, 15.99), 0);
+  assert.equal(readingLineAt(lines, 16), 1);
+  assert.equal(readingLineAt(lines, 31.9), 4);
+  assert.equal(readingLineAt(lines, 99), 4);
+  const repeat = readingLayout(piece, index, { width, maxBars: 4, from: 3, to: 6 });
+  assert.equal(repeat[0].firstBar, 3, "a repeat's lines start at its first bar");
+  assert.equal(repeat.at(-1).lastBar, 6, "and end at its last");
+});
+
+test("a single bar too dense for one line is divided between onsets", () => {
+  const notes = [];
+  for (let at = 0; at < 4; at += 0.125) notes.push(note(at, 0.125, 60));
+  const piece = { meter: 4, measures: 1, duration: 4 };
+  const index = indexReadingNotes(notes);
+  const lines = readingLayout(piece, index, { width: 600, maxBars: 4 });
+  assert.ok(lines.length > 1);
+  assert.equal(lines[0].start, 0);
+  assert.equal(lines.at(-1).end, 4);
+  for (let i = 1; i < lines.length; i++) {
+    assert.equal(lines[i].start, lines[i - 1].end);
+    assert.ok(index.onsets.includes(lines[i].start), "splits land on onsets");
+    assert.ok(lines[i].detail);
+  }
+  for (const line of lines) assert.ok(line.content.spacing.natural <= 600);
+});
+
+test("durations are written where the rhythm changes, not on every note of a run", () => {
+  const notes = [
+    note(0, 0.25, 60),
+    note(0.25, 0.25, 62),
+    note(0.5, 0.25, 64),
+    note(0.75, 0.75, 65),
+    note(1.5, 0.25, 67),
+    note(1.75, 0.25, 69),
+    note(4, 0.25, 71),
+    note(4.25, 0.25, 72),
+  ];
+  const piece = { meter: 4, measures: 2, duration: 8 };
+  const content = readingContent(
+    piece,
+    indexReadingNotes(notes),
+    { start: 0, end: 8, firstBar: 1, lastBar: 2 },
+  );
+  const [right] = content.hands;
+  assert.deepEqual(
+    right.groups.map((g) => g.sameRhythm),
+    [false, true, true, false, false, true, false, true],
+    "first of a bar and every change keep their duration",
   );
 });

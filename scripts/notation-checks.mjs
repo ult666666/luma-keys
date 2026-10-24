@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import { notationBook } from "../tests/fixtures/notation-book.mjs";
+import { openReview } from "./practice-tools.mjs";
 
 export async function verifyNotation(page, prefix = "notation") {
   const checks = [],
@@ -26,7 +27,7 @@ export async function verifyNotation(page, prefix = "notation") {
     });
     const result = await (await response).json();
     assert.ok(result.score, JSON.stringify(result));
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     return result.score;
   };
   const jump = async (bar, expected) => {
@@ -34,7 +35,7 @@ export async function verifyNotation(page, prefix = "notation") {
       .getByRole("spinbutton", { name: "Review from bar" })
       .fill(String(bar));
     await page
-      .getByRole("dialog", { name: "Make the music yours" })
+      .getByRole("dialog", { name: "Review score" })
       .getByRole("button", { name: "Go", exact: true })
       .click();
     if (expected) {
@@ -113,7 +114,7 @@ export async function verifyNotation(page, prefix = "notation") {
   await page.getByRole("button", { name: "Save & mark reviewed" }).click();
   await page.getByRole("dialog").waitFor({ state: "hidden" });
   await page.getByRole("slider", { name: "Song position" }).fill("132");
-  await page.getByRole("button", { name: "Review sheet and notes" }).click();
+  await openReview(page);
   assert.equal(
     await page
       .getByRole("spinbutton", { name: "Review from bar" })

@@ -1,0 +1,277 @@
+/* A small table-top rhythm game. Only cues move; the tap target stays put. */
+.salon-cast {
+  flex-direction: column;
+  gap: 10px;
+}
+.salon-activity-switch {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--salon-soft);
+  flex: 0 0 auto;
+}
+.app .salon-activity-switch button {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  min-height: 31px;
+  padding: 6px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--ink-muted);
+  background: transparent;
+}
+.app .salon-activity-switch button[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--salon-white);
+  box-shadow: 0 1px 3px #0000000b;
+}
+.salon-cast .salon-choices {
+  flex: 1;
+}
+.rhythm-game {
+  min-height: 296px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--ink);
+  padding: 12px;
+  border: 1px solid var(--salon-line);
+  border-radius: 13px;
+  background: var(--salon-white);
+}
+.rhythm-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.rhythm-heading strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.rhythm-heading > span {
+  font-size: 10px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.rhythm-track {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 5px;
+  padding: 7px 0 0;
+}
+.rhythm-cell {
+  min-width: 0;
+  text-align: center;
+}
+.rhythm-pebble {
+  display: grid;
+  place-items: center;
+  height: 25px;
+  width: 25px;
+  max-width: 100%;
+  margin: auto;
+  border-radius: 50%;
+  border: 1px dashed var(--salon-line);
+}
+.rhythm-cell[data-note="true"] .rhythm-pebble {
+  background: var(--preview-paper);
+  border: 1px solid var(--preview-metal);
+}
+.rhythm-pebble i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--preview-ink);
+}
+.rhythm-cell[data-cued="true"] .rhythm-pebble {
+  outline: 2px solid var(--preview-ink);
+  outline-offset: 3px;
+}
+.rhythm-cell.is-tapped .rhythm-pebble {
+  background: var(--preview-ink);
+}
+.rhythm-cell.is-tapped .rhythm-pebble i {
+  background: var(--preview-paper);
+}
+.rhythm-cell small {
+  display: block;
+  font-size: 9px;
+  margin-top: 7px;
+  color: var(--ink-muted);
+}
+.rhythm-status {
+  min-height: 31px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.app .rhythm-tap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 64px;
+  padding: 12px;
+  background: var(--preview-paper);
+  border: 1px solid var(--preview-metal);
+  color: var(--preview-ink);
+  border-radius: 18px;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.app .rhythm-tap:disabled {
+  opacity: 0.7;
+}
+.app .rhythm-tap:not(:disabled):active {
+  background: var(--preview-metal);
+  transform: none;
+}
+.rhythm-tap > span {
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.rhythm-tap > small {
+  font-size: 10px;
+  margin-left: auto;
+}
+.rhythm-settings {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+.rhythm-settings label {
+  font-size: 10px;
+  color: var(--ink-muted);
+}
+.rhythm-settings label > span {
+  display: block;
+  margin-bottom: 3px;
+}
+.app .rhythm-settings select {
+  width: auto;
+  font: inherit;
+  font-size: 11px;
+  padding: 6px;
+  border: 1px solid var(--salon-line);
+  border-radius: 7px;
+  color: var(--ink);
+}
+.rhythm-settings .rhythm-sound {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+}
+.rhythm-sound input {
+  accent-color: var(--salon-deep);
+  width: 13px;
+  height: 13px;
+  margin: 0;
+}
+.app .rhythm-start {
+  font-size: 11px;
+  padding: 8px 9px;
+  min-height: 33px;
+  gap: 5px;
+  border-radius: 9px;
+}
+.rhythm-footnote {
+  margin: 0;
+  min-height: 25px;
+  font-size: 9px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+.rhythm-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.rhythm-result small {
+  font-size: 9px;
+  color: var(--ink-muted);
+}
+.rhythm-mark {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  font-size: 9px;
+  color: var(--ink-muted);
+}
+.rhythm-mark i {
+  width: 6px;
+  height: 6px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+.rhythm-mark[data-kind="on-time"] {
+  color: #39724e;
+}
+.rhythm-mark[data-kind="on-time"] i {
+  background: currentColor;
+}
+.rhythm-mark[data-kind="early"] {
+  color: #946126;
+}
+.rhythm-mark[data-kind="early"] i {
+  border-radius: 1px;
+  transform: rotate(45deg);
+  background: currentColor;
+}
+.rhythm-mark[data-kind="late"] {
+  color: #966379;
+}
+.rhythm-mark[data-kind="late"] i {
+  border-radius: 1px;
+  background: currentColor;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rhythm-cell[data-note="true"][data-cued="true"] .rhythm-pebble {
+    animation: rhythm-cue 200ms ease-out;
+  }
+  @keyframes rhythm-cue {
+    0% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-4px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}
+@media (max-width: 600px) {
+  .rhythm-game {
+    padding: 10px;
+    min-height: 288px;
+  }
+  .rhythm-settings {
+    gap: 6px;
+  }
+  .rhythm-settings .rhythm-start {
+    padding: 8px 6px;
+    font-size: 10px;
+  }
+  .rhythm-heading strong {
+    font-size: 12px;
+  }
+  .rhythm-heading > span {
+    font-size: 9px;
+  }
+}

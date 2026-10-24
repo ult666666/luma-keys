@@ -1,0 +1,84 @@
+/* 2.23 finish: softer, rounder, friendlier — the same layout and controls.
+ * Pills for choices, a round Play button, rounded stage and note blocks. */
+body .app {
+  --cute-radius: 16px;
+  --cute-pill: 999px;
+}
+
+/* Surfaces. */
+body .app .keyboard-stage {
+  border-radius: var(--cute-radius);
+  box-shadow: 0 18px 40px -26px rgb(0 0 0 / 0.7);
+}
+body .app .modal {
+  border-radius: 20px;
+}
+body .app .toast {
+  border-radius: 14px;
+}
+body .app .hand-coach {
+  border-radius: 0 0 var(--cute-radius) var(--cute-radius);
+}
+
+/* Choices are pills. */
+body .app .view-switch,
+body .app .practice-screen .control-dock .segmented,
+body .app .segmented {
+  border-radius: var(--cute-pill);
+  padding: 3px;
+}
+body .app .view-switch button,
+body .app .practice-screen .control-dock .segmented button,
+body .app .segmented button {
+  border-radius: var(--cute-pill);
+}
+body .app .app-nav button {
+  border-radius: var(--cute-pill);
+}
+body .app .app-bar-actions > button,
+body .app .transport-tools > button,
+body .app .score-tools-button {
+  border-radius: var(--cute-pill);
+}
+
+/* A round Play button. Its size is practice's (PRA-2) and its medallion
+ * paint is art's (ART-3); this layer only centres the glyph and gives the
+ * press (MOT-4): a 1 px lift on hover, a firm .94 press while held. */
+body .app .play-button {
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+/* Beats shell.css's dock-scoped `transition: box-shadow 200ms`. */
+body .app .play-button,
+body .app .control-dock .dock-transport .play-button {
+  transition:
+    translate var(--t-quick) var(--ease-give),
+    scale var(--t-quick) var(--ease-give),
+    background-color var(--t-quick) var(--ease-settle),
+    box-shadow var(--t-base) var(--ease-settle);
+}
+body .app .play-button:not(:disabled):hover {
+  translate: 0 -1px;
+}
+body .app .play-button:not(:disabled):active {
+  translate: 0 0;
+  scale: 0.94;
+  transition-duration: var(--t-tap);
+}
+@media (prefers-reduced-motion: reduce) {
+  body .app .play-button,
+  body .app .control-dock .dock-transport .play-button {
+    transition: none;
+  }
+}
+
+/* Falling notes: rounder blocks with a soft glow as they land. */
+body .app .falling-note {
+  border-radius: 8px;
+}
+body .app .falling-note.short {
+  border-radius: 7px;
+}
+
+/* Focus rings: one ring for the whole app comes from opulent.css (ART-9). */

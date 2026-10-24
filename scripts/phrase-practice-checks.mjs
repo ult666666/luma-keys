@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { expect } from "@playwright/test";
 import { demos } from "../src/music.mjs";
+import { setPianoVolume } from "./piano-volume.mjs";
+import { loopInput, setLoopRange, openReview } from "./practice-tools.mjs";
+import { openFromLibrary } from "./library-open.mjs";
 
 const fixture = {
   ...demos()[0],
@@ -83,8 +86,10 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
   const next = () => button("Next note").click();
   const previous = () => button("Previous note").click();
   const repeat = () => button("Repeat these bars").click();
-  const start = page.getByRole("spinbutton", { name: "Loop start bar" });
-  const end = page.getByRole("spinbutton", { name: "Loop end bar" });
+  // (Since 2.39 the range lives in the Practice tools drawer: read by
+  // attribute, which also finds it while the drawer is closed.)
+  const start = loopInput(page, "start");
+  const end = loopInput(page, "end");
   const expectCue = (pitch) =>
     expect(page.locator(".next-notes")).toContainText(pitch);
   const range = async (a, b) => {
@@ -110,7 +115,7 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await expect(button("Play")).toBeEnabled();
-    await page.getByRole("slider", { name: "Piano volume" }).fill("0");
+    await setPianoVolume(page);
     const beforeStats = await page.evaluate(
       async () => (await (await fetch("/api/preferences")).json()).stats,
     );
@@ -120,12 +125,13 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
       mimeType: "application/json",
       buffer: Buffer.from(JSON.stringify(fixture)),
     });
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     await close();
     await page.getByRole("tab", { name: "Number score", exact: true }).click();
     await page
-      .getByRole("combobox", { name: "Practice hand" })
-      .selectOption("both");
+      .getByRole("radiogroup", { name: "Practice hand" })
+      .locator(".hand-both")
+      .click();
     await button("Wait for me").click();
     await button("Start over").click();
     await expectCue("C4");
@@ -158,13 +164,14 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
     await button("Listen & follow").click();
     assert.equal(await position(), 10.5);
     await page
-      .getByRole("combobox", { name: "Practice hand" })
-      .selectOption("right");
+      .getByRole("radiogroup", { name: "Practice hand" })
+      .locator(".hand-right")
+      .click();
     assert.equal(await position(), 10.5);
     await button("Wait for me").click();
     assert.equal(await position(), 10.5);
-    await button("Review sheet and notes").click();
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    await openReview(page);
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     await button("Save & mark reviewed").click();
     await page.getByRole("dialog").waitFor({ state: "hidden" });
     await range(5, 5);
@@ -174,8 +181,7 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
       "Repeat these bars selects the visible final bar using real pickup/meter boundaries; Start over, mode/hand changes and review/save stay inside that phrase",
     );
 
-    await start.fill("2");
-    await end.fill("3");
+    await setLoopRange(page, 2, 3);
     await range(2, 3);
     assert.equal(await position(), 0.5);
     await expectCue("F4");
@@ -255,7 +261,7 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
     await seek(0.03125);
     await expectCue("D4");
     await button("Play").click();
-    await expect(page.locator(".reader-play-status")).toContainText(
+    await expect(page.locator(".reader-play-status, .maestro-live-status")).toContainText(
       "Waiting for your notes",
     );
     await page.locator("h1").click();
@@ -344,12 +350,7 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
     await expect(button("Show keyboard guide")).toHaveCount(0);
     await page.getByRole("tab", { name: "Number score", exact: true }).click();
     await expect(body).toBeHidden();
-    await button("Library").click();
-    await page
-      .locator(".piece-row")
-      .filter({ hasText: "Twinkle, Little Star" })
-      .getByRole("button", { name: /^(open|reading)$/i })
-      .click();
+    await openFromLibrary(page, "Twinkle, Little Star");
     await expect(body).toBeHidden();
     const controlledId = await button("Show keyboard guide").getAttribute(
       "aria-controls",
@@ -373,49 +374,70 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
       mimeType: "application/json",
       buffer: Buffer.from(JSON.stringify(restFixture)),
     });
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     await close();
     await page.getByRole("tab", { name: "Number score", exact: true }).click();
+    // In the studio a dense bar is divided between its onsets onto lines that
+    // fit the width (1.7), so walk the lines and check every rest on each.
     const rests = page.locator(".reading-right .reading-rest");
-    await expect(rests).toHaveCount(18);
-    await expect(
-      rests.filter({ has: page.locator("small", { hasText: /^♩ 0\.031$/ }) }),
-    ).toHaveCount(16);
+    await expect(rests.first()).toBeVisible();
+    const restGeometry = [];
+    let restOverflow = { document: false, score: false };
+    for (let line = 0; line < 12; line++) {
+      const here = await rests.evaluateAll((elements) =>
+        elements.map((element) => {
+          const rect = element.getBoundingClientRect();
+          const labels = [...element.querySelectorAll("span,small")].map(
+            (label) => {
+              const labelRect = label.getBoundingClientRect();
+              return {
+                text: label.textContent.trim(),
+                left: labelRect.left - rect.left,
+                right: labelRect.right - rect.right,
+                top: labelRect.top - rect.top,
+                bottom: labelRect.bottom - rect.bottom,
+              };
+            },
+          );
+          return {
+            label: element.getAttribute("aria-label"),
+            duration: element.querySelector("small").textContent.trim(),
+            width: rect.width,
+            labels,
+          };
+        }),
+      );
+      restGeometry.push(...here);
+      const overflow = await page.evaluate(() => ({
+        document: document.documentElement.scrollWidth > innerWidth,
+        score:
+          document.querySelector(".reading-scroll").scrollWidth >
+          document.querySelector(".reading-scroll").clientWidth,
+      }));
+      restOverflow = {
+        document: restOverflow.document || overflow.document,
+        score: restOverflow.score || overflow.score,
+      };
+      const next = button("Next passage");
+      if (await next.isDisabled()) break;
+      const was = await position();
+      await next.click();
+      await expect.poll(position).not.toBe(was);
+      await expect(rests.first()).toBeVisible();
+    }
+    const tally = (duration) =>
+      restGeometry.filter(
+        (rest) => rest.label === `Rest for ${duration} quarter-note beats`,
+      );
+    assert.equal(restGeometry.length, 18);
     for (const [duration, count] of [
       ["0.031", 16],
       ["3", 1],
       ["4", 1],
     ]) {
-      const durations = page.locator(
-        `.reading-right .reading-rest[aria-label="Rest for ${duration} quarter-note beats"]`,
-      );
-      await expect(durations).toHaveCount(count);
-      await expect(durations.first().locator("small")).toHaveText(
-        `♩ ${duration}`,
-      );
+      assert.equal(tally(duration).length, count, duration);
+      assert.ok(tally(duration).every((rest) => rest.duration === `♩ ${duration}`));
     }
-    const restGeometry = await rests.evaluateAll((elements) =>
-      elements.map((element) => {
-        const rect = element.getBoundingClientRect();
-        const labels = [...element.querySelectorAll("span,small")].map(
-          (label) => {
-            const labelRect = label.getBoundingClientRect();
-            return {
-              text: label.textContent.trim(),
-              left: labelRect.left - rect.left,
-              right: labelRect.right - rect.right,
-              top: labelRect.top - rect.top,
-              bottom: labelRect.bottom - rect.bottom,
-            };
-          },
-        );
-        return {
-          label: element.getAttribute("aria-label"),
-          width: rect.width,
-          labels,
-        };
-      }),
-    );
     for (const rest of restGeometry)
       for (const label of rest.labels) {
         assert.ok(
@@ -426,33 +448,31 @@ export async function verifyPhrasePractice(page, prefix = "phrase-practice") {
           `Rest text must remain inside its visible container: ${JSON.stringify({ rest, label })}`,
         );
       }
-    const restOverflow = await page.evaluate(() => ({
-      document: document.documentElement.scrollWidth > innerWidth,
-      score:
-        document.querySelector(".reading-scroll").scrollWidth >
-        document.querySelector(".reading-scroll").clientWidth,
-    }));
     assert.equal(
       restOverflow.document,
       false,
-      "Dense rests must scroll within the score rather than widening the page",
+      "Dense rests must never widen the page",
     );
     assert.equal(
       restOverflow.score,
-      true,
-      "The fast-note fixture must exercise intrinsic dense spacing, not a stretched short row",
+      false,
+      "Dense music is divided onto lines that fit rather than scrolled sideways",
     );
     measurements.rests = {
       count: restGeometry.length,
       minimumWidth: Math.min(...restGeometry.map((rest) => rest.width)),
       restOverflow,
     };
+    assert.ok(
+      measurements.rests.minimumWidth >= 20,
+      "even the shortest rest keeps a readable width",
+    );
     await page.screenshot({
       path: `evidence/${prefix}-rest-durations.png`,
       fullPage: true,
     });
     checks.push(
-      "Opening, interior and trailing rests show accurate beat durations; dense short rests stay legible without clipped labels or page-wide overflow",
+      "Opening, interior and trailing rests show accurate beat durations; dense short rests stay legible on lines that fit the width, without clipped labels or any sideways scrolling",
     );
 
     await page.setViewportSize({ width: 390, height: 844 });

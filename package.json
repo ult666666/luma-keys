@@ -1,17 +1,20 @@
 {
   "name": "luma-keys",
-  "version": "1.4.0",
+  "version": "2.46.0",
   "type": "module",
   "private": true,
-  "description": "A little light for your piano journey",
+  "description": "Local piano sight-reading and practice",
   "main": "electron.cjs",
   "scripts": {
     "dev": "concurrently -k \"node server.mjs\" \"vite --host 127.0.0.1\"",
     "build": "vite build",
     "start": "electron .",
     "test": "node --test tests/*.test.mjs",
-    "pack": "npm run build && electron-builder --mac dir --arm64",
-    "format": "prettier --write src/*.jsx src/*.js src/*.mjs src/*.css server.mjs electron.cjs scripts/*.mjs tests/*.mjs"
+    "pack": "npm run build:companion && npm run build && electron-builder --mac dir --arm64",
+    "format": "prettier --write src/*.jsx src/*.js src/*.mjs src/*.css server.mjs electron.cjs scripts/*.mjs tests/*.mjs",
+    "build:companion": "node scripts/build-companion-model.mjs",
+    "build:icon": "node scripts/create-icon.mjs",
+    "qa:native": "node scripts/qa-native-sweep.mjs"
   },
   "dependencies": {
     "@tonejs/midi": "^2.0.28",
@@ -23,7 +26,8 @@
     "opensheetmusicdisplay": "^1.9.2",
     "pdfjs-dist": "^6.3.289",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
@@ -52,9 +56,28 @@
       "package.json",
       "src/export.mjs",
       "src/preferences.mjs",
+      "src/journal.mjs",
+      "src/trouble-spots.mjs",
+      "src/atomic-file.mjs",
+      "src/diagnostics-log.mjs",
       "docs/THIRD_PARTY_NOTICES.md",
       "src/exercise.mjs",
-      "src/performance.mjs"
+      "src/performance.mjs",
+      "src/companions.mjs",
+      "src/backing-store.mjs",
+      "src/backing-settings.mjs",
+      "src/companion-store.mjs",
+      "src/companion-conversation.mjs",
+      "src/maestro.mjs",
+      "src/companion-model.mjs",
+      "src/companion-prompt.mjs",
+      "src/companion-language.mjs",
+      "src/companion-coach.mjs",
+      "src/companion-session.mjs",
+      "microphone-permission.cjs",
+      "library-access.cjs",
+      "src/recovery.mjs",
+      "src/failures.mjs"
     ],
     "extraResources": [
       {
@@ -64,13 +87,36 @@
       {
         "from": "engines/tessdata",
         "to": "tessdata"
+      },
+      {
+        "from": "engines/companion-model",
+        "to": "companion-model"
+      },
+      {
+        "from": "src/companion-local-runtime.mjs",
+        "to": "companion-local-runtime.mjs"
+      },
+      {
+        "from": "engines/companion-llm",
+        "to": "companion-llm",
+        "filter": [
+          "llama-server",
+          "*.dylib",
+          "*.gguf",
+          "MODEL-*",
+          "LICENSE",
+          "provenance.json"
+        ]
       }
     ],
     "mac": {
       "category": "public.app-category.music",
       "identity": null,
       "target": "dir",
-      "icon": "public/icon.png"
+      "icon": "public/icon.icns",
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "Luma Keys listens for the piano notes you play in Wait mode. Audio is processed locally and is not recorded."
+      }
     }
   },
   "author": "Luma Keys"

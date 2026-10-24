@@ -1,26 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, LoaderCircle } from "lucide-react";
 import { barStart, measureAt } from "./music.mjs";
+import {
+  advanceSheetFollower,
+  cacheSheetCursorImage,
+  resetSheetFollower,
+  sheetScrollTarget,
+} from "./sheet-follow.mjs";
+import { compileSheetWindows } from "./sheet-window.mjs";
 import "./score-focus.css";
-
-function nextPosition(instance, iterator) {
-  // OSMD's clone shares its voice-entry array with the original. Advancing that
-  // clone clears the displayed notes, so create an independent public iterator.
-  const next = new iterator.constructor(
-    instance.Sheet,
-    iterator.CurrentSourceTimestamp,
-  );
-  next.moveToNextVisibleVoiceEntry(false);
-  return next.EndReached ? null : next;
-}
-
-function resetPosition(instance, cursor) {
-  cursor.resetIterator();
-  return {
-    next: nextPosition(instance, cursor.Iterator),
-    previousTimestamp: -1,
-  };
-}
 
 export default function ScoreDisplay({
   xml,
@@ -28,6 +16,7 @@ export default function ScoreDisplay({
   onNavigate,
   passageBars = 16,
   compact = false,
+  zoom = 0.85,
   beat,
   transportScore,
 }) {
@@ -37,7 +26,14 @@ export default function ScoreDisplay({
   const cursorState = useRef();
   const latestPosition = useRef({ beat, score: transportScore });
   latestPosition.current = { beat, score: transportScore };
-  const [total, setTotal] = useState(0);
+  const [loadedTotal, setTotal] = useState(0);
+  // OSMD recalculates every loaded source measure even when only a passage is
+  // drawn. Index once, then load a bounded window with its written context.
+  const windows = useMemo(
+    () => (compact ? compileSheetWindows(xml) : null),
+    [xml, compact],
+  );
+  const total = windows?.total || loadedTotal;
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(true);
   const [renderedRange, setRenderedRange] = useState("");
@@ -45,7 +41,13 @@ export default function ScoreDisplay({
   const from = Math.max(1, Math.min(total || 1, startBar));
   const count = Math.max(1, Math.min(32, Math.floor(passageBars) || 16));
   const to = Math.min(total, from + count - 1);
-  const rangeKey = `${from}:${to}:${compact}`;
+  const source = useMemo(
+    () => windows?.window(from, to) || { xml, offset: 0 },
+    [windows, from, to, xml],
+  );
+  const sourceXml = source.xml;
+  const offset = source.offset;
+  const rangeKey = `${from}:${to}:${compact}:${zoom}`;
   const rendering = busy || (ready && renderedRange !== rangeKey);
 
   function followBeat(value, score) {
@@ -66,7 +68,7 @@ export default function ScoreDisplay({
     let timestamp = value / 4;
     if (score) {
       const bar = measureAt(score, value);
-      const source = instance.Sheet.SourceMeasures[bar - 1];
+      const source = instance.Sheet.SourceMeasures[bar - 1 - offset];
       if (!source || bar < from || bar > to) {
         cursor.hide();
         return;
@@ -74,8 +76,8 @@ export default function ScoreDisplay({
       timestamp =
         source.AbsoluteTimestamp.RealValue + (value - barStart(score, bar)) / 4;
     }
-    const first = instance.Sheet.SourceMeasures[from - 1];
-    const last = instance.Sheet.SourceMeasures[to - 1];
+    const first = instance.Sheet.SourceMeasures[from - 1 - offset];
+    const last = instance.Sheet.SourceMeasures[to - 1 - offset];
     if (
       !first ||
       !last ||
@@ -85,40 +87,41 @@ export default function ScoreDisplay({
       cursor.hide();
       return;
     }
-    let state = cursorState.current;
-    let changed = cursor.Hidden;
-    if (timestamp < state.previousTimestamp - 1e-7) {
-      state = resetPosition(instance, cursor);
-      cursorState.current = state;
-      changed = true;
-    }
-    // Only move the overlay when a new onset is reached. No engraving work or
-    // layout update runs on animation frames between notes, including rests.
-    let remaining = 4096;
-    while (
-      state.next &&
-      state.next.CurrentSourceTimestamp.RealValue <= timestamp + 1e-7 &&
-      remaining-- > 0
-    ) {
-      cursor.iterator = state.next;
-      state.next = nextPosition(instance, cursor.Iterator);
-      changed = true;
-    }
-    state.previousTimestamp = timestamp;
+    // Move the two independent iterators in place. Reconstructing one at every
+    // onset makes OSMD replay all earlier measures, especially costly in a sonata.
+    const { state, changed } = advanceSheetFollower(
+      instance,
+      cursor,
+      cursorState.current,
+      timestamp,
+    );
+    cursorState.current = state;
     if (!changed) return;
     cursor.show();
-    const marker = cursor.cursorElement.getBoundingClientRect();
-    const viewport = paper.current.getBoundingClientRect();
-    // Scroll only the sheet's own viewport, never the whole practice screen.
-    if (marker.bottom > viewport.bottom - 12)
-      paper.current.scrollTop += marker.bottom - viewport.bottom + 20;
-    else if (marker.top < viewport.top + 12)
-      paper.current.scrollTop -= viewport.top - marker.top + 20;
+    const element = cursor.cursorElement;
+    const system = `${cursor.currentPageNumber}:${element.style.top}:${element.height}`;
+    // Notes within a system move horizontally. Read geometry and follow
+    // vertically only when that system changes, also allowing manual scrolling.
+    if (system === state.system || !paper.current) return;
+    state.system = system;
+    const marker = element.getBoundingClientRect();
+    const viewport = paper.current;
+    const bounds = viewport.getBoundingClientRect();
+    const target = sheetScrollTarget({
+      scrollTop: viewport.scrollTop,
+      clientHeight: viewport.clientHeight,
+      scrollHeight: viewport.scrollHeight,
+      markerTop:
+        marker.top - bounds.top + viewport.scrollTop - viewport.clientTop,
+      markerHeight: marker.height,
+    });
+    if (Math.abs(target - viewport.scrollTop) > 1) viewport.scrollTop = target;
   }
 
   useEffect(() => {
     let canceled = false;
     let instance;
+    const host = container.current;
     setReady(false);
     setTotal(0);
     setBusy(true);
@@ -127,7 +130,7 @@ export default function ScoreDisplay({
       try {
         // Always read the imported document locally, never treat its text as a URL.
         const document = new DOMParser().parseFromString(
-          xml,
+          sourceXml,
           "application/xml",
         );
         if (document.querySelector("parsererror"))
@@ -154,7 +157,7 @@ export default function ScoreDisplay({
         const count = instance.Sheet.SourceMeasures.length;
         if (!count) throw Error("No measures to display");
         display.current = instance;
-        setTotal(count);
+        setTotal(windows?.total || count);
         setReady(true);
       } catch {
         if (!canceled) {
@@ -174,13 +177,17 @@ export default function ScoreDisplay({
       for (const cursor of instance?.cursors || [])
         cursor.cursorElement.remove();
       instance?.clear();
+      // OSMD clear empties its SVG but retains page wrappers. New window
+      // instances must not accumulate those blank pages in the same host.
+      host?.replaceChildren();
     };
-  }, [xml]);
+  }, [sourceXml]);
 
   useEffect(() => {
     if (!ready) return;
     let canceled = false;
     let timer;
+    let firstRender = true;
     const render = () => {
       if (canceled || !display.current) return;
       try {
@@ -196,15 +203,27 @@ export default function ScoreDisplay({
           drawPartNames: !compact,
           drawPartAbbreviations: !compact,
         });
-        display.current.EngravingRules.MinMeasureToDrawIndex = from - 1;
-        display.current.EngravingRules.MaxMeasureToDrawIndex = to - 1;
-        display.current.Zoom = compact ? 0.85 : 1;
+        display.current.EngravingRules.MinMeasureToDrawIndex =
+          from - 1 - offset;
+        display.current.EngravingRules.MaxMeasureToDrawIndex = to - 1 - offset;
+        // A full passage fills the page's width on every line; a short final
+        // passage keeps its natural spacing.
+        display.current.EngravingRules.StretchLastSystemLine =
+          compact && to - from + 1 >= 6;
+        // The document's 5-unit print margin costs 42.5px at practice zoom.
+        // Keep an 8.5px inset in the compact reader so a complete grand staff
+        // fits; restore the normal page margin in the full Review viewer.
+        display.current.EngravingRules.PageTopMargin = compact ? 1 : 5;
+        display.current.Zoom = compact ? zoom : 1;
         display.current.render();
+        if (firstRender) paper.current.scrollTop = 0;
+        firstRender = false;
         const cursor = display.current.cursor;
+        cacheSheetCursorImage(cursor);
         cursor.hide();
         if (compact) {
           cursor.wantedZIndex = "1";
-          cursorState.current = resetPosition(display.current, cursor);
+          cursorState.current = resetSheetFollower(display.current, cursor);
           const latest = latestPosition.current;
           followBeat(latest.beat, latest.score);
         } else cursorState.current = null;
@@ -214,18 +233,20 @@ export default function ScoreDisplay({
           "This passage could not be engraved. Use the note list or original PDF to review it.",
         );
       } finally {
-        setRenderedRange(`${from}:${to}:${compact}`);
+        setRenderedRange(`${from}:${to}:${compact}:${zoom}`);
         setBusy(false);
       }
     };
     setBusy(true);
-    paper.current.scrollTop = 0;
+    display.current?.cursor?.hide();
     // Let the loading state paint before the synchronous engraving work.
     timer = setTimeout(render, 0);
     let width = container.current.clientWidth;
     const observer = new ResizeObserver(([entry]) => {
       if (Math.abs(entry.contentRect.width - width) < 1) return;
       width = entry.contentRect.width;
+      if (width < 1) return;
+      setBusy(true);
       clearTimeout(timer);
       timer = setTimeout(render, 100);
     });
@@ -235,7 +256,7 @@ export default function ScoreDisplay({
       clearTimeout(timer);
       observer.disconnect();
     };
-  }, [ready, from, to, compact]);
+  }, [ready, from, to, compact, zoom, sourceXml, offset]);
 
   useEffect(() => {
     if (!rendering && !error) followBeat(beat, transportScore);
@@ -256,7 +277,9 @@ export default function ScoreDisplay({
         </button>
         <span aria-live="polite">
           {total
-            ? `Bars ${from}–${to} of ${total}`
+            ? from === to
+              ? `Bar ${from} of ${total}`
+              : `Bars ${from}–${to} of ${total}`
             : error
               ? "Sheet preview unavailable"
               : "Opening sheet music…"}
@@ -289,7 +312,7 @@ export default function ScoreDisplay({
         <div
           ref={container}
           className="engraved-sheet"
-          style={{ visibility: rendering || error ? "hidden" : "visible" }}
+          style={{ visibility: error ? "hidden" : "visible" }}
         />
       </div>
     </div>

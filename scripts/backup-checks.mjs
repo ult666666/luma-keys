@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { demos } from "../src/music.mjs";
+import { openReview, clickInPieceTools } from "./practice-tools.mjs";
 export async function verifyBackups(page, prefix = "backup") {
   const checks = [];
   const health = await page.evaluate(
@@ -42,7 +43,7 @@ export async function verifyBackups(page, prefix = "backup") {
   const response = await upload("older-practice.json", legacy);
   assert.equal(response.status(), 200);
   const { score } = await response.json();
-  await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+  await page.getByRole("dialog", { name: "Review score" }).waitFor();
   assert.equal(await page.locator("tbody tr").count(), 3);
   await page
     .getByText(/Missing or shortened timing metadata was restored/)
@@ -56,7 +57,7 @@ export async function verifyBackups(page, prefix = "backup") {
   await page.locator('select[aria-label^="Pitch"]').nth(1).selectOption("62");
   await page.getByRole("button", { name: "Save & mark reviewed" }).click();
   await page.getByRole("dialog").waitFor({ state: "hidden" });
-  await page.getByRole("button", { name: "Review sheet and notes" }).click();
+  await openReview(page);
   assert.deepEqual(
     await page
       .locator('select[aria-label^="Pitch"]')
@@ -69,7 +70,7 @@ export async function verifyBackups(page, prefix = "backup") {
     "Older backup imports, sorts chords, restores timing and supports independent note editing",
   );
   const exported = page.waitForResponse((r) => r.url().endsWith("/api/export"));
-  await page.getByRole("button", { name: "Export practice notes" }).click();
+  await clickInPieceTools(page, "Export practice notes");
   const out = await (await exported).json();
   const backup = JSON.parse(await fs.readFile(out.backup, "utf8"));
   assert.deepEqual(
@@ -117,9 +118,11 @@ export async function verifyBackups(page, prefix = "backup") {
     await recovery.getByText("Show affected files").click();
     await recovery.getByText("qa-broken-date.json", { exact: true }).waitFor();
     await recovery.getByText("qa-truncated.json", { exact: true }).waitFor();
-    await page.getByRole("button", { name: /My sheet music/ }).click();
+    // (Since 2.39 the saved scores are on the Library screen.)
+    await page.getByRole("button", { name: "Library", exact: true }).click();
     await page
-      .getByRole("heading", { name: "Recovered starlight", exact: true })
+      .getByRole("button", { name: /^Open Recovered starlight/ })
+      .first()
       .waitFor();
     await page.screenshot({
       path: `evidence/${prefix}-recovery-library.png`,
@@ -158,7 +161,8 @@ export async function verifyBackups(page, prefix = "backup") {
     await recovery.getByRole("button", { name: "Check library again" }).click();
     await recovery.waitFor({ state: "hidden" });
     await page
-      .getByRole("heading", { name: "Repaired moonlight", exact: true })
+      .getByRole("button", { name: /^Open Repaired moonlight/ })
+      .first()
       .waitFor();
     checks.push(
       "Repair and retry clears the notice and restores the score without relaunching",
@@ -167,8 +171,6 @@ export async function verifyBackups(page, prefix = "backup") {
     for (const name of files.keys())
       await fs.rm(path.join(health.dataDir, name), { force: true });
   }
-  await page
-    .getByRole("button", { name: "Practice studio", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Practice", exact: true }).click();
   return checks;
 }

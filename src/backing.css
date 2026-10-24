@@ -1,0 +1,785 @@
+.app .backing-launcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 9px;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--salon-muted);
+  border: 1px solid transparent;
+}
+.app .backing-launcher.on {
+  color: var(--salon-paper);
+  border-color: var(--salon-metal);
+  background: var(--salon-tint);
+}
+.app .backing-launcher span {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+.modal:has(.backing-panel) {
+  width: min(700px, calc(100vw - 28px));
+}
+.backing-panel {
+  display: grid;
+  gap: 18px;
+}
+.backing-piece {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--salon-line);
+}
+.backing-piece > div {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+.backing-piece strong {
+  overflow-wrap: anywhere;
+}
+.backing-piece span,
+.backing-panel small {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+.backing-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.backing-switch input {
+  accent-color: var(--salon-deep);
+  width: 20px;
+  height: 20px;
+}
+.backing-sources {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.app .backing-sources button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  padding: 14px;
+  border: 1px solid var(--salon-line);
+  background: var(--salon-white);
+  color: var(--salon-ink);
+  border-radius: 4px;
+}
+.backing-sources button span {
+  display: grid;
+  gap: 5px;
+}
+.app .backing-sources button[aria-pressed="true"],
+.app .backing-styles button[aria-pressed="true"] {
+  background: var(--salon-soft);
+  border-color: var(--salon-deep);
+}
+.backing-styles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.app .backing-styles button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid var(--salon-line);
+  background: transparent;
+  color: var(--salon-ink);
+  border-radius: 4px;
+}
+.backing-styles button span {
+  display: grid;
+  gap: 4px;
+}
+.backing-note {
+  border-left: 2px solid var(--salon-metal);
+  padding-left: 14px;
+}
+.backing-note p,
+.backing-file > p {
+  font-size: 12px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  margin: 7px 0 0;
+}
+.backing-note strong {
+  font-size: 13px;
+}
+.backing-mix {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid var(--salon-line);
+}
+.backing-mix label {
+  font-size: 12px;
+}
+.backing-mix input {
+  min-width: 65px;
+  flex: 1;
+  accent-color: var(--salon-deep);
+}
+.backing-mix output {
+  min-width: 36px;
+  font-size: 12px;
+  text-align: right;
+}
+.backing-footnote {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+}
+.backing-file {
+  min-width: 0;
+}
+.backing-empty {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 20px;
+  border: 1px dashed var(--salon-line);
+}
+.backing-empty p {
+  max-width: 390px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.backing-filename {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.backing-filename strong {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.backing-filename button {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.backing-file audio {
+  width: 100%;
+  height: 40px;
+  margin: 14px 0;
+}
+.backing-alignment {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.backing-alignment label {
+  font-size: 12px;
+  display: grid;
+  gap: 8px;
+}
+.backing-alignment input {
+  width: 100px;
+  padding: 8px;
+}
+.app .backing-unlink {
+  margin-top: 10px;
+  font-size: 11px;
+  text-decoration: underline;
+  color: var(--ink-muted);
+  background: none;
+  border: 0;
+  padding: 0;
+}
+@media (max-width: 560px) {
+  .backing-sources {
+    gap: 6px;
+  }
+  .app .backing-sources button {
+    padding: 10px;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .backing-sources small {
+    font-size: 10px;
+  }
+  .backing-sources svg {
+    display: none;
+  }
+  .backing-styles {
+    grid-template-columns: 1fr;
+  }
+  .backing-mix {
+    flex-wrap: wrap;
+  }
+  .backing-mix input {
+    flex-basis: 55%;
+  }
+  .backing-alignment {
+    grid-template-columns: 1fr;
+  }
+  .backing-filename {
+    align-items: flex-start;
+  }
+  .backing-empty {
+    padding: 16px 10px;
+  }
+  .backing-launcher span {
+    display: none;
+  }
+}
+
+.backing-file input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- 2.23: a livelier accompaniment panel -------------------------------- */
+.backing-panel > * {
+  animation: backing-rise 460ms cubic-bezier(0.2, 0.9, 0.3, 1) backwards;
+}
+.backing-panel > :nth-child(2) { animation-delay: 50ms; }
+.backing-panel > :nth-child(3) { animation-delay: 100ms; }
+.backing-panel > :nth-child(4) { animation-delay: 150ms; }
+.backing-panel > :nth-child(5) { animation-delay: 200ms; }
+.backing-panel > :nth-child(6) { animation-delay: 250ms; }
+.backing-panel > :nth-child(7) { animation-delay: 300ms; }
+
+/* The band on its little stage. */
+.band-stage {
+  position: relative;
+  height: 92px;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 120%, color-mix(in srgb, var(--salon-deep) 34%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--salon-ink) 88%, #000), var(--salon-ink));
+  color: var(--salon-paper);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--salon-accent) 30%, transparent);
+  transition: filter 400ms ease;
+  filter: saturate(0.55) brightness(0.86);
+}
+.band-stage.live {
+  filter: none;
+}
+.band-lights {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.band-lights i {
+  position: absolute;
+  top: -30px;
+  width: 90px;
+  height: 150px;
+  background: radial-gradient(50% 60% at 50% 0%, color-mix(in srgb, var(--salon-accent) 55%, transparent), transparent 70%);
+  opacity: 0.15;
+  transform-origin: 50% 0;
+  transition: opacity 500ms ease;
+}
+.band-lights i:nth-child(1) { left: 12%; transform: rotate(18deg); }
+.band-lights i:nth-child(2) { left: calc(50% - 45px); }
+.band-lights i:nth-child(3) { right: 12%; transform: rotate(-18deg); }
+.band-stage.live .band-lights i {
+  opacity: 0.55;
+}
+.band-players {
+  position: absolute;
+  inset: 10px 0 22px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(10px, 4vw, 30px);
+}
+.band-player {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: var(--salon-accent);
+  background: color-mix(in srgb, var(--salon-paper) 8%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--salon-paper) 14%, transparent);
+  animation: band-join 520ms cubic-bezier(0.3, 1.5, 0.5, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+.band-player svg {
+  width: 32px;
+  height: 32px;
+  overflow: visible;
+}
+.band-player.guitar { color: #e8b47a; }
+.band-player.bass { color: #b39cf0; }
+.band-player.drums { color: #f09090; }
+.band-player.piano { color: #8cc0ee; }
+.band-player.strings { color: #86d6bd; }
+.band-player.record { color: var(--salon-accent); }
+.band-meter {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 8px;
+  height: 12px;
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+}
+.band-meter i {
+  flex: 1;
+  height: 2px;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--salon-accent) 70%, transparent);
+  opacity: 0.45;
+  transform-origin: 50% 100%;
+}
+
+/* Cards. */
+.app .backing-sources button,
+.app .backing-styles button {
+  position: relative;
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.9, 0.3, 1.3),
+    box-shadow 200ms ease,
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+.app .backing-sources button:not(:disabled):hover,
+.app .backing-styles button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--salon-ink) 14%, transparent);
+}
+.app .backing-sources button:not(:disabled):active,
+.app .backing-styles button:not(:disabled):active {
+  transform: translateY(0) scale(0.98);
+}
+.app .backing-sources button[aria-pressed="true"],
+.app .backing-styles button[aria-pressed="true"] {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--salon-deep) 16%, transparent),
+    0 8px 20px color-mix(in srgb, var(--salon-deep) 14%, transparent);
+}
+.backing-card-icon,
+.backing-style-icon,
+.backing-piece-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--salon-deep);
+  background: color-mix(in srgb, var(--salon-deep) 10%, transparent);
+  transition: transform 300ms cubic-bezier(0.3, 1.6, 0.5, 1), background-color 200ms;
+}
+button[aria-pressed="true"] .backing-card-icon,
+button[aria-pressed="true"] .backing-style-icon {
+  color: var(--salon-white);
+  background: var(--salon-deep);
+  transform: rotate(-8deg) scale(1.06);
+}
+.backing-styles button {
+  animation: backing-rise 420ms cubic-bezier(0.2, 0.9, 0.3, 1) backwards;
+  animation-delay: calc(160ms + var(--i, 0) * 45ms);
+}
+.app .backing-styles button {
+  justify-content: flex-start;
+}
+.backing-styles button > span:nth-child(2) {
+  flex: 1;
+}
+.backing-check {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex: none;
+  color: var(--salon-white);
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--salon-line);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+button[aria-pressed="true"] .backing-check {
+  background: var(--salon-deep);
+  box-shadow: none;
+}
+button[aria-pressed="true"] .backing-check svg {
+  animation: backing-pop 360ms cubic-bezier(0.3, 1.8, 0.5, 1) both;
+}
+
+/* The on/off switch. */
+.backing-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.backing-switch-track {
+  position: relative;
+  width: 46px;
+  height: 26px;
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--ink-muted, #888) 35%, transparent);
+  transition: background-color 260ms ease, box-shadow 260ms ease;
+}
+.backing-switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.25);
+  transition: transform 320ms cubic-bezier(0.3, 1.5, 0.5, 1), width 180ms ease;
+}
+.backing-switch.on .backing-switch-track {
+  background: var(--salon-deep);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--salon-deep) 18%, transparent);
+}
+.backing-switch.on .backing-switch-knob {
+  transform: translateX(20px);
+}
+.backing-switch:active .backing-switch-knob {
+  width: 25px;
+}
+.backing-switch.on:active .backing-switch-knob {
+  transform: translateX(15px);
+}
+.backing-switch input:focus-visible + .backing-switch-track {
+  outline: 2px solid var(--salon-deep);
+  outline-offset: 3px;
+}
+.backing-switch input:disabled + .backing-switch-track {
+  opacity: 0.45;
+}
+.backing-switch-label {
+  min-width: 26px;
+  font-weight: 600;
+}
+
+/* Note, instrument chips and preview. */
+.backing-note {
+  animation: backing-rise 380ms cubic-bezier(0.2, 0.9, 0.3, 1) backwards;
+}
+.backing-note-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.backing-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.backing-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px 3px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--salon-ink);
+  background: color-mix(in srgb, var(--chip) 16%, transparent);
+  animation: backing-pop 360ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+.backing-chip i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--chip);
+}
+.app .backing-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--salon-deep);
+  background: transparent;
+  color: var(--salon-deep);
+  font-size: 12px;
+  font-weight: 600;
+  transition: background-color 200ms, color 200ms, transform 160ms;
+}
+.app .backing-preview:hover {
+  transform: translateY(-1px);
+}
+.app .backing-preview.on {
+  background: var(--salon-deep);
+  color: var(--salon-white);
+}
+.backing-preview-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+.backing-preview-eq i {
+  width: 2px;
+  height: 3px;
+  border-radius: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* Volume. */
+.backing-mix input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--salon-deep) var(--fill, 50%), var(--salon-line) var(--fill, 50%));
+  cursor: pointer;
+}
+.backing-mix input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--salon-white);
+  border: 2px solid var(--salon-deep);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+  transition: transform 160ms cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.backing-mix input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
+.backing-mix output {
+  font-variant-numeric: tabular-nums;
+  animation: backing-tick 220ms ease-out;
+}
+.backing-volume-icon {
+  display: grid;
+  color: var(--salon-deep);
+}
+.backing-empty-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  color: var(--salon-deep);
+  background: color-mix(in srgb, var(--salon-deep) 10%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .band-stage.live .band-lights i:nth-child(1) { animation: band-sweep 5s ease-in-out infinite; }
+  .band-stage.live .band-lights i:nth-child(3) { animation: band-sweep 6s ease-in-out infinite reverse; }
+  .band-stage.live .band-player { animation: band-join 520ms cubic-bezier(0.3, 1.5, 0.5, 1) backwards, band-groove 1.6s ease-in-out infinite; animation-delay: calc(var(--i, 0) * 80ms), calc(var(--i, 0) * 200ms); }
+  .band-stage.live .band-string { animation: band-strum 0.8s ease-in-out infinite; transform-origin: center; }
+  .band-stage.live .band-string.two { animation-delay: 0.4s; }
+  .band-stage.live .band-stick.left { animation: band-hit 0.8s ease-in-out infinite; transform-origin: 10px 8px; }
+  .band-stage.live .band-stick.right { animation: band-hit-r 0.8s ease-in-out 0.4s infinite; transform-origin: 38px 8px; }
+  .band-stage.live .band-cymbal { animation: band-shimmer 0.4s ease-in-out infinite; transform-origin: 40px 14px; }
+  .band-stage.live .band-key { animation: band-key 1.2s ease-in-out infinite; animation-delay: calc(var(--k) * 0.18s); }
+  .band-stage.live .band-bow { animation: band-bow 2.2s ease-in-out infinite; }
+  .band-stage.live .band-record { animation: band-spin 2.4s linear infinite; transform-origin: 24px 24px; }
+  .band-stage.live .band-meter i {
+    animation: band-meter 0.9s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.13s);
+  }
+  .band-stage.previewing .band-meter i,
+  .band-stage.previewing .band-player {
+    animation-duration: 0.45s, 0.8s;
+  }
+  .backing-preview.on .backing-preview-eq i {
+    animation: band-meter 0.6s ease-in-out infinite;
+  }
+  .backing-preview.on .backing-preview-eq i:nth-child(2) { animation-delay: -0.2s; }
+  .backing-preview.on .backing-preview-eq i:nth-child(3) { animation-delay: -0.4s; }
+  .backing-preview.on .backing-preview-eq i:nth-child(4) { animation-delay: -0.1s; }
+  .backing-panel.is-on .backing-piece-icon { animation: backing-wiggle 2.4s ease-in-out infinite; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .backing-panel *,
+  .backing-panel {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@keyframes backing-rise {
+  from { opacity: 0; transform: translateY(10px); }
+}
+@keyframes backing-pop {
+  0% { transform: scale(0.3); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes backing-tick {
+  from { transform: translateY(-3px); opacity: 0.4; }
+}
+@keyframes backing-wiggle {
+  0%, 100% { transform: rotate(0); }
+  10% { transform: rotate(-10deg); }
+  20% { transform: rotate(8deg); }
+  30% { transform: rotate(0); }
+}
+@keyframes band-join {
+  from { opacity: 0; transform: translateY(18px) scale(0.6); }
+}
+@keyframes band-groove {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes band-sweep {
+  0%, 100% { transform: rotate(22deg); }
+  50% { transform: rotate(-6deg); }
+}
+@keyframes band-strum {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(0.8px); }
+  75% { transform: translateX(-0.8px); }
+}
+@keyframes band-hit {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(-16deg); }
+}
+@keyframes band-hit-r {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(16deg); }
+}
+@keyframes band-shimmer {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(-8deg); }
+}
+@keyframes band-key {
+  0%, 60%, 100% { transform: translateY(0); opacity: 1; }
+  30% { transform: translateY(2px); opacity: 0.4; }
+}
+@keyframes band-bow {
+  0%, 100% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+}
+@keyframes band-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes band-meter {
+  0%, 100% { height: 2px; opacity: 0.4; }
+  50% { height: calc(12px * var(--band-level, 0.7)); opacity: 0.95; }
+}
+@media (max-width: 560px) {
+  .band-stage { height: 76px; }
+  .band-player { width: 42px; height: 42px; }
+  .band-player svg { width: 26px; height: 26px; }
+  .backing-card-icon { display: none; }
+}
+
+/* ── Screens track · SCR-11 · Accompaniment: one card language ────────────
+ * Source and style cards share one look: a 40 px roundel, title and hint;
+ * selected is a 1.5 px deep border on white with an 18 px deep seal ✓ in
+ * the corner (no radio circles). Header roundels light for the instruments
+ * in the chosen arrangement and dim the rest. */
+.app .backing-panel :is(.backing-sources, .backing-styles) button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px 34px 12px 12px;
+  border: 1px solid var(--salon-line);
+  border-radius: 10px;
+  background: var(--salon-white);
+  color: var(--salon-ink);
+  text-align: left;
+  box-shadow: none;
+}
+.app .backing-panel :is(.backing-sources, .backing-styles) button[aria-pressed="true"] {
+  border-color: var(--salon-deep);
+  background: var(--salon-white);
+  box-shadow: inset 0 0 0 0.5px var(--salon-deep), 0 6px 14px -10px color-mix(in srgb, var(--salon-deep) 60%, transparent);
+}
+.app .backing-panel :is(.backing-sources, .backing-styles) button > span:nth-child(2) {
+  display: grid;
+  flex: 1;
+  gap: 3px;
+  min-width: 0;
+}
+.app .backing-panel :is(.backing-sources, .backing-styles) button strong {
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.app .backing-panel :is(.backing-sources, .backing-styles) button small {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+.app .backing-panel :is(.backing-card-icon, .backing-style-icon) {
+  width: 40px;
+  height: 40px;
+}
+.app .backing-panel button[aria-pressed="true"] :is(.backing-card-icon, .backing-style-icon) {
+  transform: none;
+}
+.app .backing-panel :is(.backing-sources, .backing-styles) .backing-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  background: var(--salon-deep);
+  box-shadow: 0 0 0 2px var(--salon-white);
+  color: var(--salon-white);
+}
+.app .backing-panel :is(.backing-sources, .backing-styles) button:not([aria-pressed="true"]) .backing-check {
+  visibility: hidden;
+}
+.app .backing-panel .band-player.on {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--salon-paper) 14%, transparent),
+    0 0 0 2px var(--lk-gilt, var(--salon-accent));
+}
+.app .backing-panel .band-player.off {
+  opacity: 0.45;
+}
+.app .backing-panel .backing-preview-eq {
+  gap: 2px;
+  height: 12px;
+  margin-left: 2px;
+}
+.app .backing-panel .backing-preview-eq i {
+  width: 4px;
+  height: 12px;
+  border-radius: 2px;
+  opacity: 0.85;
+  transform-origin: 50% 100%;
+  scale: 1 0.4;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app .backing-panel .backing-preview.on .backing-preview-eq i {
+    animation: backing-eq 600ms var(--ease-move, ease-in-out) infinite alternate;
+  }
+  .app .backing-panel .backing-preview.on .backing-preview-eq i:nth-child(2) { animation-delay: 120ms; }
+  .app .backing-panel .backing-preview.on .backing-preview-eq i:nth-child(3) { animation-delay: 240ms; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app .backing-panel .backing-preview-eq i {
+    scale: 1 0.7;
+  }
+}
+@keyframes backing-eq {
+  from { scale: 1 0.4; }
+  to { scale: 1 1; }
+}

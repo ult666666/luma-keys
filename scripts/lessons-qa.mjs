@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import { trackTestData } from "./qa-cleanup.mjs";
 import { verifyElise } from "./lesson-checks.mjs";
+import { clickInPieceTools } from "./practice-tools.mjs";
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const errors = [];
@@ -14,7 +15,7 @@ try {
   const response = page.waitForResponse(
     (r) => r.url().endsWith("/api/export") && r.request().method() === "POST",
   );
-  await page.getByRole("button", { name: "Export practice notes" }).click();
+  await clickInPieceTools(page, "Export practice notes");
   const exported = await (await response).json();
   const s = JSON.parse(await fs.readFile(exported.backup, "utf8"));
   assert.equal(s.notes.length, 53);

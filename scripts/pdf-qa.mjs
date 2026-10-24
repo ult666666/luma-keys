@@ -12,7 +12,7 @@ try {
   await p.getByRole("button", { name: "Import a score", exact: true }).click();
   await p.locator("input[type=file]").setInputFiles("tests/Starter melody.pdf");
   await p
-    .getByRole("dialog", { name: "Make the music yours" })
+    .getByRole("dialog", { name: "Review score" })
     .waitFor({ timeout: 120000 });
   assert.equal(await p.locator("tbody tr").count(), 16);
   await p.getByRole("button", { name: "Original PDF", exact: true }).click();

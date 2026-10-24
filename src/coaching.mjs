@@ -1,5 +1,4 @@
-// Short, specific advice from a graded run. Rules, not magic: each line names
-// the number it comes from so the player knows what to change.
+// Practice advice based on the completed section, pitch accuracy and timing.
 import { intervalName } from "./reading-prep.mjs";
 
 const ms = (beats, secondsPerBeat) =>
@@ -17,36 +16,36 @@ export function coachingTips(
   );
   if (!result.complete)
     tips.push(
-      "Keep going after a slip next time: sight reading is about holding the pulse, and only the notes you reach are graded.",
+      "Keep going after a missed note while keeping a steady beat. Only the section you reached was graded.",
     );
   if (result.accuracy >= 0.95 && result.precision >= 0.7) {
     tips.push(
       nextLevelReady
-        ? "Fluent reading. The next level is unlocked; try it before this one feels comfortable."
+        ? "The next level is available in Exercises."
         : speed < 1
-          ? `Fluent at ${Math.round(speed * 100)}%. Take the same level at a faster speed, or a fresh piece at 100%.`
-          : "Fluent at full speed. One more clean run here and the next level opens.",
+          ? `Try a faster speed for your next run (current: ${Math.round(speed * 100)}%).`
+          : "Try another exercise at this level to check consistency.",
     );
   }
   if (result.matched && result.offset > 0.12)
     tips.push(
-      `You arrive late by about ${ms(result.offset, secondsPerBeat)} ms. Keep your eyes one beat ahead of your hands and let the click lead.`,
+      `Your matched notes were late by about ${ms(result.offset, secondsPerBeat)} ms on average. Read one beat ahead and use the metronome to check your entries.`,
     );
   else if (result.matched && result.offset < -0.12)
     tips.push(
-      `You rush by about ${ms(result.offset, secondsPerBeat)} ms. Count the rests out loud and wait for the click.`,
+      `You tended to rush: matched notes averaged ${ms(result.offset, secondsPerBeat)} ms early. Count rests and subdivisions with the metronome.`,
     );
   if (worst && worst.missed >= 2)
     tips.push(
-      `Bar ${worst.bar} cost the most (${worst.missed} missed). Loop it at a slower speed until it feels easy, then read the whole piece again.`,
+      `Bar ${worst.bar}: ${worst.missed} missed notes. Repeat this bar at a slower speed, then play the full passage.`,
     );
   else if (result.extra >= 2 && prep?.key)
     tips.push(
-      `${result.extra} wrong notes: check the key before you start (${prep.key}${prep.signatureText ? `, ${prep.signatureText}` : ""}) and say the first bar's numbers aloud.`,
+      `${result.extra} extra presses. Check the key signature (${prep.key}${prep.signatureText ? `, ${prep.signatureText}` : ""}) before playing.`,
     );
   if (result.accuracy >= 0.9 && result.precision < 0.5 && tips.length < 2)
     tips.push(
-      "All the notes, loose timing. Keep the click on, count the subdivisions, and try 75% before 100%.",
+      "Focus on timing: practice at 75% with the metronome and count subdivisions.",
     );
   if (
     prep?.leap?.semitones >= 7 &&
@@ -54,18 +53,18 @@ export function coachingTips(
     tips.length < 3
   )
     tips.push(
-      `Bar ${prep.leap.bar} has the ${intervalName(prep.leap.semitones)}: look at the interval on the page and trust the hand shape rather than the keys.`,
+      `For the ${intervalName(prep.leap.semitones)} in bar ${prep.leap.bar}, locate both keys and practice the move slowly.`,
     );
   if (!tips.length)
     tips.push(
       result.accuracy >= 0.75
-        ? "Steady work. Read it once more, then take a new piece; repetition is not sight reading."
-        : "Slow it down: choose 50% or 65%, read one hand alone, and let the click do the counting.",
+        ? "Practice this passage again, then try another exercise."
+        : "Choose 50% or 65% speed and practice one hand at a time with the metronome.",
     );
   return tips.slice(0, 3);
 }
 
-// One friendly line for the practice screen, in the companion's voice.
+// A short practice instruction or result summary for the companion caption.
 export function companionLine({
   name = "Luma",
   result = null,
@@ -78,20 +77,20 @@ export function companionLine({
   if (result) {
     const pct = Math.round(result.accuracy * 100);
     if (pct >= 95 && result.precision >= 0.7)
-      return `${name} is thrilled: ${pct}% and steady. Fresh piece?`;
+      return `${pct}% note accuracy. Try another exercise at this level.`;
     if (pct >= 90)
-      return `${pct}% right. ${name} says the timing can settle with one more run.`;
+      return `${pct}% note accuracy. Repeat with the metronome to work on timing.`;
     if (pct >= 75)
-      return `${pct}%. ${name} suggests looping the weakest bars, then reading it once more.`;
-    return `${pct}%. ${name} would slow it down and read one hand alone first.`;
+      return `${pct}% note accuracy. Repeat the bars with missed notes, then play the full passage.`;
+    return `${pct}% note accuracy. Lower the speed and practice one hand at a time.`;
   }
   if (firstRun)
-    return `Hi, I'm ${name}. Start Level 1 on Exercises and I'll count you in.`;
+    return `${name} · Start with Level 1 in Exercises.`;
   if (mode === "perform")
-    return `${name} will count one bar in. Read a beat ahead and keep going.`;
+    return `Read one beat ahead and keep a steady beat. Enable Count me in for a count-in.`;
   if (mode === "wait")
-    return `${name} waits for each note. Chords need every pitch.`;
+    return `Play every pitch in each chord to continue.`;
   return streak >= 3
-    ? `${streak}-day streak. ${name} is impressed. Click a note to start there.`
-    : `${name} is listening. Click a note to start there.`;
+    ? `${streak}-day streak. Click a note to start there.`
+    : `Click a note to start there.`;
 }

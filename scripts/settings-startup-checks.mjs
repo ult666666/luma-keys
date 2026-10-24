@@ -2,6 +2,9 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { expect } from "@playwright/test";
+import { pianoVolume } from "./piano-volume.mjs";
+import { openTools, closeTools } from "./practice-tools.mjs";
+import { colourChoice } from "./settings-ui.mjs";
 export async function verifySettingsStartup(page, prefix = "settings-startup") {
   const origin = new URL(page.url()).origin;
   const health = await page.evaluate(
@@ -18,6 +21,7 @@ export async function verifySettingsStartup(page, prefix = "settings-startup") {
     pet: "bunny",
     volume: 0,
     stats: { correct: 75, minutes: 12.5, sessions: 4 },
+    reading: { colours: "lavender", welcomeSeen: true },
   });
   const checks = [];
   let release;
@@ -45,11 +49,8 @@ export async function verifySettingsStartup(page, prefix = "settings-startup") {
     await fs.writeFile(file, raw);
     await notice.getByRole("button", { name: "Reload saved settings" }).click();
     await notice.waitFor({ state: "hidden" });
-    await page.locator(".theme-lavender").waitFor();
-    assert.equal(
-      await page.getByRole("slider", { name: "Piano volume" }).inputValue(),
-      "0",
-    );
+    await page.locator(".app.theme-lavender").waitFor();
+    assert.equal(await pianoVolume(page), "0");
     checks.push(
       "An unreadable settings file leaves a lasting warning; restore and reload resumes saved settings without relaunching",
     );
@@ -67,26 +68,28 @@ export async function verifySettingsStartup(page, prefix = "settings-startup") {
     await expect(
       page.getByRole("button", { name: "Play", exact: true }),
     ).toBeDisabled();
+    await openTools(page);
     await expect(
       page.getByRole("slider", { name: "Piano volume" }),
     ).toBeDisabled();
     await expect(
       page.getByRole("button", { name: "Mute", exact: true }),
     ).toBeDisabled();
+    await closeTools(page);
     await page
-      .getByRole("button", { name: "Companions & moods", exact: true })
+      .getByRole("button", { name: "Reading settings", exact: true })
       .click();
+    await expect(colourChoice(page, "Rose")).toBeDisabled();
+    await page.getByRole("button", { name: "Companions", exact: true }).click();
+    const salon = page.getByRole("dialog", { name: "Companions" });
     await expect(
-      page.getByRole("button", { name: "Rose nebula", exact: true }),
-    ).toBeDisabled();
-    await expect(
-      page.getByRole("button", { name: /Luma · cosmic cat/ }),
+      salon.getByRole("button", { name: /^Preview Luma,/ }),
     ).toBeDisabled();
     await page.screenshot({ path: `evidence/${prefix}-loading.png` });
     release();
-    await page.locator(".theme-lavender").waitFor();
+    await page.locator(".app.theme-lavender").waitFor();
     await expect(
-      page.getByRole("button", { name: "Rose nebula", exact: true }),
+      salon.getByRole("button", { name: /^Preview Luma,/ }),
     ).toBeEnabled();
     await page.getByRole("button", { name: "Close dialog" }).click();
     await expect(

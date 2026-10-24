@@ -1,0 +1,399 @@
+/* Library workspace: compact navigation, readable covers, quiet motion. */
+body .app .library-screen.library-atelier {
+  max-width: 1280px;
+  container: library / inline-size;
+  padding-top: 22px;
+  padding-bottom: 36px;
+}
+body .app .library-atelier .studio-screen-header {
+  grid-template-columns: minmax(180px, 1fr) minmax(230px, 380px);
+  gap: 18px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  min-height: 74px;
+}
+body .app .library-atelier .studio-heading {
+  grid-area: 1 / 1;
+}
+body .app .library-atelier .studio-heading h1 {
+  font-size: 30px;
+}
+body .app .library-atelier .studio-heading p {
+  margin-top: 7px;
+  font-size: 12px;
+}
+body .app .library-atelier .studio-header-tools.search {
+  grid-area: 1 / 2;
+  max-width: none;
+  height: 42px;
+  min-width: 0;
+  padding: 8px 10px;
+  gap: 8px;
+  border-radius: 11px;
+  background: var(--salon-white);
+}
+body .app .library-atelier .search input {
+  min-height: 24px;
+  width: 100%;
+  min-width: 0;
+  font-size: 12px;
+}
+body .app .library-atelier .library-search-clear {
+  display: grid;
+  place-items: center;
+  flex: 0 0 26px;
+  min-height: 26px;
+  padding: 0;
+  color: var(--ink-muted);
+  border: 0;
+  background: var(--salon-soft);
+  border-radius: 50%;
+}
+.library-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  margin-bottom: 20px;
+}
+.library-filters {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  background: var(--salon-soft);
+  border-radius: 11px;
+}
+body .app .library-filters button {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  color: var(--ink-muted);
+  min-height: 31px;
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+body .app .library-filters button[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--salon-white);
+  box-shadow: 0 1px 3px #00000012;
+}
+.library-result-count {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+.library-sort {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+body .app .library-sort select {
+  width: auto;
+  padding: 7px 25px 7px 9px;
+  min-height: 34px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--ink);
+  border: 1px solid var(--salon-line);
+}
+body .app .library-atelier .continue-stage {
+  margin-top: 0;
+}
+body .app .library-atelier .continue-stage > .continue-card {
+  grid-template-columns: 224px minmax(0, 1fr);
+  padding: 8px;
+  border-radius: 19px;
+  overflow: hidden;
+}
+body
+  .app
+  .library-atelier
+  .continue-stage
+  .continue-art.library-feature-jacket {
+  min-height: 196px;
+  height: 100%;
+  border-radius: 13px;
+  padding: 0;
+  box-shadow: none;
+  animation: none;
+}
+body .app .library-atelier .continue-stage .continue-art .score-artwork {
+  inset: 0;
+  border-radius: 13px;
+}
+body .app .library-atelier .continue-stage .continue-copy {
+  padding: 14px 22px;
+}
+body .app .library-atelier .continue-stage .continue-copy .screen-eyebrow {
+  font-size: 12px;
+  margin-bottom: 9px;
+}
+body .app .library-atelier .continue-stage .continue-copy h2 {
+  font-size: clamp(22px, 2.2vw, 27px);
+  display: block;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  line-height: 1.16;
+}
+body .app .library-atelier .continue-stage .continue-copy > p {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+body .app .library-atelier .continue-progress {
+  margin-top: 12px;
+  gap: 7px;
+}
+body .app .library-atelier .continue-progress small {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  justify-content: space-between;
+  font-size: 12px;
+}
+body .app .library-atelier .continue-progress small > span {
+  color: var(--ink-muted);
+}
+body .app .library-atelier .continue-facts {
+  margin: 12px 0 0;
+  gap: 8px 22px;
+}
+body .app .library-atelier .continue-facts > div {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+body .app .library-atelier .continue-facts dt {
+  order: 1;
+  font: 400 11px/1.4 var(--lk-font-text);
+  text-transform: none;
+  letter-spacing: 0;
+}
+body .app .library-atelier .continue-facts dd {
+  font: 600 11px/1.4 var(--lk-font-text);
+}
+body .app .library-atelier .continue-facts > div:last-child {
+  display: none;
+}
+body .app .library-atelier .continue-stage .continue-actions {
+  margin-top: 12px;
+  gap: 8px 14px;
+}
+body .app .library-atelier .continue-actions .primary {
+  min-height: 39px;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 9px 13px;
+}
+body
+  .app
+  .library-atelier
+  .continue-stage
+  .continue-actions
+  .continue-beginning {
+  font-size: 12px;
+}
+body .app .library-atelier .recent-shelf {
+  margin-top: 12px;
+  gap: 12px;
+}
+body .app .library-atelier .recent-shelf-label {
+  font: 500 11px/1.4 var(--lk-font-text);
+  white-space: nowrap;
+}
+body .app .library-atelier .recent-shelf ul {
+  gap: 9px;
+  padding: 3px 2px 7px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--salon-line) transparent;
+}
+body .app .library-atelier .recent-shelf li {
+  scroll-snap-align: start;
+}
+body .app .library-atelier .recent-shelf-item {
+  width: 177px;
+  height: 47px;
+  padding: 4px 8px 4px 4px;
+  gap: 7px;
+}
+body .app .library-atelier .recent-shelf-cover {
+  width: 48px;
+  height: 36px;
+}
+body .app .library-atelier .recent-shelf-title {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+body .app .library-atelier .library-collection-title {
+  margin: 24px 0 14px;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+body .app .library-atelier .piece-list.piece-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 232px), 1fr));
+  gap: 18px;
+}
+body .app .library-atelier .piece-row.piece-card {
+  border-radius: 15px;
+}
+body .app .library-atelier .piece-card .piece-cover {
+  margin: 7px 7px 0;
+  aspect-ratio: 3 / 2;
+  border-radius: 10px;
+  box-shadow: none;
+}
+body .app .library-atelier .piece-card .piece-main {
+  padding: 14px 15px 15px;
+}
+body .app .library-atelier .piece-card .piece-main h3 {
+  font-size: 18px;
+  min-height: 2.5em;
+  padding-right: 30px;
+  text-wrap: pretty;
+}
+body .app .library-atelier .piece-card .piece-composer {
+  font-size: 12px;
+}
+body .app .library-atelier .piece-card .piece-meta {
+  font-size: 12px;
+}
+body .app .library-atelier .piece-menu {
+  right: 7px;
+  top: 9px;
+}
+body .app .library-atelier .piece-more {
+  opacity: 1;
+  min-height: 32px;
+  min-width: 32px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  body .app .library-filters button {
+    transition:
+      background-color 180ms ease,
+      box-shadow 180ms ease,
+      color 180ms ease;
+  }
+  body .app .library-atelier .piece-row.piece-card {
+    transition:
+      transform 220ms var(--ease-settle),
+      box-shadow 220ms ease;
+  }
+  body .app .library-atelier .piece-row.piece-card:hover {
+    transform: none;
+  }
+  body .app .library-atelier .piece-row.piece-card[data-menu-open] {
+    transform: none;
+  }
+  body .app .library-atelier .recent-shelf-item {
+    transition:
+      background-color 180ms ease,
+      translate 180ms ease;
+  }
+  body .app .library-atelier .recent-shelf-item:hover {
+    translate: none;
+    background: var(--salon-white);
+  }
+}
+@container library (max-width: 800px) {
+  body .app .library-atelier .studio-screen-header {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  body .app .library-atelier .studio-header-tools.search {
+    grid-area: 2 / 1;
+    height: 40px;
+    min-height: 40px;
+    width: 100%;
+    max-width: none;
+  }
+  body .app .library-atelier .continue-stage > .continue-card {
+    grid-template-columns: 184px minmax(0, 1fr);
+  }
+  body .app .library-atelier .continue-stage .continue-copy {
+    padding: 14px 16px;
+  }
+  .library-toolbar {
+    flex-wrap: wrap;
+  }
+}
+@container library (max-width: 600px) {
+  body .app .library-screen.library-atelier {
+    padding-top: 16px;
+  }
+  body .app .library-atelier .studio-screen-header {
+    padding-bottom: 14px;
+    margin-bottom: 12px;
+  }
+  body .app .library-atelier .studio-heading h1 {
+    font-size: 27px;
+  }
+  .library-toolbar {
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  body .app .library-filters button {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+  .library-sort {
+    margin-left: 0;
+  }
+  body .app .library-sort select {
+    font-size: 12px;
+    padding: 5px 23px 5px 7px;
+  }
+  body .app .library-atelier .continue-stage > .continue-card {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 7px;
+  }
+  body
+    .app
+    .library-atelier
+    .continue-stage
+    .continue-art.library-feature-jacket {
+    min-height: 0;
+    height: auto;
+    aspect-ratio: 16 / 7;
+  }
+  body .app .library-atelier .continue-stage .continue-copy {
+    padding: 17px 13px 12px;
+  }
+  body .app .library-atelier .continue-stage .continue-copy h2 {
+    font-size: 23px;
+  }
+  body .app .library-atelier .continue-stage .continue-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 4px 12px;
+  }
+  body .app .library-atelier .continue-actions .primary {
+    width: auto;
+    flex: 1;
+    justify-content: space-between;
+  }
+  body .app .library-atelier .continue-actions .continue-beginning {
+    align-self: auto;
+  }
+  body .app .library-atelier .recent-shelf {
+    gap: 6px;
+    margin-top: 18px;
+  }
+  body .app .library-atelier .recent-shelf-label {
+    font-size: 12px;
+  }
+  body .app .library-atelier .piece-list.piece-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  body .app .library-atelier .piece-card .piece-cover {
+    aspect-ratio: 3 / 2;
+  }
+}

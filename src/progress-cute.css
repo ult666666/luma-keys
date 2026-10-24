@@ -1,0 +1,584 @@
+/* Progress: a small practice desk with one activity view at a time. */
+body .app .progress-screen.progress-cute {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding: 28px 32px 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+}
+body .app .progress-screen.progress-cute > * {
+  min-width: 0;
+}
+/* A travelling companion passes over the page without catching a click. */
+body .app[data-screen="progress"] .buddy:is(.walking, .flying) .buddy-hit {
+  pointer-events: none;
+}
+body .app .progress-cute .progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+body .app .progress-cute .progress-header h1 {
+  font-size: 32px;
+  line-height: 1.15;
+  margin: 0;
+}
+body .app .progress-cute .progress-header p {
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+body .app .progress-cute .progress-streak {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 5px;
+  padding: 7px 11px;
+  border-radius: 18px;
+  background: var(--salon-soft);
+  color: var(--salon-deep);
+  font-size: 12px;
+}
+body .app .progress-cute .progress-streak strong {
+  color: var(--salon-ink);
+  font-size: 14px;
+}
+body .app .progress-cute .progress-today {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 28px;
+  min-height: 120px;
+  padding: 14px 20px;
+  border: 1px solid var(--salon-line);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--salon-soft) 52%, var(--salon-paper));
+}
+body .app .progress-cute .progress-today-goal {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+body .app .progress-cute .progress-today .ring {
+  flex: 0 0 84px;
+}
+body .app .progress-cute .progress-today .ring-track {
+  stroke: color-mix(in srgb, var(--salon-deep) 11%, var(--salon-paper));
+}
+body .app .progress-cute .progress-today .ring-fill {
+  stroke: var(--salon-deep);
+}
+body .app .progress-cute .progress-today .ring-center {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+}
+body .app .progress-cute .progress-today .ring-center b {
+  font: 500 27px/1 var(--lk-font-display, Georgia, serif);
+  color: var(--salon-ink);
+}
+body .app .progress-cute .progress-today .ring-center small {
+  font: 500 11px/1.3 var(--lk-font-text, inherit);
+  color: var(--ink-muted);
+}
+body .app .progress-cute .progress-today-copy {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+body .app .progress-cute .progress-today-copy > span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+body .app .progress-cute .progress-today-copy h2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font: 500 22px/1.2 var(--lk-font-display, Georgia, serif);
+  color: var(--salon-ink);
+  letter-spacing: -0.2px;
+}
+body .app .progress-cute .progress-today-copy small {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+body .app .progress-cute .progress-week {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+body .app .progress-cute .progress-week > span {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+body .app .progress-cute .progress-week b {
+  color: var(--salon-ink);
+  font-weight: 600;
+}
+body .app .progress-cute .progress-week > small {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+body .app .progress-cute .lk-week-dots {
+  gap: 13px;
+}
+body .app .progress-cute .lk-week-day > i {
+  width: 13px;
+  height: 13px;
+}
+body .app .progress-cute .progress-panel-card {
+  padding: 20px;
+  margin: 0;
+  border-radius: 18px;
+  box-shadow: none;
+}
+body .app .progress-cute .panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+body .app .progress-cute .section-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--salon-ink);
+}
+body .app .progress-cute .progress-activity-switch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 14px;
+  background: var(--salon-soft);
+}
+body .app .progress-cute .progress-activity-switch button {
+  min-height: 28px;
+  padding: 4px 12px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+body .app .progress-cute .progress-activity-switch button[aria-pressed="true"] {
+  background: var(--salon-white);
+  color: var(--salon-deep);
+  box-shadow: 0 1px 3px #0000000b;
+}
+body .app .progress-cute :is(button, summary):focus-visible {
+  outline: 2px solid var(--salon-deep);
+  outline-offset: 3px;
+}
+body .app .progress-cute .journal-days {
+  padding-top: 0;
+  gap: 10px;
+}
+body .app .progress-cute .journal-days .jd-plot {
+  height: 110px;
+  padding-top: 18px;
+}
+body .app .progress-cute .journal-days :is(.jd-plot, .jd-labels) {
+  gap: 10px;
+  padding-right: 50px;
+}
+body .app .progress-cute .jd-bar {
+  width: min(100%, 25px);
+  border-radius: 7px 7px 3px 3px;
+  background: color-mix(in srgb, var(--salon-deep) 62%, var(--salon-soft));
+  box-shadow: none;
+}
+body .app .progress-cute .jd-col.met .jd-bar {
+  background: var(--salon-deep);
+}
+body .app .progress-cute .jd-col.today .jd-bar {
+  outline: 1px solid var(--salon-deep);
+  outline-offset: 2px;
+}
+body .app .progress-cute .jd-value {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--h) * 100% + 5px);
+  text-align: center;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--ink-muted);
+}
+body .app .progress-cute .jd-goal {
+  right: 50px;
+  border-top-style: dashed;
+  border-color: color-mix(in srgb, var(--salon-deep) 30%, transparent);
+}
+body .app .progress-cute .jd-goal > small {
+  background: var(--salon-white);
+  padding-left: 2px;
+  font-size: 12px;
+}
+body .app .progress-cute .jd-dot {
+  width: 4px;
+  height: 4px;
+}
+body .app .progress-cute .journal-heat {
+  width: max-content;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2px 3px;
+  overflow-x: auto;
+}
+body .app .progress-cute .journal-heat :is(.jh-grid, .jh-months) {
+  grid-template-columns: repeat(var(--weeks), 19px);
+  gap: 5px;
+}
+body .app .progress-cute .jh-grid {
+  padding: 2px;
+}
+body .app .progress-cute .jh-foot {
+  margin-top: 8px;
+}
+body .app .progress-cute .jh-toggle {
+  min-height: 28px;
+}
+body .app .progress-cute .progress-pieces > .panel-heading {
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 8px;
+}
+body .app .progress-cute .progress-record-note {
+  margin: 0 0 14px;
+  color: var(--ink-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+body .app .progress-cute .progress-piece-count {
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+body .app .progress-cute .piece-progress {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+body .app .progress-cute .piece-progress li {
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-items: start;
+  column-gap: 12px;
+  row-gap: 8px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--salon-line);
+  border-radius: 16px;
+  background: var(--salon-white);
+}
+body .app .progress-cute .progress-piece-art {
+  width: 68px;
+  height: 76px;
+  border-radius: 10px;
+  overflow: hidden;
+  grid-row: 1;
+}
+body .app .progress-cute .score-artwork.progress-piece-art > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body .app .progress-cute .piece-progress-title {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 0;
+}
+body .app .progress-cute .piece-progress-title strong {
+  font: 600 13px/1.35 var(--lk-font-text, inherit);
+  color: var(--salon-ink);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+body .app .progress-cute .piece-progress-title > span {
+  font-size: 12px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+body .app .progress-cute .progress-piece-coverage {
+  display: grid;
+  gap: 5px;
+  padding-top: 3px;
+  min-width: 0;
+}
+body .app .progress-cute .progress-piece-coverage .coverage-bar {
+  height: 4px;
+  width: 100%;
+  overflow: visible;
+  margin: 0;
+}
+body
+  .app
+  .progress-cute
+  :is(.progress-piece-coverage > small, .progress-removed) {
+  font-size: 12px;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+body .app .progress-cute .progress-piece-actions {
+  align-self: start;
+}
+body .app .progress-cute .progress-piece-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  min-height: 30px;
+  border-radius: 10px;
+  font-size: 12px;
+  border-color: var(--salon-line);
+  background: transparent;
+  color: var(--salon-deep);
+}
+body .app .progress-cute .progress-piece-actions button:hover {
+  background: var(--salon-soft);
+}
+body .app .progress-cute .progress-piece-detail {
+  grid-column: 2 / -1;
+  min-width: 0;
+}
+body .app .progress-cute .progress-piece-detail > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--ink-muted);
+  font-size: 12px;
+  padding: 4px 0;
+  min-height: 28px;
+}
+body .app .progress-cute summary::-webkit-details-marker {
+  display: none;
+}
+body .app .progress-cute details[open] > summary > svg:last-child {
+  transform: rotate(180deg);
+}
+body .app .progress-cute .progress-piece-detail .piece-progress-map {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 8px;
+}
+body .app .progress-cute .progress-piece-detail .piece-outline {
+  height: 28px;
+}
+body .app .progress-cute .progress-piece-detail .piece-progress-map small {
+  font-size: 12px;
+  margin-top: 5px;
+}
+body .app .progress-cute .progress-graded {
+  border: 1px solid var(--salon-line);
+  border-radius: 16px;
+  background: var(--salon-white);
+  padding: 0 18px;
+}
+body .app .progress-cute .progress-graded > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 48px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--salon-ink);
+  font-size: 13px;
+  font-weight: 600;
+}
+body .app .progress-cute .progress-graded > summary > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+body .app .progress-cute .progress-graded > summary small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+body .app .progress-cute .progress-graded[open] {
+  padding-bottom: 18px;
+}
+body .app .progress-cute .progress-graded .progress-stats {
+  margin: 10px 0 14px;
+  gap: 8px;
+}
+body .app .progress-cute .progress-stats > div {
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--salon-paper);
+}
+body .app .progress-cute .progress-stats strong {
+  font-size: 22px;
+}
+body .app .progress-cute .progress-stats span {
+  font-size: 12px;
+}
+body .app .progress-cute .progress-graded > .progress-panel-card {
+  margin-bottom: 14px;
+}
+body .app .progress-cute .level-table {
+  font-size: 12px;
+}
+body .app .progress-cute .progress-graded .progress-panel-card {
+  min-width: 0;
+  overflow-x: auto;
+  padding: 16px;
+}
+body .app .progress-cute .panel-empty {
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px dashed var(--salon-line);
+  border-radius: 16px;
+  color: var(--ink-muted);
+  background: var(--salon-white);
+  font-size: 12px;
+}
+body .app .progress-cute .panel-empty > div {
+  display: grid;
+  gap: 5px;
+  flex: 1;
+}
+body .app .progress-cute .panel-empty strong {
+  color: var(--salon-ink);
+  font-weight: 600;
+}
+body .app .progress-cute .progress-footnote {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+body .app .progress-cute .journal-total {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  body .app .progress-cute .progress-activity-switch button {
+    transition:
+      background 150ms ease,
+      color 150ms ease;
+  }
+  body .app .progress-cute .progress-piece-actions button {
+    transition: background 150ms ease;
+  }
+  body .app .progress-cute details > summary > svg:last-child {
+    transition: transform 180ms ease;
+  }
+}
+@media (max-width: 1000px) {
+  body .app .progress-screen.progress-cute {
+    padding-inline: 24px;
+  }
+  body .app .progress-cute .piece-progress {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 650px) {
+  body .app .progress-screen.progress-cute {
+    padding: 22px 16px 32px;
+    gap: 16px;
+  }
+  body .app .progress-cute .progress-header h1 {
+    font-size: 28px;
+  }
+  body .app .progress-cute .progress-header {
+    align-items: start;
+  }
+  body .app .progress-cute .progress-streak {
+    gap: 4px;
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  body .app .progress-cute .progress-today {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+  body .app .progress-cute .progress-today-goal {
+    gap: 12px;
+  }
+  body .app .progress-cute .progress-today-copy h2 {
+    font-size: 19px;
+  }
+  body .app .progress-cute .progress-week {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 9px;
+    border-top: 1px solid var(--salon-line);
+    padding-top: 14px;
+  }
+  body .app .progress-cute .progress-week > small {
+    grid-column: 1;
+  }
+  body .app .progress-cute .progress-week .lk-week-dots {
+    grid-row: 1 / 3;
+    grid-column: 2;
+  }
+  body .app .progress-cute .progress-panel-card {
+    padding: 16px;
+  }
+  body .app .progress-cute .journal-days :is(.jd-plot, .jd-labels) {
+    gap: 4px;
+  }
+  body .app .progress-cute .jd-value {
+    font-size: 12px;
+  }
+  body .app .progress-cute .piece-progress li {
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+  body .app .progress-cute .progress-piece-art {
+    width: 54px;
+    height: 66px;
+  }
+  body .app .progress-cute .progress-piece-actions {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  body .app .progress-cute .progress-piece-detail {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  body .app .progress-cute .panel-empty {
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+  body .app .progress-cute .panel-empty > div {
+    flex-basis: calc(100% - 34px);
+  }
+  body .app .progress-cute .progress-graded {
+    padding-inline: 12px;
+  }
+  body .app .progress-cute .progress-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -7,6 +7,9 @@ import { verifyNotation } from "./notation-checks.mjs";
 import { verifyBackups } from "./backup-checks.mjs";
 import { verifySettings } from "./settings-checks.mjs";
 import { verifySettingsStartup } from "./settings-startup-checks.mjs";
+import { setPianoVolume } from "./piano-volume.mjs";
+import { clickInPieceTools } from "./practice-tools.mjs";
+import { ready, inReadingSettings } from "./settings-ui.mjs";
 const executable =
   process.env.LUMA_APP ||
   path.resolve("release/mac-arm64/Luma Keys.app/Contents/MacOS/Luma Keys");
@@ -27,23 +30,29 @@ try {
   page.on("console", (m) => {
     if (m.type() === "error") consoleErrors.push(m.text());
   });
-  await page
-    .getByRole("heading", { name: "A little practice. A little magic." })
-    .waitFor();
+  // (The app opens on the Practice screen since 2.39.)
+  await ready(page);
+  await app.evaluate(({ BrowserWindow }) =>
+    BrowserWindow.getAllWindows().forEach((w) =>
+      w.webContents.setAudioMuted(true),
+    ),
+  );
   await page.waitForTimeout(500);
   const health = await page.evaluate(
     async () => await (await fetch("/api/health")).json(),
   );
   assert.equal(health.omr, true);
   assert.equal(health.dataDir, path.join(qaRoot, "Library"));
-  await page.getByRole("button", { name: "Export practice notes" }).click();
+  await clickInPieceTools(page, "Export practice notes");
   await page
     .getByRole("status")
     .filter({ hasText: "Saved a printable number sheet" })
     .waitFor();
   // Exercise the audio engine without sounding the test instance overnight.
-  await page.getByRole("button", { name: "Mute", exact: true }).click();
-  await page.getByRole("switch", { name: "Count me in" }).click();
+  await setPianoVolume(page, "0");
+  await inReadingSettings(page, () =>
+    page.getByRole("switch", { name: "Count me in" }).click(),
+  );
   await page.getByRole("button", { name: "Play", exact: true }).click();
   await page.getByRole("button", { name: "Pause", exact: true }).waitFor();
   await page.waitForFunction(
@@ -61,12 +70,17 @@ try {
     .locator("input[type=file]")
     .setInputFiles("tests/Starter melody.pdf");
   await page
-    .getByRole("dialog", { name: "Make the music yours" })
+    .getByRole("dialog", { name: "Review score" })
     .waitFor({ timeout: 120000 });
   assert.equal(await page.locator("tbody tr").count(), 16);
   await page.getByRole("button", { name: "Original PDF", exact: true }).click();
   await page.locator('canvas[data-ready="true"]').waitFor();
-  assert.ok(await page.locator("canvas").evaluate((c) => c.width > 0));
+  assert.ok(
+    await page
+      .locator('canvas[data-ready="true"]')
+      .first()
+      .evaluate((c) => c.width > 0),
+  );
   await page.screenshot({ path: "evidence/native-pdf-import.png" });
   await page.getByRole("button", { name: "Close dialog" }).click();
   const notation = await verifyNotation(page, "native-notation");

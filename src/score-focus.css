@@ -2,6 +2,18 @@
   position: relative;
 }
 
+.notation-view .sheet-paper {
+  /* Engraving height must not change its available width through a scrollbar,
+     and browser anchoring must not fight the score's system-level follow. */
+  scrollbar-gutter: stable;
+  overflow-anchor: none;
+  scroll-behavior: auto;
+}
+
+.notation-view .engraved-sheet {
+  overflow-anchor: none;
+}
+
 .notation-compact .notation-navigation {
   margin: 0 0 10px;
   font-size: 11px;

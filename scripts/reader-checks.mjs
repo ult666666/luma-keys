@@ -2,10 +2,17 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import { expect } from "@playwright/test";
 import { demos, barStart, degree } from "../src/music.mjs";
+import { setPianoVolume } from "./piano-volume.mjs";
+import { openReview, clickInPieceTools } from "./practice-tools.mjs";
+import { openFromLibrary } from "./library-open.mjs";
 
 export async function verifyReader(page, prefix = "reader") {
   const checks = [],
     errors = [];
+  const record = (message) => {
+    checks.push(message);
+    console.log(`READER ${checks.length}: ${message}`);
+  };
   page.on("pageerror", (e) => errors.push(e.message));
   page.setDefaultTimeout(15000);
   await page.setViewportSize({ width: 1280, height: 800 });
@@ -27,15 +34,11 @@ export async function verifyReader(page, prefix = "reader") {
       mimeType: "application/json",
       buffer: Buffer.from(JSON.stringify(contents)),
     });
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     await close();
   };
   await expect(play()).toBeEnabled();
-  if (
-    +(await page.getByRole("slider", { name: "Piano volume" }).inputValue()) !==
-    0
-  )
-    await page.getByRole("button", { name: "Mute", exact: true }).click();
+  await setPianoVolume(page, "0");
   await expect(page.getByRole("tab", { name: "Number score" })).toHaveAttribute(
     "aria-selected",
     "true",
@@ -52,10 +55,18 @@ export async function verifyReader(page, prefix = "reader") {
     play: document.querySelector(".play-button").getBoundingClientRect().bottom,
     key: document.querySelector(".piano-key.white").getBoundingClientRect()
       .width,
+    keyLength: document
+      .querySelector(".piano-key.white")
+      .getBoundingClientRect().height,
   }));
   assert.equal(layout.overflow, false);
   assert.ok(layout.play <= 800);
-  assert.ok(layout.key >= 40);
+  // Since the 3-D hands (2.2x) a white key is at most 1/4.5 of its length,
+  // so the hands keep natural proportions; at 1280×800 that is about 28 px.
+  assert.ok(
+    layout.key >= 24 && layout.key <= Math.floor(layout.keyLength / 4.5) + 1,
+    `white key ${layout.key}×${layout.keyLength}px follows the hand proportion`,
+  );
   assert.equal(await page.locator('.piano-key[tabindex="0"]').count(), 1);
   await page.getByRole("button", { name: "C4 1 Do", exact: true }).focus();
   await page.keyboard.press("ArrowRight");
@@ -64,8 +75,8 @@ export async function verifyReader(page, prefix = "reader") {
   ).toBeFocused();
   await page.locator("h1").click();
   await page.screenshot({ path: `evidence/${prefix}-desktop.png` });
-  checks.push(
-    "Default 1280×800 view is a four-bar number score with readable fixed-width keys and visible Play; dashboard cards are absent",
+  record(
+    "Default 1280×800 view is a four-bar number score with keys proportioned for the hands and visible Play; dashboard cards are absent",
   );
   await page.getByRole("button", { name: "Next passage", exact: true }).click();
   assert.equal(await position(), "16");
@@ -85,7 +96,7 @@ export async function verifyReader(page, prefix = "reader") {
     .first()
     .click();
   assert.equal(await position(), "2");
-  checks.push(
+  record(
     "Passage buttons, individual notes and manual next/previous synchronize the transport without counting fake practice hits",
   );
   await page.getByRole("button", { name: "Wait for me", exact: true }).click();
@@ -123,15 +134,10 @@ export async function verifyReader(page, prefix = "reader") {
   )
     await page.getByRole("switch", { name: "Count me in" }).click();
   await close();
-  checks.push(
+  record(
     "Wait mode advances on correct input; label/tonic changes retain the same explicit physical octave and pitch",
   );
-  await page.getByRole("button", { name: "Library", exact: true }).click();
-  await page
-    .locator(".piece-row")
-    .filter({ hasText: "Für Elise" })
-    .getByRole("button", { name: "Open" })
-    .click();
+  await openFromLibrary(page, "Für Elise");
   await expect(page.locator(".reading-note > span").first()).toHaveText("E5");
   await page.getByRole("tab", { name: "Sheet music", exact: true }).click();
   await expect(page.locator(".sheet-paper")).toHaveAttribute(
@@ -151,20 +157,22 @@ export async function verifyReader(page, prefix = "reader") {
     .getByRole("button", { name: "Next sheet passage", exact: true })
     .click();
   const elise = demos().find((s) => s.title.includes("Für Elise"));
-  assert.equal(+(await position()), barStart(elise, 5));
+  // A desktop window engraves eight bars at a time.
+  assert.equal(+(await position()), barStart(elise, 9));
   await expect(page.locator(".sheet-paper")).toHaveAttribute(
     "aria-busy",
     "false",
   );
   await expect(cursor).toBeVisible();
   await page.screenshot({ path: `evidence/${prefix}-sheet.png` });
-  checks.push(
-    "Original staff view engraves four bars and its cursor moves through the Für Elise pickup and later passage without rebuilding per frame",
+  record(
+    "Original staff view engraves eight bars and its cursor moves through the Für Elise pickup and later passage without rebuilding per frame",
   );
   await page.getByRole("tab", { name: "Number score", exact: true }).click();
   await page
-    .getByRole("combobox", { name: "Practice hand" })
-    .selectOption("left");
+    .getByRole("radiogroup", { name: "Practice hand" })
+    .locator(".hand-left")
+    .click();
   await expect(page.locator(".reading-right")).toHaveCount(0);
   await page
     .getByRole("spinbutton", { name: "Go to bar", exact: true })
@@ -172,8 +180,9 @@ export async function verifyReader(page, prefix = "reader") {
   await page.getByRole("button", { name: "Go", exact: true }).click();
   await expect(page.locator(".next-notes")).toContainText("A2");
   await page
-    .getByRole("combobox", { name: "Practice hand" })
-    .selectOption("both");
+    .getByRole("radiogroup", { name: "Practice hand" })
+    .locator(".hand-both")
+    .click();
   const base = demos()[0];
   await importBuffer("range-follow.json", {
     ...base,
@@ -224,7 +233,11 @@ export async function verifyReader(page, prefix = "reader") {
   await play().click();
   await page.getByRole("button", { name: "Pause", exact: true }).waitFor();
   const pointerKey = page.getByRole("button", { name: "C4 1 Do", exact: true });
-  await pointerKey.hover({ position: { x: 20, y: 78 } });
+  // (Low on the key, clear of C♯4 at any key width.)
+  const pointerBox = await pointerKey.boundingBox();
+  await pointerKey.hover({
+    position: { x: pointerBox.width * 0.3, y: pointerBox.height - 14 },
+  });
   const beforePointer = await page
     .locator(".keyboard-viewport")
     .evaluate((e) => e.scrollLeft);
@@ -243,8 +256,8 @@ export async function verifyReader(page, prefix = "reader") {
     )
     .toBeLessThan(2);
   await page.getByRole("button", { name: "Pause", exact: true }).click();
-  checks.push(
-    "Auto-follow keeps up with held computer/MIDI-style notes but never slides an onscreen key from under a held pointer",
+  record(
+    "The still keyboard keeps the piece's whole range in view (up to C8) while held computer/MIDI-style notes play, and never moves a key from under a held pointer",
   );
   await importBuffer("wide-chord.json", {
     ...base,
@@ -276,25 +289,54 @@ export async function verifyReader(page, prefix = "reader") {
   });
   await expect(page.locator(".next-notes")).toContainText("A0");
   await expect(page.locator(".next-notes")).toContainText("C8");
+  // 2.2: the keyboard is fitted once to the whole piece; at 1280px all 88
+  // keys fit, so nothing is offscreen.
+  const fitted = await page.evaluate(() => {
+    const viewport = document
+      .querySelector(".keyboard-viewport")
+      .getBoundingClientRect();
+    const box = (m) =>
+      document
+        .querySelector(`.piano-key[data-midi="${m}"]`)
+        .getBoundingClientRect();
+    return {
+      a0: box(21).left >= viewport.left - 0.5,
+      c8: box(108).right <= viewport.right + 0.5,
+      width: box(21).width,
+      notices: document.querySelectorAll(".keyboard-offscreen").length,
+    };
+  });
+  assert.ok(
+    fitted.a0 && fitted.c8 && fitted.width >= 20,
+    JSON.stringify(fitted),
+  );
+  assert.equal(fitted.notices, 0);
+  // On a phone the keys keep their size: the strip scrolls by hand, the notes
+  // outside it are named, and each end can be revealed.
+  await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator(".keyboard-offscreen")).toContainText("A0");
   await expect(page.locator(".keyboard-offscreen")).toContainText("C8");
   await page
     .getByRole("button", { name: "← Also play A0", exact: true })
     .click();
-  assert.ok(
-    (await page.locator(".keyboard-viewport").evaluate((e) => e.scrollLeft)) <
-      1,
-  );
+  await expect
+    .poll(() =>
+      page.locator(".keyboard-viewport").evaluate((e) => e.scrollLeft),
+    )
+    .toBeLessThan(1);
   await page
     .getByRole("button", { name: "Also play C8 →", exact: true })
     .click();
-  assert.ok(
-    (await page
-      .locator(".keyboard-viewport")
-      .evaluate((e) => e.scrollWidth - e.clientWidth - e.scrollLeft)) < 2,
-  );
-  checks.push(
-    "Full-range A0+C8 chord explicitly identifies offscreen notes; both ends remain reachable without shrinking keys",
+  await expect
+    .poll(() =>
+      page
+        .locator(".keyboard-viewport")
+        .evaluate((e) => e.scrollWidth - e.clientWidth - e.scrollLeft),
+    )
+    .toBeLessThan(2);
+  await page.setViewportSize({ width: 1280, height: 800 });
+  record(
+    "A full-range A0+C8 chord: at 1280px the still keyboard fits all 88 keys; on a phone the keys stay large, the offscreen notes are named and both ends can be revealed",
   );
   await page.getByRole("tab", { name: "Falling notes", exact: true }).click();
   await expect(page.getByTestId("note-roll")).toBeVisible();
@@ -326,7 +368,7 @@ export async function verifyReader(page, prefix = "reader") {
     fullPage: true,
   });
   await page.setViewportSize({ width: 1280, height: 800 });
-  checks.push(
+  record(
     "Optional falling notes remain aligned to the scrolling keyboard; 390px view has no document overflow or shrunken keys",
   );
   const many = Array.from({ length: 50000 }, (_, i) => ({
@@ -356,12 +398,11 @@ export async function verifyReader(page, prefix = "reader") {
   assert.ok((await page.locator(".reading-note").count()) <= 64);
   await page.getByRole("button", { name: "Next passage", exact: true }).click();
   assert.ok(+(await position()) > 11996);
-  checks.push(
+  record(
     "50,000-note import supports distant-bar navigation and bounded rendered notation",
   );
-  await page
-    .getByRole("button", { name: "Export practice notes", exact: true })
-    .click();
+  console.log("READER: exporting the 50,000-note score");
+  await clickInPieceTools(page, "Export practice notes");
   await page
     .getByRole("status")
     .filter({ hasText: "Saved a printable number sheet" })
@@ -369,25 +410,28 @@ export async function verifyReader(page, prefix = "reader") {
   await page
     .getByRole("button", { name: "Import a score", exact: true })
     .click();
+  console.log("READER: recognizing Starter melody PDF");
   await page
     .locator("input[type=file]")
     .setInputFiles("tests/Starter melody.pdf");
   await page
-    .getByRole("dialog", { name: "Make the music yours" })
+    .getByRole("dialog", { name: "Review score" })
     .waitFor({ timeout: 120000 });
+  console.log("READER: PDF score review opened");
   assert.equal(await page.locator("tbody tr").count(), 16);
   await page.getByRole("button", { name: "Original PDF", exact: true }).click();
   await page.locator('canvas[data-ready="true"]').waitFor();
+  console.log("READER: original PDF rendered");
   await close();
   await expect(page.locator(".reading-note").first()).toBeVisible();
-  await page
-    .getByRole("button", { name: "Review sheet and notes", exact: true })
-    .click();
+  await openReview(page);
+  console.log("READER: correcting recognized pitch");
   await page.locator('select[aria-label^="Pitch"]').first().selectOption("64");
   await page
     .getByRole("button", { name: "Save & mark reviewed", exact: true })
     .click();
   await page.getByRole("dialog").waitFor({ state: "hidden" });
+  console.log("READER: corrected score saved");
   await expect(page.locator(".reading-note > span").first()).toHaveText("E4");
   await expect(page.locator(".reading-note strong").first()).toHaveText("3");
 
@@ -395,7 +439,7 @@ export async function verifyReader(page, prefix = "reader") {
     path: `evidence/${prefix}-pdf-reading.png`,
     fullPage: true,
   });
-  checks.push(
+  record(
     "Number export, actual PDF recognition/original viewing, and saved pitch corrections flow back into the numbered reading workspace",
   );
   assert.deepEqual(errors, []);

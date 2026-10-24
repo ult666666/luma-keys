@@ -41,7 +41,7 @@ try {
     mimeType: "application/json",
     buffer: Buffer.from(JSON.stringify(score)),
   });
-  await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+  await page.getByRole("dialog", { name: "Review score" }).waitFor();
   const importMs = performance.now() - start;
   assert.equal(await page.locator("tbody tr").count(), 32);
   await page.getByRole("button", { name: "Next", exact: true }).click();

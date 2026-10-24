@@ -315,7 +315,9 @@ test("unsupported notation warnings name the bars involved", () => {
   assert.ok(has(s, /Grace notes.*bar 2\./));
   assert.ok(has(s, /ornaments.*bar 3\./));
   assert.ok(has(s, /Fermata.*bar 3\./));
-  assert.ok(has(s, /Pedal/));
+  // The sustain pedal is played now: pressed at the end of bar 2, never lifted.
+  assert.ok(!has(s, /Pedal/));
+  assert.deepEqual(s.pedals, [{ start: 8, end: 12 }]);
   assert.deepEqual(
     s.notes.map((n) => n.midi),
     [60, 60, 64],

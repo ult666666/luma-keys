@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { fork } from "node:child_process";
 import { parseMusicXML, unpackXML } from "./music.mjs";
 import { validatePractice } from "./export.mjs";
+import { writeFileAtomic, removeStaleTemps } from "./atomic-file.mjs";
 
 const validId = (id) =>
   typeof id === "string" && /^[a-zA-Z0-9-]{1,80}$/.test(id);
@@ -36,6 +37,10 @@ export async function createRecognition({
   tessdata,
   save,
   timeoutMs = 600000,
+  // Diagnostics: job ids, statuses and attempt numbers only, never music.
+  diagnostics = null,
+  // (False while another server uses the same Library.)
+  sweep = true,
 }) {
   const root = path.join(dataDir, "imports");
   const jobs = new Map();
@@ -51,14 +56,7 @@ export async function createRecognition({
     const write = previous
       .catch(() => {})
       .then(async () => {
-        const dest = path.join(folder(job.id), "job.json");
-        const tmp = dest + "." + crypto.randomUUID() + ".tmp";
-        try {
-          await fs.writeFile(tmp, snapshot);
-          await fs.rename(tmp, dest);
-        } finally {
-          await fs.rm(tmp, { force: true });
-        }
+        await writeFileAtomic(path.join(folder(job.id), "job.json"), snapshot);
       });
     receiptWrites.set(job.id, write);
     return write.finally(() => {
@@ -66,7 +64,23 @@ export async function createRecognition({
     });
   };
   // Read each receipt independently. Older imports have no receipt and stay intact.
-  for (const entry of await fs.readdir(root, { withFileTypes: true })) {
+  // (A read-only library may have no imports folder yet: nothing to resume.)
+  // (… and one that is not a folder — a file in its place — leaves PDF
+  // import unavailable rather than stopping the app from opening: 2.44.)
+  const entries = await fs.readdir(root, { withFileTypes: true }).catch((e) => {
+    if (e.code !== "ENOENT")
+      diagnostics?.record?.("imports-folder-unusable", { code: e.code });
+    return [];
+  });
+  // Temporary files left by an interrupted write (an original PDF can be
+  // 30 MB) are swept here and in each import's folder, as in the Library.
+  if (sweep) {
+    await removeStaleTemps(root).catch(() => 0);
+    for (const entry of entries)
+      if (entry.isDirectory() && validId(entry.name))
+        await removeStaleTemps(folder(entry.name)).catch(() => 0);
+  }
+  for (const entry of entries) {
     if (!entry.isDirectory() || !validId(entry.name)) continue;
     try {
       const raw = JSON.parse(
@@ -194,6 +208,10 @@ export async function createRecognition({
     delete job.persistenceError;
     delete job.plannedScoreIds;
     jobs.set(job.id, job);
+    diagnostics?.record("recognition-started", {
+      id: job.id,
+      attempt: job.attempt,
+    });
     const out = path.join(folder(job.id), "attempt-" + job.attempt);
     const finish = async (code, log = [], launchError) => {
       if (context.finishing) return;
@@ -269,11 +287,23 @@ export async function createRecognition({
           : e.message;
       }
       result.updatedAt = Date.now();
+      diagnostics?.record("recognition-finished", {
+        id: job.id,
+        attempt: job.attempt,
+        status: result.status,
+        scores: result.scoreIds.length,
+        failed: !!result.error,
+        code,
+      });
       try {
         await persist(result);
       } catch (e) {
         result.persistenceError =
           "Import status could not be saved. Keep this window open; completed scores are still in your library.";
+        diagnostics?.record("recognition-receipt-not-saved", {
+          id: job.id,
+          code: e.code,
+        });
       } finally {
         Object.assign(job, result);
         if (active === context) active = null;
@@ -284,11 +314,8 @@ export async function createRecognition({
       try {
         await fs.mkdir(out, { recursive: true });
         await persist(job);
-        if (buffer) {
-          const tmp = original(job.id) + ".tmp";
-          await fs.writeFile(tmp, buffer, { flag: "wx" });
-          await fs.rename(tmp, original(job.id));
-        } else if (!existsSync(original(job.id)))
+        if (buffer) await writeFileAtomic(original(job.id), buffer);
+        else if (!existsSync(original(job.id)))
           throw Error(
             "The original PDF is missing. Choose the file again to import it.",
           );
@@ -327,7 +354,7 @@ export async function createRecognition({
             ["HEADS", "Finding note heads"],
             ["STEMS", "Connecting stems"],
             ["RHYTHMS", "Understanding the rhythm"],
-            ["PAGE", "Putting the music together"],
+            ["PAGE", "Assembling score"],
             ["Export", "Preparing your practice score"],
           ])
             if (text.includes(key)) job.progress = label + "…";

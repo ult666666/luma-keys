@@ -543,6 +543,7 @@ export function parseMusicXML(xml, filename = "Imported score") {
     keys = [],
     tempos = [],
     dynamics = [],
+    pedals = [],
     partBars = [];
   let usedRight = false,
     navigation = false;
@@ -693,11 +694,8 @@ export function parseMusicXML(xml, filename = "Imported score") {
             descendants(n, "words").some((w) => NAVIGATION_WORDS.test(txt(w)))
           )
             navigation = true;
-          if (descendants(n, "pedal").length)
-            warn(
-              "Pedal marks are not applied; notes keep their written lengths in practice.",
-              label,
-            );
+          for (const p of descendants(n, "pedal"))
+            pedals.push({ pi, mi, pos: cursor, type: attr(p, "type") });
         } else if (n.tag === "harmony")
           warn(
             "Chord symbols are shown on the sheet but are not added as notes.",
@@ -803,6 +801,14 @@ export function parseMusicXML(xml, filename = "Imported score") {
               .flatMap((x) => kids(x, "tied"))
               .map((t) => attr(t, "type"));
           const noteDynamics = numberOf(attr(n, "dynamics"));
+          // Simple score fingerings are meaningful constraints. Substitution
+          // strings and alternatives are not a single finger assignment.
+          const writtenFingers = descendants(n, "fingering");
+          const writtenFinger = writtenFingers.length === 1 ? writtenFingers[0] : null;
+          const finger = writtenFinger &&
+            attr(writtenFinger, "substitution") !== "yes" && attr(writtenFinger, "alternate") !== "yes" &&
+            /^[1-5]$/.test(txt(writtenFinger).trim())
+            ? Number(txt(writtenFinger).trim()) : null;
           raw.push({
             pi,
             mi,
@@ -812,6 +818,8 @@ export function parseMusicXML(xml, filename = "Imported score") {
             staff,
             voice,
             hand: multiStaff ? (staff > 1 ? "left" : "right") : partHand,
+            handSource: multiStaff ? "staff" : "clef",
+            finger,
             tieStart:
               tieTypes.includes("start") || tieTypes.includes("continue"),
             tieStop: tieTypes.includes("stop") || tieTypes.includes("continue"),
@@ -948,6 +956,8 @@ export function parseMusicXML(xml, filename = "Imported score") {
       beat: Math.max(0, r.beat),
       duration: r.duration,
       hand: r.hand,
+      handSource: r.handSource,
+      ...(r.finger ? { finger: r.finger, fingeringSource: "score" } : {}),
       measure: r.mi + 1,
       velocity:
         dyn == null
@@ -1009,10 +1019,20 @@ export function parseMusicXML(xml, filename = "Imported score") {
     );
   tempos.sort((a, b) => at(a) - at(b) || a.pi - b.pi);
   const bpm = tempos[0]?.bpm ?? 80;
-  if (new Set(tempos.map((x) => Math.round(x.bpm))).size > 1)
-    warn(
-      "Tempo changes are simplified to the first tempo; adjust practice speed as needed.",
-    );
+  // Playback follows every written tempo; the first is the piece's tempo.
+  const tempoChanges = tempoList(
+    tempos.map((mark) => ({ beat: at(mark), bpm: mark.bpm })),
+    bpm,
+  );
+  const pieceEnd = Math.max(
+    measureStarts.at(-1) +
+      Math.max(bars.at(-1).extent, bars.at(-1).restExtent),
+    ...notes.map((n) => n.beat + n.duration),
+  );
+  const pedalSpans = sustainSpans(
+    pedals.map((p) => ({ beat: at(p), type: p.type })),
+    pieceEnd,
+  );
   const creators = descendants(root, "creator");
   const composer =
     creators.find((c) => attr(c, "type") === "composer") || creators[0];
@@ -1029,6 +1049,7 @@ export function parseMusicXML(xml, filename = "Imported score") {
         ? decodeEntities(txt(composer).trim())
         : "Your music",
     bpm: Math.round(bpm),
+    ...(tempoChanges ? { tempos: tempoChanges } : {}),
     tonic,
     meter: bars[0].nominal,
     notes,
@@ -1042,12 +1063,9 @@ export function parseMusicXML(xml, filename = "Imported score") {
     keySignature: firstKey
       ? { fifths: concertFifths(firstKey), mode: firstKey.mode }
       : null,
+    ...(pedalSpans.length ? { pedals: pedalSpans } : {}),
     // Include written ending rests without inventing padding for a short final bar.
-    duration: Math.max(
-      measureStarts.at(-1) +
-        Math.max(bars.at(-1).extent, bars.at(-1).restExtent),
-      ...notes.map((n) => n.beat + n.duration),
-    ),
+    duration: pieceEnd,
     warnings: [...new Set(warnings)].map((w) =>
       warnBars.has(w) ? `${w} See bar ${listBars(warnBars.get(w))}.` : w,
     ),
@@ -1234,16 +1252,24 @@ export function parseMIDI(data, filename = "MIDI score") {
       "Notes played a split second apart were lined up as one chord.",
     );
   notes = dedupe(notes);
+  const pedalSpans = sustainSpans(
+    tracks.flatMap((track) =>
+      (track.controlChanges?.[64] || []).map((c) => ({
+        beat: c.ticks / ppq,
+        type: c.value >= 0.5 ? "start" : "stop",
+      })),
+    ),
+    duration,
+  );
   // MIDI plays at 120 BPM until a tempo event says otherwise.
   const tempos = midi.header.tempos || [];
   const opening =
     tempos.filter((x) => x.ticks <= 0).at(-1) ||
     (tempos[0]?.ticks < ppq ? tempos[0] : null);
-  if (
-    new Set(tempos.map((x) => Math.round(x.bpm))).size > 1 ||
-    (tempos.length && !opening)
-  )
-    warnings.push("Tempo changes are simplified to the first tempo.");
+  const tempoChanges = tempoList(
+    tempos.map((x) => ({ beat: x.ticks / ppq, bpm: x.bpm })),
+    opening?.bpm || 120,
+  );
   const keySig = (midi.header.keySignatures || [])
     .slice()
     .sort((a, b) => a.ticks - b.ticks)[0];
@@ -1252,6 +1278,8 @@ export function parseMIDI(data, filename = "MIDI score") {
     title: midi.name || filename.replace(/\.[^.]+$/, ""),
     composer: "Your music",
     bpm: Math.round(opening?.bpm || 120),
+    ...(tempoChanges ? { tempos: tempoChanges } : {}),
+    ...(pedalSpans.length ? { pedals: pedalSpans } : {}),
     tonic: KEY_NAMES[keySig?.key] ?? 0,
     ...barMap,
     notes,
@@ -1262,6 +1290,51 @@ export function parseMIDI(data, filename = "MIDI score") {
     warnings,
     createdAt: new Date().toISOString(),
   };
+}
+// Sustain pedal marks as the spans of beats where the pedal is down. A
+// "change" lifts and presses again at once; a pedal never lifted is held to
+// the end. Only playback uses these: notes keep their written lengths.
+export function sustainSpans(marks, end) {
+  const spans = [];
+  let down = null;
+  const lift = (beat) => {
+    if (down != null && beat > down + 1e-6)
+      spans.push({ start: Math.round(down * 1e4) / 1e4, end: Math.round(beat * 1e4) / 1e4 });
+    down = null;
+  };
+  for (const m of marks
+    .filter((m) => Number.isFinite(m.beat))
+    .sort((a, b) => a.beat - b.beat)) {
+    if (m.type === "stop" || m.type === "discontinue") lift(m.beat);
+    else if (m.type === "change") {
+      lift(m.beat);
+      down = m.beat;
+    } else if (["start", "sustain", "resume"].includes(m.type) && down == null)
+      down = m.beat;
+  }
+  if (down != null && Number.isFinite(end)) lift(end);
+  return spans;
+}
+// Tempo marks as a score's tempo map: sorted, one per moment (the last mark
+// written there wins), repeats of the tempo in force dropped. The opening
+// tempo always holds from beat 0. Null when the tempo never changes.
+export function tempoList(marks, opening) {
+  const round = (x) => Math.round(x * 100) / 100;
+  const list = [{ beat: 0, bpm: Math.round(opening) }];
+  for (const mark of marks
+    .filter((m) => Number.isFinite(m.beat) && m.bpm >= 10 && m.bpm <= 500)
+    .sort((a, b) => a.beat - b.beat)) {
+    const beat = Math.max(0, round(mark.beat));
+    const bpm = round(mark.bpm);
+    const last = list.at(-1);
+    if (beat <= last.beat + 1e-6) {
+      if (last.beat > 0) last.bpm = bpm;
+      continue;
+    }
+    if (Math.abs(bpm - last.bpm) < 0.01) continue;
+    list.push({ beat, bpm });
+  }
+  return list.length > 1 ? list : null;
 }
 export function groups(notes) {
   const result = [];
@@ -1319,7 +1392,7 @@ export function demos() {
     melody(
       "moon",
       "Twinkle, Little Star",
-      "Traditional · first steps",
+      "Traditional",
       [
         60, 60, 67, 67, 69, 69, 67, 65, 65, 64, 64, 62, 62, 60, 67, 67, 65, 65,
         64, 64, 62, 67, 67, 65, 65, 64, 64, 62, 60, 60, 67, 67, 69, 69, 67, 65,
@@ -1330,12 +1403,12 @@ export function demos() {
         1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2,
       ],
       80,
-      "A familiar melody. A lovely place to begin.",
+      "Practice repeated notes, steps and leaps with the right hand.",
     ),
     melody(
       "joy",
       "Ode to Joy",
-      "Beethoven · beginner arrangement",
+      "Beethoven",
       [
         64, 64, 65, 67, 67, 65, 64, 62, 60, 60, 62, 64, 64, 62, 62, 64, 64, 65,
         67, 67, 65, 64, 62, 60, 60, 62, 64, 62, 60, 60,
@@ -1345,29 +1418,29 @@ export function demos() {
         1, 1, 1, 1, 1.5, 0.5, 2,
       ],
       88,
-      "Five notes. One very joyful little achievement.",
+      "Beginner arrangement for right hand, using C, D, E, F and G.",
     ),
     melody(
       "scale",
-      "Your first C major scale",
-      "Luma lessons · learn the numbers",
+      "C major scale",
+      "Luma Keys",
       [60, 62, 64, 65, 67, 69, 71, 72, 71, 69, 67, 65, 64, 62, 60],
       null,
       65,
-      "Meet Do, Re, Mi — one glowing key at a time.",
+      "Play C major up and down through one octave.",
     ),
     {
       ...parseMusicXML(eliseXML),
       id: "elise",
       title: "Für Elise · opening",
-      composer: "Beethoven · a two-hand challenge",
+      composer: "Beethoven",
       description:
-        "A short two-hand excerpt in 3/8. Learn the melody first, then add the gentle left-hand arpeggios.",
+        "A two-hand excerpt in 3/8. Practice the melody first, then add the left-hand arpeggios.",
       source: "Lesson",
       reviewed: true,
       practiceTips: [
         "Start at 50% speed with Right hand and Wait for me. The opening 3 – ♯2 is E5 – D♯5, above middle C.",
-        "Try Left hand alone next: A2 – E3 – A3. These lavender notes begin in app bar 3; let the spaces between them stay quiet.",
+        "Practice Left hand alone: A2 – E3 – A3, starting in app bar 3. Release the keys for the rests.",
         "Listen to Both hands, then loop bars 3–4. The pickup is app bar 1; each full bar has three eighth-note pulses. This excerpt ends after the first ending, without a repeat.",
       ],
     },

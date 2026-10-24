@@ -1,0 +1,595 @@
+/*
+ * Art layer. Loads last. Paint only: no animation, transition or interaction transforms.
+ * Owner: art track (ART-1 … ART-10). Direction: restrained and neutral —
+ * graphite stage, warm-grey paper, one quiet accent, soft minimal shadows.
+ * No grain, gilt, lacquer sheen, bevels, lozenges, fleurons or velvet.
+ * The material tokens below keep their names (other sheets read them) but
+ * resolve to plain, flat values.
+ * Selectors start with `body .app` so they win at >= (0,2,1) without !important.
+ * Never redefine the teaching colours (--rh-rgb, --lh-rgb, --kc, --coach).
+ */
+
+/* ── ART-1 · Shared tokens (§1.3) ─────────────────────────────────────────
+ * Declared on .app and on every preview scope so derived values recompute
+ * against the scope's own room tokens. */
+body .app,
+body .app [data-preview-room] {
+  --lk-font-display: 'DM Serif Display', 'Songti SC', 'STSong', 'Noto Serif CJK SC', Georgia, serif;
+  --lk-font-text: Manrope, -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+  /* Ornament tokens, flattened: no paper grain, sheen, gilt or bevel. */
+  --lk-grain: none;
+  --lk-lacquer-sheen: none;
+  --lk-hairline: color-mix(in srgb, var(--salon-muted) 22%, transparent);
+  --lk-hairline-paper: var(--salon-line);
+  --lk-gilt-face: var(--lk-gilt);
+  --lk-gilt-rule: var(--lk-gilt);
+  --lk-bevel: 0 0 0 0 transparent;
+  --lk-shadow-1: 0 1px 2px rgb(0 0 0 / .05);
+  --lk-shadow-2: 0 6px 18px -12px rgb(0 0 0 / .28);
+  --lk-shadow-3: 0 18px 48px -24px rgb(0 0 0 / .45);
+  --lk-frame: 0 0 0 1px var(--salon-line);
+  --lk-mat: var(--salon-white);
+  --lk-focus: var(--lk-gilt-hi);
+  --lk-fleuron: none;
+  /* radii (§1.5) */
+  --lk-r-xs: 4px;
+  --lk-r-sm: 8px;
+  --lk-r-field: 10px;
+  --lk-r-card: 14px;
+  --lk-r-stage: 16px;
+  --lk-r-modal: 20px;
+}
+/* PRA-11 overrides this at max-height: 820px; keep it a plain default here. */
+body .app {
+  --lk-practice-title-size: 26px;
+}
+body .app :is(.screen, .modal) {
+  --lk-focus: var(--salon-deep);
+}
+
+/* ── ART-1 · One accent per room ──────────────────────────────────────────
+ * Lacquer surfaces take the room's metal; paper surfaces take the deep ink.
+ * (0,2,1)+ beats stage.css `.app.theme-*{--accent}` (0,2,0). */
+body .app,
+body .app[class*='theme-'] {
+  --accent: var(--lk-gilt);
+  --accent-rgb: var(--lk-gilt-rgb);
+  --glow-rgb: var(--lk-gilt-rgb);
+}
+body .app :is(.screen, .modal),
+body .app[class*='theme-'] :is(.screen, .modal) {
+  --accent: var(--salon-deep);
+  --accent-rgb: var(--lk-deep-rgb);
+  --glow-rgb: var(--lk-deep-rgb);
+}
+
+/* Fields on paper: a >= 3:1 edge. */
+body .app :is(.screen, .modal) :is(select, textarea, input:not([type='checkbox'], [type='radio'], [type='range'], [type='file'])):not(.search input, .chat-composer textarea, .maestro-input-row input) {
+  border-color: color-mix(in oklab, var(--salon-metal) 60%, var(--salon-deep));
+}
+/* Remove the sage leak from studio.css on paper surfaces. */
+body .app :is(.screen, .modal) {
+  --line: var(--salon-line);
+  --line-strong: color-mix(in oklab, var(--salon-line) 70%, var(--salon-deep));
+  --good: color-mix(in oklab, #4d7a5c 55%, var(--salon-deep));
+  --warn: color-mix(in oklab, #9a6a22 70%, var(--salon-deep));
+  --bad: color-mix(in oklab, #a64637 75%, var(--salon-deep));
+}
+/* Preview scopes (C12) recompute the accent roles against their own room. */
+body .app [data-preview-room] {
+  --accent: var(--lk-gilt);
+  --accent-rgb: var(--lk-gilt-rgb);
+  --glow-rgb: var(--lk-gilt-rgb);
+}
+body .app :is(.screen, .modal) [data-preview-room],
+body .app [data-preview-room]:is(.screen, .modal) {
+  --accent: var(--salon-deep);
+  --accent-rgb: var(--lk-deep-rgb);
+  --glow-rgb: var(--lk-deep-rgb);
+  --lk-focus: var(--salon-deep);
+  --line: var(--salon-line);
+  --line-strong: color-mix(in oklab, var(--salon-line) 70%, var(--salon-deep));
+  --good: color-mix(in oklab, #4d7a5c 55%, var(--salon-deep));
+  --warn: color-mix(in oklab, #9a6a22 70%, var(--salon-deep));
+  --bad: color-mix(in oklab, #a64637 75%, var(--salon-deep));
+}
+body .app ::selection {
+  color: var(--salon-ink);
+  background: rgba(var(--lk-gilt-rgb), .6);
+}
+
+/* ── ART-2 · Flat app bar, serif wordmark, plain nav indicator ─────────── */
+body .app .app-bar {
+  background: var(--salon-chrome);
+  border-bottom: 0;
+  box-shadow: inset 0 -1px 0 var(--lk-hairline);
+}
+body .app .app-brand > span {
+  font: 400 19px/1 var(--lk-font-display);
+  letter-spacing: -0.2px;
+  color: var(--ink, #eceae6);
+}
+/* JSX already renders Luma<b>Keys</b>. */
+body .app .app-brand > span b {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--salon-muted);
+  margin-left: .12em;
+}
+body .app .logo-bg { fill: var(--salon-tint); stroke: none; }
+body .app .logo-key { fill: var(--salon-paper); opacity: 1; }
+body .app .logo-dot { fill: var(--lk-gilt); }
+body .app .app-bar .app-nav .nav-indicator {
+  height: 2px;
+  border-radius: 2px;
+  background: var(--lk-gilt);
+}
+body .app .app-bar .app-nav .nav-indicator::after { content: none; }
+body .app .app-bar .app-nav button { color: var(--salon-muted); }
+body .app .app-bar .app-nav button.selected,
+body .app .app-bar .app-nav button.selected[aria-current='page'] { color: var(--ink, #eceae6); }
+/* The CSS property beats the strokeWidth attribute: finer, hairline icons. */
+body .app svg.lucide { stroke-width: 1.6; }
+/* Outlined controls on the dark bar keep a >= 3:1 ring. */
+body .app .app-bar .app-bar-actions :is(.app-import, .maestro-launcher) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--salon-muted) 60%, var(--salon-chrome));
+}
+body .app .app-bar .app-bar-actions :is(.app-import, .maestro-launcher):hover {
+  background: var(--salon-tint);
+}
+body .app .app-bar .app-bar-actions > .app-import { border-radius: 999px; }
+
+/* ── ART-3 · Play: one solid circle in the accent; transport selected states
+ * Paint only: PRA-2 owns geometry, MOT-4 the press, ring and loading arc. */
+body .app .control-dock .dock-transport .play-button {
+  color: var(--salon-ink);
+  background: var(--lk-gilt);
+  border: 0;
+  box-shadow: 0 2px 6px -2px rgb(0 0 0 / .45);
+}
+body .app .control-dock .dock-transport .play-button:hover:not(:disabled) {
+  background: var(--lk-gilt-hi);
+}
+body .app .control-dock .dock-transport .play-button:active:not(:disabled) {
+  box-shadow: none;
+}
+body .app .control-dock .dock-transport .play-button.playing {
+  box-shadow: 0 0 0 4px rgba(var(--lk-gilt-rgb), .16);
+}
+body .app .control-dock :is(.segmented button.selected, .icon-button.on, .icon-button[aria-pressed='true']),
+body .app .piece-header .reader-tabs button[aria-selected='true'],
+body .app .practice-screen > .piece-header.reader-score-heading .piece-actions .view-switch.reader-tabs button[aria-selected='true'] {
+  color: var(--lk-gilt-hi);
+  background: rgba(var(--lk-gilt-rgb), .12);
+  box-shadow: inset 0 0 0 1px rgba(var(--lk-gilt-rgb), .6);
+}
+body .app .control-dock .piece-map-head {
+  background: var(--lk-gilt-hi);
+  box-shadow: 0 0 0 3px var(--salon-chrome);
+}
+
+/* ── ART-4 · The piano: neutral ivory and graphite, no felt, sheen or gilt
+ * Paint only. Key states (.lit, .pressed, .sounding, [data-on|soon|then]) draw
+ * through .key-light overlays and their own box-shadows, which stay untouched:
+ * the idle edge below excludes every state that sets its own shadow. */
+/* Key colours derive from the palette in keyboard-theme.css (neutral: ivory
+ * #f6f5f1-ish whites, #1a1c1f-ish blacks); only the felt is set here. */
+body .app .keyboard-stage {
+  --keyboard-felt: var(--lk-velvet);
+}
+body .app .keyboard-stage .piano-key.white .key-surface {
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / .06), transparent 12px),
+    var(--keyboard-white);
+}
+body .app .keyboard-stage .piano-key.white:not(.lit):not(.pressed):not(.sounding) .key-surface {
+  box-shadow:
+    inset 0 -4px 0 var(--keyboard-white-edge),
+    inset -1px 0 0 var(--keyboard-white-edge);
+}
+body .app .keyboard-stage .piano-key.black .key-surface {
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(180deg, var(--keyboard-black-edge), var(--keyboard-black) 30%);
+}
+/* The strip above the keys is absolutely positioned: key tops do not move. */
+body .app .keyboard-stage .piano-keys::before {
+  height: 4px;
+  background: var(--lk-velvet);
+  box-shadow: 0 1px 2px #0006;
+}
+/* The key slip: a plain graphite band. No logo text (the hands overlap it). */
+body .app .keyboard-stage .key-rail {
+  background:
+    linear-gradient(180deg, #0006, transparent 8px),
+    var(--salon-ink);
+}
+body .app .keyboard-stage .strike-line {
+  background: color-mix(in srgb, var(--keyboard-text, var(--lk-gilt)) 70%, transparent);
+}
+
+/* ── ART-4b · The Numbers paper: flat, neutral, no grain ──────────────────
+ * reading.css paints a warm cream gradient with a grain overlay and olive
+ * greys. The paper follows --reading-paper (neutral #f7f6f2 by default; the
+ * opt-in rooms keep theirs). Teaching colours (hand rows, the current-note
+ * and next-note marks, the loop band, the cursor) are left alone. */
+body .app .reading-score,
+body .app .practice-screen .reading-score {
+  --reading-ink: #1e2124;
+  --reading-muted: #5d6268;
+  --reading-rule: rgb(30 33 36 / .14);
+  background: var(--reading-paper);
+  border-color: rgb(30 33 36 / .14);
+  box-shadow: 0 1px 2px rgb(0 0 0 / .18);
+}
+body .app .reading-score::before { content: none; }
+body .app .reading-score .reading-ruler {
+  background: color-mix(in srgb, var(--reading-paper) 94%, #1e2124);
+}
+/* The line being played keeps its hand-coloured edge on a neutral band. */
+body .app .reading-score.reading-tape .reading-system-current .reading-ruler {
+  background: color-mix(in srgb, var(--reading-paper) 92%, #1e2124);
+}
+body .app .reading-score .reading-system + .reading-system .reading-ruler {
+  border-top-color: rgb(30 33 36 / .2);
+}
+body .app .reading-score .reading-scroll { scrollbar-color: #9a9ea4 transparent; }
+body .app .reading-score .reading-navigation label { color: var(--reading-muted); }
+body .app .reading-score .reading-navigation input { border-bottom-color: #6f747b; }
+body .app .reading-score .reading-navigation > button { border-color: rgb(30 33 36 / .22); }
+body .app .reading-score .reading-navigation > button:not(:disabled):hover {
+  border-color: #868b92;
+  background: rgb(30 33 36 / .05);
+}
+body .app .practice-screen .reading-score .reading-rest { color: var(--reading-muted); }
+body .app .reading-score .reading-bar-label:not(.reading-bar-in-loop) { color: #50555b !important; }
+/* "No engraved sheet": a paper panel inside the dark practice screen, so it
+ * takes paper ink (its button inherited the stage's light ink). */
+body .app .reader-sheet-empty {
+  --ink: #1e2124;
+  --ink-muted: #5d6268;
+  background: var(--reading-paper, #f7f6f2);
+  color: var(--ink-muted);
+}
+body .app .reader-sheet-empty h2 { color: var(--ink); }
+body .app .reader-sheet-empty button.secondary {
+  color: var(--ink);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px #6f747b;
+}
+
+/* ── ART-5 · Bilingual display type and the type scale (§1.4) ─────────────
+ * DM Serif Display ships at 400 only; with font-synthesis: none the Latin
+ * stays at 400 while Songti SC picks its Semibold face at 600. Selectors are
+ * weighted (>= 0,4,2) to beat the per-screen font stacks that drop the CJK serif. */
+body .app :is(.screen-header h1, .continue-copy h2, .modal-heading h2, .piece-card h3, .level-copy strong, .hero-tile strong),
+body .app :is(.screen, .modal, .practice-screen) :is(.screen-header h1, .studio-heading h1, .continue-copy h2, .modal-heading h2, .piece-card .piece-main h3, .level-copy strong, .hero-tile > strong),
+body .app .piece-card .piece-main h3 > button {
+  font-family: var(--lk-font-display);
+  font-weight: 600;
+  font-synthesis: none;
+}
+/* Sizes clamp so the narrow-window steps of each screen still hold. */
+body .app .screen :is(.screen-header, .studio-heading) h1 {
+  font-size: clamp(28px, calc(18px + 1.1vw), 34px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+body .app .screen .continue-copy h2 {
+  font-size: clamp(24px, calc(12px + 1.3vw), 30px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+/* Dialog-specific sizes (companion salon, results) keep their own steps. */
+body .app .modal-heading h2 {
+  font-size: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+body .app .practice-screen .piece-header h1,
+body .app .practice-screen.studio > .piece-header.reader-score-heading h1 {
+  /* PRA-11 sets the size token for short windows; phones still step down. */
+  font: 600 min(var(--lk-practice-title-size, 26px), max(20px, 5.4vw))/1.15 var(--lk-font-display);
+  font-synthesis: none;
+  letter-spacing: -0.01em;
+}
+body .app .screen .piece-card .piece-main h3 {
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+body .app .screen .level-copy strong {
+  font-size: 16px;
+  line-height: 1.2;
+}
+body .app .screen-eyebrow,
+body .app .screen :is(.screen-header, .studio-heading, .continue-copy) .screen-eyebrow {
+  font: 600 12px/1.2 var(--lk-font-text);
+  letter-spacing: .02em;
+  text-transform: none;
+  color: var(--ink-muted, var(--salon-deep));
+}
+body .app .panel-heading h2,
+body .app :is(.screen, .modal) :is(.section-title, .panel-heading h2),
+body .app .screen .exercise-tips > h3 {
+  font: 700 11px/1 var(--lk-font-text);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+body .app .screen .hero-tile > strong { font-variant-numeric: lining-nums; }
+/* The journal's practised-day mark reads as text, not gilt. */
+body .app .jd-star { color: var(--ink-muted); }
+body .app .screen .hero-tile > strong small {
+  font: 500 12.5px/1 var(--lk-font-text);
+  color: var(--ink-muted);
+}
+body .app .maestro-room-bar > span { font-size: 11px; }
+
+/* ── ART-6 · Plain paper, flat cards and one rule on non-practice screens ─
+ * Never on Practice. Screens owns card layout and the hover transform.
+ * Selectors are weighted (>= 0,4,1) to beat the per-screen card stacks in
+ * studio.css / atelier.css / library-atelier.css without !important. */
+body .app[data-screen]:not([data-screen='practice']) {
+  background: var(--salon-paper);
+}
+body .app .screen :is(.continue-card, .piece-row.piece-card, .piece-card, .level-card, .hero-tile, .progress-panel-card, .exercise-panel, .empty-state) {
+  border: 0;
+  background: var(--salon-white);
+  box-shadow: var(--lk-frame), var(--lk-shadow-1);
+}
+/* library-atelier.css repaints its cards at (0,5,0) for :hover/.current. */
+body .app .library-atelier.screen .piece-row.piece-card,
+body .app .library-atelier.screen .piece-row.piece-card:is(:hover, .current, :focus-within) {
+  background: var(--salon-white);
+}
+body .app .screen :is(.continue-card, .piece-row.piece-card, .level-card):is(:hover, :focus-within) {
+  box-shadow: var(--lk-frame), var(--lk-shadow-2);
+}
+/* Selected / recommended / today: the soft paper tint. */
+body .app .screen :is(.level-card.selected, .level-card.recommended, .hero-tile.hero-today) {
+  background: var(--salon-soft);
+}
+/* The current selection and the playing piece read as a firm outline. */
+body .app .screen :is(.level-card.selected, .piece-row.piece-card.current) {
+  box-shadow: 0 0 0 1px var(--salon-deep), var(--lk-shadow-1);
+}
+body .app .screen :is(.level-card.selected, .piece-row.piece-card.current):is(:hover, :focus-within) {
+  box-shadow: 0 0 0 1px var(--salon-deep), var(--lk-shadow-2);
+}
+/* One plain rule under each header. */
+body .app .screen .studio-screen-header {
+  position: relative;
+  border-bottom: 1px solid var(--salon-line);
+  background: none;
+}
+body .app .screen .studio-screen-header::after { content: none; }
+/* Buttons on paper: solid accent, no gloss. */
+body .app :is(.screen, .modal) button.primary {
+  color: #fbfaf8;
+  border-color: transparent;
+  background: var(--salon-deep);
+  box-shadow: 0 1px 2px rgb(0 0 0 / .12);
+}
+body .app :is(.screen, .modal) button.primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--salon-deep) 88%, #000);
+}
+/* The secondary ring stays >= 3:1 on paper at rest; deep ink on hover. */
+body .app :is(.screen, .modal) button.secondary {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--lk-gilt-lo);
+}
+body .app :is(.screen, .modal) button.secondary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--salon-soft) 60%, transparent);
+  box-shadow: inset 0 0 0 1px var(--salon-deep);
+}
+/* No blurred glow of the cover behind the Library hero. */
+body .app .library-atelier .continue-stage::before { content: none; }
+/* The "Recommended" level mark drew a fleuron through a mask: now plain text. */
+body .app .level-stairs .level-reco::before { content: none; }
+body .app .level-stairs .level-reco {
+  font: 600 12px/1 var(--lk-font-text);
+  color: var(--ink-muted, var(--salon-deep));
+}
+body .app .screen .empty-state { position: relative; }
+body .app .screen .empty-state::before,
+body .app .screen .empty-state::after { content: none; }
+
+/* ── ART-7 · Dialog finish: plain paper, a neutral scrim, clear selections ─ */
+body .app .modal {
+  background: var(--salon-paper);
+  border: 0;
+  box-shadow: var(--lk-shadow-3), 0 0 0 1px var(--salon-line);
+}
+body .app .modal-backdrop {
+  background: rgb(10 11 13 / .62);
+}
+/* The companion salon and the chat dialog draw their own headings. */
+body .app .modal:not(.salon-dialog, .conversation-dialog) > .modal-heading {
+  border-bottom: 0;
+  background: linear-gradient(var(--lk-hairline-paper), var(--lk-hairline-paper)) 0 100% / 100% 1px no-repeat;
+}
+/* Settings keeps its heading sticky (SCR-9) on an opaque paper fill. */
+body .app .modal.settings-dialog:not(.salon-dialog, .conversation-dialog) > .modal-heading {
+  background:
+    linear-gradient(var(--lk-hairline-paper), var(--lk-hairline-paper)) 0 100% / 100% 1px no-repeat,
+    var(--salon-paper);
+}
+body .app .modal .settings-section {
+  border-color: var(--salon-line);
+  background: var(--salon-white);
+}
+body .app .modal :is(.theme-previews button, .room-options button).selected {
+  border-color: var(--salon-deep);
+  background: var(--salon-soft);
+  box-shadow: inset 0 0 0 1px var(--salon-deep);
+}
+body .app .modal :is(.theme-previews button, .room-options button).selected strong { color: var(--salon-deep); }
+/* Off toggles: a light room-tinted track with a >= 3:1 outline and a filled
+ * knob, so off never reads like the solid deep "on" track (the sage is gone). */
+body .app .modal .toggle:not(.active) {
+  border-color: color-mix(in oklab, var(--salon-deep) 72%, var(--salon-line));
+  background: var(--salon-soft);
+}
+body .app .modal .toggle:not(.active) i {
+  background: color-mix(in oklab, var(--salon-deep) 72%, var(--salon-line));
+}
+body .app .modal .upload-drop {
+  border-color: color-mix(in srgb, var(--salon-deep) 35%, transparent);
+  background: var(--salon-white);
+}
+body .app .modal .upload-orb {
+  background: color-mix(in srgb, var(--salon-deep) 10%, var(--salon-white));
+  box-shadow: none;
+}
+body .app .modal .import-tips > div { color: var(--salon-deep); }
+
+/* ── ART-8 · The chat on plain paper ──────────────────────────────────────
+ * Paint and type only; the dock's position, width and docking stay as they are. */
+/* Full height only where the main column reflows beside the dock
+ * (companion-dock.css, >= 1280px). Between 901 and 1279px the dock floats over
+ * the practice screen, and a taller dock would cover the transport. */
+@media (min-width: 1280px) {
+  body .app.companion-docked .companion-dock:not(.is-minimized) { height: calc(100dvh - 94px); }
+}
+body .app .companion-dock {
+  --lk-focus: var(--salon-deep);
+  --ink: #1e2124;
+  --ink-muted: #5d6268;
+  border: 0;
+  background: var(--salon-paper);
+  box-shadow: var(--lk-shadow-3), 0 0 0 1px var(--salon-line);
+}
+/* Forced colours drop the shadow ring: keep a real edge on the dock. */
+@media (forced-colors: active) {
+  body .app .companion-dock { border: 1px solid CanvasText; }
+}
+body .app .companion-dock .chat-identity h2 .chat-name {
+  font: 600 17px/1.2 var(--lk-font-display);
+  font-synthesis: none;
+  letter-spacing: -0.01em;
+}
+body .app .companion-dock .chat-identity h2 .chat-name-zh {
+  font: 400 12px/1 var(--lk-font-text);
+  color: var(--ink-muted, var(--salon-deep));
+}
+body .app .companion-dock .chat-welcome-line {
+  font-family: var(--lk-font-display);
+  font-weight: 400;
+  font-synthesis: none;
+}
+body .app .chat-language > span {
+  white-space: nowrap;
+  flex: none;
+  min-width: max-content;
+}
+
+/* ── ART-9 · One focus ring ───────────────────────────────────────────────
+ * Outline, not box-shadow, so element shadows (the medallion bevel) survive.
+ * --lk-focus is the light accent on dark and deep ink on paper: .screen, .modal,
+ * the chat dock, the score paper, and anything floating over a paper screen
+ * (the app bar stays lacquer). Programmatic focus targets (tabindex="-1",
+ * e.g. a dialog) get no ring. The companion (.buddy, .buddy-menu) draws its
+ * own ring from the same token (pet track). */
+body .app[data-screen]:not([data-screen='practice']),
+body .app :is(.reading-score, .reader-sheet, .sheet-paper) { --lk-focus: var(--salon-deep); }
+body .app[data-screen] .app-bar { --lk-focus: var(--lk-gilt-hi); }
+body .app :is(button, select, input, textarea, summary, a[href], [tabindex]:not([tabindex='-1'])):not(:is(.buddy, .buddy-menu) *):focus-visible {
+  outline: 2px solid var(--lk-focus);
+  outline-offset: 2px;
+}
+/* Fields whose wrapper draws the ring through :focus-within keep it single. */
+body .app :is(.chat-composer textarea, .companion-chat .chat-log, .companion-chat .chat-segmented input, .screen .search input, .maestro-input-row input):not([tabindex='-1']):focus-visible { outline: 0; }
+/* Inset where an outside ring would be clipped. */
+body .app .reading-score .reading-scroll[tabindex]:not([tabindex='-1']):focus-visible { outline-offset: -2px; }
+/* Piano keys: the absolutely positioned .key-surface covers the key's own
+ * outline, so the ring is drawn on the surface: deep ink on ivory, gilt-hi
+ * on the black lacquer keys. */
+body .app .keyboard-stage .piano-keys .piano-key:is(.white, .black):focus-visible { outline: 0; }
+body .app .keyboard-stage .piano-keys .piano-key.white:focus-visible .key-surface {
+  outline: 2px solid var(--salon-deep);
+  outline-offset: -3px;
+}
+body .app .keyboard-stage .piano-keys .piano-key.black:focus-visible .key-surface {
+  outline: 2px solid var(--lk-gilt-hi);
+  outline-offset: -3px;
+}
+
+/* ── ART-11 · Last sage / olive literals in the older sheets ──────────────
+ * Found by computed-style audit (review round 1): these still painted the
+ * pre-neutral sage greys. Neutral equivalents, paint only. */
+/* Transport icons (shell.css #b3b9a7) and their hover / on states. */
+body .app .control-dock .dock-transport .icon-button { color: var(--salon-muted); }
+body .app .control-dock .dock-transport .icon-button:hover:not(:disabled) {
+  color: var(--ink, #eceae6);
+  background: rgb(236 234 230 / .06);
+}
+body .app .control-dock .dock-transport .icon-button.on {
+  color: var(--lk-gilt-hi);
+  background: rgba(var(--lk-gilt-rgb), .12);
+}
+/* The "then" label in the next-notes cue (material.css #969e8c). */
+body .app .next-notes .next-then small { color: var(--salon-muted); }
+/* The companion button in the app bar (maestro.css #e8e9de, sage ring). */
+body .app .app-bar .app-bar-actions .maestro-launcher { color: var(--ink, #eceae6); }
+/* Native option lists (design.css: green ink on a green-black). */
+body .app select option {
+  color: #eceae6;
+  background: #1f2226;
+}
+/* Key caps in dialogs (studio.css: sage cap, olive ink). */
+body .app .modal kbd {
+  color: var(--salon-ink);
+  background: var(--salon-soft);
+  border-color: color-mix(in oklab, var(--salon-line) 60%, var(--salon-deep));
+}
+body .app .modal .shortcuts-dialog .shortcut-piano-blacks kbd,
+body .app .shortcuts-dialog .shortcut-piano-blacks kbd {
+  color: var(--salon-white);
+  background: var(--salon-ink);
+  border-color: var(--salon-ink);
+}
+/* Toggle knob shadow (studio.css: a green-black). */
+body .app .modal .toggle i { box-shadow: 0 1px 2px rgb(0 0 0 / .18); }
+/* The exercise line under a generated piece's title (practice.css sage). */
+body .app .reader-exercise-line { color: var(--salon-muted); }
+body .app .reader-exercise-line button {
+  color: var(--ink, #eceae6);
+  border-bottom-color: color-mix(in srgb, var(--salon-muted) 45%, transparent);
+}
+body .app .reader-exercise-line button:hover {
+  color: var(--lk-gilt-hi);
+  border-bottom-color: var(--lk-gilt-hi);
+}
+/* Exercise form captions (practice.css #93a196). */
+body .app .exercise-form label { color: var(--ink-muted, #5d6268); }
+/* Settings › Colours: "Match <companion>" reads like its neighbours. */
+body .app .modal .room-previews .room-companion > span:last-child { font-style: normal; }
+/* Companion picker: the room name ("The midnight salon") describes colours
+ * the app no longer wears unless the reader matched them. */
+.app:not([data-colours="companion"]) .companion-salon .salon-room-title { display: none; }
+
+/* Report card and daily goal: no gilt halo, inner mat frame, metal seal or
+ * twinkling stars. A great run reads through the number and the solid ring. */
+body .app .modal.results-dialog.celebrate {
+  box-shadow: var(--lk-shadow-3), 0 0 0 1px var(--salon-line);
+}
+body .app .results-dialog.celebrate .modal-heading::after { content: none; }
+body .app :is(.report-card, .journal-hero) .ring.gilt { box-shadow: none; }
+body .app :is(.report-card, .journal-hero) .ring.gilt .ring-fill { stroke: var(--salon-deep); }
+/* "On time" and the accuracy trend are data, not a hand: studio.css drew them
+ * in the paper-scope --lh-rgb (a lavender grey). The hand tokens stay as they are. */
+body .app .report-card .ring.timing .ring-fill { stroke: var(--salon-metal); }
+body .app .screen .legend .swatch.line { background: var(--salon-deep); }
+body .app .lk-seal {
+  color: var(--salon-white);
+  background: var(--salon-deep);
+  box-shadow: 0 0 0 2px var(--salon-white), 0 2px 6px -3px rgb(0 0 0 / .35);
+}
+
+/* ── ART-10 · The launch colour matches the neutral stage ─────────────────
+ * html:root beats style.css :root (0,1,0); electron.cjs and index.html match. */
+html:root { background: #17191c; }

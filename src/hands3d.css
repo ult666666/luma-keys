@@ -1,0 +1,40 @@
+/* One WebGL canvas over the visible key bed. The instrument boundary clips
+   the wrist naturally. Focus and unavailable WebGL use exact key markers. */
+.app .keyboard-stage .hands3d-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  pointer-events: none;
+  contain: strict;
+}
+.app .keyboard-stage .hands3d-layer[hidden] {
+  display: none;
+}
+.app .keyboard-stage .hands3d-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+/* The wrist exits the instrument naturally. Space is measured in keys,
+   independent of window size; no dissolving forearm or extra empty apron. */
+.app .keyboard-stage[data-hands="visible"] .key-rail {
+  height: calc(var(--key-w) * 2.35 + 12px);
+}
+.app .keyboard-stage:is([data-hand-display="focus"], [data-hand-display="off"]) .key-rail { height: 12px; }
+/* The finger rings and key labels both stay readable. Dimming every label
+   here compounded inactive-key opacity and hid unobscured pitch numbers.
+   With the 3-D hands a key a
+   finger is coming to keeps its dotted mark without repeating the finger's
+   number (the finger's ring stands on the mark instead). */
+.app .keyboard-stage[data-geometry-hands~="left"] .piano-key[data-land="left"][data-land-finger]::before,
+.app .keyboard-stage[data-geometry-hands~="right"] .piano-key[data-land="right"][data-land-finger]::before {
+  display: none;
+}
+.app .hand-display-control { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink); }
+.app .hand-display-control select { min-height: 32px; width: auto; padding: 4px 24px 4px 8px; border: 1px solid var(--line-strong); border-radius: var(--r-sm, 8px); color: var(--ink); background-color: var(--surface); font: inherit; }
+body .app .keyboard-stage .hand-display-control select:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.app .hand-guidance-status { margin: 0; padding: 6px 14px; font-size: 12px; color: var(--ink); background: var(--surface); border-top: 1px solid var(--line); }
+.app .hand-guidance-status[hidden] { display: none; }
+@media(max-width: 600px) { .app .hand-display-control > span { display: none; } }

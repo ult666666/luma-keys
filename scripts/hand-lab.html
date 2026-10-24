@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Hand lab</title>
+<style>
+  body { margin: 0; background: #2a2230; color: #eee; font: 12px/1.4 -apple-system, sans-serif; }
+  #rows { display: grid; gap: 8px; padding: 8px; grid-template-columns: repeat(var(--cols, 1), max-content); align-items: start; }
+  .frame { position: relative; display: inline-block; }
+  .frame b { position: absolute; left: 6px; top: 4px; z-index: 20; color: #333; background: #fff9; padding: 1px 5px; border-radius: 4px; font-weight: 600; }
+  .frame canvas.hand { position: absolute; top: 0; left: 0; z-index: 10; transform-origin: 50% 60%;
+    filter: drop-shadow(0 calc(2px + var(--hand-lift, 0) * 6px) calc(1.5px + var(--hand-lift, 0) * 3px) rgba(0,0,0,.2)); }
+  .frame canvas.cues { position: absolute; top: 0; left: 0; z-index: 5; pointer-events: none; }
+  #meta { padding: 6px 10px; color: #cbc; }
+</style>
+</head>
+<body>
+<div id="meta"></div>
+<div id="rows"></div>
+<script type="module">
+// Hand lab: renders a scenario's hands at a series of beats, one row per
+// beat, so the motion can be inspected frame by frame or captured headless.
+//
+//   /scripts/hand-lab.html?s=<url of scenario json>&beats=0,0.25,0.5&kw=40
+//   /scripts/hand-lab.html?json=<urlencoded scenario>&from=0&to=4&dt=0.125
+//   … &speed=0.5      practice speed (default scenario.speed or 1)
+//   … &frozen=1       the host clock is standing (listen pause)
+//   … &waiting=1      wait mode (implies frozen): `beat` is the chord to play
+//   … &since=0.4      settle.since (s) while frozen; &ahead=4 (beats); &reduced=1
+//   … &sinces=0,0.1,0.2   one frame per settle.since at the first beat (a
+//                     wait-mode replay: with &waiting=1&beats=<chord beat>)
+//   … &mask=1         fade the hands into the rail below the keys, as the app does
+//
+// Scenario JSON: see scripts/hand-lab-scenario.mjs. Each hand is fingered on
+// its own notes (fingerScore), the clock is the scenario's tempo map at the
+// practice speed, and both hands come from one handPoses() call, exactly as
+// in KeyboardGuide. Key marks (`pose.marks`) and pedal rings (`pose.pedal`)
+// are drawn on the lab keys; `zTop` and `palm.lift` drive the canvases'
+// z-order, lift and shadow. Exposes window.lab = { poses: [{ beat, t,
+// left, right }], scenario, steps, speed, clockKey, … } for checks.
+import { keyboardLayout, isBlack } from "/src/music.mjs";
+import { keyCentre } from "/src/hand-pose.mjs";
+import { drawHand } from "/src/hand-draw.mjs";
+import { scenarioInputs, posesAt, labGeometry } from "/scripts/hand-lab-scenario.mjs";
+
+const q = new URLSearchParams(location.search);
+const KW = +(q.get("kw") || 34);
+document.getElementById("rows").style.setProperty("--cols", q.get("cols") || "1");
+// ?kh=&bed= override the key and bed heights (px), e.g. the app's flatter
+// keyboard at a wide zoom (kw 68, kh 160).
+// (The bed keeps its proportion to the keys, as labGeometry and the lint
+// have it: a flat keyboard has a short rail too.)
+const geometry = { ...labGeometry(KW, q.get("kh") ? +q.get("kh") : null), ...(q.get("bed") ? { bedHeight: +q.get("bed") } : null) };
+const KH = geometry.keysHeight, BED = geometry.bedHeight;
+let scenario;
+if (q.get("json")) scenario = JSON.parse(q.get("json"));
+else scenario = await (await fetch(q.get("s"))).json();
+const inputs = scenarioInputs(scenario, { speed: q.get("speed") ? +q.get("speed") : undefined });
+const { notes, score, hands, steps, clock, fingering } = inputs;
+const flags = {
+  frozen: q.get("frozen") === "1",
+  waiting: q.get("waiting") === "1",
+  reducedMotion: q.get("reduced") === "1",
+  ahead: q.get("ahead") != null ? +q.get("ahead") : undefined,
+};
+const since = q.get("since") != null ? +q.get("since") : null;
+let beats;
+if (q.get("beats")) beats = q.get("beats").split(",").map(Number);
+else {
+  const from = +(q.get("from") || 0), to = +(q.get("to") || score.duration), dt = +(q.get("dt") || 0.25);
+  beats = []; for (let b = from; b <= to + 1e-9; b += dt) beats.push(+b.toFixed(4));
+}
+// Frames: one per beat, or one per settle.since at the first beat.
+const sinces = q.get("sinces") ? q.get("sinces").split(",").map(Number) : null;
+const frames = sinces ? sinces.map((s) => ({ beat: beats[0], since: s })) : beats.map((beat) => ({ beat, since }));
+const white = (m) => !isBlack(m);
+let LOW = scenario.low ?? Math.min(...notes.map((n) => n.midi)) - 6, HIGH = scenario.high ?? Math.max(...notes.map((n) => n.midi)) + 6;
+LOW = Math.max(21, LOW); HIGH = Math.min(108, HIGH);
+while (!white(LOW)) LOW--; while (!white(HIGH)) HIGH++;
+const layout = keyboardLayout(LOW, HIGH);
+const whites = layout.filter((k) => !k.black).length;
+const W = whites * KW;
+const dpr = Math.min(2, devicePixelRatio || 1);
+const stripLeft = (keyCentre(LOW) - 0.5) * KW; // pixels from the 88-key origin
+const rows = document.getElementById("rows");
+const poses = [];
+const ink = { right: [151, 87, 15], left: [45, 91, 152] };
+const tempoText = (score.tempos?.length ? score.tempos.map((t) => Math.round(t.bpm)).join("→") : score.bpm);
+document.getElementById("meta").textContent =
+  `${scenario.title || "scenario"} · ♩=${tempoText} · speed ${inputs.speed}` +
+  `${flags.waiting ? " · waiting" : flags.frozen ? " · frozen" : ""} · keys ${LOW}–${HIGH} · ${frames.length} frames · white key ${KW}px`;
+const keyBox = (k) => ({ x: (k.left / 100) * W, w: (k.width / 100) * W, h: k.black ? KH * 0.62 : KH });
+const byMidi = new Map(layout.map((k) => [k.midi, k]));
+for (const { beat, since } of frames) {
+  const frame = document.createElement("div"); frame.className = "frame";
+  const bg = document.createElement("canvas"); bg.width = W * dpr; bg.height = BED * dpr; bg.style.width = W + "px"; bg.style.height = BED + "px";
+  const g = bg.getContext("2d"); g.scale(dpr, dpr);
+  g.fillStyle = "#2b1f16"; g.fillRect(0, 0, W, BED);
+  const sounding = new Map();
+  for (const n of notes) if (n.beat <= beat + 1e-9 && n.beat + n.duration > beat + 1e-9) sounding.set(n.midi, n.hand);
+  const soon = new Map();
+  for (const n of notes) if (n.beat > beat + 1e-9 && n.beat <= beat + 1) soon.set(n.midi, n.hand);
+  const tint = (m, on) => on === "right" ? "#f3cf8f" : on === "left" ? "#b9d0ef" : null;
+  for (const k of layout) if (!k.black) {
+    const x = (k.left / 100) * W; const on = sounding.get(k.midi);
+    g.fillStyle = tint(k.midi, on) || "#fbf8f1"; g.fillRect(x + 0.5, 0, KW - 1, KH);
+    if (!on && soon.has(k.midi)) { g.fillStyle = soon.get(k.midi) === "right" ? "#f3cf8f55" : "#b9d0ef55"; g.fillRect(x + 0.5, 0, KW - 1, KH); }
+    g.fillStyle = "#999"; g.font = "9px sans-serif"; g.fillText(String(k.midi), x + 4, KH - 8);
+  }
+  for (const k of layout) if (k.black) {
+    const x = (k.left / 100) * W; const on = sounding.get(k.midi);
+    g.fillStyle = on === "right" ? "#c48c2e" : on === "left" ? "#5d82b5" : soon.has(k.midi) ? "#3a3340" : "#1b1a1d"; g.fillRect(x, 0, (k.width / 100) * W, KH * 0.62);
+  }
+  g.fillStyle = "#3a291c"; g.fillRect(0, KH, W, BED - KH);
+  frame.append(bg);
+  const extra = { ...flags, settle: (flags.frozen || flags.waiting) && since != null ? { since } : null };
+  const both = posesAt(inputs, beat, geometry, extra);
+  const record = { beat, t: clock.toSeconds(beat), since, left: both.left, right: both.right };
+  // Key marks and pedal rings, on a layer over the keys and under the hands.
+  const cues = document.createElement("canvas"); cues.className = "cues";
+  cues.width = W * dpr; cues.height = BED * dpr; cues.style.width = W + "px"; cues.style.height = BED + "px";
+  const c = cues.getContext("2d"); c.scale(dpr, dpr);
+  for (const hand of ["left", "right"]) {
+    const pose = both[hand];
+    if (!pose) continue;
+    const [r, gg, b] = ink[hand];
+    for (const p of pose.pedal || []) {
+      const k = byMidi.get(p.midi); if (!k) continue;
+      const box = keyBox(k);
+      c.strokeStyle = `rgba(${r},${gg},${b},0.5)`; c.lineWidth = 1.25; c.setLineDash([]);
+      c.beginPath(); c.arc(box.x + box.w / 2, box.h * 0.82 - 7, 7, 0, Math.PI * 2); c.stroke();
+      if (p.kind === "pedal") { c.fillStyle = `rgba(${r},${gg},${b},0.7)`; c.beginPath(); c.arc(box.x + box.w / 2, box.h * 0.82 - 7, 3, 0, Math.PI * 2); c.fill(); }
+    }
+    for (const m of pose.marks || []) {
+      const k = byMidi.get(m.midi); if (!k) continue;
+      const box = keyBox(k);
+      const alpha = 0.45 + 0.55 * Math.max(0, Math.min(1, m.strength ?? 1));
+      c.strokeStyle = `rgba(${r},${gg},${b},${alpha})`; c.lineWidth = 1.5;
+      c.setLineDash(m.kind === "roll" ? [] : [1.5, 2.5]);
+      const inset = k.black ? [3, 5, 7] : [5, 7, 9];
+      c.strokeRect(box.x + inset[0], inset[1], box.w - 2 * inset[0], box.h - inset[1] - inset[2]);
+      c.setLineDash([]);
+      c.fillStyle = k.black ? `rgba(255,255,255,${alpha})` : `rgba(${r},${gg},${b},${alpha})`;
+      c.font = "700 10px sans-serif"; c.textAlign = "center";
+      c.fillText(String(m.finger), box.x + box.w / 2, box.h * (k.black ? 0.5 : 0.6) + 10);
+      c.textAlign = "start";
+    }
+  }
+  frame.append(cues);
+  for (const hand of hands) {
+    const pose = both[hand];
+    if (!pose) continue;
+    const hw = Math.ceil(pose.unit * 12);
+    const lift = Math.round(Math.max(0, Math.min(1, pose.palm?.lift || 0)) * 20) / 20;
+    const dy = -2 * lift + (pose.palm?.bob || 0);
+    const hc = document.createElement("canvas"); hc.className = "hand";
+    hc.width = hw * dpr; hc.height = BED * dpr;
+    hc.style.cssText = `width:${hw}px;height:${BED}px;left:${(pose.x - stripLeft - hw / 2).toFixed(1)}px;opacity:${pose.rest ? 0.35 : 1}` +
+      (lift || dy ? `;transform:translate3d(0, ${dy.toFixed(1)}px, 0) scale(${(1 + 0.03 * lift).toFixed(3)})` : "") +
+      (pose.zTop != null ? `;z-index:${pose.zTop ? 11 : 10}` : "");
+    hc.style.setProperty("--hand-lift", String(lift));
+    // ?mask=1: the app's own fade of the wrist into the rail (stage.css
+    // .hand-layer, KeyboardGuide paintHand's --hand-fade-start).
+    if (q.get("mask") === "1") {
+      const fade = `linear-gradient(180deg, #000 ${Math.round(KH + 4 - 2 * lift)}px, transparent 100%)`;
+      hc.style.webkitMaskImage = fade;
+      hc.style.maskImage = fade;
+    }
+    drawHand(hc.getContext("2d"), pose, hand, { width: hw, height: BED, dpr });
+    frame.append(hc);
+  }
+  const label = document.createElement("b");
+  label.textContent = `beat ${beat} · ${(record.t).toFixed(3)} s` + (since != null ? ` · since ${since}` : "") + hands.map((h) => { const p = record[h]; return p ? ` · ${h[0].toUpperCase()}: ${p.fingers.map((f) => f.state[0]).join("")}${p.rest ? " rest" : ""}${p.forced ? " FORCED" : ""}` : ""; }).join("");
+  frame.append(label);
+  rows.append(frame);
+  poses.push(record);
+}
+window.lab = {
+  poses, scenario, steps, fingering: Object.fromEntries(fingering), KW, KH, BED, LOW, HIGH, stripLeft,
+  speed: inputs.speed, clockKey: clock.key, frozen: flags.frozen || flags.waiting, waiting: flags.waiting,
+  handPoses: true,
+};
+document.body.dataset.ready = "1";
+</script>
+</body>
+</html>

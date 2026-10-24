@@ -1,0 +1,282 @@
+/* A satin instrument and a woven wrist rest. All texture is static; the
+   audible-clock track is the only moving parent of the note capsules. */
+body .app .keyboard-stage {
+  --piece-colour: #aeb4bb;
+  --practice-metal: color-mix(
+    in srgb,
+    var(--salon-metal) 72%,
+    var(--piece-colour)
+  );
+  --practice-tint: color-mix(
+    in srgb,
+    var(--salon-tint) 76%,
+    var(--piece-colour)
+  );
+  --practice-cloth: color-mix(
+    in srgb,
+    var(--keyboard-rail) 52%,
+    var(--keyboard-case)
+  );
+  border-color: color-mix(in srgb, var(--practice-metal) 42%, transparent);
+  box-shadow:
+    inset 0 1px 0 #ffffff0a,
+    0 12px 32px -24px #0009;
+}
+body .app .keyboard-stage[data-artwork="appassionata"] {
+  --piece-colour: #d2a078;
+}
+body
+  .app
+  .keyboard-stage:is(
+    [data-artwork="sunny-day"],
+    [data-artwork="sunny-chords"],
+    [data-artwork="sunny-concert"]
+  ) {
+  --piece-colour: #b5c98f;
+}
+body .app .keyboard-stage[data-artwork="tornado"] {
+  --piece-colour: #b49dcd;
+}
+body .app .keyboard-stage[data-artwork="truth"] {
+  --piece-colour: #92b5ce;
+}
+body
+  .app
+  .keyboard-stage:is([data-artwork="moonlight"], [data-artwork="twinkle"]) {
+  --piece-colour: #a8a2d1;
+}
+body .app .keyboard-stage[data-artwork="gymnopedie"] {
+  --piece-colour: #d4b3bb;
+}
+body .app .keyboard-stage[data-artwork="bach-prelude"] {
+  --piece-colour: #a0bdad;
+}
+body
+  .app
+  .keyboard-stage:is([data-artwork="first-steps"], [data-artwork="ode-joy"]) {
+  --piece-colour: #d3bd8c;
+}
+body .app .keyboard-stage[data-artwork="fur-elise"] {
+  --piece-colour: #b9b3d4;
+}
+
+body .app .keyboard-stage .keyboard-guide-top {
+  background: linear-gradient(
+    110deg,
+    color-mix(in srgb, var(--practice-tint) 20%, var(--keyboard-case)),
+    var(--keyboard-case) 68%
+  );
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--practice-metal) 28%,
+    transparent
+  );
+}
+body .app .keyboard-stage .roll.runway {
+  background:
+    radial-gradient(
+      85% 72% at 50% 112%,
+      color-mix(in srgb, var(--practice-tint) 58%, transparent),
+      transparent 82%
+    ),
+    linear-gradient(180deg, var(--keyboard-depth), var(--keyboard-case));
+}
+body .app .keyboard-stage .runway-lanes i {
+  border-left-color: color-mix(in srgb, var(--keyboard-text) 3%, transparent);
+}
+body .app .keyboard-stage .runway-lanes i.black {
+  background: linear-gradient(180deg, #0000000a, #00000015);
+}
+body .app .keyboard-stage .runway-lanes i.octave {
+  border-left-color: color-mix(in srgb, var(--practice-metal) 24%, transparent);
+}
+body .app .keyboard-stage .runway-lanes i em {
+  color: var(--keyboard-muted);
+}
+body .app .keyboard-stage .beat-line.bar-line span {
+  padding: 2px 7px;
+  border-radius: 7px;
+  border-color: color-mix(in srgb, var(--practice-metal) 36%, transparent);
+  color: var(--keyboard-text);
+}
+/* Put a dynamic just above its onset instead of centring it across the
+   landing line, where half of the glyph was clipped. The header is exact. */
+body .app .keyboard-stage .dyn-mark {
+  transform: translateY(-5px);
+  background: color-mix(in srgb, var(--keyboard-depth) 86%, transparent);
+  text-shadow: none;
+}
+
+/* A solid face, small rounded shoulders and an engraved landing edge.
+   Hand identity stays blue/honey in every palette. No animated gradients,
+   shadows, filters or individually composited notes. */
+body .app .keyboard-stage .falling-note {
+  --note-face: color-mix(in srgb, rgb(var(--nc)) 90%, var(--piece-colour));
+  border-radius: 10px 10px 8px 8px;
+  background:
+    linear-gradient(
+      135deg,
+      rgb(255 255 255 / calc(0.12 + var(--vel) * 0.09)),
+      transparent 60%
+    ),
+    var(--note-face);
+  box-shadow:
+    inset 0 0 0 1px #ffffff54,
+    inset 0 -3px 0 #0000001c;
+  filter: none;
+  transition: none;
+}
+body .app .keyboard-stage .falling-note::before {
+  content: "";
+  position: absolute;
+  inset: 4px 5px auto;
+  height: 1px;
+  background: #ffffff4a;
+  border-radius: 2px;
+  pointer-events: none;
+}
+body .app .keyboard-stage .falling-note.next {
+  box-shadow:
+    inset 0 0 0 2px #fffaf0,
+    inset 0 -4px 0 #ffffff50;
+  filter: none;
+}
+body .app .keyboard-stage .falling-note.hitting {
+  box-shadow:
+    inset 0 0 0 2px #fffdf6,
+    inset 0 -4px 0 #ffffff80;
+  filter: none;
+}
+body .app .keyboard-stage .falling-note.accent {
+  box-shadow:
+    inset 0 0 0 1px #fffaf06b,
+    inset 0 -3px 0 #fff1c1;
+}
+body .app .keyboard-stage .falling-note.accent:is(.next, .hitting) {
+  box-shadow:
+    inset 0 0 0 2px #fffaf0,
+    inset 0 -4px 0 #fff1c1;
+}
+body .app .keyboard-stage .falling-note.short {
+  border-radius: 6px;
+}
+body .app .keyboard-stage .falling-note.tiny::before {
+  content: none;
+}
+body .app .keyboard-stage .falling-note > small {
+  opacity: 0.9;
+}
+body .app .keyboard-stage .chord-tie {
+  height: 2px;
+  box-shadow: inset 0 1px 0 #ffffff25;
+}
+body .app .keyboard-stage .strike-line {
+  background: var(--practice-metal);
+  box-shadow: 0 1px 0 #ffffff26;
+}
+body .app .keyboard-stage .strike-pulse {
+  height: 20px;
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--practice-metal) 24%, transparent),
+    transparent
+  );
+}
+/* One soft contact response, with no shower of decorative sparks. Hands
+   already provide the contact response when shown. */
+body .app .keyboard-stage .land-splash {
+  height: 26px;
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    rgba(var(--splash), 0.38),
+    transparent 72%
+  );
+  animation: practice-landing 420ms cubic-bezier(0.16, 0.7, 0.28, 1) both;
+}
+body .app .keyboard-stage .land-splash::before {
+  bottom: 2px;
+  height: 7px;
+  border-top-color: rgba(var(--splash), 0.7);
+  animation: practice-ripple 420ms cubic-bezier(0.16, 0.7, 0.28, 1) both;
+}
+body .app .keyboard-stage .land-splash::after {
+  content: none;
+}
+@keyframes practice-landing {
+  from {
+    opacity: 0.85;
+    transform: scaleY(0.55);
+  }
+  to {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}
+@keyframes practice-ripple {
+  from {
+    opacity: 0.85;
+    transform: translateY(0) scaleX(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scaleX(1.3);
+  }
+}
+
+body .app .keyboard-stage .piano-keys::before {
+  background: color-mix(
+    in srgb,
+    var(--practice-metal) 60%,
+    var(--keyboard-felt)
+  );
+}
+body .app .keyboard-stage .piano-key.white .key-surface {
+  background:
+    linear-gradient(180deg, #0000000c, transparent 12px),
+    linear-gradient(
+      90deg,
+      var(--keyboard-white-top),
+      var(--keyboard-white) 20%,
+      var(--keyboard-white) 88%,
+      var(--keyboard-white-edge)
+    );
+}
+body .app .keyboard-stage .key-rail {
+  background:
+    url("/art/materials/piano-felt.svg") repeat,
+    linear-gradient(180deg, #00000048, transparent 12px),
+    radial-gradient(
+      80% 130% at 50% -40%,
+      color-mix(in srgb, var(--practice-tint) 36%, transparent),
+      transparent 84%
+    ),
+    linear-gradient(180deg, var(--practice-cloth), var(--keyboard-case));
+  border-top-color: color-mix(in srgb, var(--practice-metal) 35%, transparent);
+}
+body .app .keyboard-stage .key-rail::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 9px;
+  border-top: 1px dashed
+    color-mix(in srgb, var(--practice-metal) 19%, transparent);
+  pointer-events: none;
+}
+body .app .keyboard-stage .hand-coach {
+  border-top-color: color-mix(in srgb, var(--practice-metal) 30%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  body .app .keyboard-stage .land-splash,
+  body .app .keyboard-stage .land-splash::before {
+    animation: none;
+    display: none;
+  }
+  body .app .keyboard-stage .falling-note {
+    transition: none;
+  }
+}
+
+body .app .practice-screen .piece-header .piece-composer {
+  white-space: nowrap;
+}

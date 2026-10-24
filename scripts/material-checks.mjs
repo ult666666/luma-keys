@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { expect } from "@playwright/test";
+import { setPianoVolume } from "./piano-volume.mjs";
+import { openFromLibrary } from "./library-open.mjs";
 
 const animations = (locator) =>
   locator.evaluate((element) =>
@@ -44,20 +46,16 @@ export async function verifyMaterials(page, prefix = "material") {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await expect(play()).toBeEnabled();
-    await page.getByRole("slider", { name: "Piano volume" }).fill("0");
-    await page.getByRole("button", { name: "Library", exact: true }).click();
-    await page
-      .locator(".piece-row")
-      .filter({ hasText: "Twinkle, Little Star" })
-      .getByRole("button", { name: /^(open|reading)$/i })
-      .click();
+    await setPianoVolume(page);
+    await openFromLibrary(page, "Twinkle, Little Star");
     await page.getByRole("tab", { name: "Number score", exact: true }).click();
     await page
       .getByRole("button", { name: "Listen & follow", exact: true })
       .click();
     await page
-      .getByRole("combobox", { name: "Practice hand" })
-      .selectOption("both");
+      .getByRole("radiogroup", { name: "Practice hand" })
+      .locator(".hand-both")
+      .click();
     await page
       .getByRole("button", { name: "Reading settings", exact: true })
       .click();
@@ -93,9 +91,12 @@ export async function verifyMaterials(page, prefix = "material") {
     const white = key(60);
     await white.scrollIntoViewIfNeeded();
     const whiteBox = await white.boundingBox();
+    // The keyboard is fitted to the piece, as large as the 3-D hands' natural
+    // proportions allow (a key at most 1/4.5 of its length, up to 68px).
     assert.ok(
-      Math.abs(whiteBox.width - 42) < 0.75,
-      "White keys stay 42px wide",
+      whiteBox.width >= 24 &&
+        whiteBox.width <= Math.min(68, Math.floor(whiteBox.height / 4.5)) + 1,
+      `White keys are fitted to the music (${whiteBox.width}×${whiteBox.height}px)`,
     );
     const whitePoint = {
       x: whiteBox.x + whiteBox.width / 2,
@@ -115,13 +116,10 @@ export async function verifyMaterials(page, prefix = "material") {
     await page.mouse.down();
     await expect(white).toHaveClass(/pressed/);
     stableBox(whiteBox, await white.boundingBox(), "C4 hit target");
-    const resonance = white.locator(".key-resonance");
-    await expect(resonance).toBeAttached();
+    // (Since 2.2 a press moves the key's inner surface down at once, with
+    // no transition, so dense playback stays smooth; any effect that does
+    // run on a key must end.)
     const keyMotion = await animations(white);
-    assert.ok(
-      playingAnimations(keyMotion).length,
-      "A real key attack should animate",
-    );
     assert.ok(
       keyMotion.every((item) => item.finite),
       "Key attack effects must end",
@@ -131,12 +129,7 @@ export async function verifyMaterials(page, prefix = "material") {
       pointerEvents: getComputedStyle(element).pointerEvents,
     }));
     assert.equal(surface.pointerEvents, "none");
-    assert.equal(
-      await resonance.evaluate(
-        (element) => getComputedStyle(element).pointerEvents,
-      ),
-      "none",
-    );
+    assert.notEqual(surface.transform, "none", "A pressed key goes down");
     assert.equal(
       await hit(whitePoint),
       "60",
@@ -151,7 +144,7 @@ export async function verifyMaterials(page, prefix = "material") {
     measurements.keyMotion = keyMotion;
     measurements.keySurface = surface;
     checks.push(
-      "Real key attacks have finite motion on a non-interactive inner surface; the 42px pointer hit target stays fixed and key-up releases",
+      "Real key attacks have finite motion on a non-interactive inner surface; the fitted pointer hit target stays fixed and key-up releases",
     );
 
     const black = key(61),
@@ -245,11 +238,17 @@ export async function verifyMaterials(page, prefix = "material") {
     // focusing by script after a mouse click would not exercise that state.
     await page.keyboard.press("ArrowRight");
     await expect(black).toBeFocused();
+    // (The ring may be drawn on the key or, where the surface covers the
+    // key's own outline, on its inner surface.)
     const focus = await black.evaluate((element) => {
-      const style = getComputedStyle(element);
+      const rings = [element, element.querySelector(".key-surface")]
+        .filter(Boolean)
+        .map((el) => getComputedStyle(el))
+        .filter((style) => style.outlineStyle !== "none");
+      const style = rings[0];
       return {
-        width: parseFloat(style.outlineWidth),
-        style: style.outlineStyle,
+        width: style ? parseFloat(style.outlineWidth) : 0,
+        style: style ? style.outlineStyle : "none",
       };
     });
     assert.ok(
@@ -276,13 +275,26 @@ export async function verifyMaterials(page, prefix = "material") {
       .getByRole("combobox", { name: "Practice speed" })
       .selectOption("1");
     await startOver();
+    // (Each attack mounts a fresh one-shot splash over its key, keyed by
+    // the attack, since the in-key resonance was retired. With the 3-D hands
+    // shown the hand itself lands and the splash is hidden, so the hands are
+    // put away for this check and brought back after it.)
+    const handsButton = page.getByRole("button", {
+      name: "Hands",
+      exact: true,
+    });
+    const handsWereOn =
+      (await handsButton.getAttribute("aria-pressed")) === "true";
+    if (handsWereOn) await handsButton.click();
     await white.evaluate((button) => {
       const nodes = [],
         events = [];
+      const stage = button.closest(".keyboard-stage") || document;
       const record = (event) => {
         if (
-          event.animationName !== "piano-resonance" ||
-          !event.target.matches(".key-resonance")
+          !["land-splash", "practice-landing"].includes(event.animationName) ||
+          !event.target.matches(".land-splash") ||
+          event.target.style.left !== button.style.left
         )
           return;
         let node = nodes.indexOf(event.target);
@@ -294,10 +306,10 @@ export async function verifyMaterials(page, prefix = "material") {
             button === document.querySelector('.piano-key[data-midi="60"]'),
         });
       };
-      button.addEventListener("animationstart", record);
+      stage.addEventListener("animationstart", record);
       window.__materialRepeated = {
         events,
-        cleanup: () => button.removeEventListener("animationstart", record),
+        cleanup: () => stage.removeEventListener("animationstart", record),
       };
     });
     await play().click();
@@ -312,11 +324,12 @@ export async function verifyMaterials(page, prefix = "material") {
       delete window.__materialRepeated;
       return result;
     });
+    if (handsWereOn) await handsButton.click();
     assert.ok(repeated.every((event) => event.retainedButton));
     assert.notEqual(
       repeated[0].node,
       repeated[1].node,
-      "The second contiguous C4 must have a fresh resonance identity",
+      "The second contiguous C4 must have a fresh splash identity",
     );
     assert.ok(
       repeated[0].beat >= 0 &&
@@ -334,10 +347,13 @@ export async function verifyMaterials(page, prefix = "material") {
     await expect(white).toHaveClass(/lit/);
     await expect(white).not.toHaveClass(/sounding|pressed/);
     assert.equal(
-      await resonance.evaluate(
-        (element) => getComputedStyle(element).animationName,
-      ),
-      "none",
+      await page
+        .locator(".keyboard-stage .land-splash")
+        .evaluateAll(
+          (nodes, left) => nodes.filter((n) => n.style.left === left).length,
+          await white.evaluate((button) => button.style.left),
+        ),
+      0,
       "A waiting target must not show an attack before input",
     );
     await page.keyboard.down("a");
@@ -350,7 +366,7 @@ export async function verifyMaterials(page, prefix = "material") {
       .click();
     measurements.repeatedNoteAttacks = repeated;
     checks.push(
-      "Repeated listen-mode C4 notes retrigger separate resonance identities on the same key button; wait-mode targets only attack after actual input",
+      "Repeated listen-mode C4 notes retrigger separate attack identities on the same key button; wait-mode targets only attack after actual input",
     );
 
     await page
@@ -428,14 +444,17 @@ export async function verifyMaterials(page, prefix = "material") {
     }));
     assert.equal(mobile.overflow, false);
     assert.equal(mobile.keys, 88);
-    assert.ok(Math.abs(mobile.whiteWidth - 42) < 0.75);
+    assert.ok(
+      mobile.whiteWidth >= 40,
+      `Narrow keys stay readable (${mobile.whiteWidth}px)`,
+    );
     measurements.mobile = mobile;
     await page.screenshot({
       path: `evidence/${prefix}-mobile.png`,
       fullPage: true,
     });
     checks.push(
-      "390px layout keeps all 88 fixed-width keys in their viewport without document-wide horizontal overflow",
+      "390px layout keeps all 88 readable (≥40px) keys in their viewport without document-wide horizontal overflow",
     );
     assert.deepEqual(errors, []);
     return {

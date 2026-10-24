@@ -1,0 +1,11 @@
+{
+  "id": "appassionata-bar267-thumb-overlap",
+  "bpm": 144,
+  "speed": 0.6,
+  "notes": [
+    { "id": "n3310", "midi": 68, "beat": 531, "duration": 0.5, "hand": "left", "finger": 2 },
+    { "id": "n3313", "midi": 73, "beat": 531.5, "duration": 0.5, "hand": "left", "finger": 1 },
+    { "id": "n3316", "midi": 77, "beat": 532, "duration": 0.5, "hand": "left", "finger": 4 },
+    { "id": "n3319", "midi": 80, "beat": 532.5, "duration": 0.5, "hand": "left", "finger": 2 }
+  ]
+}

@@ -1,26 +1,21 @@
 import assert from "node:assert/strict";
+import { openReview } from "./practice-tools.mjs";
+import { openFromLibrary } from "./library-open.mjs";
+import { inReadingSettings } from "./settings-ui.mjs";
 
 export async function verifyElise(page, evidencePrefix = "lessons") {
-  await page
-    .getByRole("button", { name: "Little lessons", exact: true })
-    .click();
-  const card = page.locator(".song-card").filter({ hasText: "Für Elise" });
-  await card.getByRole("button", { name: /play/i }).click();
-  await page
-    .getByRole("heading", { name: "Für Elise · opening", exact: true })
-    .waitFor();
-  assert.equal(
-    await page.locator(".meter-hint").innerText(),
-    "3/8 · 3 pulses per bar",
-  );
-  assert.equal(
-    await page
-      .getByRole("region", { name: "Your practice path" })
-      .locator("li")
-      .count(),
-    3,
-  );
-  await page.getByRole("button", { name: "Review sheet and notes" }).click();
+  // (Since 2.39 the lessons are starter pieces in the Library, and the meter
+  // hint and a piece's tips sit in Settings.)
+  await openFromLibrary(page, "Für Elise · opening");
+  await inReadingSettings(page, async (dialog) => {
+    assert.match(
+      await dialog.locator(".meter-hint").innerText(),
+      /^3\/8 · 3 pulses per bar/,
+    );
+    await dialog.getByText("Tips for this piece", { exact: true }).click();
+    assert.equal(await dialog.locator(".reader-lesson-tips li").count(), 3);
+  });
+  await openReview(page);
   await page
     .getByRole("button", { name: "Recognized notes · 53", exact: true })
     .waitFor();
@@ -38,8 +33,9 @@ export async function verifyElise(page, evidencePrefix = "lessons") {
   });
   await page.getByRole("button", { name: "Close dialog" }).click();
   await page
-    .getByRole("combobox", { name: "Practice hand" })
-    .selectOption("left");
+    .getByRole("radiogroup", { name: "Practice hand" })
+    .locator(".hand-left")
+    .click();
   await page.getByRole("button", { name: "Wait for me", exact: true }).click();
   await page.getByRole("button", { name: "Play", exact: true }).click();
   await page.getByRole("button", { name: "Pause", exact: true }).waitFor();
@@ -56,8 +52,9 @@ export async function verifyElise(page, evidencePrefix = "lessons") {
   assert.match(await page.locator(".next-notes").innerText(), /E3/);
   await page.getByRole("button", { name: "Pause", exact: true }).click();
   await page
-    .getByRole("combobox", { name: "Practice hand" })
-    .selectOption("both");
+    .getByRole("radiogroup", { name: "Practice hand" })
+    .locator(".hand-both")
+    .click();
   await page
     .getByRole("button", { name: "Listen & follow", exact: true })
     .click();
@@ -83,7 +80,7 @@ export async function verifyElise(page, evidencePrefix = "lessons") {
   });
   return [
     "Für Elise has 53 notes and engraved two-staff notation",
-    "3/8 meter and three beginner practice steps are visible",
+    "3/8 meter and three beginner practice tips are shown in Settings",
     "Left-hand wait mode starts at A2 in bar 3 and advances to E3",
     "Repeated E5 blocks are separated with no visual overlap",
   ];

@@ -11,3 +11,23 @@ evidence/claude-stream.jsonl
 evidence/claude-stderr.log
 evidence/claude-final-stream.jsonl
 evidence/claude-final-stderr.log
+Logs/
+
+# Local tooling and stray QA output
+.claude/
+Luma%20Keys/
+*.dbg.mjs
+
+# Practice material kept only in the author's private Library: these
+# arrangements are copyrighted or their source forbids reposting. Only the
+# starter sheets and the public-domain / CC Mutopia editions are published.
+Practice Sheets/晴天*
+Practice Sheets/龙卷风*
+Practice Sheets/你离开的事实*
+Practice Sheets/Beethoven - Appassionata*
+Practice Sheets/Added pieces - September 27 2026.md
+Assets/Truth Arpeggio Transition/
+Assets/Truth transition previews/
+Assets/Audio Previews/
+evidence/truth-arpeggio-transition-*
+evidence/*sunny*

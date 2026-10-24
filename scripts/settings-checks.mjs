@@ -2,6 +2,14 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { expect } from "@playwright/test";
+import { pianoVolume } from "./piano-volume.mjs";
+import { withTools } from "./practice-tools.mjs";
+import {
+  ready,
+  inReadingSettings,
+  colourChoice,
+  chooseCompanion,
+} from "./settings-ui.mjs";
 export async function verifySettings(page, prefix = "settings") {
   const origin = new URL(page.url()).origin;
   const health = await page.evaluate(
@@ -27,9 +35,7 @@ export async function verifySettings(page, prefix = "settings") {
     await fs.writeFile(file, raw);
     writes = 0;
     await page.goto(origin);
-    await page
-      .getByRole("heading", { name: "A little practice. A little magic." })
-      .waitFor();
+    await ready(page);
     await page.waitForTimeout(1000);
     assert.equal(writes, 0, "startup must not save over the source settings");
     assert.equal(await fs.readFile(file, "utf8"), raw);
@@ -65,21 +71,41 @@ export async function verifySettings(page, prefix = "settings") {
           dailyMinutes: 6,
           practiceDate: yesterday,
         },
+        reading: { colours: "lavender", welcomeSeen: true },
       }),
     );
-    await page.locator(".theme-lavender").waitFor();
-    assert.equal(
-      await page.getByRole("slider", { name: "Piano volume" }).inputValue(),
-      "0",
-    );
-    await page.getByText("LEVEL 2", { exact: true }).waitFor();
-    assert.match(await page.locator(".daily-card p").innerText(), /^0\s/);
+    await page.locator(".app.theme-lavender").waitFor();
+    assert.equal(await pianoVolume(page), "0");
     assert.equal(
       await page.getByRole("status", { name: "Settings recovery" }).count(),
       0,
     );
+    // Yesterday's minutes do not count toward today: a short session saves
+    // today's minutes from zero, on top of the lifetime total.
+    await page.getByRole("button", { name: "Play", exact: true }).click();
+    await page.waitForFunction(
+      () => +document.querySelector('[aria-label="Song position"]').value > 0.2,
+      {},
+      { timeout: 15000 },
+    );
+    await page.getByRole("button", { name: "Pause", exact: true }).click();
+    await expect
+      .poll(async () => {
+        const p = await read();
+        return (
+          p.stats.sessions === 5 &&
+          p.stats.minutes > 12.5 &&
+          p.stats.dailyMinutes > 0 &&
+          p.stats.dailyMinutes < 1 &&
+          p.stats.practiceDate !== yesterday &&
+          p.stats.correct === 75 &&
+          p.theme === "lavender" &&
+          p.pet === "bunny"
+        );
+      })
+      .toBe(true);
     checks.push(
-      "Valid preferences, mute and level persist; stale daily progress resets on screen without rewriting the file",
+      "Valid colours and mute persist without a startup write; yesterday's daily minutes reset, and the next session saves today's minutes from zero while keeping lifetime totals",
     );
     const partial = JSON.stringify({
       theme: "rose",
@@ -92,18 +118,15 @@ export async function verifySettings(page, prefix = "settings") {
         dailyMinutes: "4",
         practiceDate: new Date().toLocaleDateString("en-CA"),
       },
+      reading: { colours: "rose", welcomeSeen: true },
     });
     await seed(partial);
     const notice = page.getByRole("status", { name: "Settings recovery" });
     await notice.waitFor();
     await notice.getByText("Settings using defaults").click();
     await notice.getByText("Piano volume", { exact: true }).waitFor();
-    await page.locator(".theme-rose").waitFor();
-    await page.getByText("LEVEL 2", { exact: true }).waitFor();
-    assert.equal(
-      await page.getByRole("slider", { name: "Piano volume" }).inputValue(),
-      "0.65",
-    );
+    await page.locator(".app.theme-rose").waitFor();
+    assert.equal(await pianoVolume(page), "0.65");
     await page.screenshot({
       path: `evidence/${prefix}-partial-recovery.png`,
       fullPage: true,
@@ -127,26 +150,23 @@ export async function verifySettings(page, prefix = "settings") {
     checks.push(
       "Damaged fields use defaults while valid theme, companion and progress survive; the original file is preserved on explicit repair",
     );
-    await page.getByRole("button", { name: "Mute", exact: true }).click();
-    await page
-      .getByRole("button", { name: "Companions & moods", exact: true })
-      .click();
-    await page.getByRole("button", { name: /Luma · cosmic cat/ }).click();
-    await page.getByRole("button", { name: /Lavender/ }).click();
-    await page.getByRole("button", { name: "Close dialog" }).click();
+    await withTools(page, () =>
+      page.getByRole("button", { name: "Mute", exact: true }).click(),
+    );
+    await inReadingSettings(page, () => colourChoice(page, "Lavender").click());
+    await chooseCompanion(page, "Luma");
     await expect
       .poll(async () => {
         const p = await read();
-        return [p.theme, p.pet, p.volume];
+        return [p.reading?.colours, p.theme, p.reading?.companion, p.volume];
       })
-      .toEqual(["lavender", "cat", 0]);
+      .toEqual(["lavender", "lavender", "cat", 0]);
     await page.reload();
-    await page.locator(".theme-lavender").waitFor();
-    assert.equal(
-      await page.getByRole("slider", { name: "Piano volume" }).inputValue(),
-      "0",
+    await page.locator(".app.theme-lavender").waitFor();
+    assert.equal(await pianoVolume(page), "0");
+    await inReadingSettings(page, () =>
+      page.getByRole("switch", { name: "Count me in" }).click(),
     );
-    await page.getByRole("switch", { name: "Count me in" }).click();
     await page.getByRole("button", { name: "Play", exact: true }).click();
     await page.waitForFunction(
       () => +document.querySelector('[aria-label="Song position"]').value > 0.2,
@@ -167,7 +187,7 @@ export async function verifySettings(page, prefix = "settings") {
       !/NaN|\[object Object\]/.test(await page.locator("body").innerText()),
     );
     checks.push(
-      "Theme, companion and mute changes save; playback increments numeric session/minute totals after recovery",
+      "Colour, companion and mute changes save and survive a reload; playback increments numeric session/minute totals after recovery",
     );
     for (const raw of ["null", '{"theme":"lavender","stats":']) {
       await seed(raw);

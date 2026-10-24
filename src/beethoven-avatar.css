@@ -1,0 +1,120 @@
+.beethoven-avatar {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  flex: none;
+  isolation: isolate;
+}
+
+.beethoven-avatar .beethoven-head {
+  transform-origin: 91px 115px;
+}
+.beethoven-avatar .beethoven-baton-arm {
+  transform-origin: 58px 132px;
+}
+.beethoven-avatar .beethoven-score-arm {
+  transform-origin: 119px 129px;
+}
+.beethoven-avatar .beethoven-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.beethoven-avatar .beethoven-smiling-eyes {
+  opacity: 0;
+}
+.beethoven-avatar[data-mood="celebrate"] .beethoven-eyes {
+  opacity: 0;
+}
+.beethoven-avatar[data-mood="celebrate"] .beethoven-smiling-eyes {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .beethoven-avatar[data-mood="idle"] .beethoven-eyes {
+    animation: beethoven-blink 2.8s ease-in-out 1;
+  }
+  .beethoven-avatar[data-mood="listening"] .beethoven-head {
+    animation: beethoven-listen 500ms ease-out both;
+  }
+  .beethoven-avatar[data-mood="listening"] .beethoven-eyes {
+    animation: beethoven-blink 1.8s ease-in-out 1;
+  }
+  .beethoven-avatar[data-mood="conducting"] .beethoven-baton-arm {
+    animation: beethoven-conduct var(--beethoven-beat-duration, 1.35s) ease-in-out
+      infinite;
+  }
+  .beethoven-avatar[data-mood="conducting"] .beethoven-head {
+    animation: beethoven-nod 650ms ease-in-out 1;
+  }
+  .beethoven-avatar[data-mood="celebrate"] .beethoven-baton-arm {
+    animation: beethoven-applaud 600ms ease-in-out 3;
+  }
+  .beethoven-avatar[data-mood="celebrate"] .beethoven-head {
+    animation: beethoven-nod 600ms ease-in-out 2;
+  }
+}
+
+@keyframes beethoven-blink {
+  0%,
+  60%,
+  68%,
+  100% {
+    transform: scaleY(1);
+  }
+  64% {
+    transform: scaleY(0.12);
+  }
+}
+@keyframes beethoven-listen {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(-5deg);
+  }
+}
+@keyframes beethoven-conduct {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  28% {
+    transform: rotate(12deg);
+  }
+  55% {
+    transform: rotate(-9deg);
+  }
+  72% {
+    transform: rotate(-5deg);
+  }
+}
+@keyframes beethoven-nod {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  45% {
+    transform: rotate(4deg) translateY(1px);
+  }
+}
+@keyframes beethoven-applaud {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  42% {
+    transform: rotate(15deg);
+  }
+  70% {
+    transform: rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beethoven-avatar,
+  .beethoven-avatar * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

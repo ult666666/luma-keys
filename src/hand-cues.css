@@ -1,0 +1,128 @@
+/* Hand cues written by KeyboardGuide from the hand poses (hand-pose.mjs):
+   the hands' lift shadow, the key marks that say which finger lands where
+   next, the rings on keys a hand has let go to the pedal, and the land
+   splash giving way to the hands. This sheet is imported by KeyboardGuide,
+   so it loads before the app's own sheets: every selector here is at least
+   as specific as the rule it refines. */
+
+/* A lifted hand casts a softer, longer shadow; the canvas scales about its
+   palm (paintHand sets --hand-lift and the transform). At lift 0 this is
+   the stage's own shadow. */
+.app .keyboard-stage .hand-layer.left,
+.app .keyboard-stage .hand-layer.right {
+  filter: drop-shadow(
+    0 calc(2px + var(--hand-lift, 0) * 6px)
+      calc(1.5px + var(--hand-lift, 0) * 3px) rgba(0, 0, 0, 0.2)
+  );
+  transform-origin: 50% 60%;
+}
+
+/* Key colours per hand for the marks and rings (separate from --tc, which
+   the next-chord outline uses, so a key can carry both). */
+.keyboard-stage .piano-key[data-land],
+.keyboard-stage .piano-key[data-pedal] {
+  --land: 0;
+  --land-c: var(--rh-rgb);
+  --pedal-c: var(--rh-rgb);
+}
+.keyboard-stage .piano-key[data-land="left"] {
+  --land-c: var(--lh-rgb);
+}
+.keyboard-stage .piano-key[data-pedal="left"] {
+  --pedal-c: var(--lh-rgb);
+}
+
+/* Land: an upcoming key is dotted; a held contact is solid. Same
+   geometry as the next-chord outline, which it replaces on that key. */
+.app .keyboard-stage .piano-key[data-land][data-land-kind] .key-surface::after {
+  content: "";
+  position: absolute;
+  inset: 7px 5px 9px;
+  z-index: 1;
+  border: 1.5px dotted rgba(var(--land-c), calc(0.45 + 0.55 * var(--land)));
+  border-radius: 4px;
+  pointer-events: none;
+}
+.app
+  .keyboard-stage
+  .piano-key.black[data-land][data-land-kind]
+  .key-surface::after {
+  inset: 5px 3px 7px;
+}
+.app
+  .keyboard-stage
+  .piano-key[data-land][data-land-kind="roll"]
+  .key-surface::after {
+  border-style: solid;
+}
+.app .keyboard-stage .piano-key[data-land][data-land-finger]::before {
+  content: "f" attr(data-land-finger);
+  position: absolute;
+  left: 50%;
+  right: auto;
+  top: 64%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid rgb(var(--land-c));
+  border-radius: 50%;
+  background: #fffaf0;
+  z-index: 3;
+  text-align: center;
+  font: 700 10px/1 var(--font-ui, system-ui, sans-serif);
+  color: #263344;
+  opacity: calc(0.45 + 0.55 * var(--land));
+  pointer-events: none;
+}
+.app .keyboard-stage .piano-key.black[data-land][data-land-finger]::before {
+  top: 40%;
+  color: #263344;
+}
+.app .keyboard-stage .piano-key[data-land-kind="contact"] .key-surface::after { border-style: solid; }
+
+/* Pedal: a key the hand has let go while its sound goes on, a hollow ring
+   until the written end; a dot when the sustain pedal is down. */
+.app
+  .keyboard-stage
+  .piano-key[data-pedal][data-pedal-kind]:not([data-land])
+  .key-surface::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  left: 50%;
+  bottom: 18%;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%);
+  border: 1.25px solid rgba(var(--pedal-c), 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.app .keyboard-stage .piano-key[data-pedal][data-pedal-kind="pedal"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(18% + 4px);
+  z-index: 3;
+  width: 6px;
+  height: 6px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(var(--pedal-c), 0.7);
+  pointer-events: none;
+}
+
+/* With the hands shown, the hand itself lands: no splash under it. Only the
+   shown hands' splashes go (KeyboardGuide writes data-hands-shown); a note
+   no shown hand plays, and a pitch nobody was asked for, keep theirs.
+   (Keyed on data-hands-shown alone: React rewrites the stage's class list
+   whenever it re-renders it — play, pause, a mode change — which drops the
+   frame loop's `with-hands` class until the next frame, and a splash would
+   flash for that frame. React never touches data-hands-shown.) */
+.app .keyboard-stage[data-hands-shown~="left"] .land-splash.left,
+.app .keyboard-stage[data-hands-shown~="right"] .land-splash.right {
+  display: none;
+}

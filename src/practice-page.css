@@ -1,0 +1,514 @@
+/* Practice in the house style of Library, Exercises and Progress: the paper
+   page, the serif heading, quiet segmented controls and calm cards.
+
+   The instrument (falling notes, keys and hands) stays dark: it is framed as
+   one rounded card whose light header says what comes next and whose light
+   footer guides the hands. The playback controls sit in a matching card.
+   Teaching colours (hand blue/honey, lit keys, the sheet cursor) keep their
+   hues; on the light strips they use deeper shades of the same colours so
+   they stay readable.
+
+   Loaded last; every rule is scoped to the practice screen. */
+
+/* ---------- Page ---------- */
+body .app[data-screen="practice"] {
+  background: var(--salon-paper);
+}
+/* The same light tokens the other pages use (.app .screen in salon.css),
+   applied to the light parts of the practice page only. */
+body .app .practice-screen.studio > :is(.piece-header, .control-dock, .review-banner, .welcome-card, .microphone-practice-status),
+body .app .practice-screen.studio .keyboard-stage :is(.keyboard-guide-top, .hand-coach),
+body .app .practice-screen.studio > .score-stage {
+  --bg: var(--salon-paper);
+  --surface: var(--salon-white);
+  --surface-2: var(--salon-soft);
+  --accent: var(--salon-deep);
+  --ink: #1e2124;
+  --lk-focus: var(--ink);
+  --ink-muted: #5d6268;
+  --ink-faint: #61666c;
+  --muted: #5d6268;
+  --line: var(--salon-line);
+  --line-strong: var(--salon-metal);
+  --card-bg: var(--salon-white);
+  --border: var(--salon-line);
+  /* Deeper shades of the hand colours for text on paper. */
+  --lh-text: #2f5f97;
+  --rh-text: #9a5d0c;
+  color: var(--ink);
+}
+@media (min-width: 761px) {
+  body .app .reader-main.app-main > .practice-screen.studio {
+    --practice-gutter: clamp(16px, 3.2vw, 48px);
+    width: min(1320px, 100% - 2 * var(--practice-gutter));
+    max-width: none;
+    margin-inline: auto;
+    padding: 12px 0 10px;
+    gap: 10px;
+  }
+  body .app .reader-main.app-main > .practice-screen.studio > * {
+    margin-block: 0;
+  }
+}
+
+/* ---------- Heading ---------- */
+body .app .practice-screen.studio > .piece-header.reader-score-heading {
+  align-items: flex-end;
+  padding: 2px 0 0;
+  margin: 0;
+  border: 0;
+}
+body .app .practice-screen.studio > .piece-header .piece-info h1 {
+  color: var(--ink);
+  font-size: clamp(24px, calc(14px + 1.1vw), 30px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+html body .app .practice-screen.studio > .piece-header.reader-score-heading .piece-info .piece-meta {
+  margin-top: 6px;
+  gap: 2px 0;
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+body .app .practice-screen.studio > .piece-header .piece-meta > span {
+  color: var(--ink-muted);
+  font-size: 12px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+body .app .practice-screen.studio > .piece-header .piece-meta > span + span::before {
+  content: "·";
+  margin: 0 7px;
+  color: var(--salon-metal);
+}
+body .app .practice-screen.studio > .piece-header .piece-meta .piece-composer {
+  color: var(--ink-muted);
+}
+/* Tempo and length, like the Library's "10 saved pieces", when there is room. */
+@media (min-width: 1200px) {
+  html body .app .practice-screen.studio > .piece-header .piece-meta :is(.piece-tempo-detail, .piece-count-detail) {
+    display: block;
+  }
+}
+body .app .practice-screen.studio > .piece-header .piece-actions {
+  align-items: center;
+  gap: 10px;
+}
+
+/* View switch and the Piece menu: the Library's filter and sort controls. */
+body .app .practice-screen.studio > .piece-header .reader-tabs.view-switch {
+  padding: 3px;
+  gap: 2px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--salon-soft);
+  box-shadow: none;
+}
+body .app .practice-screen.studio > .piece-header .reader-tabs.view-switch button {
+  min-height: 31px;
+  padding: 6px 13px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--ink-muted);
+  background: transparent;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 500;
+}
+body .app .practice-screen.studio > .piece-header .reader-tabs.view-switch button:hover {
+  color: var(--ink);
+}
+html body .app .practice-screen.studio > .piece-header.reader-score-heading .piece-actions .view-switch.reader-tabs button[aria-selected="true"] {
+  color: var(--ink);
+  background: var(--salon-white);
+  box-shadow: 0 1px 3px #00000012;
+  font-weight: 600;
+}
+body .app .practice-screen.studio > .piece-header .practice-tools-trigger {
+  min-height: 37px;
+  padding: 7px 11px;
+  gap: 7px;
+  color: var(--ink);
+  background: var(--salon-white);
+  border: 1px solid var(--salon-line);
+  border-radius: 10px;
+  box-shadow: none;
+  font-size: 12px;
+}
+body .app .practice-screen.studio > .piece-header .practice-tools-trigger svg {
+  color: var(--ink-muted);
+}
+body .app .practice-screen.studio > .piece-header .practice-tools-trigger:hover {
+  border-color: var(--salon-metal);
+}
+
+/* ---------- The instrument card ---------- */
+body .app .practice-screen.studio > .keyboard-stage {
+  border: 1px solid color-mix(in srgb, var(--salon-line) 70%, #000 30%);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px #0000000d,
+    0 18px 40px -26px #0000004d;
+}
+/* Header strip: what comes next. */
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-top {
+  min-height: 46px;
+  padding: 6px 12px 6px 16px;
+  background: var(--salon-white);
+  border-bottom: 1px solid var(--salon-line);
+  box-shadow: none;
+}
+body .app .practice-screen.studio .keyboard-stage .stage-cue .reader-cue-label > span {
+  color: var(--ink-muted);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+}
+body .app .practice-screen.studio .keyboard-stage .stage-cue .next-notes strong {
+  text-shadow: none;
+}
+body .app .practice-screen.studio .keyboard-stage .stage-cue .next-notes .left strong {
+  color: var(--lh-text);
+}
+body .app .practice-screen.studio .keyboard-stage .stage-cue .next-notes .right strong {
+  color: var(--rh-text);
+}
+body .app .practice-screen.studio .keyboard-stage .stage-cue .next-notes span {
+  color: var(--ink);
+}
+body .app .practice-screen.studio .keyboard-stage .stage-cue :is(.next-notes span small, .reader-cue-label small) {
+  color: var(--ink-muted);
+}
+body .app .practice-screen.studio .keyboard-stage .stage-cue .next-then {
+  color: var(--ink-muted);
+  border-color: var(--salon-line);
+}
+body .app .practice-screen.studio .keyboard-stage .stage-cue .next-then b.left {
+  color: color-mix(in srgb, var(--lh-text) 70%, var(--salon-white));
+}
+body .app .practice-screen.studio .keyboard-stage .stage-cue .next-then b.right {
+  color: color-mix(in srgb, var(--rh-text) 70%, var(--salon-white));
+}
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-top .maestro-stage-cue,
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-top .maestro-stage-cue strong {
+  color: var(--ink);
+}
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-top .maestro-stage-cue small {
+  color: var(--ink-muted);
+}
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-controls {
+  gap: 4px;
+}
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-controls .stage-pedal {
+  color: var(--rh-text);
+  background: color-mix(in srgb, var(--rh) 14%, var(--salon-white));
+  border-color: color-mix(in srgb, var(--rh) 60%, var(--salon-white));
+}
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-controls .stage-pedal:not(.down) {
+  color: var(--ink-muted);
+  background: transparent;
+  border-color: var(--salon-line);
+}
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-controls .stage-dynamic {
+  color: var(--ink);
+}
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-controls :is(.stage-icon, button) {
+  color: var(--ink-muted);
+  background: transparent;
+  border-radius: 9px;
+}
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-controls :is(.stage-icon, button):hover {
+  color: var(--ink);
+  background: var(--salon-soft);
+}
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-controls :is(.stage-icon, button).on,
+body .app .practice-screen.studio .keyboard-stage .keyboard-guide-controls :is(.stage-icon, button)[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--salon-soft);
+  box-shadow: inset 0 0 0 1px var(--salon-line);
+}
+
+/* Footer strip: hand guidance. */
+body .app .practice-screen.studio .keyboard-stage .hand-coach {
+  min-height: 42px;
+  padding: 6px 14px 6px 16px;
+  background: var(--salon-white);
+  border: 0;
+  border-top: 1px solid var(--salon-line);
+  border-radius: 0;
+  box-shadow: none;
+}
+body .app .practice-screen.studio .keyboard-stage .hand-coach .coach-hand-label {
+  font-size: 11px;
+}
+body .app .practice-screen.studio .keyboard-stage .hand-coach .coach-hand:first-child .coach-hand-label,
+body .app .practice-screen.studio .keyboard-stage .hand-coach .coach-hand[aria-label^="Left"] .coach-hand-label {
+  color: var(--lh-text);
+}
+body .app .practice-screen.studio .keyboard-stage .hand-coach .coach-hand[aria-label^="Right"] .coach-hand-label {
+  color: var(--rh-text);
+}
+body .app .practice-screen.studio .keyboard-stage .hand-coach .coach-hand-action {
+  color: var(--ink-muted);
+  font-size: 11px;
+}
+body .app .practice-screen.studio .keyboard-stage .hand-coach .coach-note,
+body .app .practice-screen.studio .keyboard-stage .hand-coach .coach-note strong {
+  color: var(--ink);
+}
+body .app .practice-screen.studio .keyboard-stage .hand-coach .coach-note strong {
+  font-size: 13px;
+}
+body .app .practice-screen.studio .keyboard-stage .hand-coach .finger-help-button {
+  color: var(--ink-muted);
+  font-size: 11px;
+  border-radius: 9px;
+}
+body .app .practice-screen.studio .keyboard-stage .hand-coach .finger-help-button:hover {
+  color: var(--ink);
+  background: var(--salon-soft);
+}
+
+/* ---------- Sheet and number score ---------- */
+/* One card: the bar navigation on top, the paper below, no inner frame. */
+body .app .practice-screen.studio > .score-stage .reader-sheet .notation-view {
+  background: var(--salon-white);
+  border: 1px solid var(--salon-line);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px #0000000a;
+}
+html body .app .practice-screen.studio > .score-stage .reader-sheet .sheet-paper {
+  border: 0;
+  border-top: 1px solid var(--salon-line);
+  border-radius: 0 0 17px 17px;
+  box-shadow: none;
+}
+body .app .practice-screen.studio > .score-stage :is(.reader-sheet-nav, .sheet-nav, .reader-page-nav) {
+  color: var(--ink-muted);
+}
+
+/* ---------- Playback card ---------- */
+body .app .practice-screen.studio > .control-dock.reader-controls {
+  padding: 4px 12px 8px;
+  color: var(--ink);
+  background: var(--salon-white);
+  border: 1px solid var(--salon-line);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px #0000000a;
+}
+body .app .practice-screen.studio > .control-dock .dock-row.dock-map {
+  padding: 4px 2px 2px;
+}
+body .app .practice-screen.studio > .control-dock .piece-map-track {
+  background: var(--salon-soft);
+}
+body .app .practice-screen.studio > .control-dock .piece-map {
+  color: var(--salon-deep);
+}
+body .app .practice-screen.studio > .control-dock .piece-map-head {
+  background: var(--salon-deep);
+}
+body .app .practice-screen.studio > .control-dock .dock-row.dock-main {
+  padding-top: 4px;
+}
+body .app .practice-screen.studio > .control-dock .icon-button {
+  color: var(--ink-muted);
+  background: transparent;
+}
+body .app .practice-screen.studio > .control-dock .icon-button:hover {
+  color: var(--ink);
+  background: var(--salon-soft);
+}
+body .app .practice-screen.studio > .control-dock .icon-button:is(.on, [aria-pressed="true"]) {
+  color: var(--ink);
+  background: var(--salon-soft);
+}
+body .app .practice-screen.studio > .control-dock .dock-transport .play-button {
+  color: var(--salon-white);
+  background: var(--salon-deep);
+  box-shadow: 0 1px 2px #0000001f, 0 6px 14px -8px #0000004d;
+}
+body .app .practice-screen.studio > .control-dock .dock-transport .play-button:hover {
+  background: color-mix(in srgb, var(--salon-deep) 88%, #000);
+}
+body .app .practice-screen.studio > .control-dock .segmented {
+  padding: 3px;
+  gap: 2px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--salon-soft);
+  box-shadow: none;
+}
+body .app .practice-screen.studio > .control-dock .segmented button {
+  border: 0;
+  border-radius: 8px;
+  color: var(--ink-muted);
+  background: transparent;
+  box-shadow: none;
+  font-size: 12px;
+}
+body .app .practice-screen.studio > .control-dock .segmented button:hover {
+  color: var(--ink);
+}
+body .app .practice-screen.studio > .control-dock .segmented button:is(.selected, [aria-pressed="true"], [aria-checked="true"]) {
+  color: var(--ink);
+  background: var(--salon-white);
+  box-shadow: 0 1px 3px #00000012;
+}
+body .app .practice-screen.studio > .control-dock .dock-time,
+body .app .practice-screen.studio > .control-dock .dock-time :is(strong, b, time) {
+  color: var(--ink);
+}
+body .app .practice-screen.studio > .control-dock .dock-time :is(small, span) {
+  color: var(--ink-muted);
+}
+body .app .practice-screen.studio > .control-dock .dock-time .dock-resume {
+  min-height: 24px;
+  color: var(--salon-deep);
+}
+body .app .practice-screen.studio > .control-dock .dock-settings :is(.speed-control, .tempo-control, .practice-tools-trigger, .stepper) {
+  color: var(--ink);
+  background: var(--salon-white);
+  border: 1px solid var(--salon-line);
+  border-radius: 11px;
+  box-shadow: none;
+}
+body .app .practice-screen.studio > .control-dock .dock-settings :is(.speed-control, .tempo-control, .stepper) button {
+  color: var(--ink-muted);
+}
+
+/* ---------- Heading at every width ----------
+   The title can wrap at its natural size; secondary metadata flows below.
+   View controls keep their own column and move below on narrow windows. */
+html body .app .practice-screen.studio > .piece-header.reader-score-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+}
+html body .app .practice-screen.studio > .piece-header.reader-score-heading .piece-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 1 440px;
+  min-width: 0;
+  gap: 0;
+}
+html body .app .practice-screen.studio > .piece-header.reader-score-heading .piece-info h1 {
+  max-width: 100%;
+  margin: 0;
+  font-size: clamp(21px, 1.8vw, 28px);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  overflow: visible;
+  white-space: normal;
+  text-overflow: clip;
+}
+html body .app .practice-screen.studio > .piece-header.reader-score-heading .piece-info .piece-meta {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
+  white-space: normal;
+}
+html body .app .practice-screen.studio > .piece-header.reader-score-heading .piece-info .piece-meta > span {
+  flex: none;
+  white-space: normal;
+}
+html body .app .practice-screen.studio > .piece-header.reader-score-heading .piece-info .piece-meta > .piece-composer {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 48ch;
+  overflow: visible;
+  text-overflow: clip;
+}
+html body .app .practice-screen.studio > .piece-header.reader-score-heading .piece-actions {
+  flex: none;
+}
+
+/* ---------- The tucked-away chat ----------
+   On Practice the minimized chat is a round portrait at the end of the
+   playback card, which makes room for it, instead of a pill over Tools. */
+@supports (anchor-name: --a) {
+  body .app[data-screen="practice"] .practice-screen.studio > .control-dock {
+    anchor-name: --luma-practice-dock;
+  }
+  body .app[data-screen="practice"]:has(.companion-dock.is-minimized:not([hidden])) .practice-screen.studio > .control-dock .dock-row.dock-main {
+    padding-right: 54px;
+  }
+  body .app[data-screen="practice"] .companion-dock.is-minimized {
+    position-anchor: --luma-practice-dock;
+    top: auto;
+    left: auto;
+    right: calc(anchor(right) + 12px);
+    bottom: calc(anchor(bottom) + 9px);
+    width: 44px;
+    height: 44px;
+    min-height: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--salon-white);
+    box-shadow:
+      0 1px 2px #0000001a,
+      0 6px 16px -10px #00000066;
+  }
+  body .app[data-screen="practice"] .companion-dock.is-minimized .companion-pocket {
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
+  }
+  body .app[data-screen="practice"] .companion-dock.is-minimized .companion-pocket > :is(span, svg:not(.beethoven-avatar)) {
+    display: none;
+  }
+  body .app[data-screen="practice"] .companion-dock.is-minimized .companion-pocket > .beethoven-avatar {
+    width: 40px;
+    height: 40px;
+    flex: none;
+  }
+}
+
+/* ---------- Menus ----------
+   The Piece and Tools menus open on paper like every other menu in the app;
+   these parts were drawn for the old dark panel. */
+body .app .practice-screen.studio .practice-tools-panel {
+  color: var(--ink);
+  background: var(--salon-white);
+  border: 1px solid var(--salon-line);
+  border-radius: 16px;
+  box-shadow:
+    0 16px 40px -18px #0006,
+    0 2px 6px #0000000c;
+}
+body .app .practice-screen.studio .practice-tools-panel .score-tools-title {
+  color: var(--ink);
+}
+body .app .practice-screen.studio .practice-tools-panel .score-tools-title small {
+  color: var(--ink-muted);
+}
+body .app .practice-screen.studio .practice-tools-panel :is(.backing-name, .backing-name small) {
+  color: var(--ink);
+}
+body .app .practice-screen.studio .practice-tools-panel input:not([type="range"], [type="checkbox"], [type="radio"]) {
+  color: var(--ink);
+  background: var(--salon-white);
+  border: 1px solid var(--salon-line);
+  border-radius: 8px;
+  box-shadow: none;
+}
+body .app .practice-screen.studio .practice-tools-panel input:not([type="range"], [type="checkbox"], [type="radio"]):focus-visible {
+  border-color: var(--salon-deep);
+}
+body .app .practice-screen.studio .practice-tools-panel :is(.loop-hint, .passage-list) {
+  color: var(--ink-muted);
+}
+body .app .practice-screen.studio .practice-tools-panel .passage-list {
+  font-size: 11px;
+}
+body .app .practice-screen.studio > .control-dock .practice-tools-trigger .tools-summary {
+  color: var(--ink-muted);
+}

@@ -76,10 +76,10 @@ export async function verifyRecognitionReload(page, prefix = "pdf-lifecycle") {
       "Background completion must not interrupt practice with a modal",
     );
     await page.getByRole("button", { name: "View imports" }).click();
-    await card
-      .getByRole("button", { name: "Review notes", exact: true })
-      .click();
-    await page.getByRole("dialog", { name: "Make the music yours" }).waitFor();
+    // (Since the SCR-10 card, a finished import already in the Library
+    // offers "Review first" beside "Open at bar 1".)
+    await card.getByRole("button", { name: /^Review (first|notes)/ }).click();
+    await page.getByRole("dialog", { name: "Review score" }).waitFor();
     assert.equal(await page.locator("tbody tr").count(), 16);
     assert.deepEqual(
       (await job(id)).scores[0].notes.map((n) => n.midi),

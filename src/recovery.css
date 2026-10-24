@@ -1,0 +1,79 @@
+/* Recovery in the app (2.44): Recently removed, Earlier versions and the
+   settings history share one quiet list style. */
+.app .recently-removed {
+  margin: 28px 0 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--line, rgba(0, 0, 0, 0.14));
+  border-radius: 14px;
+  background: var(--surface-2, transparent);
+}
+.app .recently-removed > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 650;
+  color: var(--ink, inherit);
+  list-style: none;
+}
+.app .recently-removed > summary::-webkit-details-marker {
+  display: none;
+}
+.app .recently-removed > summary span {
+  min-width: 20px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--line, rgba(0, 0, 0, 0.1));
+  font-size: 12px;
+  text-align: center;
+}
+.app .recovery-note {
+  margin: 8px 0 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  opacity: 0.78;
+}
+.app .recovery-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.app .recovery-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding: 9px 2px;
+  border-top: 1px solid var(--line, rgba(0, 0, 0, 0.1));
+}
+.app .recovery-list li > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 220px;
+}
+.app .recovery-list strong {
+  overflow-wrap: anywhere;
+}
+.app .recovery-list small {
+  font-size: 12px;
+  opacity: 0.75;
+  overflow-wrap: anywhere;
+}
+.app .recovery-state {
+  font-size: 12px;
+  opacity: 0.7;
+}
+.app .recovery-confirm {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.app .settings-history .recovery-list {
+  max-height: 260px;
+  overflow-y: auto;
+}
