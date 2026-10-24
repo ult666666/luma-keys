@@ -10,6 +10,8 @@ Open a score, and Luma Keys turns it into a numbered score, engraved sheet music
 
 Everything runs locally on your Mac: no account, no cloud service, no paid API.
 
+[![Tests](https://github.com/ult666666/luma-keys/actions/workflows/test.yml/badge.svg)](https://github.com/ult666666/luma-keys/actions/workflows/test.yml)
+
 <sub>Electron · React 19 · Vite · Express · three.js · OpenSheetMusicDisplay · PDF.js · Web Audio · Web MIDI · llama.cpp</sub>
 
 </div>
