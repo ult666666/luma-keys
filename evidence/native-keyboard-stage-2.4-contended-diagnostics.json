@@ -1,0 +1,255 @@
+{
+  "events": [
+    {
+      "at": "2026-09-27T02:03:40.441Z",
+      "event": "refocused-after-reload"
+    },
+    {
+      "at": "2026-09-27T02:03:45.935Z",
+      "event": "motion-before-focus",
+      "name": "dense",
+      "state": {
+        "page": {
+          "visibility": "visible",
+          "focused": true,
+          "now": 8011.199999988079
+        },
+        "native": [
+          {
+            "visible": true,
+            "focused": true,
+            "minimized": false
+          }
+        ]
+      }
+    },
+    {
+      "at": "2026-09-27T02:03:46.007Z",
+      "event": "motion-ready",
+      "name": "dense",
+      "state": {
+        "page": {
+          "visibility": "visible",
+          "focused": true,
+          "now": 8080
+        },
+        "native": [
+          {
+            "visible": true,
+            "focused": true,
+            "minimized": false
+          }
+        ]
+      }
+    },
+    {
+      "at": "2026-09-27T02:03:48.635Z",
+      "event": "motion-after",
+      "name": "dense",
+      "state": {
+        "page": {
+          "visibility": "visible",
+          "focused": true,
+          "now": 10712.800000011921
+        },
+        "native": [
+          {
+            "visible": true,
+            "focused": true,
+            "minimized": false
+          }
+        ]
+      }
+    },
+    {
+      "at": "2026-09-27T02:03:49.004Z",
+      "event": "failure",
+      "message": "{\"count\":76,\"median\":33.29999999999927,\"p95\":66.70000000000073}"
+    }
+  ],
+  "visibility": {
+    "state": "visible",
+    "focused": true,
+    "events": [
+      {
+        "t": 42,
+        "event": "installed",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 2965.5,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 3587.100000023842,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 3587.400000035763,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4171.199999988079,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4171.600000023842,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4543.900000035763,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4544.100000023842,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4651.699999988079,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4652.100000023842,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4668.5,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4883.900000035763,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4951.900000035763,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 4952.199999988079,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 5388.900000035763,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 5389.5,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 5426.600000023842,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 5427.300000011921,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 6699.800000011921,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 6926.800000011921,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 7523.100000023842,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 7523.900000035763,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 7527.900000035763,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 7673.199999988079,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 7768.100000023842,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 7768.300000011921,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 7853.100000023842,
+        "event": "blur",
+        "visibility": "visible",
+        "focused": true
+      },
+      {
+        "t": 7853.400000035763,
+        "event": "focus",
+        "visibility": "visible",
+        "focused": true
+      }
+    ],
+    "keys": []
+  },
+  "native": {
+    "version": "2.4.0",
+    "windows": [
+      {
+        "visible": true,
+        "focused": true,
+        "minimized": false
+      }
+    ]
+  }
+}

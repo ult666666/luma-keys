@@ -1,0 +1,94 @@
+{
+  "version": "2.17.0",
+  "completedAt": "2026-09-27T17:27:34.135299-04:00",
+  "request": "A mini companion conversation beside the music, more useful replies and cuter interactive pets.",
+  "features": [
+    "352px non-modal companion panel with responsive placement and minimizable draft-preserving pet tab",
+    "Six companions with finite heart-wave/music gestures, typing feedback and reduced-motion support",
+    "Persistent explicit Chinese/English preference through history and model requests",
+    "Short score-grounded practice tasks and clarification using actual written hands",
+    "Bounded on-device prose, repetition interruption and explicit failure/retry state",
+    "Input isolation, visible focus restoration, cancellation and stale-action preservation"
+  ],
+  "tests": {
+    "unitApiTests": 391,
+    "passed": 391,
+    "failed": 0,
+    "nativeUiGroups": 8,
+    "nativeUiPassed": true,
+    "nativeReport": ".qa-runs/companion-mini-2.17/native-report.json",
+    "rendererErrors": [],
+    "visualReview": ".qa-runs/companion-mini-2.17/reports/final-visual-review.json",
+    "visualCapturesReviewed": 16,
+    "modelMechanicalChecksPassed": true,
+    "allActualModelQuestionsSucceeded": false,
+    "actualModelSuccesses": 2,
+    "actualModelDeclines": 1,
+    "modelReport": ".qa-runs/companion-mini-2.17/native-real-model-report.json",
+    "modelFailures": [
+      {
+        "message": "I am tired today.",
+        "error": "The on-device model could not answer that request. Try rephrasing it.\nTry again\nDismiss",
+        "elapsedMs": 1956,
+        "retryEnabled": true,
+        "pending": 0,
+        "playing": false
+      }
+    ]
+  },
+  "unchangedBuildInputs": 582,
+  "packageIntegrity": {
+    "version": "2.17.0",
+    "checkedFiles": 510,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "97ffa38b68fe7a6a97d1303e962807ef2f71916e3719595da2ca6d05049614af"
+  },
+  "installation": {
+    "version": "2.17.0",
+    "installedAt": "2026-09-27T17:25:33.148583-04:00",
+    "filesAndSymlinks": 2992,
+    "personalFiles": 107,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-mini-2.17/previous-installed-Luma Keys-2.16.0.app"
+  },
+  "afterReopen": {
+    "version": "2.17.0",
+    "verifiedAt": "2026-09-27T17:26:30.406991-04:00",
+    "installedArchiveSHA256": "97ffa38b68fe7a6a97d1303e962807ef2f71916e3719595da2ca6d05049614af",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 2992,
+    "personalFiles": 107,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "allModelQuestionsSucceeded": false,
+    "modelLimitationsRetained": [
+      {
+        "message": "I am tired today.",
+        "error": "The on-device model could not answer that request. Try rephrasing it.\nTry again\nDismiss",
+        "elapsedMs": 1956,
+        "retryEnabled": true,
+        "pending": 0,
+        "playing": false
+      }
+    ],
+    "nativeUIObservation": {
+      "method": "CUA accessibility and screenshot of the installed personal app",
+      "libraryVisible": true,
+      "savedPieces": 10,
+      "companion": "Lang Lang",
+      "continuePiece": "Appassionata · III. Allegro ma non troppo — Presto",
+      "continueBar": 378,
+      "miniSideChatVisible": true,
+      "chinesePreferenceRecognizedFromExistingHistory": true,
+      "personalMessagesSent": 0,
+      "existingConversationPreserved": true
+    }
+  },
+  "releaseDecision": ".qa-runs/companion-mini-2.17/release-decision.json",
+  "limits": [
+    "This update changes routing, prompts and UI; it does not retrain Apple’s on-device model.",
+    "One final predetermined ordinary tiredness question was declined; retry remained available, pending cleared and playback stayed stopped. No retry was made to obtain a passing result. General answers remain basic or mistaken.",
+    "Earlier repetition and invented-hand failures are retained as rejected attempts. The hand-filter context defect and timed-practice regression were corrected and verified.",
+    "MIDI input was simulated. PDF recognition, physical MIDI hardware and piano sound quality were not re-evaluated in this companion pass."
+  ]
+}

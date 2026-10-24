@@ -1,0 +1,22 @@
+{
+  "error": "locator.waitFor: Target page, context or browser has been closed\nCall log:\n  - waiting for getByRole('dialog', { name: /^\\d+% · / }) to be visible\n",
+  "evidence": {
+    "checks": [
+      "A newly imported piece shows no trouble spots",
+      "Wait for me judges every bar of a run (the final bar included); a single slip is remembered but is not yet a spot",
+      "Two slips in a bar make a trouble spot: a warm mark over that bar on the piece map, a chip in Practice tools and a summary on its button, all kept across a reload",
+      "Drill repeats the spot from its first bar, slows practice to 70% and says so in the dock; the chip shows it is the current repeat",
+      "Three clean passes round a one-bar drill clear the spot: the mark, chip and summary go, while the bar's history stays"
+    ],
+    "errors": [],
+    "measurements": {
+      "capturesSkipped": [],
+      "firstSpotMark": {
+        "left": 25,
+        "width": 25,
+        "trouble": "1.00"
+      }
+    }
+  },
+  "body": "unavailable"
+}

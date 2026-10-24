@@ -1,0 +1,210 @@
+{
+  "error": "expect(locator).toBeFocused() failed\n\nLocator: getByRole('button', { name: 'Accompaniment', exact: true })\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeFocused\" getByRole('button', { name: 'Accompaniment', exact: true }) with timeout 5000ms\n  - waiting for getByRole('button', { name: 'Accompaniment', exact: true })\n    2 × locator resolved to <button aria-haspopup=\"dialog\" data-close-tools=\"true\" aria-label=\"Accompaniment\" class=\"backing-launcher on\" title=\"伴奏 · Paused in Wait for me\">…</button>\n      - unexpected value \"inactive\"\n",
+  "evidence": {
+    "checks": [
+      "Backing starts off; all presets and independent mix edits preserve the paused beat, hand, speed and phrase.",
+      "Two same-title arrangements keep independent saved settings; melody-only auto adds nothing and explicit acoustic honestly offers percussion only; reload never autoplays.",
+      "Both-hand Listen schedules exactly one melody voice and one written backing voice; no duplicate other-hand layer, and changing piano volume leaves backing mix and playback intact.",
+      "Backing starts after Listen and Perform count-ins, carries sustained notes through phrase repeats and tempo/speed changes; acoustic guitar and bass use the local sample bank."
+    ],
+    "measurements": {
+      "noDoubling": {
+        "sourceStarts": 2,
+        "voices": [
+          {
+            "instrument": "piano",
+            "midi": 48,
+            "start": 4.912,
+            "end": 10.911999999999999,
+            "sourceType": "piano-sample",
+            "sampleMidi": 48
+          }
+        ]
+      },
+      "carry": {
+        "phrase": {
+          "instrument": "piano",
+          "midi": 48,
+          "start": 11.984,
+          "end": 13.984,
+          "sourceType": "piano-sample",
+          "sampleMidi": 48
+        },
+        "slowerTempo": {
+          "instrument": "piano",
+          "midi": 48,
+          "start": 15.466666666666667,
+          "end": 17.46666666666667,
+          "sourceType": "piano-sample",
+          "sampleMidi": 48
+        },
+        "halfSpeed": {
+          "instrument": "piano",
+          "midi": 48,
+          "start": 16.021333333333335,
+          "end": 20.021333333333335,
+          "sourceType": "piano-sample",
+          "sampleMidi": 48
+        }
+      },
+      "acoustic": {
+        "started": 14,
+        "ended": 7,
+        "stopped": 7,
+        "stolen": 0,
+        "rejected": 0,
+        "fallbacks": 0,
+        "volume": 0.31,
+        "active": 7,
+        "voices": [
+          {
+            "instrument": "bass",
+            "midi": 48,
+            "start": 26.405333333333335,
+            "end": 27.345333333333336,
+            "sourceType": "local-sample",
+            "sampleMidi": 48
+          },
+          {
+            "instrument": "guitar",
+            "midi": 48,
+            "start": 26.410666666666668,
+            "end": 32.41066666666667,
+            "sourceType": "local-sample",
+            "sampleMidi": 48
+          },
+          {
+            "instrument": "hat",
+            "midi": null,
+            "start": 26.410666666666668,
+            "end": 26.470666666666666,
+            "sourceType": "synth-sample",
+            "sampleMidi": 60
+          },
+          {
+            "instrument": "kick",
+            "midi": null,
+            "start": 26.410666666666668,
+            "end": 26.51066666666667,
+            "sourceType": "synth-sample",
+            "sampleMidi": 60
+          },
+          {
+            "instrument": "hat",
+            "midi": null,
+            "start": 26.660666666666668,
+            "end": 26.720666666666666,
+            "sourceType": "synth-sample",
+            "sampleMidi": 60
+          },
+          {
+            "instrument": "hat",
+            "midi": null,
+            "start": 26.910666666666668,
+            "end": 26.970666666666666,
+            "sourceType": "synth-sample",
+            "sampleMidi": 60
+          },
+          {
+            "instrument": "snare",
+            "midi": null,
+            "start": 26.910666666666668,
+            "end": 27.01066666666667,
+            "sourceType": "synth-sample",
+            "sampleMidi": 60
+          }
+        ],
+        "cachedSamples": 3,
+        "pendingCleanup": 0,
+        "bankStatus": "ready",
+        "bankSamples": 4,
+        "bankFailures": 0,
+        "ready": true
+      },
+      "performCountIn": {
+        "clock": {
+          "now": 19.269333333333332,
+          "start": 21.259999999999998,
+          "origin": 4,
+          "originAt": 2,
+          "mapped": null,
+          "beat": 4,
+          "latency": 0.021333333333334537,
+          "playing": true,
+          "countingIn": true,
+          "secondsPerBeat": 0.5
+        },
+        "voices": [
+          {
+            "instrument": "piano",
+            "midi": 48,
+            "start": 21.259999999999998,
+            "end": 23.259999999999998,
+            "sourceType": "piano-sample",
+            "sampleMidi": 48
+          }
+        ]
+      }
+    },
+    "errors": [],
+    "state": {
+      "settings": {
+        "enabled": true,
+        "source": "score",
+        "style": "piano",
+        "volume": 0.31,
+        "track": null
+      },
+      "active": true,
+      "style": "piano",
+      "events": 2,
+      "sourceHand": "left",
+      "audio": {
+        "started": 14,
+        "ended": 14,
+        "stopped": 12,
+        "stolen": 0,
+        "rejected": 0,
+        "fallbacks": 0,
+        "volume": 0.31,
+        "active": 0,
+        "voices": [],
+        "cachedSamples": 3,
+        "pendingCleanup": 0,
+        "bankStatus": "ready",
+        "bankSamples": 4,
+        "bankFailures": 0,
+        "ready": true
+      },
+      "recording": {
+        "paused": true,
+        "currentTime": 0,
+        "rate": 1,
+        "volume": 0.31,
+        "preservesPitch": true,
+        "starts": 0,
+        "seeks": 0
+      }
+    },
+    "clock": {
+      "now": 36.949333333333335,
+      "start": 30.8,
+      "origin": 0,
+      "originAt": 0,
+      "mapped": null,
+      "beat": 4,
+      "latency": 0.021333333333330984,
+      "playing": false,
+      "countingIn": false,
+      "secondsPerBeat": null
+    },
+    "snapshot": {
+      "title": "QA pop accompaniment",
+      "beat": "4",
+      "speed": "1",
+      "hand": "right",
+      "loop": "false",
+      "playing": false
+    }
+  }
+}

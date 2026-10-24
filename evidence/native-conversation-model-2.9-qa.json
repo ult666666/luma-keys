@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-conversation-model-2.9-ZoxcM3",
+  "replies": [
+    {
+      "question": "I'm a beginner. Give me one short practical suggestion for the current bar, using only the written notes you can see.",
+      "response": "Keep the wrist loose. Move the right hand to the G4 pitch before moving from the C4 pitch.",
+      "elapsedMs": 10312,
+      "companionId": "beethoven"
+    },
+    {
+      "question": "请用中文把刚才的建议说得更简单一点，只给我一个练习步骤。",
+      "response": "把右手从C4移动到G4。",
+      "elapsedMs": 8089,
+      "companionId": "beethoven"
+    }
+  ],
+  "errors": [],
+  "version": "2.9.0",
+  "availability": {
+    "available": true,
+    "reason": "available"
+  },
+  "checks": [
+    "Bundled native helper reports available",
+    "Actual English and Chinese model replies stream and finish",
+    "Replies cannot carry practice actions",
+    "Conversation survives reload with exactly two user turns",
+    "Playing remains paused and no page errors",
+    "Saved history is owner-readable only"
+  ]
+}

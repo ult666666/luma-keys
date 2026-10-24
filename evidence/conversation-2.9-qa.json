@@ -1,0 +1,171 @@
+{
+  "passed": true,
+  "checks": [
+    "English and Chinese searches retain separate arrangements; a follow-up selects the second prior choice and opens it paused.",
+    "Explicit seek, phrase repeat, and slower commands update the real paused controls; invalid bars and missing pieces do not invent or change a score.",
+    "Opening chat releases held notes; textarea typing, composition Enter, Shift+Enter, and MIDI cannot play or advance; Tab stays inside and Escape restores launcher focus.",
+    "Transcript order, IDs, text and action choices survive closing the panel and reloading the app without duplicating exchanges.",
+    "A failed history save keeps both messages visible with an honest status; Retry saves the same messages without duplicates.",
+    "Editing a saved score disables its old conversation action; a fresh search creates an enabled action for the updated score.",
+    "A controlled model stream renders progressive text, sends a bounded current-piece excerpt, persists the completed reply and cannot execute practice actions while pending.",
+    "Stop and closing the dialog abort the stream, preserve clearly marked partial replies and reject late chunks; retry replaces the partial response without duplicating the user's question, and changing the piece disables stale retries.",
+    "Chat composer and transcript fit desktop, narrow and short windows, long drafts wrap, reduced motion disables decoration, and all three library screens avoid horizontal overflow.",
+    "A failed initial history read disables sending and preserves the stored conversation; Retry restores it, and the piano still exposes 88 keys and a reachable Play control."
+  ],
+  "measurements": {
+    "chat-desktop": {
+      "width": 1280,
+      "height": 800,
+      "page": 1280,
+      "dialog": {
+        "x": 250,
+        "y": 26,
+        "right": 1030,
+        "bottom": 774,
+        "width": 780,
+        "height": 748,
+        "client": 778,
+        "scroll": 778
+      },
+      "composer": {
+        "x": 251,
+        "y": 602,
+        "right": 1029,
+        "bottom": 773,
+        "width": 778,
+        "height": 171,
+        "client": 778,
+        "scroll": 778
+      },
+      "transcript": {
+        "x": 251,
+        "y": 161,
+        "right": 1029,
+        "bottom": 571,
+        "width": 778,
+        "height": 410,
+        "client": 772,
+        "scroll": 772
+      }
+    },
+    "chat-mobile": {
+      "width": 390,
+      "height": 844,
+      "page": 390,
+      "dialog": {
+        "x": 14,
+        "y": 12,
+        "right": 376,
+        "bottom": 832,
+        "width": 362,
+        "height": 820,
+        "client": 360,
+        "scroll": 360
+      },
+      "composer": {
+        "x": 15,
+        "y": 663,
+        "right": 375,
+        "bottom": 831,
+        "width": 360,
+        "height": 168,
+        "client": 360,
+        "scroll": 360
+      },
+      "transcript": {
+        "x": 15,
+        "y": 143,
+        "right": 375,
+        "bottom": 614,
+        "width": 360,
+        "height": 471,
+        "client": 360,
+        "scroll": 360
+      }
+    },
+    "chat-short": {
+      "width": 1280,
+      "height": 580,
+      "page": 1280,
+      "dialog": {
+        "x": 250,
+        "y": 24,
+        "right": 1030,
+        "bottom": 556,
+        "width": 780,
+        "height": 532,
+        "client": 778,
+        "scroll": 778
+      },
+      "composer": {
+        "x": 251,
+        "y": 438,
+        "right": 1029,
+        "bottom": 555,
+        "width": 778,
+        "height": 117,
+        "client": 778,
+        "scroll": 778
+      },
+      "transcript": {
+        "x": 251,
+        "y": 122.59375,
+        "right": 1029,
+        "bottom": 407,
+        "width": 778,
+        "height": 284.40625,
+        "client": 772,
+        "scroll": 772
+      }
+    },
+    "library-1280": {
+      "width": 1280,
+      "height": 800,
+      "page": 1280,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "exercises-1280": {
+      "width": 1280,
+      "height": 800,
+      "page": 1280,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "progress-1280": {
+      "width": 1280,
+      "height": 800,
+      "page": 1280,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "library-390": {
+      "width": 390,
+      "height": 844,
+      "page": 390,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "exercises-390": {
+      "width": 390,
+      "height": 844,
+      "page": 390,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "progress-390": {
+      "width": 390,
+      "height": 844,
+      "page": 390,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    }
+  },
+  "errors": []
+}

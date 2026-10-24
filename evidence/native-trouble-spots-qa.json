@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "version": "2.44.0",
+  "checks": [
+    "A newly imported piece shows no trouble spots",
+    "Wait for me judges every bar of a run (the final bar included); a single slip is remembered but is not yet a spot",
+    "Two slips in a bar make a trouble spot: a warm mark over that bar on the piece map, a chip in Practice tools and a summary on its button, all kept across a reload",
+    "Drill repeats the spot from its first bar, slows practice to 70% and says so in the dock; the chip shows it is the current repeat",
+    "Three clean passes round a one-bar drill clear the spot: the mark, chip and summary go, while the bar's history stays",
+    "Play in time judges graded bars too; the second slip names the spot on the report card, Library offers Drill, and Progress lists the spot beside the cleared bar and opens a 70% drill at bar 3",
+    "Forget removes a spot from the drawer, the map and the saved journal, keeping the other bars' history"
+  ],
+  "errors": [],
+  "measurements": {
+    "capturesSkipped": [],
+    "firstSpotMark": {
+      "left": 25,
+      "width": 25,
+      "trouble": "1.00"
+    }
+  },
+  "audioOutput": "Piano volume set to zero",
+  "physicalHardwareTested": false
+}

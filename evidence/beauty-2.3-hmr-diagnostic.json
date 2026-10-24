@@ -1,0 +1,42 @@
+{
+  "error": "locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('dialog', { name: 'Make the music yours' }) to be visible\u001b[22m\n\u001b[2m    - waiting for \"http://127.0.0.1:5188/\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://127.0.0.1:5188/\"\u001b[22m\n",
+  "evidence": {
+    "checks": [
+      "Repeated C4 lifts and strikes again; held C3 stays under the same finger while other notes change",
+      "The hands glide before their leap and land on C6 while all 88 keyboard hit targets and both canvases stay stable",
+      "Pause freezes the hands; seeking directly to another bar shows that position without an animated sweep",
+      "A pointer can press and release the key directly beneath the rendered hand",
+      "Changing reduced motion during a glide stops anticipation immediately, keeps a steady hand position, and preserves wrong-note feedback"
+    ],
+    "errors": [],
+    "measurements": {
+      "attacks": {
+        "frames": 205,
+        "heldFrames": 154,
+        "heldFinger": 3
+      },
+      "stationary": {
+        "drift": 0,
+        "keys": 88,
+        "keysRetained": true,
+        "handsRetained": true,
+        "glideFrames": 30,
+        "landingBeat": 4.008
+      },
+      "pointer": {
+        "x": 510.25,
+        "y": 758.17875,
+        "midi": "60",
+        "overlays": [
+          "none",
+          "none"
+        ]
+      },
+      "reducedMotion": {
+        "frames": 23,
+        "glide": 0,
+        "uniquePoses": 1
+      }
+    }
+  }
+}

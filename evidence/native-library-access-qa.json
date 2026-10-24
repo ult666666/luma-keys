@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "version": "2.44.0",
+  "checks": [
+    "A file in place of the Library gets a plain explanation naming the folder, with Try Again and Quit and no stack trace",
+    "Try Again after moving the file opens a fresh, writable Library; the file itself is untouched",
+    "Quit closes the app cleanly (exit 0) and leaves the file untouched"
+  ],
+  "dialog": {
+    "message": "Luma Keys can’t open its Library folder",
+    "detail": "Something that is not a folder is in the way:\n/Users/prince/Desktop/Luma Keys/.qa-runs/library-access-try-again-PZYYRA/Library\n\nRename or move that file, then choose Try Again. Nothing has been changed or deleted.",
+    "buttons": [
+      "Try Again",
+      "Quit"
+    ]
+  },
+  "roots": [
+    "/Users/prince/Desktop/Luma Keys/.qa-runs/library-access-try-again-PZYYRA",
+    "/Users/prince/Desktop/Luma Keys/.qa-runs/library-access-quit-09mSDM"
+  ]
+}

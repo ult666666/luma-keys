@@ -1,0 +1,120 @@
+{
+  "version": "2.19.0",
+  "preparedAt": "2026-09-27T18:32:00.310493-04:00",
+  "status": "tested-and-staged-awaiting-desktop-unlock",
+  "installed": false,
+  "installationBlocker": "CUA reported that the Mac is locked and automatic unlock could not unlock it. User asked to unlock so the current app can save and quit normally. No force quit or replacement while running.",
+  "candidateArchiveSHA256": "1891a0c9c1f97703cf9221c5bea49c08ffaeed88ba52719bc8654dc7f7c3e26e",
+  "candidateApp": "/Users/prince/Desktop/Luma Keys/release/mac-arm64/Luma Keys.app",
+  "stagedApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/audio-clean-2.19/install-ready.app",
+  "tests": {
+    "unitAndApiPassed": 410,
+    "nativeGroupsPassed": 6,
+    "writtenAttacksMatched": 354,
+    "nativeMaxOnsetErrorMs": 16,
+    "futureAttacksCancelled": 31,
+    "sourceInputsStable": 586,
+    "packagedSourceAssetsAndHelperMatch": 510,
+    "stagedBundleEntries": 2992,
+    "matchedWaveformRenders": 36,
+    "sampleRates": [
+      44100,
+      48000
+    ],
+    "sampleFilesVerified": 180
+  },
+  "findings": {
+    "densePianoAndBackingPeakBefore": 1.4192419052124023,
+    "densePianoAndBackingPeakAfter": 0.915445864200592,
+    "candidateWaveformsClippedSamples": 0,
+    "candidateEmergencyGuardEngagement": 0,
+    "maximumVolumeCodaAverageChangeDb": -0.9932572555580689,
+    "softAndMediumC4AverageChangeMaxDb": 0.025,
+    "forteC4AverageChangeMaxDb": 0.25,
+    "pedalResume": {
+      "peak": [
+        {
+          "kind": "baseline",
+          "peak": 2.5146753787994385,
+          "rms": 0.2286359808724017,
+          "attack60msRms": 0.5861977514382164,
+          "finite": true
+        },
+        {
+          "kind": "corrected",
+          "peak": 0.13389705121517181,
+          "rms": 0.018292512234745477,
+          "attack60msRms": 0.039724564115824076,
+          "finite": true
+        },
+        {
+          "kind": "reference",
+          "peak": 0.19137556850910187,
+          "rms": 0.024036338467695966,
+          "attack60msRms": 0.041269277567849434,
+          "finite": true
+        }
+      ],
+      "referenceError": {
+        "baseline": 12.407305715691626,
+        "corrected": 0.00012130525186258144
+      }
+    },
+    "attackBoundaryProbes": [
+      {
+        "midi": 36,
+        "baselineStep": 0.10991155356168747,
+        "correctedStep": 0.026173211634159088,
+        "after1msError": 0
+      },
+      {
+        "midi": 60,
+        "baselineStep": 0.055588530376553535,
+        "correctedStep": 0.01784733682870865,
+        "after1msError": 0
+      },
+      {
+        "midi": 108,
+        "baselineStep": 0.17254159599542618,
+        "correctedStep": 0.15799830108880997,
+        "after1msError": 0
+      }
+    ],
+    "tickCancellationBoundary": {
+      "before": 0.01434270292520523,
+      "after": 0.0017793597653508186
+    }
+  },
+  "preservation": {
+    "currentPersonalFiles": 107,
+    "personalAppStillIntact": true,
+    "originalPianoRecordingsUnchanged": true,
+    "personalScoreFilesUnchangedDuringNativeQa": true
+  },
+  "limits": [
+    "No physical speaker, headphones, Bluetooth or MIDI hardware test; native playback was muted.",
+    "This corrects reproduced software clipping and discontinuities; the exact noise heard on the user device has not been acoustically captured.",
+    "Extremely dense mixtures are intentionally reduced in level to retain headroom.",
+    "Existing first-time Sheet rendering visual stall remains outside this audio fix."
+  ],
+  "reports": {
+    "native": ".qa-runs/audio-clean-2.19/final-native/native-report.json",
+    "signal": ".qa-runs/audio-clean-2.19/final-signal-report.json",
+    "signalAssessment": ".qa-runs/audio-clean-2.19/AUDIO-ASSESSMENT.md",
+    "continuations": ".qa-runs/audio-clean-2.19/continuation-final-evidence.json",
+    "continuationAssessment": ".qa-runs/audio-clean-2.19/CONTINUATION-AND-CLICK-EVIDENCE.md",
+    "samples": ".qa-runs/audio-clean-2.19/sample-report.json",
+    "baselineGraph": ".qa-runs/audio-clean-2.19/graph-report.json",
+    "fullTests": ".qa-runs/audio-clean-2.19/full-tests.txt",
+    "packageIntegrity": ".qa-runs/audio-clean-2.19/reports/package-integrity.json"
+  },
+  "earlierAttempt": "final-native-attempt1 preserves a harness-only invalid range input failure; it is excluded from final acceptance.",
+  "supersededForInstallationBy": "2.19.2 combined copy, icon and audio update; see evidence/concise-copy-2.19.2-verification.json",
+  "subsequentInstallation": {
+    "version": "2.20.0",
+    "verifiedAt": "2026-09-27T20:45:15.789472-04:00",
+    "evidence": "evidence/companion-intelligence-2.20-verification.json",
+    "latestPersonalFilesUnchanged": 108,
+    "historicalResultPreserved": true
+  }
+}

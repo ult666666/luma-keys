@@ -1,0 +1,94 @@
+{
+  "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+  "evidence": {
+    "checks": [
+      "Backing starts off; all presets and independent mix edits preserve the paused beat, hand, speed and phrase.",
+      "Two same-title arrangements keep independent saved settings; melody-only auto adds nothing and explicit acoustic honestly offers percussion only; reload never autoplays.",
+      "Both-hand Listen schedules exactly one melody voice and one written backing voice; no duplicate other-hand layer, and changing piano volume leaves backing mix and playback intact."
+    ],
+    "measurements": {
+      "noDoubling": {
+        "sourceStarts": 2,
+        "voices": [
+          {
+            "instrument": "piano",
+            "midi": 48,
+            "start": 0.010666666666666666,
+            "end": 6.005333333333333,
+            "sourceType": "piano-sample",
+            "sampleMidi": 48
+          }
+        ]
+      }
+    },
+    "errors": [],
+    "state": {
+      "settings": {
+        "enabled": true,
+        "source": "score",
+        "style": "piano",
+        "volume": 0.31,
+        "track": null
+      },
+      "active": true,
+      "style": "piano",
+      "events": 2,
+      "sourceHand": "left",
+      "audio": {
+        "started": 2,
+        "ended": 1,
+        "stopped": 1,
+        "stolen": 0,
+        "rejected": 0,
+        "fallbacks": 0,
+        "volume": 0.31,
+        "active": 1,
+        "voices": [
+          {
+            "instrument": "piano",
+            "midi": 48,
+            "start": 3.472,
+            "end": 9.472,
+            "sourceType": "piano-sample",
+            "sampleMidi": 48
+          }
+        ],
+        "cachedSamples": 0,
+        "pendingCleanup": 0,
+        "bankStatus": "unavailable",
+        "bankSamples": 0,
+        "bankFailures": 0,
+        "ready": true
+      },
+      "recording": {
+        "paused": true,
+        "currentTime": 0,
+        "rate": 1,
+        "volume": 0.31,
+        "preservesPitch": true,
+        "starts": 0,
+        "seeks": 0
+      }
+    },
+    "clock": {
+      "now": 6.421333333333333,
+      "start": 1.472,
+      "origin": -4,
+      "originAt": -2,
+      "mapped": 5.898666666666667,
+      "beat": 5.8773333333333335,
+      "latency": 0.03733333333333366,
+      "playing": true,
+      "countingIn": false,
+      "secondsPerBeat": null
+    },
+    "snapshot": {
+      "title": "QA pop accompaniment",
+      "beat": "5.80266666666667",
+      "speed": "1",
+      "hand": "both",
+      "loop": "false",
+      "playing": true
+    }
+  }
+}

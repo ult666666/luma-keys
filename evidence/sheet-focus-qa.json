@@ -1,7 +1,7 @@
 {
   "passed": true,
   "checks": [
-    "Für Elise pickup shows exactly four source measures and moves the cursor without replacing the engraving",
+    "Für Elise pickup shows exactly eight source measures and moves the cursor without replacing the engraving",
     "Forward, final, and backward passages keep the cursor on the correct written measure, including implicit pickups",
     "A shortened two-part pickup maps transport beat 1 to written bar 2 and beat 4 to bar 3; rewinding remains accurate without re-engraving"
   ],

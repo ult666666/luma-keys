@@ -3,18 +3,18 @@
   "results": [
     {
       "mode": "quit",
-      "version": "1.1.2",
+      "version": "2.44.0",
       "passed": true,
-      "shutdownMs": 205.28995800000007,
+      "shutdownMs": 469.67525000000023,
       "beforeClose": [
         {
-          "pid": 64747,
-          "ppid": 64726,
+          "pid": 15944,
+          "ppid": 15932,
           "runner": true
         },
         {
-          "pid": 64749,
-          "ppid": 64747,
+          "pid": 15946,
+          "ppid": 15944,
           "runner": false
         }
       ],
@@ -45,8 +45,8 @@
           "Dismissing a notice preserves its PDF and completed library music after reload"
         ],
         "ids": [
-          "d6cffd3a-6b0c-42de-abcd-7b20525f887f",
-          "011527f1-8459-4c2f-bbe0-fd0a12fcb2da"
+          "b166916f-bafb-494a-820b-4b8293891c78",
+          "d8a8121e-7f72-432f-99b4-3e51f5778e2c"
         ],
         "errors": []
       },
@@ -54,18 +54,18 @@
     },
     {
       "mode": "window-close",
-      "version": "1.1.2",
+      "version": "2.44.0",
       "passed": true,
-      "shutdownMs": 296.83725000000413,
+      "shutdownMs": 466.96783400000277,
       "beforeClose": [
         {
-          "pid": 64943,
-          "ppid": 64936,
+          "pid": 16034,
+          "ppid": 16023,
           "runner": true
         },
         {
-          "pid": 64945,
-          "ppid": 64943,
+          "pid": 16037,
+          "ppid": 16034,
           "runner": false
         }
       ],
@@ -93,18 +93,18 @@
     },
     {
       "mode": "force-quit",
-      "version": "1.1.2",
+      "version": "2.44.0",
       "passed": true,
-      "shutdownMs": 56.794417000004614,
+      "shutdownMs": 110.2579160000023,
       "beforeClose": [
         {
-          "pid": 65096,
-          "ppid": 65066,
+          "pid": 16113,
+          "ppid": 16091,
           "runner": true
         },
         {
-          "pid": 65100,
-          "ppid": 65096,
+          "pid": 16115,
+          "ppid": 16113,
           "runner": false
         }
       ],

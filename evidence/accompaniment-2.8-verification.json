@@ -1,0 +1,99 @@
+{
+  "version": "2.8.0",
+  "completedAt": "2026-09-27T00:05:08.479433-04:00",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "passed": true,
+  "unitApi": {
+    "passed": 239,
+    "failed": 0,
+    "log": "../.qa-runs/accompaniment-2.8/unit-tests-final.log"
+  },
+  "browser": {
+    "groups": 10,
+    "report": "backing-2.8-qa.json",
+    "scope": "Before final native-fetch binding, sample gain balance and number-draft/unlink fixes; final package tested below."
+  },
+  "native": {
+    "accompaniment": {
+      "groups": 11,
+      "report": "native-backing-2.8-qa.json"
+    },
+    "input": {
+      "groups": 12,
+      "report": "native-input-2.8-qa.json"
+    },
+    "finalPackage": true
+  },
+  "audio": {
+    "renderReport": "../.qa-runs/accompaniment-2.8/backing-audio-render.json",
+    "sampleBankReport": "../.qa-runs/accompaniment-2.8/bank-decode.json",
+    "bundledSamples": 30,
+    "denseMixPeak": 0.7180260419845581,
+    "demo": {
+      "peak": 0.0656486451625824,
+      "rms": 0.008872724204346098,
+      "scheduled": 75,
+      "maximumActive": 6
+    },
+    "subjectiveListeningClaim": false
+  },
+  "performance": {
+    "report": "native-stage-performance-2.8.json",
+    "companion": "langlang",
+    "backing": "Acoustic pop with local samples",
+    "samples": [
+      {
+        "count": 150,
+        "median": 16.699999999999818,
+        "p95": 17.699999999999818,
+        "max": 18.5,
+        "over33ms": 0
+      },
+      {
+        "count": 150,
+        "median": 16.69999999999891,
+        "p95": 17.900000000000546,
+        "max": 18.600000000000364,
+        "over33ms": 0
+      },
+      {
+        "count": 150,
+        "median": 16.69999999999891,
+        "p95": 17.700000000000728,
+        "max": 18.599999999998545,
+        "over33ms": 0
+      }
+    ],
+    "scope": "Three 2.5-second native requestAnimationFrame interval samples on this Mac, DPR1, 9,600-note fixture. Not a guarantee about every presented GPU frame or all hardware."
+  },
+  "installation": {
+    "version": "2.8.0",
+    "installedAt": "2026-09-27T00:03:53.068315-04:00",
+    "filesAndSymlinks": 2991,
+    "personalFiles": 68,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/accompaniment-2.8/previous-installed-Luma Keys-2.7.0.app"
+  },
+  "preservation": "data-preservation-2.8.0.json",
+  "developmentProcessesStopped": true,
+  "retainedFailureEvidence": {
+    "browser": "backing-2.8-failure.json",
+    "native": "native-backing-2.8-failure.json",
+    "explanation": "Initial harness assumed Listen count-in used the Perform flag and did not dismiss a Perform report card. Harnesses corrected. The existing input harness was updated to accept the companion-tip status element while preserving its exact count-in assertion."
+  },
+  "fixedDuringVerification": [
+    "Native fetch receiver binding forced guitar/bass synthesis fallback.",
+    "Detached recording previews continued after source navigation.",
+    "Strings suppression removed written notes that the string layer omitted.",
+    "Sequential tempo/offset edits rejected intermediate input.",
+    "Unlink during replacement could be undone when upload completed."
+  ],
+  "limitations": [
+    "Generated backing uses the selected piano arrangement; it is not the original studio recording.",
+    "Imported audio needs the same arrangement/bar order and manually set BPM/offset; no beat analysis, stem separation or rubato following.",
+    "Wait mode intentionally pauses accompaniment.",
+    "Melody-only arrangements have no invented harmony; explicit Acoustic pop can supply a beat.",
+    "The saved Tornado arrangement carries an existing unverified-from-memory melody notice.",
+    "Hardware MIDI, microphone assessment and arbitrary PDF recognition were not newly verified in this pass."
+  ]
+}

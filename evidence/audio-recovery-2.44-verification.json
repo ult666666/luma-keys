@@ -1,0 +1,47 @@
+{
+  "version": "2.44.0",
+  "asarSHA256": "5cd5bf4b1c8492c28f25f4fc5244dbb5514b0441768be7d6dafed246633b5448",
+  "previous": "2.43.0",
+  "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/audio-recovery-2.44/previous-installed-Luma Keys-2.43.0.app",
+  "entries": 3035,
+  "personalFilesUnchanged": 109,
+  "installedAt": "2026-10-11T10:57:10.080100-07:00",
+  "releaseChecks": {
+    "nativeSummary": ".qa-runs/audio-recovery-2.44/native-5cd5bf4b1c84-o1e77z/native-sweep.json",
+    "grandSummary": ".qa-runs/audio-recovery-2.44/native-5cd5bf4b1c84-JUcEhO/native-sweep.json",
+    "grandReport": ".qa-runs/audio-recovery-2.44/native-5cd5bf4b1c84-JUcEhO/native-grand-report.json",
+    "functionalPassed": true,
+    "performancePassed": false,
+    "baseline": "/Users/prince/Desktop/Luma Keys/evidence/native-stage-performance-baseline243-20261011.json",
+    "limitation": "Dense-score animation misses unchanged frame limits on both versions; not claimed fixed."
+  },
+  "reopen": {
+    "verifiedAt": "2026-10-11T11:01:12.377895-07:00",
+    "files": 109,
+    "changed": [],
+    "appVersion": "2.44.0",
+    "visiblyReopened": true,
+    "practice": "Sunny Day, paused; Resume bar 48; Listen, Both, 50%; Ocean and Lang Lang",
+    "soundActionsVerifiedViaAccessibility": [
+      "Test sound",
+      "Recover audio"
+    ],
+    "physicalAudioOrMicrophoneTested": false
+  },
+  "evidence": {
+    "audio": ".qa-runs/audio-recovery-2.44/final1-audio/report.json",
+    "handRecovery": ".qa-runs/audio-recovery-2.44/final4-hand-planner/report.json",
+    "source": ".qa-runs/audio-recovery-2.44/final-source-verification.json",
+    "guide": "docs/AUDIO_RECOVERY_2.44.md"
+  },
+  "unitChecks": {
+    "focusedAudio": 40,
+    "backendAndMicrophone": 55,
+    "handRelated": 29,
+    "broadSuite": {
+      "passed": 939,
+      "total": 940,
+      "failure": "Companion process-tree fixture startup timeout under load; isolated case passed."
+    }
+  }
+}

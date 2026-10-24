@@ -1,0 +1,1376 @@
+{
+  "version": "2.32.0",
+  "verifiedAt": "2026-10-03T16:21:12.140708-04:00",
+  "installed": {
+    "version": "2.32.0",
+    "verifiedAt": "2026-10-03T16:19:17.269402-04:00",
+    "installedArchiveSHA256": "b95add1db9a8d10422bca7f1ce5648b05d876ca5b2037f4bf0b4916ad407a9bb",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "unchangedPersonalFiles": 108,
+    "changedPersonalFiles": [],
+    "allLatestPersonalFilesUnchanged": true,
+    "allScoreExportConversationFilesUnchanged": true,
+    "savedMusicAndPracticeSettingsPreserved": [
+      "last",
+      "mode",
+      "hand",
+      "speed",
+      "readingView",
+      "keyHands",
+      "interpretation",
+      "countIn",
+      "metronome",
+      "accompany",
+      "loop",
+      "loopA",
+      "loopB"
+    ],
+    "currentAppearance": {
+      "companion": "langlang",
+      "colours": "ocean",
+      "companionStyle": false
+    },
+    "nativeGroups": 7,
+    "nativeReports": [
+      ".qa-runs/practice-flow-2.32/final3b-practice/report.json"
+    ]
+  },
+  "liveDesktopObservation": {
+    "app": "/Users/prince/Desktop/Luma Keys.app",
+    "version": "2.32.0",
+    "nativeInspectionRecovered": true,
+    "recovery": "The initial native pipe closed and window reads timed out. Rebinding after a CUA session reset returned the actual installed window; no app force quit or personal-data rollback was used.",
+    "observedWith": "CUA native accessibility tree and actual window screenshot",
+    "screen": "Practice",
+    "score": "Appassionata · III. Allegro ma non troppo — Presto",
+    "paused": true,
+    "bar": 1,
+    "bars": 569,
+    "savedResumeBar": 31,
+    "companion": "Lang Lang",
+    "colours": "Ocean",
+    "mode": "Perform",
+    "hands": "Both",
+    "speed": "100%",
+    "view": "Falling notes",
+    "actualPixels": "Real articulated 3-D long-finger hands and continuous forearms, blue Ocean woven wrist rest, blue/honey satin notes, visible ff above the onset line, readable key labels and compact transport. No 2-D fallback is visible.",
+    "personalPlaybackOrScoreEditsSent": false
+  },
+  "sourceInputs": 647,
+  "packagedSourceAssetsHelper": {
+    "version": "2.32.0",
+    "checkedFiles": 527,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "b95add1db9a8d10422bca7f1ce5648b05d876ca5b2037f4bf0b4916ad407a9bb"
+  },
+  "tests": {
+    "unitAndAPI": 802,
+    "fullSuitePassed": true,
+    "fullSuiteReport": ".qa-runs/practice-flow-2.32/reports/full-tests-final2.txt",
+    "sourceChangesSinceUnitSuite": [
+      "src/keyboard-theme.css"
+    ],
+    "captionChangeVerifiedOnFinalNativePackage": true,
+    "nativeGroups": 7,
+    "nativeChecks": [
+      "Matched Sunny Day idle/listening, dense Appassionata, coda and Tornado collect frame pacing, audible-clock runway position, scheduled attacks and held fingertip contacts.",
+      "A separate forced350ms first-playing renderer stall keeps the origin attack queued before the stall, never duplicates it and cancels its voices on Pause.",
+      "Paused and listening five-second arrows, continuous Listen seeking, Wait attack progression and cancelled Perform seeking preserve transport/audio ownership.",
+      "Colour mini-previews and Home/End/arrows/Escape work with exact focus return while the practice position stays unchanged.",
+      "Onset dynamics stay inside the runway, white-key labels have no blur/filter, cleared black captions recover their light colour and quiet white numbers recover 0.72 opacity; felt loads, live colours preserve playback and short-window Match stays reachable.",
+      "All seven colour choices, reduced motion and 1440/800/390/short layouts retain clear numerals, ready hands, finite contacts, accessible transport and no document overflow.",
+      "Paused nonzero Sheet/Numbers/Falling view remount retains its runway transform; hide/show, Appassionata/Walnut and reload preserve ready hands, exact contacts and controls."
+    ],
+    "nativeReport": ".qa-runs/practice-flow-2.32/final3b-practice/report.json",
+    "additionalStartupChecks": 2,
+    "startupReport": ".qa-runs/practice-flow-2.32/final3-startup-startup/report.json",
+    "startupChecks": [
+      "fresh: exact worker and real3D hands ready with no WebGL/worker/network/page error; paused music unchanged.",
+      "reopen: exact worker and real3D hands ready with no WebGL/worker/network/page error; paused music unchanged."
+    ],
+    "forcedOpeningStall": {
+      "finished": true,
+      "beforeClock": {
+        "now": 45.94133333333333,
+        "start": 45.87733333333333,
+        "origin": 0,
+        "originAt": 0,
+        "mapped": 0.07040000000000006,
+        "beat": 0.06453333333333404,
+        "latency": 0.021333333333330984,
+        "playing": true,
+        "countingIn": false,
+        "secondsPerBeat": null
+      },
+      "beforeVoices": [
+        {
+          "midi": 52,
+          "automatic": true,
+          "sourceMIDI": 51,
+          "layer": 7,
+          "velocity": 0.5,
+          "start": 45.87733333333333,
+          "elapsed": 0,
+          "offset": 0.0159375,
+          "releaseAt": 46.30460606060606,
+          "released": true
+        },
+        {
+          "midi": 55,
+          "automatic": true,
+          "sourceMIDI": 54,
+          "layer": 7,
+          "velocity": 0.5,
+          "start": 46.331878787878786,
+          "elapsed": 0,
+          "offset": 0.015979167,
+          "released": false
+        }
+      ],
+      "beforeStarts": [
+        {
+          "id": 424,
+          "start": 45.87733333333333,
+          "calledAt": 45.87733333333333,
+          "wall": 46116.60000002384
+        },
+        {
+          "id": 425,
+          "start": 46.331878787878786,
+          "calledAt": 45.87733333333333,
+          "wall": 46116.700000047684
+        }
+      ],
+      "stallMs": 350,
+      "afterClock": {
+        "now": 46.29333333333334,
+        "start": 45.87733333333333,
+        "origin": 0,
+        "originAt": 0,
+        "mapped": 0.45760000000000434,
+        "beat": 0.06453333333333404,
+        "latency": 0.021333333333330984,
+        "playing": true,
+        "countingIn": false,
+        "secondsPerBeat": null
+      },
+      "allStarts": [
+        {
+          "id": 424,
+          "start": 45.87733333333333,
+          "calledAt": 45.87733333333333,
+          "wall": 46116.60000002384
+        },
+        {
+          "id": 425,
+          "start": 46.331878787878786,
+          "calledAt": 45.87733333333333,
+          "wall": 46116.700000047684
+        },
+        {
+          "id": 426,
+          "start": 46.78642424242424,
+          "calledAt": 46.29333333333334,
+          "wall": 46534.39999997616
+        },
+        {
+          "id": 427,
+          "start": 47.2409696969697,
+          "calledAt": 46.752,
+          "wall": 46993.89999997616
+        },
+        {
+          "id": 428,
+          "start": 47.69551515151515,
+          "calledAt": 47.205333333333336,
+          "wall": 47443.10000002384
+        }
+      ],
+      "allVoices": [
+        {
+          "midi": 52,
+          "automatic": true,
+          "sourceMIDI": 51,
+          "layer": 7,
+          "velocity": 0.5,
+          "start": 45.87733333333333,
+          "elapsed": 0,
+          "offset": 0.0159375,
+          "releaseAt": 46.30460606060606,
+          "released": true
+        },
+        {
+          "midi": 55,
+          "automatic": true,
+          "sourceMIDI": 54,
+          "layer": 7,
+          "velocity": 0.5,
+          "start": 46.331878787878786,
+          "elapsed": 0,
+          "offset": 0.015979167,
+          "releaseAt": 47.18642424242424,
+          "released": true
+        },
+        {
+          "midi": 62,
+          "automatic": true,
+          "sourceMIDI": 63,
+          "layer": 7,
+          "velocity": 0.5,
+          "start": 46.78642424242424,
+          "elapsed": 0,
+          "offset": 0.014479167,
+          "releaseAt": 47.64096969696969,
+          "released": true
+        },
+        {
+          "midi": 55,
+          "automatic": true,
+          "sourceMIDI": 54,
+          "layer": 7,
+          "velocity": 0.5,
+          "start": 47.2409696969697,
+          "elapsed": 0,
+          "offset": 0.015979167,
+          "releaseAt": 47.66824242424243,
+          "released": true
+        },
+        {
+          "midi": 48,
+          "automatic": true,
+          "sourceMIDI": 48,
+          "layer": 7,
+          "velocity": 0.5,
+          "start": 47.69551515151515,
+          "elapsed": 0,
+          "offset": 0.018645833,
+          "released": false
+        }
+      ],
+      "clock": {
+        "now": 47.306666666666665,
+        "start": 45.87733333333333,
+        "origin": 0,
+        "originAt": 0,
+        "mapped": 1.5722666666666654,
+        "beat": 1.5605333333333333,
+        "latency": 0.021333333333330984,
+        "playing": true,
+        "countingIn": false,
+        "secondsPerBeat": null
+      }
+    },
+    "captionAndMaterials": {
+      "dynamic": [
+        {
+          "text": "mp",
+          "rect": {
+            "x": 59,
+            "y": 374.5078125,
+            "width": 39.578125,
+            "height": 22.8984375,
+            "top": 374.5078125,
+            "right": 98.578125,
+            "bottom": 397.40625,
+            "left": 59
+          },
+          "visible": true
+        }
+      ],
+      "numbers": [
+        {
+          "text": "6",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "7",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "1",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "2",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "3",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "4",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "5",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "6",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "7",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "1",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "2",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "3",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "4",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "5",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "6",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "7",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "1",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "1",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "2",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "3",
+          "color": "rgb(15, 39, 68)",
+          "opacity": "1",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "4",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "5",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "1",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "6",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "7",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "1",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "2",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "1",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "3",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "4",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "5",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "6",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "7",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "1",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "2",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "3",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "4",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "5",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "6",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "7",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "1",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "2",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "3",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "4",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "5",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "6",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "7",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "1",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "2",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "3",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "4",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "5",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "6",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "7",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        },
+        {
+          "text": "1",
+          "color": "color(srgb 0.145647 0.117255 0.126902)",
+          "opacity": "0.72",
+          "filter": "none",
+          "surfaceFilter": "none"
+        }
+      ],
+      "white": "color-mix(in srgb, #f4eeeb 74%, #faf8f0)",
+      "felt": "url(\"http://127.0.0.1:52191/art/materials/piano-felt.svg\"), linear-gradient(rgba(0, 0, 0, 0.282), rgba(0, 0, 0, 0) 12px), radial-gradient(80% 130% at 50% -40%, color(srgb 0.343216 0.305412 0.277647 / 0.36), rgba(0, 0, 0, 0) 84%), linear-gradient(color(srgb 0.211981 0.100731 0.13195), color(srgb 0.123765 0.0898824 0.105725))"
+    },
+    "pausedViewRemount": {
+      "transform": "translate3d(0px, 1300px, 0px)",
+      "beat": 12.5,
+      "runwayBeat": 12.5
+    },
+    "errors": [],
+    "modelRequests": [],
+    "sampledAttacks": 370,
+    "expectedAttacks": 370,
+    "samples": [
+      {
+        "name": "sunny-paused",
+        "summary": {
+          "frames": 180,
+          "p50": 16.699999999999818,
+          "p95": 17.600000000000364,
+          "max": 17.699999999999818,
+          "over33": 0,
+          "over50": 0,
+          "longTasks": 0,
+          "samplerSelfP95": 0.3999999761581421,
+          "runwayDriftP95Ms": 0,
+          "runwayDriftMaxMs": 0,
+          "expectedAttacks": 0,
+          "matchedAttacks": 0,
+          "missing": [],
+          "onsetErrorP95Ms": null,
+          "onsetErrorMaxMs": 0,
+          "heldContacts": 12,
+          "maxHeldContactErrorMm": 0,
+          "startDelayMs": null
+        }
+      },
+      {
+        "name": "sunny-listen",
+        "summary": {
+          "frames": 361,
+          "p50": 16.69999999999891,
+          "p95": 17.599999999998545,
+          "max": 33.30000000000109,
+          "over33": 0,
+          "over50": 0,
+          "longTasks": 0,
+          "samplerSelfP95": 1.399999976158142,
+          "runwayDriftP95Ms": 5.3624708624706585,
+          "runwayDriftMaxMs": 21.356643356643474,
+          "expectedAttacks": 15,
+          "matchedAttacks": 15,
+          "missing": [],
+          "onsetErrorP95Ms": 5.333333333332746,
+          "onsetErrorMaxMs": 5.333333333332746,
+          "heldContacts": 36,
+          "maxHeldContactErrorMm": 0.02,
+          "startDelayMs": 217
+        }
+      },
+      {
+        "name": "appassionata-dense-105",
+        "summary": {
+          "frames": 266,
+          "p50": 16.700000000000728,
+          "p95": 50.099999999998545,
+          "max": 83.40000000000146,
+          "over33": 43,
+          "over50": 16,
+          "longTasks": 0,
+          "samplerSelfP95": 2.700000047683716,
+          "runwayDriftP95Ms": 5.532051282045813,
+          "runwayDriftMaxMs": 16.16987179485818,
+          "expectedAttacks": 153,
+          "matchedAttacks": 153,
+          "missing": [],
+          "onsetErrorP95Ms": 0,
+          "onsetErrorMaxMs": 0,
+          "heldContacts": 54,
+          "maxHeldContactErrorMm": 0.2,
+          "startDelayMs": 211
+        }
+      },
+      {
+        "name": "appassionata-coda-518",
+        "summary": {
+          "frames": 322,
+          "p50": 16.700000000000728,
+          "p95": 33.400000000001455,
+          "max": 50.70000000000073,
+          "over33": 21,
+          "over50": 2,
+          "longTasks": 0,
+          "samplerSelfP95": 2.200000047683716,
+          "runwayDriftP95Ms": 6.435897435892457,
+          "runwayDriftMaxMs": 9.230769230782698,
+          "expectedAttacks": 127,
+          "matchedAttacks": 127,
+          "missing": [],
+          "onsetErrorP95Ms": 0,
+          "onsetErrorMaxMs": 5.333333333332746,
+          "heldContacts": 45,
+          "maxHeldContactErrorMm": 0.47,
+          "startDelayMs": 132
+        }
+      },
+      {
+        "name": "tornado-chorus-52",
+        "summary": {
+          "frames": 264,
+          "p50": 16.700000000004366,
+          "p95": 50.099999999998545,
+          "max": 133.59999999999854,
+          "over33": 42,
+          "over50": 15,
+          "longTasks": 11,
+          "samplerSelfP95": 2.399999976158142,
+          "runwayDriftP95Ms": 5.738191632929102,
+          "runwayDriftMaxMs": 26.6882591093065,
+          "expectedAttacks": 75,
+          "matchedAttacks": 75,
+          "missing": [],
+          "onsetErrorP95Ms": 0,
+          "onsetErrorMaxMs": 0,
+          "heldContacts": 44,
+          "maxHeldContactErrorMm": 0.46,
+          "startDelayMs": 134
+        }
+      }
+    ]
+  },
+  "visualReview": {
+    "accepted": true,
+    "packageSHA256": "b95add1db9a8d10422bca7f1ce5648b05d876ca5b2037f4bf0b4916ad407a9bb",
+    "reviewer": "practice_style_review",
+    "captureDirectory": ".qa-runs/practice-flow-2.32/final3b-practice",
+    "scope": "Actual cleared-key captions, all seven themes, colour picker, desktop 1440, compact 800, mobile 390 and transport, short 1280, reduced motion and Appassionata Walnut.",
+    "findings": [
+      "Cleared black-key captions restore the light theme-muted colour; quiet white-key numbers return to opacity 0.72.",
+      "Felt and selected-theme finishes remain coherent; blue/honey teaching cues remain distinct.",
+      "Dynamic markings are visible above the onset line.",
+      "No new text collisions or control clipping found."
+    ],
+    "limits": "Appearance and layout acceptance only; timing and input ownership are covered by native tests."
+  },
+  "baselineComparison": {
+    "createdAt": "2026-10-03T20:03:31.512Z",
+    "beforeLabel": "baseline2",
+    "afterLabel": "final3b",
+    "beforeVersion": "2.31.0",
+    "afterVersion": "2.32.0",
+    "beforeASAR": "974645466ca6b1966efc87fff70bca72ecfa120b62be69937650d065c59add07",
+    "afterASAR": "b95add1db9a8d10422bca7f1ce5648b05d876ca5b2037f4bf0b4916ad407a9bb",
+    "comparisons": [
+      {
+        "name": "sunny-paused",
+        "bar": 1,
+        "windowMs": 3000,
+        "before": {
+          "frames": 180,
+          "p50Ms": 16.699999999999818,
+          "p95Ms": 17.399999999999636,
+          "maxMs": 17.800000000000182,
+          "over33": 0,
+          "over50": 0,
+          "longTasks": 0,
+          "expectedAttacks": 0,
+          "matchedAttacks": 0,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 0,
+          "audibleRunwayDriftMaxMs": 0,
+          "maxHeldContactErrorMm": 0,
+          "samplerSelfP95Ms": 0.3999999761581421
+        },
+        "after": {
+          "frames": 180,
+          "p50Ms": 16.699999999999818,
+          "p95Ms": 17.600000000000364,
+          "maxMs": 17.699999999999818,
+          "over33": 0,
+          "over50": 0,
+          "longTasks": 0,
+          "expectedAttacks": 0,
+          "matchedAttacks": 0,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 0,
+          "audibleRunwayDriftMaxMs": 0,
+          "maxHeldContactErrorMm": 0,
+          "samplerSelfP95Ms": 0.3999999761581421
+        }
+      },
+      {
+        "name": "sunny-listen",
+        "bar": 1,
+        "windowMs": 6000,
+        "before": {
+          "frames": 357,
+          "p50Ms": 16.69999999999891,
+          "p95Ms": 17.5,
+          "maxMs": 51,
+          "over33": 3,
+          "over50": 1,
+          "longTasks": 0,
+          "expectedAttacks": 15,
+          "matchedAttacks": 15,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 16.000000000000014,
+          "audibleRunwayDriftP95Ms": 5.370629370630597,
+          "audibleRunwayDriftMaxMs": 10.645687645687296,
+          "maxHeldContactErrorMm": 0.01,
+          "samplerSelfP95Ms": 1.399999976158142
+        },
+        "after": {
+          "frames": 361,
+          "p50Ms": 16.69999999999891,
+          "p95Ms": 17.599999999998545,
+          "maxMs": 33.30000000000109,
+          "over33": 0,
+          "over50": 0,
+          "longTasks": 0,
+          "expectedAttacks": 15,
+          "matchedAttacks": 15,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 5.333333333332746,
+          "audibleRunwayDriftP95Ms": 5.3624708624706585,
+          "audibleRunwayDriftMaxMs": 21.356643356643474,
+          "maxHeldContactErrorMm": 0.02,
+          "samplerSelfP95Ms": 1.399999976158142
+        }
+      },
+      {
+        "name": "appassionata-dense-105",
+        "bar": 105,
+        "windowMs": 6000,
+        "before": {
+          "frames": 275,
+          "p50Ms": 16.700000000000728,
+          "p95Ms": 50,
+          "maxMs": 100.70000000000073,
+          "over33": 40,
+          "over50": 10,
+          "longTasks": 7,
+          "expectedAttacks": 152,
+          "matchedAttacks": 152,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 32.00000000000003,
+          "audibleRunwayDriftP95Ms": 5.490384615384869,
+          "audibleRunwayDriftMaxMs": 16.182692307694424,
+          "maxHeldContactErrorMm": 0.47,
+          "samplerSelfP95Ms": 2.5
+        },
+        "after": {
+          "frames": 266,
+          "p50Ms": 16.700000000000728,
+          "p95Ms": 50.099999999998545,
+          "maxMs": 83.40000000000146,
+          "over33": 43,
+          "over50": 16,
+          "longTasks": 0,
+          "expectedAttacks": 153,
+          "matchedAttacks": 153,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 5.532051282045813,
+          "audibleRunwayDriftMaxMs": 16.16987179485818,
+          "maxHeldContactErrorMm": 0.2,
+          "samplerSelfP95Ms": 2.700000047683716
+        }
+      },
+      {
+        "name": "appassionata-coda-518",
+        "bar": 518,
+        "windowMs": 6000,
+        "before": {
+          "frames": 345,
+          "p50Ms": 16.700000000000728,
+          "p95Ms": 17.700000000000728,
+          "maxMs": 50,
+          "over33": 6,
+          "over50": 0,
+          "longTasks": 1,
+          "expectedAttacks": 127,
+          "matchedAttacks": 127,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 32.00000000000003,
+          "audibleRunwayDriftP95Ms": 6.564102564141194,
+          "audibleRunwayDriftMaxMs": 10.769230769142268,
+          "maxHeldContactErrorMm": 0.45,
+          "samplerSelfP95Ms": 2
+        },
+        "after": {
+          "frames": 322,
+          "p50Ms": 16.700000000000728,
+          "p95Ms": 33.400000000001455,
+          "maxMs": 50.70000000000073,
+          "over33": 21,
+          "over50": 2,
+          "longTasks": 0,
+          "expectedAttacks": 127,
+          "matchedAttacks": 127,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 5.333333333332746,
+          "audibleRunwayDriftP95Ms": 6.435897435892457,
+          "audibleRunwayDriftMaxMs": 9.230769230782698,
+          "maxHeldContactErrorMm": 0.47,
+          "samplerSelfP95Ms": 2.200000047683716
+        }
+      },
+      {
+        "name": "tornado-chorus-52",
+        "bar": 52,
+        "windowMs": 6000,
+        "before": {
+          "frames": 329,
+          "p50Ms": 16.69999999999709,
+          "p95Ms": 33.30000000000291,
+          "maxMs": 67.69999999999709,
+          "over33": 15,
+          "over50": 3,
+          "longTasks": 2,
+          "expectedAttacks": 77,
+          "matchedAttacks": 77,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 32.00000000000358,
+          "audibleRunwayDriftP95Ms": 5.634278002673909,
+          "audibleRunwayDriftMaxMs": 5.743589743588018,
+          "maxHeldContactErrorMm": 0.06,
+          "samplerSelfP95Ms": 2.399999976158142
+        },
+        "after": {
+          "frames": 264,
+          "p50Ms": 16.700000000004366,
+          "p95Ms": 50.099999999998545,
+          "maxMs": 133.59999999999854,
+          "over33": 42,
+          "over50": 15,
+          "longTasks": 11,
+          "expectedAttacks": 75,
+          "matchedAttacks": 75,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 5.738191632929102,
+          "audibleRunwayDriftMaxMs": 26.6882591093065,
+          "maxHeldContactErrorMm": 0.46,
+          "samplerSelfP95Ms": 2.399999976158142
+        }
+      }
+    ],
+    "transitions": [
+      {
+        "name": "cold-appassionata-open",
+        "before": {
+          "elapsedMs": 2356.5,
+          "maxMainTaskMs": 516,
+          "mainTaskCount": 4,
+          "worker": null,
+          "prepareMs": null
+        },
+        "after": {
+          "elapsedMs": 1732.2999999523163,
+          "maxMainTaskMs": 232,
+          "mainTaskCount": 3,
+          "worker": true,
+          "prepareMs": 374
+        }
+      },
+      {
+        "name": "appassionata-speed-rebuild",
+        "before": {
+          "elapsedMs": 579.2999999523163,
+          "maxMainTaskMs": 136,
+          "mainTaskCount": 1,
+          "worker": null,
+          "prepareMs": null
+        },
+        "after": {
+          "elapsedMs": 1036.5,
+          "maxMainTaskMs": 63,
+          "mainTaskCount": 1,
+          "worker": true,
+          "prepareMs": 243
+        }
+      },
+      {
+        "name": "resize-live-hands-800",
+        "before": {
+          "elapsedMs": 486.89999997615814,
+          "maxMainTaskMs": 68,
+          "mainTaskCount": 1,
+          "worker": null,
+          "prepareMs": null
+        },
+        "after": {
+          "elapsedMs": 477.2000000476837,
+          "maxMainTaskMs": 0,
+          "mainTaskCount": 0,
+          "worker": true,
+          "prepareMs": 374
+        }
+      },
+      {
+        "name": "cold-tornado-open",
+        "before": {
+          "elapsedMs": 1203.3999999761581,
+          "maxMainTaskMs": 122,
+          "mainTaskCount": 3,
+          "worker": null,
+          "prepareMs": null
+        },
+        "after": {
+          "elapsedMs": 1369.5,
+          "maxMainTaskMs": 87,
+          "mainTaskCount": 1,
+          "worker": true,
+          "prepareMs": 99.40000009536743
+        }
+      }
+    ],
+    "personalFiles": 108,
+    "allPersonalFilesUnchanged": true,
+    "limits": "Matched isolated native windows on Apple M1, muted output, Written/Both/Listen/100%, Rose/Liszt,1280×800. Frame/voice/hand probes add small measured overhead. Results establish local software timing and contact behavior, not physical speaker quality/MIDI/microphone behavior or zero lag on every machine. Cold GPU/shader startup and operating-system load vary. Transition elapsed includes UI actions and a350ms visual settle; worker preparation is measured separately."
+  },
+  "previousAcceptedComparison": {
+    "createdAt": "2026-10-03T19:03:44.040Z",
+    "beforeLabel": "baseline2",
+    "afterLabel": "final2",
+    "beforeVersion": "2.31.0",
+    "afterVersion": "2.32.0",
+    "beforeASAR": "974645466ca6b1966efc87fff70bca72ecfa120b62be69937650d065c59add07",
+    "afterASAR": "97a15e2c5996cc3224897e90cb4512196eb815fe0a79552a044cd9241439f391",
+    "comparisons": [
+      {
+        "name": "sunny-paused",
+        "bar": 1,
+        "windowMs": 3000,
+        "before": {
+          "frames": 180,
+          "p50Ms": 16.699999999999818,
+          "p95Ms": 17.399999999999636,
+          "maxMs": 17.800000000000182,
+          "over33": 0,
+          "over50": 0,
+          "longTasks": 0,
+          "expectedAttacks": 0,
+          "matchedAttacks": 0,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 0,
+          "audibleRunwayDriftMaxMs": 0,
+          "maxHeldContactErrorMm": 0,
+          "samplerSelfP95Ms": 0.3999999761581421
+        },
+        "after": {
+          "frames": 180,
+          "p50Ms": 16.699999999999818,
+          "p95Ms": 17.699999999999818,
+          "maxMs": 17.800000000000182,
+          "over33": 0,
+          "over50": 0,
+          "longTasks": 0,
+          "expectedAttacks": 0,
+          "matchedAttacks": 0,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 0,
+          "audibleRunwayDriftMaxMs": 0,
+          "maxHeldContactErrorMm": 0,
+          "samplerSelfP95Ms": 0.3999999761581421
+        }
+      },
+      {
+        "name": "sunny-listen",
+        "bar": 1,
+        "windowMs": 6000,
+        "before": {
+          "frames": 357,
+          "p50Ms": 16.69999999999891,
+          "p95Ms": 17.5,
+          "maxMs": 51,
+          "over33": 3,
+          "over50": 1,
+          "longTasks": 0,
+          "expectedAttacks": 15,
+          "matchedAttacks": 15,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 16.000000000000014,
+          "audibleRunwayDriftP95Ms": 5.370629370630597,
+          "audibleRunwayDriftMaxMs": 10.645687645687296,
+          "maxHeldContactErrorMm": 0.01,
+          "samplerSelfP95Ms": 1.399999976158142
+        },
+        "after": {
+          "frames": 346,
+          "p50Ms": 16.69999999999891,
+          "p95Ms": 17.600000000000364,
+          "maxMs": 150,
+          "over33": 3,
+          "over50": 2,
+          "longTasks": 0,
+          "expectedAttacks": 15,
+          "matchedAttacks": 15,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 5.369463869464131,
+          "audibleRunwayDriftMaxMs": 5.376456876458047,
+          "maxHeldContactErrorMm": 0.08,
+          "samplerSelfP95Ms": 1.399999976158142
+        }
+      },
+      {
+        "name": "appassionata-dense-105",
+        "bar": 105,
+        "windowMs": 6000,
+        "before": {
+          "frames": 275,
+          "p50Ms": 16.700000000000728,
+          "p95Ms": 50,
+          "maxMs": 100.70000000000073,
+          "over33": 40,
+          "over50": 10,
+          "longTasks": 7,
+          "expectedAttacks": 152,
+          "matchedAttacks": 152,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 32.00000000000003,
+          "audibleRunwayDriftP95Ms": 5.490384615384869,
+          "audibleRunwayDriftMaxMs": 16.182692307694424,
+          "maxHeldContactErrorMm": 0.47,
+          "samplerSelfP95Ms": 2.5
+        },
+        "after": {
+          "frames": 292,
+          "p50Ms": 16.700000000000728,
+          "p95Ms": 33.70000000000073,
+          "maxMs": 166.60000000000218,
+          "over33": 26,
+          "over50": 4,
+          "longTasks": 2,
+          "expectedAttacks": 152,
+          "matchedAttacks": 152,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 5.487179487175808,
+          "audibleRunwayDriftMaxMs": 5.551282051285966,
+          "maxHeldContactErrorMm": 0.38,
+          "samplerSelfP95Ms": 2.600000023841858
+        }
+      },
+      {
+        "name": "appassionata-coda-518",
+        "bar": 518,
+        "windowMs": 6000,
+        "before": {
+          "frames": 345,
+          "p50Ms": 16.700000000000728,
+          "p95Ms": 17.700000000000728,
+          "maxMs": 50,
+          "over33": 6,
+          "over50": 0,
+          "longTasks": 1,
+          "expectedAttacks": 127,
+          "matchedAttacks": 127,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 32.00000000000003,
+          "audibleRunwayDriftP95Ms": 6.564102564141194,
+          "audibleRunwayDriftMaxMs": 10.769230769142268,
+          "maxHeldContactErrorMm": 0.45,
+          "samplerSelfP95Ms": 2
+        },
+        "after": {
+          "frames": 332,
+          "p50Ms": 16.700000000000728,
+          "p95Ms": 33.39999999999782,
+          "maxMs": 83.20000000000073,
+          "over33": 11,
+          "over50": 2,
+          "longTasks": 1,
+          "expectedAttacks": 127,
+          "matchedAttacks": 127,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 6.512820512853068,
+          "audibleRunwayDriftMaxMs": 14.564102564065706,
+          "maxHeldContactErrorMm": 0.48,
+          "samplerSelfP95Ms": 2
+        }
+      },
+      {
+        "name": "tornado-chorus-52",
+        "bar": 52,
+        "windowMs": 6000,
+        "before": {
+          "frames": 329,
+          "p50Ms": 16.69999999999709,
+          "p95Ms": 33.30000000000291,
+          "maxMs": 67.69999999999709,
+          "over33": 15,
+          "over50": 3,
+          "longTasks": 2,
+          "expectedAttacks": 77,
+          "matchedAttacks": 77,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 32.00000000000358,
+          "audibleRunwayDriftP95Ms": 5.634278002673909,
+          "audibleRunwayDriftMaxMs": 5.743589743588018,
+          "maxHeldContactErrorMm": 0.06,
+          "samplerSelfP95Ms": 2.399999976158142
+        },
+        "after": {
+          "frames": 311,
+          "p50Ms": 16.69999999999709,
+          "p95Ms": 33.900000000001455,
+          "maxMs": 66.70000000000437,
+          "over33": 19,
+          "over50": 7,
+          "longTasks": 2,
+          "expectedAttacks": 75,
+          "matchedAttacks": 75,
+          "missingAttacks": 0,
+          "onsetErrorMaxMs": 0,
+          "audibleRunwayDriftP95Ms": 5.674763832672625,
+          "audibleRunwayDriftMaxMs": 26.879217273943823,
+          "maxHeldContactErrorMm": 0.37,
+          "samplerSelfP95Ms": 2
+        }
+      }
+    ],
+    "transitions": [
+      {
+        "name": "cold-appassionata-open",
+        "before": {
+          "elapsedMs": 2356.5,
+          "maxMainTaskMs": 516,
+          "mainTaskCount": 4,
+          "worker": null,
+          "prepareMs": null
+        },
+        "after": {
+          "elapsedMs": 2385.0999999046326,
+          "maxMainTaskMs": 281,
+          "mainTaskCount": 2,
+          "worker": true,
+          "prepareMs": 540.3999999761581
+        }
+      },
+      {
+        "name": "appassionata-speed-rebuild",
+        "before": {
+          "elapsedMs": 579.2999999523163,
+          "maxMainTaskMs": 136,
+          "mainTaskCount": 1,
+          "worker": null,
+          "prepareMs": null
+        },
+        "after": {
+          "elapsedMs": 684.7000000476837,
+          "maxMainTaskMs": 0,
+          "mainTaskCount": 0,
+          "worker": true,
+          "prepareMs": 192.79999995231628
+        }
+      },
+      {
+        "name": "resize-live-hands-800",
+        "before": {
+          "elapsedMs": 486.89999997615814,
+          "maxMainTaskMs": 68,
+          "mainTaskCount": 1,
+          "worker": null,
+          "prepareMs": null
+        },
+        "after": {
+          "elapsedMs": 525.7000000476837,
+          "maxMainTaskMs": 0,
+          "mainTaskCount": 0,
+          "worker": true,
+          "prepareMs": 540.3999999761581
+        }
+      },
+      {
+        "name": "cold-tornado-open",
+        "before": {
+          "elapsedMs": 1203.3999999761581,
+          "maxMainTaskMs": 122,
+          "mainTaskCount": 3,
+          "worker": null,
+          "prepareMs": null
+        },
+        "after": {
+          "elapsedMs": 1307.8999999761581,
+          "maxMainTaskMs": 101,
+          "mainTaskCount": 3,
+          "worker": true,
+          "prepareMs": 129.19999992847443
+        }
+      }
+    ],
+    "personalFiles": 108,
+    "allPersonalFilesUnchanged": true,
+    "limits": "Matched isolated native windows on Apple M1, muted output, Written/Both/Listen/100%, Rose/Liszt,1280×800. Frame/voice/hand probes add small measured overhead. Results establish local software timing and contact behavior, not physical speaker quality/MIDI/microphone behavior or zero lag on every machine. Cold GPU/shader startup and operating-system load vary. Transition elapsed includes UI actions and a350ms visual settle; worker preparation is measured separately."
+  },
+  "retainedDiagnostics": [
+    ".qa-runs/practice-flow-2.32/final1-practice/report.json",
+    ".qa-runs/practice-flow-2.32/rejected-final1-Luma Keys-2.32.0.app",
+    ".qa-runs/practice-flow-2.32/accepted-final2-Luma Keys-2.32.0.app",
+    ".qa-runs/practice-flow-2.32/trace1-trace/report.json",
+    ".qa-runs/practice-flow-2.32/final3-practice/report.json"
+  ],
+  "traceDiagnosis": "The separately instrumented trace showed dominant compositor commit waits alongside style/layout/paint work. It did not isolate a safe additional production fix. Tracing introduced severe overhead and sample fallbacks; it is retained as a failed diagnostic, not performance acceptance. No giant runway layer or steady production layout-read path was demonstrated.",
+  "startupDiagnosis": "One final3 attempt timed out waiting for the 3-D hands after 90 seconds; its original cause could not be established because that earlier report lacked detailed startup diagnostics. The identical archive subsequently passed its full suite and separate fresh/reopen checks with detailed worker, network and WebGL monitoring. The timeout is retained, not claimed fixed or dismissed.",
+  "preserved": [
+    "Natural 2.30 hand anatomy and key contacts",
+    "Every practice mode and control",
+    "Five-second arrows",
+    "All seven colour choices",
+    "Original music and expressive timing",
+    "Sampled piano bank",
+    "Companion conversations",
+    "Latest personal bookmarks and preferences"
+  ],
+  "limits": [
+    "Isolated native output was muted; software scheduling was measured, not speaker/acoustic latency or sound quality.",
+    "Physical MIDI and microphone input were not retested in this interface pass.",
+    "Occasional frame stalls remain and individual passage measurements vary. This is not a universal 60 fps or zero-lag guarantee.",
+    "Cold GPU/shader setup and initial Sheet engraving can still take time."
+  ]
+}

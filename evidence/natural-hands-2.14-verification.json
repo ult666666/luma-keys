@@ -1,0 +1,144 @@
+{
+  "version": "2.14.0",
+  "completedAt": "2026-09-27T15:55:13.306010-04:00",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "unitTests": {
+    "passed": 362,
+    "failed": 0,
+    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/unit-final.log"
+  },
+  "staticArt": {
+    "label": "final-art",
+    "cases": 84,
+    "pressedContacts": 144,
+    "maxContactXError": 0,
+    "pageErrors": [],
+    "reviewedImages": [
+      "hands-44-full.png",
+      "hands-60-compact.png",
+      "hands-32-full.png"
+    ],
+    "sourceFiles": [
+      {
+        "path": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-art/source/hand-pose.mjs",
+        "sha256": "ecadcfe0d1099db1a836b66a339386e29ecc046c926ff33e0d2d606c22329b51"
+      },
+      {
+        "path": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-art/source/hand-draw.mjs",
+        "sha256": "dfe7da980c5343eaace8035cc8390c3a60b57b77d066519054dd9d46ede7c404"
+      },
+      {
+        "path": "/Users/prince/Desktop/Luma Keys/src/music.mjs",
+        "sha256": "cdc2ac9dfd9ec0860f5c415da31e2ba93e29d0b95f41950db46d5d8164ce592a"
+      }
+    ],
+    "verdict": "Pass for isolated visual review. Rounded resting contours remove the angular side corners seen in iteration10. Outer finger-to-palm joins are connected, wrists continue into frame, compact palm remains visible, and active/ready finger badges remain clear.",
+    "limitations": "Static isolated contact sheets verify these seven fixture families and do not replace the packaged motion/performance checks owned by root.",
+    "sourceEditedByReviewerThisPass": false,
+    "snapshotMatchesCurrent": true
+  },
+  "native": {
+    "passed": true,
+    "checks": [
+      "Seven fixed poses: both hands, exact white/black key contact, stable 88 key nodes and two non-intercepting canvases",
+      "Number view at laptop/large sizes and reduced-motion held-note pose remain available",
+      "User's exact mixed-reach thumb/ring fingering targets preserved in all six companion room palettes",
+      "Pointer through thumb and computer key D can share E4 with simulated MIDI; releasing either owner preserves the other hold",
+      "Repeated C4 lifts and strikes again; held C3 stays under the same finger while other notes change",
+      "The hands glide before their leap and land on C6 while all 88 keyboard hit targets and both canvases stay stable",
+      "Pause freezes the hands; seeking directly to another bar shows that position without an animated sweep",
+      "A pointer can press and release the key directly beneath the rendered hand",
+      "Changing reduced motion during a glide stops anticipation immediately, keeps a steady hand position, and preserves wrong-note feedback",
+      "Both views retain the existing frame-time budget on a 9,600-note score; raw rAF timing, slow frames and device density are recorded"
+    ],
+    "rendererErrors": [],
+    "requestFailures": [],
+    "regressionErrors": [],
+    "performance": {
+      "devicePixelRatio": 1,
+      "viewport": {
+        "width": 1480,
+        "height": 980
+      },
+      "samples": [
+        {
+          "view": "Falling notes",
+          "beat": 156,
+          "count": 150,
+          "median": 16.69999999999709,
+          "p95": 17.599999999998545,
+          "p99": 17.700000000000728,
+          "over33ms": 0,
+          "over50ms": 0
+        },
+        {
+          "view": "Falling notes",
+          "beat": 1196,
+          "count": 150,
+          "median": 16.69999999999709,
+          "p95": 17.5,
+          "p99": 17.700000000000728,
+          "over33ms": 0,
+          "over50ms": 0
+        },
+        {
+          "view": "Number score",
+          "beat": 436,
+          "count": 150,
+          "median": 16.700000000000728,
+          "p95": 17.600000000002183,
+          "p99": 17.700000000000728,
+          "over33ms": 0,
+          "over50ms": 0
+        }
+      ]
+    },
+    "report": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-report.json",
+    "visualReview": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-visual-review.json"
+  },
+  "packaging": {
+    "version": "2.14.0",
+    "checkedFiles": 487,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "7113cb743e3a4eec9b5966cf0e207a3af5e9d7ceb927322dbf236ab7cfd067ce"
+  },
+  "sourceInputsUnchanged": 555,
+  "installation": {
+    "version": "2.14.0",
+    "installedAt": "2026-09-27T15:52:24.564666-04:00",
+    "filesAndSymlinks": 2992,
+    "personalFiles": 107,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/previous-installed-Luma Keys-2.13.0.app"
+  },
+  "reopened": {
+    "checkedAt": "2026-09-27T15:55:13.306010-04:00",
+    "version": "2.14.0",
+    "installedAsarSHA256": "7113cb743e3a4eec9b5966cf0e207a3af5e9d7ceb927322dbf236ab7cfd067ce",
+    "personalFiles": 107,
+    "unchanged": true,
+    "changed": [],
+    "missing": [],
+    "ui": {
+      "title": "Appassionata · III. Allegro ma non troppo — Presto",
+      "bar": 378,
+      "totalBars": 569,
+      "playing": false,
+      "companion": "Lang Lang",
+      "view": "Falling notes",
+      "practiceHand": "Both hands",
+      "speedPercent": 100,
+      "volume": 1,
+      "visualInspection": "Native screenshot after fitting the window shows the complete keyboard and compact curved hand illustrations at bar 378.",
+      "windowFit": "Native zoom action fits the previously partly offscreen window; no application setting changed."
+    }
+  },
+  "limitations": [
+    "Suggested fingering remains the existing application guidance, not teacher-certified fingering.",
+    "Physical MIDI hardware was not available; overlapping MIDI ownership was simulated.",
+    "Performance samples are short rAF measurements on this Mac at the recorded viewport/device density, not a guarantee for all devices.",
+    "Native QA audio output was muted; this hand-art pass did not alter or re-audit the sampled instrument."
+  ],
+  "guide": "/Users/prince/Desktop/Luma Keys/docs/NATURAL_HANDS_2.14.md"
+}

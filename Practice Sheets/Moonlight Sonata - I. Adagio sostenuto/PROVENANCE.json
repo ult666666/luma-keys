@@ -1,0 +1,58 @@
+{
+  "key": "moonlight",
+  "id": "beethoven-moonlight-1-complete-mutopia-20260927",
+  "title": "Moonlight Sonata · I. Adagio sostenuto",
+  "composer": "Ludwig van Beethoven",
+  "bars": 69,
+  "meter": 4,
+  "fifths": 4,
+  "mode": "minor",
+  "bpm": 54,
+  "license": "CC BY-SA 2.5",
+  "typesetter": "Stewart Holmes",
+  "mutopia": 276,
+  "sourcePath": "BeethovenLv/O27/moonlight/moonlight-lys/moonlight1-a4.ly",
+  "description": "The complete first movement, Op. 27 No. 2: all 69 bars, with the triplet accompaniment, melody and sustained bass. Converted from Stewart Holmes’s Mutopia edition.",
+  "notation": {
+    "tuplets": 273,
+    "beamGroups": 262
+  },
+  "folder": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-library-20260927/staged/Practice Sheets/Moonlight Sonata - I. Adagio sostenuto",
+  "notes": 1144,
+  "hands": {
+    "right": 795,
+    "left": 349
+  },
+  "warnings": [
+    "Fermatas are not held longer in the practice timeline; pause as long as you like. See bar 69."
+  ],
+  "xmlSHA256": "5c62aa08e228b6aabd64d9c6b9e9fb987c03e0c9b9b81a25d0e2e7a141c62f1e",
+  "sourceSHA256": "97f5f8f0b3cc31de38dd2c284f7e66f4f4b319fca0cdc941ee6f5f4927833ac5",
+  "maxBeat": 276,
+  "duration": 276,
+  "sourceEventXMLExact": true,
+  "verification": {
+    "midiNotes": 1142,
+    "sourceMergedVoiceNotes": 1168,
+    "missingReferenceOnsets": 0,
+    "additionalWrittenAttacksUnderSamePitchHold": [
+      {
+        "midi": 64,
+        "beat": 32.666666666666664,
+        "duration": 0.3333333333333333
+      },
+      {
+        "midi": 64,
+        "beat": 180.66666666666666,
+        "duration": 0.3333333333333333
+      }
+    ],
+    "durationDifferencesFromMidi": [],
+    "explanation": "MIDI can merge or truncate simultaneous same-key voices; written LilyPond duration is authoritative. MusicXML/App timing compares exactly after standard same-onset physical-key coalescing. Third-note MIDI gates may differ by one MIDI tick."
+  },
+  "referencePDF": {
+    "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/O27/moonlight/moonlight-a4.pdf",
+    "sha256": "e62c8888eccf8071e4193e95e5a646fb74ea513d638dd34605bb5d74142a4fb8",
+    "bytes": 441248
+  }
+}

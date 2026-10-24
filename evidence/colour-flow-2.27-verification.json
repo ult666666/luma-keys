@@ -1,0 +1,73 @@
+{
+  "version": "2.27.0",
+  "verifiedAt": "2026-10-02T21:41:39.476834-04:00",
+  "installed": {
+    "version": "2.27.0",
+    "verifiedAt": "2026-10-02T21:38:49.980127-04:00",
+    "installedArchiveSHA256": "dc4153491ad4be534bab6a1deab2e31d2d91e3c87d7fc61382cee24004b215fe",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "nativeGroups": 7
+  },
+  "nativeChecks": [
+    "All seven colour choices apply immediately to app and keyboard, preserve paused position and keep the 3-D teaching hands. Six custom/neutral palettes are distinct.",
+    "Arrow/Home/End navigation selects colours without seeking or playing; Escape restores the trigger; outside click and Tab dismiss without trapping focus.",
+    "Selection persists after native reload; Settings and the quick picker agree without changing companion, piano room, mode, hand, speed or chosen piece.",
+    "Native Library/chat/picker layouts fit at1440,1280,1100,901,800 and390; colour controls are hit-testable, the docked workspace is separate and search/avatar cells stay aligned.",
+    "A fixed colour stays fixed when changing companion; Match follows Mozart. Picker and palette remain available on Library, Exercises and Progress.",
+    "Live colour changes leave sampled Listen playback advancing; Pause drains the audio queue. No model requests or renderer errors.",
+    "Reduced motion removes the picker entrance and transitions; the final custom selection saves, with score files unchanged."
+  ],
+  "nativeReport": ".qa-runs/colour-flow-2.27/native/report.json",
+  "unitTests": {
+    "passed": 762,
+    "failed": 0,
+    "log": ".qa-runs/colour-flow-2.27/reports/unit-tests-final.log"
+  },
+  "sourceInputsUnchanged": 637,
+  "packageEntriesChecked": 522,
+  "modelRuntimeLicenseFilesChecked": 42,
+  "layouts": [
+    "library-docked-1440",
+    "library-docked-1280",
+    "library-docked-1100",
+    "library-docked-901",
+    "library-docked-800",
+    "library-docked-390"
+  ],
+  "desktopObserved": {
+    "piece": "晴天 (Sunny Day)",
+    "bar": 1,
+    "bars": 76,
+    "paused": true,
+    "companion": "Lang Lang",
+    "mode": "Wait",
+    "hands": "Both",
+    "speed": 0.6,
+    "savedColour": "neutral",
+    "openScreen": "Library",
+    "pickerOpen": true,
+    "choices": [
+      "Neutral",
+      "Sage",
+      "Lavender",
+      "Rose",
+      "Ocean",
+      "Walnut",
+      "Match Lang Lang"
+    ]
+  },
+  "latestPersonalFilesUnchangedAfterLiveUI": 108,
+  "limitations": [
+    "Compact Library windows below901px retain floating chat.",
+    "Piano sound, physical MIDI and model-answer quality were not retested; native QA output was muted."
+  ],
+  "retainedAttempts": [
+    "candidate-a had an incorrect QA expectation for a transparent Library element; the painted background lives on the app.",
+    "candidate-b and final-c used obsolete chat option labels; corrected to the actual Options button.",
+    "final-d passed; final-e additionally verifies the medium-width Library column fix.",
+    "The initial personal-app reopening read timed out; a fresh full-path selection showed the healthy updated app."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "title": "晴天 (Sunny Day)",
+      "notes": 1229,
+      "bars": 76,
+      "import": true,
+      "playPause": true,
+      "stillKeyboard": true,
+      "seek": true,
+      "numberReading": true,
+      "warnings": []
+    },
+    {
+      "title": "晴天 (Sunny Day) · Concert Arrangement",
+      "notes": 1539,
+      "bars": 66,
+      "import": true,
+      "playPause": true,
+      "stillKeyboard": true,
+      "seek": true,
+      "numberReading": true,
+      "warnings": [
+        "The key signature changes during the piece. Number labels keep your selected tonic until you change “Number 1 is”."
+      ]
+    }
+  ],
+  "errors": []
+}

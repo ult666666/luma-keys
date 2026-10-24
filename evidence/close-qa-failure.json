@@ -1,0 +1,5 @@
+{
+  "mode": "quit",
+  "error": "locator.inputValue: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('slider', { name: 'Piano volume' })\n",
+  "completed": []
+}

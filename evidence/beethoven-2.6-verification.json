@@ -1,0 +1,58 @@
+{
+  "version": "2.6.0",
+  "completedAt": "2026-09-26T23:03:36.681525-04:00",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "unitApi": {
+    "passed": 197,
+    "failed": 0,
+    "log": ".qa-runs/beethoven-2.6/unit-tests.log"
+  },
+  "browser": {
+    "passed": true,
+    "groups": 8,
+    "scope": "Before final metadata/compact-toolbar polish",
+    "report": "evidence/maestro-2.6-qa.json"
+  },
+  "native": [
+    {
+      "passed": true,
+      "groups": 9,
+      "report": "evidence/native-maestro-2.6-qa.json"
+    },
+    {
+      "passed": true,
+      "groups": 8,
+      "report": "evidence/native-hand-guide-2.6-qa.json"
+    }
+  ],
+  "animation": {
+    "passed": true,
+    "samples": 3,
+    "dpr": 1,
+    "medianMs": 16.7,
+    "p95RangeMs": [
+      17.9,
+      18.3
+    ],
+    "over33ms": 0,
+    "report": "evidence/native-stage-performance-2.6.json"
+  },
+  "personalData": {
+    "files": 68,
+    "unchanged": true,
+    "report": "evidence/data-preservation-2.6.0.json"
+  },
+  "installation": ".qa-runs/beethoven-2.6/installation.json",
+  "screenshots": [
+    "evidence/native-maestro-2.6-intro-desktop.png",
+    "evidence/native-maestro-2.6-exact-title-copies.png",
+    "evidence/native-maestro-2.6-playing-reduced-motion.png",
+    "evidence/native-maestro-2.6-mobile-arrangements.png"
+  ],
+  "limitations": [
+    "Local supported commands; no general cloud chat or internet score retrieval.",
+    "Score-based guidance; no microphone assessment.",
+    "Physical MIDI hardware not newly tested.",
+    "Animation timing is measured rAF scheduling on this Mac at DPR1."
+  ]
+}

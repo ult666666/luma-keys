@@ -1,0 +1,99 @@
+{
+  "mobile": {
+    "width": 390,
+    "height": 844,
+    "dialog": {
+      "x": 14,
+      "y": 12,
+      "width": 362,
+      "height": 820,
+      "top": 12,
+      "right": 376,
+      "bottom": 832,
+      "left": 14
+    },
+    "composer": {
+      "x": 15,
+      "y": 714,
+      "width": 360,
+      "height": 117,
+      "top": 714,
+      "right": 375,
+      "bottom": 831,
+      "left": 15
+    },
+    "transcript": {
+      "x": 15,
+      "y": 143,
+      "width": 360,
+      "height": 571,
+      "top": 143,
+      "right": 375,
+      "bottom": 714,
+      "left": 15
+    },
+    "scroll": 360,
+    "client": 360
+  },
+  "short": {
+    "width": 1280,
+    "height": 580,
+    "dialog": {
+      "x": 250,
+      "y": 24,
+      "width": 780,
+      "height": 532,
+      "top": 24,
+      "right": 1030,
+      "bottom": 556,
+      "left": 250
+    },
+    "composer": {
+      "x": 251,
+      "y": 441,
+      "width": 778,
+      "height": 114,
+      "top": 441,
+      "right": 1029,
+      "bottom": 555,
+      "left": 251
+    },
+    "transcript": {
+      "x": 251,
+      "y": 122.59375,
+      "width": 778,
+      "height": 318.40625,
+      "top": 122.59375,
+      "right": 1029,
+      "bottom": 441,
+      "left": 251
+    },
+    "scroll": 778,
+    "client": 778
+  },
+  "Library-1280": {
+    "width": 1280,
+    "scroll": 1280
+  },
+  "Exercises-1280": {
+    "width": 1280,
+    "scroll": 1280
+  },
+  "Progress-1280": {
+    "width": 1280,
+    "scroll": 1280
+  },
+  "Library-390": {
+    "width": 390,
+    "scroll": 390
+  },
+  "Exercises-390": {
+    "width": 390,
+    "scroll": 390
+  },
+  "Progress-390": {
+    "width": 390,
+    "scroll": 390
+  },
+  "errors": []
+}

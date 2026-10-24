@@ -1,0 +1,73 @@
+{
+  "version": "2.13.0",
+  "completedAt": "2026-09-27T14:35:39.891634-04:00",
+  "changes": [
+    "Three original locally bundled piano illustrations: storm, sunny, moon with sleeping cat.",
+    "Large illustrated Continue scene, compact card labels, details on demand, full titles, stable same-title arrangement cues.",
+    "Responsive Library companion greeting with finite motion and separate no-send chat access.",
+    "Stationary art buttons and independent card heights; keyboard Space on Details never starts playback."
+  ],
+  "unitTests": {
+    "passed": 354,
+    "failed": 0,
+    "log": ".qa-runs/library-illustrated-2.13/unit-tests.log"
+  },
+  "native": {
+    "passed": true,
+    "groups": 8,
+    "checks": [
+      "The native library loads the owned collection without autoplay, with collapsed details and no default featured statistics grid.",
+      "Illustrations load, titles remain available and every card/control fits desktop, narrow, mobile and short-window widths.",
+      "Chinese search distinguishes exact-title arrangements; Continue, saved passages and From the beginning open the exact bars safely paused.",
+      "Details toggles with Space and visible focus without playing; stationary artwork opens the exact score; failed removal preserves the card and successful removal retains original imports.",
+      "Mouse, Enter and Space greetings animate finitely without sound/playback, chat or writes; Talk opens the empty draft with unchanged history and restores focus on Escape.",
+      "All six companions render with readable title/composer colours; live reduced motion removes continuous animation and mobile greeting/search keyboard input remains safe.",
+      "Invalid imports show a visible mobile error without changing the collection; a corrected import reaches review and becomes searchable.",
+      "An empty collection retains starter pieces and a working import action; all native QA files stay isolated from the personal library."
+    ],
+    "rendererErrors": [],
+    "sizes": [
+      "1280x800",
+      "900x800",
+      "390x844",
+      "1280x633"
+    ],
+    "themes": 6,
+    "qaRoot": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-illustrated-2.13/native-wUvtRv",
+    "report": ".qa-runs/library-illustrated-2.13/native-report.json"
+  },
+  "package": {
+    "version": "2.13.0",
+    "checkedFiles": 487,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "4cd088081dc4b469a0f44c240606b49b09485185ea6d505ef58dddbce4b74cc7"
+  },
+  "installation": {
+    "version": "2.13.0",
+    "installedAt": "2026-09-27T14:34:21.685774-04:00",
+    "filesAndSymlinks": 2992,
+    "personalFiles": 68,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-illustrated-2.13/previous-installed-Luma Keys-2.12.0.app"
+  },
+  "reopened": {
+    "personalFiles": 68,
+    "byteIdentical": true,
+    "visuallyVerified": "Installed Library shows Appassionata storm art, saved bar3, Lang Lang companion, 5 saved pieces, collapsed Details and the three scene families. Playback remains paused.",
+    "personalChatOrPracticeCreatedByQA": false,
+    "ownedQaProcessesRemaining": []
+  },
+  "assets": {
+    "originals": "Assets/Library Art",
+    "appCopies": "public/library-art",
+    "exactPrompts": "Assets/Library Art/prompts.json",
+    "toolMode": "built-in image_gen",
+    "provenance": "docs/LIBRARY_ART_2.13.md"
+  },
+  "limits": [
+    "Artwork is atmospheric and uses three scene families, not one bespoke cover per score.",
+    "This Library pass does not change or retest physical MIDI hardware, arbitrary PDF recognition, native-model chat quality or the audio interpretation; prior 2.12 audio work is preserved."
+  ],
+  "evidenceDirectory": ".qa-runs/library-illustrated-2.13"
+}

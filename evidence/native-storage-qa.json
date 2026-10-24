@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "version": "2.44.0",
+  "checks": [
+    "Health reports version 2.44.0, a writable library, startup timings (server 653 ms, window 1606 ms) and the log path",
+    "Editing a score keeps its earlier version under Score recovery, removing it keeps the removed file, and no temporary file remains",
+    "The first settings write of the day keeps a snapshot of the file as it stood; later writes keep it and the live file stays whole",
+    "The diagnostics log records server-ready, app-ready, the kept version, the removal, the snapshot and a reported page fault (6 events), without music"
+  ],
+  "health": {
+    "ok": true,
+    "version": "2.44.0",
+    "omr": true,
+    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-storage-HsQaDj/Library",
+    "writable": true,
+    "sharedWith": null,
+    "startup": {
+      "serverReadyMs": 653,
+      "windowLoaded": 1606
+    },
+    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-storage-HsQaDj/Logs/luma-keys.log",
+    "companionHistory": {
+      "storage": "temporary",
+      "cleanup": {
+        "ok": true,
+        "removed": 0
+      }
+    }
+  },
+  "logEvents": [
+    "server-ready",
+    "app-ready",
+    "settings-snapshot-kept",
+    "score-version-kept",
+    "score-removed",
+    "renderer-error"
+  ]
+}

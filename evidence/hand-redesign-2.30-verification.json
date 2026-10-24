@@ -1,0 +1,72 @@
+{
+  "version": "2.30.0",
+  "verifiedAt": "2026-10-03T12:24:05.040269-04:00",
+  "desktopInstallation": "Hand revision included in installed2.31.0; standalone2.30 was not installed.",
+  "unitChecks": {
+    "tests": 780,
+    "passed": 780,
+    "failed": 0,
+    "report": ".qa-runs/hand-redesign-2.30/reports/unit-tests-final-b.txt"
+  },
+  "native": {
+    "groups": 6,
+    "passed": true,
+    "errors": [],
+    "ownedAppClosed": true,
+    "packageUnchanged": true,
+    "checks": [
+      "Sunny Day screenshot pose, next note and 1440/1280/800/390/short-window layouts retain 3-D hands, finite contacts, readable keys and reachable playback.",
+      "Reduced motion keeps placed fingertips aligned; hiding and showing hands restores the ready renderer without a new failure.",
+      "Ocean, Rose, Match companion and Neutral keep distinct keyboard finishes, stable prepared hand geometry and accurate contacts.",
+      "Left/right five-second practice jumps remain exact at 60% and leave the paused hands valid.",
+      "Octaves, held chords, black keys and coda render correctly; live Appassionata animates with valid contacts, continuing clock and cancelled queued audio on Pause.",
+      "Persisted score/settings and prepared hands survive reload with no renderer errors."
+    ]
+  },
+  "sampledPlayback": {
+    "durationSeconds": 6,
+    "frames": 356,
+    "frameP95Ms": 17.700000000000728,
+    "frameMaxMs": 34.30000000000291,
+    "heldContacts": 62,
+    "maxHeldContactErrorMm": 0.46
+  },
+  "package": {
+    "version": "2.30.0",
+    "checkedFiles": 525,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "b56b1091c3d36ed85da3339864b916b927d408c83ae57f34674d8c1239053bdf"
+  },
+  "frozenCandidate": ".qa-runs/hand-redesign-2.30/verified-Luma Keys-2.30.0.app",
+  "artReference": "public/art/hands/pianist-study-2.30.png",
+  "visualReview": {
+    "technicalPassed": true,
+    "visualInstallAccepted": true,
+    "captures": [
+      "sunny-opening-1440.png",
+      "sunny-crossing-1440.png",
+      "appassionata-octave.png",
+      "appassionata-coda.png"
+    ],
+    "rootReviewed": true,
+    "independentReviewer": "hand_art_direction",
+    "finding": "Continuous forearms remove floating wrist endings; longer fingers, tapered palms, varied resting curves and legible contact numbers remain. Live rendering is simpler than the generated study."
+  },
+  "limits": [
+    "Live mesh rendering is simpler than the generated reference.",
+    "Native output was muted; physical audio, microphone, MIDI and chat inference were not retested.",
+    "Measurements describe the sampled run, not every device or workload."
+  ],
+  "retainedAttempts": [
+    "final-a-hands",
+    "final-a-visual-review.json",
+    "reports/unit-tests-final.txt"
+  ],
+  "newSchedule": false,
+  "installationViaRelease": {
+    "version": "2.31.0",
+    "evidence": "evidence/progress-cute-2.31-verification.json",
+    "allLatestPersonalFilesUnchanged": true
+  }
+}

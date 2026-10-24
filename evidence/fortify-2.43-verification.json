@@ -1,0 +1,194 @@
+{
+  "version": "2.43.0",
+  "theme": "Fortify",
+  "date": "2026-10-07",
+  "request": "continue to fortify everything",
+  "product": [
+    "Per-part renderer error boundaries (keyboard and hands, number score, sheet, PDF, Exercises, Library, Progress, companion chat, accompaniment, roaming companion) with Try again; whole-window fallback with Reload; faults logged as renderer-error without content",
+    "Settings fields unknown to this version are carried forward on every write (top level, stats, reading, journal, days, pieces)",
+    "Launch no longer rewrites preferences.json (companion bookkeeping day and the derived colour flag no longer trigger a write)",
+    "A Library folder that cannot be created or read gets a plain explanation with Try Again / Quit instead of a stack trace",
+    "A read-only Library opens: imports folder optional, recognition tolerates a missing imports folder, accompaniment folder created only when a track is added"
+  ],
+  "unitTests": {
+    "pass": 906,
+    "fail": 0,
+    "new": [
+      "tests/library-access.test.mjs (3)",
+      "storage forward-compatibility test (1)"
+    ]
+  },
+  "nativeSweep": {
+    "package": "release/mac-arm64/Luma Keys.app 2.43.0",
+    "stories": 23,
+    "passed": 23,
+    "results": [
+      {
+        "story": "native-qa",
+        "exit": 0,
+        "seconds": 78,
+        "summary": "PASS: native packaged app, audio, export, and full PDF recognition flow."
+      },
+      {
+        "story": "native-input-qa",
+        "exit": 0,
+        "seconds": 26,
+        "summary": "PASS native input flows: 12 checks; version 2.43.0"
+      },
+      {
+        "story": "native-reader-qa",
+        "exit": 0,
+        "seconds": 39,
+        "summary": "PASS native reader 2.43.0 9 checks"
+      },
+      {
+        "story": "native-material-qa",
+        "exit": 0,
+        "seconds": 12,
+        "summary": "PASS native material 2.43.0 7 checks"
+      },
+      {
+        "story": "native-keyboard-stage-qa",
+        "exit": 0,
+        "seconds": 77,
+        "summary": "PASS native keyboard stage 2.43.0 17 checks"
+      },
+      {
+        "story": "native-backing-qa",
+        "exit": 0,
+        "seconds": 77,
+        "summary": "PASS native accompaniment 2.43.0 11 groups"
+      },
+      {
+        "story": "native-grand-qa",
+        "exit": 0,
+        "seconds": 45,
+        "summary": "\"passed\": true,"
+      },
+      {
+        "story": "native-companion-qa",
+        "exit": 0,
+        "seconds": 81,
+        "summary": "PASS native companion rooms 2.43.0 9 groups"
+      },
+      {
+        "story": "native-conversation-qa",
+        "exit": 0,
+        "seconds": 50,
+        "summary": "PASS native conversation 2.43.0 12 groups"
+      },
+      {
+        "story": "native-maestro-qa",
+        "exit": 0,
+        "seconds": 53,
+        "summary": "PASS native Beethoven guide 2.43.0 9 groups"
+      },
+      {
+        "story": "native-studio-design-qa",
+        "exit": 0,
+        "seconds": 56,
+        "summary": "PASS native studio design 2.43.0 8 groups"
+      },
+      {
+        "story": "native-hand-beauty-qa",
+        "exit": 0,
+        "seconds": 27,
+        "summary": "PASS native hand beauty 2.43.0 6 groups"
+      },
+      {
+        "story": "native-hand-guide-qa",
+        "exit": 0,
+        "seconds": 18,
+        "summary": "PASS native hand guide 2.43.0 8 groups"
+      },
+      {
+        "story": "native-continuity-qa",
+        "exit": 0,
+        "seconds": 26,
+        "summary": "PASS native continuity 2.43.0"
+      },
+      {
+        "story": "native-phrase-practice-qa",
+        "exit": 0,
+        "seconds": 8,
+        "summary": "PASS native phrase practice 2.43.0 10 checks"
+      },
+      {
+        "story": "native-sight-reading-qa",
+        "exit": 0,
+        "seconds": 42,
+        "summary": "PASS native sight reading 2.43.0 5 checks"
+      },
+      {
+        "story": "native-stage-performance-qa",
+        "exit": 0,
+        "seconds": 15,
+        "summary": "\"passed\": true,"
+      },
+      {
+        "story": "native-storage-qa",
+        "exit": 0,
+        "seconds": 4,
+        "summary": "PASS native storage 2.43.0 4 checks"
+      },
+      {
+        "story": "native-trouble-spots-qa",
+        "exit": 0,
+        "seconds": 34,
+        "summary": "PASS native trouble spots 2.43.0 7 checks"
+      },
+      {
+        "story": "native-transition-qa",
+        "exit": 0,
+        "seconds": 5,
+        "summary": "PASS native transition cancellation 2.43.0 2 groups"
+      },
+      {
+        "story": "native-library-access-qa",
+        "exit": 0,
+        "seconds": 21,
+        "summary": "PASS native library access 2.43.0 3 checks"
+      },
+      {
+        "story": "close-qa",
+        "exit": 0,
+        "seconds": 13,
+        "summary": ""
+      },
+      {
+        "story": "recognition-close-qa",
+        "exit": 0,
+        "seconds": 79,
+        "summary": "PASS quit 259ms; no engine left; recovered and retried 16 notes"
+      }
+    ]
+  },
+  "nativeQaChecks": 28,
+  "heldKeyContact": {
+    "slidePx": 0,
+    "offsetPx": 4.23
+  },
+  "historicalAcceptanceSuites": [
+    "native-conversation-model-qa (2.9)",
+    "native-coach-qa (2.10)",
+    "native-library-illustrated-qa (2.13)"
+  ],
+  "install": {
+    "version": "2.43.0",
+    "previous": "2.42.0",
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/claude-2.43.0/previous-installed-Luma Keys-2.42.0.app",
+    "installedAt": "2026-10-07T23:43:20.626895-04:00",
+    "entries": 3035,
+    "personalFilesUnchanged": 108,
+    "asar": "64deb3a5a11ec37084295b149c935c5124aa873ddb77a0fafe51f5ee0e418ad2",
+    "personalFilesUnchangedThroughQuitInstallAndReopen": 108,
+    "reopened": {
+      "version": "2.43.0",
+      "writable": true,
+      "settingsIssues": 0,
+      "serverReadyMs": 746,
+      "windowLoadedMs": 1224,
+      "firstLaunchWallSeconds": 55
+    }
+  }
+}

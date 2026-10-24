@@ -1,0 +1,118 @@
+{
+  "version": "2.38.0",
+  "date": "2026-10-04",
+  "task": "Correct rejected live hand anatomy, posture and shading",
+  "installed": {
+    "installedVersion": "2.38.0",
+    "previousVersion": "2.37.0",
+    "packageSHA256": "8d24bb385c7e589f21a77bae105ded4e3ca7084a90e5a23c68fe0d8ed6aa4805",
+    "bundleEntries": 3035,
+    "unchangedMusicalPersonalFiles": 107,
+    "freshBackup": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/personal-backup-without-chat",
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/previous-installed-Luma Keys-2.37.0.app"
+  },
+  "native": {
+    "passed": true,
+    "checks": [
+      "Sunny Day screenshot pose, next note and 1440/1280/800/390/short-window layouts retain 3-D hands, finite contacts, readable keys and reachable playback.",
+      "Reduced motion keeps placed fingertips aligned; hiding and showing hands restores the ready renderer without a new failure.",
+      "Ocean, Rose, Match companion and Neutral keep distinct keyboard finishes, stable prepared hand geometry and accurate contacts.",
+      "Left/right five-second practice jumps remain exact at 60% and leave the paused hands valid.",
+      "Repeated opening chords show each pitch once, with an accessible new-attack repeat cue.",
+      "Three separately captured live coda poses advance with valid contacts; screenshot readbacks are excluded from the performance sample.",
+      "A separate six-second warm coda pass keeps valid contacts and pause cleanup; initial and warm timing retain all intervals, long frames and aggregate hand CPU.",
+      "Octaves, held chords, black keys and coda render correctly; live Appassionata animates with valid contacts, continuing clock and cancelled queued audio on Pause.",
+      "Persisted score/settings and prepared hands survive reload with no renderer errors."
+    ],
+    "errors": [],
+    "ownedAppClosed": true,
+    "packageUnchanged": true,
+    "initialPlayback": {
+      "phase": "initial-playback",
+      "durationMs": 6005.300000023839,
+      "frames": 265,
+      "p50": 16.69999999999709,
+      "p95": 34.30000000000291,
+      "max": 816.6999999999971,
+      "engineCpu": {
+        "n": 265,
+        "mean": 2.935,
+        "p50": 2.5,
+        "p95": 5,
+        "max": 19.3
+      },
+      "cpuNote": "Engine CPU values are aggregate update/render timing since reset, not per-frame attribution or GPU time.",
+      "longFramesOver50ms": 8
+    },
+    "warmPlayback": {
+      "phase": "warm-after-initial-and-visual-passes",
+      "durationMs": 6006.5,
+      "frames": 336,
+      "p50": 16.69999999999709,
+      "p95": 33.299999999995634,
+      "max": 66.89999999999418,
+      "engineCpu": {
+        "n": 335,
+        "mean": 2.548,
+        "p50": 2.5,
+        "p95": 3.5,
+        "max": 6
+      },
+      "cpuNote": "Engine CPU values are aggregate update/render timing since reset, not per-frame attribution or GPU time.",
+      "longFramesOver50ms": 3
+    },
+    "rawReport": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/final2-hands/report.json"
+  },
+  "tests": {
+    "handPosePlannerFingering": {
+      "passed": 141,
+      "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/all-hand-tests.log"
+    },
+    "surfaceBakeGuidanceStageSeek": {
+      "passed": 41,
+      "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/independent-tests.log"
+    },
+    "afterFinalMaterialBake": {
+      "passed": 40,
+      "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/final-surface-tests.log"
+    }
+  },
+  "integrity": {
+    "unchangedProductionInputs": 657,
+    "packagedFilesChecked": 531,
+    "musicalFilesUnchangedAfterReopen": 107
+  },
+  "actualReopen": {
+    "observedVia": "Native CUA accessibility and screenshot of exact Desktop app",
+    "paused": true,
+    "score": "Appassionata III",
+    "resumeBar": 45,
+    "mode": "Perform",
+    "hand": "Both",
+    "speedPercent": 100,
+    "palette": "Ocean",
+    "companion": "Lang Lang",
+    "view": "Falling notes",
+    "newHandMaterialVisible": true,
+    "initialInspectionTimedOutThenRecovered": true
+  },
+  "visualReview": {
+    "reviewers": [
+      "root",
+      "independent hand shape reviewer"
+    ],
+    "finding": "Blue palm wedge absent. Resting fingers less clenched; active digits separate clearly. No major distortion observed in inspected melody, crossing, wide-chord and live coda frames.",
+    "limits": "Skin and nail realism remain below the generated reference; exact image parity is not claimed."
+  },
+  "limitations": [
+    "Initial playback retained an 816.7 ms frame outlier; warm max66.9 ms. Not a locked60 fps claim.",
+    "Cold app inspection timed out once before succeeding normally. Startup delay is not claimed fixed.",
+    "Muted isolated native tests; no physical piano, microphone, MIDI, audio audition or model inference testing in this pass."
+  ],
+  "screenshots": {
+    "melody-rest": "/Users/prince/Desktop/Luma Keys/evidence/native-hand-guide-2.38-melody-rest.png",
+    "crossing": "/Users/prince/Desktop/Luma Keys/evidence/native-hand-guide-2.38-crossing.png",
+    "sunny": "/Users/prince/Desktop/Luma Keys/evidence/native-hand-guide-2.38-sunny.png",
+    "coda": "/Users/prince/Desktop/Luma Keys/evidence/native-hand-guide-2.38-coda.png"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "passed": true,
+  "version": "2.44.0",
+  "checks": [
+    "At 1280×800 the score, the keyboard stage with its note runway and the transport share one view; the keyboard is fitted once to the piece (Twinkle's keys as large as the hands' proportions allow, all visible) and stands still while the music plays",
+    "A five-octave piece (C2–C7) is fitted with readable keys and no offscreen notice",
+    "In Listen & follow the runway's notes sit where the audio clock says they should, before and after the runway re-anchors (within 0.15 beat)",
+    "While a whole note sounds its key's hold meter drains, the next note's key glows more as it approaches, and the written dynamic follows the music (p, then f)",
+    "Wait for me: a wrong key flashes rose and the keys to play brighten once; the right key flashes green with a light pillar and the runway steps on",
+    "Play in time: a press on the beat flashes green, a deliberately late press flashes amber, a wrong pitch flashes rose; count-in presses are not judged",
+    "Note runway hides and shows the runway, and the choice is kept after a reload",
+    "Falling notes gives the runway the score's space and keeps the keyboard shown",
+    "With reduced motion the verdicts still show, without any key or runway animation",
+    "A 400-bar, 9,600-note score plays with smooth frames (median 16.7 ms, 95th percentile 18.1 ms)",
+    "Beside the runway the number score is a strip: one whole line fitted to the width (bars 1–4, then 5–8 as the music gets there), above a runway that still shows the notes ahead",
+    "Without the runway the score is a tape: lines fitted to the width (no sideways scroll), the line being played whole on top (the next below when there is room); moving on slides the next line up, or brings the next passage in; a run writes its duration once a bar; playing holds the frame rate (median 16.7 ms)",
+    "Without the runway, Play in time counts in with a large beat number beside the cue",
+    "The keys to play next are lit in full colour",
+    "A written tempo change is played: ♩ ≈ 120 for the opening bars, then ♩ ≈ 179 after the change",
+    "The hands show the suggested fingering on the keys (right hand on C4, left on C3, thumbs inward), set off for a leap before it lands (C4 → C6: gliding for 8 frames first), and the Hands toggle is kept after a reload",
+    "The runway zooms to the music's density (99 px a beat for sixteenths, each 23 px tall), ties the notes of a chord where they land and outlines the next notes"
+  ],
+  "measurements": {
+    "layout": {
+      "scoreTop": 134.3203125,
+      "stageTop": 278.3203125,
+      "stageBottom": 692,
+      "dockBottom": 790,
+      "pageScroll": 0,
+      "overflow": false,
+      "keyWidth": 28,
+      "keyLength": 128,
+      "keysVisible": true,
+      "runway": 50.0859375,
+      "runwayBeats": 1.66953125
+    },
+    "still": {
+      "before": {
+        "left": 555.9609375,
+        "width": 28
+      },
+      "samples": [
+        {
+          "left": 555.9609375,
+          "width": 28
+        },
+        {
+          "left": 555.9609375,
+          "width": 28
+        },
+        {
+          "left": 555.9609375,
+          "width": 28
+        },
+        {
+          "left": 555.9609375,
+          "width": 28
+        },
+        {
+          "left": 555.9609375,
+          "width": 28
+        },
+        {
+          "left": 555.9609375,
+          "width": 28
+        },
+        {
+          "left": 555.9609375,
+          "width": 28
+        },
+        {
+          "left": 555.9609375,
+          "width": 28
+        }
+      ]
+    },
+    "wide": {
+      "width": 27.99603271484375,
+      "visible": true,
+      "offscreen": 0,
+      "low": 136,
+      "high": 1144,
+      "view": [
+        42,
+        1238
+      ],
+      "title": "Stage wide range"
+    },
+    "alignment": {
+      "early": {
+        "beat": 2.588444444444446,
+        "ppb": 30,
+        "worst": 0.003339436849010724,
+        "count": 3
+      },
+      "later": {
+        "beat": 6.44977777777778,
+        "ppb": 30,
+        "worst": 0.42332600911465335,
+        "count": 1
+      }
+    },
+    "lights": {
+      "first": {
+        "on": "right",
+        "hold": 0.382,
+        "soonHand": "right",
+        "soon": 0.045,
+        "at": 2.45031226687111
+      },
+      "second": {
+        "on": "right",
+        "hold": 0.241,
+        "soonHand": "right",
+        "soon": 0.41
+      }
+    },
+    "lateDelivery": {
+      "clock": {
+        "now": 25.834666666666667,
+        "start": 24.889333333333333,
+        "origin": 0,
+        "originAt": 0,
+        "mapped": 1.2604444444444454,
+        "beat": 1.2462222222222248,
+        "latency": 0.021333333333334537,
+        "playing": true,
+        "countingIn": false,
+        "secondsPerBeat": 0.75
+      },
+      "beat": 1.2604444444444454,
+      "focused": true,
+      "visibility": "visible"
+    },
+    "fallingRunway": {
+      "height": 149.0859375,
+      "beats": 4.966666666666667
+    },
+    "denseFrames": {
+      "count": 147,
+      "median": 16.699999999999818,
+      "p95": 18.099999999999454
+    },
+    "strip": {
+      "lines": 1,
+      "sideways": false,
+      "whole": true,
+      "strip": 134,
+      "runway": 50.0859375
+    },
+    "tape": {
+      "top": 176.3203125,
+      "bottom": 301,
+      "sideways": false,
+      "pageScroll": 0,
+      "gutterText": "none",
+      "systems": [
+        {
+          "top": 176.3203125,
+          "bottom": 296.3203125,
+          "first": "01",
+          "cursor": true,
+          "current": true
+        }
+      ]
+    },
+    "tapeSlide": [
+      "fade"
+    ],
+    "tapeFrames": {
+      "count": 150,
+      "median": 16.69999999999709,
+      "p95": 18.399999999997817
+    },
+    "tempo": {
+      "slow": 120.30318342597238,
+      "fast": 179.05519029870945
+    },
+    "hands": {
+      "c4": 524.4609375,
+      "c6": 986.4609375,
+      "frames": 271,
+      "landedAt": 189,
+      "gliding": 8
+    },
+    "runway": {
+      "ppb": 99.333,
+      "sixteenth": 22.828125,
+      "ties": [
+        159
+      ],
+      "next": [
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}

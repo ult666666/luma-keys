@@ -1,0 +1,35 @@
+{
+  "date": "2026-09-26T22:57:34.128Z",
+  "existingSunnyDay": [
+    {
+      "id": "fe803071-0b5a-4a0b-bd88-a33a27d1f605",
+      "title": "晴天 (Sunny Day)",
+      "composer": "周杰伦 Jay Chou",
+      "notes": 1229,
+      "bars": 76,
+      "reviewed": true,
+      "warnings": [],
+      "exactXmlMatch": true,
+      "exactPlayableEventsMatch": true
+    },
+    {
+      "id": "5d3bcd8b-f8d9-4f0c-9dfc-ffe0ebbaa946",
+      "title": "晴天 (Sunny Day) · Concert Arrangement",
+      "composer": "周杰伦 Jay Chou · concert arrangement for Luma Keys",
+      "notes": 1539,
+      "bars": 66,
+      "reviewed": true,
+      "warnings": [
+        "The key signature changes during the piece. Number labels keep your selected tonic until you change “Number 1 is”."
+      ],
+      "exactXmlMatch": true,
+      "exactPlayableEventsMatch": true
+    }
+  ],
+  "tornado": {
+    "installed": false,
+    "status": "Awaiting user-provided or purchased score for the G.E.M. arrangement",
+    "candidate": "https://www.mymusicsheet.com/sheet-music/281631"
+  },
+  "limits": "This verifies saved scores and playback data against their MusicXML; it does not independently verify an arrangement against a commercial recording or assert source licensing."
+}

@@ -1,0 +1,14 @@
+src/App.jsx: FAILED
+src/KeyboardGuide.jsx: OK
+src/stage.css: OK
+src/keyboard-guide.css: OK
+src/HandCoach.jsx: OK
+src/hand-coach.mjs: OK
+src/hand-draw.mjs: OK
+src/hand-pose.mjs: OK
+src/fingering.mjs: OK
+src/keyboard-stage.mjs: OK
+src/audio.js: OK
+src/performance.mjs: OK
+src/listen-start.mjs: OK
+src/tempo.mjs: OK

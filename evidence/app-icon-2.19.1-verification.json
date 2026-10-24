@@ -1,0 +1,59 @@
+{
+  "version": "2.19.1",
+  "preparedAt": "2026-09-27T18:43:54.233023-04:00",
+  "status": "tested-and-staged-awaiting-desktop-unlock",
+  "installed": false,
+  "installedVersionStill": "2.18.0",
+  "candidateArchiveSHA256": "5c0234c3c3e69d18908e67abf3a351eb546e33cfc9854e6eaa1fcf903caaae16",
+  "stagedApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/icon-2.19.1/install-ready.app",
+  "assetFolder": "/Users/prince/Desktop/Luma Keys/Assets/App Icon 2.19.1",
+  "artwork": "Original editable vector cat and piano; no generated raster artwork. Detailed and optically simplified small masters.",
+  "nativeRepresentationCount": 10,
+  "sizes": [
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "sourceInputsStable": 588,
+  "packagedSourceAssetsAndHelperMatches": 512,
+  "stagedBundleEntries": 2992,
+  "nativeGroupsPassed": 3,
+  "visualReview": ".qa-runs/icon-2.19.1/independent-review/visual-review.json",
+  "icnsNuance": "Legacy1x16/32 round-trip changes only RGB on semitransparent corner pixels; alpha and opaque artwork match. Other8 representations are pixel-exact.",
+  "audioFixesIncluded": true,
+  "audioEvidence": "evidence/clean-audio-2.19-verification.json",
+  "protectedMusicalSourceAndAssetsUnchanged": 314,
+  "priorFullTestsPassed": 410,
+  "deltaFromTestedAudioCandidate": [
+    "package-lock.json",
+    "package.json",
+    "public/app-icon.svg",
+    "public/favicon.svg",
+    "public/icon.icns",
+    "public/icon.png"
+  ],
+  "iconRendererSHA256": "ae5842ba874357b4546faa355fc67eba8278e30648e025c3e1adeb983479ee6c",
+  "personalAppOrFilesModified": false,
+  "ownedQaAppsClosed": true,
+  "runtimeErrors": [],
+  "installationBlocker": "Mac remains locked; normal save/quit and personal-app reopening are unavailable. No forced termination or in-use bundle replacement.",
+  "reports": {
+    "native": ".qa-runs/icon-2.19.1/final-native/native-report.json",
+    "package": ".qa-runs/icon-2.19.1/reports/package-integrity.json",
+    "visual": ".qa-runs/icon-2.19.1/independent-review/visual-review.json",
+    "exports": ".qa-runs/icon-2.19.1/independent-review/export-check.json"
+  },
+  "earlierAttempt": "final-native-attempt1 is a harness-only count assumption about built-in starter cards; retained and excluded from final acceptance.",
+  "supersededForInstallationBy": "2.19.2 combined copy, icon and audio update; see evidence/concise-copy-2.19.2-verification.json",
+  "subsequentInstallation": {
+    "version": "2.20.0",
+    "verifiedAt": "2026-09-27T20:45:15.789472-04:00",
+    "evidence": "evidence/companion-intelligence-2.20-verification.json",
+    "latestPersonalFilesUnchanged": 108,
+    "historicalResultPreserved": true
+  }
+}

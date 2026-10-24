@@ -1,0 +1,87 @@
+{
+  "version": "2.40.0",
+  "theme": "Trouble spots: the bars that slip are remembered, shown and drilled",
+  "writtenAt": "2026-10-06T22:01:11.526395-04:00",
+  "unitTests": {
+    "command": "npm test",
+    "summary": [
+      "ℹ tests 890",
+      "ℹ pass 890",
+      "ℹ fail 0"
+    ],
+    "newSuites": [
+      "tests/trouble-spots.test.mjs (12)",
+      "tests/journal.test.mjs (+3)",
+      "tests/preferences.test.mjs (+1)"
+    ]
+  },
+  "browserStory": {
+    "command": "node scripts/trouble-spots-qa.mjs (isolated dev server, .qa-runs/claude-2.40/Library)",
+    "passed": true,
+    "checks": [
+      "A newly imported piece shows no trouble spots",
+      "Wait for me judges every bar of a run (the final bar included); a single slip is remembered but is not yet a spot",
+      "Two slips in a bar make a trouble spot: a warm mark over that bar on the piece map, a chip in Practice tools and a summary on its button, all kept across a reload",
+      "Drill repeats the spot from its first bar, slows practice to 70% and says so in the dock; the chip shows it is the current repeat",
+      "Three clean passes round a one-bar drill clear the spot: the mark, chip and summary go, while the bar's history stays",
+      "Play in time judges graded bars too; the second slip names the spot on the report card, Library offers Drill, and Progress lists the spot beside the cleared bar and opens a 70% drill at bar 3",
+      "Forget removes a spot from the drawer, the map and the saved journal, keeping the other bars' history"
+    ],
+    "measurements": {
+      "firstSpotMark": {
+        "left": 25,
+        "width": 25,
+        "trouble": "1.00"
+      }
+    }
+  },
+  "nativeStory": {
+    "command": "node scripts/native-trouble-spots-qa.mjs (packaged release app, LUMA_QA_ROOT)",
+    "passed": true,
+    "version": "2.40.0",
+    "checks": [
+      "A newly imported piece shows no trouble spots",
+      "Wait for me judges every bar of a run (the final bar included); a single slip is remembered but is not yet a spot",
+      "Two slips in a bar make a trouble spot: a warm mark over that bar on the piece map, a chip in Practice tools and a summary on its button, all kept across a reload",
+      "Drill repeats the spot from its first bar, slows practice to 70% and says so in the dock; the chip shows it is the current repeat",
+      "Three clean passes round a one-bar drill clear the spot: the mark, chip and summary go, while the bar's history stays",
+      "Play in time judges graded bars too; the second slip names the spot on the report card, Library offers Drill, and Progress lists the spot beside the cleared bar and opens a 70% drill at bar 3",
+      "Forget removes a spot from the drawer, the map and the saved journal, keeping the other bars' history"
+    ],
+    "capturesSkipped": []
+  },
+  "regression": {
+    "chordReadingBrowser": {
+      "passed": true,
+      "checks": 3
+    },
+    "nativeHandGuide": {
+      "passed": false,
+      "version": null,
+      "checks": 0
+    },
+    "harnessDrift": [
+      "scripts/phrase-practice-checks.mjs: loop inputs moved into the Tools drawer in 2.39; the volume step is repaired, the spinbutton step is not (last green 2.2.0).",
+      "scripts/sight-reading-checks.mjs: Exercises options panel changed in 2.33; the volume step is repaired, the panel step is not (last green 2.2.0).",
+      "scripts/resume-audio-checks.mjs (in native-continuity-qa): asserts the pre-2.12 release tail (8 beats × 0.94 + 0.7 s); the 2.12 grand uses per-pitch damper release (last green 2.2.0)."
+    ],
+    "volumeHelper": "scripts/piano-volume.mjs opens the Tools drawer for the slider; 14 harnesses now use it."
+  },
+  "installation": {
+    "version": "2.40.0",
+    "previous": "2.39.0",
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/claude-2.40.0/previous-installed-Luma Keys-2.39.0.app",
+    "installedAt": "2026-10-06T22:00:53.040617-04:00",
+    "entries": 3035,
+    "personalFilesUnchanged": 107
+  },
+  "installedVersion": "2.40.0",
+  "candidateEntries": 3035,
+  "candidateAsar": "ed5b451f7de1d0a575e88ae9abb015c1721f760b5b3ce3238df53171eff56cbc",
+  "limits": [
+    "Computer keys stood in for a piano; physical MIDI, the microphone and the chat model were not exercised.",
+    "Piano output was muted in every automated run.",
+    "A packaged-app capture can be slow; captures are evidence, not checks, and none were skipped in the final native run.",
+    "The cold-start delay and variable frame pacing recorded in earlier versions are unchanged and unclaimed."
+  ]
+}

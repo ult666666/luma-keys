@@ -1,0 +1,25 @@
+{
+  "version": "1.7.0",
+  "files": 48,
+  "checkpoints": [
+    "before quitting the app",
+    "after a normal quit",
+    "after updating the Appassionata entry",
+    "after installing and relaunching 1.7.0"
+  ],
+  "unchangedByQuit": true,
+  "unchangedByInstallAndRelaunch": true,
+  "intendedChanges": [
+    "Library/35f5190a-a277-41a2-960f-635902383597.json (Appassionata III rebuilt as written; same id, title and history links)"
+  ],
+  "changed": [
+    "Library/35f5190a-a277-41a2-960f-635902383597.json"
+  ],
+  "removed": [],
+  "added": [],
+  "previousEntryBackup": ".qa-runs/accept-1.7/appassionata-1.6-no-repeats.json",
+  "installedBundleMatchesTestedBuild": {
+    "entries": 2991,
+    "differences": 0
+  }
+}

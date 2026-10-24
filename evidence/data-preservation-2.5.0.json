@@ -1,0 +1,22 @@
+{
+  "version": "2.5.0",
+  "installedAt": "2026-09-26T22:38:33.364704-04:00",
+  "filesAndSymlinks": 2991,
+  "personalFiles": 64,
+  "latestPersonalFilesUnchanged": true,
+  "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/studio-2.5/previous-installed-Luma Keys-2.4.0.app",
+  "verifiedAt": "2026-09-26T22:39:35.479181-04:00",
+  "filesAfterReopen": 64,
+  "changedAfterReopen": [],
+  "addedAfterReopen": [],
+  "allLatestFilesPreservedAfterReopen": true,
+  "installedUiObserved": {
+    "version": "2.5.0",
+    "score": "晴天 (Sunny Day)",
+    "scoreBars": 76,
+    "savedSpeedPercent": 95,
+    "savedVolume": 1,
+    "libraryPieces": 6,
+    "lastScreen": "Library"
+  }
+}

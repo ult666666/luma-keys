@@ -1,0 +1,44 @@
+{
+  "key": "bach",
+  "id": "bach-bwv846-complete-mutopia-20260927",
+  "title": "Prelude in C major · BWV 846",
+  "composer": "Johann Sebastian Bach",
+  "bars": 35,
+  "meter": 4,
+  "fifths": 0,
+  "mode": "major",
+  "bpm": 60,
+  "license": "Public Domain",
+  "typesetter": "Shay Rojansky, Han-Wen Nienhuys and Tobias Erbsland",
+  "mutopia": 5,
+  "sourcePath": "BachJS/BWV846/wtk1-prelude1/wtk1-prelude1.ly",
+  "description": "The complete 35-bar prelude from The Well-Tempered Clavier, Book I. Two hands; the repeating arpeggios retain the bass and inner-voice holds.",
+  "folder": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-library-20260927/staged/Practice Sheets/Prelude in C major - BWV 846",
+  "notes": 549,
+  "hands": {
+    "right": 415,
+    "left": 134
+  },
+  "warnings": [
+    "Fermatas are not held longer in the practice timeline; pause as long as you like. See bar 35.",
+    "The original final chord is arpeggiated (rolled); this practice timeline plays its notes together. The original PDF shows the performance marking."
+  ],
+  "xmlSHA256": "53343a26de948627928d8cabc20950d38b2339e133bacc2771cfabf5ce0e1469",
+  "sourceSHA256": "9e4540143b5c5a9884f215428837fe91d1b471b02669f3a07ce50560736078e9",
+  "maxBeat": 140,
+  "duration": 140,
+  "sourceEventXMLExact": true,
+  "verification": {
+    "midiNotes": 549,
+    "sourceMergedVoiceNotes": 549,
+    "missingReferenceOnsets": 0,
+    "additionalWrittenAttacksUnderSamePitchHold": [],
+    "durationDifferencesFromMidi": [],
+    "explanation": "MIDI can merge or truncate simultaneous same-key voices; written LilyPond duration is authoritative. MusicXML/App timing compares exactly after standard same-onset physical-key coalescing. Third-note MIDI gates may differ by one MIDI tick."
+  },
+  "referencePDF": {
+    "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV846/wtk1-prelude1/wtk1-prelude1-a4.pdf",
+    "sha256": "b1c5be9fb63954df9c1a3e7b651ae930c4e5e332a5ab3e14b197379cfa04c35a",
+    "bytes": 74577
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "version": "2.4.0",
+  "verifiedAt": "2026-09-27T02:18:54.006810+00:00",
+  "unitTests": 182,
+  "nativeAcceptance": [
+    {
+      "file": "native-keyboard-stage-2.4-qa.json",
+      "version": "2.4.0",
+      "groups": 17,
+      "passed": true
+    },
+    {
+      "file": "native-instructive-2.4-qa.json",
+      "version": "2.4.0",
+      "groups": 8,
+      "passed": true
+    },
+    {
+      "file": "native-beauty-2.4-qa.json",
+      "version": "2.4.0",
+      "groups": 6,
+      "passed": true
+    },
+    {
+      "file": "native-reader-qa.json",
+      "version": "2.4.0",
+      "groups": 9,
+      "passed": true
+    },
+    {
+      "file": "native-input-qa.json",
+      "version": "2.4.0",
+      "groups": 12,
+      "passed": true
+    },
+    {
+      "file": "native-transition-2.4.json",
+      "version": "2.4.0",
+      "groups": 2,
+      "passed": true
+    }
+  ],
+  "scope": "31 stage/guide/beauty groups passed before the final optional animation cancellation handler. Concurrent shell/design style edits were preserved. Final rebuilt package passed reader9/input12/navigation2, production Retina timing and native visual inspection. The hand model and cues were unchanged by the last build.",
+  "savedSunnyArrangementsVerified": 2,
+  "physicalMIDIHardwareTested": false,
+  "bundleEntries": 2991,
+  "installedMatchesTestedBundle": true,
+  "personalDataEvidence": "data-preservation-2.4.0.json",
+  "motionEvidence": [
+    "native-stage-performance-2.4.json",
+    "native-beauty-2.4-qa.json",
+    "retina-2.4-final.json"
+  ],
+  "sourcePatch": ".qa-runs/instructive-2.4/implementation.patch"
+}

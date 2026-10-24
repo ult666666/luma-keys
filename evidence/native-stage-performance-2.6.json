@@ -1,0 +1,572 @@
+{
+  "samples": [
+    {
+      "before": {
+        "native": {
+          "version": "2.6.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "visible": true,
+              "focused": false,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 817
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 817
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "clock": {
+            "now": 1.984,
+            "start": 1.968,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 0.03200000000000003,
+            "beat": 0.021333333333333204,
+            "latency": 0.021333333333333426,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "after": {
+        "native": {
+          "version": "2.6.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "visible": true,
+              "focused": false,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 817
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 817
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "clock": {
+            "now": 4.506666666666667,
+            "start": 1.968,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 5.077333333333334,
+            "beat": 5.056000000000001,
+            "latency": 0.02133333333333365,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "count": 150,
+      "median": 16.699999999999818,
+      "p95": 17.899999999999636,
+      "max": 18.699999999999818,
+      "over33ms": 0
+    },
+    {
+      "before": {
+        "native": {
+          "version": "2.6.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "visible": true,
+              "focused": false,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 817
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 817
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "clock": {
+            "now": 4.666666666666667,
+            "start": 4.650666666666667,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 0.03200000000000003,
+            "beat": 0.02133333333333276,
+            "latency": 0.02133333333333365,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "after": {
+        "native": {
+          "version": "2.6.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "visible": true,
+              "focused": false,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 817
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 817
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "clock": {
+            "now": 7.210666666666667,
+            "start": 4.650666666666667,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 5.119999999999999,
+            "beat": 5.098666666666666,
+            "latency": 0.02133333333333365,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "count": 150,
+      "median": 16.699999999999818,
+      "p95": 18.299999999999272,
+      "max": 18.600000000000364,
+      "over33ms": 0
+    },
+    {
+      "before": {
+        "native": {
+          "version": "2.6.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "visible": true,
+              "focused": false,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 817
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 817
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "clock": {
+            "now": 7.370666666666667,
+            "start": 7.354666666666667,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 0.03200000000000003,
+            "beat": 0.02133333333333276,
+            "latency": 0.02133333333333365,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "after": {
+        "native": {
+          "version": "2.6.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 817
+              },
+              "visible": true,
+              "focused": false,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 817
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 817
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "clock": {
+            "now": 9.882666666666667,
+            "start": 7.354666666666667,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 5.056000000000001,
+            "beat": 5.056000000000001,
+            "latency": 0.02133333333333276,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "count": 150,
+      "median": 16.69999999999891,
+      "p95": 18,
+      "max": 18.700000000000728,
+      "over33ms": 0
+    }
+  ],
+  "passed": true
+}

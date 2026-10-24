@@ -1,0 +1,17 @@
+{
+  "version": "1.8.0",
+  "files": 48,
+  "checkpoints": [
+    "before quitting the app",
+    "after a normal quit",
+    "after installing and relaunching 1.8.0"
+  ],
+  "unchanged": true,
+  "changed": [],
+  "removed": [],
+  "added": [],
+  "installedBundleMatchesTestedBuild": {
+    "entries": 2991,
+    "differences": 0
+  }
+}

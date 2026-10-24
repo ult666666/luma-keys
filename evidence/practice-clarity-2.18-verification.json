@@ -1,0 +1,109 @@
+{
+  "version": "2.18.0",
+  "completedAt": "2026-09-27T18:14:29.565983-04:00",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedVerification": {
+    "version": "2.18.0",
+    "verifiedAt": "2026-09-27T18:13:01.487475-04:00",
+    "installedArchiveSHA256": "58d1cb41c815ecae675278a4c3f7d4308c57b28789c47f4efb37e244d9ae4dbf",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 2992,
+    "personalFiles": 107,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "nativeGroups": 7,
+    "timingAttacks": 388,
+    "switchAttacks": 171
+  },
+  "personalState": {
+    "savedPieces": 10,
+    "piece": "龙卷风 · 邓紫棋版",
+    "companion": "Beethoven",
+    "view": "Falling notes",
+    "resumedBar": 69,
+    "paused": true,
+    "allLatest107PersonalFilesUnchanged": true
+  },
+  "changes": [
+    "Compact main controls with secondary Score tools and Practice tools",
+    "Bounded sheet engraving with complete original score retained for Review",
+    "Shared 0.5 second automatic audio scheduling horizon with cancellation",
+    "Refined procedural hand anatomy and shorter finger guidance",
+    "Steady timeline height and more space for the full grand staff"
+  ],
+  "verification": {
+    "fullUnitAndApiTestsPassed": 403,
+    "nativeUiGroupsPassed": 7,
+    "nativeScreenshotsReviewed": 27,
+    "sourceInputsStable": 585,
+    "packagedSourceAssetsAndHelperMatch": 510,
+    "installedBundleEntriesMatch": 2992,
+    "timing": {
+      "denseAttacks": {
+        "observed": 237,
+        "expected": 237
+      },
+      "codaAttacks": {
+        "observed": 151,
+        "expected": 151
+      },
+      "freshSheetSwitchAttacks": {
+        "observed": 171,
+        "expected": 171
+      },
+      "totalMatchedAttacks": 559,
+      "maxOnsetErrorMs": 5.3,
+      "denseMaxFrameGapMs": 66.6,
+      "codaMaxFrameGapMs": 100,
+      "denseAndCodaP95FrameGapMs": 18.6,
+      "firstSheetMountMaxFrameGapMs": 266.6,
+      "futureSourceCancellationPassed": [
+        "pause",
+        "seek",
+        "speed"
+      ],
+      "measurement": "Muted native Web Audio scheduling; not physical speaker latency"
+    },
+    "hands": {
+      "focusedTestsPassed": 39,
+      "matchedPoses": 168,
+      "pressedContactsCompared": 288,
+      "maxContactCoordinateChangePx": 0
+    },
+    "sheet": {
+      "focusedTestsPassed": 14,
+      "savedScoreDocumentsChecked": 10,
+      "sourceFilesUnchanged": true,
+      "fullReviewBars": 569,
+      "firstSystemInkInsidePaper": true
+    },
+    "physicalMidiTested": false,
+    "simulatedMidiPassed": true,
+    "ownedQaAppsClosed": true
+  },
+  "limitations": [
+    "First-time Sheet engraving still causes a brief visual stall; sampled audio remained intact.",
+    "Very long or unsupported notation context uses the complete-document rendering fallback.",
+    "At narrow/short sizes, speed controls can stack; mobile accompaniment uses an icon with its accessible name.",
+    "Hand poses and fingerings are instructional suggestions, not a biomechanical simulation.",
+    "No new freeform model quality, arbitrary PDF recognition, physical MIDI or speaker latency claim is made."
+  ],
+  "newGeneratedArt": false,
+  "scheduleExtended": false,
+  "reports": {
+    "tests": ".qa-runs/practice-clarity-2.18/final2-full-tests.txt",
+    "nativeUi": ".qa-runs/practice-clarity-2.18/final2-ui/native-report.json",
+    "visualReview": ".qa-runs/practice-clarity-2.18/final2-ui/VISUAL-ACCEPTANCE.md",
+    "timing": ".qa-runs/practice-clarity-2.18/final2-timing.json",
+    "freshSheetTiming": ".qa-runs/practice-clarity-2.18/final2-switch-timing.json",
+    "timingAnalysis": ".qa-runs/practice-clarity-2.18/TIMING-EVIDENCE.md",
+    "packageIntegrity": ".qa-runs/practice-clarity-2.18/reports/package-integrity.json",
+    "sourceSnapshot": ".qa-runs/practice-clarity-2.18/candidate-source.json",
+    "hands": ".qa-runs/practice-clarity-2.18/hand-final-report.json",
+    "sheetLibrary": ".qa-runs/practice-clarity-2.18/window-library-report.json",
+    "sheetRendering": ".qa-runs/practice-clarity-2.18/window-render-report.json",
+    "installation": ".qa-runs/practice-clarity-2.18/installation.json",
+    "installedVerification": ".qa-runs/practice-clarity-2.18/installed-verification.json"
+  },
+  "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/practice-clarity-2.18/previous-installed-Luma Keys-2.17.0.app",
+  "evidencePolicy": "Final2 reports refer to the installed archive. Earlier rejected candidates and failed attempts remain separately retained."
+}

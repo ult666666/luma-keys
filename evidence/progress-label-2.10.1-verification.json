@@ -1,0 +1,41 @@
+{
+  "version": "2.10.1",
+  "passed": true,
+  "completedAt": "2026-09-27T09:37:47.303785-04:00",
+  "fix": "Daily goal value moved out of the bar plot into a wrapping chart header; accessible chart description includes goal.",
+  "nativeChartStates": 28,
+  "widths": [
+    1280,
+    900,
+    390,
+    320
+  ],
+  "goals": [
+    5,
+    20,
+    120,
+    240
+  ],
+  "liveGoalUpdate": true,
+  "rendererErrors": [],
+  "installation": {
+    "version": "2.10.1",
+    "installedAt": "2026-09-27T09:37:00.109213-04:00",
+    "filesAndSymlinks": 2992,
+    "personalFiles": 68,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/progress-label-2.10.1/previous-installed-Luma Keys-2.10.0.app"
+  },
+  "package": {
+    "version": "2.10.1",
+    "checkedFiles": 301,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "9ccbddf5ff6a8f679dd748515a087468f534f4dc12c50f855e4846c35a472bda"
+  },
+  "unchangedPersonalFilesAfterReopening": 68,
+  "installedProgressVisuallyVerified": true,
+  "evidence": "/Users/prince/Desktop/Luma Keys/.qa-runs/progress-label-2.10.1",
+  "knownUnrelatedBaseline": "At320px, both2.10.0 and2.10.1 have340px document width. Goal label/card remain inside viewport at320. Whole-page overflow assertions pass at390/900/1280. Existing shell width was not changed.",
+  "scope": "Two source files plus package version; no music, chat or practice logic changes."
+}

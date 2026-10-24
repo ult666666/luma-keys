@@ -1,0 +1,90 @@
+{
+  "version": "2.10.0",
+  "passed": true,
+  "completedAt": "2026-09-27T09:31:03.696458-04:00",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "run": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749",
+  "unitApiTests": 317,
+  "nativeConversationGroups": 12,
+  "nativeRealCoachGroups": 7,
+  "nativeInputGroups": 12,
+  "independentPresenceGroups": 7,
+  "independentLessonActionGroups": 6,
+  "independentScrollRegressionGroups": 4,
+  "responsiveSizes": [
+    [
+      1280,
+      800
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      1100,
+      520
+    ],
+    [
+      390,
+      520
+    ]
+  ],
+  "package": {
+    "version": "2.10.0",
+    "checkedFiles": 301,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "8043be098384cfac1a737f59e73d96704bb2498e7368bd880fee3e52130b6e44"
+  },
+  "installation": {
+    "version": "2.10.0",
+    "installedAt": "2026-09-27T09:26:20.420044-04:00",
+    "filesAndSymlinks": 2992,
+    "personalFiles": 68,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/previous-installed-Luma Keys-2.9.0.app"
+  },
+  "reopening": {
+    "passed": true,
+    "latestPersonalFiles": 68,
+    "unchangedAfterInstallationAndReopening": true,
+    "changedFiles": [],
+    "previewPortsClosed": {
+      "5202": true,
+      "5203": true
+    },
+    "installedUI": {
+      "companion": "Lang Lang",
+      "score": "Appassionata · III. Allegro ma non troppo — Presto",
+      "bars": 569,
+      "resumeBar": 3,
+      "view": "falling",
+      "speed": 100,
+      "hand": "both",
+      "pianoVolume": 1,
+      "paused": true,
+      "petGreetingVerified": true,
+      "personalChatSentByQA": false
+    }
+  },
+  "evidence": {
+    "conversation": "evidence/native-conversation-2.10-release-qa.json",
+    "coach": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/reports/native-coach.json",
+    "input": "evidence/native-input-coach-2.10-qa.json",
+    "motion": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/presence/report.json",
+    "scroll": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/presence/scroll-geometry-check.json",
+    "realModel": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/model-eval/REVIEW.md",
+    "sourceChanges": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/reports/source-changes.json",
+    "screenshots": [
+      "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/screenshots/native-mozart-coach.png",
+      "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/screenshots/native-chinese-lesson.png"
+    ]
+  },
+  "limitations": [
+    "General on-device replies can be generic, slow or incorrect; precise passage lessons use score-derived application logic.",
+    "No acoustic-piano listening, posture analysis or mastery assessment.",
+    "Physical MIDI hardware and arbitrary new PDFs were not retested in this companion pass."
+  ],
+  "earlierFailuresPreserved": true,
+  "automationExtended": false
+}

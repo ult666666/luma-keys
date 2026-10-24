@@ -1,0 +1,157 @@
+{
+  "version": "2.31.0",
+  "verifiedAt": "2026-10-03T14:02:59.390700-04:00",
+  "scope": "Compact, cute Progress page; includes the previously verified2.30 natural-hand redesign.",
+  "changes": [
+    "Compact daily ring, weekly dots, small current companion and streak badge",
+    "Exclusive Two weeks/Calendar Activity view with values and accessible dates",
+    "Library-artwork piece cards, exact saved-bar Continue and optional original piece maps",
+    "Expandable graded reports retain stats, trend, level results, Show more and exact reopening",
+    "Displayed coverage/resume clipped to replacement-score bounds without rewriting journal",
+    "Six-month calendar scrolls inside a constrained card on narrow windows",
+    "Roaming companion avoids streak/goal labels; its travelling hit target lets Progress clicks through"
+  ],
+  "automatedChecks": {
+    "fullUnitApi": {
+      "passed": 787,
+      "failed": 0,
+      "report": ".qa-runs/progress-cute-2.31/reports/unit-final2.txt",
+      "note": "Full suite passed before the final goal-label selector and CSS transit pointer correction."
+    },
+    "focusedAfterFinalSelector": {
+      "passed": 56,
+      "failed": 0,
+      "report": ".qa-runs/progress-cute-2.31/reports/buddy-progress-final.txt"
+    },
+    "exactFinalPackageNative": {
+      "groups": 15,
+      "reports": [
+        ".qa-runs/progress-cute-2.31/final8-populated/report.json",
+        ".qa-runs/progress-cute-2.31/final8-empty/report.json",
+        ".qa-runs/progress-cute-2.31/final8-goal/report.json"
+      ],
+      "supplementalMobileGraded": ".qa-runs/progress-cute-2.31/final8-graded-mobile/report.json",
+      "passed": true,
+      "errors": [],
+      "modelRequests": [],
+      "allOwnedAppsClosedNormally": true
+    }
+  },
+  "nativeChecks": [
+    {
+      "scenario": "populated",
+      "checks": [
+        "Compact 84px today ring, precise local journal values, one Activity chart, collapsed graded disclosure and clickable companion greeting render without model requests.",
+        "Three artwork piece cards preserve exact disjoint coverage, saved-bar labels and optional maps; the removed score remains visible without a Continue action.",
+        "Piece cards and Activity controls have no document overflow, section overlap or covered controls across the tested responsive windows.",
+        "Two weeks/Calendar are exclusive; 12/26-week calendar toggles persist across reload while journal/history remain intact.",
+        "Continue opens all three real score copies at the exact saved bar with playback paused; the retained 3D hands are ready with finite contacts and every held fingertip within 2mm.",
+        "Calendar accepts an immediate click after viewport/scroll changes; real walking disables only the companion hit target, and a settled pet still responds to a single greeting without inference.",
+        "Expanded graded runs retain accuracy/timing chart, correct stats and level table, Show more, piece Open and exact seeded-exercise Open.",
+        "Ocean, Rose and Neutral themes remain readable and layout-safe; reduced motion keeps the greeting announcement and removes Progress motion."
+      ]
+    },
+    {
+      "scenario": "empty",
+      "checks": [
+        "Compact 84px today ring, precise local journal values, one Activity chart, collapsed graded disclosure and clickable companion greeting render without model requests.",
+        "Empty journal and graded-history states are clear and controls remain reachable at desktop and phone widths.",
+        "Two weeks/Calendar are exclusive; 12/26-week calendar toggles persist across reload while journal/history remain intact."
+      ]
+    },
+    {
+      "scenario": "goal",
+      "checks": [
+        "Compact 84px today ring, precise local journal values, one Activity chart, collapsed graded disclosure and clickable companion greeting render without model requests.",
+        "Three artwork piece cards preserve exact disjoint coverage, saved-bar labels and optional maps; the removed score remains visible without a Continue action.",
+        "Piece cards and Activity controls have no document overflow, section overlap or covered controls across the tested responsive windows.",
+        "Two weeks/Calendar are exclusive; 12/26-week calendar toggles persist across reload while journal/history remain intact."
+      ]
+    }
+  ],
+  "package": {
+    "version": "2.31.0",
+    "checkedFiles": 525,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "974645466ca6b1966efc87fff70bca72ecfa120b62be69937650d065c59add07"
+  },
+  "unchangedBuildInputs": 643,
+  "installation": {
+    "version": "2.31.0",
+    "verifiedAt": "2026-10-03T13:59:43.461030-04:00",
+    "installedArchiveSHA256": "974645466ca6b1966efc87fff70bca72ecfa120b62be69937650d065c59add07",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "unchangedPersonalFiles": 108,
+    "changedPersonalFiles": [],
+    "allLatestPersonalFilesUnchanged": true,
+    "allScoreExportConversationFilesUnchanged": true,
+    "savedMusicAndPracticeSettingsPreserved": [
+      "last",
+      "mode",
+      "hand",
+      "speed",
+      "readingView",
+      "keyHands",
+      "interpretation",
+      "countIn",
+      "metronome",
+      "accompany",
+      "loop",
+      "loopA",
+      "loopB"
+    ],
+    "currentAppearance": {
+      "companion": "langlang",
+      "colours": "ocean",
+      "companionStyle": false
+    },
+    "nativeGroups": 15,
+    "nativeReports": [
+      ".qa-runs/progress-cute-2.31/final8-populated/report.json",
+      ".qa-runs/progress-cute-2.31/final8-empty/report.json",
+      ".qa-runs/progress-cute-2.31/final8-goal/report.json"
+    ]
+  },
+  "liveDesktop": {
+    "observedAt": "2026-10-03T14:02:59.390700-04:00",
+    "method": "CUA native accessibility and displayed screenshot of the actual Desktop app",
+    "page": "Progress",
+    "companion": "Lang Lang",
+    "colours": "Ocean",
+    "totalPractice": "2 h 13 min",
+    "todayMinutesAccessible": 1.7,
+    "practiceGoalMinutes": 20,
+    "weeklyMinutes": 36,
+    "streakDays": 2,
+    "historyPieceEntries": 12,
+    "savedAppassionataBar": 31,
+    "preProgressPractice": "Appassionata, paused at bar1, saved Resume bar31, Perform/Both/100%/Falling notes/Hands enabled",
+    "uiHealthy": true,
+    "screenshot": "Displayed inline through CUA; not exported to a local image file."
+  },
+  "visualReview": {
+    "rootAccepted": true,
+    "independentReviewAccepted": true,
+    "screenshotsUseSyntheticHistory": true,
+    "actualLivePersonalProgressAlsoReviewed": true,
+    "finalPackagedCaptures": [
+      ".qa-runs/progress-cute-2.31/final8-populated/progress-1440.png",
+      ".qa-runs/progress-cute-2.31/final8-populated/progress-800.png",
+      ".qa-runs/progress-cute-2.31/final8-populated/progress-390.png",
+      ".qa-runs/progress-cute-2.31/final8-populated/populated-calendar-390.png",
+      ".qa-runs/progress-cute-2.31/final8-populated/theme-rose.png",
+      ".qa-runs/progress-cute-2.31/final8-graded-mobile/graded-mobile-full-390.png",
+      ".qa-runs/progress-cute-2.31/final8-populated/practice-resume-hands.png"
+    ]
+  },
+  "retainedDiagnostics": "Earlier native attempts remain in .qa-runs/progress-cute-2.31; include harness isolation/RAF/selector assumptions, the real narrow-calendar overflow and the travelling-pet click interception, both fixed in the final package.",
+  "limitations": [
+    "Native QA used muted audio and isolated copies of real scores with synthetic history.",
+    "Physical audio, MIDI, microphone recognition and model inference were not retested in this interface pass.",
+    "Initial macOS control and launch reads timed out; fresh full-path reconnection recovered, normal quit and actual reopening were verified."
+  ],
+  "newSchedule": false
+}

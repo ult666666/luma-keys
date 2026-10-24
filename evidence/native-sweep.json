@@ -1,0 +1,177 @@
+{
+  "version": "2.44.0",
+  "app": "release/mac-arm64/Luma Keys.app",
+  "ranAt": "2026-10-09T22:55:52.312Z",
+  "passed": 18,
+  "stories": 24,
+  "results": [
+    {
+      "story": "native-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 95,
+      "summary": "PASS: native packaged app, audio, export, and full PDF recognition flow."
+    },
+    {
+      "story": "native-input-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 27,
+      "summary": "PASS native input flows: 12 checks; version 2.44.0"
+    },
+    {
+      "story": "native-reader-qa",
+      "passed": false,
+      "exit": 1,
+      "seconds": 40,
+      "summary": "at verifyReader (/Users/prince/Desktop/Luma Keys/scripts/reader-checks.mjs:404:6)"
+    },
+    {
+      "story": "native-material-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 12,
+      "summary": "PASS native material 2.44.0 7 checks"
+    },
+    {
+      "story": "native-keyboard-stage-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 78,
+      "summary": "PASS native keyboard stage 2.44.0 17 checks"
+    },
+    {
+      "story": "native-backing-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 78,
+      "summary": "PASS native accompaniment 2.44.0 11 groups"
+    },
+    {
+      "story": "native-grand-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 48,
+      "summary": "passed: true"
+    },
+    {
+      "story": "native-companion-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 83,
+      "summary": "PASS native companion rooms 2.44.0 9 groups"
+    },
+    {
+      "story": "native-conversation-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 53,
+      "summary": "PASS native conversation 2.44.0 12 groups"
+    },
+    {
+      "story": "native-maestro-qa",
+      "passed": false,
+      "exit": 1,
+      "seconds": 20,
+      "summary": "ExpectError: expect(locator).toBeVisible() failed"
+    },
+    {
+      "story": "native-studio-design-qa",
+      "passed": false,
+      "exit": 1,
+      "seconds": 7873,
+      "summary": "Error: ENOSPC: no space left on device, open 'evidence/native-studio-2.5-failure.json'"
+    },
+    {
+      "story": "native-hand-beauty-qa",
+      "passed": false,
+      "exit": 1,
+      "seconds": 27,
+      "summary": "at collect (/Users/prince/Desktop/Luma Keys/scripts/hand-beauty-checks.mjs:109:10)"
+    },
+    {
+      "story": "native-hand-guide-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 22,
+      "summary": "PASS native hand guide 2.44.0 8 groups"
+    },
+    {
+      "story": "native-continuity-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 27,
+      "summary": "PASS native continuity 2.44.0 {"
+    },
+    {
+      "story": "native-phrase-practice-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 9,
+      "summary": "PASS native phrase practice 2.44.0 10 checks"
+    },
+    {
+      "story": "native-sight-reading-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 45,
+      "summary": "PASS native sight reading 2.44.0 5 checks"
+    },
+    {
+      "story": "native-stage-performance-qa",
+      "passed": false,
+      "exit": 1,
+      "seconds": 40,
+      "summary": "at /Users/prince/Desktop/Luma Keys/scripts/native-stage-performance-qa.mjs:171:27 {"
+    },
+    {
+      "story": "native-storage-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 5,
+      "summary": "PASS native storage 2.44.0 4 checks"
+    },
+    {
+      "story": "native-trouble-spots-qa",
+      "passed": false,
+      "exit": 1,
+      "seconds": 38,
+      "summary": "at verifyTroubleSpots (/Users/prince/Desktop/Luma Keys/scripts/trouble-spots-checks.mjs:313:18)"
+    },
+    {
+      "story": "native-transition-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 6,
+      "summary": "PASS native transition cancellation 2.44.0 2 groups"
+    },
+    {
+      "story": "native-library-access-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 22,
+      "summary": "PASS native library access 2.44.0 3 checks"
+    },
+    {
+      "story": "native-recovery-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 25,
+      "summary": "PASS native recovery 2.44.0 3 checks"
+    },
+    {
+      "story": "close-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 20,
+      "summary": ""
+    },
+    {
+      "story": "recognition-close-qa",
+      "passed": true,
+      "exit": 0,
+      "seconds": 117,
+      "summary": "PASS quit 470ms; no engine left; recovered and retried 16 notes"
+    }
+  ]
+}

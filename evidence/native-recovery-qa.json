@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "version": "2.44.0",
+  "checks": [
+    "A note edited in Review leaves an earlier version, listed from the Library card's menu; restoring it brings the note back in the Library and in the open piece, and keeps the edited version",
+    "A removed piece is listed in Recently removed and restored under its own id with its practice history; a damaged copy is shown without a Restore button and left untouched",
+    "Settings history lists today's snapshot; restoring it after a colour change asks once, brings the earlier colours back live and keeps the replaced settings as a restorable copy"
+  ],
+  "errors": []
+}

@@ -1,0 +1,90 @@
+{
+  "version": "2.37.0",
+  "packageSHA256": "abee16cce0d3a9a8aeee238bc2a8525e287cbb6bbe38575713dce0f093986719",
+  "checks": [
+    "Sunny Day screenshot pose, next note and 1440/1280/800/390/short-window layouts retain 3-D hands, finite contacts, readable keys and reachable playback.",
+    "Reduced motion keeps placed fingertips aligned; hiding and showing hands restores the ready renderer without a new failure.",
+    "Ocean, Rose, Match companion and Neutral keep distinct keyboard finishes, stable prepared hand geometry and accurate contacts.",
+    "Left/right five-second practice jumps remain exact at 60% and leave the paused hands valid.",
+    "Repeated opening chords show each pitch once, with an accessible new-attack repeat cue.",
+    "Octaves, held chords, black keys and coda render correctly; live Appassionata animates with valid contacts, continuing clock and cancelled queued audio on Pause.",
+    "Persisted score/settings and prepared hands survive reload with no renderer errors."
+  ],
+  "unitChecks": {
+    "handSuiteBeforeNoThumbScopeRestoration": 103,
+    "finalScopeFocused": 8,
+    "guidanceCoachKeyboardSeek": 37
+  },
+  "poseEquivalenceBeforeSeparateCrossingFix": 786,
+  "solveCountReductionPercent": 1.58,
+  "bar267MaximumNearbyHeldErrorMm": 0.664,
+  "codaPosesUnchanged": 360,
+  "nativePlayback": {
+    "frames": 333,
+    "p50": 16.700000000000728,
+    "p95": 33,
+    "max": 66.90000000000146
+  },
+  "nativeHandCPU": {
+    "n": 329,
+    "mean": 2.478,
+    "p50": 2.2,
+    "p95": 4.3,
+    "max": 10.8
+  },
+  "releaseCueFramesChecked": 84,
+  "displacedLeaderVisuallyExercised": false,
+  "nativePassed": true,
+  "nativeAppClosed": true,
+  "sourceAssetsMatch": {
+    "version": "2.37.0",
+    "checkedFiles": 531,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "abee16cce0d3a9a8aeee238bc2a8525e287cbb6bbe38575713dce0f093986719"
+  },
+  "sourceInputs": 657,
+  "visualReview": "Opening, coda, transition, 390px and repeat guidance accepted by root and independent reviewer.",
+  "limitations": [
+    "One six-second native playback sample does not establish constant 60 fps.",
+    "Leader geometry is unit-tested and code-reviewed, not visually exercised in sampled score frames.",
+    "No physical piano, MIDI, microphone, audible sound or chat-model inference was tested in this hand-only pass."
+  ],
+  "retainedDiagnostics": [
+    "Initial broad crossing guard failed the existing Tornado legato test and was rejected.",
+    "First native run expected repeat at0 at60%speed, but the next attack was1.04s away and correctly outside the one-second cue window. Final harness checks both sides of this boundary without changing production code."
+  ],
+  "evidenceImages": [
+    "native-hand-guide-2.37-opening.png",
+    "native-hand-guide-2.37-transition.png",
+    "native-hand-guide-2.37-coda.png"
+  ],
+  "installed": true,
+  "installation": {
+    "installedVersion": "2.37.0",
+    "previousVersion": "2.36.0",
+    "packageSHA256": "abee16cce0d3a9a8aeee238bc2a8525e287cbb6bbe38575713dce0f093986719",
+    "bundleEntries": 3035,
+    "unchangedMusicalPersonalFiles": 107,
+    "freshBackup": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-flow-2.37/personal-backup-without-chat",
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-flow-2.37/previous-installed-Luma Keys-2.36.0.app"
+  },
+  "actualDesktopReopened": true,
+  "actualDesktopObservation": {
+    "method": "Native CUA accessibility and screenshot",
+    "url": "http://127.0.0.1:50828/",
+    "piece": "Appassionata III",
+    "paused": true,
+    "bar": 1,
+    "resumeBar": 31,
+    "theme": "Ocean",
+    "companion": "Lang Lang",
+    "mode": "Perform",
+    "hand": "Both",
+    "speedPercent": 100,
+    "view": "Falling notes",
+    "handsVisible": true,
+    "compactRepeatCuesVisible": true,
+    "firstInspectionTimedOut": true
+  }
+}

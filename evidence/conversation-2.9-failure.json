@@ -1,0 +1,11 @@
+{
+  "error": "locator.inputValue: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('slider', { name: 'Song position' })\u001b[22m\n",
+  "evidence": {
+    "checks": [
+      "English and Chinese searches retain separate arrangements; a follow-up selects the second prior choice and opens it paused.",
+      "Explicit seek, phrase repeat, and slower commands update the real paused controls; invalid bars and missing pieces do not invent or change a score."
+    ],
+    "measurements": {},
+    "errors": []
+  }
+}

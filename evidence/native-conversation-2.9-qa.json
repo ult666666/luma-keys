@@ -1,0 +1,174 @@
+{
+  "passed": true,
+  "version": "2.44.0",
+  "checks": [
+    "Legacy preferences open with neutral colours and remain byte-for-byte unchanged, and the temporary chat creates no history file before or after a full conversation.",
+    "Current-bar help uses the exact written-score lesson, labelled “From your score”, with no model request or generation controls even when the model is available.",
+    "English and Chinese searches retain separate arrangements; a follow-up selects the second prior choice and opens it paused.",
+    "Explicit seek, phrase repeat, and slower commands update the real paused controls; invalid bars and missing pieces do not invent or change a score.",
+    "Opening chat releases held notes; textarea typing, composition Enter and Shift+Enter cannot play or advance; MIDI sounds beside the non-modal dock without changing practice; Tab can leave it and Escape minimizes it with launcher focus restored.",
+    "The temporary transcript keeps its order, text and enabled choices across closing and minimizing the dock, is absent from the history API and browser storage, and is gone after a reload.",
+    "New chat clears messages and the draft, announces that music and progress are unchanged, and leaves the piece, position, speed, hand, loop and library exactly as they were.",
+    "Editing a saved score disables its old conversation action; a fresh search creates an enabled action for the updated score.",
+    "A controlled model stream renders progressive text, sends a bounded current-piece excerpt, keeps the completed on-device reply in the transcript and cannot execute practice actions while pending.",
+    "Stop and closing the dock abort the stream, keep clearly marked partial replies and reject late chunks; retry replaces the partial response without duplicating the user's question, and changing the piece disables stale retries.",
+    "Chat composer and transcript fit desktop, narrow and short windows, long drafts wrap, reduced motion disables decoration, and all three library screens avoid horizontal overflow.",
+    "A failed legacy-chat cleanup is reported in the dock without blocking chat; Retry cleans up without sending conversation text, and the piano still exposes 88 keys and a reachable Play control."
+  ],
+  "measurements": {
+    "chat-desktop": {
+      "width": 1280,
+      "height": 800,
+      "page": 1280,
+      "dock": {
+        "x": 912,
+        "y": 76,
+        "right": 1264,
+        "bottom": 782,
+        "width": 352,
+        "height": 706,
+        "client": 352,
+        "scroll": 352
+      },
+      "composer": {
+        "x": 912,
+        "y": 630,
+        "right": 1264,
+        "bottom": 782,
+        "width": 352,
+        "height": 152,
+        "client": 352,
+        "scroll": 352
+      },
+      "transcript": {
+        "x": 912,
+        "y": 236,
+        "right": 1264,
+        "bottom": 478,
+        "width": 352,
+        "height": 242,
+        "client": 352,
+        "scroll": 352
+      }
+    },
+    "chat-mobile": {
+      "width": 390,
+      "height": 844,
+      "page": 384,
+      "dock": {
+        "x": 20,
+        "y": 362,
+        "right": 372,
+        "bottom": 832,
+        "width": 352,
+        "height": 470,
+        "client": 352,
+        "scroll": 352
+      },
+      "composer": {
+        "x": 20,
+        "y": 680,
+        "right": 372,
+        "bottom": 832,
+        "width": 352,
+        "height": 152,
+        "client": 352,
+        "scroll": 352
+      },
+      "transcript": {
+        "x": 20,
+        "y": 522,
+        "right": 372,
+        "bottom": 546,
+        "width": 352,
+        "height": 24,
+        "client": 352,
+        "scroll": 352
+      }
+    },
+    "chat-short": {
+      "width": 1280,
+      "height": 580,
+      "page": 1274,
+      "dock": {
+        "x": 906,
+        "y": 65,
+        "right": 1258,
+        "bottom": 551,
+        "width": 352,
+        "height": 486,
+        "client": 352,
+        "scroll": 352
+      },
+      "composer": {
+        "x": 906,
+        "y": 399,
+        "right": 1258,
+        "bottom": 551,
+        "width": 352,
+        "height": 152,
+        "client": 352,
+        "scroll": 352
+      },
+      "transcript": {
+        "x": 906,
+        "y": 203,
+        "right": 1258,
+        "bottom": 247,
+        "width": 352,
+        "height": 44,
+        "client": 352,
+        "scroll": 352
+      }
+    },
+    "library-1280": {
+      "width": 1280,
+      "height": 800,
+      "page": 1274,
+      "dock": null,
+      "composer": null,
+      "transcript": null
+    },
+    "exercises-1280": {
+      "width": 1280,
+      "height": 800,
+      "page": 1274,
+      "dock": null,
+      "composer": null,
+      "transcript": null
+    },
+    "progress-1280": {
+      "width": 1280,
+      "height": 800,
+      "page": 1274,
+      "dock": null,
+      "composer": null,
+      "transcript": null
+    },
+    "library-390": {
+      "width": 390,
+      "height": 844,
+      "page": 384,
+      "dock": null,
+      "composer": null,
+      "transcript": null
+    },
+    "exercises-390": {
+      "width": 390,
+      "height": 844,
+      "page": 384,
+      "dock": null,
+      "composer": null,
+      "transcript": null
+    },
+    "progress-390": {
+      "width": 390,
+      "height": 844,
+      "page": 384,
+      "dock": null,
+      "composer": null,
+      "transcript": null
+    }
+  },
+  "errors": []
+}

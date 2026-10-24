@@ -1,0 +1,78 @@
+{
+  "checks": [
+    "Explicitly skipped view/keyboard/runway transitions still commit every requested layout without unhandled ready rejections",
+    "Three immediate Sheet→Falling replacements retain the final requested view, return to Number, and execute each update once without unhandled errors"
+  ],
+  "trace": {
+    "forceSkip": false,
+    "transitions": [
+      {
+        "forced": true,
+        "updates": 1
+      },
+      {
+        "forced": true,
+        "updates": 1
+      },
+      {
+        "forced": true,
+        "updates": 1
+      },
+      {
+        "forced": true,
+        "updates": 1
+      },
+      {
+        "forced": true,
+        "updates": 1
+      },
+      {
+        "forced": true,
+        "updates": 1
+      },
+      {
+        "forced": true,
+        "updates": 1
+      },
+      {
+        "forced": false,
+        "updates": 1
+      },
+      {
+        "forced": false,
+        "updates": 1
+      },
+      {
+        "forced": false,
+        "updates": 1
+      },
+      {
+        "forced": false,
+        "updates": 1
+      },
+      {
+        "forced": false,
+        "updates": 1
+      },
+      {
+        "forced": false,
+        "updates": 1
+      },
+      {
+        "forced": false,
+        "updates": 1
+      },
+      {
+        "forced": false,
+        "updates": 1
+      },
+      {
+        "forced": false,
+        "updates": 1
+      }
+    ],
+    "unhandled": []
+  },
+  "version": "2.44.0",
+  "passed": true
+}

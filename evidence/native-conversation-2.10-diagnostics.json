@@ -1,0 +1,16 @@
+{
+  "failure": "expect(locator).toBeVisible() failed\n\nLocator: getByRole('button', { name: 'Latest messages', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('button', { name: 'Latest messages', exact: true }) with timeout 5000ms\n  - waiting for getByRole('button', { name: 'Latest messages', exact: true })\n",
+  "events": [
+    {
+      "at": "2026-09-27T13:08:51.190Z",
+      "event": "stderr",
+      "text": "Debugger ending on ws://127.0.0.1:51191/e6836af8-fb66-40b1-af8d-121c587b1dac\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
+    },
+    {
+      "at": "2026-09-27T13:08:51.351Z",
+      "event": "exit",
+      "code": 0,
+      "signal": null
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "version": "2.20.0",
+  "status": "installed-and-verified",
+  "installedVersion": "2.20.0",
+  "updatedAt": "2026-09-27T20:45:15.789472-04:00",
+  "model": {
+    "name": "Qwen3.5 9B",
+    "quantization": "Q4_K_M",
+    "bytes": 5680522464,
+    "sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "localOnly": true,
+    "newFoundationTraining": false
+  },
+  "improvements": [
+    "Thirteen explicit persistent conversation language choices with actual RTL paragraphs",
+    "Recent role-separated history, saved local transcript and corrected casual/score routing",
+    "Six restrained fictional companion voices",
+    "Source-validated compound practice controls remain separate from model prose",
+    "Private Unix-socket model lifecycle; abortable Stop/retry cleanup; bounded context/output",
+    "Negated language requests preserve prior choice; expired actions release old score references"
+  ],
+  "tests": {
+    "unitApi": {
+      "passed": 472,
+      "failed": 0,
+      "log": ".qa-runs/companion-intelligence-2.20/final-unit-tests.txt"
+    },
+    "sourceInputs": 589,
+    "packagedFiles": 512,
+    "modelRuntimeLicenseFiles": 42,
+    "asar": "1e75fd9c8867d7ca45a96e39ea465b32622911df4a809fbe1de847dda6432cb1",
+    "native": {
+      "passed": true,
+      "groups": 9,
+      "report": ".qa-runs/companion-intelligence-2.20/final-native/native-report.json",
+      "controlledUI": 6,
+      "realChatPrerequisiteGroups": 2,
+      "realStreamingPianoGroup": 1,
+      "generalAnswerAccuracyAccepted": false,
+      "universalSmoothnessAccepted": false,
+      "priorFailedRunsRetained": true
+    },
+    "carriedAudio": {
+      "protectedFiles": 187,
+      "mismatches": 0,
+      "report": ".qa-runs/companion-intelligence-2.20/reports/carried-audio-integrity.json"
+    }
+  },
+  "qualityEvidence": [
+    ".qa-runs/companion-intelligence-2.20/baseline",
+    ".qa-runs/companion-intelligence-2.20/qwen",
+    ".qa-runs/companion-intelligence-2.20/qwen-reasoning",
+    ".qa-runs/companion-intelligence-2.20/qwen35",
+    ".qa-runs/companion-intelligence-2.20/final-quality",
+    ".qa-runs/companion-intelligence-2.20/qwen35-reasoning-check",
+    ".qa-runs/companion-intelligence-2.20/qwen35-minimal",
+    ".qa-runs/companion-intelligence-2.20/qwen35-9b/independent-quality-assessment.json",
+    ".qa-runs/companion-intelligence-2.20/final-recovery/independent-quality-assessment.json"
+  ],
+  "observedPerformance": {
+    "warmFirstTextMedianMs": 4459,
+    "warmFirstTextRangeMs": [
+      4409,
+      6135
+    ],
+    "coldFirstTextMs": 32320,
+    "sampledModelPeakMiB": 5924.7,
+    "hardware": "Apple M1 MacBook Air,16GB RAM",
+    "caveat": "System already had approximately9GB swap in use. Isolated comparison timings vary and are not a responsiveness guarantee.",
+    "finalPackagedReplyTimings": [
+      {
+        "message": "My practice codeword is marmalade. Tell me one short silly piano joke, and remember that word.",
+        "totalMs": 22719,
+        "firstVisibleMs": 13537.400000035763
+      },
+      {
+        "message": "What was my practice codeword? Answer with just the word.",
+        "totalMs": 13384,
+        "firstVisibleMs": 11963.200000047684
+      },
+      {
+        "message": "Tell me a short silly story about a sleepy cat sitting at a piano.",
+        "totalMs": 23154,
+        "firstVisibleMs": 7267.199999988079
+      },
+      {
+        "message": "Explain rhythm versus tempo with two simple examples, then suggest a playful counting game. About 150 words, please.",
+        "totalMs": 64069,
+        "firstVisibleMs": 19366.899999976158
+      }
+    ],
+    "sampledPianoDuringActualStreaming": {
+      "expected": 453,
+      "matched": 453,
+      "missing": [],
+      "directStartsMatched": 453,
+      "onsetErrorMaxMs": 11.609977324262832,
+      "frameP95Ms": 33.5,
+      "frameMaxMs": 250.39999999999782,
+      "generationOverlapFrames": 1353,
+      "generationOverlapMs": 26399.2,
+      "actualSourceCallsDuringGeneration": 445,
+      "streamingOverlapFrames": 270,
+      "streamingOverlapMs": 7033.4000000000015,
+      "actualTextUpdatesDuringPlayback": 25,
+      "ranges": [
+        " Bars 105–112 of 569 ",
+        " Bars 113–120 of 569 ",
+        " Bars 121–128 of 569 ",
+        " Bars 129–136 of 569 "
+      ]
+    },
+    "frameTimingByPhase": {
+      "loading": {
+        "frames": 1082,
+        "medianMs": 16.69999999999891,
+        "p95Ms": 17.700000000000728,
+        "p99Ms": 34.20000000000073,
+        "maxMs": 134.20000000000073,
+        "over33_4Ms": 23
+      },
+      "streaming": {
+        "frames": 269,
+        "medianMs": 17.099999999998545,
+        "p95Ms": 50,
+        "p99Ms": 99.90000000000146,
+        "maxMs": 250.39999999999782,
+        "over33_4Ms": 54
+      }
+    },
+    "modelLifecycle": "Fresh model process per reply; warm benchmarks mean OS/file caches, not a resident chat session."
+  },
+  "knownLimits": [
+    "Model replies remain fallible; retained tests include a Spanish orbital-period error, weak Hindi explanation and invented excerpt bar bounds.",
+    "Chinese old-history regression and exact Mozart tease pass after final narrow prompt fixes; these two checks do not claim every earlier factual failure is fixed.",
+    "Replies can still be longer or more stereotyped than desired.",
+    "Up to12 recent messages fit the model context; saved transcript retains60, not unlimited memory.",
+    "Exact lesson cards remain English/Simplified Chinese. Other conversation languages have varied quality.",
+    "No browser/computer-wide autonomous access, acoustic-piano hearing or physical MIDI verification.",
+    "Packaged replies took7–19seconds to first visible text in the final real requests and up to64seconds to finish; initial cold app runs can be slower.",
+    "General rhythm/tempo reply contained inaccurate explanations in the real coexistence test; it is not accepted as authoritative teaching.",
+    "During actual decoding with Sheet changes, frame p95 was50ms and maximum250.4ms. All453 written audio attacks were retained, but visible smoothness is not universal.",
+    "Audio timing checks used real sampled WebAudio with output muted; no acoustic listening or physical-device latency claim."
+  ],
+  "pending": [],
+  "includedPreviousWork": [
+    "2.19 clean audio",
+    "2.19.1 cat/piano icon",
+    "2.19.2 concise lesson copy"
+  ],
+  "installation": {
+    "version": "2.20.0",
+    "verifiedAt": "2026-09-27T20:42:22.472497-04:00",
+    "installedArchiveSHA256": "1e75fd9c8867d7ca45a96e39ea465b32622911df4a809fbe1de847dda6432cb1",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "nativeGroups": 9,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-intelligence-2.20/previous-installed-Luma Keys-2.18.0.app",
+    "ui": {
+      "verifiedAt": "2026-09-27T20:45:15.789472-04:00",
+      "method": "Personal installed app via CUA accessibility controls; read-only HTTP endpoints and filesystem hashes",
+      "version": "2.20.0",
+      "healthOk": true,
+      "libraryScores": 10,
+      "libraryIssues": [],
+      "truthNotes": 1581,
+      "truthBars": 115,
+      "scoreId": "truth-eop-9266",
+      "title": "你离开的事实 · The Truth That You Leave",
+      "visibleBar": 105,
+      "paused": true,
+      "view": "Falling notes",
+      "hands": "Both hands",
+      "speedPercent": 100,
+      "tempo": 130,
+      "companion": "Beethoven",
+      "modelCaption": "Qwen3.5 9B",
+      "language": "zh",
+      "miniChatOpen": true,
+      "personalTestMessagesSent": 0,
+      "notes": [
+        "Initial screenshots remained on boot Twinkle and coordinate input reported noWindowsAvailable. Native full-screen reveal restored full HTML accessibility; no source or personal-data repair was necessary. Returned to normal window.",
+        "Clicked the saved Resume at bar105, verified the Play button and bar105/115 in live accessibility state. Opened companion options, verified Qwen3.5 9B with saved Simplified Chinese, then closed options. No personal chat requests were submitted."
+      ]
+    }
+  }
+}

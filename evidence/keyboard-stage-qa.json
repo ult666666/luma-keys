@@ -1,0 +1,181 @@
+{
+  "passed": true,
+  "checks": [
+    "At 1280×800 the score, the keyboard stage with its note runway and the transport share one view; the keyboard is fitted once to the piece (Twinkle's keys 55–80px, all visible) and stands still while the music plays",
+    "A five-octave piece (C2–C7) is fitted with readable keys and no offscreen notice",
+    "In Listen & follow the runway's notes sit where the audio clock says they should, before and after the runway re-anchors (within 0.15 beat)",
+    "While a whole note sounds its key's hold meter drains, the next note's key glows more as it approaches, and the written dynamic follows the music (p, then f)",
+    "Wait for me: a wrong key flashes rose with a spark above it; the right key flashes green and the runway steps on",
+    "Play in time: a press on the beat flashes green, 0.3 beat late flashes amber, a wrong pitch flashes rose; count-in presses are not judged",
+    "Note runway hides and shows the runway, and the choice is kept after a reload",
+    "Falling notes gives the runway the score's space and keeps the keyboard shown",
+    "With reduced motion the verdicts still show, without any key or runway animation",
+    "A 400-bar, 9,600-note score plays with smooth frames (median 16.7 ms, 95th percentile 16.7 ms)",
+    "Beside the runway the number score is a strip: one whole line fitted to the width (bars 1–4, then 5–8 as the music gets there), smaller than the runway below it",
+    "Without the runway the score is a tape: lines fitted to the width (no sideways scroll), the line being played whole on top and the next below; moving on slides the next line up; a run writes its duration once a bar; playing holds the frame rate (median 16.7 ms)",
+    "Without the runway, Play in time counts in with a large beat number beside the cue",
+    "The keys to play next are lit in full colour",
+    "A written tempo change is played: ♩ ≈ 120 for the opening bars, then ♩ ≈ 179 after the change",
+    "The hands show the suggested fingering on the keys (right hand on C4, left on C3, thumbs inward), set off for a leap before it lands (C4 → C6: gliding for 27 frames first), and the Hands toggle is kept after a reload",
+    "The runway zooms to the music's density (104 px a beat for sixteenths, each 24 px tall), ties the notes of a chord where they land and outlines the next notes"
+  ],
+  "measurements": {
+    "layout": {
+      "scoreTop": 188.671875,
+      "stageTop": 332.671875,
+      "stageBottom": 726,
+      "dockBottom": 788,
+      "pageScroll": 0,
+      "overflow": false,
+      "keyWidth": 68,
+      "keysVisible": true,
+      "runway": 115.328125
+    },
+    "still": {
+      "before": {
+        "left": 436,
+        "width": 68
+      },
+      "samples": [
+        {
+          "left": 436,
+          "width": 68
+        },
+        {
+          "left": 436,
+          "width": 68
+        },
+        {
+          "left": 436,
+          "width": 68
+        },
+        {
+          "left": 436,
+          "width": 68
+        },
+        {
+          "left": 436,
+          "width": 68
+        },
+        {
+          "left": 436,
+          "width": 68
+        },
+        {
+          "left": 436,
+          "width": 68
+        },
+        {
+          "left": 436,
+          "width": 68
+        }
+      ]
+    },
+    "wide": {
+      "width": 34.46875,
+      "visible": true,
+      "offscreen": 0,
+      "low": 19,
+      "high": 1260,
+      "view": [
+        19,
+        1261
+      ],
+      "title": "Stage wide range"
+    },
+    "alignment": {
+      "early": {
+        "beat": 2.602666666666666,
+        "ppb": 30,
+        "worst": 0.4300061035156091,
+        "count": 3
+      },
+      "later": {
+        "beat": 6.442666666666668,
+        "ppb": 30,
+        "worst": 0.42999389648440456,
+        "count": 1
+      }
+    },
+    "lights": {
+      "first": {
+        "on": "right",
+        "hold": 0.692,
+        "soonHand": "right",
+        "soon": 0.356
+      },
+      "second": {
+        "on": "right",
+        "hold": 0.541,
+        "soonHand": "right",
+        "soon": 0.498
+      }
+    },
+    "denseFrames": {
+      "count": 149,
+      "median": 16.699999999999818,
+      "p95": 16.700000000000728
+    },
+    "strip": {
+      "lines": 1,
+      "sideways": false,
+      "whole": true,
+      "strip": 134,
+      "runway": 178.25
+    },
+    "tape": {
+      "top": 167.75,
+      "bottom": 413,
+      "sideways": false,
+      "pageScroll": 0,
+      "gutterText": "none",
+      "systems": [
+        {
+          "top": 167.75,
+          "bottom": 358.75,
+          "first": "01",
+          "cursor": true,
+          "current": true
+        },
+        {
+          "top": 358.75,
+          "bottom": 549.75,
+          "first": "02",
+          "cursor": false,
+          "current": false
+        }
+      ]
+    },
+    "tapeSlide": [
+      "translateY(0px)"
+    ],
+    "tapeFrames": {
+      "count": 149,
+      "median": 16.700000000000728,
+      "p95": 16.799999999999272
+    },
+    "tempo": {
+      "slow": 120.31999999999998,
+      "fast": 178.62838915093099
+    },
+    "hands": {
+      "c4": 442.59375,
+      "c6": 1232.328125,
+      "frames": 272,
+      "landedAt": 176,
+      "gliding": 27
+    },
+    "runway": {
+      "ppb": 104,
+      "sixteenth": 24,
+      "ties": [
+        334
+      ],
+      "next": [
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}

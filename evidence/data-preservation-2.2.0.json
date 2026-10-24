@@ -1,0 +1,21 @@
+{
+  "version": "2.2.0",
+  "files": 48,
+  "checkpoints": [
+    "before installing (the personal app was not running, so there was nothing to quit)",
+    "just before replacing the app",
+    "after installing and relaunching 2.2.0"
+  ],
+  "unchanged": true,
+  "changed": [],
+  "removed": [],
+  "added": [],
+  "installedBundleMatchesTestedBuild": {
+    "entries": 3454,
+    "differences": 0
+  },
+  "settingsReadByInstalledApp": {
+    "issues": []
+  },
+  "previousApp": ".qa-runs/accept-2.2/previous-Luma Keys-2.1.0.app"
+}

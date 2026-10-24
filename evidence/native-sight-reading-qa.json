@@ -1,15 +1,15 @@
 {
   "passed": true,
-  "version": "1.4.0",
+  "version": "2.44.0",
   "checks": [
     "The Exercises screen makes a level-3 C major exercise with eight engraved bars; Another like this and the Practice New exercise button change the seed; the dock fits a laptop screen",
     "Play in time counts in, keeps the transport on the audio clock, and grades a clock-accurate run at 100% with every bar clean",
     "A flawed run reports missed and wrong notes per bar, offers the weakest bars as a repeat, and records both runs in the saved history",
     "The last piece, mode and speed are restored after a reload",
-    "Exercises lists twelve levels with run counts and starts a left-hand level; F major spells B♭ and can make number 1 follow the key; Progress charts every run and reopens the exact exercise; Library rows show the current piece"
+    "Exercises lists twelve levels, counts the selected level's runs and starts a left-hand level; F major spells B♭ and can make number 1 follow the key; Progress charts every run and reopens the exact exercise; the Library card marks the current piece"
   ],
   "seeds": [
-    354145,
-    872386
+    112810,
+    622922
   ]
 }

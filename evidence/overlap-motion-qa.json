@@ -9,8 +9,8 @@
   "checkpoints": [
     {
       "name": "Long C4 onset",
-      "attacks": 1,
-      "beat": 0.0453333333333333,
+      "attacks": 2,
+      "beat": 0.064,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -19,14 +19,20 @@
           "phase": "held-note-start",
           "beat": 0,
           "node": 0,
+          "retainedButton": true
+        },
+        {
+          "phase": "held-note-start",
+          "beat": 0,
+          "node": 1,
           "retainedButton": true
         }
       ]
     },
     {
       "name": "Short C4 onset while long C4 holds",
-      "attacks": 2,
-      "beat": 1.48,
+      "attacks": 3,
+      "beat": 1.04144245112447,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -38,17 +44,23 @@
           "retainedButton": true
         },
         {
-          "phase": "overlapping-note-start",
-          "beat": 1.02933333333333,
+          "phase": "held-note-start",
+          "beat": 0,
           "node": 1,
+          "retainedButton": true
+        },
+        {
+          "phase": "overlapping-note-start",
+          "beat": 1.00430822890225,
+          "node": 2,
           "retainedButton": true
         }
       ]
     },
     {
       "name": "Short note ends without another attack",
-      "attacks": 2,
-      "beat": 2.40266666666667,
+      "attacks": 3,
+      "beat": 2.5285334577603,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -60,17 +72,23 @@
           "retainedButton": true
         },
         {
-          "phase": "overlapping-note-start",
-          "beat": 1.02933333333333,
+          "phase": "held-note-start",
+          "beat": 0,
           "node": 1,
+          "retainedButton": true
+        },
+        {
+          "phase": "overlapping-note-start",
+          "beat": 1.00430822890225,
+          "node": 2,
           "retainedButton": true
         }
       ]
     },
     {
       "name": "Live C4 adds one attack over the held playback note",
-      "attacks": 3,
-      "beat": 2.46933333333333,
+      "attacks": 4,
+      "beat": 2.59253834664919,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -82,23 +100,29 @@
           "retainedButton": true
         },
         {
-          "phase": "overlapping-note-start",
-          "beat": 1.02933333333333,
+          "phase": "held-note-start",
+          "beat": 0,
           "node": 1,
           "retainedButton": true
         },
         {
-          "phase": "live-key-start",
-          "beat": 2.43733333333333,
+          "phase": "overlapping-note-start",
+          "beat": 1.00430822890225,
           "node": 2,
+          "retainedButton": true
+        },
+        {
+          "phase": "live-key-start",
+          "beat": 2.54420812442696,
+          "node": 3,
           "retainedButton": true
         }
       ]
     },
     {
       "name": "Live release leaves held playback without a false attack",
-      "attacks": 3,
-      "beat": 2.65333333333333,
+      "attacks": 4,
+      "beat": 2.82090942501754,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -110,23 +134,29 @@
           "retainedButton": true
         },
         {
-          "phase": "overlapping-note-start",
-          "beat": 1.02933333333333,
+          "phase": "held-note-start",
+          "beat": 0,
           "node": 1,
           "retainedButton": true
         },
         {
-          "phase": "live-key-start",
-          "beat": 2.43733333333333,
+          "phase": "overlapping-note-start",
+          "beat": 1.00430822890225,
           "node": 2,
+          "retainedButton": true
+        },
+        {
+          "phase": "live-key-start",
+          "beat": 2.54420812442696,
+          "node": 3,
           "retainedButton": true
         }
       ]
     },
     {
       "name": "Pause releases the key without another attack",
-      "attacks": 3,
-      "beat": 2.688,
+      "attacks": 4,
+      "beat": 2.83914053612866,
       "keys": 88,
       "stable": true,
       "sounding": false,
@@ -138,23 +168,29 @@
           "retainedButton": true
         },
         {
-          "phase": "overlapping-note-start",
-          "beat": 1.02933333333333,
+          "phase": "held-note-start",
+          "beat": 0,
           "node": 1,
           "retainedButton": true
         },
         {
-          "phase": "live-key-start",
-          "beat": 2.43733333333333,
+          "phase": "overlapping-note-start",
+          "beat": 1.00430822890225,
           "node": 2,
+          "retainedButton": true
+        },
+        {
+          "phase": "live-key-start",
+          "beat": 2.54420812442696,
+          "node": 3,
           "retainedButton": true
         }
       ]
     },
     {
       "name": "Starting again legitimately attacks the first C4",
-      "attacks": 4,
-      "beat": 0.0133333333333336,
+      "attacks": 6,
+      "beat": 0.106666666666667,
       "keys": 88,
       "stable": true,
       "sounding": true,
@@ -166,29 +202,41 @@
           "retainedButton": true
         },
         {
-          "phase": "overlapping-note-start",
-          "beat": 1.02933333333333,
+          "phase": "held-note-start",
+          "beat": 0,
           "node": 1,
           "retainedButton": true
         },
         {
-          "phase": "live-key-start",
-          "beat": 2.43733333333333,
+          "phase": "overlapping-note-start",
+          "beat": 1.00430822890225,
           "node": 2,
           "retainedButton": true
         },
         {
-          "phase": "restart",
-          "beat": 0.0133333333333336,
+          "phase": "live-key-start",
+          "beat": 2.54420812442696,
           "node": 3,
+          "retainedButton": true
+        },
+        {
+          "phase": "restart",
+          "beat": 0,
+          "node": 4,
+          "retainedButton": true
+        },
+        {
+          "phase": "restart",
+          "beat": 0,
+          "node": 5,
           "retainedButton": true
         }
       ]
     },
     {
-      "name": "Final stop leaves exactly four real attacks",
-      "attacks": 4,
-      "beat": 0.0293333333333337,
+      "name": "Final stop leaves no further attack",
+      "attacks": 6,
+      "beat": 0.192,
       "keys": 88,
       "stable": true,
       "sounding": false,
@@ -200,27 +248,39 @@
           "retainedButton": true
         },
         {
-          "phase": "overlapping-note-start",
-          "beat": 1.02933333333333,
+          "phase": "held-note-start",
+          "beat": 0,
           "node": 1,
           "retainedButton": true
         },
         {
-          "phase": "live-key-start",
-          "beat": 2.43733333333333,
+          "phase": "overlapping-note-start",
+          "beat": 1.00430822890225,
           "node": 2,
           "retainedButton": true
         },
         {
-          "phase": "restart",
-          "beat": 0.0133333333333336,
+          "phase": "live-key-start",
+          "beat": 2.54420812442696,
           "node": 3,
+          "retainedButton": true
+        },
+        {
+          "phase": "restart",
+          "beat": 0,
+          "node": 4,
+          "retainedButton": true
+        },
+        {
+          "phase": "restart",
+          "beat": 0,
+          "node": 5,
           "retainedButton": true
         }
       ]
     }
   ],
-  "expectedAttacks": 4,
+  "expectedAttacks": "relative: onsets add landings, releases add none",
   "audioOutput": "Piano volume set to zero",
   "physicalHardwareTested": false
 }

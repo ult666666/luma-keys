@@ -1,0 +1,3 @@
+{
+  "error": "expect(locator).toBeEnabled() failed\n\nLocator:  getByRole('button', { name: 'Play', exact: true })\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeEnabled\" getByRole('button', { name: 'Play', exact: true }) with timeout 5000ms\n  - waiting for getByRole('button', { name: 'Play', exact: true })\n    - locator resolved to <button disabled aria-label=\"Play\" class=\"play-button\" data-loading=\"true\" title=\"Play (Space)\">…</button>\n    - unexpected value \"disabled\"\n"
+}

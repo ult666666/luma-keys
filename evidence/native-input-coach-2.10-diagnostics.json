@@ -1,0 +1,150 @@
+{
+  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-input-coach-2.10-VdBAVA",
+  "version": "2.10.0",
+  "stage": "owned-cleanup",
+  "process": {
+    "pid": 63475,
+    "exitCode": 0,
+    "signalCode": null
+  },
+  "page": {
+    "closed": true,
+    "url": "http://127.0.0.1:51417/"
+  },
+  "events": [
+    {
+      "at": "2026-09-27T13:12:11.301Z",
+      "stage": "launch",
+      "event": "launched",
+      "pid": 63475
+    },
+    {
+      "at": "2026-09-27T13:12:11.307Z",
+      "stage": "launch",
+      "event": "process-stdout",
+      "text": "Luma Keys listening on 51417\n"
+    },
+    {
+      "at": "2026-09-27T13:12:11.308Z",
+      "stage": "launch",
+      "event": "main-console",
+      "type": "log",
+      "text": "Luma Keys listening on 51417"
+    },
+    {
+      "at": "2026-09-27T13:12:11.523Z",
+      "stage": "launch",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-focus\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-09-27T13:12:11.524Z",
+      "stage": "launch",
+      "event": "main-console",
+      "type": "log",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-focus\",\"id\":1}"
+    },
+    {
+      "at": "2026-09-27T13:12:11.591Z",
+      "stage": "startup",
+      "event": "owned-windows-focused",
+      "windows": [
+        {
+          "id": 1,
+          "visible": true,
+          "focused": true
+        }
+      ]
+    },
+    {
+      "at": "2026-09-27T13:12:12.537Z",
+      "stage": "startup",
+      "event": "navigation",
+      "url": "http://127.0.0.1:51417/"
+    },
+    {
+      "at": "2026-09-27T13:12:12.836Z",
+      "stage": "startup",
+      "event": "owned-windows-focused",
+      "windows": [
+        {
+          "id": 1,
+          "visible": true,
+          "focused": true
+        }
+      ]
+    },
+    {
+      "at": "2026-09-27T13:12:12.913Z",
+      "stage": "input-checks",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-blur\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-09-27T13:12:12.956Z",
+      "stage": "input-checks",
+      "event": "main-console",
+      "type": "log",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-blur\",\"id\":1}"
+    },
+    {
+      "at": "2026-09-27T13:12:20.713Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T13:12:20.714Z",
+      "stage": "owned-cleanup",
+      "event": "main-console",
+      "type": "log",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}"
+    },
+    {
+      "at": "2026-09-27T13:12:20.715Z",
+      "stage": "owned-cleanup",
+      "event": "process-stderr",
+      "text": "Debugger ending on ws://127.0.0.1:51413/f6359aca-4055-4044-996c-45133aa3427d\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
+    },
+    {
+      "at": "2026-09-27T13:12:20.717Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T13:12:20.718Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-close\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-09-27T13:12:20.823Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-closed\",\"id\":1}\nLUMA_INPUT_DIAG {\"event\":\"will-quit\"}\nLUMA_INPUT_DIAG {\"event\":\"quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T13:12:20.823Z",
+      "stage": "owned-cleanup",
+      "event": "page-close"
+    },
+    {
+      "at": "2026-09-27T13:12:20.887Z",
+      "stage": "owned-cleanup",
+      "event": "process-exit",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "at": "2026-09-27T13:12:20.888Z",
+      "stage": "owned-cleanup",
+      "event": "browser-context-close"
+    },
+    {
+      "at": "2026-09-27T13:12:20.889Z",
+      "stage": "owned-cleanup",
+      "event": "electron-application-close"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-input-GC6a9Q",
+  "version": "2.8.0",
+  "stage": "owned-cleanup",
+  "process": {
+    "pid": 5983,
+    "exitCode": 0,
+    "signalCode": null
+  },
+  "page": {
+    "closed": true,
+    "url": "http://127.0.0.1:50560/"
+  },
+  "events": [
+    {
+      "at": "2026-09-27T04:02:03.944Z",
+      "stage": "launch",
+      "event": "launched",
+      "pid": 5983
+    },
+    {
+      "at": "2026-09-27T04:02:03.952Z",
+      "stage": "startup",
+      "event": "owned-windows-focused",
+      "windows": [
+        {
+          "id": 1,
+          "visible": true,
+          "focused": false
+        }
+      ]
+    },
+    {
+      "at": "2026-09-27T04:02:04.569Z",
+      "stage": "startup",
+      "event": "navigation",
+      "url": "http://127.0.0.1:50560/"
+    },
+    {
+      "at": "2026-09-27T04:02:04.818Z",
+      "stage": "startup",
+      "event": "owned-windows-focused",
+      "windows": [
+        {
+          "id": 1,
+          "visible": true,
+          "focused": false
+        }
+      ]
+    },
+    {
+      "at": "2026-09-27T04:02:12.811Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T04:02:12.811Z",
+      "stage": "owned-cleanup",
+      "event": "main-console",
+      "type": "log",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}"
+    },
+    {
+      "at": "2026-09-27T04:02:12.813Z",
+      "stage": "owned-cleanup",
+      "event": "process-stderr",
+      "text": "Debugger ending on ws://127.0.0.1:50556/e90ae6da-37c2-4090-952b-320327ee0e28\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
+    },
+    {
+      "at": "2026-09-27T04:02:12.815Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T04:02:12.816Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-close\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-09-27T04:02:12.918Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-closed\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-09-27T04:02:12.918Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"will-quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T04:02:12.918Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T04:02:12.919Z",
+      "stage": "owned-cleanup",
+      "event": "page-close"
+    },
+    {
+      "at": "2026-09-27T04:02:12.986Z",
+      "stage": "owned-cleanup",
+      "event": "process-exit",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "at": "2026-09-27T04:02:12.986Z",
+      "stage": "owned-cleanup",
+      "event": "browser-context-close"
+    },
+    {
+      "at": "2026-09-27T04:02:12.987Z",
+      "stage": "owned-cleanup",
+      "event": "electron-application-close"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "canvasDpr": 2,
+    "view": "Falling notes",
+    "position": 156,
+    "frames": {
+      "count": 151,
+      "median": 16.699999999999818,
+      "p95": 16.800000000000182,
+      "max": 16.800000000000182,
+      "over33": 0
+    },
+    "callbacks": {
+      "count": 607,
+      "median": 0,
+      "p95": 2.399999976158142,
+      "max": 3.599999964237213,
+      "over33": 0
+    },
+    "draws": 249
+  },
+  {
+    "canvasDpr": 2,
+    "view": "Falling notes",
+    "position": 1196,
+    "frames": {
+      "count": 151,
+      "median": 16.699999999999818,
+      "p95": 16.800000000000182,
+      "max": 16.80000000000109,
+      "over33": 0
+    },
+    "callbacks": {
+      "count": 607,
+      "median": 0,
+      "p95": 2.400000035762787,
+      "max": 3.700000047683716,
+      "over33": 0
+    },
+    "draws": 242
+  },
+  {
+    "canvasDpr": 2,
+    "view": "Number score",
+    "position": 436,
+    "frames": {
+      "count": 151,
+      "median": 16.69999999999891,
+      "p95": 16.799999999999272,
+      "max": 16.80000000000109,
+      "over33": 0
+    },
+    "callbacks": {
+      "count": 607,
+      "median": 0,
+      "p95": 2.5,
+      "max": 4,
+      "over33": 0
+    },
+    "draws": 242
+  }
+]

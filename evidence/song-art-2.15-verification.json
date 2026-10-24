@@ -1,0 +1,223 @@
+{
+  "version": "2.15.0",
+  "completedAt": "2026-09-27T16:17:05.211727-04:00",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "unitTests": {
+    "passed": 370,
+    "failed": 0,
+    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-art-2.15/unit-final.log"
+  },
+  "native": {
+    "passed": true,
+    "version": "2.15.0",
+    "ownedAppClosed": true,
+    "checks": [
+      "All ten exact saved titles select the agreed eight distinct, locally served artworks; hero and three Sunny Day arrangements share the correct song identity.",
+      "The native library loads the owned collection without autoplay, with collapsed details and no default featured statistics grid.",
+      "Illustrations load, titles remain available and every card/control fits desktop, narrow, mobile and short-window widths.",
+      "Chinese search keeps all three Sunny Day arrangement titles distinct; Continue, saved passages and From the beginning open the exact bars safely paused.",
+      "Details toggles with Space and visible focus without playing; the stationary artwork button opens the exact score safely paused.",
+      "All six companions render with readable title/composer colours; live reduced motion removes continuous animation and mobile greeting/search keyboard input remains safe.",
+      "An unknown local import reaches review, remains searchable and uses the agreed neutral Library fallback.",
+      "An unavailable cover shows the decorative fallback while its score remains usable and paused; restoring the file and reopening restores the same artwork identity."
+    ],
+    "coverCount": 10,
+    "layoutCount": 4,
+    "themes": [
+      "beethoven",
+      "langlang",
+      "mozart",
+      "liszt",
+      "cat",
+      "bunny"
+    ],
+    "scoreFilesUnchanged": true,
+    "packageSHA256": "dccf04caecde1a02da61d300097820f7d1c3c90760488a5845f9980073baefb7",
+    "errors": [],
+    "requests": [],
+    "reusedEvidence": "attempt-2/native-report.json: cover identity/local assets/four responsive layouts passed before the interrupted interaction; parent confirms package unchanged."
+  },
+  "visualReview": {
+    "reviewer": "redesign_qa",
+    "version": "2.15.0",
+    "scope": "Read-only independent visual inspection of native screenshots; no source edits, app interactions, or repeated functional tests.",
+    "status": "pass",
+    "reviewed": [
+      {
+        "file": "covers/35f5190a-a277-41a2-960f-635902383597.png",
+        "sha256": "9c79d8a0bd71670665865815b229e3698c5681123f6f084102aa29e011650c39"
+      },
+      {
+        "file": "covers/5d3bcd8b-f8d9-4f0c-9dfc-ffe0ebbaa946.png",
+        "sha256": "c2c74f4d0bbfa0c5cb23eb7771c95aa642debee2bde92477b2a6731bebb8ef91"
+      },
+      {
+        "file": "covers/bach-bwv846-complete-mutopia-20260927.png",
+        "sha256": "38227f10beb0cb6d0a0ffad40ae8fa45bf2ab4d60dcbcf8d8a5863edffbfef4a"
+      },
+      {
+        "file": "covers/beethoven-moonlight-1-complete-mutopia-20260927.png",
+        "sha256": "6d4d8c1fcfd356c14762e220a48312ec743d7e6c5e73260e0fce50ab567e4096"
+      },
+      {
+        "file": "covers/e1996426-895d-4486-af35-a04ed3da4739.png",
+        "sha256": "dd15d980c9c45072222ee1b6811919449a5e1dd8ae622e264ba14065e3195948"
+      },
+      {
+        "file": "covers/f01bc1bd-b817-451a-8d51-18349f3fb8c2.png",
+        "sha256": "46b5e0700254d5ea007c19c33ef8b7a0df3264f6fbc55b9455b05fddc9a7616a"
+      },
+      {
+        "file": "covers/fe803071-0b5a-4a0b-bd88-a33a27d1f605.png",
+        "sha256": "d51108778164bfe14547bcc6d89eef5beef8310c3a4a7ef47e4144aadb888569"
+      },
+      {
+        "file": "covers/satie-gymnopedie-1-complete-mutopia-20260927.png",
+        "sha256": "69346776ff812de63db442d2c2f32bcabc81ca1f3a303b1b8374dafc0e1b087e"
+      },
+      {
+        "file": "covers/tornado-gem-eop-8188.png",
+        "sha256": "7e8204e25f8eb71c03729e2ceac1c4654905588b30d6c3b6cd6efec47943a1fc"
+      },
+      {
+        "file": "covers/truth-eop-9266.png",
+        "sha256": "2706a0652b3de26bb4718a0c70b63bff59d3d10946852186e2e867cdac8e03ae"
+      },
+      {
+        "file": "library-1280x800.png",
+        "sha256": "bea63c9abbc352c01a2ec7cbb794164ba22cbb262a1aa34f491d25317ed79b7b"
+      },
+      {
+        "file": "library-900x800.png",
+        "sha256": "d9c75b0ee671f3422b2147bd23d29d3ceb6f4842685ea120c54673679861f2ba"
+      },
+      {
+        "file": "library-390x844.png",
+        "sha256": "597a77f485cccb6a6dd0c854404b94dd4023db4a88e373e18f639d57eaa820d1"
+      },
+      {
+        "file": "library-1280x633.png",
+        "sha256": "382180e4691731e3b7cc14289d562cae8b203f15614b8319cc67101f48a387ad"
+      },
+      {
+        "file": "library-theme-beethoven.png",
+        "sha256": "be2e37f0aaca68c208eab40b8e661efee26eb7870520aeb3780934da3dee86e1"
+      },
+      {
+        "file": "library-theme-langlang.png",
+        "sha256": "7ef2c357cf632f186c5f2eb042025acc1c160d40786f947eef56607b66f8a37e"
+      },
+      {
+        "file": "library-theme-mozart.png",
+        "sha256": "92393b3b98e21248a54de4cc4180f1027c09b6c4a34f9fbbc8f838e8db68ead6"
+      },
+      {
+        "file": "library-theme-liszt.png",
+        "sha256": "12b69565a1e129917075edc7db0d1f253257887f268fed943e08dbbb2af37e32"
+      },
+      {
+        "file": "library-theme-cat.png",
+        "sha256": "4bd62db83a1016308c6a3699b2ea7cbe1f42ce709e7fd46a6fbb69cfd4ab5253"
+      },
+      {
+        "file": "library-theme-bunny.png",
+        "sha256": "3b59407f86a9ee99b00034f07cad641dc2ae3f228fbb344595ab8ced6088b3c5"
+      },
+      {
+        "file": "library-theme-langlang-mobile.png",
+        "sha256": "163d2bf2657a83e236fe561eda6e04799e14334e058c3bea82764152a6d5c2f1"
+      },
+      {
+        "file": "library-theme-mozart-mobile.png",
+        "sha256": "24d0c5cc238e37059c4ffc00190ea4d6eb460331fc20f4561034fe203e112c89"
+      },
+      {
+        "file": "library-chinese-variants.png",
+        "sha256": "6b0c019c2f6f5541ac4b7546c688c42da92c73a19bd7733854320fb05655c338"
+      },
+      {
+        "file": "library-unavailable-art-fallback.png",
+        "sha256": "e009892e58d27182b4a18c800f51a1a7801cae4032924d72183c19dc82ac1173"
+      },
+      {
+        "file": "library-unknown-import.png",
+        "sha256": "311a32e47867724e717688193ed7eda584fde8630f7aeff3b3eb4d1b23cebd35"
+      },
+      {
+        "file": "library-mobile-reduced.png",
+        "sha256": "cd1fbbfdb5e6f91f6de394ed4e02dffee3ec4537780a7633bc34fceb20163dea"
+      }
+    ],
+    "findings": {
+      "thumbnailLegibility": "Pass: the moon/reflection, bench/scarf/train, dancer/shadow, architectural rhythm, kitten path, storm coast, city vortex, and sunlit classroom remain identifiable at card size.",
+      "crops": "Pass for captured cards and Sunny Day hero: no principal subject clipped or obscured by labels. Gymnopédie dancer and complete principal shadow remain visible. Moonlight retains moon and reflection.",
+      "cohesion": "Pass: eight distinct paintings share tactile painterly treatment and restrained typography; warm and cool narrative palettes remain distinct. Sunny arrangements correctly share artwork while their full titles distinguish versions.",
+      "desktopAndShortWindow": "Pass:1280×800,900×800 and1280×633 preserve readable title/metadata, clear resume action and saved passage controls. Lower library content remains scrollable.",
+      "mobile": "Pass at390×844: stacked hero retains its focal composition; title, resume action and saved passages are readable with no visible horizontal overflow.",
+      "themes": "Pass: all six companion palettes keep light artwork surrounds, dark readable titles and clear action buttons. Warm/cool artwork retains its own colors without theme tinting or contrast loss. Lang Lang and Mozart mobile hero captures remain coherent.",
+      "search": "Pass: the corrected Chinese-search capture displays all three Sunny Day arrangements with readable full variant titles and separate actions.",
+      "fallbacks": "Pass: unknown imported scores retain a complete illustrated card; unavailable-art fallback is an intentional piano silhouette rather than a broken image. Card text/actions remain visible.",
+      "reducedMotion": "The supplied reduced-motion mobile screenshot retains the same clear layout; actual animation suppression is covered by the native harness, not inferred from a still image."
+    },
+    "blockers": [],
+    "limitations": [
+      "Visual judgments are limited to the supplied screenshots; runtime, numerical contrast, accessibility and interaction assertions are owned by the native test harness.",
+      "The interrupted initial Chinese-variants capture was excluded. Its replacement was reviewed after the native QA owner confirmed the final pass."
+    ],
+    "createdAt": "2026-09-27T20:11:21.619Z",
+    "authoritativeNativeReports": [
+      "native-report.json",
+      "final-summary.json"
+    ],
+    "completedAt": "2026-09-27T20:14:48.841Z"
+  },
+  "sourceInputsUnchanged": 564,
+  "package": {
+    "version": "2.15.0",
+    "checkedFiles": 495,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "dccf04caecde1a02da61d300097820f7d1c3c90760488a5845f9980073baefb7"
+  },
+  "installation": {
+    "version": "2.15.0",
+    "installedAt": "2026-09-27T16:14:42.118458-04:00",
+    "filesAndSymlinks": 2992,
+    "personalFiles": 107,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-art-2.15/previous-installed-Luma Keys-2.14.0.app"
+  },
+  "reopened": {
+    "checkedAt": "2026-09-27T16:17:05.211727-04:00",
+    "version": "2.15.0",
+    "appAsarSHA256": "dccf04caecde1a02da61d300097820f7d1c3c90760488a5845f9980073baefb7",
+    "personalFiles": 107,
+    "unchanged": true,
+    "ui": {
+      "screen": "Library",
+      "savedPieces": 10,
+      "currentPiece": "Appassionata · III. Allegro ma non troppo — Presto",
+      "resumeBar": 378,
+      "totalBars": 569,
+      "companion": "Lang Lang",
+      "playing": false,
+      "visualInspection": "Native installed-app screenshot shows the new Appassionata hero and distinct Appassionata, Tornado, Truth and Bach cards. All ten titles remain listed."
+    }
+  },
+  "assets": {
+    "count": 8,
+    "generation": "built-in image_gen",
+    "originals": "/Users/prince/Desktop/Luma Keys/Assets/Song Covers 2.15",
+    "promptsAndChecksums": "/Users/prince/Desktop/Luma Keys/Assets/Song Covers 2.15/manifest.json",
+    "gallery": "/Users/prince/Desktop/Luma Keys/Assets/Song Covers 2.15/index.html"
+  },
+  "limits": [
+    "Original artistic interpretations rather than official album artwork or composer-intent claims.",
+    "The ten currently saved editions have eight dedicated covers; unrecognized imports and other starter pieces use neutral Library artwork.",
+    "This Library-focused iteration did not repeat physical MIDI, arbitrary PDF recognition, or acoustic audio verification."
+  ],
+  "reports": {
+    "native": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-art-2.15/native-report.json",
+    "visual": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-art-2.15/visual-review.json"
+  }
+}

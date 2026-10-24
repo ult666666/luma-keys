@@ -1,0 +1,77 @@
+{
+  "version": "2.21.1",
+  "status": "installed-and-verified",
+  "updatedAt": "2026-09-27T21:34:51.314623-04:00",
+  "scope": "Plain interface copy, no behavior/model/audio/score changes",
+  "tests": {
+    "passed": 11,
+    "failed": 0,
+    "log": ".qa-runs/plain-copy-2.21.1/unit-tests.txt",
+    "scope": "Existing companion profile and preferences tests"
+  },
+  "package": {
+    "version": "2.21.1",
+    "checkedFiles": 512,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "31e943f8bdab27b2f32d2bd9694ba85de4c685078fe6ddc7056b6162d7ec9d28"
+  },
+  "sourceDelta": {
+    "reference": "2.21.0",
+    "changedInputs": [
+      "package-lock.json",
+      "package.json",
+      "src/App.jsx",
+      "src/MaestroPanel.jsx",
+      "src/companions.mjs",
+      "src/screens/StudioCompanion.jsx"
+    ],
+    "unchangedInputs": 583,
+    "passed": true
+  },
+  "engineFilesVerified": 42,
+  "stagedBundleEntries": 3035,
+  "native": {
+    "passed": true,
+    "groups": 5,
+    "errors": [],
+    "modelRequests": 0,
+    "ownedAppClosed": true,
+    "report": ".qa-runs/plain-copy-2.21.1/native/report.json",
+    "retainedFailure": "final1-copy: QA expected task label omitted existing 1\u20137 icon; fixture only corrected.",
+    "settledVisuals": "final3-settled-captures replaces only3 mid-transition screenshots from final2."
+  },
+  "installation": {
+    "version": "2.21.1",
+    "installedAt": "2026-09-27T21:33:59.009911-04:00",
+    "filesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/plain-copy-2.21.1/previous-installed-Luma Keys-2.21.0.app"
+  },
+  "notes": [
+    "Original screenshot slogan already removed2.21; remaining decorative copy trimmed here.",
+    "Unused legacy profile metadata is retained for compatibility, but no longer appears in rendered interface.",
+    "Existing personal messages and playful greetings are preserved."
+  ],
+  "visualReview": {
+    "accepted": true,
+    "reviewer": "redesign_qa",
+    "sourceAndFinalImages": true
+  },
+  "installedVerification": {
+    "version": "2.21.1",
+    "verifiedAt": "2026-09-27T21:34:55.162368-04:00",
+    "installedArchiveSHA256": "31e943f8bdab27b2f32d2bd9694ba85de4c685078fe6ddc7056b6162d7ec9d28",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "nativeGroups": 5,
+    "finalPersonalFilesUnchangedAfterBarRestore": true,
+    "restoredScore": "truth-eop-9266",
+    "restoredBar": 105,
+    "paused": true,
+    "finalCheckAt": "2026-09-27T21:36:07.320656-04:00"
+  }
+}

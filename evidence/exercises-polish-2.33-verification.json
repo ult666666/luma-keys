@@ -1,0 +1,181 @@
+{
+  "version": "2.33.0",
+  "completedAt": "2026-10-03T17:51:29.922109-04:00",
+  "task": "Compact, polished Exercises page with all original generator and learning functions retained",
+  "changes": [
+    "Twelve stable lesson cards in three clear groups",
+    "One setup card with manually authored music motif and real graded results",
+    "Hands and length remain directly available; key/meter/tempo and guide use native disclosures",
+    "Visible resolved defaults/overrides, full reset, exact clicked-level double-click and setup-first phone keyboard order",
+    "Selected room palette, concise copy, restrained lesson transitions and reduced motion",
+    "Exercises reserves usable space beside chat and protects the entire setup/guide from the roaming companion; scroll/disclosure guards tuck the old figure until safe arrival"
+  ],
+  "tests": {
+    "fullSerialSuite": {
+      "passed": 802,
+      "failed": 0,
+      "log": ".qa-runs/exercises-polish-2.33/unit-serial.log",
+      "timing": "Before the final follower scroll/disclosure correction"
+    },
+    "afterFollowerFixFocusedSuite": {
+      "passed": 53,
+      "failed": 0,
+      "scope": "buddy, exercise and preferences",
+      "log": ".qa-runs/exercises-polish-2.33/after-scroll-fix-tests.log"
+    },
+    "initialParallelFailuresRetained": 3
+  },
+  "native": {
+    "passed": true,
+    "groups": 19,
+    "reports": [
+      ".qa-runs/exercises-polish-2.33/final4-populated/report.json",
+      ".qa-runs/exercises-polish-2.33/final4-empty/report.json"
+    ],
+    "generatedSavedScores": 17,
+    "layoutThemeChatChecks": 36,
+    "allTwelveDefaultScoresCompared": true,
+    "allSevenThemes": true,
+    "allDisclosuresAndChoices": true,
+    "phoneImmediateAndSettledFollowerChecks": true,
+    "keyboardAndReducedMotion": true,
+    "emptyAndPopulatedHistory": true,
+    "outputMuted": true,
+    "modelAvailabilityStubbedUnavailable": true,
+    "rendererErrors": 0,
+    "modelRequests": 0,
+    "normalClose": true
+  },
+  "visualAcceptance": {
+    "passed": true,
+    "reviewedAt": "2026-10-03T17:41:43.547488-04:00",
+    "reviewers": [
+      "root",
+      "exercises_design_review"
+    ],
+    "appAsarSha256": "90d7ac56908ef9245044f4728080e7dd45d6aae4b357c64fe054034fa2367b01",
+    "capturesRoot": ".qa-runs/exercises-polish-2.33/final4-populated",
+    "independentReview": [
+      "all seven themes",
+      "1280 and390 first views",
+      "800 andshort layouts",
+      "reducedmotion",
+      "expanded phone Customize and Levelguide",
+      "1280/800/390 chat",
+      "phone after chat close"
+    ],
+    "conclusion": "Compact hierarchy, clear selected state and CTA, readable results and ordinary page scrolling. The prior companion overlap no longer obscures phone labels or controls. No material visual blocker. Dynamic/focus/data proof uses native reports."
+  },
+  "build": {
+    "packExitedZero": true,
+    "log": ".qa-runs/exercises-polish-2.33/pack-final4.log",
+    "stableInputs": 648,
+    "packagedSourceAssetHelperEntries": 527,
+    "bundleFilesAndSymlinks": 3035,
+    "appAsarSHA256": "90d7ac56908ef9245044f4728080e7dd45d6aae4b357c64fe054034fa2367b01",
+    "allInstalledEntriesMatchNativeTestedPackage": true
+  },
+  "installed": {
+    "version": "2.33.0",
+    "verifiedAt": "2026-10-03T17:48:46.883565-04:00",
+    "installedArchiveSHA256": "90d7ac56908ef9245044f4728080e7dd45d6aae4b357c64fe054034fa2367b01",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "unchangedPersonalFiles": 108,
+    "changedPersonalFiles": [],
+    "allLatestPersonalFilesUnchanged": true,
+    "allScoreExportConversationFilesUnchanged": true,
+    "savedMusicAndPracticeSettingsPreserved": [
+      "last",
+      "mode",
+      "hand",
+      "speed",
+      "readingView",
+      "keyHands",
+      "interpretation",
+      "countIn",
+      "metronome",
+      "accompany",
+      "loop",
+      "loopA",
+      "loopB"
+    ],
+    "currentAppearance": {
+      "companion": "langlang",
+      "colours": "ocean",
+      "companionStyle": false
+    },
+    "nativeGroups": 19,
+    "nativeReports": [
+      ".qa-runs/exercises-polish-2.33/final4-populated/report.json",
+      ".qa-runs/exercises-polish-2.33/final4-empty/report.json"
+    ]
+  },
+  "actualDesktopObservation": {
+    "version": "2.33.0",
+    "appPath": "/Users/prince/Desktop/Luma Keys.app",
+    "observedAt": "2026-10-03T17:49:29.018728-04:00",
+    "normalQuit": true,
+    "quitChangedUIGuardRefreshed": true,
+    "forceQuit": false,
+    "firstReopenInspection": "CUA timeoutReached",
+    "recovery": "CUA session reset and exact Desktop path selection recovered the running updated window. Saved settings finished loading before navigation.",
+    "restoredPractice": {
+      "score": "Appassionata \u00b7 III. Allegro ma non troppo \u2014 Presto",
+      "paused": true,
+      "bar": 1,
+      "totalBars": 569,
+      "resumeBar": 31,
+      "companion": "Lang Lang",
+      "colours": "Ocean",
+      "mode": "Perform",
+      "hands": "Both",
+      "speed": 100,
+      "view": "Falling notes",
+      "handsVisible": true
+    },
+    "finalView": "Exercises",
+    "verifiedBy": [
+      "actual Desktop CUA accessibility",
+      "actual Desktop CUA screenshot"
+    ],
+    "actualExercises": {
+      "groups": [
+        "Foundations",
+        "Reading & rhythm",
+        "Chords & coordination"
+      ],
+      "enabledLevels": 12,
+      "selectedLevel": 1,
+      "hands": "Auto: Right hand",
+      "length": "Auto: 4 bars",
+      "key": "C major",
+      "meter": "4/4",
+      "tempo": 60,
+      "customizeCollapsed": true,
+      "guideCollapsed": true,
+      "startEnabled": true,
+      "companionButton": "Talk to Lang Lang",
+      "noInventedGrades": true
+    },
+    "personalExerciseStarted": false,
+    "personalPlaybackStarted": false,
+    "personalChatRequested": false,
+    "personalPaletteChanged": false
+  },
+  "guide": "docs/EXERCISES_2.33.md",
+  "retainedDiagnostics": ".qa-runs/exercises-polish-2.33/reports/retained-diagnostics.json",
+  "limits": [
+    "Initial parallel mock-process fixture handshakes failed; the unweakened serial full suite passed. Exact cause of initial delay is unestablished.",
+    "One native pre-renderer launch timed out; a later cold-start process sample supports a macOS loader delay before app code, but precise cause remains unknown. Same archive subsequently passed native checks.",
+    "Actual Desktop CUA inspection first timed out; session reset recovered the healthy updated app without force quit.",
+    "No physical audio/MIDI/microphone, real model generation, hand-contact or universal zero-lag claim from this UI verification."
+  ],
+  "recovery": {
+    "previousApp": ".qa-runs/exercises-polish-2.33/previous-installed-Luma Keys-2.32.0.app",
+    "freshPersonalBackup": ".qa-runs/exercises-polish-2.33/personal-backup-before-install",
+    "verifiedCandidate": ".qa-runs/exercises-polish-2.33/verified-Luma Keys-2.33.0.app"
+  },
+  "noScheduleCreated": true
+}

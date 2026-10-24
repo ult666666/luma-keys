@@ -1,0 +1,104 @@
+{
+  "version": "2.21.0",
+  "status": "installed-and-verified",
+  "updatedAt": "2026-09-27T21:21:10.366835-04:00",
+  "scope": "Compact companion picker, interactive preview and clearer colour/sound selection",
+  "automatedTests": {
+    "passed": 472,
+    "failed": 0,
+    "log": ".qa-runs/companion-picker-2.21/final-unit-tests.txt"
+  },
+  "package": {
+    "version": "2.21.0",
+    "checkedFiles": 512,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "4691e31416c70a734d08b05ec8512d14d426b98f82b3c3c2cc75ae30bec73379"
+  },
+  "sourceDelta": {
+    "reference": "2.20.0",
+    "changedInputs": [
+      "package-lock.json",
+      "package.json",
+      "src/App.jsx",
+      "src/CompanionSalon.jsx",
+      "src/salon.css"
+    ],
+    "unchangedInputs": 584,
+    "passed": true
+  },
+  "modelRuntimeLicenseFiles": 42,
+  "stagedBundleEntries": 3035,
+  "qaScriptMaintenance": [
+    "scripts/companion-checks.mjs",
+    "scripts/native-library-illustrated-qa.mjs"
+  ],
+  "native": {
+    "passed": true,
+    "groups": 6,
+    "report": ".qa-runs/companion-picker-2.21/native/report.json",
+    "ownedAppClosed": true,
+    "errors": [],
+    "layoutSizes": 6,
+    "layoutHitChecks": 7,
+    "rapidReopenClearsToast": true
+  },
+  "installation": {
+    "version": "2.21.0",
+    "installedAt": "2026-09-27T21:14:54.927148-04:00",
+    "filesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-picker-2.21/previous-installed-Luma Keys-2.20.0.app"
+  },
+  "notes": [
+    "No changes to scores, piano/model engine, conversation behavior or practice controls.",
+    "No generated art added; existing illustrated companions are reused with finite interaction."
+  ],
+  "visualReview": {
+    "accepted": true,
+    "report": ".qa-runs/companion-picker-2.21/visual-review.json",
+    "finalHashCapturesViewed": 8,
+    "priorPreviewCaptures": "All six preview identities were reviewed on the preceding candidate; only toast clearing changed afterward."
+  },
+  "installedVerification": {
+    "version": "2.21.0",
+    "verifiedAt": "2026-09-27T21:17:22.935212-04:00",
+    "installedArchiveSHA256": "4691e31416c70a734d08b05ec8512d14d426b98f82b3c3c2cc75ae30bec73379",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "nativeGroups": 6,
+    "personalFilesRecheckedAfterPickerOpen": 108,
+    "pickerOpenConfirmedByNativeAccessibility": true,
+    "companionNotChanged": true,
+    "finalPersonalCheckAt": "2026-09-27T21:22:07.343168-04:00"
+  },
+  "restoredState": {
+    "scoreId": "truth-eop-9266",
+    "bar": 105,
+    "totalBars": 115,
+    "paused": true,
+    "companion": "beethoven",
+    "view": "falling",
+    "hands": "both",
+    "speedPercent": 100
+  },
+  "retainedFailures": [
+    "final1-picker focus expectation too narrow",
+    "final2-picker QA fixture practiceDate normalization",
+    "final3/final4 picker 3px gutter overflow, subsequently fixed",
+    "final5 picker stale toast occlusion, subsequently fixed"
+  ],
+  "installedUI": {
+    "method": "CUA native accessibility",
+    "pickerOpen": true,
+    "current": "Beethoven",
+    "choices": 6,
+    "soundLabel": "Match piano sound",
+    "primary": "Choose Beethoven",
+    "themeNotAppliedDuringCheck": true,
+    "limitation": "Native screenshots intermittently showed an earlier frame. Final visual acceptance uses the independently captured exact native candidate; installed bundle hash matches."
+  }
+}

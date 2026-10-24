@@ -1,0 +1,88 @@
+{
+  "error": "Cancel must restore focus to an available control\n\ntrue !== false\n",
+  "evidence": {
+    "checks": [
+      "All six companions preview without changing saved appearance, room or practice; cancel discards the preview.",
+      "Applying every companion updates its avatar, name, complete room palette and requested reverb while preserving the score, exact beat, phrase, hand, speed and paused mode.",
+      "Disabling Use room sound retains Dry; a manual theme overrides the artist palette, and explicitly choosing the artist restores its style without altering practice.",
+      "The selected companion, custom room choice, palette preference and saved musical controls restore after reload with a correctly named assistant."
+    ],
+    "measurements": {
+      "salon-desktop": {
+        "width": 1280,
+        "page": 1280,
+        "dialog": {
+          "left": 190,
+          "right": 1090,
+          "client": 898,
+          "scroll": 898
+        },
+        "cards": [
+          {
+            "left": 523,
+            "right": 695.65625,
+            "width": 172.65625
+          },
+          {
+            "left": 705.65625,
+            "right": 878.328125,
+            "width": 172.671875
+          },
+          {
+            "left": 888.328125,
+            "right": 1061,
+            "width": 172.671875
+          },
+          {
+            "left": 523,
+            "right": 695.65625,
+            "width": 172.65625
+          },
+          {
+            "left": 705.65625,
+            "right": 878.328125,
+            "width": 172.671875
+          },
+          {
+            "left": 888.328125,
+            "right": 1061,
+            "width": 172.671875
+          }
+        ]
+      },
+      "palettes": {
+        "beethoven": {
+          "background": "rgb(33, 30, 27)",
+          "chrome": "rgb(41, 36, 32)",
+          "controls": "color(srgb 0.0941176 0.0745098 0.0588235)"
+        },
+        "langlang": {
+          "background": "rgb(23, 31, 41)",
+          "chrome": "rgb(29, 41, 53)",
+          "controls": "color(srgb 0.0411765 0.0843137 0.133333)"
+        },
+        "mozart": {
+          "background": "rgb(39, 33, 44)",
+          "chrome": "rgb(49, 40, 54)",
+          "controls": "color(srgb 0.072549 0.0627451 0.131373)"
+        },
+        "liszt": {
+          "background": "rgb(37, 28, 32)",
+          "chrome": "rgb(49, 34, 41)",
+          "controls": "color(srgb 0.101961 0.054902 0.0823529)"
+        },
+        "cat": {
+          "background": "rgb(32, 39, 34)",
+          "chrome": "rgb(40, 49, 42)",
+          "controls": "color(srgb 0.133333 0.160784 0.143137)"
+        },
+        "bunny": {
+          "background": "rgb(43, 34, 39)",
+          "chrome": "rgb(55, 42, 50)",
+          "controls": "color(srgb 0.101961 0.054902 0.0823529)"
+        }
+      }
+    },
+    "errors": []
+  }
+}

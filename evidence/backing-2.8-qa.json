@@ -1,0 +1,139 @@
+{
+  "passed": true,
+  "checks": [
+    "Backing starts off; all presets and independent mix edits preserve the paused beat, hand, speed and phrase.",
+    "Two same-title arrangements keep independent saved settings; melody-only auto adds nothing and explicit acoustic honestly offers percussion only; reload never autoplays.",
+    "Both-hand Listen schedules exactly one melody voice and one written backing voice; no duplicate other-hand layer, and changing piano volume leaves backing mix and playback intact.",
+    "Backing starts after count-in, resumes a sustained written note at a phrase boundary, repeats it, clips at loop end and follows score tempo changes and practice speed.",
+    "Wait mode keeps backing silent while real simulated MIDI advances the score; accompaniment modal blocks notes and shortcuts, restores focus and cancels a pending audio startup.",
+    "A real locally generated WAV imports with decoded duration and byte-range delivery; upload locks source selection, never enables playback, and detached previews pause on source change and modal close.",
+    "Recording playback aligns offset and written beat, preserves pitch, follows slower practice and a score tempo change, pauses without drift and seeks on phrase repeats.",
+    "Recordings remain paused throughout count-in and Wait mode; pausing while media.play is pending prevents a late audible restart.",
+    "Reload restores each track without autoplay; navigation and score changes stop old audio, unlinking leaves its local asset recoverable, and accompaniment never rewrites score notes.",
+    "The accompaniment panel fits a 390px viewport with reachable controls under reduced motion; the 1280×800 practice page keeps Play visible and all 88 keys present."
+  ],
+  "measurements": {
+    "noDoubling": {
+      "sourceStarts": 2,
+      "voices": [
+        {
+          "instrument": "piano",
+          "midi": 48,
+          "start": 0.021333333333333333,
+          "end": 6.005333333333334,
+          "sourceType": "piano-sample",
+          "sampleMidi": 48
+        }
+      ]
+    },
+    "carry": {
+      "phrase": {
+        "instrument": "piano",
+        "midi": 48,
+        "start": 3.536,
+        "end": 5.536,
+        "sourceType": "piano-sample",
+        "sampleMidi": 48
+      },
+      "slowerTempo": {
+        "instrument": "piano",
+        "midi": 48,
+        "start": 6.709333333333333,
+        "end": 8.709333333333333,
+        "sourceType": "piano-sample",
+        "sampleMidi": 48
+      },
+      "halfSpeed": {
+        "instrument": "piano",
+        "midi": 48,
+        "start": 7.024,
+        "end": 11.024000000000001,
+        "sourceType": "piano-sample",
+        "sampleMidi": 48
+      }
+    },
+    "recordingAsset": {
+      "id": "92bfd3dd-4ddb-4509-834c-8fb0c04f255c",
+      "name": "QA 晴天 backing.wav",
+      "bpm": 120,
+      "offset": 0,
+      "duration": 24
+    },
+    "recordingSync": {
+      "backing": {
+        "settings": {
+          "enabled": true,
+          "source": "audio",
+          "style": "piano",
+          "volume": 0.31,
+          "track": {
+            "id": "92bfd3dd-4ddb-4509-834c-8fb0c04f255c",
+            "name": "QA 晴天 backing.wav",
+            "bpm": 120,
+            "offset": 0.75,
+            "duration": 24
+          }
+        },
+        "active": true,
+        "style": "piano",
+        "events": 2,
+        "sourceHand": "left",
+        "audio": {
+          "started": 6,
+          "ended": 6,
+          "stopped": 6,
+          "stolen": 0,
+          "rejected": 0,
+          "fallbacks": 0,
+          "volume": 0.31,
+          "active": 0,
+          "voices": [],
+          "cachedSamples": 0,
+          "pendingCleanup": 0,
+          "bankStatus": "unavailable",
+          "bankSamples": 0,
+          "bankFailures": 0,
+          "ready": true
+        },
+        "recording": {
+          "paused": false,
+          "currentTime": 2.875277,
+          "rate": 0.5,
+          "volume": 0.31,
+          "preservesPitch": true,
+          "starts": 1,
+          "seeks": 1
+        }
+      },
+      "clock": {
+        "now": 11.061333333333334,
+        "start": 10.688,
+        "origin": 4,
+        "originAt": 2,
+        "mapped": 4.373333333333333,
+        "beat": 4.357333333333333,
+        "latency": 0.037333333333332774,
+        "playing": true,
+        "countingIn": false,
+        "secondsPerBeat": null
+      }
+    },
+    "layout": {
+      "mobile": {
+        "page": 390,
+        "width": 390,
+        "left": 14,
+        "right": 376,
+        "client": 360,
+        "scroll": 360
+      },
+      "play": {
+        "x": 110,
+        "y": 749.3209838867188,
+        "width": 38,
+        "height": 38
+      }
+    }
+  },
+  "errors": []
+}

@@ -1,0 +1,214 @@
+{
+  "version": "2.34.0",
+  "verifiedAt": "2026-10-03T23:03:06.048179+00:00",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "packageSHA256": "9bc131f84d079de0707e71500486574daeab220883d10a493f5cfc85d0d245db",
+  "installation": {
+    "installedVersion": "2.34.0",
+    "previousVersion": "2.33.0",
+    "archive": "9bc131f84d079de0707e71500486574daeab220883d10a493f5cfc85d0d245db",
+    "bundleEntries": 3035,
+    "unchangedPersonalFiles": 108,
+    "freshBackup": "/Users/prince/Desktop/Luma Keys/.qa-runs/microphone-practice-20261003/personal-backup-before-install"
+  },
+  "reopened": {
+    "at": "2026-10-03T23:01:20.471631+00:00",
+    "checkedFiles": 108,
+    "allUnchanged": true,
+    "changed": [],
+    "desktopVersion": "2.34.0",
+    "observedViaCUA": {
+      "screen": "Piano input dialog on Practice",
+      "microphoneStarted": false,
+      "permissionPromptAccepted": false,
+      "piece": "Appassionata III",
+      "bar": 1,
+      "bars": 569,
+      "resumeBar": 31,
+      "mode": "Perform",
+      "hand": "Both",
+      "speedPercent": 100,
+      "companion": "Lang Lang",
+      "colours": "Ocean",
+      "scoreView": "Falling notes",
+      "handsVisible": true
+    },
+    "reopenObservation": "First CUA selection timed out at 35 seconds; next explicit Desktop path selection returned healthy restored Practice. No force quit or personal file edits."
+  },
+  "sourceVerification": {
+    "manifest": "candidate2-sources.json",
+    "manifestSHA256": "1ff6689b5d9b697484de2132357345975d008fd61c0a687b019aff0d73ad36fa",
+    "verifiedEntries": 1160,
+    "unchanged": true
+  },
+  "bundleVerification": {
+    "manifest": "candidate2-manifest.json",
+    "manifestSHA256": "d728ffe8425deb496796a7bc86c8fdf64f18f03a6aeb2ca415bee4f8855bd129",
+    "verifiedEntries": 3035,
+    "unchanged": true
+  },
+  "packagedAssets": {
+    "sourceCount": 1160,
+    "packagedCount": 508,
+    "archive": "9bc131f84d079de0707e71500486574daeab220883d10a493f5cfc85d0d245db",
+    "packageIdentity": {
+      "version": "2.34.0",
+      "main": "electron.cjs"
+    },
+    "packageJsonNormalizedByBuilder": true
+  },
+  "tests": {
+    "focused": {
+      "passed": 109,
+      "failed": 0,
+      "log": ".qa-runs/microphone-practice-20261003/targeted-final.log"
+    },
+    "broadSerial": {
+      "passed": 842,
+      "failed": 5,
+      "total": 847,
+      "log": ".qa-runs/microphone-practice-20261003/full-tests-final.log",
+      "failures": "Existing recognition process timeout fixtures; unchanged isolated recognition retry passed 8/8."
+    },
+    "recognitionRetry": {
+      "passed": 8,
+      "failed": 0,
+      "log": ".qa-runs/microphone-practice-20261003/recognition-retry.log"
+    },
+    "native": {
+      "scenarios": 4,
+      "checks": 12,
+      "index": ".qa-runs/microphone-practice-20261003/accepted-native-reports.json",
+      "reports": [
+        {
+          "path": "final4-signal/report.json",
+          "sha256": "8ceaf84afea62f0331721198a88c08b8408dc10b91e252d623e3e0d9c0263f8f",
+          "kind": "signal",
+          "passed": true,
+          "packageSHA256": "9bc131f84d079de0707e71500486574daeab220883d10a493f5cfc85d0d245db",
+          "modelResponseStubbed": false,
+          "realMicrophoneConsentRequests": 0,
+          "pageErrors": 0,
+          "gracefullyClosed": true,
+          "packageUnchanged": true,
+          "fixtureUnchanged": true,
+          "checks": [
+            "Explicit audio-only fake capture starts local Wait practice; initial silence does not advance",
+            "Real capture/worklet/worker path rejects wrong pitch/octave, waits on held repeats, rejects partial/separate chord notes and advances on complete fresh matches",
+            "Microphone-only attempts never start sampled echo, oscillator/metronome or recording playback while Wait remains armed",
+            "Listening status/stop remains accessible at 1280/800/390 and with reduced motion; Stop releases all fake tracks"
+          ]
+        },
+        {
+          "path": "final5-lifecycle/report.json",
+          "sha256": "9efc4ad16e2d426e7c4a8019629391edf9d241f1e0c5f7931391bd80c602adf6",
+          "kind": "lifecycle",
+          "passed": true,
+          "packageSHA256": "9bc131f84d079de0707e71500486574daeab220883d10a493f5cfc85d0d245db",
+          "modelResponseStubbed": false,
+          "realMicrophoneConsentRequests": 0,
+          "pageErrors": 0,
+          "gracefullyClosed": true,
+          "packageUnchanged": true,
+          "fixtureUnchanged": true,
+          "checks": [
+            "Simulated NotAllowedError leaves a clear retry message and no active tracks; no hardware permission is requested",
+            "Simulated fake-track disconnect stops practice and releases capture; retry returns to listening",
+            "A deliberate 500ms main-thread stall during silence keeps the microphone connected without false advancement",
+            "UI seek, restart, loop and hand changes replace the capture target scope; silence does not advance a new target",
+            "Pet chat opens beside practice and disarms target matching while paused; returning can resume, and Listen mode fully releases microphone input",
+            "Unsupported octave chord remains pending with useful MIDI guidance; switching to synthetic MIDI accepts the complete octave through existing input flow"
+          ]
+        },
+        {
+          "path": "final5-queued/report.json",
+          "sha256": "eefc24605ac0f0437482a02afa634239bbd0e54c997c328cef79725e43100993",
+          "kind": "queued",
+          "passed": true,
+          "packageSHA256": "9bc131f84d079de0707e71500486574daeab220883d10a493f5cfc85d0d245db",
+          "modelResponseStubbed": false,
+          "realMicrophoneConsentRequests": 0,
+          "pageErrors": 0,
+          "gracefullyClosed": true,
+          "packageUnchanged": true,
+          "fixtureUnchanged": true,
+          "checks": [
+            "After a deliberate 500ms UI stall, real fake-capture pitch detection continues; a genuinely detected attack held across seek is rejected and a later fresh strike advances"
+          ]
+        },
+        {
+          "path": "final5-coach/report.json",
+          "sha256": "4128e31676cb9a517ad9daa4a351bddd89faa253fd07050d5b6ac7fe8154982e",
+          "kind": "coach",
+          "passed": true,
+          "packageSHA256": "9bc131f84d079de0707e71500486574daeab220883d10a493f5cfc85d0d245db",
+          "modelResponseStubbed": true,
+          "realMicrophoneConsentRequests": 0,
+          "pageErrors": 0,
+          "gracefullyClosed": true,
+          "packageUnchanged": true,
+          "fixtureUnchanged": true,
+          "checks": [
+            "A delayed, explicitly stubbed model response receives note metadata only; real acoustic matching advances during the wait, and stale tip text is discarded after target change"
+          ]
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Generated PCM was supplied through Chromium fake getUserMedia into the production AudioWorklet, Worker, detector and Wait path. No physical piano, microphone, room acoustics or physical latency was evaluated.",
+    "All QA app output was muted and windows offscreen/unfocusable, with isolated data and Electron storage. Permission denial, disconnected track and MIDI were simulated.",
+    "The AudioServiceSandbox Chromium feature was disabled only in isolated QA to permit the fake capture WAV file. Production sandbox and permission configuration were not changed.",
+    "Coaching integration used one delayed stubbed NDJSON text response. This proves asynchronous gating and metadata shape, not model quality.",
+    "Native range/chord coverage does not establish universal acoustic recognition. Current detector supports C3-C6 and up to three simple distinct notes; ambiguous octave/fifth combinations, dense pedalling, noisy rooms and very soft notes remain limited.",
+    "Extra octave notes can blend with natural overtones and falsely match. Physical-piano accuracy is unverified.",
+    "180\u2013252 ms recorded-note fixture confirmation excludes physical microphone, queue and display latency.",
+    "Some cold launches and native inspection attempts timed out; subsequent attempts worked. The underlying startup delay is not claimed fixed."
+  ],
+  "retainedEarlierEvidence": [
+    {
+      "path": "final1-signal/report.json",
+      "classification": "QA infrastructure: audio utility sandbox prevented reading the fake WAV."
+    },
+    {
+      "path": "final2-signal/report.json",
+      "classification": "Superseded production candidate: capture backlog hard-disconnect; also initial QA instrumentation timing errors."
+    },
+    {
+      "path": "final3-lifecycle/report.json",
+      "classification": "Superseded production candidate: confirmed capture backlog disconnect during a normal chat transition, with no page errors."
+    },
+    {
+      "path": "final4-lifecycle/report.json",
+      "classification": "QA instrumentation startup timing: probe absent before microphone actions; fixed in harness and final5 rerun passed."
+    }
+  ],
+  "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/microphone-practice-20261003/previous-installed-Luma Keys-2.33.0.app",
+  "verifiedCandidate": "/Users/prince/Desktop/Luma Keys/.qa-runs/microphone-practice-20261003/verified-Luma Keys-2.34.0.app",
+  "physicalMicrophoneAccess": false,
+  "physicalPianoAccuracyVerified": false,
+  "newModelTraining": false,
+  "realModelInferenceTestedThisPass": false,
+  "personalDataChanged": false,
+  "newScheduleCreated": false,
+  "captures": [
+    {
+      "path": "evidence/microphone-wait-2.34-listening.png",
+      "source": ".qa-runs/microphone-practice-20261003/final4-signal/listening-1280.png",
+      "sha256": "8a6b55f58fd392744ffb2f45ec425b1ea77eb9a236fe124b4159e3dafa49d485",
+      "type": "isolated packaged fake-microphone QA"
+    },
+    {
+      "path": "evidence/microphone-wait-2.34-input-mobile.png",
+      "source": ".qa-runs/microphone-practice-20261003/final5-lifecycle/input-options-390.png",
+      "sha256": "3546f9d4f457954a3fe75152989549c7695d130ae226a08f1db0838de68894c8",
+      "type": "isolated packaged fake-microphone QA"
+    },
+    {
+      "path": "evidence/microphone-wait-2.34-chat.png",
+      "source": ".qa-runs/microphone-practice-20261003/final5-lifecycle/chat-coexistence.png",
+      "sha256": "d6cc8e4d2ebfffacc02350756bcce3b5201a70ea78944e1a5753b2c097c695e0",
+      "type": "isolated packaged fake-microphone QA"
+    }
+  ]
+}

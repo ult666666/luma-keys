@@ -1,0 +1,58 @@
+{
+  "installedVersion": "2.36.0",
+  "previousVersion": "2.35.0",
+  "packageSHA256": "b2fc596b67d322059fcd22e1e5955493f8c1ad0a9a607fbd51f44ff350a965ac",
+  "bundleEntries": 3035,
+  "unchangedMusicalPersonalFiles": 107,
+  "freshBackup": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-sculpt-2.36/personal-backup-without-chat",
+  "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-sculpt-2.36/previous-installed-Luma Keys-2.35.0.app",
+  "checks": {
+    "handTests": 100,
+    "integrationTests": 40,
+    "wristFadeRegression": 1,
+    "nativeGroups": 6,
+    "nativePassed": true,
+    "rendererErrors": [],
+    "frozenInputs": 657,
+    "packagedFilesChecked": 531
+  },
+  "visualReview": "Root and independent review accepted exact packaged opening, single-note and coda images; raised wrist cut-edge fixed.",
+  "playback": {
+    "frames": 235,
+    "sampleSeconds": 6,
+    "frameMs": {
+      "p50": 16.799999999999272,
+      "p95": 66.39999999999418,
+      "max": 67.59999999999854
+    },
+    "handUpdateCpuMs": {
+      "n": 231,
+      "mean": 4.165,
+      "p50": 3.6,
+      "p95": 7.7,
+      "max": 30.5
+    },
+    "note": "Frame pacing varies in both old and new app, including hands-hidden tests. No locked-60fps claim."
+  },
+  "nativeReport": ".qa-runs/hand-sculpt-2.36/candidate2-hands/report.json",
+  "acceptedReports": ".qa-runs/hand-sculpt-2.36/accepted-native-reports.json",
+  "images": [
+    "evidence/native-hand-guide-2.36-opening.png",
+    "evidence/native-hand-guide-2.36-coda.png",
+    "evidence/native-hand-guide-2.36-single-notes.png"
+  ],
+  "actualDesktopReopen": {
+    "confirmed": true,
+    "app": "/Users/prince/Desktop/Luma Keys.app",
+    "version": "2.36.0",
+    "origin": "http://127.0.0.1:61086/",
+    "observed": "Actual native screenshot confirms new compact mesh and curved idle fingers on Appassionata opening, paused at 0:00; Resume bar31, Perform/Both/100%, Falling notes, Lang Lang/Ocean retained.",
+    "inspection": "First CUA app selection timed out at35s; a later selection and screenshot succeeded. No force quit. Startup delay is not claimed fixed."
+  },
+  "limits": [
+    "Tested poses/scores/layouts only; no claim of perfect all-score fingering.",
+    "No physical piano, MIDI, microphone or audio-quality validation in this hand-art update.",
+    "Reference raster guides art direction; actual runtime hands are articulated Microsoft MRTK geometry."
+  ],
+  "rejectedCandidate": "Candidate1 passed functional checks but was rejected visually for exposed forearm ends in raised coda poses. Preserved in QA."
+}

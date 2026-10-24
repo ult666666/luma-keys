@@ -1,0 +1,116 @@
+{
+  "version": "2.11.0",
+  "passed": true,
+  "completedAt": "2026-09-27T09:51:51.575114-04:00",
+  "unitApiTests": 326,
+  "nativeIntegrationGroups": 5,
+  "nativePianoInputGroups": 12,
+  "sheetHelperTests": 6,
+  "newAudibleClockTests": 3,
+  "isolatedLibraryGroups": 6,
+  "isolatedKeyboardGroups": 6,
+  "manualThemeCombinations": 30,
+  "sheetBefore": {
+    "count": 495,
+    "median": 16.69999999999891,
+    "p95": 17.200000000000728,
+    "max": 266.60000000000036,
+    "over33ms": 6,
+    "scrollChanges": [
+      113.5,
+      0,
+      130.5,
+      0,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      113.5,
+      83.5,
+      0,
+      89.5,
+      52.5,
+      89.5
+    ],
+    "paperTops": [
+      179.9453125
+    ],
+    "paperHeights": [
+      112
+    ],
+    "rangeChanges": [
+      "Bars 193–200 of 569",
+      "Bars 185–192 of 569",
+      "Bars 201–208 of 569"
+    ],
+    "busyFrames": 6
+  },
+  "sheetAfter": {
+    "count": 532,
+    "median": 16.699999999999818,
+    "p95": 16.80000000000109,
+    "max": 250,
+    "over33ms": 1,
+    "scrollChanges": [
+      91.5,
+      60.5
+    ],
+    "paperTops": [
+      179.9453125
+    ],
+    "paperHeights": [
+      112
+    ],
+    "rangeChanges": [
+      "Bars 193–200 of 569",
+      "Bars 201–208 of 569"
+    ],
+    "busyFrames": 1
+  },
+  "installedLibraryVisuallyVerified": true,
+  "unchangedPersonalFilesAfterReopening": 68,
+  "installation": {
+    "version": "2.11.0",
+    "installedAt": "2026-09-27T09:50:30.043289-04:00",
+    "filesAndSymlinks": 2992,
+    "personalFiles": 68,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/reader-atelier-2.11/previous-installed-Luma Keys-2.10.1.app"
+  },
+  "package": {
+    "version": "2.11.0",
+    "checkedFiles": 301,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "a0d737a8b905622099a8f1a185c528ecb51289de5c7f28a4d0244d976271cd1c"
+  },
+  "evidence": "/Users/prince/Desktop/Luma Keys/.qa-runs/reader-atelier-2.11",
+  "limitations": [
+    "A synchronous new-passage engraving pause remains; one250ms frame occurred in the final9-second Appassionata sample. Frame timings describe this Mac and sample, not all hardware or GPU presentation.",
+    "The compact sheet retains its existing viewport size; tall systems can be manually scrolled, and following occurs only when the system changes.",
+    "Physical MIDI hardware, new PDF recognition and general model conversation were not re-evaluated in this scoped pass."
+  ],
+  "automationExtended": false
+}

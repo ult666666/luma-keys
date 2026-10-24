@@ -1,0 +1,371 @@
+{
+  "passed": true,
+  "version": "2.44.0",
+  "checks": [
+    "Legacy preferences without companion fields remain byte-for-byte unchanged through first load and reload.",
+    "All six companions preview without changing saved appearance, room or practice; cancel discards the preview.",
+    "With neutral colours a new companion changes only avatar, name and room; after “Match <companion>” every companion brings its complete room palette and requested reverb, always preserving the score, exact beat, phrase, hand, speed and paused mode.",
+    "Disabling Match piano sound retains Dry; a custom palette overrides the companion's and survives choosing the companion again, and “Match Liszt” restores its colours, all without altering practice.",
+    "The selected companion, custom room choice, colour choice and saved musical controls restore after reload with a correctly named assistant.",
+    "Opening the salon releases held notes and pedal (even MIDI held beside the non-modal dock); inside the modal salon computer and simulated MIDI input are guarded, previews work by keyboard, Tab remains trapped and Escape returns focus to the chat with piano input restored.",
+    "The renamed assistant accepts typed commands, keeps typing silent and slows the current passage without changing its position or starting playback.",
+    "The chosen artist follows Library, Exercises and Progress artwork, talk buttons and the roaming companion with readable text; active gestures honor live reduced motion, opening the Salon pauses playback, and all six choices fit the narrow modal without horizontal overflow.",
+    "Settings opens the same Salon; returning to practice retains all 88 keyboard targets, reachable transport at 1280×800, and the untouched saved score."
+  ],
+  "measurements": {
+    "salon-desktop": {
+      "width": 1280,
+      "page": 1280,
+      "dialog": {
+        "left": 270,
+        "right": 1010,
+        "client": 740,
+        "scroll": 740
+      },
+      "cards": [
+        {
+          "left": 531,
+          "right": 676.328125,
+          "width": 145.328125
+        },
+        {
+          "left": 685.328125,
+          "right": 830.6640625,
+          "width": 145.3359375
+        },
+        {
+          "left": 839.6640625,
+          "right": 984.9921875,
+          "width": 145.328125
+        },
+        {
+          "left": 531,
+          "right": 676.328125,
+          "width": 145.328125
+        },
+        {
+          "left": 685.328125,
+          "right": 830.6640625,
+          "width": 145.3359375
+        },
+        {
+          "left": 839.6640625,
+          "right": 984.9921875,
+          "width": 145.328125
+        }
+      ]
+    },
+    "palettes": {
+      "beethoven": {
+        "background": "rgb(244, 240, 231)",
+        "chrome": "rgb(41, 36, 32)",
+        "controls": "rgb(255, 252, 245)"
+      },
+      "langlang": {
+        "background": "rgb(237, 241, 242)",
+        "chrome": "rgb(29, 41, 53)",
+        "controls": "rgb(250, 252, 251)"
+      },
+      "mozart": {
+        "background": "rgb(243, 238, 243)",
+        "chrome": "rgb(49, 40, 54)",
+        "controls": "rgb(255, 250, 252)"
+      },
+      "liszt": {
+        "background": "rgb(244, 238, 235)",
+        "chrome": "rgb(39, 27, 32)",
+        "controls": "rgb(255, 250, 246)"
+      },
+      "cat": {
+        "background": "rgb(240, 242, 233)",
+        "chrome": "rgb(40, 49, 42)",
+        "controls": "rgb(252, 253, 246)"
+      },
+      "bunny": {
+        "background": "rgb(245, 239, 239)",
+        "chrome": "rgb(55, 42, 50)",
+        "controls": "rgb(255, 250, 248)"
+      }
+    },
+    "mozart-library": {
+      "width": 1280,
+      "page": 1280,
+      "cards": []
+    },
+    "mozart-library-description": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        243,
+        238,
+        243,
+        255
+      ],
+      "ratio": 5.373041697685772
+    },
+    "mozart-continue-description": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        255,
+        250,
+        252,
+        255
+      ],
+      "ratio": 5.958240873038747
+    },
+    "mozart-exercises": {
+      "width": 1280,
+      "page": 1280,
+      "cards": []
+    },
+    "mozart-exercises-description": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        243,
+        238,
+        243,
+        255
+      ],
+      "ratio": 5.373041697685772
+    },
+    "mozart-exercise-summary": {
+      "foreground": [
+        114,
+        80,
+        120,
+        255
+      ],
+      "background": [
+        255,
+        250,
+        252,
+        255
+      ],
+      "ratio": 6.487194133842264
+    },
+    "mozart-progress": {
+      "width": 1280,
+      "page": 1280,
+      "cards": []
+    },
+    "mozart-progress-description": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        243,
+        238,
+        243,
+        255
+      ],
+      "ratio": 5.373041697685772
+    },
+    "mozart-progress-stat": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        238,
+        229,
+        237,
+        255
+      ],
+      "ratio": 5.001184171009001
+    },
+    "langlang-library": {
+      "width": 1280,
+      "page": 1280,
+      "cards": []
+    },
+    "langlang-library-description": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        237,
+        241,
+        242,
+        255
+      ],
+      "ratio": 5.411202594843738
+    },
+    "langlang-continue-description": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        250,
+        252,
+        251,
+        255
+      ],
+      "ratio": 5.972913607118832
+    },
+    "langlang-exercises": {
+      "width": 1280,
+      "page": 1280,
+      "cards": []
+    },
+    "langlang-exercises-description": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        237,
+        241,
+        242,
+        255
+      ],
+      "ratio": 5.411202594843738
+    },
+    "langlang-exercise-summary": {
+      "foreground": [
+        50,
+        93,
+        117,
+        255
+      ],
+      "background": [
+        250,
+        252,
+        251,
+        255
+      ],
+      "ratio": 6.889912414836225
+    },
+    "langlang-progress": {
+      "width": 1280,
+      "page": 1280,
+      "cards": []
+    },
+    "langlang-progress-description": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        237,
+        241,
+        242,
+        255
+      ],
+      "ratio": 5.411202594843738
+    },
+    "langlang-progress-stat": {
+      "foreground": [
+        93,
+        98,
+        104,
+        255
+      ],
+      "background": [
+        230,
+        236,
+        237,
+        255
+      ],
+      "ratio": 5.153460238034409
+    },
+    "salon-mobile": {
+      "width": 390,
+      "page": 384,
+      "dialog": {
+        "left": 14,
+        "right": 370,
+        "client": 356,
+        "scroll": 356
+      },
+      "cards": [
+        {
+          "left": 35,
+          "right": 135,
+          "width": 100
+        },
+        {
+          "left": 142,
+          "right": 242,
+          "width": 100
+        },
+        {
+          "left": 249,
+          "right": 349,
+          "width": 100
+        },
+        {
+          "left": 35,
+          "right": 135,
+          "width": 100
+        },
+        {
+          "left": 142,
+          "right": 242,
+          "width": 100
+        },
+        {
+          "left": 249,
+          "right": 349,
+          "width": 100
+        }
+      ]
+    },
+    "mobileAction": {
+      "x": 32,
+      "y": 764.140625,
+      "width": 320,
+      "height": 43
+    },
+    "practice": {
+      "width": 1280,
+      "page": 1280,
+      "playBottom": 781,
+      "keys": 88
+    },
+    "beethoven-active-navigation": {
+      "foreground": [
+        243,
+        235,
+        221,
+        255
+      ],
+      "background": [
+        41,
+        36,
+        32,
+        255
+      ],
+      "ratio": 12.971466721989419
+    }
+  },
+  "errors": []
+}

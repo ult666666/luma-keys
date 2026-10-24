@@ -9,7 +9,7 @@
     "Live Wait for me rejects a nearby wrong onset and accepts D4 then E4 at their precise written beats without skipping either note",
     "Hiding the keyboard preserves live computer ownership and acoustic stepping, removes hidden keys from focus, and retains all 88 button identities",
     "Falling notes temporarily reveals the keyboard; Number score and score changes retain the user's collapsed preference, with an accessible way to restore it",
-    "Opening, interior and trailing rests show accurate beat durations; dense short rests stay legible without clipped labels or page-wide overflow",
+    "Opening, interior and trailing rests show accurate beat durations; dense short rests stay legible on lines that fit the width, without clipped labels or any sideways scrolling",
     "At 390px, phrase selection and manual stepping remain usable with the keyboard collapsed and no controls extending beyond the page"
   ],
   "errors": [],
@@ -29,54 +29,42 @@
     },
     "rests": {
       "count": 18,
-      "minimumWidth": 48,
+      "minimumWidth": 49.296875,
       "restOverflow": {
         "document": false,
-        "score": true
+        "score": false
       }
     },
     "narrowControls": [
       {
         "label": "Repeat these bars",
-        "left": 169.4375,
-        "right": 200.4375,
+        "left": 170.9375,
+        "right": 201.9375,
         "width": 31
       },
       {
         "label": "Go to bar",
-        "left": 208.4375,
-        "right": 256.4375,
+        "left": 209.9375,
+        "right": 257.9375,
         "width": 48
       },
       {
         "label": "Go",
-        "left": 259.4375,
-        "right": 279,
-        "width": 19.5625
+        "left": 260.9375,
+        "right": 281,
+        "width": 20.0625
       },
       {
         "label": "Previous passage",
-        "left": 288,
-        "right": 321,
+        "left": 290,
+        "right": 323,
         "width": 33
       },
       {
         "label": "Next passage",
-        "left": 327,
-        "right": 360,
+        "left": 329,
+        "right": 362,
         "width": 33
-      },
-      {
-        "label": "Loop start bar",
-        "left": 144.203125,
-        "right": 184.203125,
-        "width": 40
-      },
-      {
-        "label": "Loop end bar",
-        "left": 228.359375,
-        "right": 268.359375,
-        "width": 40
       }
     ]
   },

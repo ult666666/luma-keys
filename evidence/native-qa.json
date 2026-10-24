@@ -9,7 +9,7 @@
     "Actual PDF imports 16 notes in packaged app",
     "Original PDF is available",
     "Für Elise has 53 notes and engraved two-staff notation",
-    "3/8 meter and three beginner practice steps are visible",
+    "3/8 meter and three beginner practice tips are shown in Settings",
     "Left-hand wait mode starts at A2 in bar 3 and advances to E3",
     "Repeated E5 blocks are separated with no visual overlap",
     "Independent MuseScore Bach export preserves held left-hand voices; notation pages and note review reach late bars directly",
@@ -23,42 +23,57 @@
     "Invalid note import shows an actionable error and retains the current piece",
     "Damaged files stay byte-for-byte intact; healthy library scores remain available",
     "Repair and retry clears the notice and restores the score without relaunching",
-    "Valid preferences, mute and level persist; stale daily progress resets on screen without rewriting the file",
+    "Valid colours and mute persist without a startup write; yesterday's daily minutes reset, and the next session saves today's minutes from zero while keeping lifetime totals",
     "Damaged fields use defaults while valid theme, companion and progress survive; the original file is preserved on explicit repair",
-    "Theme, companion and mute changes save; playback increments numeric session/minute totals after recovery",
+    "Colour, companion and mute changes save and survive a reload; playback increments numeric session/minute totals after recovery",
     "Null and truncated settings show recovery instead of startup errors or silent data replacement",
     "An unreadable settings file leaves a lasting warning; restore and reload resumes saved settings without relaunching",
     "Delayed loading disables practice and preference edits until the saved state is ready, preventing overwritten early changes"
   ],
   "health": {
     "ok": true,
+    "version": "2.44.0",
     "omr": true,
-    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-7LKNA2/Library"
+    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-oT92UE/Library",
+    "writable": true,
+    "sharedWith": null,
+    "startup": {
+      "serverReadyMs": 187,
+      "windowLoaded": 375
+    },
+    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-oT92UE/Logs/luma-keys.log",
+    "companionHistory": {
+      "storage": "temporary",
+      "cleanup": {
+        "ok": true,
+        "removed": 0
+      }
+    }
   },
   "notationMeasurements": [
     {
       "name": "Bach first 16 bars",
-      "scrollHeight": 3791,
+      "scrollHeight": 3789,
       "nodes": 3414,
       "paths": 1176,
-      "visibleHeight": 409,
-      "loadRenderMs": 274.1187090000021
+      "visibleHeight": 408,
+      "loadRenderMs": 1133.6691250000003
     },
     {
       "name": "Joplin first 16 bars",
-      "scrollHeight": 1940,
+      "scrollHeight": 1939,
       "nodes": 2266,
       "paths": 921,
-      "visibleHeight": 409,
-      "loadRenderMs": 268.74395800000275
+      "visibleHeight": 408,
+      "loadRenderMs": 1152.265709000003
     },
     {
       "name": "256-bar book, bars 129–144",
-      "scrollHeight": 3287,
+      "scrollHeight": 3285,
       "nodes": 2982,
       "paths": 1072,
       "visibleHeight": 500,
-      "loadRenderMs": 383.25866600000154
+      "loadRenderMs": 449.502250000005
     }
   ],
   "errors": []

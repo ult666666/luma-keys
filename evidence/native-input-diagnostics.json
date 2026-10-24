@@ -1,0 +1,136 @@
+{
+  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-input-wPTWEj",
+  "version": "2.44.0",
+  "stage": "owned-cleanup",
+  "process": {
+    "pid": 4882,
+    "exitCode": 0,
+    "signalCode": null
+  },
+  "page": {
+    "closed": true,
+    "url": "http://127.0.0.1:63461/"
+  },
+  "events": [
+    {
+      "at": "2026-10-09T20:30:40.435Z",
+      "stage": "launch",
+      "event": "launched",
+      "pid": 4882
+    },
+    {
+      "at": "2026-10-09T20:30:40.597Z",
+      "stage": "launch",
+      "event": "process-stdout",
+      "text": "Luma Keys listening on 63461\n"
+    },
+    {
+      "at": "2026-10-09T20:30:40.597Z",
+      "stage": "launch",
+      "event": "main-console",
+      "type": "log",
+      "text": "Luma Keys listening on 63461"
+    },
+    {
+      "at": "2026-10-09T20:30:40.805Z",
+      "stage": "startup",
+      "event": "owned-windows-focused",
+      "windows": [
+        {
+          "id": 1,
+          "visible": true,
+          "focused": false
+        }
+      ]
+    },
+    {
+      "at": "2026-10-09T20:30:41.447Z",
+      "stage": "startup",
+      "event": "navigation",
+      "url": "http://127.0.0.1:63461/"
+    },
+    {
+      "at": "2026-10-09T20:30:41.629Z",
+      "stage": "startup",
+      "event": "owned-windows-focused",
+      "windows": [
+        {
+          "id": 1,
+          "visible": true,
+          "focused": false
+        }
+      ]
+    },
+    {
+      "at": "2026-10-09T20:31:05.601Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}\n"
+    },
+    {
+      "at": "2026-10-09T20:31:05.601Z",
+      "stage": "owned-cleanup",
+      "event": "main-console",
+      "type": "log",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}"
+    },
+    {
+      "at": "2026-10-09T20:31:05.602Z",
+      "stage": "owned-cleanup",
+      "event": "process-stderr",
+      "text": "Debugger ending on ws://127.0.0.1:63456/dee364e7-138a-4f6e-83a4-332d72ab5146\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
+    },
+    {
+      "at": "2026-10-09T20:31:05.624Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}\n"
+    },
+    {
+      "at": "2026-10-09T20:31:05.624Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-close\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-10-09T20:31:05.728Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-closed\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-10-09T20:31:05.728Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"will-quit\"}\nLUMA_INPUT_DIAG {\"event\":\"quit\"}\n"
+    },
+    {
+      "at": "2026-10-09T20:31:05.729Z",
+      "stage": "owned-cleanup",
+      "event": "page-close"
+    },
+    {
+      "at": "2026-10-09T20:31:05.734Z",
+      "stage": "owned-cleanup",
+      "event": "process-stderr",
+      "text": "[4882:1009/133105.733974:ERROR:base/process/process_mac.cc:98] task_policy_set TASK_SUPPRESSION_POLICY: (os/kern) invalid argument (4)\n"
+    },
+    {
+      "at": "2026-10-09T20:31:05.813Z",
+      "stage": "owned-cleanup",
+      "event": "process-exit",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "at": "2026-10-09T20:31:05.814Z",
+      "stage": "owned-cleanup",
+      "event": "browser-context-close"
+    },
+    {
+      "at": "2026-10-09T20:31:05.815Z",
+      "stage": "owned-cleanup",
+      "event": "electron-application-close"
+    }
+  ]
+}

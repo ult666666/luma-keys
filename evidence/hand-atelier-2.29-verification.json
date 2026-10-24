@@ -1,0 +1,122 @@
+{
+  "version": "2.29.0",
+  "verifiedAt": "2026-10-03T08:37:34.032857-04:00",
+  "state": "installed and reopened",
+  "installed": true,
+  "generatedReference": "public/art/hands/pianist-study-2.29.png",
+  "designBrief": ".qa-runs/hand-atelier-2.29/art-reference.json",
+  "unitTests": {
+    "passed": 777,
+    "failed": 0,
+    "handTests": 27,
+    "log": ".qa-runs/hand-atelier-2.29/all-tests-accepted.log"
+  },
+  "native": {
+    "passed": true,
+    "report": ".qa-runs/hand-atelier-2.29/final-h-hands/report.json",
+    "checks": [
+      "Sunny Day screenshot pose, next note and 1440/1280/800/390/short-window layouts retain 3-D hands, finite contacts, readable keys and reachable playback.",
+      "Reduced motion keeps placed fingertips aligned; hiding and showing hands restores the ready renderer without a new failure.",
+      "Ocean, Rose, Match companion and Neutral keep distinct keyboard finishes, stable prepared hand geometry and accurate contacts.",
+      "Left/right five-second practice jumps remain exact at 60% and leave the paused hands valid.",
+      "Octaves, held chords, black keys and coda render correctly; live Appassionata animates with valid contacts, continuing clock and cancelled queued audio on Pause.",
+      "Persisted score/settings and prepared hands survive reload with no renderer errors."
+    ],
+    "outputMuted": true,
+    "ownedAppClosed": true,
+    "pageErrors": [],
+    "archiveSHA256": "f3b3d47a5716e75679f97114b072570f35309a0c6d974e2e92f1936b0901e990",
+    "archiveUnchangedAfterClose": true
+  },
+  "animation": {
+    "seconds": 6,
+    "frames": 362,
+    "frameP50Ms": 16.69999999999709,
+    "frameP95Ms": 17.599999999998545,
+    "frameMaxMs": 18.69999999999709,
+    "renderCPU": {
+      "n": 364,
+      "mean": 1.784,
+      "p50": 1.8,
+      "p95": 2.4,
+      "max": 3.2
+    },
+    "sampledHeldContacts": 59,
+    "maxSampledContactErrorMm": 0.38,
+    "device": "Apple M1; ANGLE Metal"
+  },
+  "packageIntegrity": {
+    "version": "2.29.0",
+    "checkedFiles": 524,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "f3b3d47a5716e75679f97114b072570f35309a0c6d974e2e92f1936b0901e990"
+  },
+  "scopeLimits": [
+    "Stylized suggested fingering; cannot observe physical hands",
+    "Muted native playback; no physical audio, connected MIDI or microphone test",
+    "No simultaneous local chat-model generation test",
+    "Narrow windows scroll to keep controls reachable"
+  ],
+  "retainedAttempts": {
+    "a": "narrow-window test expectation corrected",
+    "b-c": "reduce-motion expectation corrected to compare placed contacts",
+    "d": "fixed palette close-control overlap with roaming pet",
+    "e": "fixed mixed black/white coda wrist placement",
+    "f-g": "fixed live constrained-contact refinement"
+  },
+  "preservedCandidate": {
+    "path": ".qa-runs/hand-atelier-2.29/verified-Luma Keys-2.29.0.app",
+    "fullBundleManifest": ".qa-runs/hand-atelier-2.29/candidate-manifest.json",
+    "allFilesAndSymlinksMatch": true,
+    "entries": 3035
+  },
+  "installedAt": "2026-10-03T10:25:08.890244-04:00",
+  "installation": {
+    "version": "2.29.0",
+    "verifiedAt": "2026-10-03T10:33:44.509140-04:00",
+    "installedArchiveSHA256": "f3b3d47a5716e75679f97114b072570f35309a0c6d974e2e92f1936b0901e990",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "unchangedPersonalFiles": 107,
+    "allLatestPersonalFilesUnchangedAfterReopen": false,
+    "changedPersonalFiles": [
+      "Library/preferences.json"
+    ],
+    "allScoreExportConversationFilesUnchanged": true,
+    "savedMusicAndPracticeSettingsPreserved": [
+      "last",
+      "mode",
+      "hand",
+      "speed",
+      "readingView",
+      "keyHands",
+      "interpretation",
+      "countIn",
+      "metronome",
+      "accompany",
+      "loop",
+      "loopA",
+      "loopB"
+    ],
+    "currentAppearance": {
+      "companion": "liszt",
+      "colours": "companion",
+      "companionStyle": true
+    },
+    "nativeGroups": 6,
+    "auditNote": "The initial strict byte-for-byte check correctly failed on preferences.json. During live reopening the appearance changed to Liszt/Match companion, and the app recorded time in Practice. These live changes were not rolled back; all107 other personal files match the fresh backup. No personal chat requests or score edits were sent by this verification."
+  },
+  "installationRecord": ".qa-runs/hand-atelier-2.29/installation-record.json",
+  "nativeReopenObservation": {
+    "app": "/Users/prince/Desktop/Luma Keys.app",
+    "initialSavedPosition": "晴天 (Sunny Day), bar1/76, paused, Wait, Both hands,60%, Falling notes",
+    "initialAppearance": "Lang Lang, Neutral",
+    "latestObservedAppearance": "Liszt, Match Liszt",
+    "latestObservedScreen": "Library with companion conversation open",
+    "personalDataAudit": "107 of108 files unchanged; preferences contains live appearance and practice-log updates, retained without rollback",
+    "visualAcceptance": "Exact candidate native captures in final-h; the personal Practice capture caught the 2-D preparation fallback before the user returned to Library",
+    "controls": "Native app quit normally; first launch-control timeout recovered by selecting the full Desktop path. A changed-UI guard was respected before retrying Practice."
+  }
+}

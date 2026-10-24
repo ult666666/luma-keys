@@ -1,0 +1,8 @@
+{
+  "error": "locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Dismiss notification', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <button aria-label=\"Dismiss notification\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m  - element was detached from the DOM, retrying\u001b[22m\n",
+  "evidence": {
+    "checks": [],
+    "measurements": {},
+    "errors": []
+  }
+}

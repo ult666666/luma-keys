@@ -1,0 +1,96 @@
+{
+  "version": "2.45.0",
+  "previousVersion": "2.44.0",
+  "asarSHA256": "32e9b8ebadf27126655753fe0253e52a7a3475ba5921e09f45dba862a480c6cc",
+  "installedAt": "2026-10-11T11:27:52.322360-07:00",
+  "bundleEntries": 3035,
+  "personalFilesUnchanged": 110,
+  "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.45/previous-installed-Luma Keys-2.44.0.app",
+  "backup": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.45/personal-backup-without-chat",
+  "releaseMatches": true,
+  "passed": true,
+  "unitTests": 146,
+  "webglShadowChecks": 20,
+  "nativeGroups": 9,
+  "nativeReport": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.45/candidate1-hands/report.json",
+  "sourceVerification": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.45/final-source-verification.json",
+  "timing": {
+    "initial": {
+      "frames": 336,
+      "p50": 16.69999999999709,
+      "p95": 17.60000000000582,
+      "max": 182.39999999999418,
+      "longFrames": 2,
+      "engineCpu": {
+        "n": 336,
+        "mean": 2.035,
+        "p50": 1.9,
+        "p95": 3.2,
+        "max": 5.2
+      }
+    },
+    "warm": {
+      "frames": 360,
+      "p50": 16.69999999999709,
+      "p95": 17.60000000000582,
+      "max": 33.30000000000291,
+      "longFrames": 0,
+      "engineCpu": {
+        "n": 364,
+        "mean": 1.999,
+        "p50": 1.8,
+        "p95": 3.1,
+        "max": 5.5
+      }
+    },
+    "note": "Both complete samples are retained, including every interval and >50 ms frame. Differences do not establish the cause of an outlier or guarantee a constant frame rate."
+  },
+  "normalQuitRollover": {
+    "changed": [
+      {
+        "path": "reading.buddyState.lastSeen",
+        "before": "2026-10-07",
+        "after": "2026-10-11"
+      },
+      {
+        "path": "stats.dailyMinutes",
+        "before": 18.45505,
+        "after": 0
+      },
+      {
+        "path": "stats.practiceDate",
+        "before": "2026-10-10",
+        "after": "2026-10-11"
+      }
+    ],
+    "allOtherPreferencesEqual": true,
+    "otherFilesUnchanged": 108,
+    "newSettingsSnapshot": {
+      "path": "Library/Settings snapshots/preferences-2026-10-11.json",
+      "equalsPreviousPreferences": true
+    }
+  },
+  "visualReview": {
+    "desktopBlockers": false,
+    "reviewedNativeFrames": 12,
+    "limitations": [
+      "Runtime surface remains less detailed than the reference.",
+      "Wrist fade can remain visible on angled poses.",
+      "At 390px a contact marker clips at the horizontal keyboard edge."
+    ]
+  },
+  "actualAppReopenVerified": true,
+  "actualAppReopenState": {
+    "piece": "Sunny Day",
+    "playback": "paused",
+    "position": "0:00",
+    "resumeBar": 48,
+    "mode": "Listen",
+    "hands": "Both",
+    "speedPercent": 50,
+    "palette": "Ocean",
+    "companion": "Lang Lang",
+    "view": "Falling notes"
+  },
+  "actualAppReopenNote": "Verified the actual installed app through its UI and screenshot. The first app-selection attempt timed out; the retry succeeded."
+}

@@ -4,17 +4,17 @@
     {
       "mode": "quit",
       "passed": true,
-      "closeMs": 174.44670799999994,
+      "closeMs": 1451.1362919999992,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.014133333333333333,
+          "minutes": 0.04516666666666667,
           "sessions": 1,
-          "dailyMinutes": 0.014133333333333333,
-          "practiceDate": "2026-09-25"
+          "dailyMinutes": 0.04516666666666667,
+          "practiceDate": "2026-10-11"
         },
         "reading": {
           "labels": "numbers",
@@ -23,6 +23,8 @@
           "countIn": false,
           "metronome": false,
           "keyboardCollapsed": false,
+          "keyLane": true,
+          "keyHands": true,
           "readingView": "numbers",
           "speed": 0.75,
           "mode": "listen",
@@ -40,9 +42,36 @@
             "exercise": null
           },
           "coach": true,
-          "welcomeSeen": false
+          "companion": "beethoven",
+          "companionStyle": false,
+          "colours": "rose",
+          "welcomeSeen": false,
+          "goal": 20,
+          "accompany": true,
+          "room": "room",
+          "interpretation": "concert",
+          "buddy": true,
+          "buddyState": {
+            "quiet": false,
+            "hintSeen": false,
+            "side": "right",
+            "lastSeen": "2026-10-11",
+            "bond": {},
+            "treats": {
+              "jar": 0,
+              "day": "",
+              "earnedToday": 0,
+              "milestones": [],
+              "goalDay": ""
+            }
+          },
+          "backing": {}
         },
-        "history": []
+        "history": [],
+        "journal": {
+          "days": {},
+          "pieces": {}
+        }
       },
       "check": "Immediate exit flushes the latest visible volume change, selected theme and active session minutes",
       "audioOutput": "Muted through the isolated test webContents before playback"
@@ -50,17 +79,17 @@
     {
       "mode": "window-close",
       "passed": true,
-      "closeMs": 263.6023750000004,
+      "closeMs": 701.6243329999998,
       "saved": {
         "theme": "rose",
         "pet": "cat",
         "volume": 0,
         "stats": {
           "correct": 0,
-          "minutes": 0.015666666666666666,
+          "minutes": 0.04636666666666667,
           "sessions": 1,
-          "dailyMinutes": 0.015666666666666666,
-          "practiceDate": "2026-09-25"
+          "dailyMinutes": 0.04636666666666667,
+          "practiceDate": "2026-10-11"
         },
         "reading": {
           "labels": "numbers",
@@ -69,6 +98,8 @@
           "countIn": false,
           "metronome": false,
           "keyboardCollapsed": false,
+          "keyLane": true,
+          "keyHands": true,
           "readingView": "numbers",
           "speed": 0.75,
           "mode": "listen",
@@ -86,9 +117,36 @@
             "exercise": null
           },
           "coach": true,
-          "welcomeSeen": false
+          "companion": "beethoven",
+          "companionStyle": false,
+          "colours": "rose",
+          "welcomeSeen": false,
+          "goal": 20,
+          "accompany": true,
+          "room": "room",
+          "interpretation": "concert",
+          "buddy": true,
+          "buddyState": {
+            "quiet": false,
+            "hintSeen": false,
+            "side": "right",
+            "lastSeen": "2026-10-11",
+            "bond": {},
+            "treats": {
+              "jar": 0,
+              "day": "",
+              "earnedToday": 0,
+              "milestones": [],
+              "goalDay": ""
+            }
+          },
+          "backing": {}
         },
-        "history": []
+        "history": [],
+        "journal": {
+          "days": {},
+          "pieces": {}
+        }
       },
       "check": "Immediate exit flushes the latest visible volume change, selected theme and active session minutes",
       "audioOutput": "Muted through the isolated test webContents before playback"

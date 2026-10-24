@@ -1,0 +1,72 @@
+{
+  "completedAt": "2026-09-27T19:11:23.037540+00:00",
+  "scope": "Five private local music-library additions; no app-source or bundle changes",
+  "appVersion": "2.13.0",
+  "passed": true,
+  "scores": [
+    {
+      "id": "bach-bwv846-complete-mutopia-20260927",
+      "title": "Prelude in C major · BWV 846",
+      "bars": 35,
+      "notes": 549,
+      "xmlPlaybackMatches": true
+    },
+    {
+      "id": "beethoven-moonlight-1-complete-mutopia-20260927",
+      "title": "Moonlight Sonata · I. Adagio sostenuto",
+      "bars": 69,
+      "notes": 1144,
+      "xmlPlaybackMatches": true
+    },
+    {
+      "id": "satie-gymnopedie-1-complete-mutopia-20260927",
+      "title": "Gymnopédie No. 1",
+      "bars": 78,
+      "notes": 455,
+      "xmlPlaybackMatches": true
+    },
+    {
+      "id": "tornado-gem-eop-8188",
+      "title": "龙卷风 · 邓紫棋版",
+      "bars": 71,
+      "notes": 1818,
+      "xmlPlaybackMatches": true
+    },
+    {
+      "id": "truth-eop-9266",
+      "title": "你离开的事实 · The Truth That You Leave",
+      "bars": 115,
+      "notes": 1570,
+      "xmlPlaybackMatches": true
+    }
+  ],
+  "totals": {
+    "pieces": 5,
+    "practiceBars": 368,
+    "notes": 5536,
+    "installedFiles": 39,
+    "existingFilesPreserved": 68,
+    "visibleLibraryCount": 10
+  },
+  "nativeAcceptance": ".qa-runs/song-library-20260927/native-final-acceptance.json",
+  "nativeReports": [
+    ".qa-runs/song-library-20260927/native-content-classics-final-report.json",
+    ".qa-runs/song-library-20260927/native-content-tornado-report.json",
+    ".qa-runs/song-library-20260927/native-content-truth-final-report.json"
+  ],
+  "sourceVerification": [
+    ".qa-runs/song-library-20260927/sources/truth/validation.json",
+    ".qa-runs/song-library-20260927/sources/tornado/validation.json",
+    ".qa-runs/song-library-20260927/staged-classics.json"
+  ],
+  "installation": ".qa-runs/song-library-20260927/installation.json",
+  "afterReopen": ".qa-runs/song-library-20260927/after-reopen.json",
+  "sourcePolicy": "EOP images explicitly offered for free personal learning; intact original watermarks retained. Modern scores are private library data, not bundled for redistribution. Classical source licences are retained. No purchases.",
+  "limits": [
+    "EOP scores are community piano editions, not exact G.E.M. studio transcription claims.",
+    "Truth repeat/coda unfolds100 printed bars into115 practice bars. Rolled chords play together; final nonnumeric rit. stays at selected practice tempo.",
+    "Tornado grace notes have editorial short timing, while bar50 glissando uses its written endpoints.",
+    "Classics use complete note/timing editions with simplified engraving/expression; original PDFs retain performance markings. Moonlight original PDF contains the complete source sonata; practice entry is movementI only.",
+    "This content-only pass tests simulated app playback/hand input, not physical MIDI hardware or a real acoustic-piano performance."
+  ]
+}

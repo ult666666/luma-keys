@@ -1,0 +1,89 @@
+{
+  "version": "2.46.0",
+  "nativePassed": true,
+  "unitTests": 147,
+  "nativeGroups": 9,
+  "webglShadowChecks": 20,
+  "asarSHA256": "77eb7d8cb629fbecd3f4c0438fe2398aea7e04621900f0db08349145ebe1d317",
+  "nativeReport": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/candidate1-hands/report.json",
+  "sourceVerification": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/final-source-verification.json",
+  "dependencyVerification": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/dependency-verification.json",
+  "timing": {
+    "initial": {
+      "frames": 327,
+      "p50": 16.69999999999709,
+      "p95": 32.900000000001455,
+      "max": 250,
+      "longFrames": 1,
+      "engineCpu": {
+        "n": 327,
+        "mean": 2.52,
+        "p50": 2.1,
+        "p95": 4.8,
+        "max": 9.4
+      }
+    },
+    "warm": {
+      "frames": 341,
+      "p50": 16.69999999999709,
+      "p95": 32.39999999999418,
+      "max": 50.099999999998545,
+      "longFrames": 1,
+      "engineCpu": {
+        "n": 345,
+        "mean": 2.572,
+        "p50": 2.2,
+        "p95": 4.5,
+        "max": 12.4
+      }
+    },
+    "note": "Both complete samples are retained, including every interval and >50 ms frame. Differences do not establish the cause of an outlier or guarantee a constant frame rate."
+  },
+  "visualReview": "Five matched native pairs: clearer knuckle/upper finger relief, gentler folds, cleaner wrist exit; no new visual blocker. Modest refinement; broad palm/fingertip shape and faded forearm remain.",
+  "installed": true,
+  "actualAppReopenVerified": true,
+  "actualAppReopenState": "Visually checked installed app after loading: Sunny Day, paused at bar 1 with resume bar 48, 50% speed, Ocean colours, Lang Lang, both hands visible. All 110 personal music/preferences files remain byte-identical after reopen.",
+  "baselineTiming": {
+    "initial": {
+      "frames": 279,
+      "p50": 16.700000000000728,
+      "p95": 66.29999999999563,
+      "max": 100,
+      "longFrames": 17,
+      "engineCpu": {
+        "n": 282,
+        "mean": 3.3,
+        "p50": 2.5,
+        "p95": 7.7,
+        "max": 25.9
+      }
+    },
+    "warm": {
+      "frames": 355,
+      "p50": 16.69999999999709,
+      "p95": 17.599999999998545,
+      "max": 34.200000000004366,
+      "longFrames": 0,
+      "engineCpu": {
+        "n": 359,
+        "mean": 2.114,
+        "p50": 2,
+        "p95": 3.3,
+        "max": 12.4
+      }
+    },
+    "note": "Both complete samples are retained, including every interval and >50 ms frame. Differences do not establish the cause of an outlier or guarantee a constant frame rate."
+  },
+  "timingInterpretation": "Timings varied across sequential runs: 2.46 warm median16.7ms/p95 32.4ms, 2.45 warm median16.7ms/p95 17.6ms. Initial 2.45 had17 frames over50ms versus1 for2.46. No claim of constant60fps or measured speedup; camera74 was rejected for a reproducible continuity regression, and76 passes unchanged continuity/contact tolerances.",
+  "installation": {
+    "version": "2.46.0",
+    "previousVersion": "2.45.0",
+    "asarSHA256": "77eb7d8cb629fbecd3f4c0438fe2398aea7e04621900f0db08349145ebe1d317",
+    "installedAt": "2026-10-11T12:16:48.872166-07:00",
+    "bundleEntries": 3035,
+    "personalFilesUnchanged": 110,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/previous-installed-Luma Keys-2.45.0.app",
+    "backup": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/personal-backup-without-chat",
+    "releaseMatches": true
+  }
+}

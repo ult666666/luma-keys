@@ -1,0 +1,29 @@
+{
+  "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 1\nReceived: 3\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+  "body": "LumaKeys\nPractice\nExercises\nLibrary\nProgress\nConnect piano\nImport a score\nOverlapping C4 motion check\n\nLuma Keys regression fixture\nC major\n4/4\n♩ = 30\n2 bars\n\nNumbers\nSheet\nFalling notes\nPiece\nBars 1–2 / 2\nRepeat these bars\nGo to bar\nGo\nHAND\n01\n02\nR\nrest\n♩ 4\n1\n1\nL\nrest\n♩ 4\nrest\n♩ 4\nHOLD\n1\nC4\nRH\nClick a note to start there\nRead the next note\nf\nC1\nC2\nC3\nC4\nC5\nC6\nC7\nC8\n2\n1\nC4\n1\n6\nA0\n♯6\nA♯0\n7\nB0\n1\nC1\n♯1\nC♯1\n2\nD1\n♯2\nD♯1\n3\nE1\n4\nF1\n♯4\nF♯1\n5\nG1\n♯5\nG♯1\n6\nA1\n♯6\nA♯1\n7\nB1\n1\nC2\n♯1\nC♯2\n2\nD2\n♯2\nD♯2\n3\nE2\n4\nF2\n♯4\nF♯2\n5\nG2\n♯5\nG♯2\n6\nA2\n♯6\nA♯2\n7\nB2\n1\nC3\n♯1\nC♯3\n2\nD3\n♯2\nD♯3\n3\nE3\n4\nF3\n♯4\nF♯3\n5\nG3\n♯5\nG♯3\n6\nA3\n♯6\nA♯3\n7\nB3\n1\nC4\n♯1\nC♯4\n2\nD4\n♯2\nD♯4\n3\nE4\n4\nF4\n♯4\nF♯4\n5\nG4\n♯5\nG♯4\n6\nA4\n♯6\nA♯4\n7\nB4\n1\nC5\n♯1\nC♯5\n2\nD5\n♯2\nD♯5\n3\nE5\n4\nF5\n♯4\nF♯5\n5\nG5\n♯5\nG♯5\n6\nA5\n♯6\nA♯5\n7\nB5\n1\nC6\n♯1\nC♯6\n2\nD6\n♯2\nD♯6\n3\nE6\n4\nF6\n♯4\nF♯6\n5\nG6\n♯5\nG♯6\n6\nA6\n♯6\nA♯6\n7\nB6\n1\nC7\n♯1\nC♯7\n2\nD7\n♯2\nD♯7\n3\nE7\n4\nF7\n♯4\nF♯7\n5\nG7\n♯5\nG♯7\n6\nA7\n♯6\nA♯7\n7\nB7\n1\nC8\nR\nRest\nFinger guide\nListen\nWait\nPerform\n0:05/0:16\nBar 1 of 2\nL\nBoth\nR\n25%\n30%\n35%\n40%\n45%\n50%\n55%\n60%\n65%\n70%\n75%\n80%\n85%\n90%\n95%\n100%\n105%\n110%\n115%\n120%\n125%\n♩30\nTools\n!\n?\n♪\nprrr",
+  "trace": {
+    "checkpoints": [],
+    "errors": [],
+    "records": [
+      {
+        "phase": "held-note-start",
+        "beat": 0,
+        "node": 0,
+        "retainedButton": true
+      },
+      {
+        "phase": "held-note-start",
+        "beat": 0,
+        "node": 1,
+        "retainedButton": true
+      },
+      {
+        "phase": "held-note-start",
+        "beat": 1.01491800668003,
+        "node": 2,
+        "retainedButton": true
+      }
+    ],
+    "beat": 2.49455505702228
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "version": "2.26.0",
+  "date": "2026-10-02T21:01:12.970947-04:00",
+  "scope": "Preserved 3-D hand geometry with softer material/light finish and improved fingertip markers; Library-cover colours on instrument and satin readable falling notes; left/right five-second song-clock jumps.",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installed": {
+    "version": "2.26.0",
+    "verifiedAt": "2026-10-02T21:00:35.493740-04:00",
+    "installedArchiveSHA256": "048742fbf9aaefc5565678eb71685e20abda9cda703dfcf42bc0405a9a6aa8bc",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "nativeGroups": 8
+  },
+  "installation": {
+    "version": "2.26.0",
+    "installedAt": "2026-10-02T20:58:07.469453-04:00",
+    "filesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/practice-art-2.26/previous-installed-Luma Keys-2.26.0-before-count-in-fix.app"
+  },
+  "tests": {
+    "unitAndAPI": 762,
+    "passed": 762,
+    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/practice-art-2.26/reports/unit-tests-count-in-final.log",
+    "focusedSeekAndTempo": 14,
+    "focusedLog": ".qa-runs/practice-art-2.26/reports/final-seek-tests.log",
+    "nativeGroups": [
+      "Native 3-D hands render at opening/chord poses and1280/800/390 widths, with finite fingertip coordinates and no document overflow.",
+      "Reduced motion keeps the same teaching pose and removes falling-note material transitions.",
+      "Paused arrows move five displayed song seconds at60%/100%, across tempo changes, from fractional positions and on the timeline; beginning/end and active repeat clamp without wrapping.",
+      "Listen playback continues after single and rapid jumps, cancels its old queued position, skips a repeated count-in and remains stopped after Pause.",
+      "Five-second jumps match the displayed song clock during expressive playback, including rubato, without an extra count-in.",
+      "Wait resumes at the next written attack; seeking during Perform cancels the unfinished run without awarding a grade.",
+      "Chat drafts, sliders, select controls, piano-key focus, score tabs, Settings and Library search retain their arrow keys without seeking the song.",
+      "Appassionata/Sunny Day/Tornado inherit distinct cover colours; solid hand-coloured capsules keep readable labels with at least4.5:1 base-face contrast."
+    ],
+    "nativeReport": ".qa-runs/practice-art-2.26/native/report.json",
+    "runtimeErrors": [],
+    "copiedRealScoresUnchanged": true,
+    "queuedPianoVoicesAfterPause": 0,
+    "sampleFallbacks": 0,
+    "countInJumpTested": true
+  },
+  "integrity": {
+    "sourceInputs": 635,
+    "packagedFilesChecked": 522,
+    "packagedMismatches": [],
+    "modelRuntimeLicenseFiles": 42,
+    "modelRuntimeMatches": true
+  },
+  "visualReview": {
+    "accepted": true,
+    "reviewer": "root",
+    "widths": [
+      1280,
+      800,
+      390
+    ],
+    "native3DRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1, Unspecified Version)",
+    "noHorizontalDocumentOverflow": true,
+    "minimumTestedNumberContrast": 6.501879952731471,
+    "screenshots": "/Users/prince/Desktop/Luma Keys/.qa-runs/practice-art-2.26/final-e-practice",
+    "geometryAndRigUnchanged": true
+  },
+  "personalPracticeOnReopen": {
+    "piece": "晴天 (Sunny Day)",
+    "bar": 1,
+    "totalBars": 76,
+    "paused": true,
+    "companion": "Lang Lang",
+    "view": "Falling notes",
+    "hands": "Both hands",
+    "mode": "Wait for me",
+    "speedPercent": 60,
+    "colours": "Neutral",
+    "finalScreen": "Practice",
+    "verifiedVia": "Native accessibility and screenshot"
+  },
+  "earlierAttempts": "Retained preliminary runs contain a repeat-bound assumption using unsaved preferences, a Settings control-name mismatch and a Library button with text in its sibling. The final harness uses actual controls and repeat bounds. Navigation was revised from elapsed practice seconds to five displayed song seconds before final acceptance. All final checks use the installed archive. Hand-lab URL size errors were resolved by a smaller isolated scenario; no personal score was modified. A final count-in edge case was corrected so seeking uses the displayed position before the audio start; the native test now verifies this explicitly. A small header-style rule was included. Final acceptance, bundle installation and all762 tests were repeated after both changes.",
+  "limits": [
+    "Physical MIDI input and audible sound quality were not retested. Native audio output is muted.",
+    "Small windows keep a scrollable keyboard with off-screen-note controls rather than shrinking every key.",
+    "Suggested fingering remains a practice guide; the existing hand model, anatomy and motion solver are preserved."
+  ]
+}

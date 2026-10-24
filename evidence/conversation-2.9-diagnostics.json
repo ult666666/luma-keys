@@ -1,0 +1,57 @@
+[
+  {
+    "at": 1790509877538,
+    "type": "navigation",
+    "url": "http://127.0.0.1:5188/"
+  },
+  {
+    "at": 1790509877596,
+    "type": "debug",
+    "text": "[vite] connecting..."
+  },
+  {
+    "at": 1790509877614,
+    "type": "debug",
+    "text": "[vite] connected."
+  },
+  {
+    "at": 1790509887383,
+    "type": "navigation",
+    "url": "http://127.0.0.1:5188/"
+  },
+  {
+    "at": 1790509887394,
+    "type": "debug",
+    "text": "[vite] connecting..."
+  },
+  {
+    "at": 1790509887402,
+    "type": "debug",
+    "text": "[vite] connected."
+  },
+  {
+    "at": 1790509888208,
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+  },
+  {
+    "at": 1790509902139,
+    "type": "navigation",
+    "url": "http://127.0.0.1:5188/"
+  },
+  {
+    "at": 1790509902175,
+    "type": "debug",
+    "text": "[vite] connecting..."
+  },
+  {
+    "at": 1790509902178,
+    "type": "debug",
+    "text": "[vite] connected."
+  },
+  {
+    "at": 1790509902418,
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+  }
+]

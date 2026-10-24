@@ -1,0 +1,88 @@
+{
+  "version": "2.16.0",
+  "completedAt": "2026-09-27T16:39:19.494507-04:00",
+  "request": "More varied per-song cartoon covers; cute and useful.",
+  "artwork": {
+    "count": 14,
+    "knownCovers": 13,
+    "neutralCovers": 1,
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen.imagegen",
+    "gallery": "Assets/Cartoon Covers 2.16/index.html",
+    "provenance": "Assets/Cartoon Covers 2.16/manifest.json",
+    "ids": [
+      "appassionata",
+      "sunny-day",
+      "sunny-chords",
+      "sunny-concert",
+      "tornado",
+      "truth",
+      "moonlight",
+      "gymnopedie",
+      "bach-prelude",
+      "first-steps",
+      "twinkle",
+      "ode-joy",
+      "fur-elise",
+      "neutral"
+    ]
+  },
+  "tests": {
+    "unitApiTests": 373,
+    "passed": 373,
+    "failed": 0,
+    "nativeAcceptanceGroups": 6,
+    "nativeReport": ".qa-runs/cartoon-covers-2.16/native-report.json",
+    "rendererErrors": [],
+    "requestErrors": [],
+    "visualReview": ".qa-runs/cartoon-covers-2.16/reports/visual-review.json",
+    "visualResult": "pass"
+  },
+  "unchangedBuildInputs": 578,
+  "packageIntegrity": {
+    "version": "2.16.0",
+    "checkedFiles": 509,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "5b77b6de5d56fb01d5dac82bec5fa362b4744c9bc0ea88cd9ca84a49f8551fcc"
+  },
+  "installation": {
+    "version": "2.16.0",
+    "installedAt": "2026-09-27T16:37:22.319227-04:00",
+    "filesAndSymlinks": 2992,
+    "personalFiles": 107,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/cartoon-covers-2.16/previous-installed-Luma Keys-2.15.0.app"
+  },
+  "afterReopen": {
+    "version": "2.16.0",
+    "verifiedAt": "2026-09-27T16:38:25.192243-04:00",
+    "installedArchiveSHA256": "5b77b6de5d56fb01d5dac82bec5fa362b4744c9bc0ea88cd9ca84a49f8551fcc",
+    "matchesNativeTestedPackage": true,
+    "personalFiles": 107,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "nativeUIObservation": {
+      "method": "CUA accessibility and screenshot",
+      "libraryVisible": true,
+      "savedPieces": 10,
+      "companion": "Lang Lang",
+      "continuePiece": "Appassionata · III. Allegro ma non troppo — Presto",
+      "continueBar": 378,
+      "newCartoonAppassionataHeroAndCardsVisible": true,
+      "heroSubjectsUnclipped": true
+    },
+    "readingLast": {
+      "scoreId": "35f5190a-a277-41a2-960f-635902383597",
+      "exercise": null
+    }
+  },
+  "limits": [
+    "Covers are original interpretive illustrations, not official song artwork or instructional keyboard diagrams.",
+    "Arbitrary unrecognized imports use the neutral kitten cover.",
+    "Audio, physical MIDI, PDF recognition and chat quality were not retested in this Library-art pass.",
+    "The initial native run was interrupted for final focal-position refinements and excluded from acceptance."
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "version": "2.28.0",
+  "builtAt": "2026-10-02T22:16:45.268185-04:00",
+  "implementation": {
+    "model": "Same Qwen3.5 9B Q4_K_M",
+    "warmOn": "Chat opens; no model loading on app launch/availability probe",
+    "idleReleaseMs": 300000,
+    "promptCacheRAMMiB": 128,
+    "privateUnixSocket": true,
+    "ownedIPCWorker": true,
+    "singleInferenceSlot": true,
+    "answerChecksPreserved": true
+  },
+  "unitTests": {
+    "total": 773,
+    "passed": 773,
+    "failed": 0,
+    "concurrency": 2,
+    "log": ".qa-runs/chat-speed-2.28/reports/all-tests-bounded.log"
+  },
+  "runtimeComparison": {
+    "method": "Same three sequential questions through the production prompt builder and runtime. Baseline recreates and destroys the model per request; revised run retains one private model. Inference executed serially. Results are a small latency sample, not a speed guarantee. Answers are sampled and system memory pressure varies.",
+    "model": "Qwen3.5 9B Q4_K_M",
+    "comparisons": [
+      {
+        "question": "Tell me one short silly piano joke. My practice codeword is marmalade. Remember it.",
+        "beforeFirstTextMs": 23738,
+        "afterFirstTextMs": 18996,
+        "firstTextReductionPercent": 20,
+        "beforeTotalMs": 31908,
+        "afterTotalMs": 26895
+      },
+      {
+        "question": "What was my practice codeword? Answer with just that word.",
+        "beforeFirstTextMs": 15474,
+        "afterFirstTextMs": 6281,
+        "firstTextReductionPercent": 59,
+        "beforeTotalMs": 19847,
+        "afterTotalMs": 10131
+      },
+      {
+        "question": "请用中文给我一个简短的练琴建议。",
+        "beforeFirstTextMs": 11908,
+        "afterFirstTextMs": 9649,
+        "firstTextReductionPercent": 19,
+        "beforeTotalMs": 21027,
+        "afterTotalMs": 16239
+      }
+    ]
+  },
+  "native": {
+    "passed": true,
+    "archiveSHA256": "dfde38fdeb392ee0555c52c3a3c6a1d96fadcd9907277bcee35148aed3272a20",
+    "groups": [
+      "Real local-model recall survives persisted history/reload; repeated replies use one model process.",
+      "Real Chinese reply streams into the compact dock with unchanged answer checks.",
+      "Stop followed by a new question succeeds without duplicate replies or a second model.",
+      "Sampled piano continues during actual decoding; Pause cancels the future sound queue."
+    ],
+    "realModelReplies": 5,
+    "sameModelAcrossRepliesAndReload": true,
+    "stopAndNewQuestion": true,
+    "quitDuringInference": true,
+    "ownedProcessesRemaining": [],
+    "visibleFirstTextMs": [
+      33905,
+      17108,
+      25595,
+      13884,
+      14117
+    ],
+    "frameP95DuringPianoDecodeMs": 83.40000000000873,
+    "audioVerification": {
+      "automaticVoicesObserved": 505,
+      "sampledVoicesObserved": 505,
+      "fallbacksSinceAppStart": 1,
+      "limitation": "One cumulative fallback/cache miss was observed. This capture does not locate its onset; no claim of zero fallback or physical sound listening."
+    },
+    "limitations": "Muted audio; no physical MIDI or acoustic quality test. High memory pressure: M1 16 GB, about 14.9 GiB swap in use. Native baseline overlapped a unit run, so its latency is retained descriptively, not used as a controlled speed comparison."
+  },
+  "package": {
+    "version": "2.28.0",
+    "checkedFiles": 523,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "dfde38fdeb392ee0555c52c3a3c6a1d96fadcd9907277bcee35148aed3272a20"
+  },
+  "nativeReport": ".qa-runs/chat-speed-2.28/native/report.json",
+  "baselineNativeReport": ".qa-runs/chat-speed-2.28/baseline-native-chat/report.json",
+  "retainedEarlierAttempts": "Obsolete Send/input/stream selectors and score coaching misidentified as inference. An unconstrained full suite under simultaneous inference exceeded two old process-fixture timeouts; all773 pass when the full suite runs separately with two workers. No product behavior weakened to make them pass.",
+  "installation": {
+    "version": "2.28.0",
+    "installedAt": "2026-10-02T22:15:45.769614-04:00",
+    "filesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/chat-speed-2.28/previous-installed-Luma Keys-2.27.0.app"
+  },
+  "installedVerification": {
+    "version": "2.28.0",
+    "verifiedAt": "2026-10-02T22:18:22.411809-04:00",
+    "installedArchiveSHA256": "dfde38fdeb392ee0555c52c3a3c6a1d96fadcd9907277bcee35148aed3272a20",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "nativeGroups": 4
+  },
+  "desktopUI": {
+    "verified": "CUA full-path native accessibility after reopening",
+    "piece": "晴天 (Sunny Day)",
+    "bar": 1,
+    "bars": 76,
+    "paused": true,
+    "companion": "Lang Lang",
+    "mode": "wait",
+    "hand": "both",
+    "speed": 0.6,
+    "colour": "Neutral",
+    "modelRequestsInPersonalLibrary": 0
+  }
+}

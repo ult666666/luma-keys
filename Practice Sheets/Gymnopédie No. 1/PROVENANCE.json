@@ -1,0 +1,66 @@
+{
+  "key": "gymnopedie",
+  "id": "satie-gymnopedie-1-complete-mutopia-20260927",
+  "title": "Gymnopédie No. 1",
+  "composer": "Erik Satie",
+  "bars": 78,
+  "meter": 3,
+  "fifths": 2,
+  "mode": "minor",
+  "bpm": 60,
+  "license": "Public Domain",
+  "typesetter": "Evin Robertson",
+  "mutopia": 37,
+  "sourcePath": "SatieE/gymnopedie_1/gymnopedie_1.ly",
+  "description": "The complete 78-bar piano work. The source edition’s repeated opening and both endings are written out in full, so playback follows the entire piece without manual repeats.",
+  "folder": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-library-20260927/staged/Practice Sheets/Gymnopédie No. 1",
+  "notes": 455,
+  "hands": {
+    "right": 128,
+    "left": 327
+  },
+  "warnings": [],
+  "xmlSHA256": "2ed80e8348a9061c72701bbcefd850e59e59d3e01cf5a9bf67e38cb52c990b42",
+  "sourceSHA256": "420a52244e9fbe106dd33ba2cac84414fd66e0d01c6d472205bad39678d4ce04",
+  "maxBeat": 234,
+  "duration": 234,
+  "sourceEventXMLExact": true,
+  "verification": {
+    "midiNotes": 282,
+    "sourceMergedVoiceNotes": 282,
+    "missingReferenceOnsets": 0,
+    "additionalWrittenAttacksUnderSamePitchHold": [],
+    "durationDifferencesFromMidi": [
+      {
+        "midi": 66,
+        "beat": 24,
+        "midiDuration": 1,
+        "writtenDuration": 12
+      },
+      {
+        "midi": 66,
+        "beat": 25,
+        "midiDuration": 3,
+        "writtenDuration": 2
+      },
+      {
+        "midi": 66,
+        "beat": 28,
+        "midiDuration": 3,
+        "writtenDuration": 2
+      },
+      {
+        "midi": 66,
+        "beat": 31,
+        "midiDuration": 3,
+        "writtenDuration": 2
+      }
+    ],
+    "explanation": "MIDI can merge or truncate simultaneous same-key voices; written LilyPond duration is authoritative. MusicXML/App timing compares exactly after standard same-onset physical-key coalescing. Third-note MIDI gates may differ by one MIDI tick."
+  },
+  "referencePDF": {
+    "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1-a4.pdf",
+    "sha256": "e2b99b96bbca71077194c903cb4e390a435756892edf37040ae9dbea4cc7492a",
+    "bytes": 168477
+  }
+}

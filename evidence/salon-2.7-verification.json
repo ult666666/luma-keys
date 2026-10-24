@@ -1,0 +1,285 @@
+{
+  "version": "2.7.0",
+  "completedAt": "2026-09-26T23:28:11.139449-04:00",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "passed": true,
+  "unitApi": {
+    "passed": 202,
+    "failed": 0,
+    "log": "../.qa-runs/salon-2.7/unit-tests.log"
+  },
+  "browser": {
+    "groups": 8,
+    "report": "companion-2.7-qa.json"
+  },
+  "native": {
+    "companions": {
+      "groups": 9,
+      "report": "native-companion-2.7-qa.json",
+      "finalPackage": true
+    },
+    "assistant": {
+      "groups": 9,
+      "report": "native-maestro-2.7-qa.json",
+      "beforeFinalNavigationColourOnlyFix": true
+    },
+    "handGuide": {
+      "groups": 8,
+      "report": "native-hand-guide-2.7-qa.json",
+      "beforeFinalNavigationColourOnlyFix": true
+    }
+  },
+  "performance": {
+    "report": "native-stage-performance-2.7.json",
+    "companion": "langlang",
+    "samples": [
+      {
+        "count": 150,
+        "median": 16.699999999999818,
+        "p95": 18.09999999999991,
+        "max": 18.599999999999454,
+        "over33ms": 0
+      },
+      {
+        "count": 150,
+        "median": 16.699999999999818,
+        "p95": 18,
+        "max": 18.699999999999818,
+        "over33ms": 0
+      },
+      {
+        "count": 150,
+        "median": 16.69999999999891,
+        "p95": 17.700000000000728,
+        "max": 18.600000000000364,
+        "over33ms": 0
+      }
+    ],
+    "scope": "Native rAF intervals on this Mac, DPR1; before the final selected-navigation text colour fix."
+  },
+  "contrast": {
+    "mozart-library-description": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        243,
+        238,
+        243,
+        255
+      ],
+      "ratio": 5.222451852250435
+    },
+    "mozart-continue-description": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        233,
+        221,
+        232,
+        255
+      ],
+      "ratio": 4.549551156825864
+    },
+    "mozart-exercises-description": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        243,
+        238,
+        243,
+        255
+      ],
+      "ratio": 5.222451852250435
+    },
+    "mozart-exercise-summary": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        255,
+        250,
+        252,
+        255
+      ],
+      "ratio": 5.791249693252469
+    },
+    "mozart-progress-description": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        243,
+        238,
+        243,
+        255
+      ],
+      "ratio": 5.222451852250435
+    },
+    "mozart-progress-stat": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        233,
+        221,
+        232,
+        255
+      ],
+      "ratio": 4.549551156825864
+    },
+    "langlang-library-description": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        237,
+        241,
+        242,
+        255
+      ],
+      "ratio": 5.25954321674366
+    },
+    "langlang-continue-description": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        223,
+        231,
+        232,
+        255
+      ],
+      "ratio": 4.766212100428594
+    },
+    "langlang-exercises-description": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        237,
+        241,
+        242,
+        255
+      ],
+      "ratio": 5.25954321674366
+    },
+    "langlang-exercise-summary": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        250,
+        252,
+        251,
+        255
+      ],
+      "ratio": 5.805511195691047
+    },
+    "langlang-progress-description": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        237,
+        241,
+        242,
+        255
+      ],
+      "ratio": 5.25954321674366
+    },
+    "langlang-progress-stat": {
+      "foreground": [
+        104,
+        97,
+        107,
+        255
+      ],
+      "background": [
+        223,
+        231,
+        232,
+        255
+      ],
+      "ratio": 4.766212100428594
+    },
+    "beethoven-active-navigation": {
+      "foreground": [
+        244,
+        240,
+        231,
+        255
+      ],
+      "background": [
+        41,
+        36,
+        32,
+        255
+      ],
+      "ratio": 13.502510685090765
+    }
+  },
+  "installation": {
+    "version": "2.7.0",
+    "installedAt": "2026-09-26T23:25:54.527210-04:00",
+    "filesAndSymlinks": 2991,
+    "personalFiles": 68,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/salon-2.7/previous-installed-Luma Keys-2.6.0.app"
+  },
+  "personalData": "data-preservation-2.7.0.json",
+  "artwork": [
+    "Assets/Companions/Beethoven.svg",
+    "Assets/Companions/Lang Lang.svg",
+    "Assets/Companions/Liszt.svg",
+    "Assets/Companions/Luma.svg",
+    "Assets/Companions/Mochi.svg",
+    "Assets/Companions/Mozart.svg"
+  ],
+  "sourceSnapshot": "../.qa-runs/salon-2.7/source-2.6-before.tar.gz",
+  "implementationPatch": "../.qa-runs/salon-2.7/implementation.patch",
+  "notes": [
+    "Native final companion suite passed after all visual fixes.",
+    "The initial focus failure evidence is retained; body/unmounted/inert focus restoration was fixed.",
+    "Legacy personal preferences were not rewritten on hydration.",
+    "Companions use the same local allowlisted command engine; no external model or internet search.",
+    "No new PDF-engine or physical MIDI hardware verification.",
+    "Updated personal app left open on the chooser. Owned development and QA processes stopped.",
+    "The expired overnight automation was not extended."
+  ]
+}

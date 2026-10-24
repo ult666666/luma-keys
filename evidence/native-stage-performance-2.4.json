@@ -1,0 +1,812 @@
+{
+  "samples": [
+    {
+      "before": {
+        "native": {
+          "version": "2.44.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "visible": true,
+              "focused": true,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 815
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 815
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "companion": "beethoven",
+          "clock": {
+            "now": 24.522666666666666,
+            "start": 23.653333333333332,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 1.7308944966512734,
+            "beat": 1.6883522744290558,
+            "latency": 0.021333333333334537,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "backing": {
+            "settings": {
+              "enabled": false,
+              "source": "score",
+              "style": "auto",
+              "volume": 0.45,
+              "track": null
+            },
+            "active": false,
+            "style": "piano",
+            "events": 3200,
+            "sourceHand": "left",
+            "audio": {
+              "started": 0,
+              "ended": 0,
+              "stopped": 0,
+              "stolen": 0,
+              "rejected": 0,
+              "fallbacks": 0,
+              "volume": 0.45,
+              "active": 0,
+              "voices": [],
+              "cachedSamples": 0,
+              "pendingCleanup": 0,
+              "bankStatus": "unprepared",
+              "bankSamples": 0,
+              "bankFailures": 0,
+              "ready": false
+            },
+            "recording": {
+              "paused": true,
+              "currentTime": 0,
+              "rate": 1,
+              "volume": 0.45,
+              "preservesPitch": true,
+              "starts": 0,
+              "seeks": 0
+            }
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "after": {
+        "native": {
+          "version": "2.44.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "visible": true,
+              "focused": false,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 815
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 815
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "companion": "beethoven",
+          "clock": {
+            "now": 28.64,
+            "start": 23.653333333333332,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 9.988150239717301,
+            "beat": 9.80578935082841,
+            "latency": 0.021333333333334537,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "backing": {
+            "settings": {
+              "enabled": false,
+              "source": "score",
+              "style": "auto",
+              "volume": 0.45,
+              "track": null
+            },
+            "active": false,
+            "style": "piano",
+            "events": 3200,
+            "sourceHand": "left",
+            "audio": {
+              "started": 0,
+              "ended": 0,
+              "stopped": 0,
+              "stolen": 0,
+              "rejected": 0,
+              "fallbacks": 0,
+              "volume": 0.45,
+              "active": 0,
+              "voices": [],
+              "cachedSamples": 0,
+              "pendingCleanup": 0,
+              "bankStatus": "unprepared",
+              "bankSamples": 0,
+              "bankFailures": 0,
+              "ready": false
+            },
+            "recording": {
+              "paused": true,
+              "currentTime": 0,
+              "rate": 1,
+              "volume": 0.45,
+              "preservesPitch": true,
+              "starts": 0,
+              "seeks": 0
+            }
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "count": 27,
+      "median": 99.29999999999927,
+      "p95": 132.60000000000218,
+      "max": 150.5,
+      "over33ms": 27
+    },
+    {
+      "before": {
+        "native": {
+          "version": "2.44.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "visible": true,
+              "focused": true,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 815
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 815
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "companion": "beethoven",
+          "clock": {
+            "now": 30.784,
+            "start": 30.048,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 1.4650377797903515,
+            "beat": 1.4119088909014614,
+            "latency": 0.021333333333334537,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "backing": {
+            "settings": {
+              "enabled": false,
+              "source": "score",
+              "style": "auto",
+              "volume": 0.45,
+              "track": null
+            },
+            "active": false,
+            "style": "piano",
+            "events": 3200,
+            "sourceHand": "left",
+            "audio": {
+              "started": 0,
+              "ended": 0,
+              "stopped": 0,
+              "stolen": 0,
+              "rejected": 0,
+              "fallbacks": 0,
+              "volume": 0.45,
+              "active": 0,
+              "voices": [],
+              "cachedSamples": 0,
+              "pendingCleanup": 0,
+              "bankStatus": "unprepared",
+              "bankSamples": 0,
+              "bankFailures": 0,
+              "ready": false
+            },
+            "recording": {
+              "paused": true,
+              "currentTime": 0,
+              "rate": 1,
+              "volume": 0.45,
+              "preservesPitch": true,
+              "starts": 0,
+              "seeks": 0
+            }
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "after": {
+        "native": {
+          "version": "2.44.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "visible": true,
+              "focused": true,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 815
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 815
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "companion": "beethoven",
+          "clock": {
+            "now": 33.456,
+            "start": 30.048,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 6.813919112820004,
+            "beat": 6.771053335042217,
+            "latency": 0.021333333333330984,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "backing": {
+            "settings": {
+              "enabled": false,
+              "source": "score",
+              "style": "auto",
+              "volume": 0.45,
+              "track": null
+            },
+            "active": false,
+            "style": "piano",
+            "events": 3200,
+            "sourceHand": "left",
+            "audio": {
+              "started": 0,
+              "ended": 0,
+              "stopped": 0,
+              "stolen": 0,
+              "rejected": 0,
+              "fallbacks": 0,
+              "volume": 0.45,
+              "active": 0,
+              "voices": [],
+              "cachedSamples": 0,
+              "pendingCleanup": 0,
+              "bankStatus": "unprepared",
+              "bankSamples": 0,
+              "bankFailures": 0,
+              "ready": false
+            },
+            "recording": {
+              "paused": true,
+              "currentTime": 0,
+              "rate": 1,
+              "volume": 0.45,
+              "preservesPitch": true,
+              "starts": 0,
+              "seeks": 0
+            }
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "count": 25,
+      "median": 100,
+      "p95": 133.40000000000146,
+      "max": 166.6999999999971,
+      "over33ms": 25
+    },
+    {
+      "before": {
+        "native": {
+          "version": "2.44.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "visible": true,
+              "focused": true,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 815
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 815
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "companion": "beethoven",
+          "clock": {
+            "now": 35.165333333333336,
+            "start": 34.768,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 0.7904061439259426,
+            "beat": 0.753234588370384,
+            "latency": 0.021333333333330984,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "backing": {
+            "settings": {
+              "enabled": false,
+              "source": "score",
+              "style": "auto",
+              "volume": 0.45,
+              "track": null
+            },
+            "active": false,
+            "style": "piano",
+            "events": 3200,
+            "sourceHand": "left",
+            "audio": {
+              "started": 0,
+              "ended": 0,
+              "stopped": 0,
+              "stolen": 0,
+              "rejected": 0,
+              "fallbacks": 0,
+              "volume": 0.45,
+              "active": 0,
+              "voices": [],
+              "cachedSamples": 0,
+              "pendingCleanup": 0,
+              "bankStatus": "unprepared",
+              "bankSamples": 0,
+              "bankFailures": 0,
+              "ready": false
+            },
+            "recording": {
+              "paused": true,
+              "currentTime": 0,
+              "rate": 1,
+              "volume": 0.45,
+              "preservesPitch": true,
+              "starts": 0,
+              "seeks": 0
+            }
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "after": {
+        "native": {
+          "version": "2.44.0",
+          "windows": [
+            {
+              "bounds": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "content": {
+                "x": 0,
+                "y": 30,
+                "width": 1440,
+                "height": 815
+              },
+              "visible": true,
+              "focused": true,
+              "minimized": false,
+              "display": {
+                "accelerometerSupport": "unknown",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 1440,
+                  "height": 900
+                },
+                "colorDepth": 30,
+                "colorSpace": "{primaries:P3, transfer:{0.0777*x + 0.0000 if abs(x) < 0.0450 else sign(x)*((0.9495*abs(x) + 0.0495)**2.3955 + 0.0003)}, matrix:RGB, range:FULL}",
+                "depthPerComponent": 10,
+                "detected": true,
+                "displayFrequency": 60.00239944458008,
+                "id": 1,
+                "internal": true,
+                "label": "Built-in Retina Display",
+                "maximumCursorSize": {
+                  "width": 0,
+                  "height": 0
+                },
+                "monochrome": false,
+                "nativeOrigin": {
+                  "x": 0,
+                  "y": 0
+                },
+                "rotation": 0,
+                "scaleFactor": 2,
+                "size": {
+                  "width": 1440,
+                  "height": 900
+                },
+                "workArea": {
+                  "x": 0,
+                  "y": 30,
+                  "width": 1440,
+                  "height": 815
+                },
+                "workAreaSize": {
+                  "width": 1440,
+                  "height": 815
+                },
+                "touchSupport": "unknown"
+              }
+            }
+          ]
+        },
+        "page": {
+          "visible": "visible",
+          "focused": true,
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "dpr": 1,
+          "companion": "beethoven",
+          "clock": {
+            "now": 37.77066666666666,
+            "start": 34.768,
+            "origin": 0,
+            "originAt": 0,
+            "mapped": 5.999988176772955,
+            "beat": 5.946463732328516,
+            "latency": 0.021333333333330984,
+            "playing": true,
+            "countingIn": false,
+            "secondsPerBeat": null
+          },
+          "backing": {
+            "settings": {
+              "enabled": false,
+              "source": "score",
+              "style": "auto",
+              "volume": 0.45,
+              "track": null
+            },
+            "active": false,
+            "style": "piano",
+            "events": 3200,
+            "sourceHand": "left",
+            "audio": {
+              "started": 0,
+              "ended": 0,
+              "stopped": 0,
+              "stolen": 0,
+              "rejected": 0,
+              "fallbacks": 0,
+              "volume": 0.45,
+              "active": 0,
+              "voices": [],
+              "cachedSamples": 0,
+              "pendingCleanup": 0,
+              "bankStatus": "unprepared",
+              "bankSamples": 0,
+              "bankFailures": 0,
+              "ready": false
+            },
+            "recording": {
+              "paused": true,
+              "currentTime": 0,
+              "rate": 1,
+              "volume": 0.45,
+              "preservesPitch": true,
+              "starts": 0,
+              "seeks": 0
+            }
+          },
+          "keys": 88,
+          "score": "reading-score reading-compact reading-tape reading-strip reading-slim",
+          "runway": true
+        }
+      },
+      "count": 26,
+      "median": 100,
+      "p95": 117.20000000000437,
+      "max": 183.3000000000029,
+      "over33ms": 25
+    }
+  ],
+  "passed": false
+}

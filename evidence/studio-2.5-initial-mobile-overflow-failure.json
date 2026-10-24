@@ -1,0 +1,101 @@
+{
+  "error": "settings-mobile: panel content overflows {\"width\":390,\"pageWidth\":390,\"left\":16.282073974609375,\"right\":373.7179260253906,\"client\":360,\"scroll\":461}",
+  "evidence": {
+    "checks": [
+      "Fresh Library offers starter pieces and an import action; Progress has a usable empty state without fabricated practice.",
+      "Import, score review, search, no-results recovery and opening the matching score remain functional.",
+      "Settings preserves the goal and theme across reload; Import and Settings trap keyboard focus, suppress piano input and restore focus after Escape.",
+      "A real muted practice session populates Library and Progress; both Continue actions reopen the saved second bar.",
+      "Exercise level, hand, length and custom tempo remain selectable and Start exercise opens a playable generated score.",
+      "The 1280×800 practice view retains all 88 readable-width keyboard controls and a reachable Play button."
+    ],
+    "measurements": {
+      "library-empty-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 20,
+        "right": 1260,
+        "client": 1240,
+        "scroll": 1240
+      },
+      "progress-empty-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 20,
+        "right": 1260,
+        "client": 1240,
+        "scroll": 1240
+      },
+      "import-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 338.8554992675781,
+        "right": 941.1445617675781,
+        "client": 608,
+        "scroll": 608
+      },
+      "settings-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 210,
+        "right": 1070,
+        "client": 858,
+        "scroll": 858
+      },
+      "progress-populated-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 20,
+        "right": 1260,
+        "client": 1240,
+        "scroll": 1240
+      },
+      "exercises-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 20,
+        "right": 1260,
+        "client": 1240,
+        "scroll": 1240
+      },
+      "practice-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 0,
+        "right": 1280,
+        "client": 1280,
+        "scroll": 1280
+      },
+      "practice": {
+        "playBottom": 782,
+        "keyWidth": 68,
+        "keyCount": 88
+      },
+      "library-mobile": {
+        "width": 390,
+        "pageWidth": 390,
+        "left": 0,
+        "right": 390,
+        "client": 390,
+        "scroll": 390
+      },
+      "exercises-mobile": {
+        "width": 390,
+        "pageWidth": 390,
+        "left": 0,
+        "right": 390,
+        "client": 390,
+        "scroll": 390
+      },
+      "progress-mobile": {
+        "width": 390,
+        "pageWidth": 390,
+        "left": 0,
+        "right": 390,
+        "client": 390,
+        "scroll": 390
+      }
+    },
+    "errors": []
+  }
+}

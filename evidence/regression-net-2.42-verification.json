@@ -1,0 +1,33 @@
+{
+  "writtenAt": "2026-10-07T20:56:08.790415-04:00",
+  "appVersion": "2.42.0 (installed; harness-only changes)",
+  "browser": {
+    "phrase-practice": "PASS",
+    "sight-reading": "PASS",
+    "resume-audio": "PASS (4)",
+    "overlap-motion": "PASS",
+    "hand-guide": "PASS (8 groups)",
+    "trouble-spots": "PASS (7)",
+    "chord-reading": "PASS"
+  },
+  "native": {
+    "native-phrase-practice": "PASS (10)",
+    "native-sight-reading": "PASS (5)",
+    "native-continuity": "PASS (resume audio, overlap motion, chord reading)",
+    "native-hand-guide": "PASS (8 groups)",
+    "native-storage": "PASS (4)",
+    "native-trouble-spots": "PASS (7)"
+  },
+  "derivedExpectations": {
+    "resumeFromBeat4Seconds": 4.339,
+    "loopCarrySeconds": 2.699,
+    "retiredConstantSeconds": 4.46
+  },
+  "helpers": [
+    "scripts/practice-tools.mjs",
+    "scripts/piano-input.mjs",
+    "scripts/library-open.mjs",
+    "scripts/piano-volume.mjs"
+  ],
+  "notes": "Overlap motion's attack counts are relative since the 2.4 stage renews a key's landing at a new playback epoch as well as per voice."
+}

@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "checks": [
+    "English and Chinese searches present both available arrangements without silently choosing; selecting one opens it paused.",
+    "A missing piece is reported honestly and offers local import without creating a score or changing the current piece.",
+    "Resume and Recent practice use a real saved bar, including a pickup; resuming the already-current score clears its old loop and stays paused.",
+    "Jump/repeat honor the written bar map; invalid or reversed ranges and unsupported speeds leave practice unchanged; jumping outside a loop exits it.",
+    "Slower preserves the exact reading position; Chinese hand and mode commands mirror the existing practice controls without starting playback.",
+    "Opening Beethoven releases held computer/MIDI notes and pedal; typing and simulated MIDI cannot play or trigger shortcuts, and Escape restores focus and input.",
+    "The passive conductor appears during practice without clipping the 1280×800 transport; live reduced motion stops its animation, and opening the panel pauses playback.",
+    "A completed run cannot replace an opened Beethoven panel with its delayed report; the bilingual chooser fits390px with focus restoration and no renderer errors."
+  ],
+  "measurements": {
+    "ambiguity-desktop": {
+      "width": 1280,
+      "pageWidth": 1280,
+      "dialog": {
+        "left": 300,
+        "right": 980,
+        "client": 678,
+        "scroll": 678
+      }
+    },
+    "practice": {
+      "keyCount": 88,
+      "playBottom": 782,
+      "pageWidth": 1280,
+      "width": 1280
+    },
+    "mobile-panel": {
+      "width": 390,
+      "pageWidth": 390,
+      "dialog": {
+        "left": 14,
+        "right": 376,
+        "client": 360,
+        "scroll": 360
+      }
+    }
+  },
+  "errors": []
+}

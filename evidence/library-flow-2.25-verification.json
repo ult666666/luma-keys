@@ -1,0 +1,82 @@
+{
+  "version": "2.25.0",
+  "date": "2026-10-02T19:33:54.210598-04:00",
+  "scope": "Library layout, clearable search, practice filters/sorting and coordinated app transitions; existing 2.24 music, companions and audio preserved",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installed": {
+    "version": "2.25.0",
+    "verifiedAt": "2026-10-02T19:32:30.329120-04:00",
+    "installedArchiveSHA256": "0b0a35439990a1039cabef22406290b31b67e0a6b5e907d604fc9449f72ed24a",
+    "matchesNativeTestedPackage": true,
+    "bundleFilesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "allLatestPersonalFilesUnchangedAfterReopen": true,
+    "nativeGroups": 8
+  },
+  "installation": {
+    "version": "2.25.0",
+    "installedAt": "2026-10-02T19:31:44.284580-04:00",
+    "filesAndSymlinks": 3035,
+    "personalFiles": 108,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-flow-2.25/previous-installed-Luma Keys-2.24.0.app"
+  },
+  "tests": {
+    "unitAndAPI": 758,
+    "passed": 758,
+    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-flow-2.25/reports/tests.txt",
+    "nativeGroups": [
+      "Ten saved fixture pieces, four starters, current resume card and loaded cartoon artwork remain reachable at1280/800/390 widths with no horizontal overflow.",
+      "Chinese and case-insensitive search filter cards, successful and empty searches clear cleanly, and the current hero returns without changing practice.",
+      "Title/composer sorts, Practised/Unplayed filters, combined filter/search empty state, Clear filters, full-width search and Escape-clear all work with correct result counts.",
+      "Card menus retain keyboard focus, arrow navigation, Escape dismissal, details and exact opening at a chosen bar while playback stays paused.",
+      "Saved passages reopen with the correct repeat bounds; Continue restores the saved bar; a finished recent piece is honestly labelled to restart at bar1.",
+      "Repeated navigation settles to one selected screen, settings return to the library, and the companion opens beside the collection with no autoplay or model request.",
+      "Phone card details stay within the viewport and close correctly; Import opens and returns to the collection without touching files.",
+      "Reduced motion suppresses library/companion movement; all ten score files remain byte-identical and practice preferences remain unchanged after returning to paused practice."
+    ],
+    "nativeReport": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-flow-2.25/native/report.json",
+    "runtimeErrors": [],
+    "modelRequests": 0
+  },
+  "integrity": {
+    "sourceInputs": 633,
+    "packagedFilesChecked": 522,
+    "packagedMismatches": [],
+    "modelRuntimeLicenseFiles": 42,
+    "modelRuntimeMatches": true
+  },
+  "visualReview": {
+    "accepted": true,
+    "independent": true,
+    "widths": [
+      1280,
+      800,
+      390
+    ],
+    "includes": [
+      "library",
+      "settings",
+      "companion dock"
+    ],
+    "pageOverflowAt390": false,
+    "screenshots": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-flow-2.25/final6-library"
+  },
+  "personalPracticeOnReopen": {
+    "piece": "晴天 (Sunny Day)",
+    "bar": 1,
+    "totalBars": 76,
+    "paused": true,
+    "companion": "Lang Lang",
+    "view": "Falling notes",
+    "hands": "Both hands",
+    "mode": "Wait for me",
+    "speedPercent": 60,
+    "finalScreen": "Library"
+  },
+  "earlierAttempts": "Earlier attempts preserve outdated QA selectors, an over-specific optional pet-speech expectation, and a fixture missing the companion startup day stamp. No renderer errors or source changes resulted. Final acceptance uses the same frozen package and corrected isolated fixtures.",
+  "limits": [
+    "No physical MIDI, general model quality or audible sound-quality retest in this interface-only pass.",
+    "Native QA uses isolated synthetic scores and muted output; personal app reopening was checked separately."
+  ]
+}

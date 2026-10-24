@@ -1,0 +1,134 @@
+{
+  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-input-BHaiTM",
+  "version": "2.8.0",
+  "failure": {
+    "message": "expect(locator).toContainText(expected) failed\n\nLocator: locator('.reader-play-status')\nExpected substring: \"Count in\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toContainText\" locator('.reader-play-status') with timeout 5000ms\n  - waiting for locator('.reader-play-status')\n",
+    "stack": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('.reader-play-status')\nExpected substring: \"Count in\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toContainText\" locator('.reader-play-status') with timeout 5000ms\n  - waiting for locator('.reader-play-status')\n\n    at captureRawStack (/Users/prince/Desktop/Luma Keys/node_modules/playwright-core/lib/coreBundle.js:8588:17)\n    at callMatcherAsStep (/Users/prince/Desktop/Luma Keys/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toContainText (/Users/prince/Desktop/Luma Keys/node_modules/playwright/lib/matchers/expect.js:13302:23)\n    at verifyInputs (/Users/prince/Desktop/Luma Keys/scripts/input-checks.mjs:253:55)\n    at async file:///Users/prince/Desktop/Luma%20Keys/scripts/native-input-qa.mjs:136:18"
+  },
+  "stage": "owned-cleanup",
+  "process": {
+    "pid": 5817,
+    "exitCode": 0,
+    "signalCode": null
+  },
+  "page": {
+    "closed": true,
+    "url": "http://127.0.0.1:50526/"
+  },
+  "events": [
+    {
+      "at": "2026-09-27T04:01:12.085Z",
+      "stage": "launch",
+      "event": "launched",
+      "pid": 5817
+    },
+    {
+      "at": "2026-09-27T04:01:12.096Z",
+      "stage": "startup",
+      "event": "owned-windows-focused",
+      "windows": [
+        {
+          "id": 1,
+          "visible": true,
+          "focused": false
+        }
+      ]
+    },
+    {
+      "at": "2026-09-27T04:01:12.733Z",
+      "stage": "startup",
+      "event": "navigation",
+      "url": "http://127.0.0.1:50526/"
+    },
+    {
+      "at": "2026-09-27T04:01:12.896Z",
+      "stage": "startup",
+      "event": "owned-windows-focused",
+      "windows": [
+        {
+          "id": 1,
+          "visible": true,
+          "focused": false
+        }
+      ]
+    },
+    {
+      "at": "2026-09-27T04:01:20.235Z",
+      "stage": "input-checks",
+      "event": "failure",
+      "message": "expect(locator).toContainText(expected) failed\n\nLocator: locator('.reader-play-status')\nExpected substring: \"Count in\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toContainText\" locator('.reader-play-status') with timeout 5000ms\n  - waiting for locator('.reader-play-status')\n",
+      "stack": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('.reader-play-status')\nExpected substring: \"Count in\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toContainText\" locator('.reader-play-status') with timeout 5000ms\n  - waiting for locator('.reader-play-status')\n\n    at captureRawStack (/Users/prince/Desktop/Luma Keys/node_modules/playwright-core/lib/coreBundle.js:8588:17)\n    at callMatcherAsStep (/Users/prince/Desktop/Luma Keys/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toContainText (/Users/prince/Desktop/Luma Keys/node_modules/playwright/lib/matchers/expect.js:13302:23)\n    at verifyInputs (/Users/prince/Desktop/Luma Keys/scripts/input-checks.mjs:253:55)\n    at async file:///Users/prince/Desktop/Luma%20Keys/scripts/native-input-qa.mjs:136:18"
+    },
+    {
+      "at": "2026-09-27T04:01:20.546Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T04:01:20.547Z",
+      "stage": "owned-cleanup",
+      "event": "process-stderr",
+      "text": "Debugger ending on ws://127.0.0.1:50522/d929e94c-5010-44ba-aa7b-db252ba141b7\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
+    },
+    {
+      "at": "2026-09-27T04:01:20.547Z",
+      "stage": "owned-cleanup",
+      "event": "main-console",
+      "type": "log",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}"
+    },
+    {
+      "at": "2026-09-27T04:01:20.551Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"before-quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T04:01:20.552Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-close\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-09-27T04:01:20.656Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"window-closed\",\"id\":1}\n"
+    },
+    {
+      "at": "2026-09-27T04:01:20.656Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"will-quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T04:01:20.657Z",
+      "stage": "owned-cleanup",
+      "event": "process-stdout",
+      "text": "LUMA_INPUT_DIAG {\"event\":\"quit\"}\n"
+    },
+    {
+      "at": "2026-09-27T04:01:20.657Z",
+      "stage": "owned-cleanup",
+      "event": "page-close"
+    },
+    {
+      "at": "2026-09-27T04:01:20.707Z",
+      "stage": "owned-cleanup",
+      "event": "process-exit",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "at": "2026-09-27T04:01:20.707Z",
+      "stage": "owned-cleanup",
+      "event": "browser-context-close"
+    },
+    {
+      "at": "2026-09-27T04:01:20.708Z",
+      "stage": "owned-cleanup",
+      "event": "electron-application-close"
+    }
+  ]
+}

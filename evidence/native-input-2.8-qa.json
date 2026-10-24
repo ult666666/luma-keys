@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "version": "2.8.0",
+  "checks": [
+    "Computer notes work after clicking Play or focusing a slider; key repeat cannot skip repeated notes",
+    "Computer/MIDI overlap, separate MIDI channels and harmless state changes preserve the correct held note; reconnect does not duplicate access",
+    "Two MIDI ports have independent note and pedal ownership; removing one preserves the other",
+    "Focus loss and MIDI disconnect cancel pending audio: no late voice or pressed key appears",
+    "Stop cancels a delayed Play; an old startup cannot resume playback or cancel a newer startup",
+    "Reading settings cancel pending audio; fresh Play uses the new count-in setting, and changing practice mode cancels the old request",
+    "Pause clears both the audio pedal and its visible sustain indicator",
+    "A listen-mode loop preserves held live notes and pedal audio across its boundary",
+    "Command-key transitions recover missing computer key-up events without releasing a MIDI owner",
+    "Focused piano Enter/Space owners release independently; changed Shift character still releases its original computer key",
+    "The final correct note completes wait mode and rings until the physical key is released",
+    "Dialogs and text inputs never turn typing or MIDI into hidden note attempts"
+  ],
+  "errors": [],
+  "simulatedMIDI": true,
+  "physicalHardwareTested": false
+}

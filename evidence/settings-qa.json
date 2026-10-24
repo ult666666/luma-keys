@@ -1,9 +1,9 @@
 {
   "passed": true,
   "checks": [
-    "Valid preferences, mute and level persist; stale daily progress resets on screen without rewriting the file",
+    "Valid colours and mute persist without a startup write; yesterday's daily minutes reset, and the next session saves today's minutes from zero while keeping lifetime totals",
     "Damaged fields use defaults while valid theme, companion and progress survive; the original file is preserved on explicit repair",
-    "Theme, companion and mute changes save; playback increments numeric session/minute totals after recovery",
+    "Colour, companion and mute changes save and survive a reload; playback increments numeric session/minute totals after recovery",
     "Null and truncated settings show recovery instead of startup errors or silent data replacement",
     "An unreadable settings file leaves a lasting warning; restore and reload resumes saved settings without relaunching",
     "Delayed loading disables practice and preference edits until the saved state is ready, preventing overwritten early changes"

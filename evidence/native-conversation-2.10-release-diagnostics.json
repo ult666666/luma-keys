@@ -1,0 +1,16 @@
+{
+  "version": "2.10.0",
+  "events": [
+    {
+      "at": "2026-09-27T13:24:14.451Z",
+      "event": "stderr",
+      "text": "Debugger ending on ws://127.0.0.1:52298/9a4ab94c-09af-4369-a676-1268cff2d406\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
+    },
+    {
+      "at": "2026-09-27T13:24:14.644Z",
+      "event": "exit",
+      "code": 0,
+      "signal": null
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "passed": true,
+  "version": "2.10.0",
+  "checks": [
+    "Legacy preferences remain byte-for-byte unchanged and loading an empty conversation creates no history file.",
+    "Current-bar help uses the exact written-score lesson and local history source, with no model request or generation controls even when the model is available.",
+    "English and Chinese searches retain separate arrangements; a follow-up selects the second prior choice and opens it paused.",
+    "Explicit seek, phrase repeat, and slower commands update the real paused controls; invalid bars and missing pieces do not invent or change a score.",
+    "Opening chat releases held notes; textarea typing, composition Enter, Shift+Enter, and MIDI cannot play or advance; Tab stays inside and Escape restores launcher focus.",
+    "Transcript order, IDs, text and action choices survive closing the panel and reloading the app without duplicating exchanges.",
+    "A failed history save keeps both messages visible with an honest status; Retry saves the same messages without duplicates.",
+    "Editing a saved score disables its old conversation action; a fresh search creates an enabled action for the updated score.",
+    "A controlled model stream renders progressive text, sends a bounded current-piece excerpt, persists the completed reply and cannot execute practice actions while pending.",
+    "Stop and closing the dialog abort the stream, preserve clearly marked partial replies and reject late chunks; retry replaces the partial response without duplicating the user's question, and changing the piece disables stale retries.",
+    "Chat composer and transcript fit desktop, narrow and short windows, long drafts wrap, reduced motion disables decoration, and all three library screens avoid horizontal overflow.",
+    "A failed initial history read disables sending and preserves the stored conversation; Retry restores it, and the piano still exposes 88 keys and a reachable Play control."
+  ],
+  "measurements": {
+    "chat-desktop": {
+      "width": 1280,
+      "height": 800,
+      "page": 1280,
+      "dialog": {
+        "x": 230,
+        "y": 20,
+        "right": 1050,
+        "bottom": 780,
+        "width": 820,
+        "height": 760,
+        "client": 818,
+        "scroll": 818
+      },
+      "composer": {
+        "x": 231,
+        "y": 608,
+        "right": 1049,
+        "bottom": 779,
+        "width": 818,
+        "height": 171,
+        "client": 818,
+        "scroll": 818
+      },
+      "transcript": {
+        "x": 231,
+        "y": 191,
+        "right": 1049,
+        "bottom": 526,
+        "width": 818,
+        "height": 335,
+        "client": 812,
+        "scroll": 812
+      }
+    },
+    "chat-mobile": {
+      "width": 390,
+      "height": 844,
+      "page": 384,
+      "dialog": {
+        "x": 14,
+        "y": 10,
+        "right": 370,
+        "bottom": 834,
+        "width": 356,
+        "height": 824,
+        "client": 354,
+        "scroll": 354
+      },
+      "composer": {
+        "x": 15,
+        "y": 665,
+        "right": 369,
+        "bottom": 833,
+        "width": 354,
+        "height": 168,
+        "client": 354,
+        "scroll": 354
+      },
+      "transcript": {
+        "x": 15,
+        "y": 166.3984375,
+        "right": 369,
+        "bottom": 583,
+        "width": 354,
+        "height": 416.6015625,
+        "client": 348,
+        "scroll": 348
+      }
+    },
+    "chat-short": {
+      "width": 1280,
+      "height": 580,
+      "page": 1274,
+      "dialog": {
+        "x": 227,
+        "y": 20,
+        "right": 1047,
+        "bottom": 560,
+        "width": 820,
+        "height": 540,
+        "client": 818,
+        "scroll": 818
+      },
+      "composer": {
+        "x": 228,
+        "y": 442,
+        "right": 1046,
+        "bottom": 559,
+        "width": 818,
+        "height": 117,
+        "client": 818,
+        "scroll": 818
+      },
+      "transcript": {
+        "x": 228,
+        "y": 133,
+        "right": 1046,
+        "bottom": 368,
+        "width": 818,
+        "height": 235,
+        "client": 812,
+        "scroll": 812
+      }
+    },
+    "library-1280": {
+      "width": 1280,
+      "height": 800,
+      "page": 1274,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "exercises-1280": {
+      "width": 1280,
+      "height": 800,
+      "page": 1274,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "progress-1280": {
+      "width": 1280,
+      "height": 800,
+      "page": 1274,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "library-390": {
+      "width": 390,
+      "height": 844,
+      "page": 384,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "exercises-390": {
+      "width": 390,
+      "height": 844,
+      "page": 384,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    },
+    "progress-390": {
+      "width": 390,
+      "height": 844,
+      "page": 384,
+      "dialog": null,
+      "composer": null,
+      "transcript": null
+    }
+  },
+  "errors": []
+}

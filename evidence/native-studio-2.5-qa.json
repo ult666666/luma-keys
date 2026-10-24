@@ -1,0 +1,153 @@
+{
+  "passed": true,
+  "version": "2.44.0",
+  "checks": [
+    "Fresh start opens Practice with a dismissible welcome; Library offers starter pieces, an import action and the current companion with its Talk button; Progress has a usable empty state without fabricated practice.",
+    "Import, score review, search, no-results recovery (Clear filters) and opening the matching score remain functional.",
+    "Goal/colours survive reload; companion selection reaches the docked chat and the Library and Exercises illustrations; Settings, Import and Reading guide remain readable and keyboard-accessible.",
+    "A real muted practice session populates Library and Progress; both Continue actions reopen the saved second bar.",
+    "Exercise level, hand, length and custom tempo remain selectable and Start exercise opens a playable generated score of that level and length.",
+    "The 1280×800 practice view retains all 88 keyboard controls at the hands' proportions and reachable Play; a short timed stop is a pause, and a real three-bar timed run produces a readable report.",
+    "Library, Exercises, Progress, Settings and Import fit 390px; the mobile goal control and file entry remain usable.",
+    "Live reduced-motion mode stops perpetual decoration, while keyboard navigation and exercise controls keep working without renderer errors."
+  ],
+  "measurements": {
+    "library-empty-desktop": {
+      "width": 1280,
+      "pageWidth": 1274,
+      "left": 0,
+      "right": 1274,
+      "client": 1274,
+      "scroll": 1274
+    },
+    "progress-empty-desktop": {
+      "width": 1280,
+      "pageWidth": 1274,
+      "left": 57,
+      "right": 1217,
+      "client": 1160,
+      "scroll": 1160
+    },
+    "import-desktop": {
+      "width": 1280,
+      "pageWidth": 1274,
+      "left": 332,
+      "right": 942,
+      "client": 610,
+      "scroll": 610
+    },
+    "review-cell-contrast": {
+      "foreground": "rgb(30, 33, 36)",
+      "background": "rgb(244, 243, 240)",
+      "contrast": 14.577721399247602
+    },
+    "settings-desktop": {
+      "width": 1280,
+      "pageWidth": 1280,
+      "left": 210,
+      "right": 1070,
+      "client": 854,
+      "scroll": 854
+    },
+    "reading-guide-contrast": {
+      "foreground": "rgb(93, 98, 104)",
+      "background": "rgb(240, 242, 233)",
+      "contrast": 5.445594521559031
+    },
+    "reading-guide-desktop": {
+      "width": 1280,
+      "pageWidth": 1280,
+      "left": 155,
+      "right": 1125,
+      "client": 964,
+      "scroll": 964
+    },
+    "progress-populated-desktop": {
+      "width": 1280,
+      "pageWidth": 1280,
+      "left": 57,
+      "right": 1217,
+      "client": 1160,
+      "scroll": 1160
+    },
+    "exercise-summary-contrast": {
+      "foreground": "rgb(69, 100, 72)",
+      "background": "rgb(252, 253, 246)",
+      "contrast": 6.474224406347886
+    },
+    "exercises-desktop": {
+      "width": 1280,
+      "pageWidth": 1274,
+      "left": 57,
+      "right": 1217,
+      "client": 1160,
+      "scroll": 1160
+    },
+    "practice-desktop": {
+      "width": 1280,
+      "pageWidth": 1280,
+      "left": 0,
+      "right": 1280,
+      "client": 1280,
+      "scroll": 1280
+    },
+    "practice": {
+      "playBottom": 781,
+      "keyWidth": 28,
+      "keyLength": 128,
+      "hands": "true",
+      "keyCount": 88
+    },
+    "results-metric-contrast": {
+      "foreground": "rgb(93, 98, 104)",
+      "background": "rgb(240, 242, 233)",
+      "contrast": 5.445594521559031
+    },
+    "results-note-contrast": {
+      "foreground": "rgb(93, 98, 104)",
+      "background": "rgb(240, 242, 233)",
+      "contrast": 5.445594521559031
+    },
+    "library-mobile": {
+      "width": 390,
+      "pageWidth": 384,
+      "left": 0,
+      "right": 384,
+      "client": 384,
+      "scroll": 384
+    },
+    "exercises-mobile": {
+      "width": 390,
+      "pageWidth": 390,
+      "left": 0,
+      "right": 384,
+      "client": 384,
+      "scroll": 384
+    },
+    "progress-mobile": {
+      "width": 390,
+      "pageWidth": 384,
+      "left": 0,
+      "right": 384,
+      "client": 384,
+      "scroll": 384
+    },
+    "settings-mobile": {
+      "width": 390,
+      "pageWidth": 384,
+      "left": 14,
+      "right": 370,
+      "client": 350,
+      "scroll": 350
+    },
+    "import-mobile": {
+      "width": 390,
+      "pageWidth": 384,
+      "left": 14,
+      "right": 370,
+      "client": 356,
+      "scroll": 356
+    }
+  },
+  "errors": []
+}

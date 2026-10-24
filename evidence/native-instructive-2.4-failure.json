@@ -1,0 +1,79 @@
+{
+  "error": "expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.coach-hand[data-hand=\"right\"]').locator('.coach-note[data-midi=\"65\"]')\nExpected: 0\nReceived: 1\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" locator('.coach-hand[data-hand=\"right\"]').locator('.coach-note[data-midi=\"65\"]') with timeout 5000ms\n  - waiting for locator('.coach-hand[data-hand=\"right\"]').locator('.coach-note[data-midi=\"65\"]')\n    12 × locator resolved to 1 element\n       - unexpected value \"1\"\n",
+  "evidence": {
+    "checks": [],
+    "measurements": {
+      "opening": [
+        {
+          "hand": "left",
+          "state": "play",
+          "notes": [
+            {
+              "midi": 48,
+              "phase": "attack",
+              "finger": "3",
+              "description": "Place C3, suggested finger 3, middle"
+            }
+          ]
+        },
+        {
+          "hand": "right",
+          "state": "play",
+          "notes": [
+            {
+              "midi": 60,
+              "phase": "attack",
+              "finger": "1",
+              "description": "Place C4, suggested finger 1, thumb"
+            },
+            {
+              "midi": 64,
+              "phase": "attack",
+              "finger": "2",
+              "description": "Place E4, suggested finger 2, index"
+            },
+            {
+              "midi": 65,
+              "phase": "next",
+              "finger": "3",
+              "description": "Next F4, suggested finger 3, middle"
+            }
+          ]
+        }
+      ]
+    },
+    "errors": [],
+    "cues": [
+      {
+        "hand": "left",
+        "state": "hold",
+        "notes": [
+          {
+            "midi": 48,
+            "phase": "hold",
+            "finger": "3",
+            "description": "Hold C3, suggested finger 3, middle"
+          }
+        ]
+      },
+      {
+        "hand": "right",
+        "state": "hold",
+        "notes": [
+          {
+            "midi": 60,
+            "phase": "hold",
+            "finger": "1",
+            "description": "Hold C4, suggested finger 1, thumb"
+          },
+          {
+            "midi": 65,
+            "phase": "next",
+            "finger": "3",
+            "description": "Next F4, suggested finger 3, middle"
+          }
+        ]
+      }
+    ]
+  }
+}

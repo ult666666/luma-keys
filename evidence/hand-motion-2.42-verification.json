@@ -1,0 +1,360 @@
+{
+  "version": "2.42.0",
+  "theme": "Hand motion continuity: thumbs on their keys in wide stretches, no shape switch at strikes, smoother free fingers",
+  "writtenAt": "2026-10-07T20:33:27.803098-04:00",
+  "method": "scripts/hand-continuity-probe.mjs: 144 Hz node posing of 20 hand-passages, pure and renderer-eased (tau 40 ms); jerk = a frame moving far more than both neighbours; engine-forced frames counted apart",
+  "contactAccuracy": {
+    "worstHeldMissMm": {
+      "before": 17.49,
+      "after": 3.3
+    },
+    "handPassagesWithin0_5mm": {
+      "before": 14,
+      "after": 19,
+      "of": 20
+    },
+    "fixedFrames": [
+      {
+        "passage": "龙卷风 · 邓紫棋版 bars 4–6, left hand, thumb A3 + index D3",
+        "beforeMm": 17.5,
+        "afterMm": 0.4
+      },
+      {
+        "passage": "Moonlight Sonata I bars 57–59, right hand, thumb B3 + index F♯4",
+        "beforeMm": 16.2,
+        "afterMm": 0.3
+      },
+      {
+        "passage": "Gymnopédie No. 1 bars 41–44, left hand",
+        "beforeMm": 2.3,
+        "afterMm": 0.5
+      }
+    ],
+    "retained": "晴天 Chord Arrangement bars 57–59, right hand: 3.3 mm on one frame"
+  },
+  "smoothness": {
+    "easedJerkFrames": {
+      "before": 148,
+      "after": 125
+    },
+    "perPassage": [
+      {
+        "scenario": "S01.json",
+        "hand": "left",
+        "frames": 648,
+        "pureSpikes": 29,
+        "easedSpikes": 15,
+        "easedOriginP95mm": 4.55,
+        "easedOriginMaxMm": 26.33,
+        "easedJointP95deg": 9.53,
+        "easedJointMaxDeg": 57.85,
+        "worstContactMm": 0.49,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S01.json",
+        "hand": "right",
+        "frames": 648,
+        "pureSpikes": 8,
+        "easedSpikes": 1,
+        "easedOriginP95mm": 2.4,
+        "easedOriginMaxMm": 5.98,
+        "easedJointP95deg": 3.43,
+        "easedJointMaxDeg": 13.26,
+        "worstContactMm": 0.02,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S03.json",
+        "hand": "left",
+        "frames": 648,
+        "pureSpikes": 7,
+        "easedSpikes": 6,
+        "easedOriginP95mm": 8.45,
+        "easedOriginMaxMm": 12.29,
+        "easedJointP95deg": 7.12,
+        "easedJointMaxDeg": 14.54,
+        "worstContactMm": 0.5,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S03.json",
+        "hand": "right",
+        "frames": 648,
+        "pureSpikes": 10,
+        "easedSpikes": 6,
+        "easedOriginP95mm": 1.73,
+        "easedOriginMaxMm": 36.36,
+        "easedJointP95deg": 4.48,
+        "easedJointMaxDeg": 70.59,
+        "worstContactMm": 3.3,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S04.json",
+        "hand": "left",
+        "frames": 648,
+        "pureSpikes": 11,
+        "easedSpikes": 5,
+        "easedOriginP95mm": 7.89,
+        "easedOriginMaxMm": 82.4,
+        "easedJointP95deg": 11.29,
+        "easedJointMaxDeg": 59.13,
+        "worstContactMm": 0.47,
+        "forcedFrames": 75
+      },
+      {
+        "scenario": "S04.json",
+        "hand": "right",
+        "frames": 648,
+        "pureSpikes": 12,
+        "easedSpikes": 6,
+        "easedOriginP95mm": 3.77,
+        "easedOriginMaxMm": 21.13,
+        "easedJointP95deg": 9.92,
+        "easedJointMaxDeg": 25.63,
+        "worstContactMm": 0.45,
+        "forcedFrames": 32
+      },
+      {
+        "scenario": "S06.json",
+        "hand": "left",
+        "frames": 648,
+        "pureSpikes": 2,
+        "easedSpikes": 1,
+        "easedOriginP95mm": 0.93,
+        "easedOriginMaxMm": 3.68,
+        "easedJointP95deg": 1.59,
+        "easedJointMaxDeg": 17.26,
+        "worstContactMm": 0.02,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S06.json",
+        "hand": "right",
+        "frames": 648,
+        "pureSpikes": 32,
+        "easedSpikes": 13,
+        "easedOriginP95mm": 2.44,
+        "easedOriginMaxMm": 7.19,
+        "easedJointP95deg": 6.89,
+        "easedJointMaxDeg": 20.75,
+        "worstContactMm": 0.5,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S07.json",
+        "hand": "left",
+        "frames": 648,
+        "pureSpikes": 5,
+        "easedSpikes": 4,
+        "easedOriginP95mm": 7.61,
+        "easedOriginMaxMm": 63.96,
+        "easedJointP95deg": 4.18,
+        "easedJointMaxDeg": 66.77,
+        "worstContactMm": 0.49,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S07.json",
+        "hand": "right",
+        "frames": 648,
+        "pureSpikes": 0,
+        "easedSpikes": 0,
+        "easedOriginP95mm": 0,
+        "easedOriginMaxMm": 0,
+        "easedJointP95deg": 0,
+        "easedJointMaxDeg": 0,
+        "worstContactMm": 0,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S08.json",
+        "hand": "left",
+        "frames": 648,
+        "pureSpikes": 1,
+        "easedSpikes": 1,
+        "easedOriginP95mm": 0.26,
+        "easedOriginMaxMm": 3.62,
+        "easedJointP95deg": 1.2,
+        "easedJointMaxDeg": 7.86,
+        "worstContactMm": 0,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S08.json",
+        "hand": "right",
+        "frames": 648,
+        "pureSpikes": 22,
+        "easedSpikes": 12,
+        "easedOriginP95mm": 1.77,
+        "easedOriginMaxMm": 18.98,
+        "easedJointP95deg": 5.76,
+        "easedJointMaxDeg": 41.83,
+        "worstContactMm": 0.5,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S09.json",
+        "hand": "left",
+        "frames": 596,
+        "pureSpikes": 11,
+        "easedSpikes": 7,
+        "easedOriginP95mm": 15.16,
+        "easedOriginMaxMm": 46.24,
+        "easedJointP95deg": 8.39,
+        "easedJointMaxDeg": 48.45,
+        "worstContactMm": 0.26,
+        "forcedFrames": 111
+      },
+      {
+        "scenario": "S09.json",
+        "hand": "right",
+        "frames": 596,
+        "pureSpikes": 28,
+        "easedSpikes": 14,
+        "easedOriginP95mm": 3.2,
+        "easedOriginMaxMm": 17.48,
+        "easedJointP95deg": 10.28,
+        "easedJointMaxDeg": 57.9,
+        "worstContactMm": 0.5,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S10.json",
+        "hand": "left",
+        "frames": 648,
+        "pureSpikes": 13,
+        "easedSpikes": 7,
+        "easedOriginP95mm": 6.13,
+        "easedOriginMaxMm": 78.54,
+        "easedJointP95deg": 6.06,
+        "easedJointMaxDeg": 48.22,
+        "worstContactMm": 0.5,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S10.json",
+        "hand": "right",
+        "frames": 648,
+        "pureSpikes": 24,
+        "easedSpikes": 7,
+        "easedOriginP95mm": 2.13,
+        "easedOriginMaxMm": 3.19,
+        "easedJointP95deg": 4.46,
+        "easedJointMaxDeg": 11.78,
+        "worstContactMm": 0.5,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S11.json",
+        "hand": "left",
+        "frames": 648,
+        "pureSpikes": 26,
+        "easedSpikes": 11,
+        "easedOriginP95mm": 3.14,
+        "easedOriginMaxMm": 26.13,
+        "easedJointP95deg": 9.27,
+        "easedJointMaxDeg": 56.64,
+        "worstContactMm": 0.49,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S11.json",
+        "hand": "right",
+        "frames": 648,
+        "pureSpikes": 21,
+        "easedSpikes": 8,
+        "easedOriginP95mm": 2.32,
+        "easedOriginMaxMm": 10.96,
+        "easedJointP95deg": 8.58,
+        "easedJointMaxDeg": 23.29,
+        "worstContactMm": 0.5,
+        "forcedFrames": 18
+      },
+      {
+        "scenario": "S12.json",
+        "hand": "left",
+        "frames": 648,
+        "pureSpikes": 2,
+        "easedSpikes": 0,
+        "easedOriginP95mm": 0.92,
+        "easedOriginMaxMm": 4.34,
+        "easedJointP95deg": 2.92,
+        "easedJointMaxDeg": 10.69,
+        "worstContactMm": 0.49,
+        "forcedFrames": 0
+      },
+      {
+        "scenario": "S12.json",
+        "hand": "right",
+        "frames": 648,
+        "pureSpikes": 6,
+        "easedSpikes": 1,
+        "easedOriginP95mm": 2.24,
+        "easedOriginMaxMm": 4.12,
+        "easedJointP95deg": 4.32,
+        "easedJointMaxDeg": 10.77,
+        "worstContactMm": 0.17,
+        "forcedFrames": 0
+      }
+    ]
+  },
+  "poseCostMs": {
+    "mean": 0.381,
+    "p50": 0.332,
+    "p95": 0.705,
+    "p99": 1.182,
+    "max": 5.585,
+    "poses": 2366
+  },
+  "tests": {
+    "unit": [
+      "ℹ tests 902",
+      "ℹ pass 902",
+      "ℹ fail 0"
+    ],
+    "handSuites": "162/162 including tests/hand-continuity.test.mjs (3)"
+  },
+  "browserStories": [
+    "hand-guide: PASS 8 groups (first green run since 2.38)",
+    "trouble-spots: PASS 7 checks"
+  ],
+  "nativeChecks": [
+    "native-hand-guide 2.42.0: PASS 8 groups",
+    "native-storage 2.42.0: PASS 4 checks",
+    "native-trouble-spots 2.42.0: PASS 7 checks"
+  ],
+  "nativeFramePacing": {
+    "scenario": "packaged app, Appassionata, Falling notes, Listen, 8 s",
+    "frames": 496,
+    "median": 16.7,
+    "p90": 17.5,
+    "p95": 17.6,
+    "max": 34.1,
+    "over20": 3,
+    "over34": 1,
+    "previous2_41": {
+      "frames": 506,
+      "median": 16.7,
+      "p95": 17.5,
+      "max": 49.9
+    }
+  },
+  "installation": {
+    "version": "2.42.0",
+    "previous": "2.41.0",
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/claude-2.42.0/previous-installed-Luma Keys-2.41.0.app",
+    "installedAt": "2026-10-07T20:31:57.071767-04:00",
+    "entries": 3035,
+    "personalFilesUnchanged": 108
+  },
+  "installedAsar": "77798af3f6a1475566866bbcc2602b9000bff99e662bcfc7a4906e230c91a930",
+  "firstLaunch": "54 s from open to a listening server on first launch of the newly installed bundle; the app's own clock read 431 ms to server ready",
+  "limits": [
+    "The hands are an articulated teaching model, not a photographic reproduction.",
+    "Jerk frames are fewer, not zero: thumb landings in fast passages keep a few moderate frames.",
+    "Engine-forced frames (impossible speeds the motion engine flags) are unchanged by design.",
+    "Piano output was muted; physical MIDI, microphone and chat inference were not exercised."
+  ]
+}

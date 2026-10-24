@@ -1,0 +1,703 @@
+{
+  "version": "2.12.0",
+  "completedAt": "2026-09-27T10:17:09.112449-04:00",
+  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedUiVerified": true,
+  "installedUi": {
+    "sound": "Yamaha C5 grand \u00b7 Six recorded touch levels \u00b7 Stereo",
+    "phrasing": "Concert selected",
+    "room": "Hall preserved",
+    "piece": "Appassionata \u00b7 III. Allegro ma non troppo \u2014 Presto",
+    "savedResumeBar": 3
+  },
+  "unitTests": {
+    "fullPass": 353,
+    "additionalPitchRegressionPass": 1,
+    "focusedFinalAudioSuitePass": 31
+  },
+  "audio": {
+    "passed": true,
+    "bankSamples": 180,
+    "velocityLayers": 6,
+    "checks": [
+      "Every bundled grand sample matches its checksum and decodes to finite, non-silent PCM; multiple recorded velocities are present.",
+      "Rendered native and transposed pitches across A0\u2013C8 stay within35cents; every probe contains finite audio without clipped samples.",
+      "Harder strikes have greater rendered dynamic range and a measurable normalized spectral change.",
+      "Scheduled attacks stay silent until due; sustain/release and stopPlayback preserve the intended ownership while stop silences future notes.",
+      "The512-note coda stays finite and below full scale with bounded active voices; matched old/new engine WAVs are saved for listening."
+    ],
+    "listeningClaim": false
+  },
+  "actualCoda": {
+    "passed": true,
+    "firstBar": 558,
+    "lastBar": 569,
+    "sourceNotes": 151,
+    "seconds": 8,
+    "afterPeak": 0.9364696741104126,
+    "preview": "Assets/Audio Previews/Appassionata III - grand piano coda.wav"
+  },
+  "native": {
+    "passed": true,
+    "checks": 18,
+    "errors": [],
+    "frameSamples": [
+      {
+        "iteration": 0,
+        "startupMs": 432,
+        "before": {
+          "prepared": true,
+          "bank": "Salamander Yamaha C5 \u00b7 Six velocity layers",
+          "sampleCount": 180,
+          "loadedSamples": 87,
+          "layers": [
+            1,
+            4,
+            7,
+            10,
+            13,
+            16
+          ],
+          "decodedBytes": 443577592,
+          "maxDecodedBytes": 536870912,
+          "loads": 87,
+          "loading": 0,
+          "queuedLoads": 0,
+          "cacheMisses": 0,
+          "fallbacks": 0,
+          "active": 5,
+          "voiceLimit": 96,
+          "voices": [
+            {
+              "midi": 36,
+              "automatic": true,
+              "sourceMIDI": 36,
+              "layer": 4,
+              "velocity": 0.35,
+              "start": 3.953197278911565,
+              "releaseAt": 4.1823922902494335,
+              "released": true
+            },
+            {
+              "midi": 60,
+              "automatic": true,
+              "sourceMIDI": 60,
+              "layer": 4,
+              "velocity": 0.25,
+              "start": 3.953197278911565,
+              "releaseAt": 4.064892290249433,
+              "released": true
+            },
+            {
+              "midi": 65,
+              "automatic": true,
+              "sourceMIDI": 66,
+              "layer": 7,
+              "velocity": 0.5,
+              "start": 4.072392290249433,
+              "releaseAt": 4.189892290249433,
+              "released": true
+            },
+            {
+              "midi": 50,
+              "automatic": true,
+              "sourceMIDI": 51,
+              "layer": 16,
+              "velocity": 0.9,
+              "start": 4.197392290249433,
+              "releaseAt": 4.4323922902494335,
+              "released": true
+            },
+            {
+              "midi": 70,
+              "automatic": true,
+              "sourceMIDI": 69,
+              "layer": 13,
+              "velocity": 0.75,
+              "start": 4.197392290249433,
+              "releaseAt": 4.314892290249433,
+              "released": true
+            }
+          ]
+        },
+        "after": {
+          "prepared": true,
+          "bank": "Salamander Yamaha C5 \u00b7 Six velocity layers",
+          "sampleCount": 180,
+          "loadedSamples": 87,
+          "layers": [
+            1,
+            4,
+            7,
+            10,
+            13,
+            16
+          ],
+          "decodedBytes": 443577592,
+          "maxDecodedBytes": 536870912,
+          "loads": 87,
+          "loading": 0,
+          "queuedLoads": 0,
+          "cacheMisses": 0,
+          "fallbacks": 0,
+          "active": 12,
+          "voiceLimit": 96,
+          "voices": [
+            {
+              "midi": 38,
+              "automatic": true,
+              "sourceMIDI": 39,
+              "layer": 16,
+              "velocity": 0.9,
+              "start": 5.697392290249433,
+              "releaseAt": 5.9323922902494335,
+              "released": true
+            },
+            {
+              "midi": 36,
+              "automatic": true,
+              "sourceMIDI": 36,
+              "layer": 4,
+              "velocity": 0.35,
+              "start": 5.947392290249433,
+              "releaseAt": 6.1823922902494335,
+              "released": true
+            },
+            {
+              "midi": 60,
+              "automatic": true,
+              "sourceMIDI": 60,
+              "layer": 4,
+              "velocity": 0.25,
+              "start": 5.947392290249433,
+              "releaseAt": 6.064892290249434,
+              "released": true
+            },
+            {
+              "midi": 65,
+              "automatic": true,
+              "sourceMIDI": 66,
+              "layer": 7,
+              "velocity": 0.5,
+              "start": 6.072392290249433,
+              "releaseAt": 6.189892290249434,
+              "released": true
+            },
+            {
+              "midi": 50,
+              "automatic": true,
+              "sourceMIDI": 51,
+              "layer": 16,
+              "velocity": 0.9,
+              "start": 6.197392290249433,
+              "releaseAt": 6.4323922902494335,
+              "released": true
+            },
+            {
+              "midi": 70,
+              "automatic": true,
+              "sourceMIDI": 69,
+              "layer": 13,
+              "velocity": 0.75,
+              "start": 6.197392290249433,
+              "releaseAt": 6.314892290249434,
+              "released": true
+            },
+            {
+              "midi": 75,
+              "automatic": true,
+              "sourceMIDI": 75,
+              "layer": 16,
+              "velocity": 1,
+              "start": 6.322392290249433,
+              "releaseAt": 6.439892290249434,
+              "released": true
+            },
+            {
+              "midi": 40,
+              "automatic": true,
+              "sourceMIDI": 39,
+              "layer": 10,
+              "velocity": 0.6,
+              "start": 6.447392290249433,
+              "releaseAt": 6.6823922902494335,
+              "released": true
+            },
+            {
+              "midi": 80,
+              "automatic": true,
+              "sourceMIDI": 81,
+              "layer": 4,
+              "velocity": 0.25,
+              "start": 6.447392290249433,
+              "releaseAt": 6.564892290249434,
+              "released": true
+            },
+            {
+              "midi": 61,
+              "automatic": true,
+              "sourceMIDI": 60,
+              "layer": 7,
+              "velocity": 0.5,
+              "start": 6.572392290249433,
+              "releaseAt": 6.689892290249434,
+              "released": true
+            },
+            {
+              "midi": 54,
+              "automatic": true,
+              "sourceMIDI": 54,
+              "layer": 4,
+              "velocity": 0.35,
+              "start": 6.697392290249433,
+              "releaseAt": 6.9323922902494335,
+              "released": true
+            },
+            {
+              "midi": 66,
+              "automatic": true,
+              "sourceMIDI": 66,
+              "layer": 13,
+              "velocity": 0.75,
+              "start": 6.697392290249433,
+              "releaseAt": 6.814892290249434,
+              "released": true
+            }
+          ]
+        },
+        "visible": "visible",
+        "focused": true,
+        "count": 150,
+        "median": 16.699999999999818,
+        "p95": 16.799999999999272,
+        "max": 17.300000000000182,
+        "over33ms": 0
+      },
+      {
+        "iteration": 1,
+        "startupMs": 47,
+        "before": {
+          "prepared": true,
+          "bank": "Salamander Yamaha C5 \u00b7 Six velocity layers",
+          "sampleCount": 180,
+          "loadedSamples": 87,
+          "layers": [
+            1,
+            4,
+            7,
+            10,
+            13,
+            16
+          ],
+          "decodedBytes": 443577592,
+          "maxDecodedBytes": 536870912,
+          "loads": 87,
+          "loading": 0,
+          "queuedLoads": 0,
+          "cacheMisses": 0,
+          "fallbacks": 0,
+          "active": 3,
+          "voiceLimit": 96,
+          "voices": [
+            {
+              "midi": 36,
+              "automatic": true,
+              "sourceMIDI": 36,
+              "layer": 4,
+              "velocity": 0.35,
+              "start": 6.995011337868481,
+              "releaseAt": 7.22420634920635,
+              "released": true
+            },
+            {
+              "midi": 60,
+              "automatic": true,
+              "sourceMIDI": 60,
+              "layer": 4,
+              "velocity": 0.25,
+              "start": 6.995011337868481,
+              "releaseAt": 7.106706349206349,
+              "released": true
+            },
+            {
+              "midi": 65,
+              "automatic": true,
+              "sourceMIDI": 66,
+              "layer": 7,
+              "velocity": 0.5,
+              "start": 7.114206349206349,
+              "releaseAt": 7.231706349206349,
+              "released": true
+            }
+          ]
+        },
+        "after": {
+          "prepared": true,
+          "bank": "Salamander Yamaha C5 \u00b7 Six velocity layers",
+          "sampleCount": 180,
+          "loadedSamples": 87,
+          "layers": [
+            1,
+            4,
+            7,
+            10,
+            13,
+            16
+          ],
+          "decodedBytes": 443577592,
+          "maxDecodedBytes": 536870912,
+          "loads": 87,
+          "loading": 0,
+          "queuedLoads": 0,
+          "cacheMisses": 0,
+          "fallbacks": 0,
+          "active": 11,
+          "voiceLimit": 96,
+          "voices": [
+            {
+              "midi": 38,
+              "automatic": true,
+              "sourceMIDI": 39,
+              "layer": 16,
+              "velocity": 0.9,
+              "start": 8.739206349206349,
+              "releaseAt": 8.974206349206348,
+              "released": true
+            },
+            {
+              "midi": 63,
+              "automatic": true,
+              "sourceMIDI": 63,
+              "layer": 16,
+              "velocity": 1,
+              "start": 8.864206349206349,
+              "releaseAt": 8.981706349206348,
+              "released": true
+            },
+            {
+              "midi": 36,
+              "automatic": true,
+              "sourceMIDI": 36,
+              "layer": 4,
+              "velocity": 0.35,
+              "start": 8.989206349206349,
+              "releaseAt": 9.224206349206348,
+              "released": true
+            },
+            {
+              "midi": 60,
+              "automatic": true,
+              "sourceMIDI": 60,
+              "layer": 4,
+              "velocity": 0.25,
+              "start": 8.989206349206349,
+              "releaseAt": 9.106706349206348,
+              "released": true
+            },
+            {
+              "midi": 65,
+              "automatic": true,
+              "sourceMIDI": 66,
+              "layer": 7,
+              "velocity": 0.5,
+              "start": 9.114206349206349,
+              "releaseAt": 9.231706349206348,
+              "released": true
+            },
+            {
+              "midi": 50,
+              "automatic": true,
+              "sourceMIDI": 51,
+              "layer": 16,
+              "velocity": 0.9,
+              "start": 9.239206349206349,
+              "releaseAt": 9.474206349206348,
+              "released": true
+            },
+            {
+              "midi": 70,
+              "automatic": true,
+              "sourceMIDI": 69,
+              "layer": 13,
+              "velocity": 0.75,
+              "start": 9.239206349206349,
+              "releaseAt": 9.356706349206348,
+              "released": true
+            },
+            {
+              "midi": 75,
+              "automatic": true,
+              "sourceMIDI": 75,
+              "layer": 16,
+              "velocity": 1,
+              "start": 9.364206349206349,
+              "releaseAt": 9.481706349206348,
+              "released": true
+            },
+            {
+              "midi": 40,
+              "automatic": true,
+              "sourceMIDI": 39,
+              "layer": 10,
+              "velocity": 0.6,
+              "start": 9.489206349206349,
+              "releaseAt": 9.724206349206348,
+              "released": true
+            },
+            {
+              "midi": 80,
+              "automatic": true,
+              "sourceMIDI": 81,
+              "layer": 4,
+              "velocity": 0.25,
+              "start": 9.489206349206349,
+              "releaseAt": 9.606706349206348,
+              "released": true
+            },
+            {
+              "midi": 61,
+              "automatic": true,
+              "sourceMIDI": 60,
+              "layer": 7,
+              "velocity": 0.5,
+              "start": 9.614206349206349,
+              "releaseAt": 9.731706349206348,
+              "released": true
+            }
+          ]
+        },
+        "visible": "visible",
+        "focused": true,
+        "count": 150,
+        "median": 16.69999999999891,
+        "p95": 17.600000000000364,
+        "max": 17.799999999999272,
+        "over33ms": 0
+      },
+      {
+        "iteration": 2,
+        "startupMs": 44,
+        "before": {
+          "prepared": true,
+          "bank": "Salamander Yamaha C5 \u00b7 Six velocity layers",
+          "sampleCount": 180,
+          "loadedSamples": 87,
+          "layers": [
+            1,
+            4,
+            7,
+            10,
+            13,
+            16
+          ],
+          "decodedBytes": 443577592,
+          "maxDecodedBytes": 536870912,
+          "loads": 87,
+          "loading": 0,
+          "queuedLoads": 0,
+          "cacheMisses": 0,
+          "fallbacks": 0,
+          "active": 3,
+          "voiceLimit": 96,
+          "voices": [
+            {
+              "midi": 36,
+              "automatic": true,
+              "sourceMIDI": 36,
+              "layer": 4,
+              "velocity": 0.35,
+              "start": 9.93233560090703,
+              "releaseAt": 10.155725623582766,
+              "released": true
+            },
+            {
+              "midi": 60,
+              "automatic": true,
+              "sourceMIDI": 60,
+              "layer": 4,
+              "velocity": 0.25,
+              "start": 9.93233560090703,
+              "releaseAt": 10.038225623582766,
+              "released": true
+            },
+            {
+              "midi": 65,
+              "automatic": true,
+              "sourceMIDI": 66,
+              "layer": 7,
+              "velocity": 0.5,
+              "start": 10.045725623582767,
+              "releaseAt": 10.163225623582766,
+              "released": true
+            }
+          ]
+        },
+        "after": {
+          "prepared": true,
+          "bank": "Salamander Yamaha C5 \u00b7 Six velocity layers",
+          "sampleCount": 180,
+          "loadedSamples": 87,
+          "layers": [
+            1,
+            4,
+            7,
+            10,
+            13,
+            16
+          ],
+          "decodedBytes": 443577592,
+          "maxDecodedBytes": 536870912,
+          "loads": 87,
+          "loading": 0,
+          "queuedLoads": 0,
+          "cacheMisses": 0,
+          "fallbacks": 0,
+          "active": 11,
+          "voiceLimit": 96,
+          "voices": [
+            {
+              "midi": 38,
+              "automatic": true,
+              "sourceMIDI": 39,
+              "layer": 16,
+              "velocity": 0.9,
+              "start": 11.670725623582767,
+              "releaseAt": 11.905725623582766,
+              "released": true
+            },
+            {
+              "midi": 63,
+              "automatic": true,
+              "sourceMIDI": 63,
+              "layer": 16,
+              "velocity": 1,
+              "start": 11.795725623582767,
+              "releaseAt": 11.913225623582766,
+              "released": true
+            },
+            {
+              "midi": 36,
+              "automatic": true,
+              "sourceMIDI": 36,
+              "layer": 4,
+              "velocity": 0.35,
+              "start": 11.920725623582767,
+              "releaseAt": 12.155725623582766,
+              "released": true
+            },
+            {
+              "midi": 60,
+              "automatic": true,
+              "sourceMIDI": 60,
+              "layer": 4,
+              "velocity": 0.25,
+              "start": 11.920725623582767,
+              "releaseAt": 12.038225623582766,
+              "released": true
+            },
+            {
+              "midi": 65,
+              "automatic": true,
+              "sourceMIDI": 66,
+              "layer": 7,
+              "velocity": 0.5,
+              "start": 12.045725623582767,
+              "releaseAt": 12.163225623582766,
+              "released": true
+            },
+            {
+              "midi": 50,
+              "automatic": true,
+              "sourceMIDI": 51,
+              "layer": 16,
+              "velocity": 0.9,
+              "start": 12.170725623582767,
+              "releaseAt": 12.405725623582766,
+              "released": true
+            },
+            {
+              "midi": 70,
+              "automatic": true,
+              "sourceMIDI": 69,
+              "layer": 13,
+              "velocity": 0.75,
+              "start": 12.170725623582767,
+              "releaseAt": 12.288225623582766,
+              "released": true
+            },
+            {
+              "midi": 75,
+              "automatic": true,
+              "sourceMIDI": 75,
+              "layer": 16,
+              "velocity": 1,
+              "start": 12.295725623582767,
+              "releaseAt": 12.413225623582766,
+              "released": true
+            },
+            {
+              "midi": 40,
+              "automatic": true,
+              "sourceMIDI": 39,
+              "layer": 10,
+              "velocity": 0.6,
+              "start": 12.423628117913832,
+              "releaseAt": 12.658628117913832,
+              "released": true
+            },
+            {
+              "midi": 80,
+              "automatic": true,
+              "sourceMIDI": 81,
+              "layer": 4,
+              "velocity": 0.25,
+              "start": 12.423628117913832,
+              "releaseAt": 12.541128117913832,
+              "released": true
+            },
+            {
+              "midi": 61,
+              "automatic": true,
+              "sourceMIDI": 60,
+              "layer": 7,
+              "velocity": 0.5,
+              "start": 12.545725623582767,
+              "releaseAt": 12.663225623582766,
+              "released": true
+            }
+          ]
+        },
+        "visible": "visible",
+        "focused": true,
+        "count": 149,
+        "median": 16.69999999999891,
+        "p95": 17.600000000000364,
+        "max": 33,
+        "over33ms": 0
+      }
+    ]
+  },
+  "packagedIntegrity": {
+    "version": "2.12.0",
+    "checkedFiles": 484,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "8ec5eee4085248cdf36ee99c631c81b7548e92b0eb441c08114bd94f7fc4a7a9"
+  },
+  "installation": {
+    "version": "2.12.0",
+    "installedAt": "2026-09-27T10:15:31.471597-04:00",
+    "filesAndSymlinks": 2992,
+    "personalFiles": 68,
+    "latestPersonalFilesUnchanged": true,
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/concert-grand-2.12/previous-installed-Luma Keys-2.11.0.app"
+  },
+  "personalFilesAfterReopen": 68,
+  "latestPersonalFilesUnchangedAfterReopen": true,
+  "limitations": [
+    "Sampled Yamaha C5, not Steinway; no subjective human-performance equivalence claim.",
+    "30 recorded pitches per layer, intervening keys transposed; optional voicing is interpretation.",
+    "512 MiB sample-cache budget is not a total process-memory limit; an uncommon cold live note may use a nearby cached touch on its first strike.",
+    "No physical MIDI hardware used; MIDI input verified by simulated devices."
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "version": "2.7.0",
+  "checks": [
+    "Paused cues distinguish Place, continuing Hold, the next note through a rest, and Rest after the final note; pitch octaves and named fingers agree with key guidance",
+    "Real Wait-mode chord input advances to Play F4 while both written C notes remain Hold; a wrong MIDI pitch cannot advance",
+    "Guidance follows the selected hand and phrase; a next-bar note outside the active phrase is hidden until repeat is disabled",
+    "Unison voices produce one physical cue with the longest hold; a short same-pitch reattack replaces the old hold and does not resurrect it",
+    "A six-note hand chord keeps every pitch visible, gives distinct supported fingers, and explicitly marks the unassigned pitch instead of inventing a sixth suggestion",
+    "Finger guide releases an already-held key, suppresses computer/MIDI/pedal input, mirrors finger selection, separates pitch from finger numbers, and restores focus/input after Escape; delayed settings can unmount the open guide without leaving computer or MIDI input locked",
+    "Live reduced motion preserves the instructional cues; hiding and restoring hands keeps the same musical position and the hand canvases stay pointer-transparent",
+    "At 390px the hand instructions and help control remain inside the stage, and the finger guide fits the viewport with usable finger choices and close control"
+  ],
+  "measurements": {
+    "opening": [
+      {
+        "hand": "left",
+        "state": "play",
+        "notes": [
+          {
+            "midi": 48,
+            "phase": "attack",
+            "finger": "5",
+            "description": "Place C3, suggested finger 5, little"
+          }
+        ]
+      },
+      {
+        "hand": "right",
+        "state": "play",
+        "notes": [
+          {
+            "midi": 60,
+            "phase": "attack",
+            "finger": "1",
+            "description": "Place C4, suggested finger 1, thumb"
+          },
+          {
+            "midi": 64,
+            "phase": "attack",
+            "finger": "2",
+            "description": "Place E4, suggested finger 2, index"
+          }
+        ]
+      }
+    ],
+    "waitAtSecondOnset": [
+      {
+        "hand": "left",
+        "state": "hold",
+        "notes": [
+          {
+            "midi": 48,
+            "phase": "hold",
+            "finger": "5",
+            "description": "Hold C3, suggested finger 5, little"
+          }
+        ]
+      },
+      {
+        "hand": "right",
+        "state": "play",
+        "notes": [
+          {
+            "midi": 60,
+            "phase": "hold",
+            "finger": "1",
+            "description": "Hold C4, suggested finger 1, thumb"
+          },
+          {
+            "midi": 65,
+            "phase": "attack",
+            "finger": "2",
+            "description": "Play F4, suggested finger 2, index"
+          }
+        ]
+      }
+    ],
+    "mobile": {
+      "viewport": 390,
+      "document": 384,
+      "coach": {
+        "left": 15,
+        "right": 369,
+        "width": 354,
+        "height": 73
+      },
+      "chips": [
+        {
+          "left": 91.125,
+          "right": 167.4921875,
+          "width": 76.3671875,
+          "text": "HoldC3·5little"
+        },
+        {
+          "left": 97.8984375,
+          "right": 174.265625,
+          "width": 76.3671875,
+          "text": "HoldC4·1"
+        },
+        {
+          "left": 182.265625,
+          "right": 260.734375,
+          "width": 78.46875,
+          "text": "PlaceF4·2"
+        },
+        {
+          "left": 335,
+          "right": 363,
+          "width": 28,
+          "text": "Finger guide"
+        }
+      ]
+    },
+    "delayedSettings": "Guide unmounted; computer and MIDI input restored"
+  },
+  "errors": [],
+  "simulatedMIDI": true
+}

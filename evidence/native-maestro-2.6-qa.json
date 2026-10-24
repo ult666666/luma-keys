@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "version": "2.44.0",
+  "checks": [
+    "English and Chinese searches present both available arrangements without silently choosing; selecting one opens it paused.",
+    "A missing piece is reported honestly and offers local import without creating a score or changing the current piece.",
+    "Resume and the “Where did I leave off?” suggestion use a real saved bar, including a pickup; resuming the already-current score clears its old loop and stays paused.",
+    "Jump/repeat honor the written bar map; invalid or reversed ranges and unsupported speeds leave practice unchanged; jumping outside a loop exits it.",
+    "Slower preserves the exact reading position; Chinese hand and mode commands mirror the existing practice controls without starting playback.",
+    "Opening Beethoven releases held computer/MIDI notes and pedal; typing and IME Enter cannot play, send or trigger shortcuts; the non-modal dock lets MIDI sound without changing practice, does not trap Tab, and Escape minimizes it with focus restored.",
+    "The passive conductor appears during practice without clipping the 1280×800 transport; live reduced motion stops its animation, and opening the dock pauses playback while Play stays available.",
+    "A completed run cannot replace an opened Beethoven dock with its delayed report; the bilingual chooser fits 390px and Escape restores focus to the opener.",
+    "Identically titled versions retain distinct stable accessible copy labels and open different saved music;1280px toolbar import text does not wrap."
+  ],
+  "measurements": {
+    "ambiguity-desktop": {
+      "width": 1280,
+      "height": 800,
+      "pageWidth": 1280,
+      "dock": {
+        "left": 912,
+        "right": 1264,
+        "top": 76,
+        "bottom": 782,
+        "client": 352,
+        "scroll": 352
+      }
+    },
+    "practice": {
+      "keyCount": 88,
+      "playBottom": 780,
+      "pageWidth": 1280,
+      "width": 1280
+    },
+    "mobile-panel": {
+      "width": 390,
+      "height": 844,
+      "pageWidth": 384,
+      "dock": {
+        "left": 20,
+        "right": 372,
+        "top": 362,
+        "bottom": 832,
+        "client": 352,
+        "scroll": 352
+      }
+    },
+    "importLabelLines": 1
+  },
+  "errors": []
+}

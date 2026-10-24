@@ -1,0 +1,72 @@
+{
+  "error": "expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: 'Exercises', exact: true }).locator('.exercise-settings-summary')\nExpected substring: \"♩ 72\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toContainText\" getByRole('region', { name: 'Exercises', exact: true }).locator('.exercise-settings-summary') with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Exercises', exact: true }).locator('.exercise-settings-summary')\n",
+  "evidence": {
+    "checks": [
+      "Fresh start opens Practice with a dismissible welcome; Library offers starter pieces, an import action and a greeting companion; Progress has a usable empty state without fabricated practice.",
+      "Import, score review, search, no-results recovery (Clear filters) and opening the matching score remain functional.",
+      "Goal/colours survive reload; companion selection reaches the docked chat and the Library and Exercises illustrations; Settings, Import and Reading guide remain readable and keyboard-accessible.",
+      "A real muted practice session populates Library and Progress; both Continue actions reopen the saved second bar."
+    ],
+    "measurements": {
+      "library-empty-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 0,
+        "right": 1274,
+        "client": 1274,
+        "scroll": 1274
+      },
+      "progress-empty-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 57,
+        "right": 1217,
+        "client": 1160,
+        "scroll": 1160
+      },
+      "import-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 332,
+        "right": 942,
+        "client": 610,
+        "scroll": 610
+      },
+      "review-cell-contrast": {
+        "foreground": "rgb(30, 33, 36)",
+        "background": "rgb(244, 243, 240)",
+        "contrast": 14.577721399247602
+      },
+      "settings-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 210,
+        "right": 1070,
+        "client": 854,
+        "scroll": 854
+      },
+      "reading-guide-contrast": {
+        "foreground": "rgb(93, 98, 104)",
+        "background": "rgb(240, 242, 233)",
+        "contrast": 5.445594521559031
+      },
+      "reading-guide-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 155,
+        "right": 1125,
+        "client": 964,
+        "scroll": 964
+      },
+      "progress-populated-desktop": {
+        "width": 1280,
+        "pageWidth": 1280,
+        "left": 57,
+        "right": 1217,
+        "client": 1160,
+        "scroll": 1160
+      }
+    },
+    "errors": []
+  }
+}

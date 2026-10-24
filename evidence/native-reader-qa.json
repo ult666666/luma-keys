@@ -1,13 +1,13 @@
 {
   "passed": true,
-  "version": "1.4.0",
+  "version": "2.44.0",
   "checks": [
-    "Default 1280×800 view is a four-bar number score with readable fixed-width keys and visible Play; dashboard cards are absent",
+    "Default 1280×800 view is a four-bar number score with keys proportioned for the hands and visible Play; dashboard cards are absent",
     "Passage buttons, individual notes and manual next/previous synchronize the transport without counting fake practice hits",
     "Wait mode advances on correct input; label/tonic changes retain the same explicit physical octave and pitch",
-    "Original staff view engraves four bars and its cursor moves through the Für Elise pickup and later passage without rebuilding per frame",
-    "Auto-follow keeps up with held computer/MIDI-style notes but never slides an onscreen key from under a held pointer",
-    "Full-range A0+C8 chord explicitly identifies offscreen notes; both ends remain reachable without shrinking keys",
+    "Original staff view engraves eight bars and its cursor moves through the Für Elise pickup and later passage without rebuilding per frame",
+    "The still keyboard keeps the piece's whole range in view (up to C8) while held computer/MIDI-style notes play, and never moves a key from under a held pointer",
+    "A full-range A0+C8 chord: at 1280px the still keyboard fits all 88 keys; on a phone the keys stay large, the offscreen notes are named and both ends can be revealed",
     "Optional falling notes remain aligned to the scrolling keyboard; 390px view has no document overflow or shrunken keys",
     "50,000-note import supports distant-bar navigation and bounded rendered notation",
     "Number export, actual PDF recognition/original viewing, and saved pitch corrections flow back into the numbered reading workspace"

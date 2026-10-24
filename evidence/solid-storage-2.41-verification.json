@@ -1,0 +1,99 @@
+{
+  "version": "2.41.0",
+  "theme": "Solid storage: atomic writes, recovery copies, settings snapshots, cached library, diagnostics log, startup timings",
+  "writtenAt": "2026-10-06T22:28:04.857206-04:00",
+  "unitTests": {
+    "command": "npm test",
+    "summary": [
+      "ℹ tests 899",
+      "ℹ pass 899",
+      "ℹ fail 0"
+    ],
+    "newSuite": "tests/storage.test.mjs (9): atomic writes, diagnostics log, health, score versions, removed scores, settings snapshots, library cache, overlapping saves, renderer reports"
+  },
+  "browserStories": {
+    "command": "node scripts/trouble-spots-qa.mjs ×2, node scripts/chord-reading-qa.mjs (isolated dev server, restarted on the new server code)",
+    "output": [
+      "=== trouble spots run 1 ===",
+      "PASS trouble spots [",
+      "=== trouble spots run 2 ===",
+      "PASS trouble spots [",
+      "=== chord reading ===",
+      "PASS [",
+      "=== log tail ===",
+      "{\"at\":\"2026-10-07T02:21:58.072Z\",\"event\":\"app-ready\",\"ms\":616,\"pieces\":11}",
+      "{\"at\":\"2026-10-07T02:22:27.296Z\",\"event\":\"score-removed\",\"id\":\"a232e1e9-0504-4fc9-8def-a8a9a0dcfd82\",\"kept\":true}",
+      "{\"at\":\"2026-10-07T02:22:29.472Z\",\"event\":\"app-ready\",\"ms\":904,\"pieces\":10}",
+      "{\"at\":\"2026-10-07T02:22:34.952Z\",\"event\":\"renderer-error\",\"message\":\"ResizeObserver loop completed with undelivered notifications.\",\"where\":\":0\"}",
+      "{\"at\":\"2026-10-07T02:22:35.411Z\",\"event\":\"score-removed\",\"id\":\"89f509a7-3a4f-41a7-8ad1-db084269bed8\",\"kept\":true}"
+    ]
+  },
+  "nativeStories": {
+    "troubleSpots": {
+      "passed": true,
+      "version": "2.41.0",
+      "checks": 7
+    },
+    "storage": {
+      "passed": true,
+      "version": "2.41.0",
+      "checks": [
+        "Health reports version 2.41.0, a writable library, startup timings (server 173 ms, window 365 ms) and the log path",
+        "Editing a score keeps its earlier version under Score recovery, removing it keeps the removed file, and no temporary file remains",
+        "The first settings write of the day keeps a snapshot of the file as it stood; later writes keep it and the live file stays whole",
+        "The diagnostics log records server-ready, app-ready, the kept version, the removal, the snapshot and a reported page fault (6 events), without music"
+      ],
+      "health": {
+        "ok": true,
+        "version": "2.41.0",
+        "omr": true,
+        "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-storage-qWkpgO/Library",
+        "writable": true,
+        "startup": {
+          "serverReadyMs": 173,
+          "windowLoaded": 365
+        },
+        "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-storage-qWkpgO/Logs/luma-keys.log",
+        "companionHistory": {
+          "storage": "temporary",
+          "cleanup": {
+            "ok": true,
+            "removed": 0
+          }
+        }
+      },
+      "logEvents": [
+        "server-ready",
+        "app-ready",
+        "settings-snapshot-kept",
+        "score-version-kept",
+        "score-removed",
+        "renderer-error"
+      ]
+    }
+  },
+  "startupMeasurements": [
+    "Warm launches of the packaged 2.40.0 app (release/mac-arm64, LUMA_QA_ROOT, Playwright): run 1 msToWindow 1065, msToDom 1437, msToPlayButton 2198; run 2 msToWindow 529, msToDom 611, msToPlayButton 1085.",
+    "Freshly installed Desktop 2.40.0 on first launch: loopback server listening after about 17 s (polled from the shell); same build afterwards: 1–2 s.",
+    "Freshly installed Desktop 2.41.0, first launch: process present at once, loopback server listening 53 s after `open`; the app's own clock (process start to server ready) read 416 ms and window loaded at 736 ms, so the wait happened before the app's code ran (macOS inspecting the newly installed bundle).",
+    "Packaged 2.41.0 in the native storage check (warm): server ready 173 ms, window loaded 365 ms after process start."
+  ],
+  "installation": {
+    "version": "2.41.0",
+    "previous": "2.40.0",
+    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/claude-2.41.0/previous-installed-Luma Keys-2.40.0.app",
+    "installedAt": "2026-10-06T22:26:13.056118-04:00",
+    "entries": 3035,
+    "personalFilesUnchanged": 107
+  },
+  "installedVersion": "2.41.0",
+  "candidateEntries": 3035,
+  "candidateAsar": "89c32c951e7015a83bd24a8dc321be94b781881c3914622786254ff1d4879cbb",
+  "limits": [
+    "An atomic rename is as durable as the file system beneath it; fsync asks for a flush, a power cut mid-flush is beyond the app.",
+    "Recovery copies are bounded by count, not size.",
+    "The diagnostics log is local only and records events, never music, settings values or chat.",
+    "Startup conclusions rest on this Mac's measurements of the packaged app.",
+    "A Library folder that cannot be created at all still stops the app from opening, as before; the writable check covers an existing folder that refuses writes."
+  ]
+}

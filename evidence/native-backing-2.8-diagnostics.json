@@ -1,0 +1,21 @@
+{
+  "version": "2.44.0",
+  "events": [
+    {
+      "at": "2026-10-09T20:33:30.629Z",
+      "event": "stderr",
+      "text": "[5419:1009/133330.628675:ERROR:gpu/command_buffer/service/shared_image/shared_image_manager.cc:254] SharedImageManager::ProduceSkia: Trying to Produce a Skia representation from a non-existent mailbox.\n"
+    },
+    {
+      "at": "2026-10-09T20:34:33.880Z",
+      "event": "stderr",
+      "text": "Debugger ending on ws://127.0.0.1:64043/641d0b10-a215-4cd4-a002-8efa3ddf28d5\nFor help, see: https://nodejs.org/learn/getting-started/debugging\n"
+    },
+    {
+      "at": "2026-10-09T20:34:34.060Z",
+      "event": "exit",
+      "code": 0,
+      "signal": null
+    }
+  ]
+}

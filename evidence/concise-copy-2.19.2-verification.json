@@ -1,0 +1,59 @@
+{
+  "version": "2.19.2",
+  "status": "tested-and-staged-awaiting-desktop-unlock",
+  "installed": false,
+  "installedVersionStill": "2.18.0",
+  "createdAt": "2026-09-27T18:52:23.822658-04:00",
+  "changes": [
+    "Plain composer credits for the four built-in lessons",
+    "C major scale title shortened",
+    "Ode beginner arrangement retained in Details",
+    "Single-bar sheet label uses singular form"
+  ],
+  "existingTestsPassed": 40,
+  "sourceDeltaFrom2_19_1": [
+    "package-lock.json",
+    "package.json",
+    "src/ScoreDisplay.jsx",
+    "src/music.mjs"
+  ],
+  "buildInputs": 588,
+  "packaged": {
+    "version": "2.19.2",
+    "checkedFiles": 512,
+    "mismatches": [],
+    "nativeHelperMatches": true,
+    "appAsarSha256": "2cef29e89c1cbc1841be9acecf0390528dd22a7ea18195db0df5f53a691c89a9"
+  },
+  "stagedFilesAndSymlinks": 2992,
+  "native": {
+    "report": ".qa-runs/concise-copy-2.19.2/final-native/native-report.json",
+    "passed": true,
+    "groups": 2,
+    "pieces": 4,
+    "ownedAppClosed": true,
+    "musicalDataUnchanged": true,
+    "screenshots": 12,
+    "scaleArtworkConfirmed": true
+  },
+  "visualReview": {
+    "reviewer": "root",
+    "images": [
+      "elise-last-sheet-1280.png",
+      "library-800.png",
+      "elise-sheet9-top-800.png",
+      "starter-cards-1280.png"
+    ],
+    "result": "Concise header and single-bar label legible; library composer concise; no visible collision."
+  },
+  "personalFilesModified": false,
+  "candidate": ".qa-runs/concise-copy-2.19.2/install-ready.app",
+  "installationBlocker": "CUA reported the Mac is locked; normal save/quit is unavailable. Prior unlock request remains pending.",
+  "subsequentInstallation": {
+    "version": "2.20.0",
+    "verifiedAt": "2026-09-27T20:45:15.789472-04:00",
+    "evidence": "evidence/companion-intelligence-2.20-verification.json",
+    "latestPersonalFilesUnchanged": 108,
+    "historicalResultPreserved": true
+  }
+}
