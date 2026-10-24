@@ -1,0 +1,27 @@
+{
+  "version": "2.16",
+  "id": "moonlight",
+  "createdAt": "2026-09-27T20:27:00.339Z",
+  "generationTool": "built-in image_gen.imagegen",
+  "useCase": "illustration-story",
+  "prompt": "Use case: illustration-story. Asset type: original song cover for a cute piano-learning app Library. Make an edge-to-edge wide 3:2 image, ideally 1536×1024. Mandatory visual style: PREMIUM 2D HAND-DRAWN CARTOON PICTURE-BOOK ILLUSTRATION. Chunky rounded character shapes, clear warm dark-brown outlines, simple flat cel-shaded colors, only a little matte paper texture. Large expressive dot eyes, pink cheeks, tiny paws, cute soft proportions. The character style should feel like a sophisticated app's miniature animal companions. NOT a realistic painting, NOT a photograph, NOT 3D, NOT plastic, NO fine oil-paint detail. Clear strong silhouettes and a simple scene that reads at thumbnail size. Keep all focal characters complete, fully inside the central70% of the canvas; preserve important subjects in moderate3:2-to-16:10 crops. No letters, no musical notation, no logos, no signature, no text, no border, no watermark.\nDistinct story: a sleepy chubby bunny is curled safely inside a crescent-shaped little boat on a perfectly still midnight lake. The boat sits at the quiet center; three simple silvery ripples spread gently beneath it. Soft indigo, lilac, and silver bedtime palette; rounded distant shore shapes and a few simple stars. The bunny has relaxed closed curved eyes, pink cheeks, tucked tiny paws and clear long soft ears. Intimate quiet, ample space around the complete crescent boat; no dramatic waves.",
+  "generatedSource": "/Users/prince/.codex/generated_images/01a0d831-ffa4-7280-80a1-506069311b74/exec-068ff79c-29fa-4a27-80c2-04bb77065f39.png",
+  "originalPath": "Assets/Cartoon Covers 2.16/moonlight.png",
+  "publicPath": "public/library-art/cartoon-moonlight.png",
+  "transparentBackground": false,
+  "suggestedObjectPosition": "50% 46%",
+  "focalPoint": {
+    "x": 0.5,
+    "y": 0.46
+  },
+  "semanticDescription": "A sleepy bunny curls inside a crescent boat on a still indigo lake with three silver ripple rings.",
+  "qualityReview": "Passed: complete crescent boat and bunny, simple sleepy expression, three visible ripple rings, calm indigo/lilac contrast. Clearly cartoon rather than realistic; no visible text/signature.",
+  "provenance": "Original AI-generated 2D cartoon illustration created for Luma Keys; fictional animal story, not an original song album cover or a claim about composer intent.",
+  "inputReferences": [],
+  "cropGuidance": "Native landscape3:2. Focal characters checked complete in the image; use the suggested object-position for moderate wider hero crops.",
+  "width": 1536,
+  "height": 1024,
+  "bytes": 2094069,
+  "sha256": "1405146ee085c4d4553463b263e676b78a3795365c7bcfb1039fec1f7466bca0",
+  "copiesByteIdentical": true
+}

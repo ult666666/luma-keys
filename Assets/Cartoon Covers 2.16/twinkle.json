@@ -1,0 +1,32 @@
+{
+  "version": "2.16",
+  "id": "twinkle",
+  "createdAt": "2026-09-27T20:27:00.364Z",
+  "generationTool": "built-in image_gen.imagegen",
+  "useCase": "illustration-story",
+  "prompt": "Use case: illustration-story. Asset type: original song cover for a cute piano-learning app Library. Make an edge-to-edge wide 3:2 image, ideally 1536×1024. Mandatory visual style: PREMIUM 2D HAND-DRAWN CARTOON PICTURE-BOOK ILLUSTRATION. Chunky rounded character shapes, clear warm dark-brown outlines, simple flat cel-shaded colors, only a little matte paper texture. Large expressive dot eyes, pink cheeks, tiny paws, cute soft proportions. The character style should feel like a sophisticated app's miniature animal companions. NOT a realistic painting, NOT a photograph, NOT 3D, NOT plastic, NO fine oil-paint detail. Clear strong silhouettes and a simple scene that reads at thumbnail size. Keep all focal characters complete, fully inside the central70% of the canvas; preserve important subjects in moderate3:2-to-16:10 crops. No letters, no musical notation, no logos, no signature, no text, no border, no watermark.\nDistinct story: a soft round teddy bear stands safely on a little balcony stool, reaching with tiny paws to catch one friendly glowing star. The star has a simple smiling face. Periwinkle evening sky, soft yellow star light, a curved safe balcony railing, and one cozy window shape. Bedtime tenderness, pink teddy cheeks, large expressive dot eyes, simple rounded silhouette. Keep the entire teddy, stool and star inside central70%; no clutter or crowd of stars, no words.",
+  "generatedSource": "/Users/prince/.codex/generated_images/01a0d831-ffa4-7280-80a1-506069311b74/exec-9d42d1f4-3476-42b0-9dd1-7b650543928c.png",
+  "originalPath": "Assets/Cartoon Covers 2.16/twinkle.png",
+  "publicPath": "public/library-art/cartoon-twinkle.png",
+  "transparentBackground": false,
+  "suggestedObjectPosition": "53% 50%",
+  "focalPoint": {
+    "x": 0.53,
+    "y": 0.5
+  },
+  "semanticDescription": "A teddy bear on a balcony stool reaches for one smiling bedtime star.",
+  "qualityReview": "Passed after one targeted framing edit: entire star, teddy and stool moved into safer central space; periwinkle/yellow contrast, rounded faces and clear outlines. No visible text/signature.",
+  "provenance": "Original AI-generated 2D cartoon illustration created for Luma Keys; fictional animal story, not an original song album cover or a claim about composer intent.",
+  "inputReferences": [
+    "/Users/prince/.codex/generated_images/01a0d831-ffa4-7280-80a1-506069311b74/exec-01d0ae43-43ae-4567-b833-bf83f1db7a9d.png"
+  ],
+  "cropGuidance": "Native landscape3:2. Focal characters checked complete in the image; use the suggested object-position for moderate wider hero crops.",
+  "initialGeneratedSource": "/Users/prince/.codex/generated_images/01a0d831-ffa4-7280-80a1-506069311b74/exec-01d0ae43-43ae-4567-b833-bf83f1db7a9d.png",
+  "initialVariantPath": "Assets/Cartoon Covers 2.16/twinkle-initial.png",
+  "editPrompt": "Use case: precise-object-edit. Preserve this exact cute 2D cartoon picture-book art style, warm brown outlines, palette, teddy bear identity, smiling star, balcony scene, and no-text constraints. Change only framing for a Library cover: make the combined teddy + stool + friendly star group about20% smaller and reposition centrally so its ENTIRE extent is safely within the central70% of this same wide3:2 canvas. In particular place the star's highest point below y=16% and the stool's lowest feet above y=85%. The bear should still reach naturally toward the same star. Fill additional breathing room with the existing simple periwinkle sky and balcony floor/rail. Do not crop any part of the main star, teddy or stool. No letters, logos, signatures, text, musical notes or border. Keep it unequivocally flat hand-drawn cartoon, not realistic and not3D.",
+  "width": 1536,
+  "height": 1024,
+  "bytes": 2254942,
+  "sha256": "38ebc631e47fda02d9d071b02a37a897541abc27e8c2cc45b175e0fbbb9ca096",
+  "copiesByteIdentical": true
+}

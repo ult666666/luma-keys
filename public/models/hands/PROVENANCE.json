@@ -1,0 +1,52 @@
+{
+  "converter": "scripts/convert-hand-models.mjs",
+  "version": 2,
+  "source": {
+    "file": "Assets/hands/mrtk/R_Hand_MRTK_Rig.fbx",
+    "url": "https://github.com/microsoft/MixedRealityToolkit-Unity/blob/5c6ab1f6fc064c9a4d9c786ae966c98c03d8b500/Assets/MRTK/SDK/Features/UX/Prefabs/RiggedHandVisualizer/R_Hand_MRTK_Rig.fbx",
+    "commit": "5c6ab1f6fc064c9a4d9c786ae966c98c03d8b500",
+    "sha256": "32fb64b8a9963b0751958d0023178cfc29fb2c07edfabc64e83ad7f2b7e9f04d",
+    "bytes": 214784
+  },
+  "license": {
+    "spdx": "MIT",
+    "copyright": "Microsoft Corporation",
+    "file": "LICENSE.md",
+    "sha256": "fd532481d828e13a0b13ccb598e02338a3617740675a862ee6bdc1541b68e93d"
+  },
+  "dependencies": {
+    "threeRevision": "186"
+  },
+  "conversion": [
+    "Preserve source mesh positions, normals and UVs; convert centimetres to metres and rotate into canonical hand space.",
+    "FBXLoader keeps the four strongest skin influences; merge duplicate mapped joints and normalize retained weights.",
+    "Preserve original thumb and finger joints. Add three zero-weight metacarpal anchors at 36% of wrist-to-MCP for index, middle and ring. Use the original weighted wrist-padding joint as pinky metacarpal.",
+    "Preserve source bone twist with local -Z toward tips and +Y dorsal. Store 25 world-space joint nodes and inverse bind matrices.",
+    "Reflect right-hand X coordinates to produce the left hand, reversing triangle winding and reflecting joint rotations.",
+    "Index triangle vertices only when position, normal, UV, joint indices and weights are bit-identical; preserve expanded triangle attributes and winding.",
+    "Mesh preparation, posing and skin texture baking are separate build steps."
+  ],
+  "normalizedVertices": 0,
+  "outputs": [
+    {
+      "file": "right.glb",
+      "sha256": "cb1bc61ecbd5b36907665b6dd9e747b7659042e493b14033f3448cffb483ab3f",
+      "bytes": 115124,
+      "sourceVertices": 7992,
+      "vertices": 1334,
+      "triangles": 2664,
+      "joints": 25,
+      "maxWeightError": 3.725290298461914e-8
+    },
+    {
+      "file": "left.glb",
+      "sha256": "3903e5d52ed7c541fac72b3b6017d61d0b9dbe2d840c9c1b3d63a771ab4c093c",
+      "bytes": 115120,
+      "sourceVertices": 7992,
+      "vertices": 1334,
+      "triangles": 2664,
+      "joints": 25,
+      "maxWeightError": 3.725290298461914e-8
+    }
+  ]
+}

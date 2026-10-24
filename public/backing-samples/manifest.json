@@ -1,0 +1,156 @@
+{
+  "guitar": [
+    {
+      "midi": 36,
+      "url": "/backing-samples/guitar/36.mp3",
+      "sha256": "a21e4780b219df5beb886d89ba42c7bc699d417a969911e5f07c50286e285455"
+    },
+    {
+      "midi": 39,
+      "url": "/backing-samples/guitar/39.mp3",
+      "sha256": "dfedfcaa411744fd24e0461847e783f98ac43301e2e5c5a5097a61f59647a064"
+    },
+    {
+      "midi": 42,
+      "url": "/backing-samples/guitar/42.mp3",
+      "sha256": "d2b42009a964644f5b1171a07d90c24c407cbd06d05a766b12bf1d62bb47d43d"
+    },
+    {
+      "midi": 45,
+      "url": "/backing-samples/guitar/45.mp3",
+      "sha256": "8833e0949a7e8597b84872530af06942913d73f0dc789aafa65103873f798f1e"
+    },
+    {
+      "midi": 48,
+      "url": "/backing-samples/guitar/48.mp3",
+      "sha256": "7a30b518b874f7740034977710aa0efab70d215a3a828e6924717eeb2c244906"
+    },
+    {
+      "midi": 51,
+      "url": "/backing-samples/guitar/51.mp3",
+      "sha256": "760b4c41e6cb29086ef5449a79fc077dbceeabbbd89365efd55e33ec3a20993a"
+    },
+    {
+      "midi": 54,
+      "url": "/backing-samples/guitar/54.mp3",
+      "sha256": "942a28a4fa8f91f4b9c884b534be6e23f29024faca5e69b4236dde30c2cf38a0"
+    },
+    {
+      "midi": 57,
+      "url": "/backing-samples/guitar/57.mp3",
+      "sha256": "9e9d4205495c6db126e0107ce862cb5d372b013293b8cace1d78694a42361132"
+    },
+    {
+      "midi": 60,
+      "url": "/backing-samples/guitar/60.mp3",
+      "sha256": "55c2808ac0fd3f722645f6bffe0f90313e1f3a1b325d56507639f1430b4e010a"
+    },
+    {
+      "midi": 63,
+      "url": "/backing-samples/guitar/63.mp3",
+      "sha256": "259fc4fa113076c6df6207815821089a0e99e40899e8e9c60e34d437caa04897"
+    },
+    {
+      "midi": 66,
+      "url": "/backing-samples/guitar/66.mp3",
+      "sha256": "36b17d2fbf861c84b265808595503224dd17ce4655e9d386714f8b532cb39f02"
+    },
+    {
+      "midi": 69,
+      "url": "/backing-samples/guitar/69.mp3",
+      "sha256": "efcc55881a4e8789b1f501b76296161954ba1ca77e5e2300012bfce429b619b3"
+    },
+    {
+      "midi": 72,
+      "url": "/backing-samples/guitar/72.mp3",
+      "sha256": "feed1eec8636d4329da5b3d1d84963e0f5d6c29411d057c8442ca3b4b9e33981"
+    },
+    {
+      "midi": 75,
+      "url": "/backing-samples/guitar/75.mp3",
+      "sha256": "cd290df61e00e7b65f19fd6316f135220f549801164712f568b81597fd4b08fe"
+    },
+    {
+      "midi": 78,
+      "url": "/backing-samples/guitar/78.mp3",
+      "sha256": "012c635367bba458b8b970076ddaa581b60fe864c59fab9a130203bbdb711855"
+    },
+    {
+      "midi": 81,
+      "url": "/backing-samples/guitar/81.mp3",
+      "sha256": "de316e2bea201d564e4ce8f52c7e1ad647e03e7764fcf01096bc97d828a14a1f"
+    },
+    {
+      "midi": 84,
+      "url": "/backing-samples/guitar/84.mp3",
+      "sha256": "71e68e4a562ca8b4b370f1dfa2770243cea8c8a19c413336dc82806c646ac8a5"
+    }
+  ],
+  "bass": [
+    {
+      "midi": 24,
+      "url": "/backing-samples/bass/24.mp3",
+      "sha256": "3cb44db366c340e0e33ff4ee78c15eda76decc679b6709b89e373410b4bf5a6d"
+    },
+    {
+      "midi": 27,
+      "url": "/backing-samples/bass/27.mp3",
+      "sha256": "6b0ed2757bbc1bead7762ae8dc3a9e8f212f36eac0cf848cabaa58281c37cd8e"
+    },
+    {
+      "midi": 30,
+      "url": "/backing-samples/bass/30.mp3",
+      "sha256": "eb005c27769be9953ff430e920d558d19201693fca8af28e7f34db156f8c9aa2"
+    },
+    {
+      "midi": 33,
+      "url": "/backing-samples/bass/33.mp3",
+      "sha256": "21eefca40f03995a99211ab0ad69400f06346b7d318b039b70919fb09de28d07"
+    },
+    {
+      "midi": 36,
+      "url": "/backing-samples/bass/36.mp3",
+      "sha256": "bd192806d98b69e801f5a00422a236cd6967ab4954d1b0475608db9205a05814"
+    },
+    {
+      "midi": 39,
+      "url": "/backing-samples/bass/39.mp3",
+      "sha256": "0eceb57f00bde51d490ba32d59ece1db33b43b6908f9474f8427f0aacafdd8ad"
+    },
+    {
+      "midi": 42,
+      "url": "/backing-samples/bass/42.mp3",
+      "sha256": "57e36deb575063646a8ec9db9c9549e842f6afece88952654efc3c09bb6bf83a"
+    },
+    {
+      "midi": 45,
+      "url": "/backing-samples/bass/45.mp3",
+      "sha256": "6533d953b056e195aadb251acb779b2b0d31df2cdf302040c30d078d2899689a"
+    },
+    {
+      "midi": 48,
+      "url": "/backing-samples/bass/48.mp3",
+      "sha256": "2ebc6adc15cc1d1624f203986ede3fe818594b613f45ad4fcd2de94fc01e693a"
+    },
+    {
+      "midi": 51,
+      "url": "/backing-samples/bass/51.mp3",
+      "sha256": "ce4f7336b8196f57d8debf1719638c6590acb90d6106aac5e015dd26370c0483"
+    },
+    {
+      "midi": 54,
+      "url": "/backing-samples/bass/54.mp3",
+      "sha256": "5cbad6a001649d9e64fb80a369e2c7d6cc2fe1cc50f1104a993924a4b5e7c7bb"
+    },
+    {
+      "midi": 57,
+      "url": "/backing-samples/bass/57.mp3",
+      "sha256": "53c51f2e7f14dc9bd911cf2be4059c2a12d0d19e3576f80887772a088b9d77ce"
+    },
+    {
+      "midi": 60,
+      "url": "/backing-samples/bass/60.mp3",
+      "sha256": "152f0a4bc28a96831298cac6318ae72eebb7d32ebc3bd443868c3e652edd6f51"
+    }
+  ]
+}

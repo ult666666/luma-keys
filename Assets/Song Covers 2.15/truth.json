@@ -1,0 +1,30 @@
+{
+  "generationTool": "built-in image_gen.imagegen",
+  "inputReferences": [],
+  "dimensionsRequested": {
+    "width": 1536,
+    "height": 1024
+  },
+  "format": "png",
+  "transparentBackground": false,
+  "provenance": "Original AI-generated artistic interpretation created for Luma Keys. Not a reproduction, source album cover, or claim about a song/composer's intended narrative.",
+  "cropGuidance": "Landscape 3:2 original; central composition supports 16:10 cover crops. Inspect narrower crops separately.",
+  "createdAt": "2026-09-27T20:01:39.999Z",
+  "id": "truth",
+  "prompt": "Use case: illustration-story. Asset type: original fine-art cover illustration for a piano practice app's Library, not an album mockup. Create an edge-to-edge landscape 3:2 painting, ideally 1536×1024. Scene: an empty train-platform bench in soft rain, a single forgotten scarf draped naturally across the bench, and warm lights of a train receding into the distance. Narrative feeling: bittersweet departure and absence, intimate and restrained. There are no people. Medium: sophisticated editorial gouache, tactile matte pigment, visible fine paper grain and confident layered brushwork; richly painted atmospheric depth, elegant silhouette and deliberately simplified detail that remains legible at thumbnail scale. Subdued slate, soft dusty rose and muted neutral tones, with a small warm amber note from the distant train lights. Composition: bench and scarf are the quiet focal point, rain reflections lead toward the retreating train. Keep all important subjects inside the central 70% of the canvas; the full painting must work in 3:2 and with slight top/bottom cropping to 16:10. No border, no frame, no text, no readable station signs, no lettering, no logos, no watermark, no musical notation, no interface. No piano or instrument. Original artistic interpretation of an emotional theme, no famous artwork imitation.",
+  "generatedSource": "/Users/prince/.codex/generated_images/01a0d831-ffa4-7280-80a1-506069311b74/exec-1fb155fa-870e-42d8-b9f0-39c83e852e4f.png",
+  "originalPath": "Assets/Song Covers 2.15/truth.png",
+  "publicPath": "public/library-art/song-truth.png",
+  "suggestedObjectPosition": "42% 58%",
+  "focalPoint": {
+    "x": 0.42,
+    "y": 0.58
+  },
+  "qualityReview": "Passed: expressive empty bench and forgotten scarf, rain atmosphere and receding warm train. Clear layered composition. No visible text, signs, logos or watermarks.",
+  "semanticDescription": "An empty rain-soaked platform bench with a forgotten rose scarf, and a train receding into warm lights.",
+  "width": 1536,
+  "height": 1024,
+  "bytes": 2956673,
+  "sha256": "dba9601d4aa4232eaab67c1beb48701e685527a67286052004ef86f4d68a6299",
+  "copiesByteIdentical": true
+}

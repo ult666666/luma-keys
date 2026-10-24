@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Luma Keys</title>
+  <desc id="desc">An ivory cat resting its paws on a small piano, on a deep teal rounded square.</desc>
+  <defs>
+    <linearGradient id="room" x1=".2" y1="0" x2=".8" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#285457"/><stop offset="1" stop-color="#142e39"/>
+    </linearGradient>
+    <linearGradient id="ivory" x2=".2" y2="1">
+      <stop stop-color="#fff9ec"/><stop offset="1" stop-color="#e7e4d6"/>
+    </linearGradient>
+    <linearGradient id="key" x2="0" y2="1">
+      <stop stop-color="#fffaf0"/><stop offset="1" stop-color="#ece8da"/>
+    </linearGradient>
+  </defs>
+  <rect x="64" y="74" width="896" height="886" rx="200" fill="#081c25" opacity=".22"/>
+  <rect x="64" y="64" width="896" height="886" rx="200" fill="url(#room)"/>
+  <rect x="67" y="67" width="890" height="880" rx="197" fill="none" stroke="#e6f3e8" stroke-opacity=".14" stroke-width="3"/>
+  <!-- A single round silhouette keeps the face legible in the Dock. -->
+  <path d="M289 442C272 390 275 301 302 265C337 253 391 297 424 332C479 314 547 314 602 332C635 297 689 253 724 265C751 301 754 390 737 442C762 475 767 515 748 553C719 608 632 642 513 642C394 642 307 608 278 553C259 515 264 475 289 442Z" fill="#0c2730" opacity=".32" transform="translate(0 12)"/>
+  <path d="M289 434C272 382 275 293 302 257C337 245 391 289 424 324C479 306 547 306 602 324C635 289 689 245 724 257C751 293 754 382 737 434C762 467 767 507 748 545C719 600 632 634 513 634C394 634 307 600 278 545C259 507 264 467 289 434Z" fill="url(#ivory)"/>
+  <path d="M311 292C335 303 363 327 385 351L309 384C304 349 304 319 311 292Z" fill="#b6c9bf"/>
+  <path d="M715 292C691 303 663 327 641 351L717 384C722 349 722 319 715 292Z" fill="#b6c9bf"/>
+  <ellipse cx="418" cy="462" rx="23" ry="30" fill="#18343a"/>
+  <ellipse cx="608" cy="462" rx="23" ry="30" fill="#18343a"/>
+  <ellipse cx="412" cy="453" rx="6" ry="8" fill="#fffdf5"/>
+  <ellipse cx="602" cy="453" rx="6" ry="8" fill="#fffdf5"/>
+  <ellipse cx="361" cy="516" rx="25" ry="13" fill="#d69f8e" opacity=".55"/>
+  <ellipse cx="665" cy="516" rx="25" ry="13" fill="#d69f8e" opacity=".55"/>
+  <path d="M501 509Q513 501 525 509Q524 519 513 525Q502 519 501 509Z" fill="#9a7368"/>
+  <path d="M513 524V532M513 532Q500 549 486 534M513 532Q526 549 540 534" fill="none" stroke="#47605c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Five white keys and a 2+1 black-key pattern identify the instrument. -->
+  <rect x="214" y="594" width="596" height="240" rx="49" fill="#102932"/>
+  <rect x="240" y="605" width="546" height="13" rx="6.5" fill="#c9b17b"/>
+  <g fill="url(#key)">
+    <rect x="245" y="633" width="103" height="170" rx="13"/>
+    <rect x="353" y="633" width="103" height="170" rx="13"/>
+    <rect x="461" y="633" width="103" height="170" rx="13"/>
+    <rect x="569" y="633" width="103" height="170" rx="13"/>
+    <rect x="677" y="633" width="103" height="170" rx="13"/>
+  </g>
+  <g fill="#315058">
+    <path d="M325 633H376V731Q376 742 365 742H336Q325 742 325 731Z"/>
+    <path d="M433 633H484V731Q484 742 473 742H444Q433 742 433 731Z"/>
+    <path d="M649 633H700V731Q700 742 689 742H660Q649 742 649 731Z"/>
+  </g>
+  <g fill="#18333c">
+    <path d="M325 633H376V723Q376 733 365 733H336Q325 733 325 723Z"/>
+    <path d="M433 633H484V723Q484 733 473 733H444Q433 733 433 723Z"/>
+    <path d="M649 633H700V723Q700 733 689 733H660Q649 733 649 723Z"/>
+  </g>
+  <g fill="url(#ivory)">
+    <path d="M337 588C337 569 355 559 374 559C396 559 415 572 415 590V611C415 627 403 638 389 638H365C349 638 337 627 337 611Z"/>
+    <path d="M611 588C611 569 629 559 648 559C670 559 689 572 689 590V611C689 627 677 638 663 638H639C623 638 611 627 611 611Z"/>
+  </g>
+  <g stroke="#bcbdb0" stroke-width="4" stroke-linecap="round">
+    <path d="M365 613V625M388 613V625M639 613V625M662 613V625"/>
+  </g>
+</svg>

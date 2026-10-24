@@ -1,0 +1,27 @@
+{
+  "version": "2.16",
+  "id": "gymnopedie",
+  "createdAt": "2026-09-27T20:27:00.349Z",
+  "generationTool": "built-in image_gen.imagegen",
+  "useCase": "illustration-story",
+  "prompt": "Use case: illustration-story. Asset type: original song cover for a cute piano-learning app Library. Make an edge-to-edge wide 3:2 image, ideally 1536×1024. Mandatory visual style: PREMIUM 2D HAND-DRAWN CARTOON PICTURE-BOOK ILLUSTRATION. Chunky rounded character shapes, clear warm dark-brown outlines, simple flat cel-shaded colors, only a little matte paper texture. Large expressive dot eyes, pink cheeks, tiny paws, cute soft proportions. The character style should feel like a sophisticated app's miniature animal companions. NOT a realistic painting, NOT a photograph, NOT 3D, NOT plastic, NO fine oil-paint detail. Clear strong silhouettes and a simple scene that reads at thumbnail size. Keep all focal characters complete, fully inside the central70% of the canvas; preserve important subjects in moderate3:2-to-16:10 crops. No letters, no musical notation, no logos, no signature, no text, no border, no watermark.\nDistinct story: a little rounded fox in a soft pale tutu is calmly poised on one tiny paw in a quiet peach-and-sage courtyard. Its other paw and tail counterbalance gracefully, one long still shadow stretches across the floor. Simple airy arches and a little greenery frame spacious empty ground. Slow balance and gentle concentration, pink cheeks and affectionate soft fox features. Show entire fox, tutu, paws, tail and principal shadow within the central safe composition. Peach, sage, cream; no dramatic leap.",
+  "generatedSource": "/Users/prince/.codex/generated_images/01a0d831-ffa4-7280-80a1-506069311b74/exec-eb995970-8c99-44e7-ab19-394dc6c5a996.png",
+  "originalPath": "Assets/Cartoon Covers 2.16/gymnopedie.png",
+  "publicPath": "public/library-art/cartoon-gymnopedie.png",
+  "transparentBackground": false,
+  "suggestedObjectPosition": "54% 43%",
+  "focalPoint": {
+    "x": 0.54,
+    "y": 0.43
+  },
+  "semanticDescription": "A tiny fox in a pale tutu balances on one paw in a peach-and-sage courtyard with a long shadow.",
+  "qualityReview": "Passed: rounded expressive fox, intact ears/tail/paws, warm brown outlines, clear balance pose. Use43% vertical position for wider hero crops to protect the raised ear. No visible text/signature.",
+  "provenance": "Original AI-generated 2D cartoon illustration created for Luma Keys; fictional animal story, not an original song album cover or a claim about composer intent.",
+  "inputReferences": [],
+  "cropGuidance": "Native landscape3:2. Focal characters checked complete in the image; use the suggested object-position for moderate wider hero crops.",
+  "width": 1536,
+  "height": 1024,
+  "bytes": 2234440,
+  "sha256": "6fd270be3c0f886121c04f060458157836b810e86983bb4ad6b97cc27c51bb41",
+  "copiesByteIdentical": true
+}

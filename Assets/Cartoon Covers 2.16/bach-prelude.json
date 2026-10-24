@@ -1,0 +1,27 @@
+{
+  "version": "2.16",
+  "id": "bach-prelude",
+  "createdAt": "2026-09-27T20:27:00.355Z",
+  "generationTool": "built-in image_gen.imagegen",
+  "useCase": "illustration-story",
+  "prompt": "Use case: illustration-story. Asset type: original song cover for a cute piano-learning app Library. Make an edge-to-edge wide 3:2 image, ideally 1536×1024. Mandatory visual style: PREMIUM 2D HAND-DRAWN CARTOON PICTURE-BOOK ILLUSTRATION. Chunky rounded character shapes, clear warm dark-brown outlines, simple flat cel-shaded colors, only a little matte paper texture. Large expressive dot eyes, pink cheeks, tiny paws, cute soft proportions. The character style should feel like a sophisticated app's miniature animal companions. NOT a realistic painting, NOT a photograph, NOT 3D, NOT plastic, NO fine oil-paint detail. Clear strong silhouettes and a simple scene that reads at thumbnail size. Keep all focal characters complete, fully inside the central70% of the canvas; preserve important subjects in moderate3:2-to-16:10 crops. No letters, no musical notation, no logos, no signature, no text, no border, no watermark.\nDistinct story: a small round owl in a cute cream powdered wig stands near center, using one tiny wing to guide an orderly flowing stream of golden pebbles through repeating cream arches. The pebbles form a gentle rhythmic path, never letters or notation. Mint, warm gold and light blue palette, friendly orderly warmth. The owl has expressive dot eyes and pink cheeks. Repeating arches create a simple elegant cadence; keep owl fully visible and central and avoid busy architectural detail.",
+  "generatedSource": "/Users/prince/.codex/generated_images/01a0d831-ffa4-7280-80a1-506069311b74/exec-7b3c84c8-5cf0-40aa-97bd-2f1537becb52.png",
+  "originalPath": "Assets/Cartoon Covers 2.16/bach-prelude.png",
+  "publicPath": "public/library-art/cartoon-bach-prelude.png",
+  "transparentBackground": false,
+  "suggestedObjectPosition": "49% 46%",
+  "focalPoint": {
+    "x": 0.49,
+    "y": 0.46
+  },
+  "semanticDescription": "A powdered-wig owl guides a golden pebble stream through repeating cream arches.",
+  "qualityReview": "Passed: compact cute owl and ordered gold pebble rhythm remain distinct at small scale, mint/gold/light-blue setting, full focal character, no letters or notation.",
+  "provenance": "Original AI-generated 2D cartoon illustration created for Luma Keys; fictional animal story, not an original song album cover or a claim about composer intent.",
+  "inputReferences": [],
+  "cropGuidance": "Native landscape3:2. Focal characters checked complete in the image; use the suggested object-position for moderate wider hero crops.",
+  "width": 1536,
+  "height": 1024,
+  "bytes": 2023302,
+  "sha256": "c7eace82bfde860b515c9c0ac19571c981be1390ec79b413e2621b3f46aec20e",
+  "copiesByteIdentical": true
+}

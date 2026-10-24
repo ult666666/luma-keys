@@ -1,0 +1,13 @@
+{
+ "version": 9,
+ "size": 1024,
+ "geometry": {
+  "subdivide": 2,
+  "sculpt": 0.55,
+  "surfaceVersion": 6
+ },
+ "models": {
+  "left": "3903e5d52ed7c541fac72b3b6017d61d0b9dbe2d840c9c1b3d63a771ab4c093c",
+  "right": "cb1bc61ecbd5b36907665b6dd9e747b7659042e493b14033f3448cffb483ab3f"
+ }
+}
