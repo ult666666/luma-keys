@@ -63,6 +63,20 @@ try {
     throw e;
   }
   phase("sight-reading");
+  await page.evaluate(() => {
+    window.lumaQaKeyEvents = [];
+    for (const type of ["keydown", "keyup"])
+      window.addEventListener(type, (event) => {
+        const clock = window.lumaClock?.();
+        window.lumaQaKeyEvents.push({
+          type,
+          code: event.code,
+          wallMs: performance.now(),
+          clock,
+        });
+        if (window.lumaQaKeyEvents.length > 200) window.lumaQaKeyEvents.shift();
+      });
+  });
   let result;
   try {
     result = await verifySightReading(page, "browser", {
@@ -74,10 +88,23 @@ try {
       .innerText({ timeout: 3000 })
       .catch(() => "Page unavailable");
     console.error("Story failure page:", text.slice(-12000));
-    await fs.writeFile(
-      path.join(outputDir, "story-failure.txt"),
-      text.slice(-12000),
-    );
+    const keys = await page
+      .evaluate(() => window.lumaQaKeyEvents || [])
+      .catch(() => []);
+    console.error("Story input clocks:", JSON.stringify(keys));
+    await fs
+      .writeFile(
+        path.join(outputDir, "story-input-clocks.json"),
+        JSON.stringify(keys, null, 2),
+      )
+      .catch((writeError) =>
+        console.error("Could not save input diagnostics:", writeError.message),
+      );
+    await fs
+      .writeFile(path.join(outputDir, "story-failure.txt"), text.slice(-12000))
+      .catch((writeError) =>
+        console.error("Could not save page diagnostics:", writeError.message),
+      );
     await page
       .screenshot({
         path: path.join(outputDir, "screenshots", "story-failure.png"),
