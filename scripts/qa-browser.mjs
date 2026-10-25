@@ -281,6 +281,7 @@ async function main() {
       onPhase: (name) => console.log(`Browser QA: ${name}`),
     });
     console.log(`Browser QA ${report.status}; evidence: ${outputDir}`);
+    if (report.error) console.error(report.error);
     process.exitCode = interrupted
       ? interrupted === "SIGINT"
         ? 130

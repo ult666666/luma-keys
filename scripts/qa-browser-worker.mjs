@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import path from "node:path";
+import fs from "node:fs/promises";
 import { parentPort, workerData } from "node:worker_threads";
 import { chromium } from "@playwright/test";
 import { startServer } from "../server.mjs";
@@ -62,9 +63,29 @@ try {
     throw e;
   }
   phase("sight-reading");
-  const result = await verifySightReading(page, "browser", {
-    evidenceDir: path.join(outputDir, "screenshots"),
-  });
+  let result;
+  try {
+    result = await verifySightReading(page, "browser", {
+      evidenceDir: path.join(outputDir, "screenshots"),
+    });
+  } catch (e) {
+    const text = await page
+      .locator("body")
+      .innerText({ timeout: 3000 })
+      .catch(() => "Page unavailable");
+    console.error("Story failure page:", text.slice(-12000));
+    await fs.writeFile(
+      path.join(outputDir, "story-failure.txt"),
+      text.slice(-12000),
+    );
+    await page
+      .screenshot({
+        path: path.join(outputDir, "screenshots", "story-failure.png"),
+        timeout: 3000,
+      })
+      .catch(() => {});
+    throw e;
+  }
   assert.deepEqual(
     policy,
     { externalRequests: 0, blockedRedirects: 0, blockedWebSockets: 0 },
