@@ -14,7 +14,8 @@
     "format": "prettier --write src/*.jsx src/*.js src/*.mjs src/*.css server.mjs electron.cjs scripts/*.mjs tests/*.mjs",
     "build:companion": "node scripts/build-companion-model.mjs",
     "build:icon": "node scripts/create-icon.mjs",
-    "qa:native": "node scripts/qa-native-sweep.mjs"
+    "qa:native": "node scripts/qa-native-sweep.mjs",
+    "qa:browser": "node scripts/qa-browser.mjs"
   },
   "dependencies": {
     "@tonejs/midi": "^2.0.28",

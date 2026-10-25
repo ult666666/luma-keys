@@ -96,6 +96,7 @@ export function runWorkerTask(
     let error;
     let stopTimer;
     const abort = () => {
+      onMessage({ type: "terminated-by-controller" });
       worker.terminate().catch((e) => (error = e));
       stopTimer = setTimeout(() => {
         worker.unref();

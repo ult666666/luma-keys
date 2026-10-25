@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import path from "node:path";
 import { expect } from "@playwright/test";
 import { generateExercise } from "../src/exercise.mjs";
 import { setPianoVolume } from "./piano-volume.mjs";
@@ -75,7 +76,11 @@ export async function performPlan(page, plan) {
   }, plan);
 }
 
-export async function verifySightReading(page, prefix = "sight-reading") {
+export async function verifySightReading(
+  page,
+  prefix = "sight-reading",
+  { evidenceDir = "evidence" } = {},
+) {
   const checks = [],
     errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
@@ -102,7 +107,9 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     !prefsBefore.reading?.last?.exercise
   ) {
     await expect(page.locator(".welcome-card")).toBeVisible();
-    await page.screenshot({ path: `evidence/${prefix}-welcome.png` });
+    await page.screenshot({
+      path: path.join(evidenceDir, `${prefix}-welcome.png`),
+    });
     await button("Dismiss welcome").click();
     await expect(page.locator(".welcome-card")).toHaveCount(0);
   }
@@ -170,7 +177,9 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     (await page.locator(".engraved-sheet svg").count()) >= 1,
     "engraved",
   );
-  await page.screenshot({ path: `evidence/${prefix}-sheet.png` });
+  await page.screenshot({
+    path: path.join(evidenceDir, `${prefix}-sheet.png`),
+  });
   await page.getByRole("tab", { name: "Number score", exact: true }).click();
   await button("Another like this").click();
   await expect(title()).toHaveText("Sight reading · Level 3 · C major");
@@ -204,7 +213,9 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     layout.stage >= 110 && !layout.clipped,
     "the whole score has room beside the keyboard stage",
   );
-  await page.screenshot({ path: `evidence/${prefix}-exercise.png` });
+  await page.screenshot({
+    path: path.join(evidenceDir, `${prefix}-exercise.png`),
+  });
   checks.push(
     "The Exercises screen makes a level-3 C major exercise with eight engraved bars; Another like this and the Practice New exercise button change the seed; the dock fits a laptop screen",
   );
@@ -275,7 +286,9 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     results.locator('[aria-label="100% of notes right"]'),
   ).toHaveCount(1);
   await expect(page.locator(".modal.results-dialog")).toHaveClass(/celebrate/);
-  await page.screenshot({ path: `evidence/${prefix}-results-clean.png` });
+  await page.screenshot({
+    path: path.join(evidenceDir, `${prefix}-results-clean.png`),
+  });
   await results.getByRole("button", { name: "Play it again" }).click();
   await expect(results).toBeHidden();
   await expect(
@@ -311,7 +324,9 @@ export async function verifySightReading(page, prefix = "sight-reading") {
   );
   const repeat = graded.getByRole("button", { name: /^Repeat bar/ });
   await expect(repeat).toBeVisible();
-  await page.screenshot({ path: `evidence/${prefix}-results-flawed.png` });
+  await page.screenshot({
+    path: path.join(evidenceDir, `${prefix}-results-flawed.png`),
+  });
   await repeat.click();
   await expect(page.locator(".reading-repeat-status")).toContainText(
     "Repeating",
@@ -369,7 +384,9 @@ export async function verifySightReading(page, prefix = "sight-reading") {
   await expect(panel.locator(".exercise-results")).toContainText(
     `${levelOneBefore + 2} run`,
   );
-  await page.screenshot({ path: `evidence/${prefix}-levels.png` });
+  await page.screenshot({
+    path: path.join(evidenceDir, `${prefix}-levels.png`),
+  });
   await chooseLevel(2);
   await panel
     .getByRole("button", { name: "Start exercise", exact: true })
@@ -416,7 +433,9 @@ export async function verifySightReading(page, prefix = "sight-reading") {
     "trend chart bars",
   );
   assert.equal(await page.locator(".level-table tbody tr").count(), 12);
-  await page.screenshot({ path: `evidence/${prefix}-progress.png` });
+  await page.screenshot({
+    path: path.join(evidenceDir, `${prefix}-progress.png`),
+  });
   await page
     .locator(".run-list li")
     .first()
@@ -432,7 +451,9 @@ export async function verifySightReading(page, prefix = "sight-reading") {
   await expect(
     page.getByRole("button", { name: /^Open Für Elise/ }).first(),
   ).toBeVisible();
-  await page.screenshot({ path: `evidence/${prefix}-library.png` });
+  await page.screenshot({
+    path: path.join(evidenceDir, `${prefix}-library.png`),
+  });
   checks.push(
     "Exercises lists twelve levels, counts the selected level's runs and starts a left-hand level; F major spells B♭ and can make number 1 follow the key; Progress charts every run and reopens the exact exercise; the Library card marks the current piece",
   );

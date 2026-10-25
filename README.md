@@ -87,11 +87,12 @@ LUMA_DATA_DIR="$PWD/.qa-runs/demo/Library" npm run dev
 
 | Command | What it does |
 | --- | --- |
-| `npm test` | Runs the 1,008 unit and API tests (`node --test`) |
+| `npm test` | Runs the unit and API tests (`node --test`) |
 | `npm run build` | Builds the renderer into `dist/` |
 | `npm start` | Opens the built app in Electron |
 | `npm run pack` | Packages `release/mac-arm64/Luma Keys.app` (needs the engines below) |
 | `npm run qa:native` | Runs every packaged-app Playwright story in sequence |
+| `npm run qa:browser` | Builds and verifies five sight-reading stories with an isolated library and ephemeral server ([setup and evidence](docs/BROWSER_QA.md)) |
 
 ### Optional engines
 
