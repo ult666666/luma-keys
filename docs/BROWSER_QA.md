@@ -22,7 +22,7 @@ The output destination must be new, including when it is empty. Omit `--output-d
 - Reload and confirm remembered exercise, practice mode, speed and history.
 - Explore all twelve levels, left-hand practice, F-major spelling, progress and the Library's current-piece card.
 
-The performances use the application's audio clock and computer-key input. They do not certify a physical MIDI keyboard, microphone recognition, native Electron packaging, PDF recognition or companion chat. Starter content and generated exercises are public/synthetic; no copyrighted private score preparation is needed.
+The performances use the application's audio clock and computer-key input. The command selects the application's **Hands display: Off** setting before the stories so software-rendered 3-D hands do not compete with timed input on a headless CI host. The keyboard, audio transport and grading assertions remain active. These stories do not certify 3-D hand motion, a physical MIDI keyboard, microphone recognition, native Electron packaging, PDF recognition or companion chat. Starter content and generated exercises are public/synthetic; no copyrighted private score preparation is needed.
 
 ## Artifacts and outcomes
 

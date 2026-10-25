@@ -94,6 +94,7 @@ export async function runBrowserQa({
     externalRequests: 0,
     blockedRedirects: 0,
     blockedWebSockets: 0,
+    handsDisplay: "off",
     cleanup: {
       workerStopped: true,
       browserClosed: true,

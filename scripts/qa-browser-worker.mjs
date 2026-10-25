@@ -62,6 +62,11 @@ try {
       .catch(() => {});
     throw e;
   }
+  // Keep software-rendered 3-D hands out of this clock-sensitive practice
+  // workflow. The application's own UI setting leaves the keyboard/grader on.
+  await page
+    .getByRole("combobox", { name: "Hands display" })
+    .selectOption("off");
   phase("sight-reading");
   await page.evaluate(() => {
     window.lumaQaKeyEvents = [];
