@@ -32,8 +32,16 @@ Exit 0 requires the stories and cleanup to pass. Exit 1 means verification/deadl
 
 ## Isolation
 
-The command creates its own temporary Library and Logs directory, overriding inherited `LUMA_DATA_DIR`. Optional engine paths explicitly point to nonexistent locations under that temporary root. It never runs `prepare-starter-library.mjs`. The existing server binds `127.0.0.1` on port 0 and serves the built renderer and API on one origin; fixed development ports 5188/5189 and other listeners are untouched. Browser requests outside the owned origin are blocked and fail verification.
+The command creates its own temporary Library and Logs directory, overriding inherited `LUMA_DATA_DIR`. Optional engine paths explicitly point to nonexistent locations under that temporary root. It never runs `prepare-starter-library.mjs`. The existing server binds `127.0.0.1` on port 0 and serves the built renderer and API on one origin; fixed development ports 5188/5189 and other listeners are untouched. Browser requests outside the owned origin are blocked and fail verification. This QA workflow also rejects all HTTP redirects and WebSockets, including same-origin ones: the practice stories need direct local responses only. The receipt records these blocks even when the story fails.
 
 A controller owns the Vite build process group, Chromium BrowserServer and a Worker thread running the server/story. Deadlines terminate only those owned resources; the temporary library is removed after the Worker stops. A result is accepted only after normal thread exit, so a story that returns and then hangs cannot pass. Cleanup status distinguishes stopping the Worker, closing Chromium and removing temporary data. Build output in `dist/` is refreshed normally; use a dedicated checkout if another process is also building that directory.
 
 The broader `qa:native` suite remains the packaged-app workflow. This portable command reuses `scripts/sight-reading-checks.mjs` with an explicit screenshot destination; older QA callers retain their default `evidence/` paths.
+
+To rerun the browser policy and actual CLI failure regressions after installing Chromium:
+
+```bash
+node --test tests/qa-network.integration.mjs tests/qa-browser.integration.mjs
+```
+
+These exercise real redirect/WebSocket blocking, a missing browser, build/story deadlines and SIGINT/SIGTERM. The CLI tests preserve a separate canary library and unrelated HTTP listener, check that the owned socket closes, and retain new failure evidence under `.qa-runs`. CI runs them before the full successful journey.

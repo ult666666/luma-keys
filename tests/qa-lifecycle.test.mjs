@@ -98,6 +98,34 @@ test("already cancelled command never launches", options, async () => {
     /cancelled/,
   );
 });
+for (const code of [0, 7]) {
+  test(
+    `command exit ${code} cleans a detached stdio descendant`,
+    options,
+    async (t) => {
+      const other = await unrelated(t);
+      let owned;
+      const source = `const s=require('node:http').createServer((q,r)=>r.end('descendant')); process.on('SIGTERM',()=>{}); s.listen(0,'127.0.0.1',()=>process.send({port:s.address().port,pid:process.pid}));`;
+      const parent = `const c=require('node:child_process').spawn(process.execPath,['-e',${JSON.stringify(source)}],{stdio:['ignore','ignore','ignore','ipc']});c.once('message',m=>{console.log(JSON.stringify(m));c.disconnect();c.unref();process.exit(${code})});`;
+      const run = runOwnedCommand(process.execPath, ["-e", parent], {
+        onOutput: (chunk) => {
+          owned = JSON.parse(chunk);
+        },
+      });
+      t.after(() => {
+        if (owned) {
+          try {
+            process.kill(owned.pid, "SIGKILL");
+          } catch {}
+        }
+      });
+      if (code === 0) await run;
+      else await assert.rejects(run, /7/);
+      await assertClosed(owned.port);
+      assert.equal(await (await fetch(other)).text(), "unrelated");
+    },
+  );
+}
 test("worker needs a result and normal exit", options, async () => {
   assert.deepEqual(await runWorkerTask(fixture, { mode: "done" }), {
     checks: ["done"],

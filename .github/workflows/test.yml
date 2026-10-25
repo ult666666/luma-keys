@@ -32,12 +32,17 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npx playwright install --with-deps chromium --only-shell
       - run: node --test tests/qa-lifecycle.test.mjs tests/qa-browser.test.mjs
+      - run: node --test tests/qa-network.integration.mjs tests/qa-browser.integration.mjs
+        env:
+          LUMA_QA_TEST_OUTPUT: .qa-runs/ci-failures
       - run: npm run qa:browser -- --output-dir .qa-runs/ci-browser
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: browser-qa
-          path: .qa-runs/ci-browser
+          path: |
+            .qa-runs/ci-browser
+            .qa-runs/ci-failures
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 7

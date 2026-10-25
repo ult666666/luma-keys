@@ -91,6 +91,9 @@ export async function runBrowserQa({
     deadlineSeconds: timeoutMs / 1000,
     phases: [],
     checks: [],
+    externalRequests: 0,
+    blockedRedirects: 0,
+    blockedWebSockets: 0,
     cleanup: {
       workerStopped: true,
       browserClosed: true,
@@ -135,6 +138,11 @@ export async function runBrowserQa({
     phase("browser-startup");
     browserServer = await chromium.launchServer({
       headless: true,
+      // The controller must finish receipts and owned-library cleanup before
+      // exiting. Playwright's default SIGINT handler exits the parent directly.
+      handleSIGINT: false,
+      handleSIGTERM: false,
+      handleSIGHUP: false,
       timeout: Math.max(1, Math.min(10000, timeoutMs - (Date.now() - started))),
     });
     report.cleanup.browserClosed = false;
@@ -157,11 +165,18 @@ export async function runBrowserQa({
             if (message?.type === "listening") report.ownedPort = message.port;
             if (message?.type === "terminated-by-controller")
               report.workerForced = true;
+            if (message?.type === "network-policy") {
+              report.externalRequests = message.externalRequests;
+              report.blockedRedirects = message.blockedRedirects;
+              report.blockedWebSockets = message.blockedWebSockets;
+            }
           },
         },
       );
       report.checks = result.checks;
       report.externalRequests = result.externalRequests;
+      report.blockedRedirects = result.blockedRedirects;
+      report.blockedWebSockets = result.blockedWebSockets;
       if (!Array.isArray(result.checks) || result.checks.length !== 5)
         throw new Error("Expected all five sight-reading checks");
       if (result.externalRequests !== 0)

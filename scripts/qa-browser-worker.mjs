@@ -4,6 +4,7 @@ import { parentPort, workerData } from "node:worker_threads";
 import { chromium } from "@playwright/test";
 import { startServer } from "../server.mjs";
 import { verifySightReading } from "./sight-reading-checks.mjs";
+import { installLocalOnlyRoutes } from "./qa-browser-network.mjs";
 
 const { temporaryRoot, outputDir, endpoint } = workerData;
 const missing = (name) => path.join(temporaryRoot, "absent-engines", name);
@@ -30,15 +31,13 @@ try {
   const health = await healthResponse.json();
   assert.equal(path.resolve(health.dataDir), dataDir);
   browser = await chromium.connect(endpoint);
-  const context = await browser.newContext({ serviceWorkers: "block" });
-  let externalRequests = 0;
-  await context.route("**/*", (route) => {
-    const url = new URL(route.request().url());
-    if (url.origin === origin || ["data:", "blob:"].includes(url.protocol))
-      return route.continue();
-    externalRequests++;
-    return route.abort("blockedbyclient");
+  const context = await browser.newContext({
+    serviceWorkers: "block",
+    reducedMotion: "reduce",
   });
+  const policy = await installLocalOnlyRoutes(context, origin, (state) =>
+    parentPort.postMessage({ type: "network-policy", ...state }),
+  );
   const page = await context.newPage();
   const pending = new Set();
   page.on("request", (request) => pending.add(request));
@@ -66,7 +65,11 @@ try {
   const result = await verifySightReading(page, "browser", {
     evidenceDir: path.join(outputDir, "screenshots"),
   });
-  assert.equal(externalRequests, 0, "No requests outside the owned origin");
+  assert.deepEqual(
+    policy,
+    { externalRequests: 0, blockedRedirects: 0, blockedWebSockets: 0 },
+    "Only direct owned-origin requests",
+  );
   await context.close();
   await browser.close();
   browser = undefined;
@@ -78,7 +81,7 @@ try {
   api = undefined;
   parentPort.postMessage({
     type: "result",
-    value: { ...result, externalRequests },
+    value: { ...result, ...policy },
   });
 } finally {
   if (browser) await browser.close();

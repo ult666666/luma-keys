@@ -24,16 +24,19 @@ export function runOwnedCommand(
     let error;
     let killTimer;
     let stopTimer;
+    let stopping = false;
     const kill = (name) => {
-      if (!child.pid) return;
+      if (!child.pid) return false;
       try {
         process.kill(-child.pid, name);
+        return true;
       } catch (e) {
         if (e.code !== "ESRCH") error ||= e;
+        return false;
       }
     };
     const finish = () => {
-      if (!closed || (signal?.aborted && !escalated)) return;
+      if (!closed || !escalated) return;
       clearTimeout(killTimer);
       clearTimeout(stopTimer);
       signal?.removeEventListener("abort", abort);
@@ -41,21 +44,38 @@ export function runOwnedCommand(
       else if (error) reject(error);
       else resolve({ output: tail });
     };
-    const abort = () => {
-      kill("SIGTERM");
-      killTimer = setTimeout(() => {
-        kill("SIGKILL");
+    const stopGroup = () => {
+      if (stopping) return;
+      stopping = true;
+      if (!kill("SIGTERM")) {
         escalated = true;
         finish();
+        return;
+      }
+      killTimer = setTimeout(() => {
+        kill("SIGKILL");
+        const drained = () => {
+          if (kill(0)) {
+            killTimer = setTimeout(drained, 10);
+          } else {
+            escalated = true;
+            finish();
+          }
+        };
+        drained();
       }, 250);
       stopTimer = setTimeout(() => {
+        clearTimeout(killTimer);
         signal?.removeEventListener("abort", abort);
         child.unref();
         child.stdout.destroy();
         child.stderr.destroy();
-        reject(new Error("Owned command did not stop after cancellation"));
+        reject(
+          new Error("Owned command group did not stop within cleanup deadline"),
+        );
       }, 5000);
     };
+    const abort = () => stopGroup();
     for (const stream of [child.stdout, child.stderr]) {
       stream.setEncoding("utf8");
       stream.on("data", (chunk) => {
@@ -64,12 +84,14 @@ export function runOwnedCommand(
       });
     }
     child.once("error", (e) => (error = e));
+    child.once("exit", stopGroup);
     child.once("close", (code, exitSignal) => {
       closed = true;
       if (code !== 0)
         error ||= new Error(
           `Command failed (${exitSignal || code}): ${tail.slice(-2000)}`,
         );
+      stopGroup();
       finish();
     });
     signal?.addEventListener("abort", abort, { once: true });
