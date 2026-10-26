@@ -1,10 +1,18 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { pruneQaRuns } from "../scripts/prune-qa-runs.mjs";
+
+const SCRIPT = fileURLToPath(
+  new URL("../scripts/prune-qa-runs.mjs", import.meta.url),
+);
+const prune = (...args) =>
+  spawnSync(process.execPath, [SCRIPT, ...args], { encoding: "utf8" });
 
 async function fakeApp(dir, ...parts) {
   const bundle = path.join(dir, ...parts);
@@ -83,4 +91,25 @@ test("qa:prune --older-than-hours spares copies from an unfinished run", async (
     pruneQaRuns({ dir, olderThanHours: Number("a day") }),
     /older-than-hours/,
   );
+});
+
+test("qa:prune fails on a mistyped flag instead of deleting", async (t) => {
+  const dir = await qaRuns(t);
+  const copy = await fakeApp(
+    dir,
+    "hands-2.45",
+    "verified-Luma Keys-2.45.0.app",
+  );
+  const typo = prune("--dir", dir, "--dryrun");
+  assert.notEqual(typo.status, 0);
+  assert.match(typo.stderr, /--dryrun/);
+  assert.ok(existsSync(copy));
+
+  const preview = prune("--dir", dir, "--dry-run");
+  assert.equal(preview.status, 0);
+  assert.match(
+    preview.stdout,
+    /would delete .*verified-Luma Keys-2\.45\.0\.app/,
+  );
+  assert.ok(existsSync(copy));
 });

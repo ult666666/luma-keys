@@ -1,10 +1,13 @@
 import { lstat, readdir, rm } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { parseArgs } from "node:util";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 // The only places .qa-runs keeps an app copy, newest one each (see AGENTS.md).
-export const KEPT = ["rollback", "staged"];
+const KEPT = ["rollback", "staged"];
+// Run folders nest app copies a few levels down at most (build/mac-arm64/…).
+const MAX_DEPTH = 6;
 
 async function appBundles(directory, depth = 0) {
   let entries;
@@ -20,7 +23,7 @@ async function appBundles(directory, depth = 0) {
       .map((entry) => {
         const full = path.join(directory, entry.name);
         if (entry.name.endsWith(".app")) return [full];
-        return depth < 6 ? appBundles(full, depth + 1) : [];
+        return depth < MAX_DEPTH ? appBundles(full, depth + 1) : [];
       }),
   );
   return nested.flat();
@@ -41,15 +44,13 @@ export async function pruneQaRuns({
   dryRun = false,
   now = Date.now(),
 } = {}) {
-  if (!Number.isFinite(olderThanHours) || olderThanHours < 0) {
-    throw new Error(
-      `--older-than-hours must be 0 or more, not ${olderThanHours}`,
-    );
+  if (!(olderThanHours >= 0)) {
+    throw new RangeError("--older-than-hours must be a number, 0 or more");
   }
   const bundles = await Promise.all(
     (await appBundles(dir)).map(async (bundle) => ({
       bundle,
-      // ditto and cp -p carry the original mtime over; ctime is when the copy was made.
+      // ctime, not mtime: ditto and cp -p give a fresh copy the original's mtime.
       changed: (await lstat(bundle)).ctimeMs,
     })),
   );
@@ -59,7 +60,7 @@ export async function pruneQaRuns({
       bundles.find(({ bundle }) =>
         bundle.startsWith(path.join(dir, name) + path.sep),
       ),
-    ).filter(Boolean),
+    ),
   );
   const removed = [],
     left = [];
@@ -79,14 +80,18 @@ if (
   process.argv[1] &&
   import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href
 ) {
-  const args = process.argv.slice(2);
-  const option = (name) => args[args.indexOf(name) + 1];
-  const dryRun = args.includes("--dry-run");
+  // Strict parsing: a mistyped --dry-run must fail, not delete.
+  const { values } = parseArgs({
+    options: {
+      "dry-run": { type: "boolean", default: false },
+      dir: { type: "string" },
+      "older-than-hours": { type: "string", default: "0" },
+    },
+  });
+  const dryRun = values["dry-run"];
   const { removed, left } = await pruneQaRuns({
-    dir: args.includes("--dir") ? path.resolve(option("--dir")) : undefined,
-    olderThanHours: args.includes("--older-than-hours")
-      ? Number(option("--older-than-hours"))
-      : 0,
+    dir: values.dir && path.resolve(values.dir),
+    olderThanHours: Number(values["older-than-hours"]),
     dryRun,
   });
   const gb = (bytes) => `${(bytes / 1e9).toFixed(1)} GB`;
