@@ -15,6 +15,7 @@
     "build:companion": "node scripts/build-companion-model.mjs",
     "build:icon": "node scripts/create-icon.mjs",
     "qa:native": "node scripts/qa-native-sweep.mjs",
+    "qa:browser": "node scripts/qa-browser.mjs",
     "qa:prune": "node scripts/prune-qa-runs.mjs"
   },
   "dependencies": {
