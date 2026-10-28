@@ -36,7 +36,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "agent-browser": "0.39.2",
     "concurrently": "^10.0.6",
-    "electron": "^44.4.5",
+    "electron": "^45.0.0",
     "electron-builder": "^26.18.0",
     "esbuild": "^0.28.2",
     "prettier": "^3.9.10",
