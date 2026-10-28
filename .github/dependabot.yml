@@ -15,6 +15,17 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
+    ignore:
+      # OpenSheetMusicDisplay engraves the sheet music and draws the practice
+      # cursor. OSMD 2 keeps the cursor's timing and note mapping but changes
+      # what players see. setOptions() no longer resets the cursor, so it
+      # turns from OSMD's default green to the fainter teal set in
+      # ScoreDisplay.jsx. 2.x also re-lays out fingerings, rests and line
+      # breaks and drops pickup measure numbers. The PDF import path
+      # (Audiveris output) could not be checked. Review a major update
+      # by hand before upgrading.
+      - dependency-name: 'opensheetmusicdisplay'
+        update-types: ['version-update:semver-major']
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
