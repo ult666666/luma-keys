@@ -86,3 +86,28 @@ export function cacheSheetCursorImage(cursor) {
     key = next;
   };
 }
+
+/** The practice cursor, in the green OSMD has drawn so far. OSMD 1.x swaps in
+ * its own default cursor whenever setOptions() omits cursorsOptions, while 2.x
+ * keeps the previous one, so every options object names this cursor. A fresh
+ * copy each call: OSMD keeps the object it is given. */
+export function sheetCursorOptions() {
+  return [{ type: 0, color: "#33e02f", alpha: 0.5, follow: false }];
+}
+
+/** Options applied before each passage render. The measure-number options are
+ * cleared because they shift ranges for an implicit pickup; the caller sets
+ * exact source indices instead. */
+export function sheetRenderOptions({ compact, from }) {
+  const opening = !compact && from === 1;
+  return {
+    drawFromMeasureNumber: 0,
+    drawUpToMeasureNumber: 0,
+    drawTitle: opening,
+    drawSubtitle: opening,
+    drawComposer: opening,
+    drawPartNames: !compact,
+    drawPartAbbreviations: !compact,
+    cursorsOptions: sheetCursorOptions(),
+  };
+}

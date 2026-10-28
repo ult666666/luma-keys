@@ -1,11 +1,18 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import {
   advanceSheetFollower,
   cacheSheetCursorImage,
   resetSheetFollower,
+  sheetCursorOptions,
+  sheetRenderOptions,
   sheetScrollTarget,
 } from "../src/sheet-follow.mjs";
+
+const { OpenSheetMusicDisplay } = createRequire(import.meta.url)(
+  "opensheetmusicdisplay",
+);
 
 function fixture(entries = 10000, start = 192 * 16, count = 8 * 16) {
   const stats = { constructors: 0, scanned: 0, advances: 0 };
@@ -163,4 +170,48 @@ test("cursor raster cache keeps position work intact while regenerating only for
   cursor.updateStyle(33);
   assert.equal(rasterizations, 3);
   assert.doesNotThrow(() => cacheSheetCursorImage({}));
+});
+
+test("every passage render keeps the practice cursor's colour", () => {
+  const cursor = [{ type: 0, color: "#33e02f", alpha: 0.5, follow: false }];
+  // OSMD sets options without a document; nothing is drawn into this host.
+  const display = new OpenSheetMusicDisplay(
+    { appendChild() {} },
+    { autoResize: false, backend: "svg", cursorsOptions: sheetCursorOptions() },
+  );
+  assert.deepEqual(display.cursorsOptions, cursor);
+  for (const compact of [true, false])
+    for (const from of [1, 9]) {
+      display.setOptions(sheetRenderOptions({ compact, from }));
+      assert.deepEqual(display.cursorsOptions, cursor, `${compact}:${from}`);
+    }
+  assert.notEqual(sheetCursorOptions(), sheetCursorOptions());
+});
+
+test("only the full viewer's opening passage draws the title, and only the full viewer names parts", () => {
+  const drawn = (options) =>
+    [
+      "drawTitle",
+      "drawSubtitle",
+      "drawComposer",
+      "drawPartNames",
+      "drawPartAbbreviations",
+    ].filter((key) => options[key]);
+  assert.deepEqual(drawn(sheetRenderOptions({ compact: false, from: 1 })), [
+    "drawTitle",
+    "drawSubtitle",
+    "drawComposer",
+    "drawPartNames",
+    "drawPartAbbreviations",
+  ]);
+  assert.deepEqual(drawn(sheetRenderOptions({ compact: false, from: 9 })), [
+    "drawPartNames",
+    "drawPartAbbreviations",
+  ]);
+  assert.deepEqual(drawn(sheetRenderOptions({ compact: true, from: 1 })), []);
+  const { drawFromMeasureNumber, drawUpToMeasureNumber } = sheetRenderOptions({
+    compact: true,
+    from: 9,
+  });
+  assert.deepEqual([drawFromMeasureNumber, drawUpToMeasureNumber], [0, 0]);
 });
