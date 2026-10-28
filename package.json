@@ -25,7 +25,7 @@
     "fflate": "^0.8.2",
     "lucide-react": "^1.62.0",
     "multer": "^2.5.0",
-    "opensheetmusicdisplay": "^1.9.2",
+    "opensheetmusicdisplay": "^2.2.1",
     "pdfjs-dist": "^6.4.299",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
