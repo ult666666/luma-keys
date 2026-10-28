@@ -5,6 +5,8 @@ import {
   advanceSheetFollower,
   cacheSheetCursorImage,
   resetSheetFollower,
+  sheetCursorOptions,
+  sheetRenderOptions,
   sheetScrollTarget,
 } from "./sheet-follow.mjs";
 import { compileSheetWindows } from "./sheet-window.mjs";
@@ -143,9 +145,7 @@ export default function ScoreDisplay({
           drawTitle: true,
           drawUpToMeasureNumber: 16,
           followCursor: false,
-          cursorsOptions: [
-            { type: 0, color: "#6cd8b4", alpha: 0.35, follow: false },
-          ],
+          cursorsOptions: sheetCursorOptions(),
         });
         // Luma plays written measures once, including repeated passages.
         instance.EngravingRules.CursorIgnoreRepetitions = true;
@@ -191,18 +191,10 @@ export default function ScoreDisplay({
     const render = () => {
       if (canceled || !display.current) return;
       try {
-        display.current.setOptions({
-          // The public number options shift ranges for an implicit pickup.
-          // Luma navigation counts every source measure, including that pickup,
-          // so clear the number overrides and set exact source indices below.
-          drawFromMeasureNumber: 0,
-          drawUpToMeasureNumber: 0,
-          drawTitle: !compact && from === 1,
-          drawSubtitle: !compact && from === 1,
-          drawComposer: !compact && from === 1,
-          drawPartNames: !compact,
-          drawPartAbbreviations: !compact,
-        });
+        // Luma navigation counts every source measure, including an implicit
+        // pickup, so the render options clear OSMD's measure-number overrides
+        // and exact source indices are set below.
+        display.current.setOptions(sheetRenderOptions({ compact, from }));
         display.current.EngravingRules.MinMeasureToDrawIndex =
           from - 1 - offset;
         display.current.EngravingRules.MaxMeasureToDrawIndex = to - 1 - offset;
