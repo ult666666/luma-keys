@@ -98,11 +98,32 @@ test("already cancelled command never launches", options, async () => {
     /cancelled/,
   );
 });
-for (const code of [0, 7]) {
+// macOS answers EPERM, not ESRCH, while the last members of a process group
+// are exiting or waiting to be reaped. The last case answers the first group
+// probes that way on every platform.
+for (const [code, eperm] of [
+  [0, 0],
+  [7, 0],
+  [0, 3],
+]) {
   test(
-    `command exit ${code} cleans a detached stdio descendant`,
+    `command exit ${code} cleans a detached stdio descendant${eperm ? " while macOS answers EPERM" : ""}`,
     options,
     async (t) => {
+      let answers = eperm;
+      if (eperm) {
+        const kill = process.kill;
+        process.kill = (pid, signal) => {
+          if (pid < 0 && signal === 0 && answers > 0) {
+            answers--;
+            throw Object.assign(new Error("kill EPERM"), { code: "EPERM" });
+          }
+          return kill.call(process, pid, signal);
+        };
+        t.after(() => {
+          process.kill = kill;
+        });
+      }
       const other = await unrelated(t);
       let owned;
       const source = `const s=require('node:http').createServer((q,r)=>r.end('descendant')); process.on('SIGTERM',()=>{}); s.listen(0,'127.0.0.1',()=>process.send({port:s.address().port,pid:process.pid}));`;
@@ -121,6 +142,7 @@ for (const code of [0, 7]) {
       });
       if (code === 0) await run;
       else await assert.rejects(run, /7/);
+      assert.equal(answers, 0);
       await assertClosed(owned.port);
       assert.equal(await (await fetch(other)).text(), "unrelated");
     },
