@@ -38,8 +38,10 @@ Offline fixtures were built from the current source, before and after these
 edits, using embedded fonts/assets and in-memory demo preferences. They do
 not contact the personal app or library:
 
-- [Before fixture](../../.qa-runs/shell-refinement-second-pass/offline/before.html)
-- [After fixture](../../.qa-runs/shell-refinement-second-pass/offline/after.html)
+- Before fixture: `.qa-runs/shell-refinement-second-pass/offline/before.html`
+- After fixture: `.qa-runs/shell-refinement-second-pass/offline/after.html`
+
+`.qa-runs/` is not committed, so these fixtures stay on the machine that built them.
 
 Run `node .qa-runs/shell-refinement-second-pass/verify.mjs` where local Chromium
 launch is permitted to produce screenshots and layout assertions in this
