@@ -25,12 +25,17 @@ export function runOwnedCommand(
     let killTimer;
     let stopTimer;
     let stopping = false;
+    // True while any member of the group remains. macOS answers EPERM, not
+    // ESRCH, while the last members are still exiting or waiting to be reaped,
+    // and their ports can still be open then, so only ESRCH ends the wait. A
+    // group that stays unsignalable runs into the cleanup deadline instead.
     const kill = (name) => {
       if (!child.pid) return false;
       try {
         process.kill(-child.pid, name);
         return true;
       } catch (e) {
+        if (e.code === "EPERM") return true;
         if (e.code !== "ESRCH") error ||= e;
         return false;
       }

@@ -1,9 +1,6 @@
 // Reports each failing test as a GitHub Actions error annotation. The run page
 // and the checks API then name the test and its error without the full log.
-// CI runs it next to the usual spec output:
-//   node --test --test-reporter=spec --test-reporter-destination=stdout \
-//     --test-reporter=./scripts/github-test-annotations.mjs \
-//     --test-reporter-destination=stdout tests/*.test.mjs
+// `npm run test:ci` runs it next to the usual spec output.
 import path from "node:path";
 import { inspect } from "node:util";
 
@@ -15,12 +12,15 @@ const escapeProperty = (text) =>
 export default async function* githubTestAnnotations(source) {
   for await (const event of source) {
     if (event.type !== "test:fail") continue;
-    const { name, file, line, column, details } = event.data;
+    const { name, file, line, column, details, todo } = event.data;
     const error = details?.error;
-    // A parent whose subtests failed adds nothing: each subtest reports itself.
-    if (error?.failureType === "subtestsFailed") continue;
+    // A failing todo does not fail the run, and a parent whose subtests failed
+    // adds nothing: each subtest reports itself.
+    if (todo || error?.failureType === "subtestsFailed") continue;
     const cause = error?.cause ?? error;
-    const message = (typeof cause === "string" ? cause : inspect(cause, { depth: 3 }))
+    const message = (
+      typeof cause === "string" ? cause : inspect(cause, { depth: 3 })
+    )
       .split("\n")
       .slice(0, 30)
       .join("\n");

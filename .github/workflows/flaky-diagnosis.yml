@@ -24,19 +24,22 @@ jobs:
       - run: npm ci
       - name: Suite run 1
         continue-on-error: true
-        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./scripts/github-test-annotations.mjs --test-reporter-destination=stdout tests/*.test.mjs
+        run: npm run test:ci
       - name: Suite run 2
         continue-on-error: true
-        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./scripts/github-test-annotations.mjs --test-reporter-destination=stdout tests/*.test.mjs
+        run: npm run test:ci
       - name: Suite run 3
         continue-on-error: true
-        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./scripts/github-test-annotations.mjs --test-reporter-destination=stdout tests/*.test.mjs
+        run: npm run test:ci
       - name: Suite run 4
         continue-on-error: true
-        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./scripts/github-test-annotations.mjs --test-reporter-destination=stdout tests/*.test.mjs
-      - name: Suite run 5
+        run: npm run test:ci
+      - name: Lifecycle file, 40 runs
         continue-on-error: true
-        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./scripts/github-test-annotations.mjs --test-reporter-destination=stdout tests/*.test.mjs
-      - name: Suite run 6
-        continue-on-error: true
-        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./scripts/github-test-annotations.mjs --test-reporter-destination=stdout tests/*.test.mjs
+        run: |
+          failed=0
+          for i in $(seq 1 40); do
+            node --test --test-reporter=dot --test-reporter-destination=stdout --test-reporter=./scripts/github-test-annotations.mjs --test-reporter-destination=stdout tests/qa-lifecycle.test.mjs || failed=$((failed + 1))
+          done
+          echo "::notice title=Lifecycle loop::$failed of 40 runs failed"
+          test "$failed" -eq 0
