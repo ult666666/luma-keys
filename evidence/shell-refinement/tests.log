@@ -147,7 +147,7 @@ Unexpected token 'n', "null" is not valid JSON
 ✔ audio gain stays finite and bounded even if a caller supplies a bad volume (0.408625ms)
 Luma Keys listening on 58431
 Invalid settings: Piano volume. Choose supported settings and nonnegative numeric progress.
-EEXIST: file already exists, mkdir '/Users/prince/Desktop/Luma Keys/.qa-runs/settings-api-uBxOMc/Library/Settings recovery'
+EEXIST: file already exists, mkdir '~/Desktop/Luma Keys/.qa-runs/settings-api-uBxOMc/Library/Settings recovery'
 ✔ settings reads do not overwrite corruption; repairs preserve exact bytes and save atomically (712.438375ms)
 ✔ a generated exercise is summarised by key, meter, range and its tricky spots (98.92625ms)
 ✔ starter pieces without a key signature are read as C major and leaps are named (28.244375ms)

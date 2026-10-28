@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-conversation-model-2.9-ZoxcM3",
+  "root": "~/Desktop/Luma Keys/.qa-runs/native-conversation-model-2.9-ZoxcM3",
   "replies": [
     {
       "question": "I'm a beginner. Give me one short practical suggestion for the current bar, using only the written notes you can see.",

@@ -8,8 +8,8 @@
     "bundleEntries": 3035,
     "unchangedMusicalPersonalFiles": 107,
     "removedChatFiles": 33,
-    "freshBackup": "/Users/prince/Desktop/Luma Keys/.qa-runs/temporary-chat-2.35/personal-backup-without-chat",
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/temporary-chat-2.35/previous-installed-Luma Keys-2.34.0.app"
+    "freshBackup": "~/Desktop/Luma Keys/.qa-runs/temporary-chat-2.35/personal-backup-without-chat",
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/temporary-chat-2.35/previous-installed-Luma Keys-2.34.0.app"
   },
   "changes": [
     "Temporary renderer-only conversation; no transcript persistence in Library, localStorage, sessionStorage or history API.",

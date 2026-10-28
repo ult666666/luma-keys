@@ -33,7 +33,7 @@
       "1280x633"
     ],
     "themes": 6,
-    "qaRoot": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-illustrated-2.13/native-wUvtRv",
+    "qaRoot": "~/Desktop/Luma Keys/.qa-runs/library-illustrated-2.13/native-wUvtRv",
     "report": ".qa-runs/library-illustrated-2.13/native-report.json"
   },
   "package": {
@@ -49,7 +49,7 @@
     "filesAndSymlinks": 2992,
     "personalFiles": 68,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-illustrated-2.13/previous-installed-Luma Keys-2.12.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/library-illustrated-2.13/previous-installed-Luma Keys-2.12.0.app"
   },
   "reopened": {
     "personalFiles": 68,

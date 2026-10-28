@@ -176,7 +176,7 @@
   "install": {
     "version": "2.43.0",
     "previous": "2.42.0",
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/claude-2.43.0/previous-installed-Luma Keys-2.42.0.app",
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/claude-2.43.0/previous-installed-Luma Keys-2.42.0.app",
     "installedAt": "2026-10-07T23:43:20.626895-04:00",
     "entries": 3035,
     "personalFilesUnchanged": 108,

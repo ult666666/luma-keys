@@ -4,24 +4,24 @@
   "generation": {
     "prompt": "Use case: illustration-story. Asset type: original library cover for Luma Keys, a cute useful piano learning app. Draw an appealing PREMIUM 2D CARTOON, NOT a realistic painting. Chunky rounded character shapes, clean warm dark-brown outlines of consistent weight, simple flat cel-shaded color areas with only a hint of paper texture, oversized expressive dot eyes, pink cheeks, tiny paws, soft chibi proportions. A beautifully composed contemporary children's picture book with tasteful colors, playful charm and strong clear silhouette at thumbnail size. Landscape 3:2, 1536x1024 preferred, rich edge-to-edge scene with room to breathe. Important complete characters and their action within the central70% and middle60% height so they survive moderate cropping. No lettering, text, musical notation, numbers, logos, signatures, watermark, interface, frame or border. NO realism, photo, oil painting detail, realistic human anatomy, glossy plastic, 3D rendering, generic empty grand piano room. Original cartoon world illustrating the musical mood. For 晴天 (Sunny Day), concert arrangement: an adorable cream kitten in a skyblue formalvest performs at a small walnut grandpiano on a round outdoorcampusstage at sunset. A peach bunny and littlefrog sitas a tinyaudience in foreground; warm stringlanterns and leafbunting frame the stage, a tree and bluefoldedumbrella refer to the summer schoolmemory. The performingkitten and fullpiano centered, audience smallsofocusstaysmusical. More expansive and celebratory but still intimate, expressive happyfaces. Peach sunset, honeygold, muted lavender andblue. This is a distinct third SunnyDay illustration in the samecutecharacterfamily.",
     "transparent_background": false,
-    "output": "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-37087a15-2171-4685-a128-0f67e5c386cc.png"
+    "output": "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-37087a15-2171-4685-a128-0f67e5c386cc.png"
   },
   "edits": [
     {
       "prompt": "Edit this exact cartoon illustration with only one tiny change: remove the small gold letter-like brand mark from the brown grand piano's front panel directly above the keys next to the kitten's paws. Replace it with uninterrupted plain wood matching the surrounding cartoon panel. Preserve every other detail, character, paw, piano, stage, lighting, composition, size and palette. No text, logos or signatures. Opaque background.",
       "transparent_background": false,
       "referenced_image_paths": [
-        "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-37087a15-2171-4685-a128-0f67e5c386cc.png"
+        "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-37087a15-2171-4685-a128-0f67e5c386cc.png"
       ],
-      "output": "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-f05c9775-e4e6-4a27-89f3-98de5a7656aa.png"
+      "output": "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-f05c9775-e4e6-4a27-89f3-98de5a7656aa.png"
     },
     {
       "prompt": "Precise cleanup of this exact cartoon image. On the piano there is a tiny gold squiggle that resembles 'JM', at about x=722 y=456 of the 1536x1024 image, on the brown face immediately above the keys and just to the right of the kitten's paws. Erase that exact gold squiggle COMPLETELY and paint over it with plain continuous brown wood color. Make that rectangular piano front panel totally blank, with no letters, signature, insignia, gold flecks or scratch marks. Do not change anything else: keep kitten, audience, stage, all other instruments and scenery, palette, lighting, dimensions and composition exactly.",
       "transparent_background": false,
       "referenced_image_paths": [
-        "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-f05c9775-e4e6-4a27-89f3-98de5a7656aa.png"
+        "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-f05c9775-e4e6-4a27-89f3-98de5a7656aa.png"
       ],
-      "output": "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-f370b820-bc74-4d34-bbfd-9e3baf8698cb.png"
+      "output": "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-f370b820-bc74-4d34-bbfd-9e3baf8698cb.png"
     }
   ],
   "review": "Two cleanup edits reduced surrounding detail but did not fully erase a tiny ambiguous gold piano mark. The remaining detail was visually reviewed at source and card size and accepted; no claim of total removal."

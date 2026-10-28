@@ -1,11 +1,11 @@
 {
   "version": "2.14.0",
   "completedAt": "2026-09-27T15:55:13.306010-04:00",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedApp": "~/Desktop/Luma Keys.app",
   "unitTests": {
     "passed": 362,
     "failed": 0,
-    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/unit-final.log"
+    "log": "~/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/unit-final.log"
   },
   "staticArt": {
     "label": "final-art",
@@ -20,15 +20,15 @@
     ],
     "sourceFiles": [
       {
-        "path": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-art/source/hand-pose.mjs",
+        "path": "~/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-art/source/hand-pose.mjs",
         "sha256": "ecadcfe0d1099db1a836b66a339386e29ecc046c926ff33e0d2d606c22329b51"
       },
       {
-        "path": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-art/source/hand-draw.mjs",
+        "path": "~/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-art/source/hand-draw.mjs",
         "sha256": "dfe7da980c5343eaace8035cc8390c3a60b57b77d066519054dd9d46ede7c404"
       },
       {
-        "path": "/Users/prince/Desktop/Luma Keys/src/music.mjs",
+        "path": "~/Desktop/Luma Keys/src/music.mjs",
         "sha256": "cdc2ac9dfd9ec0860f5c415da31e2ba93e29d0b95f41950db46d5d8164ce592a"
       }
     ],
@@ -93,8 +93,8 @@
         }
       ]
     },
-    "report": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-report.json",
-    "visualReview": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-visual-review.json"
+    "report": "~/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-report.json",
+    "visualReview": "~/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/final-visual-review.json"
   },
   "packaging": {
     "version": "2.14.0",
@@ -110,7 +110,7 @@
     "filesAndSymlinks": 2992,
     "personalFiles": 107,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/previous-installed-Luma Keys-2.13.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/natural-hands-2.14/previous-installed-Luma Keys-2.13.0.app"
   },
   "reopened": {
     "checkedAt": "2026-09-27T15:55:13.306010-04:00",
@@ -140,5 +140,5 @@
     "Performance samples are short rAF measurements on this Mac at the recorded viewport/device density, not a guarantee for all devices.",
     "Native QA audio output was muted; this hand-art pass did not alter or re-audit the sampled instrument."
   ],
-  "guide": "/Users/prince/Desktop/Luma Keys/docs/NATURAL_HANDS_2.14.md"
+  "guide": "~/Desktop/Luma Keys/docs/NATURAL_HANDS_2.14.md"
 }

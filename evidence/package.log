@@ -18,14 +18,14 @@ dist/assets/opensheetmusicdisplay.min-BM3XSaOa.js  1,223.69 kB │ gzip: 321.47 
 ✓ built in 3.69s
   • electron-builder  version=26.15.3 os=25.5.0
   • loaded configuration  file=package.json ("build" field)
-  • author is missed in the package.json  appPackageFile=/Users/prince/Desktop/Luma Keys/package.json
-  • executing @electron/rebuild  electronVersion=44.4.5 arch=arm64 buildFromSource=false workspaceRoot=/Users/prince/Desktop/Luma Keys projectDir=./ appDir=./
+  • author is missed in the package.json  appPackageFile=~/Desktop/Luma Keys/package.json
+  • executing @electron/rebuild  electronVersion=44.4.5 arch=arm64 buildFromSource=false workspaceRoot=~/Desktop/Luma Keys projectDir=./ appDir=./
   • installing native dependencies  arch=arm64
   • completed installing native dependencies
   • packaging       platform=darwin arch=arm64 electron=44.4.5 appOutDir=release/mac-arm64
   • downloaded      label=electron progress=100%
-  • downloaded electron zip extracted successfully  output=/Users/prince/Desktop/Luma Keys/release/mac-arm64
-  • searching for node modules  pm=npm searchDir=/Users/prince/Desktop/Luma Keys
+  • downloaded electron zip extracted successfully  output=~/Desktop/Luma Keys/release/mac-arm64
+  • searching for node modules  pm=npm searchDir=~/Desktop/Luma Keys
   • duplicate dependency references  dependencies=["mime-types@3.0.2","debug@4.4.3","http-errors@2.0.1","on-finished@2.4.1","qs@6.16.0","http-errors@2.0.1","iconv-lite@0.7.3","type-is@2.1.0","debug@4.4.3","on-finished@2.4.1","get-intrinsic@1.3.0","call-bind-apply-helpers@1.0.2","call-bind-apply-helpers@1.0.2","es-object-atoms@1.1.2","call-bound@1.0.4","get-intrinsic@1.3.0","side-channel-map@1.0.1","debug@4.4.3","debug@4.4.3","http-errors@2.0.1","mime-types@3.0.2","on-finished@2.4.1","send@1.2.1","mime-types@3.0.2"]
   • downloaded      label=icons-bundle.tar.gz progress=100%
   • skipped macOS code signing  reason=identity explicitly is set to null

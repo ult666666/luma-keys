@@ -1,7 +1,7 @@
 {
   "version": "2.34.0",
   "verifiedAt": "2026-10-03T23:03:06.048179+00:00",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedApp": "~/Desktop/Luma Keys.app",
   "packageSHA256": "9bc131f84d079de0707e71500486574daeab220883d10a493f5cfc85d0d245db",
   "installation": {
     "installedVersion": "2.34.0",
@@ -9,7 +9,7 @@
     "archive": "9bc131f84d079de0707e71500486574daeab220883d10a493f5cfc85d0d245db",
     "bundleEntries": 3035,
     "unchangedPersonalFiles": 108,
-    "freshBackup": "/Users/prince/Desktop/Luma Keys/.qa-runs/microphone-practice-20261003/personal-backup-before-install"
+    "freshBackup": "~/Desktop/Luma Keys/.qa-runs/microphone-practice-20261003/personal-backup-before-install"
   },
   "reopened": {
     "at": "2026-10-03T23:01:20.471631+00:00",
@@ -183,8 +183,8 @@
       "classification": "QA instrumentation startup timing: probe absent before microphone actions; fixed in harness and final5 rerun passed."
     }
   ],
-  "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/microphone-practice-20261003/previous-installed-Luma Keys-2.33.0.app",
-  "verifiedCandidate": "/Users/prince/Desktop/Luma Keys/.qa-runs/microphone-practice-20261003/verified-Luma Keys-2.34.0.app",
+  "previousApp": "~/Desktop/Luma Keys/.qa-runs/microphone-practice-20261003/previous-installed-Luma Keys-2.33.0.app",
+  "verifiedCandidate": "~/Desktop/Luma Keys/.qa-runs/microphone-practice-20261003/verified-Luma Keys-2.34.0.app",
   "physicalMicrophoneAccess": false,
   "physicalPianoAccuracyVerified": false,
   "newModelTraining": false,

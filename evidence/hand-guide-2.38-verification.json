@@ -8,8 +8,8 @@
     "packageSHA256": "8d24bb385c7e589f21a77bae105ded4e3ca7084a90e5a23c68fe0d8ed6aa4805",
     "bundleEntries": 3035,
     "unchangedMusicalPersonalFiles": 107,
-    "freshBackup": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/personal-backup-without-chat",
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/previous-installed-Luma Keys-2.37.0.app"
+    "freshBackup": "~/Desktop/Luma Keys/.qa-runs/hand-art-2.38/personal-backup-without-chat",
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/hand-art-2.38/previous-installed-Luma Keys-2.37.0.app"
   },
   "native": {
     "passed": true,
@@ -61,20 +61,20 @@
       "cpuNote": "Engine CPU values are aggregate update/render timing since reset, not per-frame attribution or GPU time.",
       "longFramesOver50ms": 3
     },
-    "rawReport": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/final2-hands/report.json"
+    "rawReport": "~/Desktop/Luma Keys/.qa-runs/hand-art-2.38/final2-hands/report.json"
   },
   "tests": {
     "handPosePlannerFingering": {
       "passed": 141,
-      "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/all-hand-tests.log"
+      "log": "~/Desktop/Luma Keys/.qa-runs/hand-art-2.38/all-hand-tests.log"
     },
     "surfaceBakeGuidanceStageSeek": {
       "passed": 41,
-      "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/independent-tests.log"
+      "log": "~/Desktop/Luma Keys/.qa-runs/hand-art-2.38/independent-tests.log"
     },
     "afterFinalMaterialBake": {
       "passed": 40,
-      "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-art-2.38/final-surface-tests.log"
+      "log": "~/Desktop/Luma Keys/.qa-runs/hand-art-2.38/final-surface-tests.log"
     }
   },
   "integrity": {
@@ -110,9 +110,9 @@
     "Muted isolated native tests; no physical piano, microphone, MIDI, audio audition or model inference testing in this pass."
   ],
   "screenshots": {
-    "melody-rest": "/Users/prince/Desktop/Luma Keys/evidence/native-hand-guide-2.38-melody-rest.png",
-    "crossing": "/Users/prince/Desktop/Luma Keys/evidence/native-hand-guide-2.38-crossing.png",
-    "sunny": "/Users/prince/Desktop/Luma Keys/evidence/native-hand-guide-2.38-sunny.png",
-    "coda": "/Users/prince/Desktop/Luma Keys/evidence/native-hand-guide-2.38-coda.png"
+    "melody-rest": "~/Desktop/Luma Keys/evidence/native-hand-guide-2.38-melody-rest.png",
+    "crossing": "~/Desktop/Luma Keys/evidence/native-hand-guide-2.38-crossing.png",
+    "sunny": "~/Desktop/Luma Keys/evidence/native-hand-guide-2.38-sunny.png",
+    "coda": "~/Desktop/Luma Keys/evidence/native-hand-guide-2.38-coda.png"
   }
 }

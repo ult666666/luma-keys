@@ -51,7 +51,7 @@ Unexpected token 'n', "null" is not valid JSON
 ✔ audio gain stays finite and bounded even if a caller supplies a bad volume (0.173041ms)
 Luma Keys listening on 49457
 Invalid settings: Piano volume. Choose supported settings and nonnegative numeric progress.
-EEXIST: file already exists, mkdir '/Users/prince/Desktop/Luma Keys/.qa-runs/settings-api-5PMKL3/Library/Settings recovery'
+EEXIST: file already exists, mkdir '~/Desktop/Luma Keys/.qa-runs/settings-api-5PMKL3/Library/Settings recovery'
 ✔ settings reads do not overwrite corruption; repairs preserve exact bytes and save atomically (217.636708ms)
 ✔ nearly simultaneous floating-point onsets share one visual chord without changing source times (2.020292ms)
 ✔ piecewise reading positions preserve card spacing through highly unequal durations (0.167209ms)

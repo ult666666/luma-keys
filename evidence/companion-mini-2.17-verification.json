@@ -50,7 +50,7 @@
     "filesAndSymlinks": 2992,
     "personalFiles": 107,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-mini-2.17/previous-installed-Luma Keys-2.16.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/companion-mini-2.17/previous-installed-Luma Keys-2.16.0.app"
   },
   "afterReopen": {
     "version": "2.17.0",

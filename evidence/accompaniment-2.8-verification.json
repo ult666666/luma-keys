@@ -1,7 +1,7 @@
 {
   "version": "2.8.0",
   "completedAt": "2026-09-27T00:05:08.479433-04:00",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedApp": "~/Desktop/Luma Keys.app",
   "passed": true,
   "unitApi": {
     "passed": 239,
@@ -72,7 +72,7 @@
     "filesAndSymlinks": 2991,
     "personalFiles": 68,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/accompaniment-2.8/previous-installed-Luma Keys-2.7.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/accompaniment-2.8/previous-installed-Luma Keys-2.7.0.app"
   },
   "preservation": "data-preservation-2.8.0.json",
   "developmentProcessesStopped": true,

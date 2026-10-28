@@ -1,14 +1,14 @@
 {
   "version": "2.9.0",
   "completedAt": "2026-09-27T08:17:41.988363-04:00",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedApp": "~/Desktop/Luma Keys.app",
   "installation": {
     "version": "2.9.0",
     "installedAt": "2026-09-27T08:12:47.758205-04:00",
     "filesAndSymlinks": 2992,
     "personalFiles": 65,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/conversation-2.9/previous-installed-Luma Keys-2.8.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/conversation-2.9/previous-installed-Luma Keys-2.8.0.app"
   },
   "preservation": {
     "files": 65,
@@ -17,39 +17,39 @@
   },
   "unitTests": {
     "passed": 289,
-    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/conversation-2.9/unit-final.log",
+    "log": "~/Desktop/Luma Keys/.qa-runs/conversation-2.9/unit-final.log",
     "finalRoutingFocusedTestsPassed": true,
-    "routingLog": "/Users/prince/Desktop/Luma Keys/.qa-runs/conversation-2.9/routing-tests.log"
+    "routingLog": "~/Desktop/Luma Keys/.qa-runs/conversation-2.9/routing-tests.log"
   },
   "acceptance": {
     "conversation-2.9": {
       "passed": true,
       "checks": 10,
-      "evidence": "/Users/prince/Desktop/Luma Keys/evidence/conversation-2.9-qa.json",
+      "evidence": "~/Desktop/Luma Keys/evidence/conversation-2.9-qa.json",
       "errors": []
     },
     "native-conversation-2.9": {
       "passed": true,
       "checks": 12,
-      "evidence": "/Users/prince/Desktop/Luma Keys/evidence/native-conversation-2.9-qa.json",
+      "evidence": "~/Desktop/Luma Keys/evidence/native-conversation-2.9-qa.json",
       "errors": []
     },
     "native-conversation-model-2.9": {
       "passed": true,
       "checks": 6,
-      "evidence": "/Users/prince/Desktop/Luma Keys/evidence/native-conversation-model-2.9-qa.json",
+      "evidence": "~/Desktop/Luma Keys/evidence/native-conversation-model-2.9-qa.json",
       "errors": []
     },
     "native-backing-2.9": {
       "passed": true,
       "checks": 11,
-      "evidence": "/Users/prince/Desktop/Luma Keys/evidence/native-backing-2.9-qa.json",
+      "evidence": "~/Desktop/Luma Keys/evidence/native-backing-2.9-qa.json",
       "errors": []
     },
     "native-input-2.9": {
       "passed": true,
       "checks": 12,
-      "evidence": "/Users/prince/Desktop/Luma Keys/evidence/native-input-2.9-qa.json",
+      "evidence": "~/Desktop/Luma Keys/evidence/native-input-2.9-qa.json",
       "errors": []
     }
   },
@@ -71,10 +71,10 @@
   },
   "ownedDevAndTestProcessesStopped": true,
   "screenshots": [
-    "/Users/prince/Desktop/Luma Keys/evidence/native-conversation-model-2.9-conversation.png"
+    "~/Desktop/Luma Keys/evidence/native-conversation-model-2.9-conversation.png"
   ],
-  "sourceBackup": "/Users/prince/Desktop/Luma Keys/.qa-runs/conversation-2.9/source-2.8-before.tar.gz",
-  "sourcePatch": "/Users/prince/Desktop/Luma Keys/.qa-runs/conversation-2.9/source-2.9.patch",
+  "sourceBackup": "~/Desktop/Luma Keys/.qa-runs/conversation-2.9/source-2.8-before.tar.gz",
+  "sourcePatch": "~/Desktop/Luma Keys/.qa-runs/conversation-2.9/source-2.9.patch",
   "limits": [
     "The compact model can give generic or incorrect advice; precise written-bar help and pitch numbering use deterministic application logic.",
     "A benign native-model prompt was refused during an earlier run; the app offered retry without losing the question.",
@@ -82,9 +82,9 @@
     "Older macOS fallback was inspected and simulated, not tested on older hardware."
   ],
   "modelQualityEvidence": [
-    "/Users/prince/Desktop/Luma Keys/.qa-runs/conversation-2.9/model-smoke.json",
-    "/Users/prince/Desktop/Luma Keys/.qa-runs/conversation-2.9/model-smoke-grounded.json",
-    "/Users/prince/Desktop/Luma Keys/.qa-runs/conversation-2.9/model-smoke-localized.json",
-    "/Users/prince/Desktop/Luma Keys/.qa-runs/conversation-2.9/native-model-refusal-run.json"
+    "~/Desktop/Luma Keys/.qa-runs/conversation-2.9/model-smoke.json",
+    "~/Desktop/Luma Keys/.qa-runs/conversation-2.9/model-smoke-grounded.json",
+    "~/Desktop/Luma Keys/.qa-runs/conversation-2.9/model-smoke-localized.json",
+    "~/Desktop/Luma Keys/.qa-runs/conversation-2.9/native-model-refusal-run.json"
   ]
 }

@@ -2,7 +2,7 @@
   "version": "2.44.0",
   "asarSHA256": "5cd5bf4b1c8492c28f25f4fc5244dbb5514b0441768be7d6dafed246633b5448",
   "previous": "2.43.0",
-  "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/audio-recovery-2.44/previous-installed-Luma Keys-2.43.0.app",
+  "previousApp": "~/Desktop/Luma Keys/.qa-runs/audio-recovery-2.44/previous-installed-Luma Keys-2.43.0.app",
   "entries": 3035,
   "personalFilesUnchanged": 109,
   "installedAt": "2026-10-11T10:57:10.080100-07:00",
@@ -12,7 +12,7 @@
     "grandReport": ".qa-runs/audio-recovery-2.44/native-5cd5bf4b1c84-JUcEhO/native-grand-report.json",
     "functionalPassed": true,
     "performancePassed": false,
-    "baseline": "/Users/prince/Desktop/Luma Keys/evidence/native-stage-performance-baseline243-20261011.json",
+    "baseline": "~/Desktop/Luma Keys/evidence/native-stage-performance-baseline243-20261011.json",
     "limitation": "Dense-score animation misses unchanged frame limits on both versions; not claimed fixed."
   },
   "reopen": {

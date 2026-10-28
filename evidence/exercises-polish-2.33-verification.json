@@ -114,7 +114,7 @@
   },
   "actualDesktopObservation": {
     "version": "2.33.0",
-    "appPath": "/Users/prince/Desktop/Luma Keys.app",
+    "appPath": "~/Desktop/Luma Keys.app",
     "observedAt": "2026-10-03T17:49:29.018728-04:00",
     "normalQuit": true,
     "quitChangedUIGuardRefreshed": true,

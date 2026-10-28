@@ -29,7 +29,7 @@ const score = {
   measureStarts: [0, 1, 4],
   measureLengths: [1, 3, 3],
   xml: "NEVER SEND FULL XML",
-  originalPath: "/Users/prince/private/score.pdf",
+  originalPath: "/Users/example/private/score.pdf",
   notes: [
     { id: "held", midi: 48, beat: 0, duration: 3, hand: "left" },
     { id: "rh-1", midi: 65, beat: 1, duration: 1, hand: "right" },
@@ -367,9 +367,9 @@ test("prompt rejects unknown fields, excessive input, tool roles, invalid contex
 test("frontend projection redacts local paths/markup without expanding its whitelist", () => {
   const view = makeCompanionContext({
     ...options,
-    currentScore: { ...score, title: "/Users/prince/private.pdf", composer: "<b>Somebody</b>" },
+    currentScore: { ...score, title: "/Users/example/private.pdf", composer: "<b>Somebody</b>" },
     guide: { title: "<i>Hold</i>", text: "See /private/score.xml" },
-    pieces: [{ ...score, id: "other", title: "/Users/prince/song.pdf", composer: "<i>X</i>", source: "PDF" }],
+    pieces: [{ ...score, id: "other", title: "/Users/example/song.pdf", composer: "<i>X</i>", source: "PDF" }],
   });
   assert.equal(view.piece.title, "[local path]");
   assert.equal(view.piece.composer, "Somebody");

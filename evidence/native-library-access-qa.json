@@ -8,14 +8,14 @@
   ],
   "dialog": {
     "message": "Luma Keys can’t open its Library folder",
-    "detail": "Something that is not a folder is in the way:\n/Users/prince/Desktop/Luma Keys/.qa-runs/library-access-try-again-PZYYRA/Library\n\nRename or move that file, then choose Try Again. Nothing has been changed or deleted.",
+    "detail": "Something that is not a folder is in the way:\n~/Desktop/Luma Keys/.qa-runs/library-access-try-again-PZYYRA/Library\n\nRename or move that file, then choose Try Again. Nothing has been changed or deleted.",
     "buttons": [
       "Try Again",
       "Quit"
     ]
   },
   "roots": [
-    "/Users/prince/Desktop/Luma Keys/.qa-runs/library-access-try-again-PZYYRA",
-    "/Users/prince/Desktop/Luma Keys/.qa-runs/library-access-quit-09mSDM"
+    "~/Desktop/Luma Keys/.qa-runs/library-access-try-again-PZYYRA",
+    "~/Desktop/Luma Keys/.qa-runs/library-access-quit-09mSDM"
   ]
 }

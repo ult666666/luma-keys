@@ -55,7 +55,7 @@
     "filesAndSymlinks": 2992,
     "personalFiles": 107,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/cartoon-covers-2.16/previous-installed-Luma Keys-2.15.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/cartoon-covers-2.16/previous-installed-Luma Keys-2.15.0.app"
   },
   "afterReopen": {
     "version": "2.16.0",

@@ -2,7 +2,7 @@
   "version": "2.26.0",
   "date": "2026-10-02T21:01:12.970947-04:00",
   "scope": "Preserved 3-D hand geometry with softer material/light finish and improved fingertip markers; Library-cover colours on instrument and satin readable falling notes; left/right five-second song-clock jumps.",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedApp": "~/Desktop/Luma Keys.app",
   "installed": {
     "version": "2.26.0",
     "verifiedAt": "2026-10-02T21:00:35.493740-04:00",
@@ -19,12 +19,12 @@
     "filesAndSymlinks": 3035,
     "personalFiles": 108,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/practice-art-2.26/previous-installed-Luma Keys-2.26.0-before-count-in-fix.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/practice-art-2.26/previous-installed-Luma Keys-2.26.0-before-count-in-fix.app"
   },
   "tests": {
     "unitAndAPI": 762,
     "passed": 762,
-    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/practice-art-2.26/reports/unit-tests-count-in-final.log",
+    "log": "~/Desktop/Luma Keys/.qa-runs/practice-art-2.26/reports/unit-tests-count-in-final.log",
     "focusedSeekAndTempo": 14,
     "focusedLog": ".qa-runs/practice-art-2.26/reports/final-seek-tests.log",
     "nativeGroups": [
@@ -62,7 +62,7 @@
     "native3DRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1, Unspecified Version)",
     "noHorizontalDocumentOverflow": true,
     "minimumTestedNumberContrast": 6.501879952731471,
-    "screenshots": "/Users/prince/Desktop/Luma Keys/.qa-runs/practice-art-2.26/final-e-practice",
+    "screenshots": "~/Desktop/Luma Keys/.qa-runs/practice-art-2.26/final-e-practice",
     "geometryAndRigUnchanged": true
   },
   "personalPracticeOnReopen": {

@@ -1,6 +1,6 @@
 # Piano studio refinement · 14 October 2026
 
-Implemented in `/Users/prince/Desktop/Luma Keys` on MacBook-Pro-2.local, Mac17,9 / Apple M5 Pro, macOS26.6. The installed application and personal Library were not changed. The work uses the existing React19, Vite7, Three.js0.186.1 and Electron44.4.5 stack. A source/diff/hash baseline preserves the978 pre-existing changed or untracked entries; changes from this pass are listed separately in `.qa-runs/studio-2026-10-14/changed-files.json`.
+Implemented in `~/Desktop/Luma Keys` on MacBook-Pro-2.local, Mac17,9 / Apple M5 Pro, macOS26.6. The installed application and personal Library were not changed. The work uses the existing React19, Vite7, Three.js0.186.1 and Electron44.4.5 stack. A source/diff/hash baseline preserves the978 pre-existing changed or untracked entries; changes from this pass are listed separately in `.qa-runs/studio-2026-10-14/changed-files.json`.
 
 ## Hands and contact
 
@@ -56,7 +56,7 @@ Four real GPU-rendered clips cover two-hand scales, held chords and position cha
 - Maximum solved scale contact error:0.547mm; held-chord error:0.022mm. Target drift was effectively zero; residual visible held-pad movement peaked at0.72px during scales.
 - The focused crossover test requires≤0.5mm around that event at two sizes and both speeds. The broader recorded scale's0.55mm residual is explicitly retained in the report.
 
-[Detailed playback report](../.qa-runs/studio-2026-10-14/playback-review.md) includes timing, geometry tolerances, per-frame measurements and limitations. Lab recordings contain no audio. Actual app playback was exercised, but audible synchronization, microphone recognition and physical MIDI hardware were not validated in this pass.
+The detailed playback report (`.qa-runs/studio-2026-10-14/playback-review.md`, kept on the development machine and not in this repository) includes timing, geometry tolerances, per-frame measurements and limitations. Lab recordings contain no audio. Actual app playback was exercised, but audible synchronization, microphone recognition and physical MIDI hardware were not validated in this pass.
 
 The effective200% test uses the corresponding CSS viewport/DPR, not the native browser zoom menu. Sampled accessibility checks are not a complete WCAG conformance audit across every theme, dialog and canvas state. The constrained model still uses key guidance for some difficult passages, and complex fingering substitutions are not supported.
 
@@ -65,18 +65,20 @@ The effective200% test uses the corresponding CSS viewport/DPR, not the native b
 Current isolated development preview: **http://127.0.0.1:5188**.
 
 ```sh
-cd '/Users/prince/Desktop/Luma Keys'
+cd "$HOME/Desktop/Luma Keys"
 LUMA_DATA_DIR="$PWD/.qa-runs/studio-2026-10-14/Library" npm run dev
 ```
 
 The preview writes only to its own Library/Logs. For the isolated built-desktop smoke test, the `native-smoke.mjs` script sets its own `LUMA_QA_ROOT`; it does not launch the installed production app. The Electron dependency runtime was missing initially and was installed locally in this checkout to execute that test.
 
-- [Visual review gallery](../.qa-runs/studio-2026-10-14/review.html)
-- [Natural hands,1440px](../.qa-runs/studio-2026-10-14/after/practice-1440.png)
-- [Focus mode](../.qa-runs/studio-2026-10-14/after/practice-focus.png)
-- [Desktop capture](../.qa-runs/studio-2026-10-14/native/practice-native.png)
-- [Slow scale recording](../.qa-runs/studio-2026-10-14/playback-scale-0.5x.mp4)
-- [Chords and position changes](../.qa-runs/studio-2026-10-14/playback-chords-position-1x.mp4)
-- [Accessibility review](../.qa-runs/studio-2026-10-14/accessibility/review.md)
+These review files stayed in the git-ignored `.qa-runs/studio-2026-10-14/` folder on the development machine, so they are not in this repository:
+
+- Visual review gallery: `review.html`
+- Natural hands at 1440 px: `after/practice-1440.png`
+- Focus mode: `after/practice-focus.png`
+- Desktop capture: `native/practice-native.png`
+- Slow scale recording: `playback-scale-0.5x.mp4`
+- Chords and position changes: `playback-chords-position-1x.mp4`
+- Accessibility review: `accessibility/review.md`
 
 References consulted: [ForElise](https://pei-xu.github.io/ForElise), [Three.js SkinnedMesh](https://threejs.org/docs/pages/SkinnedMesh.html), [Web Audio output timing](https://www.w3.org/TR/webaudio/#dom-audiocontext-getoutputtimestamp), [reduced motion](https://developer.apple.com/help/app-store-connect/manage-app-accessibility/reduced-motion-evaluation-criteria), [WCAG text contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), [non-text contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), and [target sizing](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html). These informed the checks, not additional dependencies or licensing claims.
