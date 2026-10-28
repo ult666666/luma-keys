@@ -24,7 +24,7 @@
       "passed": false,
       "exit": 1,
       "seconds": 40,
-      "summary": "at verifyReader (/Users/prince/Desktop/Luma Keys/scripts/reader-checks.mjs:404:6)"
+      "summary": "at verifyReader (~/Desktop/Luma Keys/scripts/reader-checks.mjs:404:6)"
     },
     {
       "story": "native-material-qa",
@@ -87,7 +87,7 @@
       "passed": false,
       "exit": 1,
       "seconds": 27,
-      "summary": "at collect (/Users/prince/Desktop/Luma Keys/scripts/hand-beauty-checks.mjs:109:10)"
+      "summary": "at collect (~/Desktop/Luma Keys/scripts/hand-beauty-checks.mjs:109:10)"
     },
     {
       "story": "native-hand-guide-qa",
@@ -122,7 +122,7 @@
       "passed": false,
       "exit": 1,
       "seconds": 40,
-      "summary": "at /Users/prince/Desktop/Luma Keys/scripts/native-stage-performance-qa.mjs:171:27 {"
+      "summary": "at ~/Desktop/Luma Keys/scripts/native-stage-performance-qa.mjs:171:27 {"
     },
     {
       "story": "native-storage-qa",
@@ -136,7 +136,7 @@
       "passed": false,
       "exit": 1,
       "seconds": 38,
-      "summary": "at verifyTroubleSpots (/Users/prince/Desktop/Luma Keys/scripts/trouble-spots-checks.mjs:313:18)"
+      "summary": "at verifyTroubleSpots (~/Desktop/Luma Keys/scripts/trouble-spots-checks.mjs:313:18)"
     },
     {
       "story": "native-transition-qa",

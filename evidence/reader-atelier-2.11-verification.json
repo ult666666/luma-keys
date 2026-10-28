@@ -97,7 +97,7 @@
     "filesAndSymlinks": 2992,
     "personalFiles": 68,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/reader-atelier-2.11/previous-installed-Luma Keys-2.10.1.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/reader-atelier-2.11/previous-installed-Luma Keys-2.10.1.app"
   },
   "package": {
     "version": "2.11.0",
@@ -106,7 +106,7 @@
     "nativeHelperMatches": true,
     "appAsarSha256": "a0d737a8b905622099a8f1a185c528ecb51289de5c7f28a4d0244d976271cd1c"
   },
-  "evidence": "/Users/prince/Desktop/Luma Keys/.qa-runs/reader-atelier-2.11",
+  "evidence": "~/Desktop/Luma Keys/.qa-runs/reader-atelier-2.11",
   "limitations": [
     "A synchronous new-passage engraving pause remains; one250ms frame occurred in the final9-second Appassionata sample. Frame timings describe this Mac and sample, not all hardware or GPU presentation.",
     "The compact sheet retains its existing viewport size; tall systems can be manually scrolled, and following occurs only when the system changes.",

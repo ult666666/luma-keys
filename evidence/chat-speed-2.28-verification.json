@@ -94,7 +94,7 @@
     "filesAndSymlinks": 3035,
     "personalFiles": 108,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/chat-speed-2.28/previous-installed-Luma Keys-2.27.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/chat-speed-2.28/previous-installed-Luma Keys-2.27.0.app"
   },
   "installedVerification": {
     "version": "2.28.0",

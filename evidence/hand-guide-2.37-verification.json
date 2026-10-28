@@ -66,8 +66,8 @@
     "packageSHA256": "abee16cce0d3a9a8aeee238bc2a8525e287cbb6bbe38575713dce0f093986719",
     "bundleEntries": 3035,
     "unchangedMusicalPersonalFiles": 107,
-    "freshBackup": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-flow-2.37/personal-backup-without-chat",
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-flow-2.37/previous-installed-Luma Keys-2.36.0.app"
+    "freshBackup": "~/Desktop/Luma Keys/.qa-runs/hand-flow-2.37/personal-backup-without-chat",
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/hand-flow-2.37/previous-installed-Luma Keys-2.36.0.app"
   },
   "actualDesktopReopened": true,
   "actualDesktopObservation": {

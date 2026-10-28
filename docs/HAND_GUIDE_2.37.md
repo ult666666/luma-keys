@@ -34,6 +34,6 @@ Full bounded solver measurements: `.qa-runs/hand-flow-2.37/README.md`. Native ev
 
 ## Installation
 
-Installed the exact verified 2.37.0 bundle at `/Users/prince/Desktop/Luma Keys.app`. All 3,035 bundle entries match the frozen candidate, and all 107 non-chat musical/personal files remain byte-for-byte unchanged. The previous 2.36.0 app and a fresh musical-data backup remain recoverable in the QA folder. The existing temporary-chat behavior is preserved; no chat transcript was read or copied.
+Installed the exact verified 2.37.0 bundle at `~/Desktop/Luma Keys.app`. All 3,035 bundle entries match the frozen candidate, and all 107 non-chat musical/personal files remain byte-for-byte unchanged. The previous 2.36.0 app and a fresh musical-data backup remain recoverable in the QA folder. The existing temporary-chat behavior is preserved; no chat transcript was read or copied.
 
 The actual Desktop app reopened and was checked through native accessibility and pixels: paused Appassionata, Falling notes, Ocean/Lang Lang, Perform/Both/100%, Resume bar 31, the accepted 3-D hands and both compact repeat cues. Initial native inspection timed out during startup; a subsequent inspection succeeded without force quitting. Startup delay is not claimed fixed.

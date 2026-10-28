@@ -8,8 +8,8 @@ Call log:
 [2m  - waiting for fonts to load...[22m
 [2m  - fonts loaded[22m
 
-    at verifyOverlapMotion (/Users/prince/Desktop/Luma Keys/scripts/overlap-motion-checks.mjs:238:16)
-    at async file:///Users/prince/Desktop/Luma%20Keys/scripts/native-continuity-qa.mjs:45:7 {
+    at verifyOverlapMotion (~/Desktop/Luma Keys/scripts/overlap-motion-checks.mjs:238:16)
+    at async file://~/Desktop/Luma%20Keys/scripts/native-continuity-qa.mjs:45:7 {
   log: [
     '  - taking page screenshot',
     '  - waiting for fonts to load...',

@@ -157,7 +157,7 @@
     "personalFiles": 108,
     "allLatestPersonalFilesUnchangedAfterReopen": true,
     "nativeGroups": 9,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-intelligence-2.20/previous-installed-Luma Keys-2.18.0.app",
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/companion-intelligence-2.20/previous-installed-Luma Keys-2.18.0.app",
     "ui": {
       "verifiedAt": "2026-09-27T20:45:15.789472-04:00",
       "method": "Personal installed app via CUA accessibility controls; read-only HTTP endpoints and filesystem hashes",

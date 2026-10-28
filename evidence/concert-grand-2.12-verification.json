@@ -1,7 +1,7 @@
 {
   "version": "2.12.0",
   "completedAt": "2026-09-27T10:17:09.112449-04:00",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedApp": "~/Desktop/Luma Keys.app",
   "installedUiVerified": true,
   "installedUi": {
     "sound": "Yamaha C5 grand \u00b7 Six recorded touch levels \u00b7 Stereo",
@@ -690,7 +690,7 @@
     "filesAndSymlinks": 2992,
     "personalFiles": 68,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/concert-grand-2.12/previous-installed-Luma Keys-2.11.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/concert-grand-2.12/previous-installed-Luma Keys-2.11.0.app"
   },
   "personalFilesAfterReopen": 68,
   "latestPersonalFilesUnchangedAfterReopen": true,

@@ -34,14 +34,14 @@
     "ok": true,
     "version": "2.44.0",
     "omr": true,
-    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-oT92UE/Library",
+    "dataDir": "~/Desktop/Luma Keys/.qa-runs/native-oT92UE/Library",
     "writable": true,
     "sharedWith": null,
     "startup": {
       "serverReadyMs": 187,
       "windowLoaded": 375
     },
-    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-oT92UE/Logs/luma-keys.log",
+    "log": "~/Desktop/Luma Keys/.qa-runs/native-oT92UE/Logs/luma-keys.log",
     "companionHistory": {
       "storage": "temporary",
       "cleanup": {

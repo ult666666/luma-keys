@@ -13,7 +13,7 @@
   "mutopia": 5,
   "sourcePath": "BachJS/BWV846/wtk1-prelude1/wtk1-prelude1.ly",
   "description": "The complete 35-bar prelude from The Well-Tempered Clavier, Book I. Two hands; the repeating arpeggios retain the bass and inner-voice holds.",
-  "folder": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-library-20260927/staged/Practice Sheets/Prelude in C major - BWV 846",
+  "folder": "~/Desktop/Luma Keys/.qa-runs/song-library-20260927/staged/Practice Sheets/Prelude in C major - BWV 846",
   "notes": 549,
   "hands": {
     "right": 415,

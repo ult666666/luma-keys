@@ -2,8 +2,8 @@
   "version": "2.10.0",
   "passed": true,
   "completedAt": "2026-09-27T09:31:03.696458-04:00",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
-  "run": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749",
+  "installedApp": "~/Desktop/Luma Keys.app",
+  "run": "~/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749",
   "unitApiTests": 317,
   "nativeConversationGroups": 12,
   "nativeRealCoachGroups": 7,
@@ -42,7 +42,7 @@
     "filesAndSymlinks": 2992,
     "personalFiles": 68,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/previous-installed-Luma Keys-2.9.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/previous-installed-Luma Keys-2.9.0.app"
   },
   "reopening": {
     "passed": true,
@@ -69,15 +69,15 @@
   },
   "evidence": {
     "conversation": "evidence/native-conversation-2.10-release-qa.json",
-    "coach": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/reports/native-coach.json",
+    "coach": "~/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/reports/native-coach.json",
     "input": "evidence/native-input-coach-2.10-qa.json",
-    "motion": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/presence/report.json",
-    "scroll": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/presence/scroll-geometry-check.json",
-    "realModel": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/model-eval/REVIEW.md",
-    "sourceChanges": "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/reports/source-changes.json",
+    "motion": "~/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/presence/report.json",
+    "scroll": "~/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/presence/scroll-geometry-check.json",
+    "realModel": "~/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/model-eval/REVIEW.md",
+    "sourceChanges": "~/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/reports/source-changes.json",
     "screenshots": [
-      "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/screenshots/native-mozart-coach.png",
-      "/Users/prince/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/screenshots/native-chinese-lesson.png"
+      "~/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/screenshots/native-mozart-coach.png",
+      "~/Desktop/Luma Keys/.qa-runs/companion-coach-2.10-20260927-124749/screenshots/native-chinese-lesson.png"
     ]
   },
   "limitations": [

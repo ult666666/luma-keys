@@ -5,8 +5,8 @@
   "installed": false,
   "installationBlocker": "CUA reported that the Mac is locked and automatic unlock could not unlock it. User asked to unlock so the current app can save and quit normally. No force quit or replacement while running.",
   "candidateArchiveSHA256": "1891a0c9c1f97703cf9221c5bea49c08ffaeed88ba52719bc8654dc7f7c3e26e",
-  "candidateApp": "/Users/prince/Desktop/Luma Keys/release/mac-arm64/Luma Keys.app",
-  "stagedApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/audio-clean-2.19/install-ready.app",
+  "candidateApp": "~/Desktop/Luma Keys/release/mac-arm64/Luma Keys.app",
+  "stagedApp": "~/Desktop/Luma Keys/.qa-runs/audio-clean-2.19/install-ready.app",
   "tests": {
     "unitAndApiPassed": 410,
     "nativeGroupsPassed": 6,

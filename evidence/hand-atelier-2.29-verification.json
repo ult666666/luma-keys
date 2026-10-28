@@ -110,7 +110,7 @@
   },
   "installationRecord": ".qa-runs/hand-atelier-2.29/installation-record.json",
   "nativeReopenObservation": {
-    "app": "/Users/prince/Desktop/Luma Keys.app",
+    "app": "~/Desktop/Luma Keys.app",
     "initialSavedPosition": "晴天 (Sunny Day), bar1/76, paused, Wait, Both hands,60%, Falling notes",
     "initialAppearance": "Lang Lang, Neutral",
     "latestObservedAppearance": "Liszt, Match Liszt",

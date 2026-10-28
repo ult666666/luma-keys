@@ -47,7 +47,7 @@ Unexpected token 'n', "null" is not valid JSON
 ✔ audio gain stays finite and bounded even if a caller supplies a bad volume (0.16725ms)
 Luma Keys listening on 57862
 Invalid settings: Piano volume. Choose supported settings and nonnegative numeric progress.
-EEXIST: file already exists, mkdir '/Users/prince/Desktop/Luma Keys/.qa-runs/settings-api-hzZTL4/Library/Settings recovery'
+EEXIST: file already exists, mkdir '~/Desktop/Luma Keys/.qa-runs/settings-api-hzZTL4/Library/Settings recovery'
 ✔ settings reads do not overwrite corruption; repairs preserve exact bytes and save atomically (132.942333ms)
 ✔ Explicit closing rests and a final rest-only bar remain in the practice duration (17.004541ms)
 ✔ Independent Bach export preserves the arpeggio's sustained lower voices and final chord (95.590333ms)

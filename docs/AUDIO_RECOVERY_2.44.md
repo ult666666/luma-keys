@@ -113,7 +113,7 @@ across its three runs. This update does not claim to resolve that limitation.
 
 ## Installed copy
 
-The verified 2.44.0 bundle is installed at `/Users/prince/Desktop/Luma Keys.app`
+The verified 2.44.0 bundle is installed at `~/Desktop/Luma Keys.app`
 and visibly reopened. Sunny Day remains paused with Resume bar 48, Listen mode,
 Both hands, 50% speed, Ocean and Lang Lang. All 109 personal music/settings/progress
 files stayed byte-identical through installation and reopening. The former 2.43

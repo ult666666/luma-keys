@@ -11,14 +11,14 @@
     "ok": true,
     "version": "2.44.0",
     "omr": true,
-    "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-storage-HsQaDj/Library",
+    "dataDir": "~/Desktop/Luma Keys/.qa-runs/native-storage-HsQaDj/Library",
     "writable": true,
     "sharedWith": null,
     "startup": {
       "serverReadyMs": 653,
       "windowLoaded": 1606
     },
-    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-storage-HsQaDj/Logs/luma-keys.log",
+    "log": "~/Desktop/Luma Keys/.qa-runs/native-storage-HsQaDj/Logs/luma-keys.log",
     "companionHistory": {
       "storage": "temporary",
       "cleanup": {

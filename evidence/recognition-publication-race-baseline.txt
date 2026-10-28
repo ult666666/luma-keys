@@ -62,7 +62,7 @@ Unexpected token 'n', "null" is not valid JSON
 ✔ audio gain stays finite and bounded even if a caller supplies a bad volume (5.237ms)
 Luma Keys listening on 53515
 Invalid settings: Piano volume. Choose supported settings and nonnegative numeric progress.
-EEXIST: file already exists, mkdir '/Users/prince/Desktop/Luma Keys/.qa-runs/settings-api-rlfvba/Library/Settings recovery'
+EEXIST: file already exists, mkdir '~/Desktop/Luma Keys/.qa-runs/settings-api-rlfvba/Library/Settings recovery'
 ✔ settings reads do not overwrite corruption; repairs preserve exact bytes and save atomically (484.737667ms)
 ✔ nearly simultaneous floating-point onsets share one visual chord without changing source times (4.598666ms)
 ✔ piecewise reading positions preserve card spacing through highly unequal durations (0.291875ms)
@@ -107,10 +107,10 @@ Note 1 has an invalid pitch, rhythm or hand. Check the original score before imp
 test at tests/recognition.test.mjs:285:1
 ✖ An engine launch failure releases the slot and reports installation trouble, not scan quality (140.444625ms)
   Error: A score is already being recognized. Let it finish or cancel it first.
-      at failure (file:///Users/prince/Desktop/Luma%20Keys/src/recognition.mjs:31:17)
-      at begin (file:///Users/prince/Desktop/Luma%20Keys/src/recognition.mjs:167:13)
-      at Object.retry (file:///Users/prince/Desktop/Luma%20Keys/src/recognition.mjs:408:14)
-      at TestContext.<anonymous> (file:///Users/prince/Desktop/Luma%20Keys/tests/recognition.test.mjs:297:25)
+      at failure (file://~/Desktop/Luma%20Keys/src/recognition.mjs:31:17)
+      at begin (file://~/Desktop/Luma%20Keys/src/recognition.mjs:167:13)
+      at Object.retry (file://~/Desktop/Luma%20Keys/src/recognition.mjs:408:14)
+      at TestContext.<anonymous> (file://~/Desktop/Luma%20Keys/tests/recognition.test.mjs:297:25)
       at async Test.run (node:internal/test_runner/test:1332:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
     status: 409

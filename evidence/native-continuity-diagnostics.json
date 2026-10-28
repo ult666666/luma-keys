@@ -1,7 +1,7 @@
 {
   "startedAt": "2026-10-09T22:49:59.284Z",
   "recordedAt": "2026-10-09T22:50:25.956Z",
-  "root": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-continuity-TyCxae",
+  "root": "~/Desktop/Luma Keys/.qa-runs/native-continuity-TyCxae",
   "version": "2.44.0",
   "stage": "cleanup",
   "process": {

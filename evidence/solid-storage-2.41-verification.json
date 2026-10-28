@@ -47,13 +47,13 @@
         "ok": true,
         "version": "2.41.0",
         "omr": true,
-        "dataDir": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-storage-qWkpgO/Library",
+        "dataDir": "~/Desktop/Luma Keys/.qa-runs/native-storage-qWkpgO/Library",
         "writable": true,
         "startup": {
           "serverReadyMs": 173,
           "windowLoaded": 365
         },
-        "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/native-storage-qWkpgO/Logs/luma-keys.log",
+        "log": "~/Desktop/Luma Keys/.qa-runs/native-storage-qWkpgO/Logs/luma-keys.log",
         "companionHistory": {
           "storage": "temporary",
           "cleanup": {
@@ -81,7 +81,7 @@
   "installation": {
     "version": "2.41.0",
     "previous": "2.40.0",
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/claude-2.41.0/previous-installed-Luma Keys-2.40.0.app",
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/claude-2.41.0/previous-installed-Luma Keys-2.40.0.app",
     "installedAt": "2026-10-06T22:26:13.056118-04:00",
     "entries": 3035,
     "personalFilesUnchanged": 107

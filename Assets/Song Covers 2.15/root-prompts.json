@@ -5,7 +5,7 @@
     {
       "id": "appassionata",
       "prompt": "Use case: illustration-story. Asset type: original cover illustration for a high-end piano learning app, NOT a UI or mockup. Landscape 3:2 edge-to-edge painting. Elegant tactile editorial gouache and fine-art album sleeve, layered pigments, subtle paper grain, expressive deliberate brushwork, sophisticated color relationships, strong silhouettes at thumbnail size. Main subjects in the central 70% to survive 16:10 or moderate square cropping. No text, letters, numbers, musical notation, logos, brands, watermark, interface, album border, neon or plastic 3D. Do not paint a generic piano in a room. This is an original visual interpretation of the musical mood. Piece: Beethoven Appassionata, third movement. Make passion and relentless momentum visible: a small dark wing-shaped grand-piano silhouette on a jagged basalt promontory, a sweeping deep-crimson silk ribbon rises in a single powerful spiral like fire around it, streaks of amber break through charcoal storm clouds, ink-dark waves below. Painterly chiaroscuro, monumental diagonal movement, concentrated red/black/copper palette with a narrow luminous horizon. The ribbon and sea are expressive, the piano anchors the scale. Epic, urgent, tragic resolve; refined and beautiful, not disaster spectacle. No people.",
-      "source": "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-e80e3c69-3901-4dbd-9841-4b52ae22f3a4.png",
+      "source": "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-e80e3c69-3901-4dbd-9841-4b52ae22f3a4.png",
       "mode": "built-in image_gen",
       "selected": true,
       "bytes": 2716084,
@@ -19,7 +19,7 @@
     {
       "id": "sunny-day",
       "prompt": "Use case: illustration-story. Asset type: original cover illustration for a high-end piano learning app, NOT a UI or mockup. Landscape 3:2 edge-to-edge painting. Elegant tactile editorial gouache and fine-art album sleeve, layered pigments, subtle paper grain, expressive deliberate brushwork, sophisticated color relationships, strong silhouettes at thumbnail size. Main subjects in the central 70% to survive 16:10 or moderate square cropping. No text, letters, numbers, musical notation, logos, brands, watermark, interface, album border, neon or plastic 3D. Do not paint a generic piano in a room. This is an original visual interpretation of the musical mood. Piece: 晴天 (Sunny Day), Jay Chou. A wistful memory of school-age love after a summer shower: two empty school chairs beside an open classroom window, a simple acoustic guitar leaning close, a folded pale blue umbrella and a small notebook with completely blank pages. Beyond the window a green campus tree and distant basketball hoop in warm late-afternoon sunshine; a few raindrops remain on the sill, shadows of leaves across the floor. Honey gold, leaf green, soft turquoise and ivory, tender nostalgia rather than generic cheerfulness. Intimate cinematic composition with the two chairs as focal point near center; a quiet trace of someone having just left. No people or writing.",
-      "source": "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-fac7643a-37fa-4f2c-8375-08a44aa0c2b1.png",
+      "source": "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-fac7643a-37fa-4f2c-8375-08a44aa0c2b1.png",
       "mode": "built-in image_gen",
       "selected": true,
       "bytes": 2634333,
@@ -33,7 +33,7 @@
     {
       "id": "tornado",
       "prompt": "Use case: illustration-story. Asset type: original cover illustration for a high-end piano learning app, NOT a UI or mockup. Landscape 3:2 edge-to-edge painting. Elegant tactile editorial gouache and fine-art album sleeve, layered pigments, subtle paper grain, expressive deliberate brushwork, sophisticated color relationships, strong silhouettes at thumbnail size. Main subjects in the central 70% to survive 16:10 or moderate square cropping. No text, letters, numbers, musical notation, logos, brands, watermark, interface, album border, neon or plastic 3D. Do not paint a generic piano in a room. This is an original visual interpretation of the musical mood. Piece: 龙卷风, G.E.M. piano version. Love like a whirlwind: two small empty chairs on opposite sides of a rain-wet rooftop, between them a dramatic spiral of loose crimson ribbon and windblown petals sweeping upward into a cobalt-purple dusk sky. A luminous city skyline beyond, reflections in shallow puddles, the emotional center is separation and a powerful swirling movement, not a realistic destructive tornado. Rich midnight blue, dusty rose, plum and a narrow warm golden glow. Sweeping controlled brushwork, melancholy and power, contemporary urban ballad, no people.",
-      "source": "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-3d83074a-3470-4527-8df2-a63b6b5fd063.png",
+      "source": "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-3d83074a-3470-4527-8df2-a63b6b5fd063.png",
       "mode": "built-in image_gen",
       "selected": true,
       "bytes": 3056377,
@@ -47,7 +47,7 @@
     {
       "id": "bach-prelude",
       "prompt": "Use case: illustration-story. Asset type: original cover illustration for a high-end piano learning app, NOT a UI or mockup. Landscape 3:2 edge-to-edge painting. Elegant tactile editorial gouache and fine-art album sleeve, layered pigments, subtle paper grain, expressive deliberate brushwork, sophisticated color relationships, strong silhouettes at thumbnail size. Main subjects in the central 70% to survive 16:10 or moderate square cropping. No text, letters, numbers, musical notation, logos, brands, watermark, interface, album border, neon or plastic 3D. Do not paint a generic piano in a room. This is an original visual interpretation of the musical mood. Piece: Bach Prelude in C major, BWV846. A serene sunlit cloister with repeating elegant stone arches receding into perspective, a clear narrow water channel making regular gentle ripples through the center, warm light passing successively through every arch. A single soft leafy vine provides human warmth. Evoke the piece's continuous arpeggios, clarity, harmonic order and unfolding light through repeated architecture. Cream limestone, muted sage, pale gold and powder blue. Elegant, spacious, luminous, quietly uplifting, no piano, no people, no religious symbols.",
-      "source": "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-ea471900-08e4-48cf-85cd-ab58e9b0519c.png",
+      "source": "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-ea471900-08e4-48cf-85cd-ab58e9b0519c.png",
       "mode": "built-in image_gen",
       "selected": true,
       "bytes": 3032338,
@@ -61,7 +61,7 @@
     {
       "id": "first-steps",
       "prompt": "Use case: illustration-story. Asset type: original cover illustration for a high-end piano learning app, NOT a UI or mockup. Landscape 3:2 edge-to-edge painting. Elegant tactile editorial gouache and fine-art album sleeve, layered pigments, subtle paper grain, expressive deliberate brushwork, sophisticated color relationships, strong silhouettes at thumbnail size. Main subjects in the central 70% to survive 16:10 or moderate square cropping. No text, letters, numbers, musical notation, logos, brands, watermark, interface, album border, neon or plastic 3D. Do not paint a generic piano in a room. This is an original visual interpretation of the musical mood. Piece: a beginner's first C-major melody. A tiny cream kitten seen from behind gently stepping across seven broad warm ivory stepping stones over a shallow clear garden stream toward a welcoming open garden gate in morning light. Seven stones form a simple ascending curved path, no numbers or marks. Spring green foliage, a few apricot blossoms, soft blue water and creamy sunlight. Cute but carefully painted and refined, small moments of discovery, easy beginnings, friendly and calm. Kitten and nearest stones centered, spacious scene, no piano.",
-      "source": "/Users/prince/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-9d382a34-00dc-48d7-ba0d-b292d100aff6.png",
+      "source": "~/.codex/generated_images/01a0d655-9627-78e1-b7c0-d4de1ef29dc1/exec-9d382a34-00dc-48d7-ba0d-b292d100aff6.png",
       "mode": "built-in image_gen",
       "selected": true,
       "bytes": 3198041,

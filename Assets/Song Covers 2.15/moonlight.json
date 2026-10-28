@@ -12,7 +12,7 @@
   "createdAt": "2026-09-27T20:01:39.999Z",
   "id": "moonlight",
   "prompt": "Use case: illustration-story. Asset type: original fine-art cover illustration for a piano practice app's Library, not an album mockup. Create an edge-to-edge landscape 3:2 painting, ideally 1536×1024. Scene: a still midnight lake, a silver moon and its light broken into three gentle, clearly separated ripple bands across the water; quiet cypress silhouettes at the shore. Feeling: inward quiet, spacious nocturnal stillness, a restrained indigo and silver palette. Medium: sophisticated editorial gouache and fine-art album-sleeve painting, matte tactile pigment, subtle paper grain, layered hand-painted brushwork, rich indigo darks with soft silver reflections, restrained detail. Strong simple composition readable at thumbnail scale. Keep moon, principal reflection and important silhouettes in the central 70% safe area so a slight crop from 3:2 to 16:10 preserves the composition; cypresses can softly frame the scene, not block the silver water. The reflection should read as three broad gentle ripples, not a busy staircase. No border, no frame, no text, no lettering, no logos, no watermark, no musical notation, no UI. No piano, no room, no people. Original artistic interpretation, not a reproduction or claim about composer narrative.",
-  "generatedSource": "/Users/prince/.codex/generated_images/01a0d831-ffa4-7280-80a1-506069311b74/exec-9a7a13e0-dd7a-4592-abd2-91683bef72ae.png",
+  "generatedSource": "~/.codex/generated_images/01a0d831-ffa4-7280-80a1-506069311b74/exec-9a7a13e0-dd7a-4592-abd2-91683bef72ae.png",
   "originalPath": "Assets/Song Covers 2.15/moonlight.png",
   "publicPath": "public/library-art/song-moonlight.png",
   "suggestedObjectPosition": "50% 48%",

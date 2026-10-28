@@ -1,11 +1,11 @@
 {
   "version": "2.15.0",
   "completedAt": "2026-09-27T16:17:05.211727-04:00",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedApp": "~/Desktop/Luma Keys.app",
   "unitTests": {
     "passed": 370,
     "failed": 0,
-    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-art-2.15/unit-final.log"
+    "log": "~/Desktop/Luma Keys/.qa-runs/song-art-2.15/unit-final.log"
   },
   "native": {
     "passed": true,
@@ -185,7 +185,7 @@
     "filesAndSymlinks": 2992,
     "personalFiles": 107,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-art-2.15/previous-installed-Luma Keys-2.14.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/song-art-2.15/previous-installed-Luma Keys-2.14.0.app"
   },
   "reopened": {
     "checkedAt": "2026-09-27T16:17:05.211727-04:00",
@@ -207,9 +207,9 @@
   "assets": {
     "count": 8,
     "generation": "built-in image_gen",
-    "originals": "/Users/prince/Desktop/Luma Keys/Assets/Song Covers 2.15",
-    "promptsAndChecksums": "/Users/prince/Desktop/Luma Keys/Assets/Song Covers 2.15/manifest.json",
-    "gallery": "/Users/prince/Desktop/Luma Keys/Assets/Song Covers 2.15/index.html"
+    "originals": "~/Desktop/Luma Keys/Assets/Song Covers 2.15",
+    "promptsAndChecksums": "~/Desktop/Luma Keys/Assets/Song Covers 2.15/manifest.json",
+    "gallery": "~/Desktop/Luma Keys/Assets/Song Covers 2.15/index.html"
   },
   "limits": [
     "Original artistic interpretations rather than official album artwork or composer-intent claims.",
@@ -217,7 +217,7 @@
     "This Library-focused iteration did not repeat physical MIDI, arbitrary PDF recognition, or acoustic audio verification."
   ],
   "reports": {
-    "native": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-art-2.15/native-report.json",
-    "visual": "/Users/prince/Desktop/Luma Keys/.qa-runs/song-art-2.15/visual-review.json"
+    "native": "~/Desktop/Luma Keys/.qa-runs/song-art-2.15/native-report.json",
+    "visual": "~/Desktop/Luma Keys/.qa-runs/song-art-2.15/visual-review.json"
   }
 }

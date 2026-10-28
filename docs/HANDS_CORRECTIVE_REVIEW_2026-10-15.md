@@ -2,7 +2,7 @@
 
 Implemented and tested; visual acceptance remains with the user.
 
-Candidate: **5f39132ad6db** at http://127.0.0.1:5188/ on MacBook-Pro-2.local, checkout `/Users/prince/Desktop/Luma Keys`. The full ID and source/asset SHA256 values are in `after/report.json`. The development-only badge, API manifest, loaded mesh hashes, and every captured frame agree. The final handoff is Chrome Guest, Appassionata opening, Natural, both hands, 100%, paused. The temporary Electron wrapper was closed after its displayed pixels became stale despite a current accessibility tree.
+Candidate: **5f39132ad6db** at http://127.0.0.1:5188/ on MacBook-Pro-2.local, checkout `~/Desktop/Luma Keys`. The full ID and source/asset SHA256 values are in `after/report.json`. The development-only badge, API manifest, loaded mesh hashes, and every captured frame agree. The final handoff is Chrome Guest, Appassionata opening, Natural, both hands, 100%, paused. The temporary Electron wrapper was closed after its displayed pixels became stale despite a current accessibility tree.
 
 ## Diagnosis and changes
 
@@ -17,9 +17,9 @@ The previous candidate (42fbef1842b4) and final candidate use the same Mac, Chro
 
 Root and independent reviewer inspected full Practice images plus matched crops. Improvement is visible but moderate: slimmer fingers, less swollen upper palms, clearer knuckle/tendon transitions and quieter idle little fingers. Rounded knuckle caps and broad smooth palm/thumb-web areas remain. This is a focused mesh/pose refinement, not a new model.
 
-[Full-screen Appassionata comparison](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/appassionata-full-comparison.png) · [Natural crop](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/appassionata-natural-comparison.png) · [Neutral](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/appassionata-neutral-comparison.png) · [Silhouette](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/appassionata-silhouette-comparison.png)
+Comparison images, kept in the git-ignored `.qa-runs/hands-corrective-2026-10-15/` folder on the development machine and not in this repository: Full-screen Appassionata comparison `appassionata-full-comparison.png` · Natural crop `appassionata-natural-comparison.png` · Neutral `appassionata-neutral-comparison.png` · Silhouette `appassionata-silhouette-comparison.png`
 
-[Relaxed five](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/relaxed-five-0-comparison.png) · [Mixed chord](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/mixed-chord-0-comparison.png) · [Held/moving](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/held-moving-2_35-comparison.png) · [Position transition](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/position-transition-1_8-comparison.png)
+Relaxed five `relaxed-five-0-comparison.png` · Mixed chord `mixed-chord-0-comparison.png` · Held/moving `held-moving-2_35-comparison.png` · Position transition `position-transition-1_8-comparison.png`
 
 ## Verification and limits
 
@@ -32,20 +32,20 @@ Root and independent reviewer inspected full Practice images plus matched crops.
 
 ## Full Practice recordings
 
-| Passage | Maximum rig error (mm) | Recording |
+| Passage | Maximum rig error (mm) | Local recording |
 |---|---:|---|
-| appassionata-1x | 0.106931 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/appassionata-1x.webm) |
-| relaxed-five-1x | 0.111872 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/relaxed-five-1x.webm) |
-| mixed-chord-1x | 0.006868 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/mixed-chord-1x.webm) |
-| held-moving-0.5x | 0.106479 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/held-moving-0.5x.webm) |
-| held-moving-1x | 0.097508 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/held-moving-1x.webm) |
-| position-transition-0.5x | 0.000091 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/position-transition-0.5x.webm) |
-| position-transition-1x | 0.000071 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/position-transition-1x.webm) |
-| scale-0.5x | 0.485522 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/scale-0.5x.webm) |
-| scale-1x | 0.128484 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/scale-1x.webm) |
-| arpeggio-1x | 0.290942 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/arpeggio-1x.webm) |
-| mixed-arpeggio-1x | 0.499703 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/mixed-arpeggio-1x.webm) |
-| repeated-1x | 0.000104 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/repeated-1x.webm) |
-| wide-intervals-1x | 0.117740 | [Full app](/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15/after/wide-intervals-1x.webm) |
+| appassionata-1x | 0.106931 | `after/appassionata-1x.webm` |
+| relaxed-five-1x | 0.111872 | `after/relaxed-five-1x.webm` |
+| mixed-chord-1x | 0.006868 | `after/mixed-chord-1x.webm` |
+| held-moving-0.5x | 0.106479 | `after/held-moving-0.5x.webm` |
+| held-moving-1x | 0.097508 | `after/held-moving-1x.webm` |
+| position-transition-0.5x | 0.000091 | `after/position-transition-0.5x.webm` |
+| position-transition-1x | 0.000071 | `after/position-transition-1x.webm` |
+| scale-0.5x | 0.485522 | `after/scale-0.5x.webm` |
+| scale-1x | 0.128484 | `after/scale-1x.webm` |
+| arpeggio-1x | 0.290942 | `after/arpeggio-1x.webm` |
+| mixed-arpeggio-1x | 0.499703 | `after/mixed-arpeggio-1x.webm` |
+| repeated-1x | 0.000104 | `after/repeated-1x.webm` |
+| wide-intervals-1x | 0.117740 | `after/wide-intervals-1x.webm` |
 
-Evidence root: `/Users/prince/Desktop/Luma Keys/.qa-runs/hands-corrective-2026-10-15`. `after/report.json`, `matched-view-verification.json`, `loaded-mesh-verification.json`, `mesh-contact-audit.json`, `mesh-contact-audit-38px.json`, and `data-integrity.json` retain the detailed receipts.
+Evidence root: `.qa-runs/hands-corrective-2026-10-15` on the development machine (git-ignored, so not in this repository). `after/report.json`, `matched-view-verification.json`, `loaded-mesh-verification.json`, `mesh-contact-audit.json`, `mesh-contact-audit-38px.json`, and `data-integrity.json` retain the detailed receipts.

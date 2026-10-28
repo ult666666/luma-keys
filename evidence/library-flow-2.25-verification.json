@@ -2,7 +2,7 @@
   "version": "2.25.0",
   "date": "2026-10-02T19:33:54.210598-04:00",
   "scope": "Library layout, clearable search, practice filters/sorting and coordinated app transitions; existing 2.24 music, companions and audio preserved",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedApp": "~/Desktop/Luma Keys.app",
   "installed": {
     "version": "2.25.0",
     "verifiedAt": "2026-10-02T19:32:30.329120-04:00",
@@ -19,12 +19,12 @@
     "filesAndSymlinks": 3035,
     "personalFiles": 108,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-flow-2.25/previous-installed-Luma Keys-2.24.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/library-flow-2.25/previous-installed-Luma Keys-2.24.0.app"
   },
   "tests": {
     "unitAndAPI": 758,
     "passed": 758,
-    "log": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-flow-2.25/reports/tests.txt",
+    "log": "~/Desktop/Luma Keys/.qa-runs/library-flow-2.25/reports/tests.txt",
     "nativeGroups": [
       "Ten saved fixture pieces, four starters, current resume card and loaded cartoon artwork remain reachable at1280/800/390 widths with no horizontal overflow.",
       "Chinese and case-insensitive search filter cards, successful and empty searches clear cleanly, and the current hero returns without changing practice.",
@@ -35,7 +35,7 @@
       "Phone card details stay within the viewport and close correctly; Import opens and returns to the collection without touching files.",
       "Reduced motion suppresses library/companion movement; all ten score files remain byte-identical and practice preferences remain unchanged after returning to paused practice."
     ],
-    "nativeReport": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-flow-2.25/native/report.json",
+    "nativeReport": "~/Desktop/Luma Keys/.qa-runs/library-flow-2.25/native/report.json",
     "runtimeErrors": [],
     "modelRequests": 0
   },
@@ -60,7 +60,7 @@
       "companion dock"
     ],
     "pageOverflowAt390": false,
-    "screenshots": "/Users/prince/Desktop/Luma Keys/.qa-runs/library-flow-2.25/final6-library"
+    "screenshots": "~/Desktop/Luma Keys/.qa-runs/library-flow-2.25/final6-library"
   },
   "personalPracticeOnReopen": {
     "piece": "晴天 (Sunny Day)",

@@ -1,11 +1,11 @@
 # Piano studio implementation
 
-Approved brief: `/Users/prince/.codex/attachments/094bb61c-b736-407f-9309-c8d5a10a0413/Pasted text.txt`.
+Approved brief: `~/.codex/attachments/094bb61c-b736-407f-9309-c8d5a10a0413/Pasted text.txt`.
 
 Goal: believable, readable demonstration hands and a calmer piano studio. This is an implementation pass; the supplied brief replaces further design approval rounds.
 
 ## Baseline and boundaries
-- MacBook-Pro-2.local, Mac17,9, Apple M5 Pro. Checkout `/Users/prince/Desktop/Luma Keys`, version 2.46.0; 978 pre-existing changed/untracked entries.
+- MacBook-Pro-2.local, Mac17,9, Apple M5 Pro. Checkout `~/Desktop/Luma Keys`, version 2.46.0; 978 pre-existing changed/untracked entries.
 - React 19 / Vite 7 / Electron 44; Three.js 0.186 skinned MIT-licensed MRTK meshes over a DOM keyboard. Worker-prepared fingering and motion sampled by the existing stage transport. JSON preferences and journals through the local server.
 - Baseline source copies, hashes, diff, tests and captures: `.qa-runs/studio-2026-10-14/`. Preview uses its own Library/Logs; no installed app, production process, other machine or unrelated project changes.
 

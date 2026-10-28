@@ -198,8 +198,8 @@
 test at tests/backups.test.mjs:103:1
 ✖ library recovery preserves broken files and healthy scores across import, reload and repair (35.215541ms)
   TypeError: Cannot read properties of null (reading 'port')
-      at Server.<anonymous> (file:///Users/prince/Desktop/Luma%20Keys/server.mjs:245:36)
-      at Server.f (/Users/prince/Desktop/Luma Keys/node_modules/once/once.js:25:25)
+      at Server.<anonymous> (file://~/Desktop/Luma%20Keys/server.mjs:245:36)
+      at Server.f (~/Desktop/Luma Keys/node_modules/once/once.js:25:25)
       at Object.onceWrapper (node:events:631:26)
       at Server.emit (node:events:509:28)
       at emitErrorNT (node:net:2045:8)
@@ -208,8 +208,8 @@ test at tests/backups.test.mjs:103:1
 test at tests/preferences.test.mjs:308:1
 ✖ settings reads do not overwrite corruption; repairs preserve exact bytes and save atomically (59.739125ms)
   TypeError: Cannot read properties of null (reading 'port')
-      at Server.<anonymous> (file:///Users/prince/Desktop/Luma%20Keys/server.mjs:245:36)
-      at Server.f (/Users/prince/Desktop/Luma Keys/node_modules/once/once.js:25:25)
+      at Server.<anonymous> (file://~/Desktop/Luma%20Keys/server.mjs:245:36)
+      at Server.f (~/Desktop/Luma Keys/node_modules/once/once.js:25:25)
       at Object.onceWrapper (node:events:631:26)
       at Server.emit (node:events:509:28)
       at emitErrorNT (node:net:2045:8)
@@ -218,8 +218,8 @@ test at tests/preferences.test.mjs:308:1
 test at tests/server.test.mjs:8:1
 ✖ Local API imports, persists, validates, exports, and restricts foreign origins (48.246208ms)
   TypeError: Cannot read properties of null (reading 'port')
-      at Server.<anonymous> (file:///Users/prince/Desktop/Luma%20Keys/server.mjs:245:36)
-      at Server.f (/Users/prince/Desktop/Luma Keys/node_modules/once/once.js:25:25)
+      at Server.<anonymous> (file://~/Desktop/Luma%20Keys/server.mjs:245:36)
+      at Server.f (~/Desktop/Luma Keys/node_modules/once/once.js:25:25)
       at Object.onceWrapper (node:events:631:26)
       at Server.emit (node:events:509:28)
       at emitErrorNT (node:net:2045:8)

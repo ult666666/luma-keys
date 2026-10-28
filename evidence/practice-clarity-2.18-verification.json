@@ -1,7 +1,7 @@
 {
   "version": "2.18.0",
   "completedAt": "2026-09-27T18:14:29.565983-04:00",
-  "installedApp": "/Users/prince/Desktop/Luma Keys.app",
+  "installedApp": "~/Desktop/Luma Keys.app",
   "installedVerification": {
     "version": "2.18.0",
     "verifiedAt": "2026-09-27T18:13:01.487475-04:00",
@@ -104,6 +104,6 @@
     "installation": ".qa-runs/practice-clarity-2.18/installation.json",
     "installedVerification": ".qa-runs/practice-clarity-2.18/installed-verification.json"
   },
-  "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/practice-clarity-2.18/previous-installed-Luma Keys-2.17.0.app",
+  "previousApp": "~/Desktop/Luma Keys/.qa-runs/practice-clarity-2.18/previous-installed-Luma Keys-2.17.0.app",
   "evidencePolicy": "Final2 reports refer to the installed archive. Earlier rejected candidates and failed attempts remain separately retained."
 }

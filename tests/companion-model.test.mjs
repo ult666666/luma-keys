@@ -112,11 +112,13 @@ const events = async (response) =>
     .trim()
     .split("\n")
     .map((line) => JSON.parse(line));
+// Containers can take a second or two to reap orphaned children, so allow 5 seconds. Passing
+// conditions still return as soon as they hold.
 const waitFor = async (predicate) => {
-  const deadline = Date.now() + 1500;
+  const deadline = Date.now() + 5000;
   while (!predicate() && Date.now() < deadline)
     await new Promise((resolve) => setTimeout(resolve, 5));
-  assert.ok(predicate(), "condition settles within 1.5 seconds");
+  assert.ok(predicate(), "condition settles within 5 seconds");
 };
 
 test("an immediate retry waits for cancelled model cleanup without duplicate generation", async (t) => {

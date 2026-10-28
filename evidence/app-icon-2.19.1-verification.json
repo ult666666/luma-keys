@@ -5,8 +5,8 @@
   "installed": false,
   "installedVersionStill": "2.18.0",
   "candidateArchiveSHA256": "5c0234c3c3e69d18908e67abf3a351eb546e33cfc9854e6eaa1fcf903caaae16",
-  "stagedApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/icon-2.19.1/install-ready.app",
-  "assetFolder": "/Users/prince/Desktop/Luma Keys/Assets/App Icon 2.19.1",
+  "stagedApp": "~/Desktop/Luma Keys/.qa-runs/icon-2.19.1/install-ready.app",
+  "assetFolder": "~/Desktop/Luma Keys/Assets/App Icon 2.19.1",
   "artwork": "Original editable vector cat and piano; no generated raster artwork. Detailed and optically simplified small masters.",
   "nativeRepresentationCount": 10,
   "sizes": [

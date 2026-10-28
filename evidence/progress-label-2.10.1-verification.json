@@ -24,7 +24,7 @@
     "filesAndSymlinks": 2992,
     "personalFiles": 68,
     "latestPersonalFilesUnchanged": true,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/progress-label-2.10.1/previous-installed-Luma Keys-2.10.0.app"
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/progress-label-2.10.1/previous-installed-Luma Keys-2.10.0.app"
   },
   "package": {
     "version": "2.10.1",
@@ -35,7 +35,7 @@
   },
   "unchangedPersonalFilesAfterReopening": 68,
   "installedProgressVisuallyVerified": true,
-  "evidence": "/Users/prince/Desktop/Luma Keys/.qa-runs/progress-label-2.10.1",
+  "evidence": "~/Desktop/Luma Keys/.qa-runs/progress-label-2.10.1",
   "knownUnrelatedBaseline": "At320px, both2.10.0 and2.10.1 have340px document width. Goal label/card remain inside viewport at320. Whole-page overflow assertions pass at390/900/1280. Existing shell width was not changed.",
   "scope": "Two source files plus package version; no music, chat or practice logic changes."
 }

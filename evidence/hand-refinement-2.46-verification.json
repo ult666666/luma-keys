@@ -5,9 +5,9 @@
   "nativeGroups": 9,
   "webglShadowChecks": 20,
   "asarSHA256": "77eb7d8cb629fbecd3f4c0438fe2398aea7e04621900f0db08349145ebe1d317",
-  "nativeReport": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/candidate1-hands/report.json",
-  "sourceVerification": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/final-source-verification.json",
-  "dependencyVerification": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/dependency-verification.json",
+  "nativeReport": "~/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/candidate1-hands/report.json",
+  "sourceVerification": "~/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/final-source-verification.json",
+  "dependencyVerification": "~/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/dependency-verification.json",
   "timing": {
     "initial": {
       "frames": 327,
@@ -82,8 +82,8 @@
     "installedAt": "2026-10-11T12:16:48.872166-07:00",
     "bundleEntries": 3035,
     "personalFilesUnchanged": 110,
-    "previousApp": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/previous-installed-Luma Keys-2.45.0.app",
-    "backup": "/Users/prince/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/personal-backup-without-chat",
+    "previousApp": "~/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/previous-installed-Luma Keys-2.45.0.app",
+    "backup": "~/Desktop/Luma Keys/.qa-runs/hand-refinement-2.46/personal-backup-without-chat",
     "releaseMatches": true
   }
 }

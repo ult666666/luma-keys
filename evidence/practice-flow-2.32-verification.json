@@ -38,7 +38,7 @@
     ]
   },
   "liveDesktopObservation": {
-    "app": "/Users/prince/Desktop/Luma Keys.app",
+    "app": "~/Desktop/Luma Keys.app",
     "version": "2.32.0",
     "nativeInspectionRecovered": true,
     "recovery": "The initial native pipe closed and window reads timed out. Rebinding after a CUA session reset returned the actual installed window; no app force quit or personal-data rollback was used.",

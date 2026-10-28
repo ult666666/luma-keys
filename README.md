@@ -66,18 +66,20 @@ flowchart LR
 - **Heavy work stays off the main thread.** Fingering and hand motion are planned in a worker for the whole piece. Mesh preparation and microphone DSP have workers of their own. The 3-D renderer loads only when hands are first shown.
 - **Optional engines run as separate processes.** Audiveris (AGPL-3.0) and llama.cpp are launched unmodified as child processes and stopped when the app quits. Without them, PDF import and free-form chat are unavailable and everything else works.
 
-The source is in [`src/`](src) (about 57,000 lines across React screens, ES modules and CSS). Some good entry points: [`fingering.mjs`](src/fingering.mjs), [`hand3d-rig.mjs`](src/hand3d-rig.mjs), [`exercise.mjs`](src/exercise.mjs), [`performance.mjs`](src/performance.mjs), [`trouble-spots.mjs`](src/trouble-spots.mjs), [`microphone-detector.mjs`](src/microphone-detector.mjs) and [`atomic-file.mjs`](src/atomic-file.mjs).
+The source is in [`src/`](src): React screens, ES modules and CSS. Some good entry points: [`fingering.mjs`](src/fingering.mjs), [`hand3d-rig.mjs`](src/hand3d-rig.mjs), [`exercise.mjs`](src/exercise.mjs), [`performance.mjs`](src/performance.mjs), [`trouble-spots.mjs`](src/trouble-spots.mjs), [`microphone-detector.mjs`](src/microphone-detector.mjs) and [`atomic-file.mjs`](src/atomic-file.mjs).
 
 ## Getting started
 
 You need Node.js 20.19 or newer (developed on Node 24). The packaged desktop build targets macOS on Apple silicon. The browser development build runs anywhere Chrome does.
 
 ```bash
-git clone https://github.com/ult666666/luma-keys.git
+git clone --depth 1 https://github.com/ult666666/luma-keys.git
 cd luma-keys
 npm install
 npm run dev
 ```
+
+`--depth 1` downloads only the latest commit instead of the full history, which is large.
 
 Open http://127.0.0.1:5188. The API listens on port 5189 and keeps its data in `Library/` (git-ignored). To use a throwaway library instead, set `LUMA_DATA_DIR`:
 
@@ -107,7 +109,7 @@ These are left out of the repository because of their size (about 5.6 GB). Put t
 
 ## Testing and verification
 
-- **1,008 unit and API tests** in [`tests/`](tests) (about 26,000 lines) cover parsing, fingering, hand posing and contact, motion continuity, the grader, the exercise generator, storage and recovery, the companion pipeline, microphone matching against PCM fixtures, and packaging. All of them pass on the current tree.
+- **More than 1,000 unit and API tests** in [`tests/`](tests) cover parsing, fingering, hand posing and contact, motion continuity, the grader, the exercise generator, storage and recovery, the companion pipeline, microphone matching against PCM fixtures, and packaging. CI runs them on macOS for every push to `main` and every pull request.
 - **Playwright stories** in [`scripts/`](scripts) drive the real UI, both in the browser (`*-qa.mjs`) and in the packaged Electron app (`native-*-qa.mjs`), against isolated test libraries. They cover input, reading, phrase practice, sight reading, recovery, quit-while-saving and recognition shutdown.
 - **Evidence.** Every release pass records its verification JSON and screenshots in [`evidence/`](evidence). [`STATUS.md`](STATUS.md) is the candid build log, known limitations included.
 
