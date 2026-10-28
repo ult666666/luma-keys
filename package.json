@@ -10,12 +10,13 @@
     "build": "vite build",
     "start": "electron .",
     "test": "node --test tests/*.test.mjs",
-    "pack": "npm run build:companion && npm run build && electron-builder --mac dir --arm64",
+    "pack": "npm run build:companion && npm run build && electron-builder --mac dir --arm64 && node scripts/prune-qa-runs.mjs --older-than-hours 24",
     "format": "prettier --write src/*.jsx src/*.js src/*.mjs src/*.css server.mjs electron.cjs scripts/*.mjs tests/*.mjs",
     "build:companion": "node scripts/build-companion-model.mjs",
     "build:icon": "node scripts/create-icon.mjs",
     "qa:native": "node scripts/qa-native-sweep.mjs",
-    "qa:browser": "node scripts/qa-browser.mjs"
+    "qa:browser": "node scripts/qa-browser.mjs",
+    "qa:prune": "node scripts/prune-qa-runs.mjs"
   },
   "dependencies": {
     "@tonejs/midi": "^2.0.28",
