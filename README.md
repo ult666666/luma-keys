@@ -95,6 +95,7 @@ LUMA_DATA_DIR="$PWD/.qa-runs/demo/Library" npm run dev
 | `npm run pack` | Packages `release/mac-arm64/Luma Keys.app` (needs the engines below) |
 | `npm run qa:native` | Runs every packaged-app Playwright story in sequence |
 | `npm run qa:browser` | Builds and verifies five sight-reading stories with an isolated library and ephemeral server ([setup and evidence](docs/BROWSER_QA.md)) |
+| `npm run qa:electron` | Opens the built app in Electron, plays Für Elise for four seconds and checks the song position, the sheet cursor and audio. Set `LUMA_APP` to the packaged app's executable to check a release build |
 
 ### Optional engines
 
@@ -111,6 +112,7 @@ These are left out of the repository because of their size (about 5.6 GB). Put t
 
 - **More than 1,000 unit and API tests** in [`tests/`](tests) cover parsing, fingering, hand posing and contact, motion continuity, the grader, the exercise generator, storage and recovery, the companion pipeline, microphone matching against PCM fixtures, and packaging. CI runs them on macOS for every push to `main` and every pull request.
 - **Playwright stories** in [`scripts/`](scripts) drive the real UI, both in the browser (`*-qa.mjs`) and in the packaged Electron app (`native-*-qa.mjs`), against isolated test libraries. They cover input, reading, phrase practice, sight reading, recovery, quit-while-saving and recognition shutdown.
+- **Electron smoke test.** For every push and pull request, CI opens the built app in Electron on Linux under Xvfb ([`scripts/electron-smoke.mjs`](scripts/electron-smoke.mjs)). It plays Für Elise and fails unless the song position advances, the green sheet cursor follows the notes and the window renders audio. An Electron upgrade from Dependabot is opened, not only installed.
 - **Evidence.** Every release pass records its verification JSON and screenshots in [`evidence/`](evidence). [`STATUS.md`](STATUS.md) is the candid build log, known limitations included.
 
 ## Repository layout

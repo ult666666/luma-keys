@@ -17,6 +17,7 @@
     "build:icon": "node scripts/create-icon.mjs",
     "qa:native": "node scripts/qa-native-sweep.mjs",
     "qa:browser": "node scripts/qa-browser.mjs",
+    "qa:electron": "node scripts/electron-smoke.mjs",
     "qa:prune": "node scripts/prune-qa-runs.mjs"
   },
   "dependencies": {
