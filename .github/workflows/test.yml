@@ -46,3 +46,33 @@ jobs:
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 7
+  electron:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      # Electron's installer downloads the binary and checks its checksum. Its
+      # HTTP client sometimes drops a paused download, so allow three attempts.
+      - name: Download Electron
+        run: |
+          for attempt in 1 2 3; do
+            node node_modules/electron/install.js && exit 0
+            sleep 5
+          done
+          exit 1
+      - run: npm run build
+      - name: Open the app in Electron and play a piece
+        run: xvfb-run -a -s "-screen 0 1600x1100x24" npm run qa:electron -- --output-dir .qa-runs/ci-electron
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: electron-smoke
+          path: .qa-runs/ci-electron
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7
