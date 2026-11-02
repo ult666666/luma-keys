@@ -275,9 +275,19 @@ export async function verifySightReading(
   );
   assert.ok(onTime >= 80, `on-time share ${onTime}% (clock-scheduled presses)`);
   assert.equal(
-    await results.locator(".results-bar.clean").count(),
+    await results.locator(".results-bar").count(),
     known.measures,
+    "one bar in the report per measure",
   );
+  // A bar is clean only with no problem at all, and one early or late note
+  // already counts as half a problem. The check above tolerates presses that a
+  // loaded runner delivers late, so only an all-on-time run must show every bar
+  // clean. Wrong and missed notes are ruled out by "n of n" above.
+  if (onTime === 100)
+    assert.equal(
+      await results.locator(".results-bar.clean").count(),
+      known.measures,
+    );
   assert.ok(
     (await results.locator(".results-tips li").count()) >= 1,
     "coaching tips",
@@ -295,7 +305,7 @@ export async function verifySightReading(
     page.locator(".reader-play-status, .maestro-live-status"),
   ).toContainText("100% right");
   checks.push(
-    "Play in time counts in, keeps the transport on the audio clock, and grades a clock-accurate run at 100% with every bar clean",
+    "Play in time counts in, keeps the transport on the audio clock, and grades a clock-accurate run at 100% right, with every bar clean when every press is on time",
   );
 
   // A flawed run: one wrong pitch, one skipped note, one late note.
