@@ -4,67 +4,67 @@ How to use each screen and control, with release notes, newest first. For an ove
 
 ## Recent releases
 
-- 2.46 and 2.45, hand refinement. The live 3-D hands have more defined fingers and joints, a resting thumb that opens the hand, cleaner nails, softer light and warmer skin, and the camera sits slightly lower. Playing contacts are unchanged. Notes: [2.46](HAND_REFINEMENT_2.46.md), [2.45](HAND_REFINEMENT_2.45.md).
-- 2.44, recovery and a steadier backend. Restore removed pieces and earlier versions of a piece from the Library, with their practice history, and earlier settings from Settings › Settings history; every restore can itself be undone. Saves of one piece now run in order, and quitting waits for writes under way. [Guide](RECOVERY_2.44.md)
-- 2.43, fortify. A part of the window that fails now shows a short notice with Try again instead of blanking the app; opening the app no longer rewrites your settings; settings saved by a newer version survive an older one; a Library folder that cannot be opened gets a plain explanation with Try Again; a read-only Library opens. [Guide](FORTIFY_2.43.md)
-- 2.42, hand motion. Thumbs now reach their keys in wide stretches (the hand turns toward a thumb a fifth from the index), the hand no longer changes shape at the instant a key is struck, a landing finger arrives already curved, and free fingers settle instead of trembling. [Guide](HAND_MOTION_2.42.md)
-- 2.41, solid storage. Every save is atomic and flushed; earlier versions of edited scores, removed scores and a daily settings snapshot are kept in recovery folders you can import again; the Library listing reuses unchanged files; a bounded diagnostics log beside the Library records events, never content; the app warns if its folder cannot be written. [Guide](SOLID_STORAGE_2.41.md)
-- 2.40, trouble spots. The app now remembers the bars that slip in Wait for me and Play in time, marks them on the piece map, lists them in Practice tools, on the report card, in Library and in Progress, and drills them at 70% or slower. Three clean passes clear a bar; Forget removes one. [Guide](TROUBLE_SPOTS_2.40.md)
-- 2.29, artistic pianist hands. The generated hand study informed softer peach skin, short satin nails, gently curved fingers, complete wrists and small ivory cuffs with teaching-colour seams. Playing contacts take priority over preparation for the next note; compact keyboards keep natural proportions. [Hand guide](HAND_ART_2.29.md)
-- 2.28, faster companion chat. The local model stays warm between messages, begins loading when chat opens and unloads after five idle minutes. Follow-ups reuse it; Stop and retry preserve a healthy session. First conversations still have a loading delay. [Guide](CHAT_SPEED_2.28.md)
-- 2.27, colours and alignment. Use the palette button beside your companion for Neutral, five named palettes or Match companion. Library adapts beside chat; selection persists without changing your practice controls. [Guide](COLOURS_2.27.md)
+- 2.46 and 2.45, hand refinement. The live 3-D hands have more defined fingers and joints, a resting thumb that opens the hand, cleaner nails, softer light and warmer skin, and the camera sits slightly lower. Playing contacts are unchanged. Notes: [2.46](releases/HAND_REFINEMENT_2.46.md), [2.45](releases/HAND_REFINEMENT_2.45.md).
+- 2.44, recovery and a steadier backend. Restore removed pieces and earlier versions of a piece from the Library, with their practice history, and earlier settings from Settings › Settings history; every restore can itself be undone. Saves of one piece now run in order, and quitting waits for writes under way. [Guide](releases/RECOVERY_2.44.md)
+- 2.43, fortify. A part of the window that fails now shows a short notice with Try again instead of blanking the app; opening the app no longer rewrites your settings; settings saved by a newer version survive an older one; a Library folder that cannot be opened gets a plain explanation with Try Again; a read-only Library opens. [Guide](releases/FORTIFY_2.43.md)
+- 2.42, hand motion. Thumbs now reach their keys in wide stretches (the hand turns toward a thumb a fifth from the index), the hand no longer changes shape at the instant a key is struck, a landing finger arrives already curved, and free fingers settle instead of trembling. [Guide](releases/HAND_MOTION_2.42.md)
+- 2.41, solid storage. Every save is atomic and flushed; earlier versions of edited scores, removed scores and a daily settings snapshot are kept in recovery folders you can import again; the Library listing reuses unchanged files; a bounded diagnostics log beside the Library records events, never content; the app warns if its folder cannot be written. [Guide](releases/SOLID_STORAGE_2.41.md)
+- 2.40, trouble spots. The app now remembers the bars that slip in Wait for me and Play in time, marks them on the piece map, lists them in Practice tools, on the report card, in Library and in Progress, and drills them at 70% or slower. Three clean passes clear a bar; Forget removes one. [Guide](releases/TROUBLE_SPOTS_2.40.md)
+- 2.29, artistic pianist hands. The generated hand study informed softer peach skin, short satin nails, gently curved fingers, complete wrists and small ivory cuffs with teaching-colour seams. Playing contacts take priority over preparation for the next note; compact keyboards keep natural proportions. [Hand guide](releases/HAND_ART_2.29.md)
+- 2.28, faster companion chat. The local model stays warm between messages, begins loading when chat opens and unloads after five idle minutes. Follow-ups reuse it; Stop and retry preserve a healthy session. First conversations still have a loading delay. [Guide](releases/CHAT_SPEED_2.28.md)
+- 2.27, colours and alignment. Use the palette button beside your companion for Neutral, five named palettes or Match companion. Library adapts beside chat; selection persists without changing your practice controls. [Guide](releases/COLOURS_2.27.md)
 
 Each release's verification record is in [`evidence/`](../evidence).
 
 ## Hand motion · 2.42
 
-The hands keep every held key under the fingertip, including a thumb stretched a fifth from the index finger: the hand turns toward it, as a pianist's does. The hand's arch and fingertip angles change as a finger comes to its key and leaves it, not at the instant of the strike; a finger lands in the shape it plays in; and free fingers settle smoothly instead of following every small change. Fingering, timing, cues and the camera are unchanged. See [the hand motion guide](HAND_MOTION_2.42.md).
+The hands keep every held key under the fingertip, including a thumb stretched a fifth from the index finger: the hand turns toward it, as a pianist's does. The hand's arch and fingertip angles change as a finger comes to its key and leaves it, not at the instant of the strike; a finger lands in the shape it plays in; and free fingers settle smoothly instead of following every small change. Fingering, timing, cues and the camera are unchanged. See [the hand motion guide](releases/HAND_MOTION_2.42.md).
 
 ## Solid storage · 2.41
 
-Your scores, settings and practice journal are plain files in **Desktop / Luma Keys / Library**. Every save now lands whole or not at all. Before a score is overwritten its previous version is kept (the newest five) under **Library / Score recovery / <score id>**; a piece you remove goes to **Score recovery / removed** (the newest ten); and before the first settings write of each day the settings file, journal included, is snapshotted under **Settings snapshots** (the newest fourteen days). Any of these is ordinary Luma Keys JSON: **Import a score** restores a score, and a settings snapshot can be copied back over `preferences.json` while the app is closed. A small log at **Desktop / Luma Keys / Logs / luma-keys.log** records events such as startup timings, failed saves and recognition results, never music or chat. If the Library folder cannot be written, the app says so. See [the storage guide](SOLID_STORAGE_2.41.md).
+Your scores, settings and practice journal are plain files in **Desktop / Luma Keys / Library**. Every save now lands whole or not at all. Before a score is overwritten its previous version is kept (the newest five) under **Library / Score recovery / <score id>**; a piece you remove goes to **Score recovery / removed** (the newest ten); and before the first settings write of each day the settings file, journal included, is snapshotted under **Settings snapshots** (the newest fourteen days). Any of these is ordinary Luma Keys JSON: **Import a score** restores a score, and a settings snapshot can be copied back over `preferences.json` while the app is closed. A small log at **Desktop / Luma Keys / Logs / luma-keys.log** records events such as startup timings, failed saves and recognition results, never music or chat. If the Library folder cannot be written, the app says so. See [the storage guide](releases/SOLID_STORAGE_2.41.md).
 
 ## Trouble spots · 2.40
 
-Every bar you play in **Wait for me** or **Play in time** is judged, and the piece now remembers the ones that slipped. A bar that slipped in at least two recent passes (weighted towards the latest) is a **trouble spot**: a warm band under that bar on the piece map (point at it for "slipped 3 of the last 5 passes"), a chip in **Practice tools → Trouble spots**, a line on the report card, a **Drill** chip on Library's Continue card and a list on each Progress piece card. **Drill** repeats the spot's bars from the first one and slows to 70% if you were faster, saying so in the dock; three clean passes clear the bar, and **Forget** removes it. Listen & follow and generated exercises are not remembered. See [the trouble spots guide](TROUBLE_SPOTS_2.40.md).
+Every bar you play in **Wait for me** or **Play in time** is judged, and the piece now remembers the ones that slipped. A bar that slipped in at least two recent passes (weighted towards the latest) is a **trouble spot**: a warm band under that bar on the piece map (point at it for "slipped 3 of the last 5 passes"), a chip in **Practice tools → Trouble spots**, a line on the report card, a **Drill** chip on Library's Continue card and a list on each Progress piece card. **Drill** repeats the spot's bars from the first one and slows to 70% if you were faster, saying so in the dock; three clean passes clear the bar, and **Forget** removes it. Listen & follow and generated exercises are not remembered. See [the trouble spots guide](releases/TROUBLE_SPOTS_2.40.md).
 
 ## Practice hands and five-second jumps · 2.26
 
-The hands keep their familiar shape with softer light, quieter skin detail, satin nails and clearer finger numbers. Song-cover colours carry into the piano frame and falling notes. Press **← / →** in Practice to move back or forward five seconds on the song clock; Listen continues and paused practice stays paused. Text fields and other controls keep their arrow keys. See [the Practice guide](PRACTICE_ART_2.26.md).
+The hands keep their familiar shape with softer light, quieter skin detail, satin nails and clearer finger numbers. Song-cover colours carry into the piano frame and falling notes. Press **← / →** in Practice to move back or forward five seconds on the song clock; Listen continues and paused practice stays paused. Text fields and other controls keep their arrow keys. See [the Practice guide](releases/PRACTICE_ART_2.26.md).
 
 ## Library and transitions · 2.25
 
-Library has a compact resume card, clearable search, **All pieces / Practised / Unplayed** filters and sorting by recent play, title or composer. Resume and saved passages work as before. The app bar stays steady while the selected tab glides between screens; dialogs and chat enter once without overlapping animations. Rapid navigation keeps the latest destination, and Reduce Motion removes these transitions. See [the Library guide](LIBRARY_FLOW_2.25.md).
+Library has a compact resume card, clearable search, **All pieces / Practised / Unplayed** filters and sorting by recent play, title or composer. Resume and saved passages work as before. The app bar stays steady while the selected tab glides between screens; dialogs and chat enter once without overlapping animations. Rapid navigation keeps the latest destination, and Reduce Motion removes these transitions. See [the Library guide](releases/LIBRARY_FLOW_2.25.md).
 
 ## Plain interface copy · 2.21.1
 
-Removed remaining decorative slogans from selection messages, colour settings, the empty chat screen and companion artwork captions. Labels now describe the choice or action directly. Music instructions, greetings and controls are preserved. See [the copy notes](PLAIN_COPY_2.21.1.md).
+Removed remaining decorative slogans from selection messages, colour settings, the empty chat screen and companion artwork captions. Labels now describe the choice or action directly. Music instructions, greetings and controls are preserved. See [the copy notes](releases/PLAIN_COPY_2.21.1.md).
 
 ## Companion picker · 2.21
 
-Six compact character cards, a tappable greeting and colour previews replace the large companion poster. Choose applies the character; Match piano sound optionally matches its room sound. The footer stays reachable in small windows. See [the picker guide](COMPANION_PICKER_2.21.md).
+Six compact character cards, a tappable greeting and colour previews replace the large companion poster. Choose applies the character; Match piano sound optionally matches its room sound. The footer stays reachable in small windows. See [the picker guide](releases/COMPANION_PICKER_2.21.md).
 
 ## Companion conversation · 2.20
 
-A bundled Qwen3.5 9B model gives the six companions broader conversation, distinct voices and better follow-ups. Chat stays in the small side panel. Conversation options offer thirteen language choices; your choice and recent chat survive reopening. The model runs locally without an account or paid API. First replies can take longer while it loads, and language/factual quality varies. Exact note lessons and practice commands still use the written score and validated app controls. See [the conversation guide](COMPANION_INTELLIGENCE_2.20.md) and `STATUS.md` for installation and verification.
+A bundled Qwen3.5 9B model gives the six companions broader conversation, distinct voices and better follow-ups. Chat stays in the small side panel. Conversation options offer thirteen language choices; your choice and recent chat survive reopening. The model runs locally without an account or paid API. First replies can take longer while it loads, and language/factual quality varies. Exact note lessons and practice commands still use the written score and validated app controls. See [the conversation guide](releases/COMPANION_INTELLIGENCE_2.20.md) and `STATUS.md` for installation and verification.
 
 ## Mini companion · 2.17
 
-The pet now chats in a compact side panel beside your music. Minimize it without losing your draft, tap it for a heart-wave or musical greeting, and keep using the piano and Library. Chinese/English preferences persist across follow-ups; general replies are shorter and exact practice guidance still comes from the score. See [the mini companion guide](COMPANION_MINI_2.17.md).
+The pet now chats in a compact side panel beside your music. Minimize it without losing your draft, tap it for a heart-wave or musical greeting, and keep using the piano and Library. Chinese/English preferences persist across follow-ups; general replies are shorter and exact practice guidance still comes from the score. See [the mini companion guide](releases/COMPANION_MINI_2.17.md).
 
 ## Cartoon covers · 2.16
 
-Fourteen original cartoon illustrations give each known work its own character, setting and palette. The three 晴天 editions have separate solo, duet and concert scenes; starter songs have their own covers too. Open `Assets/Cartoon Covers 2.16/index.html` for the full-size gallery and exact built-in imagegen prompts. See `docs/CARTOON_COVERS_2.16.md` for details.
+Fourteen original cartoon illustrations give each known work its own character, setting and palette. The three 晴天 editions have separate solo, duet and concert scenes; starter songs have their own covers too. Open `Assets/Cartoon Covers 2.16/index.html` for the full-size gallery and exact built-in imagegen prompts. See `docs/releases/CARTOON_COVERS_2.16.md` for details.
 
 # Luma Keys
 
-Version **2.14** refines the playing hands with curved resting fingers, an articulated thumb, clearer fingertip numbers and matte shading. Compact keyboards keep the palm visible; fingers release and settle smoothly. See [the hand guide](NATURAL_HANDS_2.14.md).
+Version **2.14** refines the playing hands with curved resting fingers, an articulated thumb, clearer fingertip numbers and matte shading. Compact keyboards keep the palm visible; fingers release and settle smoothly. See [the hand guide](releases/NATURAL_HANDS_2.14.md).
 
 The September27 collection adds **你离开的事实**, **龙卷风 · 邓紫棋版**, **Moonlight Sonata I**, **Gymnopédie No.1** and **Bach's Prelude in C** to your private Library. All five have complete practice playback and attached original PDFs. The three classics are published in [Practice Sheets](../Practice%20Sheets/) with their Mutopia sources and provenance; the two community arrangements stay in the private Library because their source does not permit reposting.
 
 Version **2.13** gives Library three original illustrated piano scenes, larger artwork, details on demand and a companion who responds to touch. Click the portrait to greet it or its name to open chat. The exact artwork and generation prompts are saved in `Assets/Library Art/`.
 
-Version **2.12** adds a six-layer, lossless stereo Yamaha C5 grand, written articulation, Concert/Written phrasing choices, and natural final-chord decay. Open **Reading settings → Sound**. A coda preview is in `Assets/Audio Previews/`; details and limitations are in [docs/CONCERT_PIANO_2.12.md](CONCERT_PIANO_2.12.md).
+Version **2.12** adds a six-layer, lossless stereo Yamaha C5 grand, written articulation, Concert/Written phrasing choices, and natural final-chord decay. Open **Reading settings → Sound**. A coda preview is in `Assets/Audio Previews/`; details and limitations are in [docs/releases/CONCERT_PIANO_2.12.md](releases/CONCERT_PIANO_2.12.md).
 
 A focused, local sight-reading companion.
 
@@ -94,10 +94,10 @@ Open your current companion in the top bar (**Beethoven** by default). The compa
 
 Try these in the **Ask** field, labelled with your companion's name:
 
-- `find 晴天` — find matching saved arrangements.
-- `where did I stop?` — return to a saved practice bar. Use `resume 晴天` for a particular piece.
-- `go to bar 12` or `repeat bars 4–8` — choose a position or practice range.
-- `slower` or `right hand` — reduce speed by 5% or practise one hand.
+- `find 晴天`: find matching saved arrangements.
+- `where did I stop?`: return to a saved practice bar. Use `resume 晴天` for a particular piece.
+- `go to bar 12` or `repeat bars 4–8`: choose a position or practice range.
+- `slower` or `right hand`: reduce speed by 5% or practise one hand.
 
 Ask a question such as `How can I feel less nervous at the piano?` or `请给我一点练琴的鼓励。` for a conversational reply. **Help with these bars** uses the app’s written-score guide for exact note, chord and rhythm cues. The header shows whether on-device chat is available. **Stop reply** cancels generation; **Try again** retries the same question. Closing the panel stops an unfinished reply. Chat stays only in memory for the current app session: minimizing or reopening the panel keeps it, while **New chat**, reloading, or quitting clears it. Old saved conversation files are removed on startup. Text-size preferences and practice progress are separate and remain saved. Conversation is shared between companions, with each reply retaining its author. Only a small recent context fits in the model, so this is not unlimited memory.
 
@@ -231,7 +231,7 @@ In **Lessons**, Für Elise now includes a two-hand opening excerpt with its 3/8 
 - `Exports/`: printable number sheets and practice backups.
 - `Practice Sheets/`: starter sheet and sample practice resources.
 - `src/`, `public/`, `server.mjs`, `electron.cjs`, `recognition-runner.cjs`: complete editable application source and assets.
-- `docs/`: design decisions, third-party credits and Claude's enhancement report.
+- `docs/`: design notes and third-party credits, with release notes in `docs/releases/` and review notes from development in `docs/history/`. [docs/README.md](README.md) lists them.
 - `evidence/`: test results and screenshots.
 
 ## Development
@@ -249,7 +249,7 @@ Development UI: http://127.0.0.1:5188 . Local API: port 5189. Packaged app choos
 
 To rebuild and refresh the Desktop app after changes, run `scripts/package-desktop.sh`. Quit and reopen the app when convenient to load an installed update.
 
-For browser tests, use `LUMA_DATA_DIR="$PWD/.qa-runs/ui/Library" npm run dev`, then run the QA scripts sequentially. They require this separate test library. `node scripts/reader-qa.mjs` tests the new reading workflow; `node scripts/native-reader-qa.mjs` runs it in an isolated packaged app. `node scripts/native-input-qa.mjs` checks piano input and `node scripts/close-qa.mjs` checks save/quit behavior. Older dashboard-oriented QA scripts retain historical selectors. `node scripts/recognition-close-qa.mjs` checks normal close, force quit, relaunch and PDF retry in isolated packaged instances. See docs/OVERNIGHT.md.
+For browser tests, use `LUMA_DATA_DIR="$PWD/.qa-runs/ui/Library" npm run dev`, then run the QA scripts sequentially. They require this separate test library. `node scripts/reader-qa.mjs` tests the new reading workflow; `node scripts/native-reader-qa.mjs` runs it in an isolated packaged app. `node scripts/native-input-qa.mjs` checks piano input and `node scripts/close-qa.mjs` checks save/quit behavior. Older dashboard-oriented QA scripts retain historical selectors. `node scripts/recognition-close-qa.mjs` checks normal close, force quit, relaunch and PDF retry in isolated packaged instances. See docs/history/overnight-run-2026-09-24.md.
 
 The app is a local personal build for this Apple Silicon Mac; it is not an App Store release. It includes a current Electron runtime and the local recognition engine. Do not delete Library if rebuilding the app.
 

@@ -24,7 +24,7 @@ Audio is processed locally in an AudioWorklet and Worker. It is not written to d
 
 ## Verification
 
-The detector fixtures include 111 synthesized single notes, 39 recorded notes at three dynamics (38 recognized; the softest C6 correctly remains uncertain), real recorded triads, wrong pitches/octaves, omissions, extra independent notes, held tones, repeated strikes and 117 resets during decay. All 39 eight-second held recordings emitted no duplicate attacks. See [fixture scope](../tests/fixtures/microphone/README.md) for the exact cases and negative findings.
+The detector fixtures include 111 synthesized single notes, 39 recorded notes at three dynamics (38 recognized; the softest C6 correctly remains uncertain), real recorded triads, wrong pitches/octaves, omissions, extra independent notes, held tones, repeated strikes and 117 resets during decay. All 39 eight-second held recordings emitted no duplicate attacks. See [fixture scope](../../tests/fixtures/microphone/README.md) for the exact cases and negative findings.
 
 Initial recorded-note confirmation took about 180–252 ms after the detector's onset timestamp. That excludes microphone, queue and display delay and is not an end-to-end latency promise.
 

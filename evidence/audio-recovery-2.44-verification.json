@@ -32,7 +32,7 @@
     "audio": ".qa-runs/audio-recovery-2.44/final1-audio/report.json",
     "handRecovery": ".qa-runs/audio-recovery-2.44/final4-hand-planner/report.json",
     "source": ".qa-runs/audio-recovery-2.44/final-source-verification.json",
-    "guide": "docs/AUDIO_RECOVERY_2.44.md"
+    "guide": "docs/releases/AUDIO_RECOVERY_2.44.md"
   },
   "unitChecks": {
     "focusedAudio": 40,

@@ -52,6 +52,8 @@ scripts/          Playwright QA stories, asset builders, hand-motion lab
 public/           Piano and backing samples, hand models, fonts, PDF.js, cover art
 Practice Sheets/  Starter sheets and three public-domain / CC classics
 Assets/           Icon, companion and cover artwork sources
-docs/             User guide, per-version design notes, third-party notices
+docs/             User guide, design notes, third-party notices (index: docs/README.md)
+  releases/       One note per feature release, named by version
+  history/        Review notes and plans written during development
 evidence/         Verification output and screenshots from each release
 ```

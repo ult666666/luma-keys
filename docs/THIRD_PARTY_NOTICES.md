@@ -30,7 +30,7 @@ React (MIT), Vite (MIT), Electron (MIT plus bundled Chromium notices), Express (
 
 ## three.js (3-D hands)
 The realistic hands over the on-screen keyboard are rendered with **three.js** 0.186.1 by the three.js authors, MIT License. It is bundled into the application's JavaScript as separate chunks (the renderer, and a worker that prepares the hand models), loaded the first time hands are shown.
-- Project and source: https://threejs.org/ — https://github.com/mrdoob/three.js (npm `three` 0.186.1)
+- Project and source: https://threejs.org/ and https://github.com/mrdoob/three.js (npm `three` 0.186.1)
 - License (MIT), reproduced as the license requires:
 
 > The MIT License

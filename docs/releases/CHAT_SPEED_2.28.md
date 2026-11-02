@@ -24,4 +24,4 @@ All773 unit/API tests pass when run separately with two test workers. New checks
 
 The piano continued while actual model text decoded; Pause cancelled every observed future scheduled source. Output was muted. The captured frame p95 was83.4ms, and one cumulative sample-cache miss/fallback was recorded since startup; this capture does not locate that fallback's onset. The evidence preserves both limitations. No physical MIDI or acoustic quality claim is made.
 
-Package and preservation checks are in [the verification record](../evidence/chat-speed-2.28-verification.json). Detailed runs, earlier failed harness attempts and the previous app are retained in `.qa-runs/chat-speed-2.28/`.
+Package and preservation checks are in [the verification record](../../evidence/chat-speed-2.28-verification.json). Detailed runs, earlier failed harness attempts and the previous app are retained in `.qa-runs/chat-speed-2.28/`.

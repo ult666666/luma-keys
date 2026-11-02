@@ -1,6 +1,6 @@
-# Claude follow-up: piano input
+# Review: piano input (25 September 2026)
 
-September 25, 2026. The user requested a Claude enhancement pass. Claude reviewed the initial 1.0.8 input candidate through the installed CLI with all tools and MCP connections disabled. It did not edit source or execute tests. Raw output: `evidence/claude-input-review-1.0.8.json`.
+A second AI coding assistant reviewed the initial 1.0.8 input candidate through its CLI with all tools and MCP connections disabled. It did not edit source or execute tests. Raw output: `evidence/claude-input-review-1.0.8.json`.
 
 No blocking findings in `InputNotes`, `bindMIDIInputs`, or the async owner-invalidation path. The baseline regressions look correctly addressed. These five issues are still worth fixing before 1.0.8:
 
@@ -35,8 +35,8 @@ No blocking findings in `InputNotes`, `bindMIDIInputs`, or the async owner-inval
 - The keyboard-effect cleanup calls `midiRef.current?.dispose()` but never nulls `midiRef.current`. After an HMR or dev remount, `connectMIDI` then calls `refresh()` on a disposed binding, which is a no-op, so MIDI stays dead until reload.
 - `bindMIDIInputs` ignores CC 123/120 (All Notes Off / All Sound Off). A controller panic or octave-shift that sends them leaves held owners stuck until blur. You could map them to `handlers.disconnect(channel)`.
 
-## Primary-agent follow-up
+## Follow-up after the review
 
-Codex separated scheduled playback cleanup from live voices: loop boundaries preserve held inputs and the shared sustain state, and completing wait mode leaves the final note sounding until release. Computer notes now work from range sliders; Command-key transitions clear only computer owners even when a letter key-up is absent. Async Play reads current transport settings after audio becomes ready. Mode and hand changes already cancelled startup through Stop; the new test verifies this and also checks a count-in toggle during loading. MIDI cleanup clears the binding reference for a development remount.
+The follow-up separated scheduled playback cleanup from live voices: loop boundaries preserve held inputs and the shared sustain state, and completing wait mode leaves the final note sounding until release. Computer notes now work from range sliders; Command-key transitions clear only computer owners even when a letter key-up is absent. Async Play reads current transport settings after audio becomes ready. Mode and hand changes already cancelled startup through Stop; the new test verifies this and also checks a count-in toggle during loading. MIDI cleanup clears the binding reference for a development remount.
 
-These corrections came after Claude's review; Claude did not review the final code. The shared browser/native harness measures source-stop calls, delayed audio cancellation, loop-held notes, final-note release, mixed owners and modifier transitions. MIDI devices and missing-keyup events are simulated; physical hardware has not been tested. MIDI controllers other than note-on/off and CC64 remain outside the implemented input subset, including CC120/123 panic messages. Local Pause/Start over clears the app's voices. Final validation is recorded in STATUS.md.
+These corrections came after the review; the reviewer did not see the final code. The shared browser/native harness measures source-stop calls, delayed audio cancellation, loop-held notes, final-note release, mixed owners and modifier transitions. MIDI devices and missing-keyup events are simulated; physical hardware has not been tested. MIDI controllers other than note-on/off and CC64 remain outside the implemented input subset, including CC120/123 panic messages. Local Pause/Start over clears the app's voices. Final validation is recorded in STATUS.md.

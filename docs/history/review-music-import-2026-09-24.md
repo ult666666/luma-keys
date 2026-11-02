@@ -1,11 +1,11 @@
-# Claude review: music import correctness
+# Review: music import correctness (24 September 2026)
 
-Date: 2026-09-24. Scope: `src/music.mjs` (MusicXML/MXL and MIDI import) and `tests/music.test.mjs`. This is step 7 of `PLAN.md`, "Claude pass after working implementation". This report describes the code as it is now. Nothing was changed while writing it.
+Scope: `src/music.mjs` (MusicXML/MXL and MIDI import) and `tests/music.test.mjs`. This is step 7 of `PLAN.md`, a review pass by a second AI coding assistant after the first working implementation. This report describes the code as it is now. Nothing was changed while writing it.
 
 ## Validation status
 
-- An earlier Claude pass made the changes below and added regression tests. It hit its turn limit before writing this report.
-- The primary agent then ran `npm test` on its own and reported **24/24 tests passing**. That run covers `tests/music.test.mjs` (23 tests) and `tests/server.test.mjs`. I did not rerun the suite for this report.
+- An earlier session of the review made the changes below and added regression tests, then stopped before writing this report.
+- A separate `npm test` run then reported **24/24 tests passing**. That run covers `tests/music.test.mjs` (23 tests) and `tests/server.test.mjs`. The suite was not rerun for this report.
 - One test uses the fixture `tests/fixtures/pickup-two-parts.musicxml`. The regression section in the test file points to this document.
 - All tests use synthetic scores. There are no tests against real exports from MuseScore, Finale, Sibelius or Dorico, and none against Audiveris output from real PDFs. See the limitations section.
 
@@ -81,17 +81,17 @@ Date: 2026-09-24. Scope: `src/music.mjs` (MusicXML/MXL and MIDI import) and `tes
 
 No blocking correctness defects were found in this read-through. Items 5–8 are the most likely to confuse a beginner and deserve targeted fixtures in a future pass.
 
-## Integration verification by the primary agent
+## Integration verification
 
 The scope above covers the parser unit tests. Separate integration tests **did** exercise real PDF recognition with Audiveris: an official Schubert sample produced 277 notes, and a generated 16-note starter PDF round-tripped with all pitches and quarter-note durations matching. The PDF workflow was also tested inside the actual packaged Mac app. Evidence: `evidence/pdf-roundtrip.json`, `evidence/pdf-ui-qa.json`, `evidence/native-qa.json`, and `scripts/pdf-qa.mjs` / `scripts/native-qa.mjs`. This does not establish accuracy for arbitrary scores or notation exports.
 
 The app defaults to **C = 1 regardless of imported key metadata**. The user may choose a different tonic manually. The discussion of relative-major tonic above describes importer metadata, not an automatic change to the app's fixed-Do labels.
 
 
-## Primary-agent overnight integration follow-up — 1.0.1
+## Overnight integration follow-up (1.0.1)
 
-This follow-up was implemented and tested by Codex after the Claude pass. MIDI imports now store explicit bar starts and lengths, including meter changes, silent bars, and notes held across bar lines. MusicXML stores the final bar length too. Review, phrase loops, metronome accents on quarter-note boundaries, and numbered exports use the same map. Nearby MIDI onsets on opposite sides of a bar line remain separate. Looped practice and visual hints stay within the selected phrase, and empty selected-hand phrases give guidance. Six additional core regressions plus an end-to-end changing-meter MIDI scenario cover these changes. Earlier MIDI imports must be re-imported to gain the new map; no user scores were silently rewritten.
+This follow-up was implemented and tested after the review. MIDI imports now store explicit bar starts and lengths, including meter changes, silent bars, and notes held across bar lines. MusicXML stores the final bar length too. Review, phrase loops, metronome accents on quarter-note boundaries, and numbered exports use the same map. Nearby MIDI onsets on opposite sides of a bar line remain separate. Looped practice and visual hints stay within the selected phrase, and empty selected-hand phrases give guidance. Six additional core regressions plus an end-to-end changing-meter MIDI scenario cover these changes. Earlier MIDI imports must be re-imported to gain the new map; no user scores were silently rewritten.
 
-## Primary-agent overnight rhythm follow-up — 1.0.2
+## Overnight rhythm follow-up (1.0.2)
 
-Codex preserved numerator/denominator and explicit pulse groups for imported meters, added audio-clock metronome scheduling and click cancellation, and verified fractional-bar loop accents and pickup count-ins. The UI now labels quarter-note tempo with `♩ =` and shows the current pulse count. Cross-staff voices retain their pitches/timing and receive a hand-review warning; hand colors remain staff-based. Eight new core tests and a browser audio-timing scenario cover the changes. See docs/RESEARCH.md for the primary notation sources and evidence/rhythm-qa.json for measured scheduling intervals. Existing imported files need re-importing to add pulse metadata; their data is preserved.
+This follow-up preserved numerator/denominator and explicit pulse groups for imported meters, added audio-clock metronome scheduling and click cancellation, and verified fractional-bar loop accents and pickup count-ins. The UI now labels quarter-note tempo with `♩ =` and shows the current pulse count. Cross-staff voices retain their pitches/timing and receive a hand-review warning; hand colors remain staff-based. Eight new core tests and a browser audio-timing scenario cover the changes. See docs/RESEARCH.md for the primary notation sources and evidence/rhythm-qa.json for measured scheduling intervals. Existing imported files need re-importing to add pulse metadata; their data is preserved.

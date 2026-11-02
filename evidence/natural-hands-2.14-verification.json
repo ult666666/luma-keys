@@ -140,5 +140,5 @@
     "Performance samples are short rAF measurements on this Mac at the recorded viewport/device density, not a guarantee for all devices.",
     "Native QA audio output was muted; this hand-art pass did not alter or re-audit the sampled instrument."
   ],
-  "guide": "~/Desktop/Luma Keys/docs/NATURAL_HANDS_2.14.md"
+  "guide": "~/Desktop/Luma Keys/docs/releases/NATURAL_HANDS_2.14.md"
 }

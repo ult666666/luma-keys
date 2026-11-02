@@ -63,7 +63,7 @@
     "appCopies": "public/library-art",
     "exactPrompts": "Assets/Library Art/prompts.json",
     "toolMode": "built-in image_gen",
-    "provenance": "docs/LIBRARY_ART_2.13.md"
+    "provenance": "docs/releases/LIBRARY_ART_2.13.md"
   },
   "limits": [
     "Artwork is atmospheric and uses three scene families, not one bespoke cover per score.",

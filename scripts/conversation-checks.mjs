@@ -100,9 +100,10 @@ const fixture = (suffix) => ({
 // maestro-checks.mjs). Since 2.35 it is temporary: the transcript lives only
 // in renderer memory — it survives closing or minimizing the dock, but New
 // chat, reloading or quitting clears it, and nothing is saved to the Library,
-// the history API or browser storage (docs/TEMPORARY_CHAT_2.35.md). The old
-// "Saved on this Mac" status, history persistence across reload, save-failure
-// Retry and failed-history-read checks therefore became the checks below.
+// the history API or browser storage (docs/releases/TEMPORARY_CHAT_2.35.md).
+// The old "Saved on this Mac" status, history persistence across reload,
+// save-failure Retry and failed-history-read checks therefore became the
+// checks below.
 export async function verifyConversation(page, prefix = "conversation-2.9") {
   const checks = [],
     measurements = {},
@@ -355,8 +356,8 @@ export async function verifyConversation(page, prefix = "conversation-2.9") {
     assert.deepEqual(await practice(), held, "Typing must not drive practice");
     await expect(page.locator(".piano-key.pressed")).toHaveCount(0);
     // (Since 2.17 the dock is not modal and a MIDI keyboard stays playable
-    // beside it — docs/COMPANION_MINI_2.17.md. The key sounds, but practice
-    // does not advance and the draft is untouched.)
+    // beside it; see docs/releases/COMPANION_MINI_2.17.md. The key sounds, but
+    // practice does not advance and the draft is untouched.)
     await page.evaluate(() => {
       window.__inputQA.a.onmidimessage({ data: [144, 60, 100] });
       window.__inputQA.a.onmidimessage({ data: [176, 64, 127] });

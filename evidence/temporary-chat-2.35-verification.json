@@ -683,5 +683,5 @@
     "This is application-level transcript cleanup, not forensic erasure of operating-system backups.",
     "CUA reopen initially timed out three times; later app pixels and health confirmed launch. AX did not expose renderer contents and clicks returned noWindowsAvailable, so the live personal chat panel was not opened. Exact-package isolated native chat checks passed. No force quit."
   ],
-  "guide": "docs/TEMPORARY_CHAT_2.35.md"
+  "guide": "docs/releases/TEMPORARY_CHAT_2.35.md"
 }
