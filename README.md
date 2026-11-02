@@ -6,7 +6,7 @@ A desktop piano practice app for the Mac. Open a score and Luma Keys shows it as
 numbered score, engraved sheet music or falling notes, while a pair of 3-D hands plays
 each passage with fingering planned for the whole piece. Then it listens while you play
 it back, on a MIDI piano, the computer keyboard or an acoustic piano through the
-microphone. It works offline, with no account and no cloud service.
+microphone. It works offline, with no account, no cloud service and no paid API.
 
 [![Tests](https://github.com/ult666666/luma-keys/actions/workflows/test.yml/badge.svg)](https://github.com/ult666666/luma-keys/actions/workflows/test.yml)
 
@@ -48,7 +48,8 @@ next position before it is needed.
 
 There are three ways to practise. Listen & follow plays a sampled Yamaha C5 grand (six
 velocity layers) with phrasing, pedal and room acoustics. Wait for me stops at each note
-until you play it. Play in time counts you in, keeps a click and grades every note. A
+until you play it, on a MIDI piano, the on-screen keys, the computer keyboard or an
+acoustic piano through the microphone. Play in time counts you in, keeps a click and grades every note. A
 note counts if it lands within 0.4 beat of the written onset, or 250 ms if that is
 longer. It is on time within 0.1 beat, or 100 ms if that is longer.
 
@@ -120,13 +121,15 @@ generator, storage and recovery, the companion pipeline, microphone matching aga
 PCM fixtures, and packaging. CI runs them on macOS for every push to `main` and
 every pull request. CI also runs the browser sight-reading stories, and it opens the
 built app in Electron on Linux under Xvfb
-([`scripts/electron-smoke.mjs`](scripts/electron-smoke.mjs)): it plays Für Elise and
-fails unless the song position advances, the sheet cursor follows the notes and the
-window produces audio.
+([`scripts/electron-smoke.mjs`](scripts/electron-smoke.mjs)), so an Electron upgrade
+from Dependabot is opened, not only installed. The smoke test plays Für Elise and fails
+unless the song position advances, the sheet cursor follows the notes and the window
+produces audio.
 
 Playwright stories in [`scripts/`](scripts) drive the real UI, in the browser
 (`*-qa.mjs`) and in the packaged app (`native-*-qa.mjs`), against isolated test
-libraries. Each release records its checks in [`evidence/`](evidence), and
+libraries. They cover input, reading, phrase practice, sight reading, recovery, quitting
+while saving and recognition shutdown. Each release records its checks in [`evidence/`](evidence), and
 [`STATUS.md`](STATUS.md) is the build log.
 
 The [user guide](docs/USER_GUIDE.md) covers every screen and control, with release notes,
