@@ -1,3 +1,50 @@
+Newest entries first. App copies that older entries name inside `.qa-runs` run folders were removed on 2026-10-26; only the rollback copy at `.qa-runs/rollback/Luma Keys.app` remains (see [AGENTS.md](AGENTS.md)).
+
+## Hand refinement 2.45 and 2.46 installed
+
+Both passes refined the live 3-D hands; 2.45 was installed on October 11. Their changes, measurements and limits are in [docs/HAND_REFINEMENT_2.46.md](docs/HAND_REFINEMENT_2.46.md) and [docs/HAND_REFINEMENT_2.45.md](docs/HAND_REFINEMENT_2.45.md), with evidence in `evidence/hand-refinement-2.46-verification.json` and `evidence/hand-refinement-2.45-verification.json`.
+
+## October 11 — sound recovery and large-score freeze fix 2.44 installed
+
+Continued the user's improvement request with the recent silence report first.
+Practice Tools → Sound now has **Test sound** and **Recover audio**. Audio startup
+has a three-second deadline, validates the running context, and shares concurrent
+resume requests. An interrupted context pauses playback and offers recovery.
+Recovery saves first, reloads the audio system and restores the exact piece,
+beat and repeat range paused; failed saves keep the current window open. Testing
+does not create a practice session and is disabled during microphone listening.
+
+A native 50,000-note import exposed a separate real freeze: the hand-planner
+worker timed out at 20 seconds and moved the whole calculation to the renderer.
+Large-score failures now stop there and show **Retry hand guide** while playback
+and navigation stay responsive. Small exact fallbacks remain. The formerly frozen
+reader/PDF-correction story passes all nine checks. This is a hand-guide reliability
+fix, not a new visual redesign.
+
+**Verification:** 40 focused audio and 55 storage/backend/microphone/packaging tests
+passed; 29 planner/coach/continuity tests passed after the freeze fix. The broader
+suite was 939/940, with a companion process-fixture startup timeout under load
+(that case passed in isolation). Exact packaged audio passed eight groups and
+hand failure/retry passed three. Seven of eight final native stories passed;
+grand's rerun passed all 18 functional checks with no renderer errors or remaining
+voices, but still failed its unchanged frame benchmark. Dense animation measured
+66.7–83.3 ms median; the old 2.43 baseline also failed its stage frame target.
+That performance limitation remains open, and neither report is relabelled green.
+
+Installed `~/Desktop/Luma Keys.app` 2.44.0, exact ASAR
+`5cd5bf4b1c8492c28f25f4fc5244dbb5514b0441768be7d6dafed246633b5448`.
+All 537 checked source/package inputs and 3,035 bundle entries match; all 109
+personal music/settings/progress files were unchanged through installation and reopening. Previous
+2.43 app and non-chat backup are retained in `.qa-runs/audio-recovery-2.44/`.
+The app visibly reopened with Sunny Day paused, Resume bar 48, Listen/Both/50%,
+Ocean and Lang Lang. Test sound and Recover audio are present in the installed
+Tools drawer's accessibility tree. First launch was slow; no startup-speed claim.
+Evidence: `evidence/audio-recovery-2.44-verification.json`.
+The Mac's built-in speaker volume was 6%; left
+unchanged. Software signal output was verified, physical audibility and acoustic
+piano detection were not. Pending recovery/backend changes are included; see
+`docs/RECOVERY_2.44.md` and `docs/AUDIO_RECOVERY_2.44.md`. No new schedule.
+
 ## October 7 — fortify 2.43 installed
 
 The user asked to continue fortifying everything. Product changes, each covered by tests:
@@ -1200,43 +1247,3 @@ PDF recognition is not perfect; every imported scan requires review. Repeats/nav
 
 ## Development state
 The development server and temporary agent-browser test sessions were stopped after verification. Native tests run in project-local .qa-runs directories and clean up their own data; no test closes the personal app. The 1.2.0 update is installed, but the existing personal process was left open after native window automation timed out. The user needs to quit and reopen once to load the tested update. The installed app starts its own loopback server and does not depend on development servers. Source uses local Git checkpoints. Runtime state lives in Library; build files can be replaced without deleting practice data.
-## October 11 — sound recovery and large-score freeze fix 2.44 installed
-
-Continued the user's improvement request with the recent silence report first.
-Practice Tools → Sound now has **Test sound** and **Recover audio**. Audio startup
-has a three-second deadline, validates the running context, and shares concurrent
-resume requests. An interrupted context pauses playback and offers recovery.
-Recovery saves first, reloads the audio system and restores the exact piece,
-beat and repeat range paused; failed saves keep the current window open. Testing
-does not create a practice session and is disabled during microphone listening.
-
-A native 50,000-note import exposed a separate real freeze: the hand-planner
-worker timed out at 20 seconds and moved the whole calculation to the renderer.
-Large-score failures now stop there and show **Retry hand guide** while playback
-and navigation stay responsive. Small exact fallbacks remain. The formerly frozen
-reader/PDF-correction story passes all nine checks. This is a hand-guide reliability
-fix, not a new visual redesign.
-
-**Verification:** 40 focused audio and 55 storage/backend/microphone/packaging tests
-passed; 29 planner/coach/continuity tests passed after the freeze fix. The broader
-suite was 939/940, with a companion process-fixture startup timeout under load
-(that case passed in isolation). Exact packaged audio passed eight groups and
-hand failure/retry passed three. Seven of eight final native stories passed;
-grand's rerun passed all 18 functional checks with no renderer errors or remaining
-voices, but still failed its unchanged frame benchmark. Dense animation measured
-66.7–83.3 ms median; the old 2.43 baseline also failed its stage frame target.
-That performance limitation remains open, and neither report is relabelled green.
-
-Installed `~/Desktop/Luma Keys.app` 2.44.0, exact ASAR
-`5cd5bf4b1c8492c28f25f4fc5244dbb5514b0441768be7d6dafed246633b5448`.
-All 537 checked source/package inputs and 3,035 bundle entries match; all 109
-personal music/settings/progress files were unchanged through installation and reopening. Previous
-2.43 app and non-chat backup are retained in `.qa-runs/audio-recovery-2.44/`.
-The app visibly reopened with Sunny Day paused, Resume bar 48, Listen/Both/50%,
-Ocean and Lang Lang. Test sound and Recover audio are present in the installed
-Tools drawer's accessibility tree. First launch was slow; no startup-speed claim.
-Evidence: `evidence/audio-recovery-2.44-verification.json`.
-The Mac's built-in speaker volume was 6%; left
-unchanged. Software signal output was verified, physical audibility and acoustic
-piano detection were not. Pending recovery/backend changes are included; see
-`docs/RECOVERY_2.44.md` and `docs/AUDIO_RECOVERY_2.44.md`. No new schedule.

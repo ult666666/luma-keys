@@ -75,17 +75,19 @@ const deadline = setTimeout(() => {
 }, 180000);
 deadline.unref();
 
-const app = await electron.launch({
-  executablePath: packaged
-    ? path.resolve(ROOT, packaged)
-    : (await import("electron")).default,
-  args: packaged ? linuxFlags : [...linuxFlags, ROOT],
-  cwd: ROOT,
-  env: { ...process.env, LUMA_QA_ROOT: qaRoot },
-  timeout: 60000,
-});
-let page;
+// A launch failure is recorded like any other, so report.json is always written
+// and the throwaway library is removed.
+let app, page;
 try {
+  app = await electron.launch({
+    executablePath: packaged
+      ? path.resolve(ROOT, packaged)
+      : (await import("electron")).default,
+    args: packaged ? linuxFlags : [...linuxFlags, ROOT],
+    cwd: ROOT,
+    env: { ...process.env, LUMA_QA_ROOT: qaRoot },
+    timeout: 60000,
+  });
   page = await app.firstWindow();
   page.on("pageerror", (error) => report.errors.push(error.message));
   page.on("console", (message) => {
@@ -203,13 +205,15 @@ try {
     path.join(outputDir, "report.json"),
     `${JSON.stringify(report, null, 2)}\n`,
   );
-  await Promise.race([
-    app.close().catch(() => {}),
-    new Promise((resolve) => setTimeout(resolve, 15000)),
-  ]);
-  try {
-    app.process().kill("SIGKILL");
-  } catch {}
+  if (app) {
+    await Promise.race([
+      app.close().catch(() => {}),
+      new Promise((resolve) => setTimeout(resolve, 15000)),
+    ]);
+    try {
+      app.process().kill("SIGKILL");
+    } catch {}
+  }
   await fs.rm(qaRoot, { recursive: true, force: true });
 }
 for (const check of report.checks) console.log(`  ok  ${check}`);
