@@ -1,22 +1,20 @@
 # Luma Keys user guide
 
-The complete in-app guide and release notes, newest first. For an overview of the project, see the [README](../README.md).
+How to use each screen and control, with release notes, newest first. For an overview of the project, see the [README](../README.md).
 
-Latest Desktop update: **2.44.0 — Recovery and a steadier backend**. Restore removed pieces and earlier versions of a piece from the Library, with their practice history, and earlier settings from Settings › Settings history; every restore can itself be undone. Saves of one piece now run in order, and quitting waits for writes under way. [Guide](RECOVERY_2.44.md) · [Verification](../evidence/native-recovery-qa.json).
+## Recent releases
 
-Latest Desktop update: **2.43.0 — Fortify**. A part of the window that fails now shows a short notice with Try again instead of blanking the app; opening the app no longer rewrites your settings; settings saved by a newer version survive an older one; a Library folder that cannot be opened gets a plain explanation with Try Again; a read-only Library opens. Every runnable packaged-app regression story passes again. [Guide](FORTIFY_2.43.md) · [Verification](../evidence/fortify-2.43-verification.json).
+- 2.46 and 2.45, hand refinement. The live 3-D hands have more defined fingers and joints, a resting thumb that opens the hand, cleaner nails, softer light and warmer skin, and the camera sits slightly lower. Playing contacts are unchanged. Notes: [2.46](HAND_REFINEMENT_2.46.md), [2.45](HAND_REFINEMENT_2.45.md).
+- 2.44, recovery and a steadier backend. Restore removed pieces and earlier versions of a piece from the Library, with their practice history, and earlier settings from Settings › Settings history; every restore can itself be undone. Saves of one piece now run in order, and quitting waits for writes under way. [Guide](RECOVERY_2.44.md)
+- 2.43, fortify. A part of the window that fails now shows a short notice with Try again instead of blanking the app; opening the app no longer rewrites your settings; settings saved by a newer version survive an older one; a Library folder that cannot be opened gets a plain explanation with Try Again; a read-only Library opens. [Guide](FORTIFY_2.43.md)
+- 2.42, hand motion. Thumbs now reach their keys in wide stretches (the hand turns toward a thumb a fifth from the index), the hand no longer changes shape at the instant a key is struck, a landing finger arrives already curved, and free fingers settle instead of trembling. [Guide](HAND_MOTION_2.42.md)
+- 2.41, solid storage. Every save is atomic and flushed; earlier versions of edited scores, removed scores and a daily settings snapshot are kept in recovery folders you can import again; the Library listing reuses unchanged files; a bounded diagnostics log beside the Library records events, never content; the app warns if its folder cannot be written. [Guide](SOLID_STORAGE_2.41.md)
+- 2.40, trouble spots. The app now remembers the bars that slip in Wait for me and Play in time, marks them on the piece map, lists them in Practice tools, on the report card, in Library and in Progress, and drills them at 70% or slower. Three clean passes clear a bar; Forget removes one. [Guide](TROUBLE_SPOTS_2.40.md)
+- 2.29, artistic pianist hands. The generated hand study informed softer peach skin, short satin nails, gently curved fingers, complete wrists and small ivory cuffs with teaching-colour seams. Playing contacts take priority over preparation for the next note; compact keyboards keep natural proportions. [Hand guide](HAND_ART_2.29.md)
+- 2.28, faster companion chat. The local model stays warm between messages, begins loading when chat opens and unloads after five idle minutes. Follow-ups reuse it; Stop and retry preserve a healthy session. First conversations still have a loading delay. [Guide](CHAT_SPEED_2.28.md)
+- 2.27, colours and alignment. Use the palette button beside your companion for Neutral, five named palettes or Match companion. Library adapts beside chat; selection persists without changing your practice controls. [Guide](COLOURS_2.27.md)
 
-Latest Desktop update: **2.42.0 — Hand motion**. Thumbs now reach their keys in wide stretches (the hand turns toward a thumb a fifth from the index), the hand no longer changes shape at the instant a key is struck, a landing finger arrives already curved, and free fingers settle instead of trembling. [Guide](HAND_MOTION_2.42.md) · [Verification](../evidence/hand-motion-2.42-verification.json).
-
-Latest Desktop update: **2.41.0 — Solid storage**. Every save is atomic and flushed; earlier versions of edited scores, removed scores and a daily settings snapshot are kept in recovery folders you can import again; the Library listing reuses unchanged files; a bounded diagnostics log beside the Library records events, never content; the app warns if its folder cannot be written. [Guide](SOLID_STORAGE_2.41.md) · [Verification](../evidence/solid-storage-2.41-verification.json).
-
-Latest Desktop update: **2.40.0 — Trouble spots**. The app now remembers the bars that slip in Wait for me and Play in time, marks them on the piece map, lists them in Practice tools, on the report card, in Library and in Progress, and drills them at 70% or slower. Three clean passes clear a bar; Forget removes one. [Guide](TROUBLE_SPOTS_2.40.md) · [Verification](../evidence/trouble-spots-2.40-verification.json).
-
-Latest Desktop update: **2.29.0 — Artistic pianist hands**. The generated hand study informed softer peach skin, short satin nails, gently curved fingers, complete wrists and small ivory cuffs with teaching-colour seams. Playing contacts take priority over preparation for the next note; compact keyboards keep natural proportions. 777 tests and six packaged-app checks pass. The verified update is installed. [Hand guide](HAND_ART_2.29.md) · [Verification](../evidence/hand-atelier-2.29-verification.json).
-
-Latest Desktop update: **2.28.0 — Faster companion chat**. The local model stays warm between messages, begins loading when chat opens and unloads after five idle minutes. Follow-ups reuse it; Stop and retry preserve a healthy session. First conversations still have a loading delay. [Guide](CHAT_SPEED_2.28.md) · [Verification](../evidence/chat-speed-2.28-verification.json).
-
-Latest Desktop update: **2.27.0 — Colours and alignment**. Use the palette button beside your companion for Neutral, five named palettes or Match companion. Library adapts beside chat; selection persists without changing your practice controls. [Guide](COLOURS_2.27.md) · [Verification](../evidence/colour-flow-2.27-verification.json).
+Each release's verification record is in [`evidence/`](../evidence).
 
 ## Hand motion · 2.42
 

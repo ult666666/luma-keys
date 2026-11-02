@@ -1,10 +1,14 @@
-Newest entries first. App copies that older entries name inside `.qa-runs` run folders were removed on 2026-10-26; only the rollback copy at `.qa-runs/rollback/Luma Keys.app` remains (see [AGENTS.md](AGENTS.md)).
+# Build log
+
+One entry per release pass, newest first: what changed, how it was checked, and what stayed open. For what the app does, see the [README](README.md); for how to use it, the [user guide](docs/USER_GUIDE.md).
+
+App copies that older entries name inside `.qa-runs` run folders were removed on 2026-10-26; only the rollback copy at `.qa-runs/rollback/Luma Keys.app` remains (see [AGENTS.md](AGENTS.md)).
 
 ## Hand refinement 2.45 and 2.46 installed
 
 Both passes refined the live 3-D hands; 2.45 was installed on October 11. Their changes, measurements and limits are in [docs/HAND_REFINEMENT_2.46.md](docs/HAND_REFINEMENT_2.46.md) and [docs/HAND_REFINEMENT_2.45.md](docs/HAND_REFINEMENT_2.45.md), with evidence in `evidence/hand-refinement-2.46-verification.json` and `evidence/hand-refinement-2.45-verification.json`.
 
-## October 11 — sound recovery and large-score freeze fix 2.44 installed
+## October 11: sound recovery and large-score freeze fix 2.44 installed
 
 Continued the user's improvement request with the recent silence report first.
 Practice Tools → Sound now has **Test sound** and **Recover audio**. Audio startup
@@ -45,7 +49,7 @@ unchanged. Software signal output was verified, physical audibility and acoustic
 piano detection were not. Pending recovery/backend changes are included; see
 `docs/RECOVERY_2.44.md` and `docs/AUDIO_RECOVERY_2.44.md`. No new schedule.
 
-## October 7 — fortify 2.43 installed
+## October 7: fortify 2.43 installed
 
 The user asked to continue fortifying everything. Product changes, each covered by tests:
 
@@ -61,7 +65,7 @@ Observations, not changed: at 1280×800 the number view's runway is about 50 px 
 
 Installed and reopened `~/Desktop/Luma Keys.app` **2.43.0**, ASAR `64deb3a5a11ec37084295b149c935c5124aa873ddb77a0fafe51f5ee0e418ad2`, all 3,035 bundle entries matching the staged candidate. The 2.42 app had been idle since its own reopening (no personal file or log event since) and was quit normally first. All 108 personal files were byte-identical before the quit, after installation and after reopening. The reopened app reports 2.43.0, a writable Library, no settings issues, server ready at 746 ms and window loaded at 1,224 ms by its own clock (55 s on the wall clock, the known first launch of a new bundle). The previous 2.42.0 app is recoverable in `.qa-runs/claude-2.43.0/`. Evidence: `evidence/fortify-2.43-verification.json`, `evidence/native-library-access-qa.json` and the refreshed native story reports. No new schedule.
 
-## October 7 — regression net restored (after 2.42 install)
+## October 7: regression net restored (after 2.42 install)
 
 The stories that had drifted since 2.2 (phrase practice, sight reading, resume audio, overlap motion) now pass again, in the browser and in the installed 2.42.0 package. No app code changed; only the harnesses, which had kept the 1.x/2.2 interface. Other stories (backing, companion, conversation, maestro, material, keyboard stage, studio design, the original native-qa) received only the shared helper changes and were not rerun in this pass:
 
@@ -74,7 +78,7 @@ Shared helpers: `scripts/practice-tools.mjs` (`setLoopRange`, `openReview`, `cli
 
 Next hand finding, not shipped: while a finger approaches a key beside a held one (Appassionata bars 32–34, right hand), the placement fit turns, tilts and rolls the hand to its limits, because a rotation costs it almost nothing, and the hand snaps back when the finger lands (one eased frame moves 13 mm and a free little finger 58°). Stronger orientation priors and costlier turning were tried on the probe; each helped two passages and hurt two others, so neither was kept. A proper fix needs the aim's pull to stop driving orientation, measured across all 20 passages.
 
-## October 7 — hand motion continuity 2.42 installed
+## October 7: hand motion continuity 2.42 installed
 
 The user asked for realistic, bug-free, smooth hands. Measured first with the new `scripts/hand-continuity-probe.mjs` (144 Hz node posing of 20 hand-passages, still and renderer-eased) and a CPU profile of the packaged app (renderer mostly idle, so the problems were in posing, not frame rate). Fixed in `src/hand3d-rig.mjs` (with `src/hand3d.mjs`, `src/hands3d-layer.mjs`): a thumb held a fifth from the index could not be reached because the wrist was limited to 12° of turn, so in Tornado bars 4–6 the left thumb floated 17.5 mm off A3 and in the Moonlight Sonata bars 57–59 the right thumb 16.2 mm off B3; the wrist may now turn up to 13° further, continuously, as a thumb-index or thumb-middle stretch passes the widest natural spread (both frames now ≤ 0.4 mm). The local contact refinement could stall two frames from an exact fit; only while a held key is still missed it retries from the wrist turned to either bound and from the default frame. The hand's span (arch and fingertip angles) now counts digits as they come and go instead of switching at the strike; aims bring the hand over the second half of the approach; a landing finger takes on its on-key joint ranges as it arrives; free fingers settle on a 90 ms clock; the eased hand (now 40 ms) lets a finger stretch within strained ranges while it catches up, returning to comfortable ranges once arrived; free fingers hang a little closer in wide stretches; nails, knuckle relief and warmth slightly stronger. The motion engine, fingering, camera, contact tolerances and joint limits are unchanged. Guide: `docs/HAND_MOTION_2.42.md`.
 
@@ -84,7 +88,7 @@ Harness repair: the hand-guide story had failed since 2.39 on drift (volume move
 
 Installed and reopened `~/Desktop/Luma Keys.app` **2.42.0**, ASAR `77798af3f6a1475566866bbcc2602b9000bff99e662bcfc7a4906e230c91a930`, all 3,035 bundle entries matching the staged candidate; all 108 personal files byte-identical through installation (the 108th is 2.41's daily settings snapshot). One retained slip: the first install attempt refused to run because its running-app check matched the shell command that launched it, and that chained command then reopened the old 2.41 app; it was quit normally before the real install. First launch of the new bundle took 54 s to a listening server while the app's own clock read 431 ms (the known first-launch effect). The previous 2.41.0 app is recoverable in `.qa-runs/claude-2.42.0/`. The phrase-practice, sight-reading and resume-audio harness drift was repaired afterwards (see the next section up). Evidence: `evidence/hand-motion-2.42-verification.json`. No new schedule.
 
-## October 6 — solid storage 2.41 installed
+## October 6: solid storage 2.41 installed
 
 The local back end is harder to lose data with and easier to diagnose; what is stored and how practice works are unchanged. Every settings write, score save, import receipt, original PDF and export now goes through one atomic routine (`src/atomic-file.mjs`): a unique temporary name beside the destination, flushed to disk, then renamed into place, with nothing left behind on failure and stale temporaries swept at startup. Before a score is overwritten with different content its current bytes are kept under `Library/Score recovery/<id>/` (newest five); a removed score moves to `Library/Score recovery/removed/` (newest ten); before the first settings write of a day the healthy file is kept under `Library/Settings snapshots/preferences-<day>.json` (newest fourteen). All are ordinary JSON that **Import a score** restores. A lost recovery copy is logged, never allowed to block the save. The Library listing reuses parsed scores while a file's size, mtime and inode are unchanged (the Appassionata alone is 3.4 MB), invalidating on app saves and removals and healing per file after damage.
 
@@ -98,7 +102,7 @@ Harness: the trouble-spots story captured the imported fixture's id from the las
 
 Installed and reopened `~/Desktop/Luma Keys.app` **2.41.0**, exact ASAR `89c32c951e7015a83bd24a8dc321be94b781881c3914622786254ff1d4879cbb`; all 3,035 bundle entries match the staged candidate. The idle 2.40 app (no CPU, no personal file written since it was opened) was quit normally first; all 107 personal music/settings/progress files were byte-identical before and after installation, and none changed after reopening (the app now writes only when something changes; the new `Logs` folder sits beside the Library, outside the personal set). The reopened app reports version 2.41.0, a writable Library and its first `server-ready` and `app-ready` events. The previous 2.40.0 app remains recoverable in `.qa-runs/claude-2.41.0/`. Retained from 2.40: three drifted harnesses (phrase practice, sight reading, resume audio) and the hand-guide cue-versus-key assertion, unchanged here. A Library folder that cannot be created at all still stops the app from opening, as before. Evidence: `evidence/solid-storage-2.41-verification.json`, `evidence/native-storage-qa.json`, `evidence/native-trouble-spots-qa.json`. No new schedule.
 
-## October 6 — trouble spots 2.40 installed
+## October 6: trouble spots 2.40 installed
 
 The app now remembers where a piece keeps slipping. Wait for me judges a bar when you leave it, stop in it or a one-bar repeat comes round; Play in time judges every bar a graded run covered (clean when nothing missed or extra; timing stays on the card). Listen & follow and generated exercises are not remembered. Each piece keeps a short per-bar memory in the journal (`journal.pieces[id].spots`: passes, slips, the last eight outcomes and the day), read with the journal's recovery rules: a damaged bar is dropped and reported while the piece survives, and a piece keeps at most 240 bars. A bar with two recent slips and a recency-weighted slip rate of 40% or more is a trouble spot; neighbouring troubled bars (one bar apart at most) form a spot of up to four bars; three clean passes in a row clear a bar.
 
@@ -110,7 +114,7 @@ Harness repair: since the undocumented 2.39 pass moved the piano volume and mute
 
 Installed and reopened `~/Desktop/Luma Keys.app` **2.40.0**, exact ASAR `ed5b451f7de1d0a575e88ae9abb015c1721f760b5b3ce3238df53171eff56cbc`; all 3,035 bundle entries match the staged candidate, and `src/trouble-spots.mjs` is in the bundle beside the journal (the packaging test enforces it). The app was not running before installation; all 107 personal music/settings/progress files were byte-identical before and after installation. On reopening, the app rewrote only `Library/preferences.json`, as it does on every launch (the companion's last-seen day); it reads back valid with the Appassionata still the last piece and no trouble spots yet, and the other 106 music, export and practice-sheet files are unchanged. The reopened app's loopback server was listening about 17 s after launch (the known cold-start delay, unchanged and unclaimed) and reports the personal Library as its data folder. The previous 2.39.0 app remains recoverable in `.qa-runs/claude-2.40.0/`. Evidence: `evidence/trouble-spots-2.40-verification.json`, `evidence/trouble-spots-qa.json`, `evidence/native-trouble-spots-qa.json` and the `evidence/*trouble-spots-*.png` captures. No new schedule.
 
-## October 4 — live hand anatomy and posing 2.38 installed
+## October 4: live hand anatomy and posing 2.38 installed
 
 The user's rejection supersedes earlier internal visual acceptance. The generated prototype was an anatomy reference; the runtime mesh, posing and material did not reproduce it. Reduced excessive dorsal volume, separated knuckles, shortened tendon relief, corrected skin-map derivative sampling and softened the material. Ordinary melodies now use a lower, more open arch and less idle curl; wide held chords and crossings retain supported wrist height. Bind bones, weights, UVs and palmar contacts stay intact. Cached endpoint poses avoid rebuilding geometry during playback. Removed the blue hidden-thumb surface overlay after exact-app review showed it painting through the palm. Finger numbers and key targets remain.
 
@@ -122,7 +126,7 @@ Installed and visibly reopened `~/Desktop/Luma Keys.app` **2.38.0**, exact ASAR 
 
 Guide: `docs/HAND_GUIDE_2.38.md`. Evidence: `evidence/hand-guide-2.38-verification.json` and `evidence/native-hand-guide-2.38-*.png`. Exact native reports, previous 2.37 app, rejected first candidate and fresh musical-data backup remain in `.qa-runs/hand-art-2.38/`. No new schedule.
 
-## October 3 — hand guidance follow-through 2.37 installed
+## October 3: hand guidance follow-through 2.37 installed
 
 Continued the accepted 2.36 hand anatomy and materials. Filled finger badges now require actual guide contact (including exact Wait placements); released numbers briefly fade as outlines. A displaced badge can show a quiet connector along its own key column. Exactly repeated voicings show each pitch/finger once with “Next: repeat,” while accessible text still names the full new attack. Different pitches/fingers, partial repeats, holds, rests and missing suggestions retain explicit guidance.
 
@@ -136,7 +140,7 @@ Retained diagnostics: an initial broad overlap guard failed Tornado legato and w
 
 Guide: `docs/HAND_GUIDE_2.37.md`. Evidence: `evidence/hand-guide-2.37-verification.json` and `.qa-runs/hand-flow-2.37/`. The previous 2.36 app and musical-data backup remain recoverable. No new schedule.
 
-## October 3 — hand guide 2.36 installed
+## October 3: hand guide 2.36 installed
 Replaced the rejected hand mesh with Microsoft MRTK’s MIT-licensed RiggedHandVisualizer, converted reproducibly with source proportions preserved. Compact palms, natural thumb attachment, curved idle fingers and restrained knuckle/skin detail replace the former stretched appearance. Indexed GLBs are 115 KB each. Runtime preparation and baked skin maps now share geometry settings and verified source-model hashes. Generated reference art is kept in docs, not shipped as a runtime hand.
 
 Fixed artificial 40 ms non-thumb finger crossing without shortening written holds; corrected finite differences and constrained solving at wrist rotation bounds. Thumb-under crossings allow 22° wrist turn with unchanged finger limits and contact tolerances. A native visual review caught exposed forearm ends in raised coda poses; local wrist fading now completes before the compact mesh ends.
@@ -149,7 +153,7 @@ Frame pacing remains variable on this Mac in old/new and hands-hidden samples. F
 
 Guide: `docs/HAND_GUIDE_2.36.md`. Evidence: `evidence/hand-guide-2.36-verification.json`; native images use `evidence/native-hand-guide-2.36-*.png`. Rejected candidates, reports, source manifests and backups remain in `.qa-runs/hand-sculpt-2.36/`. No new schedule.
 
-## October 3 — temporary companion chat 2.35 installed
+## October 3: temporary companion chat 2.35 installed
 Renderer chat is now memory-only, with no normal history GET/PUT, transcript writes or stored reactions. New chat cancels pending and delayed questions, clears draft/turns/reactions and returns focus. Larger text/targets, an explicit temporary label, keyboard scrolling and Latest focus improve the compact panel. Legacy server history routes discard writes, startup removes canonical files, and one-time Electron cache migration removes old cached API bodies. Music/preferences remain separate.
 
 **Installed `~/Desktop/Luma Keys.app` (2.35.0).** All 3,035 bundle entries match the verified package, ASAR `b78b3015d679f672b93f3972cc29dd75168d0002d309522c6062b3a069fe7d29`. All 1,160 production inputs remain unchanged; 530 packaged source/assets match, with builder-normalized package identity checked separately. Normal quit, installation and reopening preserve all 107 non-chat personal files byte-for-byte. Removed the 33 identified legacy conversation files from the active Library and project QA/update backups without reading or copying their contents. The fresh musical-data backup excludes chat. The version-only HTTP-cache migration marker is 0600; live health confirms temporary storage and successful cleanup.
@@ -160,7 +164,7 @@ Actual Desktop pixels confirm Appassionata III paused at the start, Resume bar 3
 
 Retained rejected QA attempts were harness issues: storage access on initial about:blank, layout-dependent innerText during a transition, and an overflow assertion counting deliberate 7 px bubble tails. Final assertions separately check text and scroll-container overflow. Guide: `docs/TEMPORARY_CHAT_2.35.md`. Evidence: `evidence/temporary-chat-2.35-verification.json`; exact reports and the previous 2.34 bundle are in `.qa-runs/temporary-chat-2.35/`. No new schedule.
 
-## October 3 — real-piano microphone Wait 2.34 installed
+## October 3: real-piano microphone Wait 2.34 installed
 **Installed and visually reopened `~/Desktop/Luma Keys.app` (2.34.0).** Connect piano now offers explicit microphone capture alongside USB / MIDI. Wait independently detects fresh piano attacks, compares complete note sets, and advances the score, falling notes, keys and hand guide together. Held notes cannot repeatedly advance; separate partial notes do not accumulate into a chord. The beta supports C3–C6 and simple chords up to three notes. Octave/twelfth, hollow fifth and other ambiguous targets stay pending with input guidance. Extra octave notes can hide in overtones; physical acoustic-piano/room accuracy is unverified.
 
 Capture uses a local AudioWorklet and separate detector Worker with bounded backpressure, discontinuity recovery and stale-attack rejection. Target scopes prevent queued results from moving a new seek/loop/hand position. Explicit permission, cancellation, disconnect and app lifecycle cleanup are covered. App piano, backing, metronome and companion-game audio share a capture mute gate; no sample echo accompanies a microphone match. Existing volumes and MIDI remain intact. No microphone recording or audio transfer to the pet model.
@@ -175,7 +179,7 @@ Retained failures include a QA fake-audio sandbox setup issue, an original captu
 
 Guide: `docs/MICROPHONE_WAIT_2.34.md`. Evidence: `evidence/microphone-wait-2.34-verification.json` and `.qa-runs/microphone-practice-20261003/accepted-native-reports.json`. Verified candidate, previous2.33 bundle and fresh personal backup are recoverable in that QA folder. No new schedule.
 
-## October 3 — compact Exercises 2.33 installed
+## October 3: compact Exercises 2.33 installed
 Exercises now uses twelve stable lesson cards in three groups and one setup card. Hands/length remain visible; Customize folds key/meter/tempo while their current values stay visible. Level guide retains useful original tips, adapting early starting advice for custom hands/keys. All defaults, overrides, reset, seeds, saved scores, exact clicked-level double-click, recommendation, clearing and graded history remain. Native controls and setup-first phone document/tab order improve keyboard access. A small manually authored musical motif and the selected palette replace repeated explanations and the long staircase. Brief lesson transitions respect reduced motion; chat leaves a usable content column.
 
 Native testing caught a real phone companion obstruction immediately after scroll. Whole-panel avoidance geometry, summary protection, immediate disclosure measurement and a scoped scroll/reflow guard now keep the figure and its hit area off labels and controls. The companion returns to a clear seat; header/app-bar chat remains available.
@@ -188,7 +192,7 @@ Retained failures include three initial parallel mocked-process fixture failures
 
 Guide: `docs/EXERCISES_2.33.md`. Evidence: `evidence/exercises-polish-2.33-verification.json`, `.qa-runs/exercises-polish-2.33/NATIVE_ACCEPTANCE.md` and exact-package captures. Previous2.32 bundle and fresh personal backup remain recoverable in the QA folder. No new schedule.
 
-## October 3 — smooth themed Practice 2.32 installed
+## October 3: smooth themed Practice 2.32 installed
 The main piano now shares one audible-clock sample across falling notes, key approach and the existing natural 2.30 hands. Exact fingering and motion preparation runs in a cancellable worker with bounded clock caching; GPU preparation runs alongside it. Obsolete score/speed responses cannot replace the current plan, and the original exact planner remains available when a worker is unavailable. Queued attacks use absolute audio deadlines. The first playback window is queued before the initial redraw, fixing a real skipped opening note under a delayed first frame. Paused Sheet/Numbers/Falling remounts now restore the correct runway position.
 
 The selected palette carries through the frame and fine woven wrist rest. Notes have restrained satin highlights, solid readable colour, clear contact outlines and quieter landing effects. Left/right teaching colours remain distinct. Dynamic markings sit above the onset line; hands no longer dim key labels. Cleared highlights restore readable black-key captions and quieter inactive white-key numbers. Colours includes small piano-finish previews; all seven choices, five-second arrows and every existing practice control remain.
@@ -201,7 +205,7 @@ Frame pacing remains variable: final native Sunny Day listening p95 is17.6ms, de
 
 Guide: `docs/PRACTICE_FLOW_2.32.md`. Evidence: `evidence/practice-flow-2.32-verification.json`; exact-package captures, comparisons and live personal observation are saved in `.qa-runs/practice-flow-2.32/`. No new schedule.
 
-## October 3 — clean and cute Progress 2.31 installed
+## October 3: clean and cute Progress 2.31 installed
 Progress now has a compact daily-goal/week/companion summary, one switchable Activity chart/calendar, artwork piece cards with exact saved-place Continue, optional original piece maps and expandable graded reports. All history, 12/26-week calendar persistence, stats/trends/levels, Show more and exact piece/exercise reopening remain. Presentation-only bounds handling clips stale coverage/resume against a replacement score without changing journal data or treating a saved final bar as completion. The narrow-calendar grid overflow and travelling-pet click interception were fixed; the companion keeps streak and goal labels clear.
 
 **787 unit/API checks, 56 focused buddy/progress checks, 15 exact-package native acceptance groups and a supplemental mobile graded review pass.** Root and independent visual review accept populated/empty/goal, 1440/1280/800/390/short, Calendar, Ocean/Rose/Neutral, reduced motion, immediate moving-pet Calendar clicks and settled greetings. Resume restores exact saved bars with ready 3D hands and finite held contacts. Native output was muted; physical audio/MIDI/microphone and model inference were not retested. Earlier failed diagnostics remain saved, including the two real issues fixed above and harness-only assumptions.
@@ -212,7 +216,7 @@ All 643 build inputs remained stable;525 packaged source/assets/helper entries a
 
 Guide: `docs/PROGRESS_2.31.md`. Evidence: `evidence/progress-cute-2.31-verification.json`; native reports, actual app captures with isolated synthetic history and the live personal observation are in `.qa-runs/progress-cute-2.31/`. No new schedule.
 
-## October 3 — natural hand redesign 2.30 verified; included in installed2.31
+## October 3: natural hand redesign 2.30 verified; included in installed2.31
 The user rejected 2.29 visually. Its technical checks below did not establish visual acceptance. Generated a new natural pianist reference first, corrected camera foreshortening and compact keyboard depth, refined long fingers/slimmer palms/varied idle curves, removed cuffs, softened the finish and continued forearms through the lower frame. A free-finger clearance correction preserves strict settling and held key contacts; bones and joint limits are unchanged.
 
 **780 unit/API tests and six exact-package native groups pass.** Opening/crossing, mixed black/white octave/coda, 1440/1280/800/390 and short-window layouts, colours, reduced motion, hide/show, five-second seeking and persistence are verified. The six-second coda sample records356 frames, frame p95 17.7ms, maximum34.3ms and peak0.46mm across62 sampled held contacts. No renderer errors or sample fallback. Output was muted; physical audio/MIDI/microphone and chat inference were not retested.
@@ -223,7 +227,7 @@ The standalone 2.30 candidate was not installed while native control was unavail
 
 Guide: `docs/HAND_REDESIGN_2.30.md`. Evidence: `evidence/hand-redesign-2.30-verification.json`, actual native screenshots and retained diagnostics in `.qa-runs/hand-redesign-2.30/`.
 
-## October 3 — artistic pianist hands 2.29 installed
+## October 3: artistic pianist hands 2.29 installed
 Generated the complete reference first, then refined the articulated hands: softer peach skin and lighting, short satin nails, gentler curved fingers, complete tapered wrists and ivory cuffs accented by the teaching colours. Compact-key projection and bounded wrist refinement keep playing contacts aligned without stretching bones or widening joint limits. The palette close control now clears the roaming companion.
 
 **777 unit/API tests and six exact-package native groups pass.** The six-second muted Appassionata check records 362 animation frames, frame p95 17.6 ms, hand-render CPU p95 2.4 ms and peak sampled contact error 0.38 mm. All 640 build inputs stayed stable; 524 packaged source/assets/helper entries match. Archive: `f3b3d47a5716e75679f97114b072570f35309a0c6d974e2e92f1936b0901e990`. Evidence and retained failures: `evidence/hand-atelier-2.29-verification.json`, `.qa-runs/hand-atelier-2.29/`; guide: `docs/HAND_ART_2.29.md`.
@@ -232,7 +236,7 @@ Generated the complete reference first, then refined the articulated hands: soft
 
 The normal installed-app reopen first timed out in native app control, then succeeded with the explicit Desktop path. A changed-UI guard was refreshed before returning to Practice. That personal screenshot caught the 2-D preparation fallback; final hand visual acceptance uses the exact-candidate native captures, including confirmed3-D rendering and live coda playback. No personal chat requests or score edits were sent. Previous2.28 is recoverable at `.qa-runs/hand-atelier-2.29/previous-installed-Luma Keys-2.28.0.app`, with a fresh personal backup beside it. No new schedule.
 
-## October 2 — Faster companion chat 2.28 installed
+## October 2: Faster companion chat 2.28 installed
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.28.0).** The existing Qwen3.5 9B model now stays warm between conversation turns. Chat opening starts background loading; availability checks/app launch do not. One private Unix-socket model is owned by a connected IPC worker. Matching prompt prefixes can be reused, with128MiB additional cache and idle CPU polling disabled. Stop cancels generation while keeping a healthy loaded model; five idle minutes unload it. Failure, disconnect and app quit reap the owned processes, and the next request can restart a failed worker. Answer quality/language/length checks and exact score commands are preserved.
 
 The same three-question runtime sample improved first-text latency from23.74→19.00s initially,15.47→6.28s for English recall, and11.91→9.65s for a Chinese tip. This is a small sample, not a guarantee: the first conversation still loads the model; native visible replies under substantial system memory pressure took about14–34s. The native old-build comparison overlapped a unit run and is retained descriptively. No smaller model, network service or new training claim.
@@ -243,7 +247,7 @@ The same three-question runtime sample improved first-text latency from23.74→1
 
 Guide: `docs/CHAT_SPEED_2.28.md`. Evidence: `evidence/chat-speed-2.28-verification.json`. No schedule extension.
 
-## October 2 — Colours and alignment 2.27 installed
+## October 2: Colours and alignment 2.27 installed
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.27.0).** A palette button beside the companion opens seven choices: Neutral, Sage, Lavender, Rose, Ocean, Walnut and Match companion. Settings uses the same choice list. Selection applies immediately across app chrome, screens, chat and keyboard materials; a fixed palette stays fixed when the companion changes, while Match follows the character. Song artwork and blue/amber teaching cues remain intact. Removed the decorative colour caption.
 
 Library now adapts to its actual column width: explicit search/avatar cells, compact cards and a separate conversation column from901px upward. Corrected the implicit-grid-column conflict, faint Neutral text, picker/navigation layering and wrapped Import label. Keyboard arrows/Home/End operate the picker without playing notes or seeking; Escape restores its trigger, outside click/Tab dismiss it, short windows scroll the selected control into view and reduced motion removes its animations.
@@ -256,7 +260,7 @@ Retained initial runs include harness-only background-owner and old chat-option-
 
 Guide: `docs/COLOURS_2.27.md`. Evidence: `evidence/colour-flow-2.27-verification.json` and desktop/compact/mobile captures. No schedule extension.
 
-## October 2 — Practice hands, materials and navigation 2.26 installed
+## October 2: Practice hands, materials and navigation 2.26 installed
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.26.0).** The approved 3-D hand model, rig, proportions and key contacts remain unchanged. Softer lighting, warmer skin, quieter creases/veins, matte highlights, satin nails and clearer fingertip numbers refine its finish. The instrument frame, runway, felt and rail use colours from the same song artwork as Library, blended with the selected room palette. Falling notes have a solid satin face, a fine edge, readable numbers and separate next/hitting outlines. Blue/amber hand cues remain consistent; velocity still shapes highlights. Reduced motion keeps the teaching pose and removes material transitions.
 
 **← / → jump back or forward five seconds on the displayed song clock**, like a video player, at every practice speed. Listen continues without another count-in and cancels the old sound queue; paused practice stays paused. Wait resumes at the next written attack. Perform stops the unfinished run without recording a grade. Jumps during a count-in begin at the displayed position, without extrapolating to an earlier beat. Song and active repeat bounds clamp without wrapping. The timeline accepts the same command; text/chat, volume sliders, selectors, tabs and piano-key navigation retain their own keys. Existing note navigation is preserved.
@@ -269,7 +273,7 @@ Earlier retained native runs contain harness-only repeat-bound/control-name/empt
 
 Guide: `docs/PRACTICE_ART_2.26.md`. Evidence: `evidence/practice-art-2.26-verification.json`. No schedule extension.
 
-## October 2 — Library and transitions 2.25 installed
+## October 2: Library and transitions 2.25 installed
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.25.0), preserving the newer 2.24 source and features.** Library has a compact header and resume card, a clearable search field, All pieces / Practised / Unplayed filters, and sorting by recency, title or composer. Search supports Chinese and full-width input. Covers, saved passages, exact resume bars, details, review and per-piece actions remain available. Restart labels now match their actions, and reaching the last bookmark no longer claims completion.
 
 The app bar stays steady while its selected-tab indicator moves. Screen, dialog and chat entrances are coordinated without replaying nested animations. Rapid navigation commits the latest destination without stale captures restoring an old screen. Playback and reduced motion bypass these view transitions.
@@ -280,7 +284,7 @@ The app bar stays steady while its selected-tab indicator moves. Screen, dialog 
 
 Guide: `docs/LIBRARY_FLOW_2.25.md`. Evidence: `evidence/library-flow-2.25-verification.json`; desktop/mobile captures: `evidence/library-flow-2.25-desktop.png` and `evidence/library-flow-2.25-mobile.png`. No schedule extension.
 
-## September 30 — expressive playback & roaming companion 2.23 (source)
+## September 30: expressive playback & roaming companion 2.23 (source)
 **Version 2.23.0 is built from source; the Desktop app is still 2.21.1 until it is repackaged and installed.**
 
 - **Expressive playback, tailored to each piece.** Each piece gets a character: Nocturne, Ballad, Baroque, Dramatic or Clear. The plan shapes phrases, adds rubato (Listen & follow only, as a tempo map so the visuals stay in sync), voices the melody, infers section dynamics, rolls wide chords, adds a melody lead, varies repeated notes, and adds a harmony-following pedal where none is written. **Written** stays literal.
@@ -292,7 +296,7 @@ Guide: `docs/LIBRARY_FLOW_2.25.md`. Evidence: `evidence/library-flow-2.25-verifi
 
 Details: `docs/EXPRESSIVE_COMPANION_2.23.md`.
 
-## September 27 — plain interface copy 2.21.1 installed
+## September 27: plain interface copy 2.21.1 installed
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.21.1).** The screenshot's “A familiar face. A room of your own.” was already removed in2.21. This pass removes similar decoration elsewhere: selection toast is “Mozart selected”; colour settings use direct names or “Custom colours”; the daily goal shows only today's minutes; empty chat uses “Ask Mozart” plus its actual tasks; the guide subtitle names its contents. Exercises/Progress keep companion artwork without decorative room captions, and palette previews use literal colour names. Useful musical instructions, greetings and all controls remain. Saved conversations are not rewritten.
 
 **11 existing companion/preferences tests and five focused native groups pass.** All six companion previews/toasts, empty-chat tasks/input, Exercises/Progress illustrations, active/custom colour restore, daily hint, reading guide, desktop/mobile chat and paused practice preservation were checked on the exact package. Independent source and visual review accepted six picker images, both chat sizes, Settings, and settled guide/Exercises/Progress captures. The first run's task-label expectation omitted the existing1–7 icon; corrected only the QA expectation and retained the failure. Three mid-transition screenshots were replaced by separately retained same-hash settled captures. No model inference/audio retest was needed for this copy-only change.
@@ -301,7 +305,7 @@ Details: `docs/EXPRESSIVE_COMPANION_2.23.md`.
 
 Copy notes: `docs/PLAIN_COPY_2.21.1.md`. Evidence: `evidence/plain-copy-2.21.1-verification.json`; exact native gate and settled captures: `.qa-runs/plain-copy-2.21.1/`. No schedule extension.
 
-## September 27 — compact companion picker 2.21 installed
+## September 27: compact companion picker 2.21 installed
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.21.0).** The companion page is now a compact740×486px panel on the tested desktop, with six bilingual character cards, individual colour accents, a tappable greeting, one optional sound setting and an explicit Choose action. Removed the oversized poster, slogans, repeated room descriptions and advice. Saved Current and preview selection remain distinct. Short windows scroll the gallery while the footer stays reachable; opening the picker clears an old toast that could cover its buttons.
 
 **472 unit/API tests and six final native groups pass**, with seven real hit/actionability checks across six window sizes. Checks cover all six choices, preview/Choose separation, sound on/off, keyboard/focus/Escape, reduced motion, greeting without chat/audio/inference, practice settings and saved bar7 after reload. Immediate apply/reopen at390×633 removes the stale notification in479ms and leaves Choose clickable. Eight final-package images pass independent visual review; all six character previews were also reviewed before the toast-only fix. Earlier failures remain separately retained.
@@ -312,7 +316,7 @@ All108 latest personal files remain byte-for-byte unchanged after normal quit, i
 
 Guide: `docs/COMPANION_PICKER_2.21.md`. Evidence: `evidence/companion-picker-2.21-verification.json`; desktop/small-window previews in `evidence/companion-picker-2.21-*.png`. No schedule extension.
 
-## September 27 — companion intelligence 2.20 installed
+## September 27: companion intelligence 2.20 installed
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.20.0).** The app is paused at **你离开的事实 · The Truth That You Leave, bar105 of115**, in Falling notes, Both hands,100%, with Beethoven and the compact chat available. Conversation options confirm **Qwen3.5 9B** and the user's saved Simplified Chinese preference. All **10 saved scores** validate; the revised Truth edition has **1581notes/115bars**. All **108 latest personal files** remain byte-for-byte unchanged after normal quit, installation, reopening and passage restoration. No personal chat requests were sent during verification. The previous2.18 app remains recoverable in `.qa-runs/companion-intelligence-2.20/previous-installed-Luma Keys-2.18.0.app`.
 
 **This release supersedes every pending installation instruction in the historical2.19,2.19.1 and2.19.2 entries below.** Their clean audio, cat/piano icon and concise copy are included. The saved Truth arpeggio edition is loaded. Do not install any older staged candidate. No schedule extension.
@@ -331,7 +335,7 @@ Initial native screenshots/input stayed on a boot frame; a full-screen reveal re
 
 Guide: `docs/COMPANION_INTELLIGENCE_2.20.md`. Evidence: `evidence/companion-intelligence-2.20-verification.json`; final native gate and installation records: `.qa-runs/companion-intelligence-2.20/`.
 
-## September 27 — Truth bar 88 arpeggio saved
+## September 27: Truth bar 88 arpeggio saved
 **Applied the user-requested arpeggio to `Library/truth-eop-9266.json`.** The same score ID, title, saved practice positions and all other personal files are preserved. A new editable `Practice Sheets/你离开的事实 - Arpeggio transition.musicxml` is saved; exact original JSON/XML restore copies are in `Assets/Truth Arpeggio Transition/`. No application source or package changed. **The running app has not reloaded because CUA still reports the Mac locked; installed app remains 2.18.0 and the combined 2.19.2 candidate remains the next app update.**
 
 The screenshot's practice 87–89 maps to printed 55/73/74. Original printed73 deliberately has a three-beat RH rest, so this is an editorial fill, not a source correction. Bar88 adds11 gentle B-flat-major sixteenths passed from LH to RH, rises to B-flat5 and settles through F5 into the existing G octaves. The bass is softer with its original3-beat duration; pedal releases at the octave pickup. All other bars, original octave pickups, 115-bar route, score tempo and original PDF are unchanged. The added notes and pedal are written in MusicXML and matched in every practice view. Details records the arrangement.
@@ -344,7 +348,7 @@ Evidence: `evidence/truth-arpeggio-transition-verification.json`. Preview: `Asse
 
 **Next after unlock:** normal save/quit; install the existing tested2.19.2 using `.qa-runs/concise-copy-2.19.2/install.py install`; reopen the current piece and verify the new library score loads; restore latest saved bar paused. Preserve this new arrangement during the fresh installation snapshot. No schedule extension.
 
-## September 27 — concise lesson copy 2.19.2 staged
+## September 27: concise lesson copy 2.19.2 staged
 **Version 2.19.2 is built and staged; the Desktop app remains 2.18.0 while the Mac is locked.** This combined candidate includes the pending clean-audio fixes and new cat/piano icon, and supersedes both earlier installation candidates. CUA again reported the locked Mac. No personal files or running app bundle were changed.
 
 The built-in lesson headers now show plain composer credits: Beethoven, Traditional, and Luma Keys. Removed “a two-hand challenge,” “first steps,” and “learn the numbers”; shortened “Your first C major scale” to “C major scale.” Ode to Joy’s beginner-arrangement information remains in Details. Excerpt titles, edition names, practice tips, and imported score credits remain intact. A one-bar sheet passage now reads “Bar 9 of 9” instead of “Bars 9–9 of 9.”
@@ -353,7 +357,7 @@ The built-in lesson headers now show plain composer credits: Beethoven, Traditio
 
 **Next after unlock:** save and quit the installed app normally; use `.qa-runs/concise-copy-2.19.2/install.py install` and `verify-installed.py`, preserving the latest personal state. Do not use the superseded 2.19 or 2.19.1 installers. No schedule extension.
 
-## September 27 — new app icon and audio update 2.19.1 ready
+## September 27: new app icon and audio update 2.19.1 ready
 **Version2.19.1 is fully built, tested and staged; the Desktop app remains2.18.0 while the Mac is locked.** The latest combined candidate is `.qa-runs/icon-2.19.1/install-ready.app`, superseding the staged2.19 audio-only candidate. CUA again reported the locked Mac; no force quit or in-use bundle replacement was attempted. The prior request to unlock is still pending.
 
 The new icon is an original ivory cat resting its paws on piano keys, with deep teal and a muted brass rail. It replaces the generic cat/star mark. Editable detailed and small SVG masters,1024PNG, a native ICNS and all ten macOS PNG representations are saved in `Assets/App Icon 2.19.1/`.16/32pixel exports use simpler artwork; the favicon matches. No generated raster artwork was used. Independent visual review accepted actual exported sizes on light/dark backgrounds and all alpha/padding checks. The legacy1x16/32 ICNS representations have benign RGB rounding at semitransparent corners; their alpha and opaque artwork match, and the other eight representations are exact.
@@ -364,7 +368,7 @@ All three final native smoke groups pass: packaged/served icon resources, saved 
 
 Preview: `evidence/app-icon-2.19.1-preview.png`. Evidence: `evidence/app-icon-2.19.1-verification.json`. Asset guide: `Assets/App Icon 2.19.1/README.md`. No schedule extension.
 
-## September 27 — clean audio 2.19 tested; installation awaits unlock
+## September 27: clean audio 2.19 tested; installation awaits unlock
 The complete 2.19.0 update is built and staged in `.qa-runs/audio-clean-2.19/install-ready.app`. The **Desktop app is still 2.18.0**: CUA reported that the Mac is locked, so normal save/quit/reopen is unavailable. The user has been asked to unlock. No force quit or replacement while running was attempted.
 
 The update fixes reproduced loud-passage clipping through one shared protected output for piano, generated accompaniment and imported audio. Pedal-held continuations resume their decayed waveform instead of replaying every hammer strike. Half-millisecond attack fades and four-millisecond metronome-stop fades reduce boundary clicks. All original six-layer piano recordings, score events, room choices and independent mix sliders remain.
@@ -377,7 +381,7 @@ Next: after unlock, use normal app Quit to flush current settings, run `.qa-runs
 
 Guide: `docs/CLEAN_AUDIO_2.19.md`. Audio comparison assets: `Assets/Audio Previews/Clean Audio 2.19/`. No schedule extension.
 
-## September 27 — concise practice workspace 2.18 installed
+## September 27: concise practice workspace 2.18 installed
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.18.0).** The app is paused at **龙卷风 · 邓紫棋版, bar 69 of 71**, in Falling notes with the user's **Beethoven** theme. All **10 saved pieces** and all **107 latest personal files** remain byte-for-byte unchanged after normal quit, installation and reopening. The fresh installation snapshot includes the user's practice and conversations made while this update was being developed. The previous 2.17 app is recoverable under `.qa-runs/practice-clarity-2.18/previous-installed-Luma Keys-2.17.0.app`.
 
 The main workspace now has a compact score header, view tabs, a steady timeline and one primary transport row. **Score tools** holds review/export/help and full score details; **Practice tools** holds volume, accompaniment and passage settings. Playback, mode, hands, speed and the active loop remain directly accessible. Drawers and nested dialogs preserve focus and keyboard ownership. The complete grand staff fits above the shorter piano; all 88 key nodes, hand/runway/Focus controls, mini companion and six room themes remain available. No generated artwork was added.
@@ -392,7 +396,7 @@ Remaining narrow-layout quirks are nonblocking: speed buttons can stack and mobi
 
 Guide: `docs/PRACTICE_CLARITY_2.18.md`. Evidence: `evidence/practice-clarity-2.18-verification.json`; screenshot: `evidence/practice-clarity-2.18-sheet.png`; detailed reports: `.qa-runs/practice-clarity-2.18/`.
 
-## September 27 — mini companion 2.17 installed
+## September 27: mini companion 2.17 installed
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.17.0).** Library and the new mini Lang Lang conversation are open side by side. All **10 saved pieces**, the Appassionata **bar-378** bookmark and all **107 latest personal files** remain unchanged after a normal quit, installation and reopening. No personal chat messages were sent during QA. The previous 2.16 app is recoverable under `.qa-runs/companion-mini-2.17/previous-installed-Luma Keys-2.16.0.app`.
 
 The full modal chat is now a compact, non-modal 352px panel. It makes room beside the music on wide windows, stays below navigation on narrower layouts and folds into a small pet tab without losing a draft. Main navigation and playback remain usable. Chat input owns its keyboard shortcuts, held computer notes release on entry, and Escape restores a visible opener, including Focus mode. Closing, minimizing, changing score/companion or opening a dialog cancels unfinished generation. Six portraits have bounded gaze/typing feedback and finite alternating heart-wave/music greetings, with still feedback under Reduced Motion.
@@ -405,7 +409,7 @@ Explicit Chinese/English requests receive a brief local acknowledgement and pers
 
 Guide: `docs/COMPANION_MINI_2.17.md`. Evidence: `evidence/companion-mini-2.17-verification.json`; detailed runs in `.qa-runs/companion-mini-2.17/`. No schedule extension.
 
-## Latest direct-user continuation — cartoon song covers 2.16.0
+## Latest direct-user continuation: cartoon song covers 2.16.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.16.0).** Library is open with the new cartoon Appassionata hero, the user's saved bar-378 Continue action, Lang Lang companion and all ten saved pieces. All **107 latest personal files** remain byte-for-byte unchanged after normal quit, installation and reopening. The previous 2.15.0 app is recoverable in `.qa-runs/cartoon-covers-2.16/previous-installed-Luma Keys-2.15.0.app`.
 
 ### Artwork and recognition
@@ -420,7 +424,7 @@ All **578 build inputs** remained unchanged through the final package; **509 pac
 
 Evidence: `evidence/cartoon-covers-2.16-verification.json`; guide: `docs/CARTOON_COVERS_2.16.md`; native screenshots and detailed reports: `.qa-runs/cartoon-covers-2.16/`.
 
-## Latest direct-user continuation — song artwork 2.15.0
+## Latest direct-user continuation: song artwork 2.15.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.15.0) on Library.** All ten saved editions remain available, with the user's Appassionata resume at **bar 378**, Lang Lang companion and all **107 latest personal files** byte-for-byte unchanged after normal quit, installation and reopening. The previous 2.14.0 app is recoverable under `.qa-runs/song-art-2.15/`.
 
 ### Artwork and identity
@@ -437,7 +441,7 @@ All **564 build inputs** remain unchanged; **495 packaged source/assets/helper e
 
 Evidence: `evidence/song-art-2.15-verification.json`; guide: `docs/SONG_ART_2.15.md`; detailed reports and recoverable previous app: `.qa-runs/song-art-2.15/`. Audio, physical MIDI and arbitrary PDF recognition were not re-audited in this artwork-only pass. No schedule extension.
 
-## Latest direct-user continuation — natural hands 2.14.0
+## Latest direct-user continuation: natural hands 2.14.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.14.0).** The app is paused on the user's latest Appassionata position at **bar 378 of 569**, with Lang Lang, Falling notes, both hands and 100% speed preserved. All **107 latest personal files** remain byte-for-byte unchanged after normal quit, bundle replacement and reopening. All ten pieces remain intact. The previous 2.13.0 app is recoverable in `.qa-runs/natural-hands-2.14/previous-installed-Luma Keys-2.13.0.app`.
 
 ### Hand illustration and movement
@@ -452,7 +456,7 @@ All **555 build inputs** remained unchanged through final packaging; **487 packa
 
 Evidence: `evidence/natural-hands-2.14-verification.json`; guide: `docs/NATURAL_HANDS_2.14.md`. Full logs, source snapshots, rejected visual iterations, regression evidence and final contact sheets are in `.qa-runs/natural-hands-2.14/`. Physical MIDI hardware was not tested; native QA audio was muted. These frame timings are short controlled samples, not a guarantee for every device. No schedule extension.
 
-## Latest direct-user continuation — five free practice pieces, September 27
+## Latest direct-user continuation: five free practice pieces, September 27
 **Added all five verified editions to the existing Desktop app (2.13.0), then reopened it on Library.** The Library now visibly contains **10 saved pieces**. The user's latest 晴天 chord-arrangement position at **bar67**, accompaniment preference, Lang Lang companion and all **68 existing personal files** are preserved byte-for-byte. Exactly **39 new score/source/provenance files** were added, with unique filenames and no overwrites. No purchase or app-bundle replacement was needed.
 
 | Added edition | Practice bars | Sounding notes |
@@ -476,7 +480,7 @@ Normal-quit installation atomically added only the39 new files. Final reopening 
 ### Edition limits
 These are complete practice editions with documented interpretation choices. Truth plays rolled chords together and keeps its nonnumeric final ritardando at the selected tempo. Tornado's grace microtiming is editorial and its bar50 glissando plays written endpoints. The classics simplify engraving/expression and use written fermata durations; Bach's final rolled chord is simultaneous. Original performance marks remain in the source PDFs. No original studio backing recordings or physical MIDI hardware verification were added in this content pass.
 
-## Latest direct-user continuation — illustrated Library 2.13.0
+## Latest direct-user continuation: illustrated Library 2.13.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.13.0).** The redesigned Library is open on the user's Appassionata with its saved bar-3 resume, Lang Lang companion and five saved pieces. All **68 latest personal files** remain byte-for-byte unchanged through normal quit, installation and reopening. The recoverable previous 2.12.0 app is in `.qa-runs/library-illustrated-2.13/`.
 
 ### Visual and interaction changes
@@ -492,7 +496,7 @@ Evidence: `evidence/library-illustrated-2.13-verification.json`; guide: `docs/IL
 
 This pass uses three atmospheric scene families, not a unique cover for every score. It preserves the 2.12 piano and earlier reader/keyboard work; physical MIDI, arbitrary PDF recognition and native-model conversation quality were not retested in this Library-focused pass. No schedule extension.
 
-## Previous direct-user continuation — concert piano 2.12.0
+## Previous direct-user continuation: concert piano 2.12.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.12.0).** Verified the new Sound settings in the installed app: Yamaha C5 grand, Concert selected, the user's Hall preference preserved, Appassionata restored with resume at bar 3. All 68 latest personal Library, Exports and Practice Sheets files remain byte-for-byte unchanged after clean quit, installation and reopening. The previous 2.11.0 app is recoverable in `.qa-runs/concert-grand-2.12/`.
 
 ### Instrument and phrasing
@@ -511,7 +515,7 @@ This pass uses three atmospheric scene families, not a unique cover for every sc
 
 Updated September 27, 2026 America/New_York.
 
-## Current direct-user continuation — version 2.11.0
+## Current direct-user continuation: version 2.11.0
 
 Installed and reopened the Desktop app with stable engraved-sheet following, coordinated keyboard materials and an illustrated Library. The Library is left open with the user's Lang Lang palette, five saved pieces and Appassionata bar-3 resume intact. All **68 latest personal files** remain byte-for-byte unchanged through installation and reopening; all **2,992 installed bundle entries** match the verified candidate. No personal practice or chat was sent by QA.
 
@@ -530,13 +534,13 @@ Installed and reopened the Desktop app with stable engraved-sheet following, coo
 
 Evidence: `evidence/reader-atelier-2.11-verification.json` and `.qa-runs/reader-atelier-2.11/`. The previous2.10.1 app is recoverable in that run directory. All owned QA browsers/apps/servers are closed; the updated personal app remains open. No schedule extension. Physical MIDI hardware, new PDF recognition and general-model conversation were not retested in this scoped pass.
 
-## Previous direct-user continuation — version 2.10.1
+## Previous direct-user continuation: version 2.10.1
 
 Installed and reopened the Desktop app with the Progress text-overlap fix. The daily goal value now lives in the chart header (“Daily goal · 20 min”), outside the bars; this heading wraps on narrow screens, and the accessible chart description includes the goal. All 28 native chart states and a live goal change pass. Coverage includes seven empty/populated/outlier/goal scenarios, all six companions and widths 1280/900/390/320. At320, the unrelated existing document width remains340px in both old and new packages; the goal label/card stays within the viewport. No new page overflow occurs at390 and above. No renderer errors.
 
 All 301 checked packaged files/helper match the build, all 2,992 installed bundle entries match the candidate, and all 68 latest personal files remain byte-for-byte unchanged through reopening. The installed Progress screen was visibly checked and is left open. The prior2.10.0 app is recoverable in `.qa-runs/progress-label-2.10.1/`. Only the Progress component, its scoped styles and package version changed. Evidence: `evidence/progress-label-2.10.1-verification.json`. No background QA processes remain.
 
-## Previous direct-user continuation — version 2.10.0
+## Previous direct-user continuation: version 2.10.0
 
 Installed and reopened `~/Desktop/Luma Keys.app` **2.10.0**. The larger, interactive Lang Lang portrait is open in the companion conversation. All **68 latest personal files** in Library, Exports and Practice Sheets remain byte-for-byte unchanged through installation and reopening, including the user's latest exports and preferences. All **2,992 installed files/symlinks** match the verified candidate. The saved Appassionata bar-3 resume, Lang Lang, Falling notes, 100% speed, both hands and piano volume 1 are intact. No personal chat or practice was sent by QA.
 
@@ -556,7 +560,7 @@ Installed and reopened `~/Desktop/Luma Keys.app` **2.10.0**. The larger, interac
 ### Limits
 General on-device chat remains fallible, sometimes generic or slow; exact passage teaching uses application logic. The model cannot hear an acoustic piano or judge posture, tension or mastery. The final mixed evaluation took about 7–22 seconds to first text and up to 66 seconds for a full reply. Existing model-availability requirements still apply. Physical MIDI hardware and arbitrary new PDF recognition were not retested in this companion pass.
 
-## Previous direct-user continuation — version 2.9.0
+## Previous direct-user continuation: version 2.9.0
 
 Installed and reopened `~/Desktop/Luma Keys.app` **2.9.0**. The redesigned Mozart conversation is open, ready to use. All **65 latest personal files** in Library, Exports and Practice Sheets remain byte-for-byte unchanged across installation and reopening. All **2,992 files/symlinks** in the installed app match the verified candidate.
 
@@ -578,7 +582,7 @@ Installed and reopened `~/Desktop/Luma Keys.app` **2.9.0**. The redesigned Mozar
 ### Limits
 The compact on-device model is fallible. Native probes sometimes gave generic advice or an unlabelled practice pause instead of exact written-note timing; this is why precise bar Help and numbering use verified application logic. Generated conversation is not authoritative music instruction, does not hear or see the player, and can occasionally decline a benign request. Model availability requires compatible hardware, macOS 26+ and Apple Intelligence ready. Older macOS availability fallback is weak-linked and tested with simulated responses, not on older hardware. No physical USB piano or microphone was used in this pass.
 
-## Previous direct-user continuation — version 2.8.0
+## Previous direct-user continuation: version 2.8.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.8.0).** The new **伴奏** panel is open on the user's saved 晴天. Accompaniment is optional and initially off for each arrangement. All 68 latest personal Library, Exports and Practice Sheets files remain byte-for-byte unchanged.
 
 ### Optional accompaniment
@@ -601,7 +605,7 @@ The compact on-device model is fallible. Native probes sometimes gave generic ad
 ### Scope limits
 Built-in backing follows the existing piano arrangement; it is not a reconstruction of an original studio recording. For that sound, import a matching instrumental recording. One BPM and one offset cannot follow arbitrary rubato, different repeats or a different arrangement; there is no automatic beat detection or stem separation. The saved 龙卷风 arrangement still carries its existing from-memory, unverified-transcription notice. Physical MIDI hardware, microphone assessment and arbitrary PDF recognition were not newly tested in this accompaniment pass.
 
-## Previous direct-user continuation — version 2.7.0
+## Previous direct-user continuation: version 2.7.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.7.0).** The companion chooser is left open, ready for the user to choose. The latest saved music, controls and practice history remain intact.
 
 ### Companions and practice rooms
@@ -626,7 +630,7 @@ Built-in backing follows the existing piano arrangement; it is not a reconstruct
 ### Scope limits
 The companions perform defined local practice tasks using saved music and score-based guidance. They do not impersonate the artists' personal teaching methods or search the internet for scores. Physical MIDI hardware, microphone assessment and PDF recognition were not newly tested in this visual/profile iteration; existing recognition and suggested-fingering limits still apply.
 
-## Previous direct-user continuation — version 2.6.0
+## Previous direct-user continuation: version 2.6.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.6.0).** The user asked for a cute miniature cartoon Beethoven who can find pieces, return to saved practice and guide playing. The installed app is left open on Beethoven's response identifying the user's last saved 晴天 position: **bar 23 of 76**.
 
 ### Beethoven
@@ -649,7 +653,7 @@ The companions perform defined local practice tasks using saved music and score-
 ### Scope limits
 Beethoven is a local command assistant with defined practice tasks, not an open-ended conversational model or internet score search. Guidance uses the score and existing input modes; microphone-based acoustic assessment and physical MIDI hardware were not newly tested. Existing PDF-recognition and suggested-fingering limits still apply. Imported musical content and Claude's earlier edits were preserved.
 
-## Previous direct-user continuation — version 2.5.0
+## Previous direct-user continuation: version 2.5.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.5.0).** The user asked to replace the low-end green/glowing background, remove canned AI-style wording, and make the non-playing screens cuter. The new app was visibly verified after installation and left open on Library.
 
 ### Design and copy
@@ -671,7 +675,7 @@ Beethoven is a local command assistant with defined practice tasks, not an open-
 ### Scope limits
 This was a visual and copy iteration. Imported musical data was preserved; the two newly saved arrangements were not assessed for transcription accuracy here. No new physical MIDI or PDF-engine verification is claimed. Prior recognition and fingering limits still apply.
 
-## Previous direct-user continuation — version 2.4.0
+## Previous direct-user continuation: version 2.4.0
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.4.0).** The user likes the current design and asked for clearer, more instructive hands and a better keyboard. Claude's existing work and personal music are preserved. The installed app matches the tested package in all **2,991 files/symlinks**.
 
 ### Hands and keyboard
@@ -699,7 +703,7 @@ This was a visual and copy iteration. Imported musical data was preserved; the t
 - Source baseline: `.qa-runs/instructive-2.4/source-2.3-before.tar.gz`; focused patch: `implementation.patch` in the same directory. Previous app: `.qa-runs/instructive-2.4/previous-installed-Luma Keys-2.3.0.app`. Logs, intermediate data snapshots and installation manifest are retained there. Future installs must recheck for a reopened personal process immediately before swapping bundles.
 - The expired overnight schedule was not extended. No unrelated files or existing Claude changes were reset. All owned test apps and development servers are stopped.
 
-## Previous direct-user continuation — version 2.3.0
+## Previous direct-user continuation: version 2.3.0
 The user returned after Claude's improvements and asked for more beautiful hands, keyboard and animation, plus 龙卷风 (邓紫棋 piano version) and 晴天 (周杰伦). This pass preserves Claude's 2.2 layout, sound, library, settings and practice journal.
 
 **Installed and reopened `~/Desktop/Luma Keys.app` (2.3.0).** Native UI inspection confirmed the new finger caption and artwork, the saved Appassionata, Falling notes, 100% speed, volume 1, and Resume at bar 402. All 62 existing Library/Exports/Practice Sheets files remain byte-for-byte unchanged after normal quit, installation and relaunch.
@@ -735,7 +739,7 @@ The user returned after Claude's improvements and asked for more beautiful hands
 - Previous installed app: `.qa-runs/beauty-2.3/previous-installed-Luma Keys-2.2.0.app`. Build/unit/browser logs remain in that run directory. Test apps closed; the development servers stopped; the personal updated app is open and paused.
 - This was a direct user request on September26. The expired overnight schedule was not extended.
 
-## Previous direct-user continuation — version 2.2.0
+## Previous direct-user continuation: version 2.2.0
 The user asked for three things:
 - "for the hand gesture, I want it demonstrate what the correct hand gesture for playing the bars should look like, also stop the zooming in and out of the keyboard, it's really confusing and not coherent, have it big and fully comprehensively coherent"
 - "the play is little bit laggy and not smooth, make the piano animation screen bigger, the color should be more nature and more stylistic"
@@ -779,7 +783,7 @@ Installed the tested **~/Desktop/Luma Keys.app** (2.2.0). The personal app was n
   - Chords of six or more notes in one hand finger their outer five.
   - The hands are drawn from above, so the fingers' curve is suggested by shading rather than seen from the side.
 
-## Previous direct-user continuation — version 2.1.0
+## Previous direct-user continuation: version 2.1.0
 The user asked to "continue to improve". Installed the tested **~/Desktop/Luma Keys.app** (2.1.0). The personal app was quit normally for the install and reopened on the new version.
 
 - **A richer piano** (`src/audio.js`).
@@ -808,7 +812,7 @@ The user asked to "continue to improve". Installed the tested **~/Desktop/Luma K
   - The previous 2.0.0 app is kept at `.qa-runs/accept-2.1/previous-Luma Keys-2.0.0.app`.
 - **Known limits.** Dynamics and accents are inferred from the written loudness, not read as symbols. Hairpins that don't arrive at a new level are not shown.
 
-## Previous direct-user continuation — version 2.0.0
+## Previous direct-user continuation: version 2.0.0
 The user asked: "can you make the app better, not just the content of the keyboard's, including it as well, do a full scale upgrade".
 
 Installed the tested **~/Desktop/Luma Keys.app** (2.0.0). The personal app was quit normally for the install and reopened on the new version.
@@ -873,7 +877,7 @@ Installed the tested **~/Desktop/Luma Keys.app** (2.0.0). The personal app was q
   - The journal starts with 2.0: earlier practice appears only in the all-time total (1.x kept totals, not days or pieces).
   - Accents are inferred from the written loudness, not read as symbols.
 
-## Previous direct-user continuation — version 1.8.0
+## Previous direct-user continuation: version 1.8.0
 The user asked to keep improving the app. Then, specifically:
 - "expand the scale of the keyboard, make it larger, and still keep the script, but then have the hand gesture indication as well, make it nice"
 - "make all of the color theme more vibrant and better as well"
@@ -916,7 +920,7 @@ Installed the tested **~/Desktop/Luma Keys.app** (1.8.0). The personal app was q
 - **Personal data.** All 48 personal Library/Exports files are byte-for-byte unchanged through the normal quit, the install and the relaunch (`evidence/data-preservation-1.8.0.json`). The previous 1.7.0 app is kept at `.qa-runs/accept-1.8/previous-Luma Keys-1.7.0.app`.
 - **Known limits** are unchanged from 1.7.0.
 
-## Previous direct-user continuation — version 1.7.0
+## Previous direct-user continuation: version 1.7.0
 The user asked for a bigger, better piano display that is easier to read in a hard piece, with better visuals, transitions and animations, and said they don't necessarily need the number score. Their screenshot showed the Appassionata's big chords making the score scroll above a squeezed runway; they had switched the runway on. They also asked for the Appassionata finale exactly as Beethoven wrote it: his repeat written out and the Presto faster. Installed the tested **~/Desktop/Luma Keys.app** (1.7.0); the personal app was quit normally for the install and reopened on the new version.
 
 - **The piano display first.** With the runway on, the keys are 150–250 px tall (23% of the window height) and the runway takes most of the view.
@@ -976,7 +980,7 @@ The user asked for a bigger, better piano display that is easier to read in a ha
   - Latency compensation trusts the output latency macOS reports.
   - The app does not listen through a microphone.
 
-## Previous direct-user continuation — version 1.6.0
+## Previous direct-user continuation: version 1.6.0
 The user asked to cut out everything unnecessary and make the score and the keyboard really visual and helpful while playing. Their own setting has the note runway off, so that layout got the most care. Installed the tested **~/Desktop/Luma Keys.app** (1.6.0); the personal app was quit normally for the install and reopened on the new version.
 
 - **Less on screen.**
@@ -1002,7 +1006,7 @@ The user asked to cut out everything unnecessary and make the score and the keyb
 - **Personal data.** All 48 personal Library/Exports files are byte-for-byte unchanged through the normal quit, the install and the relaunch (`evidence/data-preservation-1.6.0.json`). The previous 1.5.0 app is kept at `.qa-runs/accept-1.6/previous-Luma Keys-1.5.0.app`.
 - **Known limits** are unchanged from 1.5.0.
 
-## Previous direct-user continuation — version 1.5.0
+## Previous direct-user continuation: version 1.5.0
 The user asked for the keyboard visual to become the main indicator, synchronised with the music as they play, with the score still important. Installed the tested **~/Desktop/Luma Keys.app** (1.5.0). The personal app was quit normally for the install and reopened on the new version.
 
 - **Keyboard stage.** Practice is now one view that fits the window: header, score, keyboard stage, control dock. The score keeps its natural height (a compact number score in this layout); the stage takes the rest. Below 900 × 620 the old stacked flow remains.
@@ -1044,7 +1048,7 @@ The user asked for the keyboard visual to become the main indicator, synchronise
   - Physical MIDI hardware remains untested.
   - The app still does not listen through a microphone.
 
-## Previous direct-user continuation — version 1.4.0
+## Previous direct-user continuation: version 1.4.0
 The user asked for the interface to be completely rearranged and improved like a real app. Installed the tested **~/Desktop/Luma Keys.app** (1.4.0); the personal app was not running during the install.
 
 - **Four screens behind one top bar.** Practice, Exercises, Library and Progress replace the reading page with its Library/Lessons tabs. The top bar keeps Import a score, the settings gear and a MIDI status pill that lights when a keyboard is connected. The old greetings, cover cards and the exercise dialog are gone.
@@ -1058,7 +1062,7 @@ The user asked for the interface to be completely rearranged and improved like a
 - **103/103 unit/API tests pass** (four new: the at-a-glance analysis, coaching tips and companion lines, reopenable history entries). **All 11 browser suites pass** on the isolated development server after the acceptance scripts were pointed at the new navigation: sight-reading 5 groups (now also the welcome card, at-a-glance chips, read-ahead cue, coaching tips, celebration, companion line, Progress reopening a run and the Library rows), reader 9, phrase 10, input 12, material 7, resume-audio 4, overlap 3, chord 3, sheet-focus 3, notation 6 and review 6. **All 7 packaged-app suites pass on the installed 1.4.0** (sight-reading, reader, input, phrase, continuity, material and the quit/save scenarios). The installed archive matches the tested release; all **39 personal Library/Exports files remain byte-for-byte unchanged** (`evidence/data-preservation-1.4.0.json`). One regression was caught and fixed during acceptance: the Play button's breathing animation scaled the button while playing, which made it an unstable target; it now pulses a glow only. Suites that assume a fresh library (Twinkle open, no welcome dismissed) need a clean preferences file, because the app now remembers the last exercise; the checks were made conditional on the saved state.
 - Known limits are unchanged from 1.3.0.
 
-## Previous direct-user continuation — version 1.3.0
+## Previous direct-user continuation: version 1.3.0
 Installed the tested **~/Desktop/Luma Keys.app** (1.3.0). The personal app was not running during the install, so no process was closed; open it to use 1.3.0. The user asked for the app to become genuinely useful for sight reading and practice efficiency; this pass adds unseen music on demand and reading at a pulse with feedback.
 
 - **New music every time:** **New exercise** in the top bar makes an original piece from a seed, engraved as MusicXML through the same importer as any file, so the number score, the staff view, playback, wait mode and exports share one model. Twelve levels each add one idea (C-position right hand → left hand → skips and rests → both hands with long bass notes → G/F major and 2/4 → eighths → hands together over root-fifth patterns → D/B♭ with leaps and dotted rhythms → block chords with voice leading → Alberti and arpeggio bass → chromatic neighbors, syncopation and 6/8 → sixteenths over an independent bass). Key, hands, length, meter and tempo can override the level. Rhythm comes from beat cells so bars are always complete and beams stay in their beats; melodies are constrained walks with chord tones on strong beats and a budgeted approach so every piece ends on the tonic; hands keep separate registers. **Another like this** and **Keep in library** sit under the title. Flat keys are spelled with flats (B♭, not A♯) across the score, keyboard, cue, review and printable export.
@@ -1072,7 +1076,7 @@ Installed the tested **~/Desktop/Luma Keys.app** (1.3.0). The personal app was n
 - Evidence: `evidence/sight-reading-unit-tests.txt`, `evidence/sight-reading-qa.json`, `evidence/native-sight-reading-qa.json`, `evidence/package-1.3.0.log`, the refreshed reader/phrase/input/material/continuity/notation evidence, and screenshots `sight-reading-exercise.png`, `sight-reading-sheet.png`, `sight-reading-results-clean.png`, `sight-reading-results-flawed.png`, `sight-reading-levels.png` (browser and native-* variants).
 - Known limits: exercises are major-key, one chord per bar, method-book style; timing is measured when a key event reaches the app, so a MIDI keyboard's own latency is not compensated; physical MIDI hardware remains untested; the app still does not listen through a microphone. Design notes: `docs/SIGHT_READER.md`.
 
-## Previous direct-user continuation — version 1.2.0
+## Previous direct-user continuation: version 1.2.0
 Installed the tested **~/Desktop/Luma Keys.app**. **Quit and reopen the existing personal app to load 1.2.0.** Native window automation returned `noWindowsAvailable` / `timeoutReached`; the old personal process was left running rather than forcibly terminated. Its local API remained healthy. This direct user request followed the overnight deadline; the expired schedule was not extended.
 
 - **Practice a small phrase directly:** Repeat these bars selects the numbered manuscript's visible whole bars. Click a bar number then Shift-click another to set a range, or edit the player's existing bar fields. Quiet marks on the paper show the repeat, with a compact stop control.
@@ -1086,7 +1090,7 @@ Installed the tested **~/Desktop/Luma Keys.app**. **Quit and reopen the existing
 - The installed archive matches the tested release; all **39 personal Library/Exports files remain byte-for-byte unchanged**. Evidence: `evidence/data-preservation-1.2.0.json`. Test apps and the development server are stopped; the personal process remains running on the prior loaded version until reopened.
 - Acceptance evidence: `evidence/phrase-unit-tests.txt`, `evidence/phrase-practice-qa.json`, `evidence/native-phrase-practice-qa.json`, `evidence/native-continuity-qa.json`, `evidence/native-continuity-diagnostics.json`, `evidence/native-material-qa.json`, `evidence/native-input-qa.json`, `evidence/native-reader-qa.json`, and `evidence/close-qa.json`. `phrase-*.log` retains commands/results; `resolved-phrase-collapse-failure.*` preserves the fixed first-run UI failure. New screenshots include `native-phrase-practice-selected-phrase.png`, `native-phrase-practice-score-only.png`, `native-phrase-practice-rest-durations.png`, and `native-phrase-practice-narrow-score-only.png`.
 
-## Previous overnight verification and fixes — version 1.1.2
+## Previous overnight verification and fixes: version 1.1.2
 Preserved the user's concise, matte sight-reading layout. Installed and reopened **~/Desktop/Luma Keys.app** after checking the personal app was idle and using normal Quit.
 
 - **Held-note playback:** the previous package was silent when Listen started midway through a sustained note. Resume and phrase entry now start its remaining duration once, with the existing articulation/release tail, clipped to the selected ending. Carry-only phrases play each loop and show HOLD; Wait mode still asks only for new written onsets. Actual sample-source scheduling was measured in browser and native app. Baseline: `evidence/resume-audio-baseline.json`.
@@ -1099,7 +1103,7 @@ Preserved the user's concise, matte sight-reading layout. Installed and reopened
 - Acceptance evidence: `evidence/continuity-unit-tests.txt`, `evidence/native-continuity-qa.json`, `evidence/native-material-qa.json`, `evidence/native-reader-qa.json`, `evidence/native-input-qa.json`, `evidence/recognition-close-qa.json`; the corresponding browser results and continuity logs are retained. Chord visuals: `evidence/native-chord-reading-held-notes.png` and `evidence/native-chord-reading-reduced-mobile.png`.
 - Known interpretation/recognition limits below remain. Physical MIDI hardware remains untested. This pass finished before the original 8 AM Eastern deadline; the schedule was not extended.
 
-## Previous user-directed material and motion update — version 1.1.1
+## Previous user-directed material and motion update: version 1.1.1
 The user requested more interesting animation and a less plastic interface. Keep the concise sight-reading direction.
 
 - Installed and reopened **~/Desktop/Luma Keys.app**. Confirmed the new appearance in the actual personal Desktop window: warm graphite, grained ivory manuscript paper, serif score typography, restrained accents, matte ivory/ebony piano keys and simpler control surfaces. The full transport fits within the tested 1280×800 viewport.
@@ -1110,7 +1114,7 @@ The user requested more interesting animation and a less plastic interface. Keep
 - Evidence: `evidence/native-material-qa.json`, `evidence/material-qa.json`, `evidence/native-reader-qa.json`, `evidence/native-input-qa.json`, `evidence/material-unit-tests.txt`, `evidence/data-preservation-1.1.1.json`. Visuals: `evidence/native-material-desktop.png`, `evidence/native-material-mobile.png`; silent animation example: `evidence/material-motion-preview.webm`.
 - This refinement does not change recognition or audio interpretation limits. The existing overnight deadline remains 8 AM Eastern; do not extend it or restore the older dashboard.
 
-## Previous user-directed redesign — version 1.1.0
+## Previous user-directed redesign: version 1.1.0
 The user clarified that this should be a concise **sight-reading tool**, not a piano dashboard. This direction takes precedence over the earlier dashboard presentation. Do not restore pets, progress cards, greetings or a sidebar to the main reading workspace.
 
 - Installed **~/Desktop/Luma Keys.app** and opened the updated app. The default is now a large, light numbered score, a compact next-note cue, a readable keyboard window and transport. Library and import stay in the top bar. Settings holds companions, themes, progress, tonic/label choices, count-in, metronome and lesson tips.
@@ -1125,7 +1129,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - Current test entry points: scripts/reader-qa.mjs, scripts/native-reader-qa.mjs, scripts/input-qa.mjs, scripts/native-input-qa.mjs, scripts/close-qa.mjs, scripts/sheet-focus-qa.mjs and scripts/notation-qa.mjs. Some older dashboard-specific scripts retain historical selectors; do not confuse them with current reader acceptance. Evidence: reader-unit-tests.txt, reader-qa.json, native-reader-qa.json, native-input-qa.json, close-qa.json, sheet-focus-qa.json, notation-qa.json and reader-*.log. Screenshots: native-reader-desktop.png, native-reader-sheet.png, native-reader-mobile.png and native-reader-pdf-reading.png.
 - This is a beginner numbered reading aid, not automatic fingering or complete interpretation of every printed marking. PDF notes still need review. Physical MIDI hardware remains untested. The existing overnight schedule is unchanged and must end at 8 AM Eastern.
 
-## Previous overnight improvement — version 1.0.8
+## Previous overnight improvement: version 1.0.8
 - Installed and verified the Desktop update. Open **~/Desktop/Luma Keys.app** to use it.
 - Reproduced five input failures in the previous packaged app: computer notes ignored after clicking Play, delayed Play resuming after Start over, delayed notes surviving blur or MIDI disconnect, and a stale sustain indicator after Pause. Baseline: evidence/input-baseline-1.0.7.json.
 - Piano inputs now track separate owners for computer keys, onscreen pointers/buttons, MIDI ports and MIDI channels. Releasing one input cannot release another input's held note. Harmless MIDI state changes keep held notes; reconnecting does not duplicate listeners. Separate pedals preserve sustain until all pressed pedals are released.
@@ -1139,7 +1143,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - Evidence: evidence/overnight-unit-tests-1.0.8.txt, evidence/input-qa.json, evidence/native-input-qa.json, evidence/native-input-verified.png, evidence/overnight-native-1.0.8.log, evidence/overnight-close-1.0.8.log, evidence/overnight-package-1.0.8.log. Shared regression harness: scripts/input-checks.mjs; pure input tests: tests/input.test.mjs.
 - MIDI input implements note-on/off, velocity and CC64 sustain. Other controller messages, including CC120/123 panic, remain outside this subset; local Pause/Start over clears voices. Missing Command-key release events were constructed in the test, not measured on a physical keyboard/controller combination.
 
-## Previous overnight improvement — version 1.0.7
+## Previous overnight improvement: version 1.0.7
 - Installed and verified the new Desktop app. The personal app remains open; reopen when convenient to load this update.
 - Reproduced a real PDF lifecycle failure: normal Quit left the native Audiveris process running under PID 1, and reopening returned a missing-job error. Baseline: evidence/pdf-close-baseline.json.
 - PDF imports now keep local receipts and original files. **View imports** restores live progress after a renderer reload. You can close the panel and keep practicing; background completion waits for **Review notes**. **Cancel recognition** stops the reader, **Retry recognition** uses the retained PDF, and **Dismiss** hides only the notice.
@@ -1152,7 +1156,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - Evidence and harnesses: evidence/recognition-close-qa.json, evidence/recognition-qa.json, evidence/overnight-unit-tests-1.0.7.txt, evidence/overnight-native-1.0.7.log, evidence/overnight-recognition-close-1.0.7.log, evidence/overnight-close-1.0.7.log, the pdf-*-recovered/native-pdf-lifecycle screenshots, tests/recognition.test.mjs and scripts/recognition-close-qa.mjs.
 - Scope: receipt recovery applies to imports started in 1.0.7 onward; old saved scores/originals remain intact. Cancelling discards that recognition attempt, so Retry starts reading again. The tests establish these interruption paths on this Mac, not a guarantee against disk damage or every system failure. PDF accuracy still requires review.
 
-## Previous overnight improvement — version 1.0.6
+## Previous overnight improvement: version 1.0.6
 - Installed and verified the new Desktop app. The personal app remains open; reopen when convenient to load this update.
 - Reproduced invalid saved volume interrupting startup and truncated settings being silently replaced. Settings now recover each field independently: valid theme, companion, mute and progress survive; invalid values receive defaults and a clear notice. The audio engine also rejects non-finite gain values and bounds volume to 0–1.
 - Opening the app never writes settings merely because they were loaded. The first actual save of recovered values keeps the original bytes in **Library / Settings recovery**, then replaces preferences atomically. Invalid API writes and failed recovery-copy attempts leave the original untouched. Tests include invalid UTF-8 bytes, partial legacy settings, numeric-string progress and impossible dates.
@@ -1164,7 +1168,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - Installed archive matches the tested release. All 39 personal Library/Exports files remain byte-for-byte unchanged, and the personal app was not closed. Evidence: evidence/data-preservation-1.0.6.json.
 - Other evidence: evidence/overnight-unit-tests-1.0.6.txt, evidence/settings-baseline.json, evidence/settings-qa.json, evidence/native-qa.json, evidence/overnight-native-1.0.6.log, and settings/native-settings screenshots. Harnesses: scripts/settings-qa.mjs, scripts/close-qa.mjs, tests/preferences.test.mjs.
 
-## Previous overnight improvement — version 1.0.5
+## Previous overnight improvement: version 1.0.5
 - Installed and verified the new Desktop app. The personal app remains open; reopen when convenient to load this update.
 - Reproduced two failures before changing code: a valid-looking JSON backup with missing metadata blanked the review screen, and damaged saved dates could stop the entire library API. Evidence is in evidence/backup-baseline.json and backup-baseline-failure.png.
 - Backups now validate the complete playback metadata, including total duration, bar count, display text, flags and note volume. Invalid pitches/rhythms receive an actionable error before saving. Older backups receive chronological note ordering, unique editable note IDs, default velocities/warnings, derived bar labels and enough duration to play every note. Inferred timing is flagged for review; lost silent bars cannot be reconstructed from notes alone.
@@ -1175,7 +1179,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - Installed archive matches the tested release. All 39 personal Library/Exports files remain byte-for-byte unchanged. The personal app was not closed.
 - Evidence: evidence/overnight-unit-tests-1.0.5.txt, evidence/backup-qa.json, evidence/backup-compatibility.json, evidence/native-qa.json, evidence/overnight-native-1.0.5.log, evidence/data-preservation-1.0.5.json and backup/native-backup screenshots. Regression harness: scripts/backup-qa.mjs and tests/backups.test.mjs.
 
-## Previous overnight improvement — version 1.0.4
+## Previous overnight improvement: version 1.0.4
 - Installed and verified the new Desktop app. The personal app stayed open; reopen when convenient to load the update.
 - Long scores now display in passages of up to 16 bars, with Previous/Next and a **Review from bar** jump shared by the note table and engraved sheet. Review opens at the current practice bar. The displayed bar range stays in a loading state until that actual passage is drawn, preventing a stale score image after a jump.
 - Narrow windows scroll the notation sideways instead of compressing notes together. The renderer keeps the complete score context for clefs, keys and ties, and cleans up its resize observer when closed.
@@ -1187,7 +1191,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - Evidence: evidence/overnight-unit-tests-1.0.4.txt, evidence/notation-qa.json, evidence/notation-baseline.json, evidence/overnight-native-1.0.4.log, evidence/native-qa.json, evidence/data-preservation-1.0.4.json and native-notation screenshots. Independent fixtures and hashes are in tests/fixtures/README.md. The resolved no-header rendering failure is preserved in evidence/resolved-notation-header-failure.*.
 - Development watching now excludes QA data, personal Library/Exports and build/evidence folders, so writing an exported HTML sheet does not reload a running UI test.
 
-## Previous overnight improvement — version 1.0.3
+## Previous overnight improvement: version 1.0.3
 - Installed and verified the new Desktop app. The personal app process was left open; reopen when convenient to load this version.
 - Corrected the built-in Für Elise opening against the public-domain Mutopia/Breitkopf & Härtel score. It now contains 53 notes across both hands, the two-sixteenth pickup, 3/8 meter, correct bass octaves and rests, and a short first ending. The former demo incorrectly flattened the rhythm and placed bass notes in the right-hand melody.
 - Added engraved two-staff notation and a three-step practice path. The pickup is app bar 1; bass enters in app bar 3. Corrected MusicXML, printable HTML, and a visually checked two-page numbered PDF are saved in Practice Sheets. This is a short excerpt played once; pedal and expressive interpretation remain simplified.
@@ -1196,7 +1200,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - The packaged app passed audio, export, lesson practice and actual 16-note PDF recognition with the dev server stopped. Installed archive matches the tested release, and all 39 personal Library/Exports files remain byte-for-byte unchanged.
 - Evidence: evidence/overnight-unit-tests-1.0.3.txt, evidence/lessons-qa.json, evidence/large-score-qa.json, evidence/overnight-native-1.0.3.log, evidence/data-preservation-1.0.3.json, and native-elise screenshots. Source and interpretation details: docs/RESEARCH.md and docs/sources/fur-elise-mutopia.ly.
 
-## Previous overnight improvement — version 1.0.2
+## Previous overnight improvement: version 1.0.2
 - Installed new Desktop app; personal app remained open. Reopen when convenient to load the update.
 - Imported MusicXML and MIDI now preserve written pulse groups: 6/8 and 9/8 dotted beats, 5/8 fractional bar accents, cut time, and explicit additive groups. Metronome/count-in use the audio clock with look-ahead scheduling; Pause, Stop, and loop reset cancel queued click oscillators.
 - Pickup count-ins lead into the pickup's place in the bar. A compact meter hint shows pulses per bar. Tempo is labeled `♩ =` to distinguish quarter-note tempo from the audible compound pulse.
@@ -1206,7 +1210,7 @@ The user clarified that this should be a concise **sight-reading tool**, not a p
 - Evidence: evidence/overnight-unit-tests-1.0.2.txt, evidence/rhythm-qa.json, evidence/overnight-native-1.0.2.log, evidence/native-qa.json, evidence/data-preservation-1.0.2.json. Research references and interpretation limits are in docs/RESEARCH.md.
 - Older imported scores retain their existing timing. Re-import them to gain pulse metadata. Ungrouped odd meters use their written subdivision; a performer's preferred grouping is not inferred.
 
-## Previous overnight improvement — version 1.0.1
+## Previous overnight improvement: version 1.0.1
 - Installed and verified new Desktop app. The existing personal app process was left running; quit and reopen when convenient to load this version.
 - MIDI meter changes now produce explicit bar boundaries shared by practice loops, bar labels, review and printable exports. Held notes preserve every bar they span. MusicXML final bars also retain their actual length.
 - Wait mode stays inside the selected phrase. Empty selected-hand phrases give useful guidance; falling notes and next-note hints show only the chosen phrase.
