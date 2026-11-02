@@ -1,4 +1,4 @@
-# Supporting studio pages · 14 October 2026
+# Supporting studio pages (14 October 2026)
 
 This change refines Exercises, Library and Progress within the existing React 19 interface. It uses the existing serif type, room palette, illustrated score covers, native controls and persistence model. Page-level decorative companion instances are removed; the application shell owns the persistent companion entry point.
 

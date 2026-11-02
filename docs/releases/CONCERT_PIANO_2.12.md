@@ -1,6 +1,6 @@
 # Grand piano and phrasing · 2.12
 
-The primary instrument is now Alexander Holm’s sampled **Yamaha C5**: six recorded touch levels, 180 unchanged lossless stereo recordings. It is not a Steinway sample set. Notes between recorded pitches are transposed; the original full decay tails remain available. Source and licence: [PIANO_SAMPLES.md](PIANO_SAMPLES.md).
+The primary instrument is now Alexander Holm’s sampled **Yamaha C5**: six recorded touch levels, 180 unchanged lossless stereo recordings. It is not a Steinway sample set. Notes between recorded pitches are transposed; the original full decay tails remain available. Source and licence: [PIANO_SAMPLES.md](../PIANO_SAMPLES.md).
 
 ## In the app
 

@@ -1,8 +1,6 @@
-# Claude follow-up: PDF lifecycle
+# Review: PDF import lifecycle (25 September 2026)
 
-September 25, 2026. The user requested a Claude enhancement pass. The installed Claude CLI reviewed the initial 1.0.7 candidate with all tools and MCP connections disabled. It did not edit files or run tests. Raw response: `evidence/claude-pdf-lifecycle-review-1.0.7.json`.
-
-# Review: PDF recognition lifecycle changes
+A second AI coding assistant reviewed the initial 1.0.7 candidate through its CLI, with all tools and MCP connections disabled. It did not edit files or run tests. Raw response: `evidence/claude-pdf-lifecycle-review-1.0.7.json`.
 
 ## Findings
 
@@ -73,8 +71,8 @@ Remaining risks, most important first:
 2. The unbounded dependence on `close`, which can hang quit.
 3. The untested packaged `ELECTRON_RUN_AS_NODE` and asar fork path, plus the missing disconnect test. The claimed fix, no orphaned Audiveris after quit or force-quit in the packaged app, is not yet demonstrated by the current tests.
 
-## Primary-agent follow-up
+## Follow-up after the review
 
-Codex corrected the concurrent dismiss/retry mutation and ordered receipt writes; added a runner startup handshake, idempotent spawn-failure cleanup and a bounded native shutdown wait; allowed final log output to drain; and journaled planned score IDs before saving, so restart can recover existing parts without duplicate transcription. Receipts are written before the original PDF is atomically installed, preventing a new original from being stranded without a receipt. A partial multi-part save reports how many parts were recovered.
+The follow-up corrected the concurrent dismiss/retry mutation and ordered receipt writes; added a runner startup handshake, idempotent spawn-failure cleanup and a bounded native shutdown wait; allowed final log output to drain; and journaled planned score IDs before saving, so restart can recover existing parts without duplicate transcription. Receipts are written before the original PDF is atomically installed, preventing a new original from being stranded without a receipt. A partial multi-part save reports how many parts were recovered.
 
-Added a deterministic force-kill test against a SIGTERM-ignoring fixture and packaged tests for normal quit, window close, force quit, relaunch and retry. These are Codex changes and validation after this review; Claude did not review the final corrections. Final outcomes are recorded in STATUS.md.
+Added a deterministic force-kill test against a SIGTERM-ignoring fixture and packaged tests for normal quit, window close, force quit, relaunch and retry. These changes and their validation came after this review; the reviewer did not see the final corrections. Final outcomes are recorded in STATUS.md.

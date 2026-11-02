@@ -1,6 +1,6 @@
-# Overnight work
+# Overnight run (24 to 25 September 2026)
 
-The Codex heartbeat `luma-keys-overnight-build-polish` is attached to this task and scheduled hourly until **2026-09-25 08:00 America/New_York**. It may not run if Codex is closed, the Mac is asleep, or the account is unable to run tasks. Idle sleep is temporarily held with a bounded caffeinate process until that deadline; the display can still sleep. Keep the Mac plugged in and its lid open.
+These were the standing instructions for `luma-keys-overnight-build-polish`, an hourly scheduled job of the coding assistant that ran until **2026-09-25 08:00 America/New_York**. The job could not run if the assistant app was closed, the Mac was asleep, or the account was unable to run tasks. Idle sleep was held with a bounded caffeinate process until that deadline; the display could still sleep. The Mac stayed plugged in with its lid open.
 
 Continue from STATUS.md. Run focused tests after any changes; do not introduce speculative large refactors simply to fill time. Preserve the user's Library and Exports. When a validated change is ready, use scripts/package-desktop.sh. Do not close an actively used practice app to install updates. Notify only meaningful changes, final completion, or an actionable failure. Do not extend the schedule beyond this morning.
 

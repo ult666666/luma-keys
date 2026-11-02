@@ -1,8 +1,8 @@
-# Claude follow-up: settings recovery
+# Review: settings recovery (25 September 2026)
 
-September 25, 2026. The user requested a Claude enhancement pass. Claude reviewed the initial 1.0.6 recovery candidate through the installed Claude CLI, with all tools and MCP connections disabled. Source excerpts were supplied explicitly. The pass was read-only and did not overwrite project files or run tests. Its raw response is preserved in `evidence/claude-settings-review-1.0.6.json`.
+A second AI coding assistant reviewed the initial 1.0.6 recovery candidate through its CLI, with all tools and MCP connections disabled. Source excerpts were supplied explicitly. The pass was read-only and did not overwrite project files or run tests. Its raw response is preserved in `evidence/claude-settings-review-1.0.6.json`.
 
-# Review: settings recovery patch
+## Findings on the settings recovery patch
 
 **No blocking findings.** Three low-severity, non-blocking items are below.
 
@@ -51,10 +51,10 @@ The local server makes the window small, so this is rare.
 
 **Minimal fix:** disable the settings controls and the Stop-time stats accumulation until `prefLoaded` is true. Alternatively, merge any `stats` increments made before load into `progress` instead of replacing them.
 
-## Primary-agent corrections after the review
+## Corrections after the review
 
-Codex addressed all three reported cases. The Electron window-close and application-quit paths now wait for the renderer to record active practice minutes and finish queued settings writes. A failed save offers Keep open or Close without saving. The local server stays available until the final quit phase. Settings loading now disables practice and preference edits until the saved state is ready. An I/O failure leaves a persistent notice explaining that changes are temporary, with Reload saved settings after file access is restored.
+All three reported cases were addressed. The Electron window-close and application-quit paths now wait for the renderer to record active practice minutes and finish queued settings writes. A failed save offers Keep open or Close without saving. The local server stays available until the final quit phase. Settings loading now disables practice and preference edits until the saved state is ready. An I/O failure leaves a persistent notice explaining that changes are temporary, with Reload saved settings after file access is restored.
 
-The renderer uses React's synchronous flush only at the native close boundary, so the final snapshot contains the just-recorded active session. Normal changes retain the existing short debounce. These corrections were implemented by Codex after Claude's review; Claude did not review this later code or execute the verification suite.
+The renderer uses React's synchronous flush only at the native close boundary, so the final snapshot contains the just-recorded active session. Normal changes retain the existing short debounce. These corrections came after the review; the reviewer did not see this later code or run the verification suite.
 
 The implementation follows the documented [Electron before-quit/will-quit lifecycle](https://www.electronjs.org/docs/latest/api/app#event-before-quit) and the [React flushSync integration guidance](https://react.dev/reference/react-dom/flushSync). Validation evidence and the final installed version are recorded in STATUS.md. Normal app exit is covered; force termination or power loss cannot run the close handler.

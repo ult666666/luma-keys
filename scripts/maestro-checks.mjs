@@ -432,8 +432,9 @@ export async function verifyMaestro(page, prefix = "maestro-2.6") {
     );
     await expect(page.locator(".piano-key.pressed")).toHaveCount(0);
     // (Since 2.17 the docked chat is not modal: a MIDI keyboard stays playable
-    // beside it — docs/COMPANION_MINI_2.17.md. A key sounds and lights, but it
-    // changes no practice state and leaves the draft and focus alone.)
+    // beside it; see docs/releases/COMPANION_MINI_2.17.md. A key sounds and
+    // lights, but it changes no practice state and leaves the draft and focus
+    // alone.)
     await send([144, 72, 100]);
     await expect(page.locator('.piano-key[data-midi="72"]')).toHaveClass(
       /pressed/,

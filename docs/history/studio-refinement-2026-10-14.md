@@ -1,4 +1,4 @@
-# Piano studio refinement · 14 October 2026
+# Piano studio refinement (14 October 2026)
 
 Implemented in `~/Desktop/Luma Keys` on MacBook-Pro-2.local, Mac17,9 / Apple M5 Pro, macOS26.6. The installed application and personal Library were not changed. The work uses the existing React19, Vite7, Three.js0.186.1 and Electron44.4.5 stack. A source/diff/hash baseline preserves the978 pre-existing changed or untracked entries; changes from this pass are listed separately in `.qa-runs/studio-2026-10-14/changed-files.json`.
 
@@ -26,7 +26,7 @@ One native **Hands** select persists Natural / Focus / Off. Focus uses exact key
 
 The piece title wraps without shrinking or ellipsis. The header and transport retain the dark-shell/light-workspace language, illustrated covers and blue/amber teaching cues. Companion entry is consolidated in the shell; sparse microphone encouragement uses the existing instruction strip, and minimizing chat returns to the shell entry.
 
-Exercises now show the exact resolved Auto settings passed to Start. Library distinguishes10 saved scores from4 starter pieces in the reviewed fixture, deduplicates identities and labels filtered results explicitly. Progress separates recorded time, visited bars, saved position and assessed performance; generated and removed-score history is preserved. See [supporting-page notes](STUDIO_SUPPORTING_UI_2026-10-14.md).
+Exercises now show the exact resolved Auto settings passed to Start. Library distinguishes10 saved scores from4 starter pieces in the reviewed fixture, deduplicates identities and labels filtered results explicitly. Progress separates recorded time, visited bars, saved position and assessed performance; generated and removed-score history is preserved. See [supporting-page notes](studio-supporting-pages-2026-10-14.md).
 
 ## Verification
 

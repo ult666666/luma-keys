@@ -1,4 +1,4 @@
-# Hands corrective review · 15 October 2026
+# Review: hands corrective pass (15 October 2026)
 
 Implemented and tested; visual acceptance remains with the user.
 

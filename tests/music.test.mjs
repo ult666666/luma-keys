@@ -112,7 +112,7 @@ test("lessons have bounded sorted notes and complete durations", () => {
   }
 });
 
-// ---- Import accuracy regressions (Claude review, see docs/CLAUDE_REVIEW.md) ----
+// ---- Import accuracy regressions (docs/history/review-music-import-2026-09-24.md) ----
 const fixture = (name) =>
   readFileSync(new URL(`./fixtures/${name}`, import.meta.url), "utf8");
 const brief = (s) => s.notes.map((n) => [n.midi, n.beat, n.duration, n.hand]);

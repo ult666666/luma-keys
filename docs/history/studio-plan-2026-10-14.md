@@ -1,6 +1,6 @@
-# Piano studio implementation
+# Piano studio implementation plan (14 October 2026)
 
-Approved brief: `~/.codex/attachments/094bb61c-b736-407f-9309-c8d5a10a0413/Pasted text.txt`.
+Approved brief: a written brief from the owner, kept outside this repository.
 
 Goal: believable, readable demonstration hands and a calmer piano studio. This is an implementation pass; the supplied brief replaces further design approval rounds.
 
@@ -26,4 +26,4 @@ Goal: believable, readable demonstration hands and a calmer piano studio. This i
 
 No new third-party asset, model inference, or renderer migration is planned. No installation or release replacement is part of this pass.
 
-Implementation and measured verification: `docs/STUDIO_HANDS_2026-10-14.md`. Final independent review findings are resolved before delivery.
+Implementation and measured verification: `docs/history/studio-refinement-2026-10-14.md`. Final independent review findings are resolved before delivery.

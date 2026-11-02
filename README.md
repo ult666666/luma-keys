@@ -133,11 +133,12 @@ while saving and recognition shutdown. Each release records its checks in [`evid
 [`STATUS.md`](STATUS.md) is the build log.
 
 The [user guide](docs/USER_GUIDE.md) covers every screen and control, with release notes,
-newest first. [PLAN.md](PLAN.md) has the plan for each version, and there is a design
-note per feature, for example [hand motion](docs/HAND_MOTION_DESIGN.md),
-[trouble spots](docs/TROUBLE_SPOTS_2.40.md), [solid storage](docs/SOLID_STORAGE_2.41.md),
-[microphone Wait](docs/MICROPHONE_WAIT_2.34.md), [the concert piano](docs/CONCERT_PIANO_2.12.md)
-and [the local companion](docs/COMPANION_INTELLIGENCE_2.20.md).
+newest first. [PLAN.md](PLAN.md) has the plan for each version. [docs/README.md](docs/README.md)
+indexes the design notes, such as [hand motion](docs/HAND_MOTION_DESIGN.md), and a release
+note per feature, for example [trouble spots](docs/releases/TROUBLE_SPOTS_2.40.md),
+[solid storage](docs/releases/SOLID_STORAGE_2.41.md), [microphone Wait](docs/releases/MICROPHONE_WAIT_2.34.md),
+[the concert piano](docs/releases/CONCERT_PIANO_2.12.md) and
+[the local companion](docs/releases/COMPANION_INTELLIGENCE_2.20.md).
 
 ## Limits
 

@@ -1,10 +1,8 @@
-# Implementation update — October 3, 2026
+# Microphone input feasibility (2 October 2026)
 
-The research below preceded implementation. Local microphone Wait is now implemented as a conservative beta; current setup, supported notes, known octave ambiguity and validation limits are in [Microphone Wait 2.34](MICROPHONE_WAIT_2.34.md). No physical acoustic-piano validation is claimed.
+Update, 3 October 2026: the research below preceded implementation. Local microphone Wait is now implemented as a conservative beta; current setup, supported notes, known octave ambiguity and validation limits are in [Microphone Wait 2.34](../releases/MICROPHONE_WAIT_2.34.md). No physical acoustic-piano validation is claimed.
 
----
-
-# Playing the correct key to advance Luma Keys
+## Playing the correct key to advance Luma Keys
 
 Research and source inspection, October 2, 2026. No microphone feature was implemented or tested during this investigation.
 

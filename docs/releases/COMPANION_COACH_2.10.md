@@ -18,4 +18,4 @@ Real-model evaluation preserved 55 attempts, including unsuccessful earlier cand
 
 ## Installed app
 
-Version 2.10.0 is installed and open on the Desktop. All 2,992 bundle entries match the tested candidate, and all 68 latest personal files remain byte-for-byte unchanged through reopening. The Lang Lang portrait greeting was visibly checked in the installed app; the existing transcript was preserved without sending a new personal chat. The previous 2.9.0 app remains recoverable in the QA run directory. The final index is [companion-coach-2.10-verification.json](../evidence/companion-coach-2.10-verification.json).
+Version 2.10.0 is installed and open on the Desktop. All 2,992 bundle entries match the tested candidate, and all 68 latest personal files remain byte-for-byte unchanged through reopening. The Lang Lang portrait greeting was visibly checked in the installed app; the existing transcript was preserved without sending a new personal chat. The previous 2.9.0 app remains recoverable in the QA run directory. The final index is [companion-coach-2.10-verification.json](../../evidence/companion-coach-2.10-verification.json).

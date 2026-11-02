@@ -16,6 +16,6 @@ Artwork has fixed geometry, gentle bounded hover/focus zoom, and no inherited br
 
 ## Files and validation
 
-Original PNGs and exact generation/edit prompts: `Assets/Library Art/`. App copies: `public/library-art/`. Dimensions, checksums and imagegen provenance: `docs/LIBRARY_ART_2.13.md` and `Assets/Library Art/prompts.json`.
+Original PNGs and exact generation/edit prompts: `Assets/Library Art/`. App copies: `public/library-art/`. Dimensions, checksums and imagegen provenance: `docs/releases/LIBRARY_ART_2.13.md` and `Assets/Library Art/prompts.json`.
 
 Verification results and screenshots live in `.qa-runs/library-illustrated-2.13/`; the final installation record is in `evidence/library-illustrated-2.13-verification.json`. QA uses separate library directories and muted native app instances. This pass changes Library presentation and its companion entry point; it does not change score notes, interpretation, playback, MIDI, chat generation or recognition.

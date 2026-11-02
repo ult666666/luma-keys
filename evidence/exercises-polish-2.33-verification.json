@@ -164,7 +164,7 @@
     "personalChatRequested": false,
     "personalPaletteChanged": false
   },
-  "guide": "docs/EXERCISES_2.33.md",
+  "guide": "docs/releases/EXERCISES_2.33.md",
   "retainedDiagnostics": ".qa-runs/exercises-polish-2.33/reports/retained-diagnostics.json",
   "limits": [
     "Initial parallel mock-process fixture handshakes failed; the unweakened serial full suite passed. Exact cause of initial delay is unestablished.",

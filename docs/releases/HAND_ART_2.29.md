@@ -1,6 +1,6 @@
 # Pianist hands · 2.29
 
-The hand reference was generated first, then used to refine the live articulated hands. The full reference is saved in [public/art/hands/pianist-study-2.29.png](../public/art/hands/pianist-study-2.29.png). Its design brief and source location are recorded in `.qa-runs/hand-atelier-2.29/art-reference.json`.
+The hand reference was generated first, then used to refine the live articulated hands. The full reference is saved in [public/art/hands/pianist-study-2.29.png](../../public/art/hands/pianist-study-2.29.png). Its design brief and source location are recorded in `.qa-runs/hand-atelier-2.29/art-reference.json`.
 
 ## Appearance and posture
 

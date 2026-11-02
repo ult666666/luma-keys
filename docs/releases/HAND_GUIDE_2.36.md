@@ -12,7 +12,7 @@ The forearm now fades in the hand’s own coordinates before the mesh ends. This
 
 All 100 hand motion/rig tests pass, along with 40 focused coach, planner, keyboard, seek and packaging tests and the added forearm-fade regression. Ordinary active contacts retain a 0.5 mm test tolerance; difficult transitions retain 2 mm. Final native-app results and installation identity are recorded in the accompanying verification evidence.
 
-The generated [anatomy study](design/pianist-study-2.36.png) was a visual reference, not the runtime hand asset. The image-generation prompt and tool output are retained in `.qa-runs/hand-sculpt-2.36/art-reference.json`.
+The generated [anatomy study](../design/pianist-study-2.36.png) was a visual reference, not the runtime hand asset. The image-generation prompt and tool output are retained in `.qa-runs/hand-sculpt-2.36/art-reference.json`.
 
 These checks cover the tested scores, poses and layouts. They do not establish perfect hand placement for every score or prescribe professional fingering. This update makes no new physical-piano recognition or audio-quality claim.
 
@@ -24,6 +24,6 @@ A sequential comparison on this Mac showed variable frame pacing in both 2.35 an
 
 Version 2.36.0 was installed and reopened on the Desktop. All 3,035 bundle entries match the accepted native-tested package; 107 personal musical/settings files were unchanged. Actual window pixels confirm the new hands and the saved practice setup. The first inspection timed out during launch; the subsequent native window and screenshot succeeded.
 
-![Final native opening](../evidence/native-hand-guide-2.36-opening.png)
+![Final native opening](../../evidence/native-hand-guide-2.36-opening.png)
 
-![Raised coda wrist fade](../evidence/native-hand-guide-2.36-coda.png)
+![Raised coda wrist fade](../../evidence/native-hand-guide-2.36-coda.png)
