@@ -1209,3 +1209,62 @@ test("requested hands prepare their GPU alongside the score worker without prese
     assert.equal(gl.builds, 1);
   } finally { layer.dispose(); sharedRenderer.reset(); }
 });
+
+// The skin, nail and cuff shaders patch text inside three.js's own shader
+// chunks. If a three.js update moves that text, the app falls back to the
+// simple hands at run time (three.js 0.187 did this to the skin's diffuse
+// line). These checks run every patch on the installed three.js instead.
+test("the skin's diffuse patch fits the installed three.js and both known forms", async () => {
+  const { internals } = await import("../src/hand3d.mjs");
+  const wrap = [0.2, 0.12, 0.08];
+  const chunk = THREE.ShaderChunk.lights_physical_pars_fragment;
+  const patched = internals.skinDiffuseChunk(chunk, wrap);
+  assert.notEqual(patched, chunk);
+  assert.match(patched, /vec3 wrapK = vec3\(0\.200, 0\.120, 0\.080\)/);
+  // three.js 0.186 and earlier inline BRDF_Lambert; 0.187 computes diffuseBRDF first.
+  for (const [line, brdf] of [
+    ["reflectedLight.directDiffuse += irradiance * BRDF_Lambert( material.diffuseContribution ) * ( 1.0 - F );", "BRDF_Lambert( material.diffuseContribution )"],
+    ["reflectedLight.directDiffuse += irradiance * diffuseBRDF * ( 1.0 - F );", "diffuseBRDF"],
+  ]) {
+    const out = internals.skinDiffuseChunk(`void f() {\n${line}\n}`, wrap);
+    assert.ok(!out.includes(line), "the original line is replaced");
+    assert.ok(out.includes(`reflectedLight.directDiffuse += wrapped * directLight.color * ${brdf} * ( 1.0 - F );`));
+  }
+  assert.throws(() => internals.skinDiffuseChunk("void f() {}", wrap), /skin diffuse hook not found/);
+});
+
+test("every hand material's shader patch fits the installed three.js", async () => {
+  const { internals, LOOK } = await import("../src/hand3d.mjs");
+  const { SKIN_TONES } = await import("../src/hand3d-data.mjs");
+  // three.js hands onBeforeCompile its unresolved shader templates, as here.
+  const compile = (material) => {
+    const lib = material.isMeshPhysicalMaterial
+      ? THREE.ShaderLib.physical
+      : material.isMeshStandardMaterial
+        ? THREE.ShaderLib.standard
+        : THREE.ShaderLib.basic;
+    const shader = { uniforms: {}, vertexShader: lib.vertexShader, fragmentShader: lib.fragmentShader };
+    material.onBeforeCompile(shader);
+    return shader;
+  };
+  const uniforms = {
+    uDim: { value: 0 },
+    uScreenFade: { value: new THREE.Vector2() },
+    uWristFade: { value: new THREE.Vector2() },
+    uXray: { value: 0 },
+    uXrayColor: { value: new THREE.Color() },
+    uUnder: { value: 0 },
+  };
+  for (const maps of [{}, { normal: new THREE.Texture(), detail: new THREE.Texture() }]) {
+    const skin = compile(internals.skinMaterial(LOOK, uniforms, SKIN_TONES.light, maps, {}));
+    assert.match(skin.fragmentShader, /wrapK/);
+    assert.match(skin.vertexShader, /attribute vec4 aSelf;/);
+  }
+  assert.match(compile(internals.nailMaterial(LOOK, uniforms)).vertexShader, /vNailUv = aNailUv/);
+  assert.match(compile(internals.cuffMaterial(uniforms, "#8aaedc").material).vertexShader, /vCuffUv = aCuffUv/);
+  const depth = compile(internals.depthMaterial(uniforms));
+  assert.match(depth.vertexShader, /vFade = 1\.0 - smoothstep/);
+  assert.match(depth.fragmentShader, /discard/);
+  assert.match(compile(internals.xrayMaterial(uniforms)).fragmentShader, /uXray \* vFade/);
+  assert.match(compile(internals.underThumbMaterial(uniforms)).fragmentShader, /thumbOnly/);
+});

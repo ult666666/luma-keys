@@ -352,6 +352,33 @@ const toneUniforms = (tone) => ({
   uVeinTone: { value: new THREE.Color(tone.vein || "#9aa6bf") },
 });
 
+// three.js writes the physical model's direct diffuse term in two ways:
+// r186 and earlier inline BRDF_Lambert, and r187 first computes diffuseBRDF
+// (Lambert, or EON when a material sets diffuse roughness, which the skin does
+// not). The skin's wrapped terminator replaces the irradiance in either form.
+const DIRECT_DIFFUSE = [
+  ["reflectedLight.directDiffuse += irradiance * BRDF_Lambert( material.diffuseContribution ) * ( 1.0 - F );", "BRDF_Lambert( material.diffuseContribution )"],
+  ["reflectedLight.directDiffuse += irradiance * diffuseBRDF * ( 1.0 - F );", "diffuseBRDF"],
+];
+
+function skinDiffuseChunk(chunk, [wr, wg, wb]) {
+  const hook = DIRECT_DIFFUSE.find(([line]) => chunk.includes(line));
+  if (!hook) throw new Error("hand3d: skin diffuse hook not found");
+  const [line, brdf] = hook;
+  return chunk.replace(
+    line,
+    `{
+      vec3 wrapK = vec3(${wr.toFixed(3)}, ${wg.toFixed(3)}, ${wb.toFixed(3)});
+      float ndl = dot( geometryNormal, directLight.direction );
+      vec3 wrapped = clamp( ( vec3( ndl ) + wrapK ) / ( 1.0 + wrapK ), 0.0, 1.0 );
+      // (Past the terminator the scattered light turns a muted warm brown,
+      // not a saturated red: no bruise in the web of the thumb.)
+      wrapped = mix( wrapped, vec3( dot( wrapped, vec3( 0.3, 0.55, 0.15 ) ) ) * vec3( 1.06, 1.0, 0.93 ), 0.5 * ( 1.0 - smoothstep( -0.22, 0.12, ndl ) ) );
+      reflectedLight.directDiffuse += wrapped * directLight.color * ${brdf} * ( 1.0 - F );
+    }`,
+  );
+}
+
 function skinMaterial(look, uniforms, tone, maps, lut) {
   // (Darker skin keeps less of the sheen and the oily coat: SKIN_TONES.coat.)
   const coat = tone.coat ?? 1;
@@ -374,22 +401,9 @@ function skinMaterial(look, uniforms, tone, maps, lut) {
     dithering: true,
     ...(detail ? { normalMap: maps.normal, normalScale: new THREE.Vector2(look.normalScale, look.normalScale) } : null),
   });
-  const [wr, wg, wb] = look.wrap;
   // The physical light model with the skin's diffuse: the terminator wraps,
   // reddest where light travels furthest under the surface.
-  const lightsPars = THREE.ShaderChunk.lights_physical_pars_fragment.replace(
-    "reflectedLight.directDiffuse += irradiance * BRDF_Lambert( material.diffuseContribution ) * ( 1.0 - F );",
-    `{
-      vec3 wrapK = vec3(${wr.toFixed(3)}, ${wg.toFixed(3)}, ${wb.toFixed(3)});
-      float ndl = dot( geometryNormal, directLight.direction );
-      vec3 wrapped = clamp( ( vec3( ndl ) + wrapK ) / ( 1.0 + wrapK ), 0.0, 1.0 );
-      // (Past the terminator the scattered light turns a muted warm brown,
-      // not a saturated red: no bruise in the web of the thumb.)
-      wrapped = mix( wrapped, vec3( dot( wrapped, vec3( 0.3, 0.55, 0.15 ) ) ) * vec3( 1.06, 1.0, 0.93 ), 0.5 * ( 1.0 - smoothstep( -0.22, 0.12, ndl ) ) );
-      reflectedLight.directDiffuse += wrapped * directLight.color * BRDF_Lambert( material.diffuseContribution ) * ( 1.0 - F );
-    }`,
-  );
-  if (lightsPars === THREE.ShaderChunk.lights_physical_pars_fragment) throw new Error("hand3d: skin diffuse hook not found");
+  const lightsPars = skinDiffuseChunk(THREE.ShaderChunk.lights_physical_pars_fragment, look.wrap);
   m.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, uniforms);
     // (The renderer's shared DFG table, so a renderer let go can let go of it: dispose.)
@@ -2435,4 +2449,8 @@ function capsuleGap(s, t) {
 }
 
 // For checks and the lab.
-export const internals = { skinAttributes, segDist, capsuleGap, screenCapsules };
+export const internals = {
+  skinAttributes, segDist, capsuleGap, screenCapsules,
+  // (The shader patches, so a test can run them on the installed three.js.)
+  skinDiffuseChunk, skinMaterial, nailMaterial, cuffMaterial, depthMaterial, xrayMaterial, underThumbMaterial,
+};
