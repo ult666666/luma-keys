@@ -198,6 +198,7 @@ export default function KeyboardGuide({
   hands: showHands = true,
   handDisplay = showHands ? "natural" : "off",
   onHandDisplayChange,
+  handDisplayDisabled = false,
   onFingerHelpChange,
   focus = false,
   onFocusChange,
@@ -1012,7 +1013,7 @@ export default function KeyboardGuide({
           {expanded && onHandDisplayChange && (
             <label className="hand-display-control">
               <Hand size={15} aria-hidden="true" /><span>Hands</span>
-              <select aria-label="Hands display" value={handDisplay}
+              <select aria-label="Hands display" value={handDisplay} disabled={handDisplayDisabled}
                 onChange={e => onHandDisplayChange(e.target.value)}>
                 <option value="natural">Natural</option>
                 <option value="focus">Focus</option>

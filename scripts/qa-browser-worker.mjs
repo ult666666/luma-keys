@@ -87,6 +87,12 @@ try {
     result = await verifySightReading(page, "browser", {
       evidenceDir: path.join(outputDir, "screenshots"),
     });
+    const preferences = await (await fetch(origin + "/api/preferences")).json();
+    assert.equal(
+      preferences.reading.handDisplay,
+      "off",
+      "Hands display survives settings restoration",
+    );
   } catch (e) {
     const text = await page
       .locator("body")

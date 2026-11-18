@@ -5036,6 +5036,7 @@ export default function App() {
               onLaneChange={(v) => withTransition(() => setKeyLane(v))}
               hands={handDisplay !== "off"}
               handDisplay={handDisplay}
+              handDisplayDisabled={settingsLoading}
               onHandDisplayChange={setHandDisplay}
               onFingerHelpChange={(open) => {
                 setFingerHelpOpen(open);
