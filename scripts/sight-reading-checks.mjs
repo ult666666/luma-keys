@@ -27,17 +27,23 @@ const KEYS = {
 export async function performPlan(page, plan) {
   return page.evaluate(async (plan) => {
     const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const heldKeys = new Map();
     const press = (key, code, hold) => {
+      // A re-strike needs a keyup first, even when a busy renderer has delayed
+      // the preceding note's release timer.
+      heldKeys.get(code)?.();
       window.dispatchEvent(
         new KeyboardEvent("keydown", { key, code, bubbles: true }),
       );
-      setTimeout(
-        () =>
-          window.dispatchEvent(
-            new KeyboardEvent("keyup", { key, code, bubbles: true }),
-          ),
-        hold,
-      );
+      const release = () => {
+        clearTimeout(timer);
+        heldKeys.delete(code);
+        window.dispatchEvent(
+          new KeyboardEvent("keyup", { key, code, bubbles: true }),
+        );
+      };
+      const timer = setTimeout(release, hold);
+      heldKeys.set(code, release);
     };
     let clock = window.lumaClock();
     const t0 = performance.now();
@@ -72,6 +78,7 @@ export async function performPlan(page, plan) {
     const t1 = performance.now();
     while (window.lumaClock().playing && performance.now() - t1 < 60000)
       await wait(20);
+    for (const release of heldKeys.values()) release();
     return dispatched;
   }, plan);
 }

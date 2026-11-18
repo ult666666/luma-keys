@@ -7,6 +7,8 @@ import http from "node:http";
 import net from "node:net";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
+import { chromium, expect } from "@playwright/test";
+import { performPlan } from "../scripts/sight-reading-checks.mjs";
 import { fileURLToPath } from "node:url";
 import { createOutputDirectory } from "../scripts/qa-browser.mjs";
 
@@ -142,3 +144,51 @@ test(
     }
   },
 );
+
+test("each repeated piano note releases the previous press if its timer was delayed", async () => {
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage();
+    await page.clock.install({ time: new Date("2025-01-01T00:00:00Z") });
+    await page.clock.pauseAt(new Date("2025-01-01T00:01:00Z"));
+    await page.evaluate(() => {
+      const timer = window.setTimeout.bind(window);
+      // Model a busy renderer that postpones the key-release timer.
+      window.setTimeout = (callback, delay, ...args) =>
+        timer(callback, delay >= 60 ? delay + 200 : delay, ...args);
+      window.strokes = [];
+      for (const type of ["keydown", "keyup"])
+        window.addEventListener(type, (event) =>
+          window.strokes.push([type, event.code]),
+        );
+      const start = performance.now() / 1000 + 0.06;
+      window.lumaClock = () => {
+        window.readClock = true;
+        const now = performance.now() / 1000;
+        return {
+          playing: now < start + 0.7,
+          now,
+          start,
+          origin: 0,
+          secondsPerBeat: 0.1,
+        };
+      };
+    });
+    const key = { key: "a", code: "KeyA", duration: 1 };
+    const performance = performPlan(page, [
+      { ...key, beat: 0 },
+      { ...key, beat: 1 },
+    ]);
+    await expect.poll(() => page.evaluate(() => window.readClock)).toBe(true);
+    await page.clock.runFor(1000);
+    await performance;
+    assert.deepEqual(await page.evaluate(() => window.strokes), [
+      ["keydown", "KeyA"],
+      ["keyup", "KeyA"],
+      ["keydown", "KeyA"],
+      ["keyup", "KeyA"],
+    ]);
+  } finally {
+    await browser.close();
+  }
+});
